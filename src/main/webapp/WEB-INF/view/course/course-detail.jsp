@@ -1,90 +1,36 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: DELL
-  Date: 5/29/2023
-  Time: 3:30 PM
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>${course_detail.name}</title>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 <%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
+<%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
+    <link href="${pageContext.request.contextPath}/assets/css/best.css" rel="stylesheet">
 
-    <style>
-        .block_position{
-            margin-left: 350px;
-            margin-top: 54px;
-            width: 900px;
-            display: inline-block;
-        }
+<%--    <style>--%>
+<%--        .block_position{--%>
+<%--            margin-left: 350px;--%>
+<%--            margin-top: 54px;--%>
+<%--            width: 900px;--%>
+<%--            display: inline-block;--%>
+<%--        }--%>
 
-        .c_img{
-            width: 850px;
-        }
+<%--        .c_img{--%>
+<%--            width: 850px;--%>
+<%--        }--%>
+<%--        .t1{--%>
+<%--            width: 200px;--%>
+<%--            font-weight: bold;--%>
+<%--            margin-top: 0px;--%>
+<%--            vertical-align: top;--%>
+<%--        }--%>
+<%--        .t2{--%>
+<%--            width: 650px;--%>
+<%--            vertical-align: top;--%>
+<%--        }--%>
 
-        .news_img{
-            height: 180px;
-            border-radius: 20px 10px 0px 0px;
-        }
-
-        .block_news{
-            display: inline-block;
-            background-color: burlywood;
-            margin-bottom: 40px;
-            border-radius: 20px;
-            margin-left: 10px;
-        }
-
-        .news_content{
-            padding: 15px;
-        }
-
-        .block_news_big{
-            margin-top: 50px;
-        }
-
-        .block_lecturer{
-            display: inline-block;
-            position: absolute;
-            margin-left: 940px;
-            margin-top: -1565px;
-        }
-
-        .btn_register_course_detail{
-            border-radius: 15px;
-            background-color: #ff4900;
-            color: white;
-            font-weight: 600;
-            width: 100%;
-            height: 41px;
-            border: 0;
-        }
-        .t1{
-            width: 200px;
-            font-weight: bold;
-            margin-top: 0px;
-            vertical-align: top;
-        }
-        .t2{
-            width: 650px;
-            vertical-align: top;
-        }
-        .div_title_name{
-            width: 100px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis; /* แสดงเครื่องหมาย ... ตัดข้อความที่เกิน */
-        }
-        .title_name{
-            display: inline-block;
-            max-width: 100%; /* กำหนดความกว้างสูงสุดของข้อความ */
-            overflow: hidden;
-            text-overflow: ellipsis; /* แสดงเครื่องหมาย ... ตัดข้อความที่เกิน */
-        }
-
-    </style>
+<%--    </style>--%>
 </head>
 <body>
 <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
@@ -154,7 +100,6 @@
             </tr>
         </table>
     </div>
-
     <!--Course News--->
 <%--    <div class="block_news_big">--%>
 <%--        <h1>ข่าวสารเกี่ยวกับหลักสูตร</h1>--%>

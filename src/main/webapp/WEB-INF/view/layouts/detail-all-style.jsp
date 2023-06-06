@@ -1,11 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: DELL
-  Date: 5/29/2023
-  Time: 3:32 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- Favicon -->
 <link href="${pageContext.request.contextPath}/assets/img/favicon.ico" rel="icon">
 
@@ -31,6 +23,7 @@
 <!-- Libraries Stylesheet -->
 <link href="${pageContext.request.contextPath}/assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/assets/lib/animate/animate.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/assets/css/home_style.css" rel="stylesheet">
 
 
 <!-- Customized Bootstrap Stylesheet -->
@@ -59,3 +52,21 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<%--<script>--%>
+<%--    function search() {--%>
+<%--        var input = document.getElementById("searchInput").value.toLowerCase();--%>
+<%--        var blocks = document.getElementsByClassName("block");--%>
+
+<%--        for (var i = 0; i < blocks.length; i++) {--%>
+<%--            var block = blocks[i];--%>
+<%--            var text = block.getAttribute("data-name").toLowerCase();--%>
+
+<%--            if (text.includes(input)) {--%>
+<%--                block.style.display = "block";--%>
+<%--            } else {--%>
+<%--                block.style.display = "none";--%>
+<%--            }--%>
+<%--        }--%>
+<%--    }--%>
+<%--</script>--%>

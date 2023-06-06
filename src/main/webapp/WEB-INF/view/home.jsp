@@ -9,10 +9,19 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="Free HTML Templates" name="keywords">
   <meta content="Free HTML Templates" name="description">
-<%--  <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet"/>--%>
+<%--  <link href="${pageContext.request.contextPath}/assets/css/home_style.css" rel="stylesheet"/>--%>
   <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 
   <style>
+    .btn_register_course_detail{
+      border-radius: 15px;
+      background-color: #ff4900;
+      color: white;
+      font-weight: 600;
+      width: 100%;
+      height: 41px;
+      border: 0;
+    }
     .btn_readmore{
       background-color: #0d6efd;
       color: white;
@@ -28,30 +37,12 @@
     .btn_contactus:hover{
       color: white;
     }
-     .block {
-       display: inline-block;
-       float: left;
+    .block {
+      display: inline-block;
+      float: left;
 
-     }
-  </style>
-
-  <script>
-    function search() {
-      var input = document.getElementById("searchInput").value.toLowerCase();
-      var blocks = document.getElementsByClassName("block");
-
-      for (var i = 0; i < blocks.length; i++) {
-        var block = blocks[i];
-        var text = block.getAttribute("data-name").toLowerCase();
-
-        if (text.includes(input)) {
-          block.style.display = "block";
-        } else {
-          block.style.display = "none";
-        }
-      }
     }
-  </script>
+  </style>
 
 </head>
 

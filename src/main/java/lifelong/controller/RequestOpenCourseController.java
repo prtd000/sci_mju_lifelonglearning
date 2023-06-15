@@ -27,23 +27,26 @@ public class RequestOpenCourseController {
     private LecturerService lecturerService;
     @Autowired
     private RequestOpenCourseService requestOpenCourseService;
-private String title = "หลักสูตร";
+    private String title = "หลักสูตร";
+
     @GetMapping("/request_open_course")
     public String showFormAddCourse(Model model) {
         model.addAttribute("title", "ร้องขอเปิด" + title);
-        model.addAttribute("lecturers",lecturerService.getLecturer());
+        model.addAttribute("lecturers", lecturerService.getLecturer());
         model.addAttribute("courses", courseService.getCourses());
         model.addAttribute("request_open_course", new RequestOpenCourse());
         return "lecturer/request_open_course";
     }
-    @RequestMapping(path="/save", method = RequestMethod.POST)public String saveRequest(
+
+    @RequestMapping(path = "/save", method = RequestMethod.POST)
+    public String saveRequest(
             @Valid @ModelAttribute("request_open_course") RequestOpenCourse requestOpenCourse, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("title", "มีข้อผิดพลาดในการบันทึก" + title);
-            model.addAttribute("lecturers",lecturerService.getLecturer());
+            model.addAttribute("lecturers", lecturerService.getLecturer());
             model.addAttribute("courses", courseService.getCourses());
             return "lecturer/request_open_course";
-        }else {
+        } else {
             requestOpenCourseService.doRequestOpenCourseDetail(requestOpenCourse);
             return "redirect:/";
         }

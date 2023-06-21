@@ -1,3 +1,5 @@
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -33,10 +35,6 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
-<%--${course_detail.name}--%>
-<%--${course_detail.major.name}--%>
-<%--${course_detail.course_id}--%>
-<%--${course_detail.totalHours}--%>
 <form:form action="${pageContext.request.contextPath}/request/save" modelAttribute="request_open_course" method="POST">
     <div class="block_position">
         <h1>${course_detail.name}</h1>
@@ -47,16 +45,17 @@
 
         <!--Image--->
         <div>
-            <img src="${pageContext.request.contextPath}/assets/img/course_img/${course_detail.img}" alt="course_image" class="c_img">
+            <img src="${pageContext.request.contextPath}/assets/img/course_img/${course_detail.img}" alt="course_image"
+                 class="c_img">
         </div>
         <br>
         <!--Detail-->
         <div>
             <h1>คำอธิบายหลักสูตร</h1>
             <div>
-    <span>
+        <span>
             ${course_detail.principle}
-    </span>
+        </span>
             </div>
             <br>
             <hr>
@@ -92,8 +91,7 @@
                 </tr>
                 <tr>
                     <td class="t1">เนื้อหาของหลักสูตร</td>
-                    <td class="t2"><a href="${pageContext.request.contextPath}/assets/file/${course_detail.file}"
-                                      download>เอกสารประกอบการเรียน.pdf</a></td>
+                    <td class="t2"><a href="${pageContext.request.contextPath}/assets/file/${course_detail.file}" download>เอกสารประกอบการเรียน.pdf</a></td>
                 </tr>
                 </tr>
             </table>
@@ -154,6 +152,19 @@
             <%--        </div>--%>
             <%--    </div>--%>
         <div>
+
+            <%
+                 Date currentDate = new Date();
+                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                 String date = dateFormat.format(currentDate);
+
+                 int std_result = 0;
+            %>
+            <%=date%>
+            <%=std_result%> <br>
+            <p>MemberID : ${member_id}</p>
+
+            <br>
             <input type="submit" value="Register"/>
         </div>
     </div>

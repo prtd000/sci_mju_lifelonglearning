@@ -2,8 +2,10 @@ package lifelong.controller;
 
 import lifelong.model.Course;
 import lifelong.model.Register;
+import lifelong.model.RequestOpenCourse;
 import lifelong.service.CourseService;
 import lifelong.service.MemberService;
+import lifelong.service.RequestOpenCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,11 +23,18 @@ public class MemberController {
     @Autowired
     private CourseService courseService;
 
-    @GetMapping("/{id}/register_course/{memid}")
-    public String registerCourse(@PathVariable("id") String id,@PathVariable("memid") String mem_id, Model model) {
-        Course course = courseService.getCourseDetail(mem_id);
+    @Autowired
+    private RequestOpenCourseService requestOpenCourseService;
+
+    @GetMapping("/{memid}/register_course/{courseid}/{requestid}")
+    public String registerCourse(@PathVariable("memid") String mem_id, @PathVariable("courseid") String courseid, @PathVariable("requestid") String requestid, Model model) {
+        Course course = courseService.getCourseDetail(courseid);
+        // get RequestID
+        // RequestOpenCourse requestOpenCourse = requestOpenCourseService.getRequestOpenCourseDetail(requestid);
+        // model.addAttribute("rq_open_course", requestOpenCourse);
         model.addAttribute("course_detail", course);
-        model.addAttribute("member_id",id);
+        model.addAttribute("course_id",courseid);
+        model.addAttribute("member_id",mem_id);
         model.addAttribute("title","RegisterCourse");
         model.addAttribute("register", new Register());
         return "member/register_course";

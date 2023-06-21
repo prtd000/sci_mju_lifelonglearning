@@ -159,10 +159,13 @@
                  String date = dateFormat.format(currentDate);
 
                  int std_result = 0;
+                 int registerID = 0;
             %>
-            <%=date%>
-            <%=std_result%> <br>
-            <p>MemberID : ${member_id}</p>
+            <p>RegisterID (PK) : <%=registerID%></p><br>
+            <p>Current Date    : <%=date%></p><br>
+            <p>Study_result    : <%=std_result%></p><br>
+            <p>RequestID (FK)  : </p><br>
+            <p>MemberID (FK)   : ${member_id}</p>
 
             <br>
             <input type="submit" value="Register"/>

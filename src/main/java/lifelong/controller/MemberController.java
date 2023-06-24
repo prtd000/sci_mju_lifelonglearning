@@ -5,7 +5,7 @@ import lifelong.model.Register;
 import lifelong.model.RequestOpenCourse;
 import lifelong.service.CourseService;
 import lifelong.service.MemberService;
-import lifelong.service.RequestOpenCourseService;
+import lifelong.service.RequestOpCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,14 +24,13 @@ public class MemberController {
     private CourseService courseService;
 
     @Autowired
-    private RequestOpenCourseService requestOpenCourseService;
+    private RequestOpCourseService requestOpCourseService;
 
     @GetMapping("/{memid}/register_course/{courseid}/{requestid}")
     public String registerCourse(@PathVariable("memid") String mem_id, @PathVariable("courseid") String courseid, @PathVariable("requestid") String requestid, Model model) {
         Course course = courseService.getCourseDetail(courseid);
-        // get RequestID
-        // RequestOpenCourse requestOpenCourse = requestOpenCourseService.getRequestOpenCourseDetail(requestid);
-        // model.addAttribute("rq_open_course", requestOpenCourse);
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(requestid);
+        model.addAttribute("request_op_course", requestOpenCourse);
         model.addAttribute("course_detail", course);
         model.addAttribute("course_id",courseid);
         model.addAttribute("member_id",mem_id);

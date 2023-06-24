@@ -24,7 +24,7 @@
 <link href="${pageContext.request.contextPath}/assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/assets/lib/animate/animate.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/assets/css/home_style.css" rel="stylesheet">
-
+<%--<link href="${pageContext.request.contextPath}/assets/css/list_open_course_style.css" rel="stylesheet">--%>
 
 <!-- Customized Bootstrap Stylesheet -->
 <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -53,20 +53,20 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<%--<script>--%>
-<%--    function search() {--%>
-<%--        var input = document.getElementById("searchInput").value.toLowerCase();--%>
-<%--        var blocks = document.getElementsByClassName("block");--%>
+<script>
+    function search() {
+        var input = document.getElementById("searchInput").value.toLowerCase();
+        var blocks = document.getElementsByClassName("block");
 
-<%--        for (var i = 0; i < blocks.length; i++) {--%>
-<%--            var block = blocks[i];--%>
-<%--            var text = block.getAttribute("data-name").toLowerCase();--%>
+        for (var i = 0; i < blocks.length; i++) {
+            var block = blocks[i];
+            var text = block.getAttribute("data-name").toLowerCase();
 
-<%--            if (text.includes(input)) {--%>
-<%--                block.style.display = "block";--%>
-<%--            } else {--%>
-<%--                block.style.display = "none";--%>
-<%--            }--%>
-<%--        }--%>
-<%--    }--%>
-<%--</script>--%>
+            if (text.includes(input)) {
+                block.style.display = "block";
+            } else {
+                block.style.display = "none";
+            }
+        }
+    }
+</script>

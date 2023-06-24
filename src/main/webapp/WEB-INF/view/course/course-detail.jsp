@@ -6,7 +6,7 @@
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 <%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
 <%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
-    <link href="${pageContext.request.contextPath}/assets/css/best.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/course_detail.css" rel="stylesheet">
 
 <%--    <style>--%>
 <%--        .block_position{--%>

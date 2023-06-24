@@ -205,5 +205,25 @@ public class RequestOpenCourse {
     public void setRegister(Set<Register> register) {
         this.register = register;
     }
+
+    public void fill(RequestOpenCourse requestOpenCourse) {
+        this.request_id = requestOpenCourse.getRequest_id();
+        this.requestDate = requestOpenCourse.getRequestDate();
+        this.startRegister = requestOpenCourse.getStartRegister();
+        this.endRegister = requestOpenCourse.getEndRegister();
+        this.quantity = requestOpenCourse.getQuantity();
+        this.startStudyDate = requestOpenCourse.getStartStudyDate();
+        this.endStudyDate = requestOpenCourse.getEndStudyDate();
+        this.studyTime = requestOpenCourse.getStudyTime();
+        this.type_learn = requestOpenCourse.getType_learn();
+        this.type_teach = requestOpenCourse.getType_teach();
+        this.applicationResult = requestOpenCourse.getApplicationResult();
+        this.location = requestOpenCourse.getLocation();
+        this.requestStatus = requestOpenCourse.getRequestStatus();
+        this.signature = requestOpenCourse.getSignature();
+        this.course = requestOpenCourse.getCourse();
+        this.lecturer = requestOpenCourse.getLecturer();
+        this.register = requestOpenCourse.getRegister();
+    }
 }
 

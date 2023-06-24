@@ -24,6 +24,9 @@ public class CourseController {
         @Autowired
         private MajorService majorService;
 
+//    @Autowired
+//    private RequestOpenCourseService requestOpenCourseService;
+
         @GetMapping("/")
         public String listCourse(Model model) {
             model.addAttribute("title", "รายการ" + title);
@@ -81,4 +84,5 @@ public class CourseController {
 //        model.addAttribute("course_detail", course);
 //        return "course/course-detail";
 //    }
+
 }

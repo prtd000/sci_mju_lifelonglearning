@@ -10,10 +10,10 @@ import java.util.Date;
 public class Register {
 
     @Id
-    @GeneratedValue(generator = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //Auto Increment
     @GenericGenerator(name = "increment", strategy = "increment")
     @Column(length = 10)
-    private String register_id;
+    private int register_id;
 
     @Column(nullable = false)
     private Date register_date;

@@ -13,7 +13,7 @@ public class Register {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Auto Increment
     @GenericGenerator(name = "increment", strategy = "increment")
     @Column(length = 10)
-    private int register_id;
+    private long register_id;
 
     @Column(nullable = false)
     private Date register_date;
@@ -21,11 +21,22 @@ public class Register {
     @Column(nullable = false)
     private Boolean study_result;
 
-    public int getRegister_id() {
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "mem_username")
+    private Member member;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id")
+    private Course course;
+
+    public Register() {
+    }
+
+    public long getRegister_id() {
         return register_id;
     }
 
-    public void setRegister_id(int register_id) {
+    public void setRegister_id(long register_id) {
         this.register_id = register_id;
     }
 
@@ -43,5 +54,21 @@ public class Register {
 
     public void setStudy_result(Boolean study_result) {
         this.study_result = study_result;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }

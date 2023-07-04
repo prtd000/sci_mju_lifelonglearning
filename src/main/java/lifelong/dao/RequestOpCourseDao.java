@@ -11,7 +11,7 @@ public interface RequestOpCourseDao {
     List<Lecturer> getLecturer();
 
     List<RequestOpenCourse> getRequestOpenCourses();
-    RequestOpenCourse getRequestOpenCourseDetail(String id);
+    RequestOpenCourse getRequestOpenCourseDetail(long id);
 
     void deleteRequestOpenCourse(String id);
 

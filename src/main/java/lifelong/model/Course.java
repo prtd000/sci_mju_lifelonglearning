@@ -63,17 +63,9 @@ public class Course {
     @NotNull
     private String linkMooc;
 
-
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "major_id")
     private Major major;
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "course_id",nullable = false)
-//    private Set<RequestOpenCourse> rqOpenCourse = new HashSet<>();
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "course_id",nullable = false)
-    private Set<Activity> activities = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "teaching_schedule",
@@ -81,12 +73,7 @@ public class Course {
             inverseJoinColumns = { @JoinColumn(name = "lec_username",nullable = false) })
     private Set<Lecturer> lecturers;
 
-    public Major getMajor() {
-        return major;
-    }
-
-    public void setMajor(Major major) {
-        this.major = major;
+    public Course() {
     }
 
     public String getCourse_id() {
@@ -185,19 +172,11 @@ public class Course {
         this.linkMooc = linkMooc;
     }
 
-    public Set<Activity> getActivities() {
-        return activities;
+    public Major getMajor() {
+        return major;
     }
 
-    public void setActivities(Set<Activity> activities) {
-        this.activities = activities;
-    }
-
-    public Set<Lecturer> getLecturers() {
-        return lecturers;
-    }
-
-    public void setLecturers(Set<Lecturer> lecturers) {
-        this.lecturers = lecturers;
+    public void setMajor(Major major) {
+        this.major = major;
     }
 }

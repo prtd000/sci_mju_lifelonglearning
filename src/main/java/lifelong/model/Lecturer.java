@@ -33,13 +33,12 @@ public class Lecturer {
     @Column(name = "lec_email",nullable = false,length = 200)
     private String email;
 
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "lec_username",nullable = false)
-//    private Set<RequestOpenCourse> rqOpenCourse = new HashSet<>();
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "major_id")
+    private Major major;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "lec_username",nullable = false)
-    private Set<Activity> activities = new HashSet<>();
+    public Lecturer() {
+    }
 
     public String getUsername() {
         return username;
@@ -105,11 +104,11 @@ public class Lecturer {
         this.email = email;
     }
 
-    public Set<Activity> getActivities() {
-        return activities;
+    public Major getMajor() {
+        return major;
     }
 
-    public void setActivities(Set<Activity> activities) {
-        this.activities = activities;
+    public void setMajor(Major major) {
+        this.major = major;
     }
 }

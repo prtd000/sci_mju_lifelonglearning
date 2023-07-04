@@ -13,7 +13,7 @@ public class Receipt {
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     @Column(length = 10)
-    private String receipt_id;
+    private long receipt_id;
 
     @Column(name = "receipt_Paydate",nullable = false)
     private Date pay_date;
@@ -27,10 +27,58 @@ public class Receipt {
     @Column(name = "receipt_total",nullable = false,length = 10)
     private double total;
 
-    @OneToOne
-    @JoinColumn(name="invoice_id",nullable = false)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "invoice_id")
     private Invoice invoice;
 
-//    @OneToOne(mappedBy = "receipt", cascade = CascadeType.ALL)
-//    private Register register;
+    public Receipt() {
+    }
+
+    public long getReceipt_id() {
+        return receipt_id;
+    }
+
+    public void setReceipt_id(long receipt_id) {
+        this.receipt_id = receipt_id;
+    }
+
+    public Date getPay_date() {
+        return pay_date;
+    }
+
+    public void setPay_date(Date pay_date) {
+        this.pay_date = pay_date;
+    }
+
+    public String getPay_time() {
+        return pay_time;
+    }
+
+    public void setPay_time(String pay_time) {
+        this.pay_time = pay_time;
+    }
+
+    public String getBanking() {
+        return banking;
+    }
+
+    public void setBanking(String banking) {
+        this.banking = banking;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
 }

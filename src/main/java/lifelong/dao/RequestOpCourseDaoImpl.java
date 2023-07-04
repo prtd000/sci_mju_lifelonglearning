@@ -32,7 +32,7 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
     }
 
     @Override
-    public RequestOpenCourse getRequestOpenCourseDetail(String id) {
+    public RequestOpenCourse getRequestOpenCourseDetail(long id) {
         Session session = sessionFactory.getCurrentSession();
         RequestOpenCourse requestOpenCourse = session.get(RequestOpenCourse.class, id);
         return requestOpenCourse;

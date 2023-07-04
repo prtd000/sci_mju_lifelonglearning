@@ -98,6 +98,7 @@
             </tr>
         </table>
     </div>
+    <br>
     <!--Course News--->
     <%--    <div class="block_news_big">--%>
     <%--        <h1>ข่าวสารเกี่ยวกับหลักสูตร</h1>--%>
@@ -153,7 +154,7 @@
     <%--&lt;%&ndash;            <button class="btn_register_course_detail">ลงทะเบียน</button>&ndash;%&gt;--%>
     <%--        </div>--%>
     <%--    </div>--%>
-    <form:form action="${pageContext.request.contextPath}/" modelAttribute="register" method="post">
+    <form:form action="${pageContext.request.contextPath}/member/${member_id}/register_course/${course_id}/${request_op_course.request_id}/register" modelAttribute="register" method="GET">
         <div>
             <%
                 Date currentDate = new Date();
@@ -164,17 +165,17 @@
                 int registerID = 0;
             %>
 
-            <form:input path="register_date" />
-            <form:errors path="register_id" cssClass="error"/>
-
             <p>RegisterID (PK) : <%=registerID%></p><br>
             <p>Current Date : <%=date%></p><br>
             <p>Study_result : <%=std_result%></p><br>
             <p>RequestID (FK) : ${request_op_course.request_id}</p><br>
             <p>MemberID (FK) : ${member_id}</p>
             <br>
-            <input type="submit" value="Register"/>
+            <input type="submit" value="register"/>
         </div>
+        <%
+
+        %>
     </form:form>
 </div>
 

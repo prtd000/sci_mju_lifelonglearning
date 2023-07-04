@@ -40,24 +40,7 @@ public class Member {
     @Column(name = "mem_education",length = 200)
     private String education;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "mem_username",nullable = false)
-    private Set<Register> register = new HashSet<>();
-
     public Member() {
-    }
-
-    public Member(String username, String password, String idcard, String firstName, String lastName, String gender, Date birthday, String email, String tel, String education) {
-        this.username = username;
-        this.password = password;
-        this.idcard = idcard;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.birthday = birthday;
-        this.email = email;
-        this.tel = tel;
-        this.education = education;
     }
 
     public String getUsername() {

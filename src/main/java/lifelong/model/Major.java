@@ -15,10 +15,6 @@ public class Major {
     @Column(name = "major_name",nullable = false,length = 150)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "major_id",nullable = false)
-    private Set<Lecturer> lecturers = new HashSet<>();
-
     public String getMajor_id() {
         return major_id;
     }
@@ -35,11 +31,5 @@ public class Major {
         this.name = name;
     }
 
-    public Set<Lecturer> getLecturers() {
-        return lecturers;
-    }
 
-    public void setLecturers(Set<Lecturer> lecturers) {
-        this.lecturers = lecturers;
-    }
 }

@@ -21,7 +21,8 @@ public class SpringMvcDispatcherServletInitializer extends AbstractAnnotationCon
     @Override
     protected Filter[] getServletFilters() {
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-        characterEncodingFilter.setEncoding("UTF-8");characterEncodingFilter.setForceEncoding(true);
+        characterEncodingFilter.setEncoding("UTF-8");
+        characterEncodingFilter.setForceEncoding(true);
         return new Filter[] { characterEncodingFilter };}
 
 }

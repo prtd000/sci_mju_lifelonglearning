@@ -24,7 +24,7 @@ public class RequestOpCourseController {
 
     private String title = "หลักสูตรที่ร้องขอ";
     @GetMapping("/view_request_open_course/{id}")
-    public String showRequestOpenCourse(@PathVariable("id") String id, Model model) {
+    public String showRequestOpenCourse(@PathVariable("id") long id, Model model) {
         RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(id);
         //model.addAttribute("title", "แก้ไข" + title);
         model.addAttribute("ROC_detail", requestOpenCourse);
@@ -32,7 +32,7 @@ public class RequestOpCourseController {
     }
 
     @GetMapping("/view_approve_request_open_course/{id}")
-    public String showRequestApproveOpenCourse(@PathVariable("id") String id, Model model) {
+    public String showRequestApproveOpenCourse(@PathVariable("id") long id, Model model) {
         RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(id);
         //model.addAttribute("title", "แก้ไข" + title);
         model.addAttribute("RAOC_detail", requestOpenCourse);
@@ -59,7 +59,7 @@ public class RequestOpCourseController {
         return "lecturer/request_open_course";
     }
     @GetMapping("/{id}/update")
-    public String showFormForUpdate(@PathVariable("id") String id, Model model) {
+    public String showFormForUpdate(@PathVariable("id") long id, Model model) {
         RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(id);
         model.addAttribute("title", "แก้ไขคำร้องขอเปิด" + title);
         model.addAttribute("lecturers",requestOpCourseService.getLecturer());
@@ -67,23 +67,24 @@ public class RequestOpCourseController {
         model.addAttribute("request_open_course", requestOpenCourse);
         return "lecturer/request_open_course";
     }
-    @RequestMapping(path="/save", method = RequestMethod.POST)public String saveRequest(
-            @Valid @ModelAttribute("request_open_course") RequestOpenCourse requestOpenCourse, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("title", "มีข้อผิดพลาดในการบันทึก" + title);
-            model.addAttribute("lecturers",requestOpCourseService.getLecturer());
-            model.addAttribute("courses", courseService.getCourses());
-            return "lecturer/request_open_course";
-        }else {
-            RequestOpenCourse entityProduct = requestOpCourseService.getRequestOpenCourseDetail(requestOpenCourse.getRequest_id());
-            if (entityProduct != null) {
-                requestOpCourseService.updateRequestOpenCourse(entityProduct, requestOpenCourse);
-            } else {
-                requestOpCourseService.doRequestOpenCourseDetail(requestOpenCourse);
-            }
-            return "redirect:/request_open_course/list_request_open_course";
-        }
-    }
+//
+//    @RequestMapping(path="/save", method = RequestMethod.POST)
+//    public String saveRequest(@Valid @ModelAttribute("request_open_course") RequestOpenCourse requestOpenCourse, BindingResult bindingResult, Model model) {
+//        if (bindingResult.hasErrors()) {
+//            model.addAttribute("title", "มีข้อผิดพลาดในการบันทึก" + title);
+//            model.addAttribute("lecturers",requestOpCourseService.getLecturer());
+//            model.addAttribute("courses", courseService.getCourses());
+//            return "lecturer/request_open_course";
+//        }else {
+//            RequestOpenCourse entityProduct = requestOpCourseService.getRequestOpenCourseDetail(requestOpenCourse.getRequest_id());
+//            if (entityProduct != null) {
+//                requestOpCourseService.updateRequestOpenCourse(entityProduct, requestOpenCourse);
+//            } else {
+//                requestOpCourseService.doRequestOpenCourseDetail(requestOpenCourse);
+//            }
+//            return "redirect:/request_open_course/list_request_open_course";
+//        }
+//    }
 
     @GetMapping("/list_request_open_course")
     public String listCourse(Model model) {

@@ -4,17 +4,15 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "request_open_course")
 public class RequestOpenCourse {
     @Id
-//    @GeneratedValue(generator = "increment")
-//    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "increment", strategy = "increment")
     @Column(length = 10)
-    private String request_id;
+    private long request_id;
 
     @Column(nullable = false)
     private String requestDate;
@@ -59,38 +57,22 @@ public class RequestOpenCourse {
     @Column(name = "signature",nullable = false,length = 200)
     private String signature;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "lec_username")
     private Lecturer lecturer;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "request_id",nullable = false)
-    private Set<Register> register = new HashSet<>();
 
-    public Lecturer getLecturer() {
-        return lecturer;
+    public RequestOpenCourse() {
     }
 
-    public void setLecturer(Lecturer lecturer) {
-        this.lecturer = lecturer;
-    }
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-
-    public String getRequest_id() {
+    public long getRequest_id() {
         return request_id;
     }
 
-    public void setRequest_id(String request_id) {
+    public void setRequest_id(long request_id) {
         this.request_id = request_id;
     }
 
@@ -198,12 +180,20 @@ public class RequestOpenCourse {
         this.signature = signature;
     }
 
-    public Set<Register> getRegister() {
-        return register;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setRegister(Set<Register> register) {
-        this.register = register;
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public Lecturer getLecturer() {
+        return lecturer;
+    }
+
+    public void setLecturer(Lecturer lecturer) {
+        this.lecturer = lecturer;
     }
 
     public void fill(RequestOpenCourse requestOpenCourse) {
@@ -223,7 +213,6 @@ public class RequestOpenCourse {
         this.signature = requestOpenCourse.getSignature();
         this.course = requestOpenCourse.getCourse();
         this.lecturer = requestOpenCourse.getLecturer();
-        this.register = requestOpenCourse.getRegister();
     }
 }
 

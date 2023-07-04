@@ -12,7 +12,7 @@ public interface RequestOpCourseService {
 
     List<RequestOpenCourse> getRequestOpenCourses();
 
-    RequestOpenCourse getRequestOpenCourseDetail(String requestId);
+    RequestOpenCourse getRequestOpenCourseDetail(long requestId);
     void deleteRequestOpenCourse(String requestId);
     List<Major> getMajor();
     public void doRequestOpenCourseDetail(RequestOpenCourse requestOpenCourse);

@@ -26,8 +26,8 @@ public class Register {
     private Member member;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "course_id")
-    private Course course;
+    @JoinColumn(name = "request_id")
+    private RequestOpenCourse requestOpenCourse;
 
     public Register() {
     }
@@ -64,11 +64,11 @@ public class Register {
         this.member = member;
     }
 
-    public Course getCourse() {
-        return course;
+    public RequestOpenCourse getRequestOpenCourse() {
+        return requestOpenCourse;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setRequestOpenCourse(RequestOpenCourse requestOpenCourse) {
+        this.requestOpenCourse = requestOpenCourse;
     }
 }

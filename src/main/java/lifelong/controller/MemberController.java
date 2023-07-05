@@ -58,16 +58,20 @@ public class MemberController {
     }
 
     @GetMapping("/{memid}/register_course/{courseid}/{requestid}/register")
-    public String registerCourse (@PathVariable("courseid") String courseid, @PathVariable("requestid") String requestid, @PathVariable("memid") String memid) {
-        System.out.println(courseid + " : COURSE ID");
-        System.out.println(requestid + " : REQ ID");
-        System.out.println(memid + " : MEM ID");
+    public String registerCourse (@PathVariable("courseid") String courseid, @PathVariable("requestid") long requestid, @PathVariable("memid") String memid) {
         Register register = new Register();
+
         register.setRegister_date(new Date());
         register.setStudy_result(false);
-        register.setCourse(courseService.getCourseDetail(courseid));
+        register.setRequestOpenCourse(requestOpCourseService.getRequestOpenCourseDetail(requestid));
         register.setMember(memberService.getMemberById(memid));
+
         registerService.saveRegister(register);
         return "redirect:/";
+    }
+
+    @GetMapping("{memid}/listcourse")
+    public String listCourse(@PathVariable("memid") String memid){
+        return "/member/list_course";
     }
 }

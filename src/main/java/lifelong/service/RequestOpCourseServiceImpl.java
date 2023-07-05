@@ -14,6 +14,7 @@ import java.util.List;
 public class RequestOpCourseServiceImpl implements RequestOpCourseService {
     @Autowired
     private RequestOpCourseDao requestOpCourseDao;
+
     @Override
     @Transactional
     public List<Lecturer> getLecturer() {

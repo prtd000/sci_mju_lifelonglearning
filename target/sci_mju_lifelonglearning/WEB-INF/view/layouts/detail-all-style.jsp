@@ -54,6 +54,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
+
     function search() {
         var input = document.getElementById("searchInput").value.toLowerCase();
         var blocks = document.getElementsByClassName("block");

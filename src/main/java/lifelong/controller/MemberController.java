@@ -71,7 +71,8 @@ public class MemberController {
     }
 
     @GetMapping("{memid}/listcourse")
-    public String listCourse(@PathVariable("memid") String memid){
+    public String listCourse(@PathVariable("memid") String memid, Model model){
+        model.addAttribute("list_course", memberService.getMyListCourse(memid));
         return "/member/list_course";
     }
 }

@@ -29,7 +29,7 @@
             </tr>
         </c:forEach>
         </tbody>
-        <c:forEach var="course" items="${courses}">
+<%--        <c:forEach var="course" items="${courses}">--%>
     </table>
 </div>
 <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>

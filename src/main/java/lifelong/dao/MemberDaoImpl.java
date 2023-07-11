@@ -32,11 +32,14 @@ public class MemberDaoImpl implements MemberDao{
     }
 
     @Override
-    public List<Course> getListCourse(String memid) {
+    public List<Register> getListCourse(String memid) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Course> query = session.createQuery("",Course.class);
-        List<Course> courses = query.getResultList();
-        return null;
+        Query<Register> query = session.createQuery("from Register rg join RequestOpenCourse rq on rq.request_id = rg.requestOpenCourse.id join Course c on c.course_id = rq.course.id where rg.member.id =: mId");
+        query.setParameter("mId",memid);
+        List<Register> courses = query.getResultList();
+        System.out.println("My list Course : " + courses.size());
+        System.out.println(courses);
+        return courses;
     }
 
 }

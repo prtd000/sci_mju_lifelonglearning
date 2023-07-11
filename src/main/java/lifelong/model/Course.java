@@ -15,53 +15,44 @@ public class Course {
     @Id
 //    @GeneratedValue(generator = "increment")
 //    @GenericGenerator(name = "increment", strategy = "increment")
-    @Pattern(regexp="^C[0-9]{4}")
     @Column(length = 10)
     private String course_id;
 
     @Column(name = "course_name",nullable = false)
-    @NotNull
     private String name;
 
     @Column(name = "course_certificateName",nullable = false,length = 200)
-    @NotNull
     private String certificateName;
 
     @Column(name = "course_img",nullable = false,length = 200)
-    @NotNull
     private String img;
 
     @Column(name = "course_principle")
-    @NotNull
     private String principle;
 
     @Column(name = "course_object",nullable = false)
-    @NotNull
     private String object;
 
     @Column(nullable = false,length = 5)
-    @NotNull
     private int totalHours;
 
     @Column(name = "course_targetOccupation")
-    @NotNull
     private String targetOccupation;
 
     @Column(name = "course_fee",nullable = false,length = 10)
-    @NotNull
     private double fee;
 
     @Column(name = "course_file",nullable = false,length = 200)
-    @NotNull
     private String file;
 
     @Column(name = "course_status",nullable = false,length = 100)
-    @NotNull
     private String status;
 
     @Column(name = "course_linkMooc",nullable = false)
-    @NotNull
     private String linkMooc;
+
+    @Column(name = "course_type",nullable = false)
+    private String course_type;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "major_id")
@@ -170,6 +161,22 @@ public class Course {
 
     public void setLinkMooc(String linkMooc) {
         this.linkMooc = linkMooc;
+    }
+
+    public String getCourse_type() {
+        return course_type;
+    }
+
+    public void setCourse_type(String course_type) {
+        this.course_type = course_type;
+    }
+
+    public Set<Lecturer> getLecturers() {
+        return lecturers;
+    }
+
+    public void setLecturers(Set<Lecturer> lecturers) {
+        this.lecturers = lecturers;
     }
 
     public Major getMajor() {

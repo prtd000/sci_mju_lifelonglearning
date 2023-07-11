@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface RequestOpCourseDao {
     List<Lecturer> getLecturer();
+    Lecturer getLecturerDetail(String id);
 
     List<RequestOpenCourse> getRequestOpenCourses();
     RequestOpenCourse getRequestOpenCourseDetail(long id);
@@ -18,4 +19,5 @@ public interface RequestOpCourseDao {
     List<Major> getMajors();
     void doRequestOpenCourseDetail(RequestOpenCourse requestOpenCourse);
 
+    long getLatestId();
 }

@@ -1,4 +1,5 @@
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
@@ -28,44 +29,52 @@
             <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
             <br><br>
             <form:form action="${pageContext.request.contextPath}/request_open_course/save" modelAttribute="request_open_course" method="POST">
+                <%
+                    Date currentDate = new Date();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                    String date = dateFormat.format(currentDate);
+
+                    int std_result = 0;
+                    int registerID = 0;
+                %>
                 <table>
                     <colgroup>
                         <col style="width: 160px;">
                         <col style="width: auto;">
                     </colgroup>
                     <tbody>
-                    <tr>
-                        <td>
-                            <label>รหัสการร้องขอ:</label>
-                        </td>
-                        <td><form:input path="request_id"/>
-                            <form:errors path="request_id" cssClass="error"/>
-                        </td>
-                    </tr>
+<%--                    <tr>--%>
+<%--                        <td>--%>
+<%--                            <label>รหัสการร้องขอ:</label>--%>
+<%--                        </td>--%>
+<%--                        <td><form:input path="request_id"/>--%>
+<%--                            <form:errors path="request_id" cssClass="error"/>--%>
+<%--                        </td>--%>
+<%--                    </tr>--%>
                     <tr>
                         <td>
                             <label>หลักสูตร:</label>
                         </td>
-                        <td><form:select path="course.course_id">
+                        <td><form:select path="course_id">
                             <form:option value="" label="--กรุณาเลือกรายการ--"/>
                             <form:options items="${courses}" itemLabel="name" itemValue="course_id"/>
                             </form:select>
-                            <form:errors path="course.course_id" cssClass="error"/>
+                            <form:errors path="course_id" cssClass="error"/>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <label>วันที่ร้องขอ:</label>
-                        </td>
-<%--                        <%date = dateFormat.parse("12/12/2002");%>--%>
-                        <td><form:input path="requestDate" type="text"/>
-                                <form:errors path="requestDate" cssClass="error"/>
-                    </tr>
+<%--                    <tr>--%>
+<%--                        <td>--%>
+<%--                            <label>วันที่ร้องขอ:</label>--%>
+<%--                        </td>--%>
+<%--&lt;%&ndash;                        <%date = dateFormat.parse("12/12/2002");%>&ndash;%&gt;--%>
+<%--                        <td><form:input path="requestDate" type="text"/>--%>
+<%--                                <form:errors path="requestDate" cssClass="error"/>--%>
+<%--                    </tr>--%>
                     <tr>
                         <td>
                             <label>วันเปิดรับสมัคร:</label>
                         </td>
-                        <td><form:input path="startRegister" type="text" id="datepicker1" class="datepicker"/>
+                        <td><form:input path="startRegister" type="text" id="datepicker1" class="datepicker" autocomplete="false"/>
                             <form:errors path="startRegister" cssClass="error"/></td>
                     </tr>
                     <tr>
@@ -149,11 +158,11 @@
                         <td>
                             <label>หลักสูตร:</label>
                         </td>
-                        <td><form:select path="lecturer.username">
+                        <td><form:select path="lecturer_username">
                             <form:option value="" label="--กรุณาเลือกรายการ--"/>
                             <form:options items="${lecturers}" itemLabel="firstName" itemValue="username"/>
                         </form:select>
-                            <form:errors path="lecturer.username" cssClass="error"/>
+                            <form:errors path="lecturer_username" cssClass="error"/>
                         </td>
                     </tr>
                     <tr>

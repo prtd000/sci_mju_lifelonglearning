@@ -160,6 +160,7 @@
       <input type="text" id="searchInput" onkeyup="search()" placeholder="Search...">
       <!----------Course 1------------>
 <c:forEach var="course" items="${courses}">
+  <c:if test="${course.course_type == 'Non-Degree'}">
   <div class="block col-lg-4 col-md-6 wow zoomIn" data-name=${course.name}>
     <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.3s">
       <div class="service-item bg-light border-bottom border-5 border-primary rounded" style="width: 400px;box-shadow: 2px -2px 6px 1px #9c9c9c;">
@@ -179,7 +180,7 @@
       </div>
     </div>
   </div>
-
+  </c:if>
 
 </c:forEach>
     </div>

@@ -1,7 +1,9 @@
 package lifelong.controller;
 
 import lifelong.model.Course;
+import lifelong.model.Lecturer;
 import lifelong.model.RequestOpenCourse;
+import lifelong.model.RequestOpenCourseFormItem;
 import lifelong.service.CourseService;
 import lifelong.service.RequestOpCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/request_open_course")
@@ -55,7 +59,7 @@ public class RequestOpCourseController {
         model.addAttribute("title", "ร้องขอเปิด" + title);
         model.addAttribute("lecturers",requestOpCourseService.getLecturer());
         model.addAttribute("courses", courseService.getCourses());
-        model.addAttribute("request_open_course", new RequestOpenCourse());
+        model.addAttribute("request_open_course", new RequestOpenCourseFormItem());
         return "lecturer/request_open_course";
     }
     @GetMapping("/{id}/update")
@@ -67,8 +71,9 @@ public class RequestOpCourseController {
         model.addAttribute("request_open_course", requestOpenCourse);
         return "lecturer/request_open_course";
     }
-//
-//    @RequestMapping(path="/save", method = RequestMethod.POST)
+
+    @RequestMapping(path="/save", method = RequestMethod.POST)
+    public String saveRequest(@Valid @ModelAttribute("request_open_course") RequestOpenCourseFormItem requestOpenCourseFormItem) {
 //    public String saveRequest(@Valid @ModelAttribute("request_open_course") RequestOpenCourse requestOpenCourse, BindingResult bindingResult, Model model) {
 //        if (bindingResult.hasErrors()) {
 //            model.addAttribute("title", "มีข้อผิดพลาดในการบันทึก" + title);
@@ -80,11 +85,33 @@ public class RequestOpCourseController {
 //            if (entityProduct != null) {
 //                requestOpCourseService.updateRequestOpenCourse(entityProduct, requestOpenCourse);
 //            } else {
-//                requestOpCourseService.doRequestOpenCourseDetail(requestOpenCourse);
+                //requestOpenCourse.setRequestDate(new Date());
+                //requestOpCourseService.doRequestOpenCourseDetail(requestOpenCourse);
 //            }
-//            return "redirect:/request_open_course/list_request_open_course";
+            Date requestDate = new Date();
+            Date startRegister = requestOpenCourseFormItem.getStartRegister();
+            Date endRegister = requestOpenCourseFormItem.getEndRegister();
+            Integer quantity = requestOpenCourseFormItem.getQuantity();
+            Date startStudyDate = requestOpenCourseFormItem.getStartStudyDate();
+            Date endStudyDate = requestOpenCourseFormItem.getEndStudyDate();
+            String studyTime = requestOpenCourseFormItem.getStudyTime();
+            String type_learn = requestOpenCourseFormItem.getType_learn();
+            String type_teach = requestOpenCourseFormItem.getType_teach();
+            Date applicationResult = requestOpenCourseFormItem.getApplicationResult();
+            String location = requestOpenCourseFormItem.getLocation();
+            Boolean requestStatus = requestOpenCourseFormItem.getRequestStatus();
+            String signature = requestOpenCourseFormItem.getSignature();
+            String course_id = requestOpenCourseFormItem.getCourse_id();
+            String lecturer_username = requestOpenCourseFormItem.getLecturer_username();
+            Course course = courseService.getCourseDetail(course_id);
+            Lecturer lecturer = requestOpCourseService.getLecturerDetail(lecturer_username);
+            RequestOpenCourse requestOpenCourse = new RequestOpenCourse(requestDate,startRegister,endRegister,
+                    quantity,startStudyDate,endStudyDate,studyTime,type_learn,type_teach,applicationResult,location,
+                    requestStatus,signature,course,lecturer);
+            requestOpCourseService.doRequestOpenCourseDetail(requestOpenCourse);
+            return "redirect:/request_open_course/list_request_open_course";
 //        }
-//    }
+    }
 
     @GetMapping("/list_request_open_course")
     public String listCourse(Model model) {

@@ -9,13 +9,13 @@ import java.util.Date;
 @Table(name = "request_open_course")
 public class RequestOpenCourse {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //Auto Increment
     @GenericGenerator(name = "increment", strategy = "increment")
     @Column(length = 10)
     private long request_id;
 
     @Column(nullable = false)
-    private String requestDate;
+    private Date requestDate;
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private Date startRegister;
@@ -68,6 +68,24 @@ public class RequestOpenCourse {
     public RequestOpenCourse() {
     }
 
+    public RequestOpenCourse(Date requestDate, Date startRegister, Date endRegister, int quantity, Date startStudyDate, Date endStudyDate, String studyTime, String type_learn, String type_teach, Date applicationResult, String location, Boolean requestStatus, String signature, Course course, Lecturer lecturer) {
+        this.requestDate = requestDate;
+        this.startRegister = startRegister;
+        this.endRegister = endRegister;
+        this.quantity = quantity;
+        this.startStudyDate = startStudyDate;
+        this.endStudyDate = endStudyDate;
+        this.studyTime = studyTime;
+        this.type_learn = type_learn;
+        this.type_teach = type_teach;
+        this.applicationResult = applicationResult;
+        this.location = location;
+        this.requestStatus = requestStatus;
+        this.signature = signature;
+        this.course = course;
+        this.lecturer = lecturer;
+    }
+
     public long getRequest_id() {
         return request_id;
     }
@@ -76,11 +94,11 @@ public class RequestOpenCourse {
         this.request_id = request_id;
     }
 
-    public String getRequestDate() {
+    public Date getRequestDate() {
         return requestDate;
     }
 
-    public void setRequestDate(String requestDate) {
+    public void setRequestDate(Date requestDate) {
         this.requestDate = requestDate;
     }
 

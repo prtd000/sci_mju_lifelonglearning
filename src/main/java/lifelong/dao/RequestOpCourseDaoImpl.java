@@ -24,6 +24,13 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
     }
 
     @Override
+    public Lecturer getLecturerDetail(String id) {
+        Session session = sessionFactory.getCurrentSession();
+        Lecturer lecturer = session.get(Lecturer.class, id);
+        return lecturer;
+    }
+
+    @Override
     public List<RequestOpenCourse> getRequestOpenCourses() {
         Session session = sessionFactory.getCurrentSession();
         Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse ", RequestOpenCourse.class);
@@ -58,5 +65,11 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
     public void doRequestOpenCourseDetail(RequestOpenCourse requestOpenCourse) {
         Session session = sessionFactory.getCurrentSession();
         session.saveOrUpdate(requestOpenCourse);
+    }
+    @Override
+    public long getLatestId() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Long> query = session.createQuery("SELECT COUNT(rq) FROM RequestOpenCourse rq", Long.class);
+        return query.getSingleResult();
     }
 }

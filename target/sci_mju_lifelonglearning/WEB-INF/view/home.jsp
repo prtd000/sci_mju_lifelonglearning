@@ -59,6 +59,29 @@
             margin-top: 15px;
             transition: 0.5s;
         }
+
+        .font-ab{
+            font-size: 40px;
+            color: black;
+            font-weight: bold;
+            font-family: Kanit SemiBold;
+        }
+
+        .btn-register-ab{
+            width: 175px;
+            height: 47px;
+            margin-top: -7px;
+            border-radius: 16px;
+            border: 0;
+            font-weight: bold;
+            background-color: #005f00;
+            color: white;
+            transition: 0.5s;
+        }
+        .btn-register-ab:hover{
+            background-color: #0ca90c;
+            transition: 0.5s;
+        }
     </style>
 
 </head>
@@ -130,7 +153,7 @@
 
 
         <div class="row g-5">
-            <input type="text" class="search_bar" id="searchInput" onkeyup="search()" placeholder="Search...">
+            <input type="text" class="search_bar" id="searchInput" onkeyup="search()" placeholder="ค้นห่าหลักสูตรที่คุณสนใจ...">
             <!----------Course 1------------>
             <c:forEach var="course" items="${courses}">
                 <c:if test="${course.course_type == 'Non-Degree'}">
@@ -181,7 +204,6 @@
 </div>
 <!-- Offer End -->
 
-
 <!-- About Start -->
 <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
     <div class="container">
@@ -189,27 +211,57 @@
             <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;">
                 <div class="position-relative h-100">
                     <img class="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.3s"
-                         src="${pageContext.request.contextPath}/assets/img/img1.jpg" style="object-fit: cover;">
+                         src="${pageContext.request.contextPath}/assets/img/SURAWIWAT-01031.jpg" style="object-fit: cover;     box-shadow: -2px 2px 6px 2px #7c7c7c;">
                 </div>
             </div>
             <div class="col-lg-7">
                 <div class="mb-4">
-                    <h5 class="text-primary text-uppercase" style="letter-spacing: 5px;">เกี่ยวกับเรา</h5>
-                    <h1 class="display-5 mb-0">LIFELONG LEARNING</h1>
+                    <br><br><br>
+                    <h5 class="text-primary text-uppercase" style="letter-spacing: 5px;">มาร่วมเป็นส่วนหนึ่งกับเรา</h5>
+                    <br>
+                    <p class="font-ab">เพิ่มโอกาศแห่งความสำเร็จ</p>
+                    <p class="font-ab">ที่สร้างด้วยตัวคุณเอง</p>
+                    <p class="font-ab">จากการเรียนรู้ที่ไม่มีสิ้นสุดกับพวกเรา</p>
                 </div>
-                <h4 class="text-body fst-italic mb-4" style="font-size: 20px;"></h4>
-
-                <p class="mb-4 font-jus">คือ รูปแบบหนึ่งของการศึกษาที่เริ่มต้นเรียนรู้สิ่งใหม่ ๆ ด้วยตัวเอง
-                    (Self-initiated study) <br> ซึ่งเน้นการพัฒนาส่วนบุคคล
-                    โดยไม่เกี่ยงว่าจะอยู่ในวัยไหนก็สามารถเรื่องรู้ได้ต่อไปเรื่อย ๆ ไม่มีที่สิ้นสุด
-                    และถึงแม้ว่าจะไม่มีคำจำกัดความที่เป็นมาตรฐานของ Lifelong Learning
-                    แต่โดยทั่วไปมักถูกนำไปอ้างถึงการเรียนรู้ที่เกิดขึ้นนอกสถาบันการศึกษาในระบบ เช่น โรงเรียน มหาวิทยาลัย
-                    หรือการฝึกอบรมขององค์กร</p>
+                <br><br><br><br>
+                <button class="btn-register-ab">สมัครเลย !</button>
             </div>
+
         </div>
     </div>
 </div>
 <!-- About End -->
+
+
+
+<%--<!-- About Start -->--%>
+<%--<div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">--%>
+<%--    <div class="container">--%>
+<%--        <div class="row gx-5">--%>
+<%--            <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;">--%>
+<%--                <div class="position-relative h-100">--%>
+<%--                    <img class="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.3s"--%>
+<%--                         src="${pageContext.request.contextPath}/assets/img/img1.jpg" style="object-fit: cover;">--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <div class="col-lg-7">--%>
+<%--                <div class="mb-4">--%>
+<%--                    <h5 class="text-primary text-uppercase" style="letter-spacing: 5px;">เกี่ยวกับเรา</h5>--%>
+<%--                    <h1 class="display-5 mb-0">LIFELONG LEARNING</h1>--%>
+<%--                </div>--%>
+<%--                <h4 class="text-body fst-italic mb-4" style="font-size: 20px;"></h4>--%>
+
+<%--                <p class="mb-4 font-jus">คือ รูปแบบหนึ่งของการศึกษาที่เริ่มต้นเรียนรู้สิ่งใหม่ ๆ ด้วยตัวเอง--%>
+<%--                    (Self-initiated study) <br> ซึ่งเน้นการพัฒนาส่วนบุคคล--%>
+<%--                    โดยไม่เกี่ยงว่าจะอยู่ในวัยไหนก็สามารถเรื่องรู้ได้ต่อไปเรื่อย ๆ ไม่มีที่สิ้นสุด--%>
+<%--                    และถึงแม้ว่าจะไม่มีคำจำกัดความที่เป็นมาตรฐานของ Lifelong Learning--%>
+<%--                    แต่โดยทั่วไปมักถูกนำไปอ้างถึงการเรียนรู้ที่เกิดขึ้นนอกสถาบันการศึกษาในระบบ เช่น โรงเรียน มหาวิทยาลัย--%>
+<%--                    หรือการฝึกอบรมขององค์กร</p>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </div>--%>
+<%--</div>--%>
+<%--<!-- About End -->--%>
 
 
 <!-- Pricing Plan Start -->

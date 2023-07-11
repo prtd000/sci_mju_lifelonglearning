@@ -14,13 +14,11 @@ public class WebHomeController {
 
     @GetMapping("/")
     public String listCourse(Model model) {
-//        model.addAttribute("title", "รายการ" + title);
         model.addAttribute("courses", courseService.getCourses());
         return "home";
     }
     @GetMapping("/search_course")
     public String searchCourse(Model model) {
-//        model.addAttribute("title", "รายการ" + title);
         model.addAttribute("courses", courseService.getCourses());
         return "search";
     }

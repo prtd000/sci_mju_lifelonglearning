@@ -11,6 +11,7 @@ public interface CouresDao {
     List<Course> getCourses();
     Course getCourseDetail(String id);
     String[] getCourseDetailOpject(String id);
+    List<Course> getCoursesByName (String courseName);
     void doAddCourse(Course course);
     void doAddMajor(Major major);
 }

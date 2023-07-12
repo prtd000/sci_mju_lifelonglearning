@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html lang="en">
 
 <head>
@@ -42,6 +43,9 @@
             float: left;
 
         }
+        #courseSelect option {
+            white-space: pre-wrap;
+        }
     </style>
 
 </head>
@@ -49,51 +53,6 @@
 <body>
 <!-- Navbar -->
 <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
-<input type="button" value="ร้องขอ"onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/request_open_course'; return false;"class="add-button"/>
-<!-- Carousel Start -->
-
-<div class="container-fluid p-0 mb-5">
-    <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#header-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#header-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#header-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img class="w-100" src="${pageContext.request.contextPath}/assets/img/banner3.png" alt="Image">
-                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div class="p-3" style="max-width: 900px;">
-                        <h1 class="display-1 text-white mb-md-4 animated zoomIn">LIFELONG LEARNING</h1>
-                        <a href="" class="btn btn_readmore py-md-3 px-md-5 me-3 animated slideInLeft">เพิ่มเติม</a>
-                        <a href="" class="btn btn_contactus py-md-3 px-md-5 animated slideInRight">ติดต่อเรา</a>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img class="w-100" src="${pageContext.request.contextPath}/assets/img/banner1.jpg" alt="Image" style="height: 886px;">
-                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div class="p-3" style="max-width: 900px;">
-                        <h1 class="display-1 text-white mb-md-4 animated zoomIn">SCIENCE MAEJO UNIVERSITY</h1>
-                        <a href="" class="btn btn_readmore py-md-3 px-md-5 me-3 animated slideInLeft">เพิ่มเติม</a>
-                        <a href="" class="btn btn_contactus py-md-3 px-md-5 animated slideInRight">ติดต่อเรา</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel"
-                data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#header-carousel"
-                data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-</div>
-<!-- Carousel End -->
 <!-- Services Start -->
 <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
     <div class="container">
@@ -102,9 +61,20 @@
             <h1 class="display-5 mb-0">แนะนำสำหรับคุณ</h1>
         </div>
         <div class="row g-5">
-            <input type="text" id="searchInput" onkeyup="search()" placeholder="Search...">
+                <input type="text" id="searchInput" onkeyup="search()" placeholder="ค้นหา..." style="width: 58%; margin-right: 2%">
+                    <select name="majorId" id="majorSelect" style="width: 40%" onchange="document.location.href = 'http://localhost:8081/sci_mju_lifelonglearning_war_exploded/search_course/' + this.value">
+<%--                    <select name="majorId" id="majorSelect" style="width: 40%">--%>
+                        <option  value="หลักสูตรทั้งหมด">--กรุณาเลือกรายการ--</option>
+                        <c:forEach items="${majors}" var="major">
+                            <option value="${major.name}">${major.name}</option>
+                        </c:forEach>
+                    </select>
+            <span id="showlist"></span>
+
             <!----------Course 1------------>
+            <%! String type;%>
             <c:forEach var="course" items="${courses}">
+                <c:set var="majorName" value="<%= type%>"/>
                 <c:if test="${course.course_type == 'Non-Degree'}">
                     <div class="block col-lg-4 col-md-6 wow zoomIn" data-name=${course.name}>
                         <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.3s">
@@ -134,5 +104,13 @@
 <!-- Blog End -->
 <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>
 </body>
-
+<script>
+    $(document).ready(function(){
+        $("#majorSelect").change(function(){
+            $("#majorSelect").val();
+            var list = $("#majorSelect").val();
+            $("#showlist").html(list);
+        });
+    });
+</script>
 </html>

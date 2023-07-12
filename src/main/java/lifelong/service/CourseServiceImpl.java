@@ -29,6 +29,12 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     @Transactional
+    public List<Course> getCoursesByName(String courseName) {
+        return couresDao.getCoursesByName(courseName);
+    }
+
+    @Override
+    @Transactional
     public String[] getCourseDetailOpject(String courseId) {
         return couresDao.getCourseDetailOpject(courseId);
     }

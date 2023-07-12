@@ -163,6 +163,14 @@ public class Course {
         this.linkMooc = linkMooc;
     }
 
+    public Major getMajor() {
+        return major;
+    }
+
+    public void setMajor(Major major) {
+        this.major = major;
+    }
+
     public String getCourse_type() {
         return course_type;
     }
@@ -177,13 +185,5 @@ public class Course {
 
     public void setLecturers(Set<Lecturer> lecturers) {
         this.lecturers = lecturers;
-    }
-
-    public Major getMajor() {
-        return major;
-    }
-
-    public void setMajor(Major major) {
-        this.major = major;
     }
 }

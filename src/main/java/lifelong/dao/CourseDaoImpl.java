@@ -3,7 +3,7 @@ package lifelong.dao;
 import lifelong.model.Course;
 import lifelong.model.Major;
 import lifelong.model.RequestOpenCourse;
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +37,15 @@ public class CourseDaoImpl implements CouresDao{
         String object = course.getObject();
         String[] parts = object.split("2");
         return parts;
+    }
+
+    @Override
+    public List<Course> getCoursesByName(String courseName) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Course> query = session.createQuery("FROM Course c WHERE c.major.name =: cN", Course.class);
+        query.setParameter("cN", courseName);
+        System.out.println("FOUND : " + query.getResultList().size());
+        return query.getResultList();
     }
 
     @Override

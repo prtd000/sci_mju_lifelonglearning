@@ -1,0 +1,116 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Science MJU Life Long Learning</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+    <%--  <link href="${pageContext.request.contextPath}/assets/css/home_style.css" rel="stylesheet"/>--%>
+    <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
+
+    <style>
+        .btn_register_course_detail{
+            border-radius: 15px;
+            background-color: #ff4900;
+            color: white;
+            font-weight: 600;
+            width: 100%;
+            height: 41px;
+            border: 0;
+        }
+        .btn_readmore{
+            background-color: #0d6efd;
+            color: white;
+        }
+        .btn_readmore:hover{
+            color: white;
+        }
+
+        .btn_contactus{
+            background-color: #F14D5D;
+            color: white;
+        }
+        .btn_contactus:hover{
+            color: white;
+        }
+        .block {
+            display: inline-block;
+            float: left;
+
+        }
+        #courseSelect option {
+            white-space: pre-wrap;
+        }
+    </style>
+
+</head>
+
+<body>
+<!-- Navbar -->
+<jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
+<!-- Services Start -->
+<div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="text-center mx-auto mb-5" style="max-width: 600px;">
+            <h5 class="text-primary text-uppercase" style="letter-spacing: 5px;">หลักสูตร</h5>
+            <h1 class="display-5 mb-0">แนะนำสำหรับคุณ</h1>
+        </div>
+        <div class="row g-5">
+                <input type="text" id="searchInput" onkeyup="search()" placeholder="ค้นหา..." style="width: 58%; margin-right: 2%">
+                    <select name="majorId" id="majorSelect" style="width: 40%" onchange="document.location.href = 'http://localhost:8081/sci_mju_lifelonglearning_war_exploded/search_course/' + this.value">
+<%--                    <select name="majorId" id="majorSelect" style="width: 40%">--%>
+                        <option  value="หลักสูตรทั้งหมด">--กรุณาเลือกรายการ--</option>
+                        <c:forEach items="${majors}" var="major">
+                            <option value="${major.name}">${major.name}</option>
+                        </c:forEach>
+                    </select>
+            <span id="showlist"></span>
+
+            <!----------Course 1------------>
+            <%! String type;%>
+            <c:forEach var="course" items="${courses}">
+                <c:set var="majorName" value="<%= type%>"/>
+                <c:if test="${course.course_type == 'Non-Degree'}">
+                    <div class="block col-lg-4 col-md-6 wow zoomIn" data-name=${course.name}>
+                        <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.3s">
+                            <div class="service-item bg-light border-bottom border-5 border-primary rounded" style="width: 400px;box-shadow: 2px -2px 6px 1px #9c9c9c;">
+                                <div class="position-relative p-5">
+                                    <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}" style="width: 300px; height: 300px">
+                                        <%--            <h5 class="text-primary mb-0">${course.course_id}</h5>--%>
+                                    <div>
+                                        <br>
+                                        <h3 class="item">${course.name}</h3>
+                                            <%--              <h3 style="text-overflow: ellipsis;">${course.name}</h3>--%>
+                                    </div>
+                                    <p>${course.major.name}</p>
+                                    <h5>ระยะเวลา ${course.totalHours} ชั่วโมง</h5>
+                                    <h3 style="font-weight: bold;">ราคา ${course.fee}0 บาท</h3>
+                                    <a href="${pageContext.request.contextPath}/course/${course.course_id}">อ่านเพิ่มเติม<i class="bi bi-arrow-right ms-2"></i></a></td>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </c:if>
+
+            </c:forEach>
+        </div>
+    </div>
+</div>
+<!-- Blog End -->
+<jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>
+</body>
+<script>
+    $(document).ready(function(){
+        $("#majorSelect").change(function(){
+            $("#majorSelect").val();
+            var list = $("#majorSelect").val();
+            $("#showlist").html(list);
+        });
+    });
+</script>
+</html>

@@ -12,5 +12,5 @@ public interface MemberDao {
 
     Member getMemberById (String memberId);
 
-    List<Course> getListCourse(String memid);
+    List<Register> getListCourse(String memid);
 }

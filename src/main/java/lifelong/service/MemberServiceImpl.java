@@ -1,11 +1,14 @@
 package lifelong.service;
 
 import lifelong.dao.MemberDao;
+import lifelong.model.Course;
 import lifelong.model.Member;
 import lifelong.model.Register;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -23,5 +26,11 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public Member getMemberById(String memberId) {
         return memberDao.getMemberById(memberId);
+    }
+
+    @Override
+    @Transactional
+    public List<Register> getMyListCourse(String memberId) {
+        return memberDao.getListCourse(memberId);
     }
 }

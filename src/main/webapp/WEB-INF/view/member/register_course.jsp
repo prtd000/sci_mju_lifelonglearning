@@ -173,9 +173,6 @@
             <br>
             <input type="submit" value="register"/>
         </div>
-        <%
-
-        %>
     </form:form>
 </div>
 

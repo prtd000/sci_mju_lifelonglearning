@@ -1,3 +1,4 @@
+<%@ page import="java.text.DecimalFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -82,6 +83,31 @@
             background-color: #0ca90c;
             transition: 0.5s;
         }
+        .btn_all_course_home{
+            width: 175px;
+            height: 47px;
+            margin-top: -7px;
+            border-radius: 16px;
+            border: 1px solid black;
+            font-weight: bold;
+            background-color: #ffffff;
+            color: black;
+            transition: 0.5s;
+        }
+        .btn_all_course_home:hover{
+            background-color: #005f00;
+            color: white;
+            border: 0;
+            transition: 0.5s;
+        }
+        .text_ellipsis {
+            display: -webkit-box;
+            max-width: 500px;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 
 </head>
@@ -142,8 +168,8 @@
 <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
     <div class="container">
         <div class="text-center mx-auto mb-5" style="max-width: 600px;">
-            <h5 class="text-primary text-uppercase" style="letter-spacing: 5px;">หลักสูตร</h5>
-            <h1 class="display-5 mb-0">แนะนำสำหรับคุณ</h1>
+            <h5 class="text-primary text-uppercase" style="letter-spacing: 5px;">คอร์สแนะนำ</h5>
+            <h1 class="display-5 mb-0">หลักสูตร Non-Degree</h1>
         </div>
         <!-------Search-------->
         <%--    <form action="search.jsp" method="get">--%>
@@ -153,39 +179,106 @@
 
 
         <div class="row g-5">
-            <input type="text" class="search_bar" id="searchInput" onkeyup="search()" placeholder="ค้นห่าหลักสูตรที่คุณสนใจ...">
             <!----------Course 1------------>
+            <c:set var="num" value="0"></c:set>
             <c:forEach var="course" items="${courses}">
-                <c:if test="${course.course_type == 'Non-Degree'}">
-                    <div class="block col-lg-4 col-md-6 wow zoomIn" style="transition: 0.5s" data-name=${course.name}>
-                        <div class="col-lg-4 col-md-6 wow zoomIn" style="cursor: pointer" data-wow-delay="0.3s">
-                            <div class="bg-light border-bottom border-5 border-primary rounded"
-                                 style="width: 400px; height: 590px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
-                                <div class="p-5">
-                                    <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}"
-                                         style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
-                                        <%--            <h5 class="text-primary mb-0">${course.course_id}</h5>--%>
-                                    <div>
-                                        <br>
-                                        <h3 class="item" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis; " >${course.name}</h3>
+                <c:if test="${num <= 6}">
+                    <%
+                        DecimalFormat f = new DecimalFormat("#,###");
+                    %>
+                    <%--                <c:set var="majorName" value="<%= type%>"/>--%>
+                    <fmt:parseNumber var="courseFee" type="number" value="${course.fee}"/>
+                    <c:if test="${course.course_type == 'Non-Degree'}">
+                        <div class="block col-lg-4 col-md-6 wow zoomIn" style="transition: 0.5s" data-name=${course.name}>
+                            <div class="col-lg-4 col-md-6 wow zoomIn" style="cursor: pointer" data-wow-delay="0.3s">
+                                <div class="bg-light border-bottom border-5 border-primary rounded"
+                                     style="width: 400px; height: 590px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
+                                    <div class="p-5">
+                                        <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}"
+                                             style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
+                                        <div>
+                                            <br>
+                                            <a href="${pageContext.request.contextPath}/course/${course.course_id}">
+                                                <b><h4 class="item text_ellipsis" >${course.name}</h4></b>
+                                            </a>
+                                        </div>
+                                        <p>${course.major.name}</p>
+                                        <b><p style="color: #0c7800; font-size: 22px">
+                                            ราคา <fmt:formatNumber value="${courseFee}" />.00 บาท
+                                        </p></b>
+                                        <a href="${pageContext.request.contextPath}/course/${course.course_id}">อ่านเพิ่มเติม<i
+                                                class="bi bi-arrow-right ms-2"></i></a></td>
                                     </div>
-                                    <p>${course.major.name}</p>
-                                    <h5>ระยะเวลา ${course.totalHours} ชั่วโมง</h5>
-                                    <h3 style="font-weight: bold;">ราคา ${course.fee}0 บาท</h3>
-                                    <a href="${pageContext.request.contextPath}/course/${course.course_id}">อ่านเพิ่มเติม<i
-                                            class="bi bi-arrow-right ms-2"></i></a></td>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </c:if>
+                    <c:set var="num" value="${num+1}"></c:set>
                 </c:if>
-
             </c:forEach>
         </div>
     </div>
 </div>
 <!-- Course End -->
+<!-- Course Start -->
+<div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="text-center mx-auto mb-5" style="max-width: 600px;">
+            <h5 class="text-primary text-uppercase" style="letter-spacing: 5px;">คอร์สแนะนำ</h5>
+            <h1 class="display-5 mb-0">หลักสูตรอบรมระยะสั้น</h1>
+        </div>
+        <!-------Search-------->
+        <%--    <form action="search.jsp" method="get">--%>
+        <%--      <input type="text" name="keyword" placeholder="Enter keyword">--%>
+        <%--      <button type="submit">Search</button>--%>
+        <%--    </form>--%>
 
+
+        <div class="row g-5">
+            <!----------Course 1------------>
+            <c:set var="num" value="0"></c:set>
+            <c:forEach var="course" items="${courses}">
+                <c:if test="${num <= 6}">
+                    <%
+                        DecimalFormat f = new DecimalFormat("#,###");
+                    %>
+                    <%--                <c:set var="majorName" value="<%= type%>"/>--%>
+                    <fmt:parseNumber var="courseFee" type="number" value="${course.fee}"/>
+                    <c:if test="${course.course_type == 'หลักสูตรอบรมระยะสั้น'}">
+                        <div class="block col-lg-4 col-md-6 wow zoomIn" style="transition: 0.5s" data-name=${course.name}>
+                            <div class="col-lg-4 col-md-6 wow zoomIn" style="cursor: pointer" data-wow-delay="0.3s">
+                                <div class="bg-light border-bottom border-5 border-primary rounded"
+                                     style="width: 400px; height: 590px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
+                                    <div class="p-5">
+                                        <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}"
+                                             style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
+                                        <div>
+                                            <br>
+                                            <a href="${pageContext.request.contextPath}/course/${course.course_id}">
+                                                <b><h4 class="item text_ellipsis" >${course.name}</h4></b>
+                                            </a>
+                                        </div>
+                                        <p>${course.major.name}</p>
+                                        <b><p style="color: #0c7800; font-size: 22px">
+                                            ราคา <fmt:formatNumber value="${courseFee}" />.00 บาท
+                                        </p></b>
+                                        <a href="${pageContext.request.contextPath}/course/${course.course_id}">อ่านเพิ่มเติม<i
+                                                class="bi bi-arrow-right ms-2"></i></a></td>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+                    <c:set var="num" value="${num+1}"></c:set>
+                </c:if>
+            </c:forEach>
+        </div>
+    </div>
+</div>
+<!-- Course End -->
+        <div align="center">
+            <a href="${pageContext.request.contextPath}/search_course"><button class="btn_all_course_home">หลักสูตรทั้งหมด</button></a>
+        </div>
 
 <!-- Offer Start -->
 <div class="container-fluid bg-offer my-5 py-5 wow zoomIn" data-wow-delay="0.1s">
@@ -211,7 +304,7 @@
             <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;">
                 <div class="position-relative h-100">
                     <img class="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.3s"
-                         src="${pageContext.request.contextPath}/assets/img/SURAWIWAT-01031.jpg" style="object-fit: cover;     box-shadow: -2px 2px 6px 2px #7c7c7c;">
+                         src="${pageContext.request.contextPath}/assets/img/SURAWIWAT-01031.jpg" style="object-fit: cover; box-shadow: -2px 2px 6px 2px #7c7c7c;">
                 </div>
             </div>
             <div class="col-lg-7">
@@ -230,285 +323,6 @@
         </div>
     </div>
 </div>
-<!-- About End -->
-
-
-
-<%--<!-- About Start -->--%>
-<%--<div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">--%>
-<%--    <div class="container">--%>
-<%--        <div class="row gx-5">--%>
-<%--            <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;">--%>
-<%--                <div class="position-relative h-100">--%>
-<%--                    <img class="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.3s"--%>
-<%--                         src="${pageContext.request.contextPath}/assets/img/img1.jpg" style="object-fit: cover;">--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--            <div class="col-lg-7">--%>
-<%--                <div class="mb-4">--%>
-<%--                    <h5 class="text-primary text-uppercase" style="letter-spacing: 5px;">เกี่ยวกับเรา</h5>--%>
-<%--                    <h1 class="display-5 mb-0">LIFELONG LEARNING</h1>--%>
-<%--                </div>--%>
-<%--                <h4 class="text-body fst-italic mb-4" style="font-size: 20px;"></h4>--%>
-
-<%--                <p class="mb-4 font-jus">คือ รูปแบบหนึ่งของการศึกษาที่เริ่มต้นเรียนรู้สิ่งใหม่ ๆ ด้วยตัวเอง--%>
-<%--                    (Self-initiated study) <br> ซึ่งเน้นการพัฒนาส่วนบุคคล--%>
-<%--                    โดยไม่เกี่ยงว่าจะอยู่ในวัยไหนก็สามารถเรื่องรู้ได้ต่อไปเรื่อย ๆ ไม่มีที่สิ้นสุด--%>
-<%--                    และถึงแม้ว่าจะไม่มีคำจำกัดความที่เป็นมาตรฐานของ Lifelong Learning--%>
-<%--                    แต่โดยทั่วไปมักถูกนำไปอ้างถึงการเรียนรู้ที่เกิดขึ้นนอกสถาบันการศึกษาในระบบ เช่น โรงเรียน มหาวิทยาลัย--%>
-<%--                    หรือการฝึกอบรมขององค์กร</p>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--</div>--%>
-<%--<!-- About End -->--%>
-
-
-<!-- Pricing Plan Start -->
-<!--
-<div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s" style="margin-bottom: 75px;">
-  <div class="container">
-    <div class="text-center mx-auto mb-5" style="max-width: 600px;">
-      <h5 class="text-primary text-uppercase" style="letter-spacing: 5px;">Pricing Plan</h5>
-      <h1 class="display-5 mb-0">Pricing Plan For CCTV Security Services</h1>
-    </div>
-    <div class="row g-5">
-      <div class="col-lg-4 wow slideInUp" data-wow-delay="0.3s">
-        <div class="position-relative border border-primary rounded">
-          <div class="bg-primary text-center pt-5 pb-4">
-            <h3 class="text-white">Basic Plan</h3>
-            <h1 class="display-4 text-white">
-              <small class="align-top"
-                     style="font-size: 22px; line-height: 45px;">$</small>49<small
-                    class="align-bottom" style="font-size: 16px; line-height: 40px;">/
-              Mo</small>
-            </h1>
-          </div>
-          <div class="text-center py-5">
-            <p class="border-bottom border-light mb-2 pb-2">HTML5 & CSS3</p>
-            <p class="border-bottom border-light mb-2 pb-2">Bootstrap v5</p>
-            <p class="border-bottom border-light mb-2 pb-2">Responsive Layout</p>
-            <p class="border-bottom border-light mb-2 pb-2">Browsers Compatibility</p>
-            <p class="mb-2 pb-2">Easy to Use</p>
-          </div>
-          <a href="" class="btn btn-primary py-2 px-4 position-absolute top-100 start-50 translate-middle">Order Now</a>
-        </div>
-      </div>
-      <div class="col-lg-4 wow slideInUp" data-wow-delay="0.6s">
-        <div class="position-relative border border-secondary rounded">
-          <div class="bg-secondary text-center pt-5 pb-4">
-            <h3 class="text-white">Standard Plan</h3>
-            <h1 class="display-4 text-white">
-              <small class="align-top"
-                     style="font-size: 22px; line-height: 45px;">$</small>49<small
-                    class="align-bottom" style="font-size: 16px; line-height: 40px;">/
-              Mo</small>
-            </h1>
-          </div>
-          <div class="text-center py-5">
-            <p class="border-bottom border-light mb-2 pb-2">HTML5 & CSS3</p>
-            <p class="border-bottom border-light mb-2 pb-2">Bootstrap v5</p>
-            <p class="border-bottom border-light mb-2 pb-2">Responsive Layout</p>
-            <p class="border-bottom border-light mb-2 pb-2">Browsers Compatibility</p>
-            <p class="mb-2 pb-2">Easy to Use</p>
-          </div>
-          <a href="" class="btn btn-secondary py-2 px-4 position-absolute top-100 start-50 translate-middle">Order Now</a>
-        </div>
-      </div>
-      <div class="col-lg-4 wow slideInUp" data-wow-delay="0.9s">
-        <div class="position-relative border border-primary rounded">
-          <div class="bg-primary text-center pt-5 pb-4">
-            <h3 class="text-white">Extended Plan</h3>
-            <h1 class="display-4 text-white">
-              <small class="align-top"
-                     style="font-size: 22px; line-height: 45px;">$</small>49<small
-                    class="align-bottom" style="font-size: 16px; line-height: 40px;">/
-              Mo</small>
-            </h1>
-          </div>
-          <div class="text-center py-5">
-            <p class="border-bottom border-light mb-2 pb-2">HTML5 & CSS3</p>
-            <p class="border-bottom border-light mb-2 pb-2">Bootstrap v5</p>
-            <p class="border-bottom border-light mb-2 pb-2">Responsive Layout</p>
-            <p class="border-bottom border-light mb-2 pb-2">Browsers Compatibility</p>
-            <p class="mb-2 pb-2">Easy to Use</p>
-          </div>
-          <a href="" class="btn btn-primary py-2 px-4 position-absolute top-100 start-50 translate-middle">Order Now</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
--->
-
-<!-- Pricing Plan End -->
-
-
-<!-- Team Start -->
-<!--
-<div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
-  <div class="container">
-    <div class="text-center mx-auto mb-5" style="max-width: 600px;">
-      <h5 class="text-primary text-uppercase" style="letter-spacing: 5px;">Team Members</h5>
-      <h1 class="display-5 mb-0">Our Professional Team Members</h1>
-    </div>
-    <div class="row g-5">
-      <div class="col-lg-4 wow slideInUp" data-wow-delay="0.3s">
-        <div class="position-relative rounded-top">
-          <img class="img-fluid rounded-top w-100" src="${pageContext.request.contextPath}/assets/img/team-1.jpg" alt="">
-          <div class="position-absolute bottom-0 end-0 d-flex flex-column bg-white p-1" style="margin-right: -25px;">
-            <a class="btn btn-outline-secondary btn-square m-1" href="#"><i class="fab fa-twitter fw-normal"></i></a>
-            <a class="btn btn-outline-secondary btn-square m-1" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
-            <a class="btn btn-outline-secondary btn-square m-1" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
-            <a class="btn btn-outline-secondary btn-square m-1" href="#"><i class="fab fa-instagram fw-normal"></i></a>
-          </div>
-        </div>
-        <div class="bg-primary text-center rounded-bottom p-4">
-          <h3 class="text-white">Full Name</h3>
-          <p class="text-white m-0">Designation</p>
-        </div>
-      </div>
-      <div class="col-lg-4 wow slideInUp" data-wow-delay="0.6s">
-        <div class="position-relative rounded-top">
-          <img class="img-fluid rounded-top w-100" src="${pageContext.request.contextPath}/assets/img/team-2.jpg" alt="">
-          <div class="position-absolute bottom-0 end-0 d-flex flex-column bg-white p-1" style="margin-right: -25px;">
-            <a class="btn btn-outline-secondary btn-square m-1" href="#"><i class="fab fa-twitter fw-normal"></i></a>
-            <a class="btn btn-outline-secondary btn-square m-1" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
-            <a class="btn btn-outline-secondary btn-square m-1" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
-            <a class="btn btn-outline-secondary btn-square m-1" href="#"><i class="fab fa-instagram fw-normal"></i></a>
-          </div>
-        </div>
-        <div class="bg-primary text-center rounded-bottom p-4">
-          <h3 class="text-white">Full Name</h3>
-          <p class="text-white m-0">Designation</p>
-        </div>
-      </div>
-      <div class="col-lg-4 wow slideInUp" data-wow-delay="0.9s">
-        <div class="position-relative rounded-top">
-          <img class="img-fluid rounded-top w-100" src="${pageContext.request.contextPath}/assets/img/team-3.jpg" alt="">
-          <div class="position-absolute bottom-0 end-0 d-flex flex-column bg-white p-1" style="margin-right: -25px;">
-            <a class="btn btn-outline-secondary btn-square m-1" href="#"><i class="fab fa-twitter fw-normal"></i></a>
-            <a class="btn btn-outline-secondary btn-square m-1" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
-            <a class="btn btn-outline-secondary btn-square m-1" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
-            <a class="btn btn-outline-secondary btn-square m-1" href="#"><i class="fab fa-instagram fw-normal"></i></a>
-          </div>
-        </div>
-        <div class="bg-primary text-center rounded-bottom p-4">
-          <h3 class="text-white">Full Name</h3>
-          <p class="text-white m-0">Designation</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
--->
-<!-- Team End -->
-
-
-<!-- Testimonial Start --->
-
-<%--<div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">--%>
-<%--  <div class="container">--%>
-<%--    <div class="text-center mx-auto mb-5" style="max-width: 600px;">--%>
-<%--      <h5 class="text-primary text-uppercase" style="letter-spacing: 5px;">Testimonial</h5>--%>
-<%--      <h1 class="display-5 mb-0">What People Say About Our Services</h1>--%>
-<%--    </div>--%>
-<%--    <div class="owl-carousel testimonial-carousel">--%>
-<%--      <div class="text-center pb-4">--%>
-<%--        <img class="img-fluid mx-auto rounded-circle" src="${pageContext.request.contextPath}/assets/img/testimonial-1.jpg" style="width: 100px; height: 100px;" >--%>
-<%--        <div class="testimonial-text bg-light rounded p-4 mt-n5">--%>
-<%--          <p class="mt-5">Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam--%>
-<%--          </p>--%>
-<%--          <h4 class="text-truncate">Client Name</h4>--%>
-<%--          <i>Profession</i>--%>
-<%--        </div>--%>
-<%--      </div>--%>
-<%--      <div class="text-center">--%>
-<%--        <img class="img-fluid mx-auto rounded-circle" src="${pageContext.request.contextPath}/assets/img/testimonial-2.jpg" style="width: 100px; height: 100px;" >--%>
-<%--        <div class="testimonial-text bg-light rounded p-4 mt-n5">--%>
-<%--          <p class="mt-5">Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam--%>
-<%--          </p>--%>
-<%--          <h4 class="text-truncate">Client Name</h4>--%>
-<%--          <i>Profession</i>--%>
-<%--        </div>--%>
-<%--      </div>--%>
-<%--      <div class="text-center">--%>
-<%--        <img class="img-fluid mx-auto rounded-circle" src="${pageContext.request.contextPath}/assets/img/testimonial-3.jpg" style="width: 100px; height: 100px;" >--%>
-<%--        <div class="testimonial-text bg-light rounded p-4 mt-n5">--%>
-<%--          <p class="mt-5">Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam--%>
-<%--          </p>--%>
-<%--          <h4 class="text-truncate">Client Name</h4>--%>
-<%--          <i>Profession</i>--%>
-<%--        </div>--%>
-<%--      </div>--%>
-<%--      <div class="text-center">--%>
-<%--        <img class="img-fluid mx-auto rounded-circle" src="${pageContext.request.contextPath}/assets/img/testimonial-4.jpg" style="width: 100px; height: 100px;" >--%>
-<%--        <div class="testimonial-text bg-light rounded p-4 mt-n5">--%>
-<%--          <p class="mt-5">Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam--%>
-<%--          </p>--%>
-<%--          <h4 class="text-truncate">Client Name</h4>--%>
-<%--          <i>Profession</i>--%>
-<%--        </div>--%>
-<%--      </div>--%>
-<%--    </div>--%>
-<%--  </div>--%>
-<%--</div>--%>
-<!-- Testimonial End -->
-
-
-<!-- Blog Start -->
-<!--
-<div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
-  <div class="container">
-    <div class="text-center mx-auto mb-5" style="max-width: 600px;">
-      <h5 class="text-primary text-uppercase" style="letter-spacing: 5px;">Blog Post</h5>
-      <h1 class="display-5 mb-0">Latest Articles From Our Blog Post</h1>
-    </div>
-    <div class="row g-5">
-      <div class="col-lg-6 wow slideInUp" data-wow-delay="0.3s">
-        <div class="blog-item">
-          <div class="position-relative">
-            <img class="img-fluid w-100 rounded-top" src="${pageContext.request.contextPath}/assets/img/blog-1.jpg" alt="">
-            <div class="blog-date">
-              <h5 class="text-white fw-bold mb-0">01</h5>
-              <h6 class="text-light mb-0">January</h6>
-            </div>
-          </div>
-          <div class="bg-primary rounded-bottom p-5">
-            <div class="d-flex mb-3">
-              <span class="text-light text-uppercase">Admin</span>
-              <span class="text-light px-2">|</span>
-              <span class="text-light text-uppercase">Web Design</span>
-            </div>
-            <a class="h3 m-0 text-white" href="">Kasd dolor lorem sit justo rebum stet justo elitr dolor amet sit</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 wow slideInUp" data-wow-delay="0.6s">
-        <div class="blog-item">
-          <div class="position-relative">
-            <img class="img-fluid w-100 rounded-top" src="${pageContext.request.contextPath}/assets/img/blog-2.jpg" alt="">
-            <div class="blog-date">
-              <h5 class="text-white fw-bold mb-0">01</h5>
-              <h6 class="text-light mb-0">January</h6>
-            </div>
-          </div>
-          <div class="bg-primary rounded-bottom p-5">
-            <div class="d-flex mb-3">
-              <span class="text-light text-uppercase">Admin</span>
-              <span class="text-light px-2">|</span>
-              <span class="text-light text-uppercase">Web Design</span>
-            </div>
-            <a class="h3 m-0 text-white" href="">Kasd dolor lorem sit justo rebum stet justo elitr dolor amet sit</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
--->
-
-
 <!-- Blog End -->
 <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>
 </body>

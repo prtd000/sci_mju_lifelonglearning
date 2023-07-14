@@ -119,7 +119,9 @@
                             <option value="${major.name}">${major.name}</option>
                         </c:forEach>
                     </select>
-            <span id="showlist"></span>
+            <%! String majorName = "";%>
+
+            <h3 id="showlist">${majorName}</h3>
 
             <!----------Course 1------------>
             <c:forEach var="course" items="${courses}">

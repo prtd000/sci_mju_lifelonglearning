@@ -114,6 +114,7 @@
                     <select class="form-select" name="majorId" id="majorSelect" style="width: 40%" onchange="document.location.href = 'http://localhost:8081/sci_mju_lifelonglearning_war_exploded/search_course/' + this.value">
 <%--                    <select name="majorId" id="majorSelect" style="width: 40%">--%>
                         <option  value="หลักสูตรทั้งหมด">--กรุณาเลือกรายการ--</option>
+
                         <c:forEach items="${majors}" var="major">
                             <option value="${major.name}">${major.name}</option>
                         </c:forEach>

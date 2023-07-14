@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-    <img src="${pageContext.request.contextPath}/assets/img/logo.png" style="height: 79px; margin-left: 57px; position: absolute;">
-    <div style="margin-left: 151px">
-        <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">
-            <h1 class="display-5 m-0 text-primary">LIFELONG<span class="text-secondary">LEARNING</span></h1>
-        </a>
-    </div>
+    <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png" style="height: 79px; margin-left: 57px; position: absolute;">
+<%--    <div style="margin-left: 151px">--%>
+<%--        <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">--%>
+<%--            <h1 class="display-5 m-0 text-primary">LIFELONG<span class="text-secondary">LEARNING</span></h1>--%>
+<%--        </a>--%>
+<%--    </div>--%>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>

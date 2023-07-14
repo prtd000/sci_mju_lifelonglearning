@@ -36,6 +36,7 @@ public class WebHomeController {
     public String searchCourseByCourseName(Model model, @PathVariable("value") String courseName) {
 //        model.addAttribute("title", "รายการ" + title);
         System.out.println(courseName);
+        model.addAttribute("majorName",courseName);
         model.addAttribute("courses", courseService.getCoursesByName(courseName));
         model.addAttribute("majors",majorService.getMajors());
         return "search_course";

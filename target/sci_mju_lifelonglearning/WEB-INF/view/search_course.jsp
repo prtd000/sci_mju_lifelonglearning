@@ -116,7 +116,7 @@
                         <option  value="หลักสูตรทั้งหมด">--กรุณาเลือกรายการ--</option>
 
                         <c:forEach items="${majors}" var="major">
-                            <option value="${major.name}">${major.name}</option>
+                            <option value="${major.name}">${select_major}</option>
                         </c:forEach>
                     </select>
             <%! String majorName = "";%>

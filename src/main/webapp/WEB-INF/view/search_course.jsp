@@ -145,8 +145,9 @@
         </div>
         <div class="row g-5">
             <input type="text" class="form-control me-2" id="searchInput" onkeyup="search()" placeholder="ค้นหาหลักสูตรที่คุณสนใจ..." style="width: 55%; margin-right: 2%">
-                    <select class="form-select" name="majorId" id="majorSelect" style="width: 40%" onchange="document.location.href = 'http://localhost:8081/sci_mju_lifelonglearning_war_exploded/search_course/' + this.value">
+                    <select class="form-select" name="majorId" id="majorSelect" style="width: 40%" onchange="document.location.href = '${pageContext.request.contextPath}/search_course/' + this.value">
 <%--                    <select name="majorId" id="majorSelect" style="width: 40%">--%>
+<%--                    <select class="form-select" name="majorId" id="majorSelect" style="width: 40%" onchange="document.location.href = 'https://itsci.mju.ac.th/sci_mju_lifelonglearning/search_course/' + this.value">--%>
                         <option  value="หลักสูตรทั้งหมด">--กรุณาเลือกรายการ--</option>
 
                         <c:forEach items="${majors}" var="major">

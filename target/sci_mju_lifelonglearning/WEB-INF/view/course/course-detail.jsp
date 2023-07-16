@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -7,30 +9,6 @@
 <%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
 <%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
     <link href="${pageContext.request.contextPath}/assets/css/course_detail.css" rel="stylesheet">
-
-<%--    <style>--%>
-<%--        .block_position{--%>
-<%--            margin-left: 350px;--%>
-<%--            margin-top: 54px;--%>
-<%--            width: 900px;--%>
-<%--            display: inline-block;--%>
-<%--        }--%>
-
-<%--        .c_img{--%>
-<%--            width: 850px;--%>
-<%--        }--%>
-<%--        .t1{--%>
-<%--            width: 200px;--%>
-<%--            font-weight: bold;--%>
-<%--            margin-top: 0px;--%>
-<%--            vertical-align: top;--%>
-<%--        }--%>
-<%--        .t2{--%>
-<%--            width: 650px;--%>
-<%--            vertical-align: top;--%>
-<%--        }--%>
-
-<%--    </style>--%>
 </head>
 <body>
 <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
@@ -38,6 +16,8 @@
 <%--${course_detail.major.name}--%>
 <%--${course_detail.course_id}--%>
 <%--${course_detail.totalHours}--%>
+<c:set var="object" value="${course_detail.object}"></c:set>
+    <c:set var="parts" value="${fn:split(object, '$%')}" />
 <div class="block_position">
     <h1>
         ${course_detail.name}
@@ -70,13 +50,18 @@
                 <td class="t2">${course_detail.major.name}</td>
             </tr>
             <tr>
-                <td class="t1">ชื่อเกีตรติบัตร</td>
+                <td class="t1">ชื่อเกียรติบัตร</td>
                 <td class="t2">${course_detail.certificateName}</td>
             </tr>
             <tr>
+                <c:set var="count" value="0"></c:set>
                 <td class="t1">วัตถุประสงค์</td>
-
-                <td class="t2">${course_detail.object}</td>
+                <td class="t2">
+                    <c:forEach items="${parts}" var="part">
+                        <c:set var="count" value="${count+1}"></c:set>
+                        ${count} )  <c:out value="${part}"/><br/>
+                    </c:forEach>
+                </td>
             </tr>
                 <td class="t1">ระยะเวลาเรียน</td>
                 <td class="t2">${course_detail.totalHours} ชั่วโมง</td>

@@ -11,11 +11,12 @@ public interface RequestOpCourseService {
     List<Lecturer> getLecturer();
     Lecturer getLecturerDetail(String lecUser);
 
+    void saveRequestOpenCourse (RequestOpenCourse requestOpenCourse);
     List<RequestOpenCourse> getRequestOpenCourses();
 
     RequestOpenCourse getRequestOpenCourseDetail(long requestId);
-    void deleteRequestOpenCourse(String requestId);
+    void deleteRequestOpenCourse(long requestId);
     List<Major> getMajor();
     void doRequestOpenCourseDetail(RequestOpenCourse requestOpenCourse);
-    void updateRequestOpenCourse(RequestOpenCourse productEntity, RequestOpenCourse requestOpenCourse);
+    void updateRequestOpenCourse(RequestOpenCourse requestOpenCourse);
 }

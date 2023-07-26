@@ -51,11 +51,10 @@ public class Course {
     @Column(name = "course_linkMooc",nullable = false)
     private String linkMooc;
 
-    @Column(name = "course_type",nullable = false)
+    @Column(name = "course_type",nullable = false,length = 50)
     private String course_type;
-
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "major_id")
+    @JoinColumn(name = "major_id",nullable = false)
     private Major major;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -65,6 +64,23 @@ public class Course {
     private Set<Lecturer> lecturers;
 
     public Course() {
+    }
+
+    public Course(String course_id, String name, String certificateName, String img, String principle, String object, int totalHours, String targetOccupation, double fee, String file, String status, String linkMooc, String course_type, Major major) {
+        this.course_id = course_id;
+        this.name = name;
+        this.certificateName = certificateName;
+        this.img = img;
+        this.principle = principle;
+        this.object = object;
+        this.totalHours = totalHours;
+        this.targetOccupation = targetOccupation;
+        this.fee = fee;
+        this.file = file;
+        this.status = status;
+        this.linkMooc = linkMooc;
+        this.course_type = course_type;
+        this.major = major;
     }
 
     public String getCourse_id() {

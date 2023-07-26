@@ -11,6 +11,13 @@ import java.util.List;
 public class MajorServiceImpl implements MajorService{
     @Autowired
     private MajorDao majorDao;
+
+    @Override
+    @Transactional
+    public Major getMajorDetail(String majorId) {
+        return majorDao.getMajorDetail(majorId);
+    }
+
     @Override
     @Transactional
     public List<Major> getMajors() {

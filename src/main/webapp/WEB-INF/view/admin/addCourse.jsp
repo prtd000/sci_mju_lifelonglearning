@@ -118,6 +118,13 @@
                     </td>
                 </tr>
                 <tr>
+                    <td><label>ประเภท:</label></td>
+                    <td>
+                        <form:input path="course_type"/>
+                        <form:errors path="course_type" cssClass="error"/>
+                    </td>
+                </tr>
+                <tr>
                     <td><label>สาขา:</label></td>
                     <td>
                         <form:select path="major.major_id">

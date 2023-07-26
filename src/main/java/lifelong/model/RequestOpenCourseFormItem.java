@@ -22,6 +22,27 @@ public class RequestOpenCourseFormItem {
     private String course_id;
     private String lecturer_username;
 
+    public RequestOpenCourseFormItem(Date startRegister, Date endRegister, int quantity, Date startStudyDate, Date endStudyDate, String studyTime, String type_learn, String type_teach, Date applicationResult, String location, Boolean requestStatus, String signature, String course_id, String lecturer_username) {
+        this.startRegister = startRegister;
+        this.endRegister = endRegister;
+        this.quantity = quantity;
+        this.startStudyDate = startStudyDate;
+        this.endStudyDate = endStudyDate;
+        this.studyTime = studyTime;
+        this.type_learn = type_learn;
+        this.type_teach = type_teach;
+        this.applicationResult = applicationResult;
+        this.location = location;
+        this.requestStatus = requestStatus;
+        this.signature = signature;
+        this.course_id = course_id;
+        this.lecturer_username = lecturer_username;
+    }
+
+    public RequestOpenCourseFormItem() {
+
+    }
+
     public Date getStartRegister() {
         return startRegister;
     }

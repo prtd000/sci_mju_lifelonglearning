@@ -232,5 +232,6 @@ public class RequestOpenCourse {
         this.course = requestOpenCourse.getCourse();
         this.lecturer = requestOpenCourse.getLecturer();
     }
+
 }
 

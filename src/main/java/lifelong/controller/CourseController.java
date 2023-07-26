@@ -49,29 +49,54 @@ public class CourseController {
         model.addAttribute("add_course", new Course());
         return "admin/addCourse";
     }
-//    @GetMapping("/add_major")
-//    public String showFormAddMajor(Model model) {
-//        model.addAttribute("title", "เพิ่ม" + title);
-//        model.addAttribute("add_major", new Major());
-//        return "admin/addMajor";
-//    }
+    @GetMapping("/add_major")
+    public String showFormAddMajor(Model model) {
+        model.addAttribute("title", "เพิ่ม" + title);
+        model.addAttribute("add_major", new Major());
+        return "admin/addMajor";
+    }
 
-    //    @RequestMapping(path="/save", method = RequestMethod.POST)
+//        @RequestMapping(path="/save", method = RequestMethod.POST)
 //    public String saveAddCourse(@ModelAttribute("course") Course course) {
 //            courseService.doAddCourse(course);
 //            return "redirect:home";
 //        }
-    @RequestMapping(path = "/save", method = RequestMethod.POST)
-    public String saveCourse(
-            @Valid @ModelAttribute("course") Course course, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("title", "มีข้อผิดพลาดในการบันทึก" + title);
-            return "admin/addCourse";
-        } else {
-            courseService.doAddCourse(course);
-            return "redirect:/";
-        }
+
+
+    @RequestMapping(path="/save", method = RequestMethod.POST)
+    public String saveRequest(@Valid @ModelAttribute("course") Course course) {
+        String course_id = course.getCourse_id();
+        String name = course.getName();
+        String certificateName = course.getCertificateName();
+        String img = course.getImg();
+        String principle = course.getPrinciple();
+        String object = course.getObject();
+        int totalHours = course.getTotalHours();
+        String targetOccupation = course.getTargetOccupation();
+        double fee = course.getFee();
+        String file = course.getFile();
+        String status = course.getStatus();
+        String linkMooc = course.getLinkMooc();
+        String course_type = course.getCourse_type();
+        String major_id = course.getMajor().getMajor_id();
+        Major major = majorService.getMajorDetail(major_id);
+        Course addCourse = new Course(course_id,name,certificateName,img,principle,object,totalHours,targetOccupation,fee,file,status,
+                linkMooc,course_type,major);
+        courseService.doAddCourse(addCourse);
+        return "redirect:/";
     }
+
+//    @RequestMapping(path = "/save", method = RequestMethod.POST)
+//    public String saveCourse(
+//            @Valid @ModelAttribute("course") Course course, BindingResult bindingResult, Model model) {
+//        if (bindingResult.hasErrors()) {
+//            model.addAttribute("title", "มีข้อผิดพลาดในการบันทึก" + title);
+//            return "admin/addCourse";
+//        } else {
+//            courseService.doAddCourse(course);
+//            return "redirect:/";
+//        }
+//    }
 //    @RequestMapping(path="/save", method = RequestMethod.POST)
 //    public String saveMajor(@ModelAttribute("major") Major major) {
 //            courseService.doAddMajor(major);

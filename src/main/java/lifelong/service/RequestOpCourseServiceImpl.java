@@ -30,6 +30,12 @@ public class RequestOpCourseServiceImpl implements RequestOpCourseService {
 
     @Override
     @Transactional
+    public void saveRequestOpenCourse(RequestOpenCourse requestOpenCourse) {
+        requestOpCourseDao.saveRequestOpenCourse(requestOpenCourse);
+    }
+
+    @Override
+    @Transactional
     public List<RequestOpenCourse> getRequestOpenCourses() {
         return requestOpCourseDao.getRequestOpenCourses();
     }
@@ -42,7 +48,7 @@ public class RequestOpCourseServiceImpl implements RequestOpCourseService {
 
     @Override
     @Transactional
-    public void deleteRequestOpenCourse(String requestId) {
+    public void deleteRequestOpenCourse(long requestId) {
         requestOpCourseDao.deleteRequestOpenCourse(requestId);
     }
 
@@ -66,9 +72,8 @@ public class RequestOpCourseServiceImpl implements RequestOpCourseService {
 
     @Override
     @Transactional
-    public void updateRequestOpenCourse(RequestOpenCourse productEntity, RequestOpenCourse requestOpenCourse) {
-        productEntity.fill(requestOpenCourse);
-        doRequestOpenCourseDetail(productEntity);
+    public void updateRequestOpenCourse(RequestOpenCourse requestOpenCourse) {
+        requestOpCourseDao.updateRequestOpenCourse(requestOpenCourse);
     }
     public String generateLatestId (long id) {
         String result = String.valueOf(id);

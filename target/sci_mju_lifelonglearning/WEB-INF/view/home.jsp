@@ -115,7 +115,7 @@
 <body>
 <!-- Navbar -->
 <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
-<%--<input type="button" value="ร้องขอ"onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/request_open_course'; return false;"class="add-button"/>--%>
+<input type="button" value="ร้องขอ"onclick="window.location.href='${pageContext.request.contextPath}/course/add_course'; return false;"class="add-button"/>
 <!-- Carousel Start -->
 
 <div class="container-fluid p-0 mb-5">

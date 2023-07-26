@@ -46,11 +46,24 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
     }
 
     @Override
-    public void deleteRequestOpenCourse(String id) {
+    public void saveRequestOpenCourse(RequestOpenCourse requestOpenCourse) {
+        Session session = sessionFactory.getCurrentSession();
+        session.save(requestOpenCourse);
+    }
+
+    @Override
+    public void deleteRequestOpenCourse(long id) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("delete from RequestOpenCourse where id=:request_id");
         query.setParameter("request_id", id);
         query.executeUpdate();
+    }
+
+    @Override
+    public RequestOpenCourse updateRequestOpenCourse(RequestOpenCourse requestOpenCourse) {
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(requestOpenCourse);
+        return requestOpenCourse;
     }
 
     @Override

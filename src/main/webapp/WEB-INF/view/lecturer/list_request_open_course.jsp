@@ -28,7 +28,7 @@
                     <h1 align="left">รายการการร้องขอ</h1>
                     <div class="hr_line"></div>
                     <button id="FClick" class="tablinks" onclick="openList(event, 'course')">หลักสูตร</button>
-                    <button class="tablinks" onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/request_open_course'; return false;"class="add-button">ร้องขอ</button>
+                    <button class="tablinks" onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/add_roc'; return false;"class="add-button">ร้องขอ</button>
                     <button class="tablinks" onclick="openList(event, 'list_request')">รายการร้องขอ</button>
 
                 </div>

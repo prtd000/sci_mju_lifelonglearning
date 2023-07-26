@@ -31,6 +31,15 @@ public class CourseDaoImpl implements CouresDao{
     }
 
     @Override
+    public Course getCourseById(String course_id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Course> query = session.createQuery("FROM Course c WHERE c.course_id =: cId", Course.class);
+        query.setParameter("cId", course_id);
+        Course course = query.getSingleResult();
+        return course;
+    }
+
+    @Override
     public String[] getCourseDetailOpject(String id) {
         Session session = sessionFactory.getCurrentSession();
         Course course = session.get(Course.class, id);
@@ -45,6 +54,7 @@ public class CourseDaoImpl implements CouresDao{
         Query<Course> query = session.createQuery("FROM Course c WHERE c.major.name =: cN", Course.class);
         query.setParameter("cN", courseName);
         System.out.println("FOUND : " + query.getResultList().size());
+        System.out.println("FOUND : " + query.getResultList());
         return query.getResultList();
     }
 

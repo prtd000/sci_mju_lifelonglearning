@@ -32,6 +32,14 @@ public class Register {
     public Register() {
     }
 
+    public Register(long register_id, Date register_date, Boolean study_result, Member member, RequestOpenCourse requestOpenCourse) {
+        this.register_id = register_id;
+        this.register_date = register_date;
+        this.study_result = study_result;
+        this.member = member;
+        this.requestOpenCourse = requestOpenCourse;
+    }
+
     public long getRegister_id() {
         return register_id;
     }

@@ -30,7 +30,13 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public List<Register> getMyListCourse(String memberId) {
-        return memberDao.getListCourse(memberId);
+    public void doRegisterMember(Member member) {
+        memberDao.doRegisterMember(member);
+    }
+
+    @Override
+    @Transactional
+    public List<Register> getMyListCourse() {
+        return memberDao.getListCourse();
     }
 }

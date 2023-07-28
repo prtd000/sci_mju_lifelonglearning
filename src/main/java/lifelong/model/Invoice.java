@@ -67,6 +67,7 @@ public class Invoice {
         this.pay_status = pay_status;
     }
 
+
     public RequestOpenCourse getRequestOpenCourse() {
         return requestOpenCourse;
     }

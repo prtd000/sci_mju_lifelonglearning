@@ -1,8 +1,6 @@
 package lifelong.controller;
 
-import lifelong.model.Course;
-import lifelong.model.Register;
-import lifelong.model.RequestOpenCourse;
+import lifelong.model.*;
 import lifelong.service.CourseService;
 import lifelong.service.MemberService;
 import lifelong.service.RegisterService;
@@ -11,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
 import java.util.Date;
 
 @Controller
@@ -59,20 +59,32 @@ public class MemberController {
 
     @GetMapping("/{memid}/register_course/{courseid}/{requestid}/register")
     public String registerCourse (@PathVariable("courseid") String courseid, @PathVariable("requestid") long requestid, @PathVariable("memid") String memid) {
+        /*****Insert Register*****/
         Register register = new Register();
-
         register.setRegister_date(new Date());
         register.setStudy_result(false);
         register.setRequestOpenCourse(requestOpCourseService.getRequestOpenCourseDetail(requestid));
         register.setMember(memberService.getMemberById(memid));
-
         registerService.saveRegister(register);
+
+        /*****Insert Invoice*****/
+        Invoice invoice = new Invoice();
+        invoice.setPay_status(false);
+        Date payStart = requestOpCourseService.getRequestOpenCourseDetail(requestid).getEndRegister();
+        Date payEnd = requestOpCourseService.getRequestOpenCourseDetail(requestid).getStartStudyDate();
+        invoice.setStartPayment(payStart);
+        invoice.setEndPayment(payEnd);
+        invoice.setRequestOpenCourse(requestOpCourseService.getRequestOpenCourseDetail(requestid));
+        registerService.doInvoice(invoice);
         return "redirect:/";
     }
 
     @GetMapping("{memid}/listcourse")
     public String listCourse(@PathVariable("memid") String memId, Model model){
-        model.addAttribute("list_course", memberService.getMyListCourse(memId));
+        model.addAttribute("list_course", memberService.getMyListCourse());
+        model.addAttribute("mem_username",memberService.getMemberById(memId));
         return "/member/list_course";
     }
+
+
 }

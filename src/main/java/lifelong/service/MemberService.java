@@ -11,5 +11,7 @@ public interface MemberService {
 
     Member getMemberById (String memberId);
 
-    List<Register> getMyListCourse(String memberId);
+    void doRegisterMember(Member member);
+
+    List<Register> getMyListCourse();
 }

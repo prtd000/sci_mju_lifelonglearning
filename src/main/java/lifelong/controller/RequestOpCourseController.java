@@ -77,101 +77,11 @@ public class RequestOpCourseController {
         return "lecturer/update_request_open_course";
     }
 
-//    @PostMapping("/update_roc")
-//    public String updateRequestOpCourse(@ModelAttribute("request_open_course") RequestOpenCourse requestOpenCourse) {
-//        requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
-//        return "redirect:list_request_open_course";
-//    }
-
     @PostMapping("/update_roc")
     public String updateRequestOpCourse(@ModelAttribute("request_open_course") RequestOpenCourse requestOpenCourse) {
         System.out.println(requestOpenCourse.getRequest_id());
-//        RequestOpenCourse entityProduct = requestOpCourseService.getRequestOpenCourseDetail(requestOpenCourse.getRequest_id());
-
-        //        if (entityProduct != null) {
-//            requestOpCourseService.updateRequestOpenCourse(entityProduct);
-//        }
-        //requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
         return "redirect:list_request_open_course";
     }
-
-//    @PostMapping("/update_roc")
-//    public String updateRequestOpCourse(@Valid @ModelAttribute("request_open_course") RequestOpenCourse requestOpenCourse, @RequestParam("confirmButton") String confirmButton) {
-//        RequestOpenCourse entityProduct = requestOpCourseService.getRequestOpenCourseDetail(requestOpenCourse.getRequest_id());
-//        if (entityProduct != null) {
-//            requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
-//        } else {
-//            requestOpCourseService.doRequestOpenCourseDetail(requestOpenCourse);
-//        }
-//        return "redirect:list_request_open_course";
-//    }
-
-//        @PostMapping(path="/{id}/save")
-//        public String saveRequest(@PathVariable("id") String lec_id,
-//                                  @RequestParam Map<String, String> allReqParams,
-//                                  @RequestParam("confirmButton") String confirmButton) throws ParseException {
-//
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//            Date requestDate = new Date();
-//
-//            String startRegister = allReqParams.get("startRegister");
-//            Date startRegisterDate = dateFormat.parse(startRegister);
-//
-//            String endRegister = allReqParams.get("endRegister");
-//            Date endRegisterDate = dateFormat.parse(endRegister);
-//
-//            int quantity = Integer.parseInt(allReqParams.get("quantity"));
-//
-//            String startStudy = allReqParams.get("startStudyDate");
-//            Date startStudyDate = dateFormat.parse(startStudy);
-//
-//            String endStudy = allReqParams.get("endStudyDate");
-//            Date endStudyDate = dateFormat.parse(endStudy);
-//
-//            String studyTime = allReqParams.get("studyTime");
-//
-//            String applicationResult = allReqParams.get("applicationResult");
-//            Date applicationResultDate = dateFormat.parse(applicationResult);
-//
-//            String type_learn = allReqParams.get("type_learn");
-//            String type_teach = allReqParams.get("type_teach");
-//            String location = allReqParams.get("location");
-//
-//            boolean requestStatusBool = false;
-//
-//            String signature = allReqParams.get("signature");
-//
-//            String course_id = allReqParams.get("course_id");
-//            Course course = courseService.getCourseById(course_id);
-//
-//            Lecturer lecturer = lecturerService.getLecturerById(lec_id);
-//
-//            System.out.println(startRegisterDate);
-//            RequestOpenCourse requestOpenCourse_toAdd = new RequestOpenCourse(requestDate, startRegisterDate, endRegisterDate, quantity, startStudyDate, endStudyDate, studyTime, type_learn, type_teach, applicationResultDate, location, requestStatusBool, signature, course, lecturer);
-////            requestOpCourseService.saveRequestOpenCourse(requestOpenCourse_toAdd);
-////            RequestOpenCourse reg = requestOpCourseService.getRequestOpenCourseDetail()
-//            // อัปเดตข้อมูลที่มีอยู่ในระบบ (หากต้องการ)
-//            long existingRequestId = 13;
-////            if (existingRequestId != null && !existingRequestId.isEmpty()) {
-//                RequestOpenCourse existingRequest = requestOpCourseService.getRequestOpenCourseDetail(existingRequestId);
-//                System.out.println("PASS");
-//                if (existingRequest != null) {
-//                    existingRequest.setStartRegister(startRegisterDate);
-//                    existingRequest.setEndRegister(endRegisterDate);
-//                    existingRequest.setQuantity(quantity);
-//                    existingRequest.setStartStudyDate(startStudyDate);
-//                    existingRequest.setEndStudyDate(endStudyDate);
-//                    existingRequest.setStudyTime(studyTime);
-//                    existingRequest.setApplicationResult(applicationResultDate);
-//                    existingRequest.setType_learn(type_learn);
-//                    existingRequest.setType_teach(type_teach);
-//                    existingRequest.setLocation(location);
-//                    requestOpCourseService.updateRequestOpenCourse(existingRequest);
-//                }
-////            }
-//
-//            return "redirect:/request_open_course/list_request_open_course";
-//        }
 
 
     @PostMapping (path="/{id}/save")

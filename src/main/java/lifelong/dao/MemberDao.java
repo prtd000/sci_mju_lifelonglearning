@@ -10,7 +10,9 @@ public interface MemberDao {
 
     void registerCourse(Register register);
 
+    void doRegisterMember(Member member);
+
     Member getMemberById (String memberId);
 
-    List<Register> getListCourse(String memid);
+    List<Register> getListCourse();
 }

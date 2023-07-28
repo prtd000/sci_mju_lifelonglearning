@@ -10,13 +10,28 @@
 <html>
 <head>
     <title>Title</title>
+    <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 </head>
 <body>
+<jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
+
     <h1>My list Course</h1>
+    <h1>${mem_username.firstName}</h1>
     <table>
         <c:forEach var="list" items="${list_course}">
             <tr>
                 <td>${list.requestOpenCourse.course.name}</td>
+                <c:set var="txtstt" value="${list.study_result}"></c:set>
+                <c:if var="stt" test="${txtstt == false}">
+                    <c:set var="txtstt" value="อยู่ระหว่างเรียน"></c:set>
+                </c:if>
+                <c:if var="stt" test="${txtstt == true}">
+                    <c:set var="txtstt" value="ผ่านหลักสูตร"></c:set>
+                </c:if>
+                <td>${txtstt}</td>
+                <td>
+                    <button>ดูเกียรติบัตร</button>
+                </td>
             </tr>
         </c:forEach>
     </table>

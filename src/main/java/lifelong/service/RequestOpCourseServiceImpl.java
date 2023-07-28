@@ -75,6 +75,7 @@ public class RequestOpCourseServiceImpl implements RequestOpCourseService {
     public void updateRequestOpenCourse(RequestOpenCourse requestOpenCourse) {
         requestOpCourseDao.updateRequestOpenCourse(requestOpenCourse);
     }
+
     public String generateLatestId (long id) {
         String result = String.valueOf(id);
         while (result.length() != 3) {

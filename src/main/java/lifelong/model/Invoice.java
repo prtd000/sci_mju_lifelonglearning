@@ -22,11 +22,11 @@ public class Invoice {
     private Date endPayment;
 
     @Column(nullable = false,length = 100)
-    private String pay_status;
+    private boolean pay_status;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "register_id")
-    private Register register;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "register_id")
+//    private Register register;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "request_id")
@@ -59,20 +59,12 @@ public class Invoice {
         this.endPayment = endPayment;
     }
 
-    public String getPay_status() {
+    public boolean getPay_status() {
         return pay_status;
     }
 
-    public void setPay_status(String pay_status) {
+    public void setPay_status(boolean pay_status) {
         this.pay_status = pay_status;
-    }
-
-    public Register getRegister() {
-        return register;
-    }
-
-    public void setRegister(Register register) {
-        this.register = register;
     }
 
     public RequestOpenCourse getRequestOpenCourse() {

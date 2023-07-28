@@ -14,7 +14,11 @@
 <head>
     <title>RequestOpenCourse</title>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.6/dist/flatpickr.min.css"
+    />
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -29,7 +33,7 @@
         <div id="container">
             <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
             <br><br>
-            <form action="${pageContext.request.contextPath}/request_open_course/save" method="POST">
+            <form action="${pageContext.request.contextPath}/request_open_course/<%="somjai"%>/save" method="POST">
                 <%
                     Date currentDate = new Date();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -76,90 +80,84 @@
                         <td>
                             <label>วันเปิดรับสมัคร:</label>
                         </td>
-                        <td><input name="startRegister" type="text" id="startRegister" class="datepicker" autocomplete="false"/></td>
+                        <td><input name="startRegister" type="date" id="startRegister" class="datepicker" value="yyyy-MM-dd"/></td>
                     </tr>
                     <tr>
                         <td><label>วันปิดรับสมัคร:</label></td>
                         <td>
-                            <input name="endRegister" type="text" id="endRegister" class="datepicker"/>
+                            <input name="endRegister" type="date" id="endRegister" class="datepicker" value="yyyy-MM-dd"/>
                         </td>
                     </tr>
                     <tr>
                         <td><label>จำนวนรับสมัคร:</label></td>
                         <td>
-                            <input name="quantity" id="quantity" cssClass="number"/>
+                            <input name="quantity" id="quantity" cssClass="number" autocomplete="off"/>
                         </td>
                     </tr>
                     <tr>
                         <td><label>วันที่เริ่มเรียน:</label></td>
                         <td>
-                            <input name="startStudyDate" type="text" id="startStudyDate" class="datepicker"/>
+                            <input name="startStudyDate" type="date" id="startStudyDate" class="datepicker" value="yyyy-MM-dd"/>
                         </td>
                     </tr>
                     <tr>
                         <td><label>วันที่สิ้นสุดการเรียน:</label></td>
                         <td>
-                            <input name="endStudyDate" type="text" id="endStudyDate" class="datepicker"/>
+                            <input name="endStudyDate" type="date" id="endStudyDate" class="datepicker" value="yyyy-MM-dd"/>
                         </td>
                     </tr>
                     <tr>
                         <td><label>เวลาในการเรียนเรียน:</label></td>
                         <td>
-                            <input name="studyTime" id="studyTime"/>
+                            <input name="studyTime" id="studyTime" autocomplete="off"/>
                         </td>
                     </tr>
                     <tr>
                         <td><label>วันประกาศผลการสมัคร:</label></td>
                         <td>
-                            <input name="applicationResult" type="text" id="applicationResult" class="datepicker"/>
+                            <input name="applicationResult" type="date" id="applicationResult" class="datepicker" value="yyyy-MM-dd"/>
                         </td>
                     </tr>
                     <tr>
                         <td><label>ประเภทการเรียน:</label></td>
                         <td>
-                            <input name="type_learn" id="type_learn"/>
+                            <input name="type_learn" id="type_learn" autocomplete="off"/>
                         </td>
                     </tr>
                     <tr>
                         <td><label>รูปแบบการสอน:</label></td>
                         <td>
-                            <input name="type_teach" id="type_teach"/>
+                            <input name="type_teach" id="type_teach" autocomplete="off"/>
                         </td>
                     </tr>
                     <tr>
                         <td><label>สถานที่:</label></td>
                         <td>
-                            <input name="location" id="location"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label>สถานะการร้องขอ:</label></td>
-                        <td>
-                            <input name="requestStatus" id="requestStatus" value="false"/>
+                            <input name="location" id="location" autocomplete="off"/>
                         </td>
                     </tr>
                     <tr>
                         <td><label>ลายเซ็น:</label></td>
                         <td>
-                            <input name="signature" id="signature"/>
+                            <input name="signature" id="signature" autocomplete="off"/>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <label>อาจารย์ประจำหลักสูตร:</label>
-                        </td>
-                        <td>
-                            <select name="lecturer_username" id="lecturer_username">
-                                <c:forEach items="${lecturers}" var="lecturer">
-                                    <option value="${lecturer.username}">${lecturer.firstName}</option>
-                                </c:forEach>
-                            </select>
-                        </td>
-                    </tr>
+<%--                    <tr>--%>
+<%--                        <td>--%>
+<%--                            <label>อาจารย์ประจำหลักสูตร:</label>--%>
+<%--                        </td>--%>
+<%--                        <td>--%>
+<%--                            <select name="lecturer_username" id="lecturer_username">--%>
+<%--                                <c:forEach items="${lecturers}" var="lecturer">--%>
+<%--                                    <option value="${lecturer.username}">${lecturer.firstName}</option>--%>
+<%--                                </c:forEach>--%>
+<%--                            </select>--%>
+<%--                        </td>--%>
+<%--                    </tr>--%>
                     <tr>
                         <td><label></label></td>
                         <td>
-                            <input type="submit" value="บันทึก" class="save"/>
+                            <input type="submit" name="confirmButton" value="บันทึก" class="save"/>
                                 <%--                        <input type="button" value="ยกเลิก"onclick="window.location.href='list'; return false;"class="cancel-button"/>--%>
                             <input type="button" value="ย้อนกลับ"
                                    onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/list_request_open_course'; return false;"
@@ -174,7 +172,20 @@
 
     <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const quantityInput = document.getElementById("quantity");
 
+        quantityInput.addEventListener("focus", function () {
+            setTimeout(function () {
+                const inputs = document.getElementsByTagName("input");
+                for (let i = 0; i < inputs.length; i++) {
+                    inputs[i].setAttribute("autocomplete", "off");
+                }
+            }, 100);
+        });
+    });
+</script>
 <script>
     $(function() {
         $("#datepicker1, #datepicker2, #datepicker3, #datepicker4, #datepicker5").datepicker({

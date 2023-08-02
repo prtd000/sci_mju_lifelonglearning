@@ -12,7 +12,7 @@ public interface CourseService {
 
         List<Course> getCoursesByName (String courseName);
         String[] getCourseDetailOpject(String courseId);
-        public void doAddCourse(Course course);
+        void doAddCourse(Course course);
 
         public void doAddMajor(Major major);
 }

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import lifelong.service.CourseService;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/course")
@@ -34,6 +36,20 @@ public class CourseController {
         return "home";
     }
 
+    @GetMapping("/list_all_course")
+    public String listAllCourse(Model model) {
+        model.addAttribute("title", "รายการ" + title);
+        model.addAttribute("courses", courseService.getCourses());
+        return "admin/listAllCourse";
+    }
+
+    @GetMapping("/{id}/course_detail")
+    public String showCourseDetailByAdmin(@PathVariable("id") String id, Model model) {
+        Course course = courseService.getCourseDetail(id);
+        model.addAttribute("title", "รายละเอียด" + title);
+        model.addAttribute("course_detail", course);
+        return "admin/course_detail_by_admin";
+    }
     @GetMapping("/{id}")
     public String showCourseDetail(@PathVariable("id") String id, Model model) {
         Course course = courseService.getCourseDetail(id);
@@ -56,59 +72,27 @@ public class CourseController {
         return "admin/addMajor";
     }
 
-//        @RequestMapping(path="/save", method = RequestMethod.POST)
-//    public String saveAddCourse(@ModelAttribute("course") Course course) {
-//            courseService.doAddCourse(course);
-//            return "redirect:home";
-//        }
+    @PostMapping(path="/admin/save")
+    public String saveAddCourse(@RequestParam Map<String, String> allReqParams) throws ParseException {
+        String course_id = allReqParams.get("course_id");
+        String course_name = allReqParams.get("course_name");
+        String certificateName = allReqParams.get("certificateName");
+        String course_img = allReqParams.get("course_img");
+        String course_principle = allReqParams.get("course_principle");
+        String course_object = allReqParams.get("course_object");
+        int course_totalHours = Integer.parseInt(allReqParams.get("course_totalHours"));
+        String course_targetOccupation = allReqParams.get("course_targetOccupation");
+        double course_fee = Double.parseDouble(allReqParams.get("course_fee"));
+        String course_file = allReqParams.get("course_file");
+        String course_status = allReqParams.get("course_status");
+        String course_linkMooc = allReqParams.get("course_linkMooc");
+        String course_type = allReqParams.get("course_type");
+        Major major = majorService.getMajorDetail(allReqParams.get("major_id"));
 
-
-    @RequestMapping(path="/save", method = RequestMethod.POST)
-    public String saveRequest(@Valid @ModelAttribute("course") Course course) {
-        String course_id = course.getCourse_id();
-        String name = course.getName();
-        String certificateName = course.getCertificateName();
-        String img = course.getImg();
-        String principle = course.getPrinciple();
-        String object = course.getObject();
-        int totalHours = course.getTotalHours();
-        String targetOccupation = course.getTargetOccupation();
-        double fee = course.getFee();
-        String file = course.getFile();
-        String status = course.getStatus();
-        String linkMooc = course.getLinkMooc();
-        String course_type = course.getCourse_type();
-        String major_id = course.getMajor().getMajor_id();
-        Major major = majorService.getMajorDetail(major_id);
-        Course addCourse = new Course(course_id,name,certificateName,img,principle,object,totalHours,targetOccupation,fee,file,status,
-                linkMooc,course_type,major);
-        courseService.doAddCourse(addCourse);
+        Course course_add = new Course(course_id,course_name,certificateName,course_img,course_principle,course_object,course_totalHours,
+                course_targetOccupation,course_fee,course_file,course_status,course_linkMooc,course_type,major);
+        courseService.doAddCourse(course_add);
         return "redirect:/";
     }
-
-//    @RequestMapping(path = "/save", method = RequestMethod.POST)
-//    public String saveCourse(
-//            @Valid @ModelAttribute("course") Course course, BindingResult bindingResult, Model model) {
-//        if (bindingResult.hasErrors()) {
-//            model.addAttribute("title", "มีข้อผิดพลาดในการบันทึก" + title);
-//            return "admin/addCourse";
-//        } else {
-//            courseService.doAddCourse(course);
-//            return "redirect:/";
-//        }
-//    }
-//    @RequestMapping(path="/save", method = RequestMethod.POST)
-//    public String saveMajor(@ModelAttribute("major") Major major) {
-//            courseService.doAddMajor(major);
-//            return "redirect:/admin/addCourse";}
-
-
-//    @GetMapping("/{id}")
-//    public String showCourseDetail(@PathVariable("id") String id, Model model) {
-//        Course course = courseService.getCourse(id);
-//        model.addAttribute("title", "แก้ไข" + title);
-//        model.addAttribute("course_detail", course);
-//        return "course/course-detail";
-//    }
 
 }

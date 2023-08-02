@@ -1,5 +1,7 @@
 package lifelong.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -8,8 +10,10 @@ import java.util.Date;
 public class Activity {
 
     @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     @Column(length = 10)
-    private String ac_id;
+    private long ac_id;
 
     @Column(name = "ac_name",nullable = false)
     private String name;
@@ -37,11 +41,30 @@ public class Activity {
     public Activity() {
     }
 
-    public String getAc_id() {
+    public Activity(String name, Date date, String detail, String type, String img) {
+        this.name = name;
+        this.date = date;
+        this.detail = detail;
+        this.type = type;
+        this.img = img;
+    }
+
+    public Activity(String name, Date date, String detail, String type, String img, Course course, Lecturer lecturer) {
+        this.ac_id = ac_id;
+        this.name = name;
+        this.date = date;
+        this.detail = detail;
+        this.type = type;
+        this.img = img;
+        this.course = course;
+        this.lecturer = lecturer;
+    }
+
+    public long getAc_id() {
         return ac_id;
     }
 
-    public void setAc_id(String ac_id) {
+    public void setAc_id(long ac_id) {
         this.ac_id = ac_id;
     }
 

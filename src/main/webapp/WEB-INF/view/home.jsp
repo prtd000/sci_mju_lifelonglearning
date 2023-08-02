@@ -116,6 +116,8 @@
 <!-- Navbar -->
 <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
 <input type="button" value="ร้องขอ"onclick="window.location.href='${pageContext.request.contextPath}/course/add_course'; return false;"class="add-button"/>
+<input type="button" value="ข่าวสาร"onclick="window.location.href='${pageContext.request.contextPath}/activity/public/add_activity'; return false;"class="add-button"/>
+<input type="button" value="list ข่าวสาร"onclick="window.location.href='${pageContext.request.contextPath}/activity/public/list_activity'; return false;"class="add-button"/>
 <!-- Carousel Start -->
 
 <div class="container-fluid p-0 mb-5">
@@ -180,15 +182,13 @@
 
         <div class="row g-5">
             <!----------Course 1------------>
-            <c:set var="num" value="0"></c:set>
+            <c:set var="non_num" value="0"></c:set>
             <c:forEach var="course" items="${courses}">
-                <c:if test="${num <= 6}">
-                    <%
-                        DecimalFormat f = new DecimalFormat("#,###");
-                    %>
-                    <%--                <c:set var="majorName" value="<%= type%>"/>--%>
+                    <% DecimalFormat f = new DecimalFormat("#,###"); %>
+                    <%-- <c:set var="majorName" value="<%= type%>"/> --%>
                     <fmt:parseNumber var="courseFee" type="number" value="${course.fee}"/>
                     <c:if test="${course.course_type == 'Non-Degree'}">
+                        <c:if test="${non_num < 6}">
                         <div class="block col-lg-4 col-md-6 wow zoomIn" style="transition: 0.5s" data-name=${course.name}>
                             <div class="col-lg-4 col-md-6 wow zoomIn" style="cursor: pointer" data-wow-delay="0.3s">
                                 <div class="bg-light border-bottom border-5 border-primary rounded"
@@ -212,11 +212,12 @@
                                 </div>
                             </div>
                         </div>
+                            <c:set var="non_num" value="${non_num+1}"></c:set>
                     </c:if>
-                    <c:set var="num" value="${num+1}"></c:set>
-                </c:if>
+                    </c:if>
             </c:forEach>
         </div>
+
     </div>
 </div>
 <!-- Course End -->
@@ -236,15 +237,13 @@
 
         <div class="row g-5">
             <!----------Course 1------------>
-            <c:set var="num" value="0"></c:set>
+            <c:set var="non_num" value="0"></c:set>
             <c:forEach var="course" items="${courses}">
-                <c:if test="${num <= 6}">
-                    <%
-                        DecimalFormat f = new DecimalFormat("#,###");
-                    %>
-                    <%--                <c:set var="majorName" value="<%= type%>"/>--%>
-                    <fmt:parseNumber var="courseFee" type="number" value="${course.fee}"/>
-                    <c:if test="${course.course_type == 'หลักสูตรอบรมระยะสั้น'}">
+                <% DecimalFormat f = new DecimalFormat("#,###"); %>
+                <%-- <c:set var="majorName" value="<%= type%>"/> --%>
+                <fmt:parseNumber var="courseFee" type="number" value="${course.fee}"/>
+                <c:if test="${course.course_type == 'หลักสูตรอบรมระยะสั้น'}">
+                    <c:if test="${non_num < 6}">
                         <div class="block col-lg-4 col-md-6 wow zoomIn" style="transition: 0.5s" data-name=${course.name}>
                             <div class="col-lg-4 col-md-6 wow zoomIn" style="cursor: pointer" data-wow-delay="0.3s">
                                 <div class="bg-light border-bottom border-5 border-primary rounded"
@@ -268,8 +267,8 @@
                                 </div>
                             </div>
                         </div>
+                        <c:set var="non_num" value="${non_num+1}"></c:set>
                     </c:if>
-                    <c:set var="num" value="${num+1}"></c:set>
                 </c:if>
             </c:forEach>
         </div>

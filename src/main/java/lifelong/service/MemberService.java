@@ -1,6 +1,7 @@
 package lifelong.service;
 
 import lifelong.model.Course;
+import lifelong.model.Invoice;
 import lifelong.model.Member;
 import lifelong.model.Register;
 
@@ -13,5 +14,7 @@ public interface MemberService {
 
     void doRegisterMember(Member member);
 
-    List<Register> getMyListCourse();
+    List<Register> getMyListCourse(String memId);
+
+    List<Invoice> getListInvoice();
 }

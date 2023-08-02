@@ -1,6 +1,7 @@
 package lifelong.dao;
 
 import lifelong.model.Course;
+import lifelong.model.Invoice;
 import lifelong.model.Member;
 import lifelong.model.Register;
 
@@ -14,5 +15,7 @@ public interface MemberDao {
 
     Member getMemberById (String memberId);
 
-    List<Register> getListCourse();
+    List<Register> getMyListCourse(String memId);
+
+    List<Invoice> getListInvoice();
 }

@@ -1,9 +1,6 @@
 package lifelong.controller;
 
-import lifelong.model.Course;
 import lifelong.model.Member;
-import lifelong.model.RequestOpenCourse;
-import lifelong.model.RequestOpenCourseFormItem;
 import lifelong.service.CourseService;
 import lifelong.service.MajorService;
 import lifelong.service.MemberService;
@@ -12,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

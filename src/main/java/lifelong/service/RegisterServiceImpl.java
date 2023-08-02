@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class RegisterServiceImpl implements RegisterService {
 
@@ -15,8 +17,32 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     @Transactional
+    public List<Register> getRegister(String memId) {
+        return registerDao.getRegister(memId);
+    }
+
+    @Override
+    @Transactional
+    public Register getRegisterById(String memId) {
+        return registerDao.getRegisterById(memId);
+    }
+
+    @Override
+    @Transactional
+    public Register getLastRow() {
+        return registerDao.getLastRow();
+    }
+
+    @Override
+    @Transactional
     public void saveRegister(Register register) {
         registerDao.saveRegister(register);
+    }
+
+    @Override
+    @Transactional
+    public void deleteRegister(long id) {
+        registerDao.deleteRegister(id);
     }
 
     @Override
@@ -27,7 +53,7 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     @Transactional
-    public Register getLastRow() {
-        return registerDao.getLastRow();
+    public void deleteInvoice(long id) {
+        registerDao.deleteInvoice(id);
     }
 }

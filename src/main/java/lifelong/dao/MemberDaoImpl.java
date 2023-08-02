@@ -1,6 +1,7 @@
 package lifelong.dao;
 
 import lifelong.model.Course;
+import lifelong.model.Invoice;
 import lifelong.model.Member;
 import lifelong.model.Register;
 import org.hibernate.Session;
@@ -9,6 +10,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,12 +42,26 @@ public class MemberDaoImpl implements MemberDao{
     }
 
     @Override
-    public List<Register> getListCourse() {
+    public List<Register> getMyListCourse(String memId) {
         Session session = sessionFactory.getCurrentSession();
-//        Query<Register> query = session.createQuery("from Register rg join RequestOpenCourse rq on rq.request_id = rg.requestOpenCourse.id join Course c on c.course_id = rq.course.id where rg.member.id =: mId");
-        Query<Register> query = session.createQuery("from Register",Register.class);
+        Query<Register> query = session.createQuery("from Register r where r.member.id =: mId",Register.class);
+        query.setParameter("mId",memId);
         List<Register> list = query.getResultList();
         return list;
+    }
+
+    @Override
+    public List<Invoice> getListInvoice() {
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            Query<Invoice> query = session.createQuery("from Invoice",Invoice.class);
+            List<Invoice> list = query.getResultList();
+            System.out.println("Size : " + list);
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
 }

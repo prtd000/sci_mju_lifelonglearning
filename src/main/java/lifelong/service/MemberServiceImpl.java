@@ -2,6 +2,7 @@ package lifelong.service;
 
 import lifelong.dao.MemberDao;
 import lifelong.model.Course;
+import lifelong.model.Invoice;
 import lifelong.model.Member;
 import lifelong.model.Register;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,13 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public List<Register> getMyListCourse() {
-        return memberDao.getListCourse();
+    public List<Register> getMyListCourse(String memId) {
+        return memberDao.getMyListCourse(memId);
+    }
+
+    @Override
+    @Transactional
+    public List<Invoice> getListInvoice() {
+        return memberDao.getListInvoice();
     }
 }

@@ -67,6 +67,14 @@ public class MemberController {
         register.setMember(memberService.getMemberById(memid));
         registerService.saveRegister(register);
 
+        /*****GetLastLow for Insert To Invoice Table After RegisterCourse ********/
+        long register_id = registerService.getLastRow().getRegister_id();
+        Date register_date = registerService.getLastRow().getRegister_date();
+        boolean study_result = registerService.getLastRow().getStudy_result();
+        Member member = registerService.getLastRow().getMember();
+        RequestOpenCourse requestOpenCourse = registerService.getLastRow().getRequestOpenCourse();
+        Register register1 = new Register(register_id,register_date,study_result,member,requestOpenCourse);
+
         /*****Insert Invoice*****/
         Invoice invoice = new Invoice();
         invoice.setPay_status(false);
@@ -74,17 +82,41 @@ public class MemberController {
         Date payEnd = requestOpCourseService.getRequestOpenCourseDetail(requestid).getStartStudyDate();
         invoice.setStartPayment(payStart);
         invoice.setEndPayment(payEnd);
-        invoice.setRequestOpenCourse(requestOpCourseService.getRequestOpenCourseDetail(requestid));
+        invoice.setRegister(register1);
         registerService.doInvoice(invoice);
         return "redirect:/";
     }
 
+
     @GetMapping("{memid}/listcourse")
     public String listCourse(@PathVariable("memid") String memId, Model model){
-        model.addAttribute("list_course", memberService.getMyListCourse());
+        model.addAttribute("list_course", memberService.getMyListCourse(memId));
+        model.addAttribute("list_invoice",memberService.getListInvoice());
         model.addAttribute("mem_username",memberService.getMemberById(memId));
+        model.addAttribute("register", registerService.getRegister(memId));
         return "/member/list_course";
     }
+
+    @GetMapping("{memid}/{id}/delete")
+    public String deleteRegister(@PathVariable("memid") String memId, @PathVariable("id") long id) {
+        registerService.deleteInvoice(id);
+        registerService.deleteRegister(id);
+        return "redirect:/member/"+ memId +"/listcourse";
+    }
+
+    @GetMapping("{memid}/certificate")
+    public String viewCertificate(@PathVariable("memid") String memId, Model model){
+        model.addAttribute("member",memberService.getMemberById(memId));
+        return "/member/view_certificate";
+    }
+
+    @GetMapping("{memid}/editprofile")
+    public String editProfile(@PathVariable("memid") String memId, Model model){
+        model.addAttribute("member",memberService.getMemberById(memId));
+        return "/member/edit_profile";
+    }
+
+
 
 
 }

@@ -53,7 +53,7 @@
                 <tr>
                     <td style="width: 350px;">${invoices.register.requestOpenCourse.course.name}</td>
                     <td style="width: 100px">
-                        <button>ชำระเงิน</button>
+                        <a href="${pageContext.request.contextPath}/member/${invoices.register.member.username}/payment_detail/${invoices.invoice_id}"><button>ชำระเงิน</button></a>
                     </td>
                     <td>
                         <input type="button" value="ยกเลิก"

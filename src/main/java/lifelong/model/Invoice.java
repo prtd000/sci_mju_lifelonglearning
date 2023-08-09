@@ -15,9 +15,11 @@ public class Invoice {
     @Column(length = 10)
     private long invoice_id;
 
+    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private Date startPayment;
 
+    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private Date endPayment;
 

@@ -8,13 +8,13 @@ import lifelong.service.RequestOpCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/member")
@@ -110,10 +110,42 @@ public class MemberController {
         return "/member/view_certificate";
     }
 
-    @GetMapping("{memid}/editprofile")
+    @GetMapping("{memid}/edit_profile")
     public String editProfile(@PathVariable("memid") String memId, Model model){
         model.addAttribute("member",memberService.getMemberById(memId));
         return "/member/edit_profile";
+    }
+
+    @PostMapping(path="/{memid}/update")
+    public String updateProfile(@PathVariable("memid") String memId, @RequestParam Map<String, String> params) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        Member member = memberService.getMemberById(memId);
+        if (member != null) {
+            member.setFirstName(params.get("firstName"));
+            member.setLastName(params.get("lastName"));
+            member.setBirthday(dateFormat.parse(params.get("birthday")));
+            member.setTel(params.get("tel"));
+            member.setEmail(params.get("email"));
+            member.setEducation(params.get("education"));
+            memberService.doRegisterMember(member);
+        }
+        return "redirect:/member/"+ memId +"/edit_profile";
+    }
+
+    @GetMapping("{memid}/change_password")
+    public String changePassword(@PathVariable("memid") String memId, Model model){
+        model.addAttribute("member",memberService.getMemberById(memId));
+        return "/member/change_password";
+    }
+
+    @PostMapping(path="/{memid}/update_password")
+    public String updatePassword(@PathVariable("memid") String memId, @RequestParam Map<String, String> params) {
+        Member member = memberService.getMemberById(memId);
+        if (member != null) {
+            member.setPassword(params.get("confirmPassword"));
+            memberService.doRegisterMember(member);
+        }
+        return "redirect:/member/"+ memId +"/edit_profile";
     }
 
 

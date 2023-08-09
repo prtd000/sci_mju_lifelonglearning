@@ -30,8 +30,9 @@ public class MemberDaoImpl implements MemberDao{
     @Override
     public void doRegisterMember(Member member) {
         Session session = sessionFactory.getCurrentSession();
-        session.save(member);
+        session.saveOrUpdate(member);
     }
+
 
     @Override
     public Member getMemberById(String memberId) {

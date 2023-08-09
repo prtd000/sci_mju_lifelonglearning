@@ -28,6 +28,7 @@ public class Member {
     @Column(name = "mem_gender",nullable = false,length = 50)
     private String gender;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "mem_birthday")
     private Date birthday;
 

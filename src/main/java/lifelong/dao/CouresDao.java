@@ -1,5 +1,6 @@
 package lifelong.dao;
 
+import lifelong.model.Activity;
 import lifelong.model.Course;
 import lifelong.model.Major;
 import lifelong.model.RequestOpenCourse;
@@ -15,5 +16,7 @@ public interface CouresDao {
     List<Course> getCoursesByName (String courseName);
     void doAddCourse(Course course);
     void doAddMajor(Major major);
+
+    Course updateCourse (Course course) ;
 }
 

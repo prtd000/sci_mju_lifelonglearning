@@ -166,7 +166,7 @@
                     <td>
                         <input type="submit" name="confirmButton" value="บันทึก" class="save" />
                         <input type="button" value="ย้อนกลับ"
-                               onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/list_request_open_course'; return false;"
+                               onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/view_request_open_course/${request_open_course.request_id}'; return false;"
                                class="cancel-button"/>
                     </td>
                 </tr>

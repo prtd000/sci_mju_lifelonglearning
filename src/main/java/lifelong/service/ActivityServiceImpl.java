@@ -36,6 +36,12 @@ public class ActivityServiceImpl implements ActivityService{
 
     @Override
     @Transactional
+    public List<Activity> getActivityDetailByCourseId(long roc_Id) {
+        return activityDao.getActivityByRequestOpenCourseId(roc_Id);
+    }
+
+    @Override
+    @Transactional
     public void updateActivity(Activity activity) {
         activityDao.updateActivity(activity);
     }

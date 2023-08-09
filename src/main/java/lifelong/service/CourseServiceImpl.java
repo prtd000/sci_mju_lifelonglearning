@@ -1,6 +1,7 @@
 package lifelong.service;
 
 import lifelong.dao.CouresDao;
+import lifelong.model.Activity;
 import lifelong.model.Course;
 import lifelong.model.Major;
 import lifelong.model.RequestOpenCourse;
@@ -54,5 +55,11 @@ public class CourseServiceImpl implements CourseService{
     @Transactional
     public void doAddMajor(Major major) {
         couresDao.doAddMajor(major);
+    }
+
+    @Override
+    @Transactional
+    public void updateCourse(Course course) {
+        couresDao.updateCourse(course);
     }
 }

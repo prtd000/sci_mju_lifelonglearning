@@ -1,5 +1,6 @@
 package lifelong.service;
 
+import lifelong.model.Activity;
 import lifelong.model.Course;
 import lifelong.model.Major;
 import lifelong.model.RequestOpenCourse;
@@ -15,4 +16,5 @@ public interface CourseService {
         void doAddCourse(Course course);
 
         public void doAddMajor(Major major);
+        void updateCourse(Course course);
 }

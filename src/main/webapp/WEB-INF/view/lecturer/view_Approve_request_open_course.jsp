@@ -1,5 +1,6 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: asus
@@ -54,8 +55,12 @@
                     <td class="t2">${RAOC_detail.quantity}</td>
                 </tr>
                 <tr>
-                    <td class="t1">วันประกาศผมการสมัคร</td>
-                    <td class="t2">${RAOC_detail.applicationResult}0 บาท</td>
+                    <td class="t1">วันประกาศผลการสมัคร</td>
+                    <td class="t2">${RAOC_detail.applicationResult}</td>
+                </tr>
+                <tr>
+                    <td class="t1">ค่าสมัครสมัคร</td>
+                    <td class="t2">${RAOC_detail.course.fee}0 บาท</td>
                 </tr>
                 <tr>
                     <td class="t1">เริ่มเรียน</td>
@@ -95,8 +100,34 @@
                     <input type="button" value="ย้อนกลับ"
                            onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/list_request_open_course'; return false;"
                            class="cancel-button"/>
+                    <input type="button" value="เพิ่มข่าวสารหลักสูตร"
+                           onclick="window.location.href='${pageContext.request.contextPath}/activity/${RAOC_detail.request_id}/add_course_activity'; return false;"
+                           class="cancel-button"/>
                 </td>
             </tr>
+        </table>
+        <h3>ข่าวสารและกิจกรรม</h3>
+        <table class="table table-striped table-hover">
+            <tr style="color: black">
+                <td class="td_request">รายการข่าว</td>
+                <td class="td_edit" align="center">วันที่ออกข่าว</td>
+                <td class="td_cancel" align="center"></td>
+                <td class="td_cancel" align="center"></td>
+            </tr>
+            <c:forEach var="list" items="${course_activities}">
+                <tr>
+                    <td>${list.name}</td>
+                    <td>${list.date}</td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/activity/${list.ac_id}/view_course_activity_page"><button>ดูรายละเอียด</button></a>
+                    </td>
+                    <td>
+                        <input type="button" value="ยกเลิก"
+                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/activity/${list.ac_id}/delete'; return false; }"
+                               class="cancel-button"/>
+                    </td>
+                </tr>
+            </c:forEach>
         </table>
     </div>
 

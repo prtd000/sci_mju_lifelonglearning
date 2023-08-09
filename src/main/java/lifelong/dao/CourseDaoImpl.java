@@ -1,5 +1,6 @@
 package lifelong.dao;
 
+import lifelong.model.Activity;
 import lifelong.model.Course;
 import lifelong.model.Major;
 import lifelong.model.RequestOpenCourse;
@@ -76,4 +77,11 @@ public class CourseDaoImpl implements CouresDao{
 //        Course course = session.get(Course.class, courseId);
 //        return course;
 //    }
+
+    @Override
+    public Course updateCourse(Course course) {
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(course);
+        return course;
+    }
 }

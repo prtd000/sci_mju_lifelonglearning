@@ -14,48 +14,43 @@
   <title>เพิ่ม${title}</title>
   <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 </head>
-<style>
-  .txt_input {
-    width: 70%;
-  }
-</style>
 <body>
 <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
 <div id="header">
-  <h1>เพิ่ม${title}</h1>
+  <h1>${title}</h1>
 </div>
 <div class="container">
   <div id="container">
     <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
     <br><br>
-    <form action="${pageContext.request.contextPath}/activity/admin/save_public_add_activity" method="POST">
-      <table style="width: 100%">
+      <table>
         <colgroup>
           <col style="width: 160px;">
           <col style="width: auto;">
         </colgroup>
         <tbody>
         <tr>
+          <td><label>หลักสูตร:</label></td>
+          <td>${activities.requestOpenCourse.course.name}</td>
+        </tr>
+        <tr>
           <td><label>ชื่อข่าว:</label></td>
-          <td><input class="txt_input" style="width: 70%" name="ac_name" type="text" id="ac_name"/></td>
+          <td>${activities.name}</td>
         </tr>
         <tr>
           <td><label>รายละเอียด:</label></td>
-          <td><textarea class="txt_input" name="ac_detail" id="ac_detail"></textarea></td>
+          <td>${activities.detail}</td>
         </tr>
         <tr>
           <td><label>รูปภาพ:</label></td>
-          <td><input class="txt_input" name="ac_img" type="text" id="ac_img"/></td>
+          <td>${activities.img}</td>
         </tr>
         <tr>
-          <td></td>
-          <td><input type="submit" value="บันทึก" class="save"/>
-            <%--                        <input type="button" value="ยกเลิก"onclick="window.location.href='list'; return false;"class="cancel-button"/>--%>
-          </td>
+          <td><a href="${pageContext.request.contextPath}/request_open_course/view_approve_request_open_course/${activities.requestOpenCourse.request_id}"><button>ย้อนกลับ</button></a></td>
+          <td><a href="${pageContext.request.contextPath}/activity/public/${activities.ac_id}/edit_course_activity_page"><button>แก้ไข</button></a></td>
         </tr>
         </tbody>
       </table>
-    </form>
   </div>
 </div>
 <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>

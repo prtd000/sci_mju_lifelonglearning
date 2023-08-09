@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <html>
 <head>
     <title>${title}</title>
@@ -61,16 +62,79 @@
                 <%--DIV ที่ 2--%>
                 <div id="request_course_Active" class="tabcontent">
                     <h3>หลักสูตรที่กำลังเปิดสอน</h3>
-                    <p>Paris is the capital of France.</p>
+                    <table class="table table-striped table-hover">
+                        <tr style="color: black">
+                            <td class="td_request">ชื่อหลักสูตร</td>
+                            <td class="td_edit" align="center"></td>
+                            <td class="td_cancel" align="center"></td>
+                        </tr>
+
+                        <c:forEach var="request_course" items="${requests_open_course}">
+                            <c:if test="${request_course.requestStatus == true}">
+                                <tr style="color: black">
+                                    <td><p>${request_course.course.name}</p></td>
+                                    <td align="center">
+                                        <input type="button" value="ผู้เข้าร่วม"/>
+                                    </td>
+                                    <td align="center">
+                                        <input type="button" value="ดูรายละเอียด"
+                                               onclick="window.location.href='${pageContext.request.contextPath}/course/view_approve_request_open_course/${request_course.request_id}'; return false;"/>
+                                    </td>
+                                </tr>
+                            </c:if>
+                        </c:forEach>
+                    </table>
                 </div>
                 <%--DIV ที่ 3--%>
                 <div id="list_request" class="tabcontent">
                     <h3>รายการร้องขอ</h3>
+                    <table class="table table-striped table-hover">
+                        <tr style="color: black">
+                            <td class="td_request">รายละเอียดการร้องขอ</td>
+                            <td class="td_edit" align="center">วันที่ร้องขอ</td>
+                            <td class="td_cancel" align="center"></td>
+                        </tr>
+
+                        <c:forEach var="request_course" items="${requests_open_course}">
+                            <c:if test="${request_course.requestStatus == false}">
+                                <tr style="color: black">
+                                    <td><p>${request_course.course.name}</p></td>
+                                    <td align="center">${request_course.requestDate}</td>
+                                    <td align="center">
+                                        <input type="button" value="ดูรายละเอียด"
+                                               onclick="window.location.href='${pageContext.request.contextPath}/course/view_request_open_course/${request_course.request_id}'; return false;"/>
+                                    </td>
+                                </tr>
+                            </c:if>
+                        </c:forEach>
+                    </table>
                 </div>
                 <%--DIV ที่ 4--%>
                 <div id="Activity_News" class="tabcontent">
                     <h3>ข่าวสารและกิจกรรม</h3>
-                    <p>Paris is the capital of France.</p>
+                    <input type="button" value="ข่าวสาร"onclick="window.location.href='${pageContext.request.contextPath}/activity/public/add_activity'; return false;"class="add-button"/>
+                    <table class="table table-striped table-hover">
+                        <tr style="color: black">
+                            <td class="td_request">รายการข่าว</td>
+                            <td class="td_edit" align="center">วันที่ออกข่าว</td>
+                            <td class="td_cancel" align="center"></td>
+                            <td class="td_cancel" align="center"></td>
+                        </tr>
+                        <c:forEach var="list" items="${list_activities}">
+                            <tr>
+                                <td>${list.name}</td>
+                                <td>${list.date}</td>
+                                <td>
+                                    <a href="${pageContext.request.contextPath}/activity/public/${list.ac_id}/view_page"><button>ดูรายละเอียด</button></a>
+                                </td>
+                                <td>
+                                    <input type="button" value="ยกเลิก"
+                                           onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/activity/${list.ac_id}/delete'; return false; }"
+                                           class="cancel-button"/>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
                 </div>
 
             </td>

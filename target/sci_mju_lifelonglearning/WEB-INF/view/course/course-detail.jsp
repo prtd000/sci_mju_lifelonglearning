@@ -78,11 +78,6 @@
                 <td class="t1">ลิ้งค์หลักสูตร</td>
                 <td class="t2">${course_detail.linkMooc}</td>
             </tr>
-            <tr>
-                <td class="t1">เนื้อหาของหลักสูตร</td>
-                <td class="t2"><a href="${pageContext.request.contextPath}/assets/file/${course_detail.file}" download>เอกสารประกอบการเรียน.pdf</a></td>
-            </tr>
-            </tr>
         </table>
     </div>
     <!--Course News--->

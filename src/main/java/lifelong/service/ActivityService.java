@@ -13,6 +13,8 @@ public interface ActivityService {
 
     Activity getActivityDetail(long activityId);
 
+    List<Activity> getActivityDetailByCourseId(long roc_Id);
+
     void updateActivity(Activity activity);
     void deleteActivity(long acId);
 }

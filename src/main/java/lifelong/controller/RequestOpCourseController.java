@@ -3,6 +3,7 @@ package lifelong.controller;
 import lifelong.model.Course;
 import lifelong.model.Lecturer;
 import lifelong.model.RequestOpenCourse;
+import lifelong.service.ActivityService;
 import lifelong.service.CourseService;
 import lifelong.service.LecturerService;
 import lifelong.service.RequestOpCourseService;
@@ -30,6 +31,8 @@ public class RequestOpCourseController {
 
     @Autowired
     private LecturerService lecturerService;
+    @Autowired
+    private ActivityService activityService;
 
     private String title = "หลักสูตรที่ร้องขอ";
     @GetMapping("/view_request_open_course/{id}")
@@ -43,8 +46,9 @@ public class RequestOpCourseController {
     @GetMapping("/view_approve_request_open_course/{id}")
     public String showRequestApproveOpenCourse(@PathVariable("id") long id, Model model) {
         RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(id);
-        //model.addAttribute("title", "แก้ไข" + title);
+        model.addAttribute("title", "แก้ไข" + title);
         model.addAttribute("RAOC_detail", requestOpenCourse);
+        model.addAttribute("course_activities",activityService.getActivityDetailByCourseId(id));
         return "lecturer/view_Approve_request_open_course";
     }
     @InitBinder

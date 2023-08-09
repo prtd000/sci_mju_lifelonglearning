@@ -31,8 +31,8 @@ public class Activity {
     private String img;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "course_id")
-    private Course course;
+    @JoinColumn(name = "request_id")
+    private RequestOpenCourse requestOpenCourse;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "lec_username")
@@ -49,14 +49,14 @@ public class Activity {
         this.img = img;
     }
 
-    public Activity(String name, Date date, String detail, String type, String img, Course course, Lecturer lecturer) {
+    public Activity(String name, Date date, String detail, String type, String img, RequestOpenCourse requestOpenCourse, Lecturer lecturer) {
         this.ac_id = ac_id;
         this.name = name;
         this.date = date;
         this.detail = detail;
         this.type = type;
         this.img = img;
-        this.course = course;
+        this.requestOpenCourse = requestOpenCourse;
         this.lecturer = lecturer;
     }
 
@@ -108,12 +108,12 @@ public class Activity {
         this.img = img;
     }
 
-    public Course getCourse() {
-        return course;
+    public RequestOpenCourse getRequestOpenCourse() {
+        return requestOpenCourse;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setRequestOpenCourse(RequestOpenCourse requestOpenCourse) {
+        this.requestOpenCourse = requestOpenCourse;
     }
 
     public Lecturer getLecturer() {

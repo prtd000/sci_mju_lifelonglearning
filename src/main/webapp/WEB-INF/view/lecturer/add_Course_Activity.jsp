@@ -14,11 +14,6 @@
   <title>เพิ่ม${title}</title>
   <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 </head>
-<style>
-  .txt_input {
-    width: 70%;
-  }
-</style>
 <body>
 <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
 <div id="header">
@@ -28,8 +23,8 @@
   <div id="container">
     <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
     <br><br>
-    <form action="${pageContext.request.contextPath}/activity/admin/save_public_add_activity" method="POST">
-      <table style="width: 100%">
+      <form action="${pageContext.request.contextPath}/activity/${ROC_detail.request_id}/save_add_course_activity" method="POST">
+      <table>
         <colgroup>
           <col style="width: 160px;">
           <col style="width: auto;">
@@ -37,18 +32,24 @@
         <tbody>
         <tr>
           <td><label>ชื่อข่าว:</label></td>
-          <td><input class="txt_input" style="width: 70%" name="ac_name" type="text" id="ac_name"/></td>
+          <td><input name="ac_name" type="text" id="ac_name"/></td>
+        </tr>
+        <tr>
+            <td><label>หลักสูตร:</label></td>
+            <td><input class="txt_input" name="ac_course" type="text" id="ac_course" value="${ROC_detail.course.name}" disabled/></td>
         </tr>
         <tr>
           <td><label>รายละเอียด:</label></td>
-          <td><textarea class="txt_input" name="ac_detail" id="ac_detail"></textarea></td>
+          <td><textarea name="ac_detail" id="ac_detail"></textarea></td>
         </tr>
         <tr>
           <td><label>รูปภาพ:</label></td>
-          <td><input class="txt_input" name="ac_img" type="text" id="ac_img"/></td>
+          <td><input name="ac_img" type="text" id="ac_img"/></td>
         </tr>
         <tr>
-          <td></td>
+          <td><input type="button" value="ย้อนกลับ"
+                     onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/view_approve_request_open_course/${ROC_detail.request_id}'; return false;"
+                     class="cancel-button"/></td>
           <td><input type="submit" value="บันทึก" class="save"/>
             <%--                        <input type="button" value="ยกเลิก"onclick="window.location.href='list'; return false;"class="cancel-button"/>--%>
           </td>

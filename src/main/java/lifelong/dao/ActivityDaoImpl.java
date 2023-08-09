@@ -38,6 +38,14 @@ public class ActivityDaoImpl implements ActivityDao{
     }
 
     @Override
+    public List<Activity> getActivityByRequestOpenCourseId(long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Activity> query = session.createQuery("FROM Activity a WHERE a.requestOpenCourse.id =: roc_Id", Activity.class);
+        query.setParameter("roc_Id", id);
+        List<Activity> activity = query.getResultList();
+        return activity;
+    }
+    @Override
     public Activity updateActivity(Activity activity) {
         Session session = sessionFactory.getCurrentSession();
         session.saveOrUpdate(activity);

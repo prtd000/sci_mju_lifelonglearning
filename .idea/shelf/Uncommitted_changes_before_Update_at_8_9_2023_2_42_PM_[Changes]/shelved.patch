@@ -1,0 +1,19 @@
+Index: .idea/jpa-buddy.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"JpaBuddyIdeaProjectConfig\">\r\n    <option name=\"defaultUnitInitialized\" value=\"true\" />\r\n    <option name=\"renamerInitialized\" value=\"true\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/jpa-buddy.xml b/.idea/jpa-buddy.xml
+--- a/.idea/jpa-buddy.xml	(revision aa9381d24c5d04ed2430fd03d54eafdc390b990d)
++++ b/.idea/jpa-buddy.xml	(date 1691566810126)
+@@ -1,7 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="JpaBuddyIdeaProjectConfig">
+-    <option name="defaultUnitInitialized" value="true" />
+     <option name="renamerInitialized" value="true" />
+   </component>
+ </project>
+\ No newline at end of file

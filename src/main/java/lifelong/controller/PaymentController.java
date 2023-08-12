@@ -63,7 +63,7 @@ public class PaymentController {
 //        Receipt receipt1 = new Receipt(receiptId, payDate, payTime, banking, digits, total, slip, invoice);
 
         paymentService.saveReceipt(receipt);
-        registerService.deleteInvoice(paymentService.getInvoiceById(invoiceId).getRegister().getRegister_id());
+        //registerService.deleteInvoice(paymentService.getInvoiceById(invoiceId).getRegister().getRegister_id());
 
         System.out.println("Last Receipt : " + paymentService.getLastRowReceipt());
         return "redirect:/member/" + memId + "/listcourse";

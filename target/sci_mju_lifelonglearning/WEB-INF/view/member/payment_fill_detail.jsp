@@ -26,14 +26,15 @@
     </table>
     <hr>
     <h5>อัพโหลดหลักฐานการชำระเงิน</h5>
-    <table border="1">
-        <tr>
-            <td style="width: 315px"><p style="color: red;">*ภาพตัวอย่าง*</p></td>
-            <td><input type="file" name="slip"></td>
-        </tr>
-    </table>
-    <hr>
     <form action="${pageContext.request.contextPath}/member/${payment.register.member.username}/payment_fill_detail/${payment.invoice_id}/save" method="post">
+
+        <table border="1">
+            <tr>
+                <td style="width: 315px"><p style="color: red;">*ภาพตัวอย่าง*</p></td>
+                <td><input type="file" name="slip"></td>
+            </tr>
+        </table>
+        <hr>
         <table>
             <tr>
                 <td style="width: 450px;">วันที่โอนตามหลักฐานการชำระเงิน</td>

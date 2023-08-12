@@ -1,18 +1,16 @@
 package lifelong.dao;
 
-import lifelong.model.Activity;
 import lifelong.model.Course;
 import lifelong.model.Major;
-import lifelong.model.RequestOpenCourse;
 
 import java.util.List;
 
 
-public interface CouresDao {
+public interface CourseDao {
     List<Course> getCourses();
     Course getCourseDetail(String id);
     Course getCourseById(String course_id);
-    String[] getCourseDetailOpject(String id);
+    String[] getCourseDetailObject(String id);
     List<Course> getCoursesByName (String courseName);
     void doAddCourse(Course course);
     void doAddMajor(Major major);

@@ -43,3 +43,12 @@ body{
     width: 32.5%;
     margin-bottom: 10px;
 }
+.td_id_card{
+    width: 30%;
+}
+.td_name{
+    width: 40%;
+}
+.td_view{
+    width: 20%;
+}

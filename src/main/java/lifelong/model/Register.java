@@ -29,6 +29,10 @@ public class Register {
     @JoinColumn(name = "request_id")
     private RequestOpenCourse requestOpenCourse;
 
+    @OneToOne(mappedBy = "register", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Invoice invoice;
+
     public Register() {
     }
 
@@ -78,5 +82,13 @@ public class Register {
 
     public void setRequestOpenCourse(RequestOpenCourse requestOpenCourse) {
         this.requestOpenCourse = requestOpenCourse;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
     }
 }

@@ -15,8 +15,8 @@ public class PaymentServiceImpl implements PaymentService{
 
     @Override
     @Transactional
-    public Invoice getPaymentDetailById(long invoice_id) {
-        return paymentDao.getPaymentDetailById(invoice_id);
+    public Invoice getInvoiceById(long invoice_id) {
+        return paymentDao.getInvoiceById(invoice_id);
     }
 
     @Override
@@ -24,10 +24,28 @@ public class PaymentServiceImpl implements PaymentService{
     public Receipt getReceiptById(long receipt_id) {
         return paymentDao.getReceiptById(receipt_id);
     }
+    @Override
+    @Transactional
+    public Receipt getReceiptByInvoiceId(long invoice_id) {
+        return paymentDao.getReceiptByInvoiceId(invoice_id);
+    }
+
 
     @Override
     @Transactional
     public void saveReceipt(Receipt receipt) {
         paymentDao.saveReceipt(receipt);
+    }
+
+    @Override
+    @Transactional
+    public void updateInvoice(Invoice invoice) {
+        paymentDao.updateInvoice(invoice);
+    }
+
+    @Override
+    @Transactional
+    public Receipt getLastRowReceipt() {
+        return paymentDao.getLastRowReceipt();
     }
 }

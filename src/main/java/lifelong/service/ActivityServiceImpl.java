@@ -1,10 +1,7 @@
 package lifelong.service;
 
 import lifelong.dao.ActivityDao;
-import lifelong.dao.CouresDao;
 import lifelong.model.Activity;
-import lifelong.model.Course;
-import lifelong.model.RequestOpenCourse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,9 +1,7 @@
 package lifelong.dao;
 
-import lifelong.model.Activity;
 import lifelong.model.Course;
 import lifelong.model.Major;
-import lifelong.model.RequestOpenCourse;
 import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class CourseDaoImpl implements CouresDao{
+public class CourseDaoImpl implements CourseDao {
     @Autowired
     private SessionFactory sessionFactory;
     @Override
@@ -41,7 +39,7 @@ public class CourseDaoImpl implements CouresDao{
     }
 
     @Override
-    public String[] getCourseDetailOpject(String id) {
+    public String[] getCourseDetailObject(String id) {
         Session session = sessionFactory.getCurrentSession();
         Course course = session.get(Course.class, id);
         String object = course.getObject();

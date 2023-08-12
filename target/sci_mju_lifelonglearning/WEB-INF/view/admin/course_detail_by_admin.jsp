@@ -82,6 +82,9 @@
                 <td class="t1">เนื้อหาของหลักสูตร</td>
                 <td class="t2"><a href="${pageContext.request.contextPath}/assets/file/${course_detail.file}" download>เอกสารประกอบการเรียน.pdf</a></td>
             </tr>
+            <tr style="color: black">
+                <td align="center"><a href="${pageContext.request.contextPath}/course/list_all_course"><button>ย้อนกลับ</button></a></td>
+                <td align="center"><a href="${pageContext.request.contextPath}/course/${course_detail.course_id}/edit_course"><button>แก้ไข</button></a></td>
             </tr>
         </table>
     </div>

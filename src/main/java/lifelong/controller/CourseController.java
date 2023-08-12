@@ -1,23 +1,14 @@
 package lifelong.controller;
 
-import lifelong.model.Activity;
-import lifelong.model.Course;
-import lifelong.model.Major;
-import lifelong.model.RequestOpenCourse;
-import lifelong.service.ActivityService;
-import lifelong.service.MajorService;
-import lifelong.service.RequestOpCourseService;
+import lifelong.model.*;
+import lifelong.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import lifelong.service.CourseService;
 
-import javax.validation.Valid;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -34,6 +25,11 @@ public class CourseController {
 
     @Autowired
     private ActivityService activityService;
+    @Autowired
+    private RegisterService registerService;
+
+    @Autowired
+    private PaymentService paymentService;
 //    @Autowired
 //    private RequestOpenCourseService requestOpenCourseService;
 
@@ -167,4 +163,55 @@ public class CourseController {
         return "admin/view_Approve_request_open_course_by_admin";
     }
 
+    @GetMapping("/{roc_id}/list_member_to_course")
+    public String showListMemberToRequestCourse(@PathVariable("roc_id") long roc_id, Model model) {
+        List<Register> register = registerService.getRegisterByRequestId(roc_id);
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
+        model.addAttribute("title", "แก้ไข" + title);
+        model.addAttribute("register_detail", register);
+        model.addAttribute("request_name", requestOpenCourse);
+        return "admin/list_Approve_member_to_course";
+    }
+    @GetMapping("/{request_id}/view_payment_detail/{invoice_id}")
+    public String showPaymentDetailToApprove(@PathVariable("request_id") long request_id ,@PathVariable("invoice_id") long invoiceId , Model model) {
+        Receipt receipt = paymentService.getReceiptByInvoiceId(invoiceId);
+        model.addAttribute("payment",receipt);
+        model.addAttribute("request_id",request_id);
+        return "admin/view_payment_detail";
+    }
+
+    @PostMapping(path="/{request_id}/view_payment_detail/{invoice_id}/approve")
+    public String approveMemberToCourse(@PathVariable("request_id") long request_id,@PathVariable("invoice_id") long invoice_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
+        Invoice invoice = paymentService.getInvoiceById(invoice_id);
+        if (invoice != null) {
+            invoice.setPay_status(true);
+            paymentService.updateInvoice(invoice);
+        }
+        return "redirect:/course/list_all_course";
+    }
+    @GetMapping("/{request_id}/list_member_to_approve")
+    public String showListMemberToApprove(@PathVariable("request_id") long request_id , Model model) {
+        List<Register> register = registerService.getRegisterByRequestIdAndPayStatus(request_id);
+        model.addAttribute("title","TEST");
+        model.addAttribute("registers",register);
+        return "lecturer/list_member_approve_course";
+    }
+    @PostMapping(path="/{request_id}/update_Status_Member_Result/{register_id}")
+    public String updateStatusMemberResult(
+            @PathVariable("request_id") long request_id,
+            @PathVariable("register_id") long register_id,
+            @RequestParam Map<String, String> allReqParams) throws ParseException {
+
+        String studyResult = allReqParams.get("studyResult");
+        Register register = registerService.getRegisterByRegisterId(register_id);
+        // ตรวจสอบค่า studyResult และดำเนินการตามที่คุณต้องการ
+        if ("ผ่านหลักสูตร".equals(studyResult)) {
+            register.setStudy_result(true);
+        } else if ("ไม่ผ่านหลักสูตร".equals(studyResult)) {
+            register.setStudy_result(false);
+        }
+        registerService.updateRegister(register);
+
+        return "redirect:/course/"+request_id+"/list_member_to_approve";
+    }
 }

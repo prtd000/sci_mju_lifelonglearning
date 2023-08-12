@@ -10,8 +10,11 @@ import java.util.List;
 public interface RegisterService {
 
     List<Register> getRegister(String memId);
-
+    List<Register> getRegisterByRequestId(long roc_Id);
+    List<Register>getRegisterByRequestIdAndPayStatus(long roc_Id);
     Register getRegisterById(String memId);
+
+    Register getRegisterByRegisterId(long register_Id);
 
     Register getLastRow();
 
@@ -22,5 +25,7 @@ public interface RegisterService {
     void doInvoice (Invoice invoice);
 
     void deleteInvoice (long id);
+
+    void updateRegister(Register register);
 
 }

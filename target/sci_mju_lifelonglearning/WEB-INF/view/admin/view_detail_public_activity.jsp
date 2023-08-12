@@ -42,7 +42,7 @@
           <td>${activities.img}</td>
         </tr>
         <tr>
-          <td><label></label></td>
+          <td><a href="${pageContext.request.contextPath}/course/list_all_course"><button>ย้อนกลับ</button></a></td>
           <td><a href="${pageContext.request.contextPath}/activity/public/${activities.ac_id}/edit_page"><button>แก้ไข</button></a></td>
         </tr>
         </tbody>

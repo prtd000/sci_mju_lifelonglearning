@@ -25,8 +25,26 @@ public class RegisterDaoImpl implements RegisterDao {
         query.setParameter("Id",memId);
         List<Register> registers = query.getResultList();
         for (Register r: registers) {
-            System.out.println("registerId : " + r.getRegister_id());
+            System.out.println("registerId " + memId + " : " + r.getRegister_id());
         }
+        return registers;
+    }
+
+    @Override
+    public List<Register> getRegisterByRequestId(long roc_Id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Register> query = session.createQuery("from Register r where r.requestOpenCourse.id =: Id ", Register.class);
+        query.setParameter("Id",roc_Id);
+        List<Register> registers = query.getResultList();
+        return registers;
+    }
+    @Override
+    public List<Register> getRegisterByRequestIdAndPayStatus(long roc_Id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Register> query = session.createQuery("from Register r where r.requestOpenCourse.id =: roc_Id AND r.invoice.pay_status = : pay_status", Register.class);
+        query.setParameter("roc_Id",roc_Id);
+        query.setParameter("pay_status",true);
+        List<Register> registers = query.getResultList();
         return registers;
     }
 
@@ -38,7 +56,14 @@ public class RegisterDaoImpl implements RegisterDao {
         Register register = query.getSingleResult();
         return register;
     }
-
+    @Override
+    public Register getRegisterByRegisterId(long register_Id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Register> query = session.createQuery("FROM Register r WHERE r.id =: memId", Register.class);
+        query.setParameter("memId", register_Id);
+        Register register = query.getSingleResult();
+        return register;
+    }
     @Override
     public void saveRegister(Register register) {
         Session session = sessionFactory.getCurrentSession();
@@ -75,5 +100,10 @@ public class RegisterDaoImpl implements RegisterDao {
         Register register = (Register) query.uniqueResult();
         return register;
     }
-
+    @Override
+    public Register updateRegister (Register register) {
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(register);
+        return register;
+    }
 }

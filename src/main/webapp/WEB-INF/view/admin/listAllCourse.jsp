@@ -74,7 +74,7 @@
                                 <tr style="color: black">
                                     <td><p>${request_course.course.name}</p></td>
                                     <td align="center">
-                                        <input type="button" value="ผู้เข้าร่วม"/>
+                                        <input type="button" value="ผู้เข้าร่วม" onclick="window.location.href='${pageContext.request.contextPath}/course/${request_course.request_id}/list_member_to_course'; return false;"/>
                                     </td>
                                     <td align="center">
                                         <input type="button" value="ดูรายละเอียด"

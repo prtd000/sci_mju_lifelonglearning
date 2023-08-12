@@ -22,4 +22,12 @@ public interface RegisterDao {
     void deleteInvoice (long register_id);
 
     Register getLastRow();
+
+    List<Register> getRegisterByRequestId(long roc_Id);
+
+    List<Register> getRegisterByRequestIdAndPayStatus(long roc_Id);
+
+    Register getRegisterByRegisterId(long register_Id);
+
+    Register updateRegister (Register register) ;
 }

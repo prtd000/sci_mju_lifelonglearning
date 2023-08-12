@@ -14,6 +14,11 @@
   <title>เพิ่ม${title}</title>
   <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 </head>
+<style>
+  .txt_input {
+    width: 70%;
+  }
+</style>
 <body>
 <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
 <div id="header">
@@ -24,7 +29,7 @@
     <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
     <br><br>
     <form action="${pageContext.request.contextPath}/activity/admin/save_public_add_activity" method="POST">
-      <table>
+      <table style="width: 100%">
         <colgroup>
           <col style="width: 160px;">
           <col style="width: auto;">
@@ -32,29 +37,18 @@
         <tbody>
         <tr>
           <td><label>ชื่อข่าว:</label></td>
-          <td><input name="ac_name" type="text" id="ac_name"/></td>
+          <td><input class="txt_input" style="width: 70%" name="ac_name" type="text" id="ac_name"/></td>
         </tr>
-<%--        <tr>--%>
-<%--          <td><label>สาขา:</label></td>--%>
-<%--          <td>--%>
-<%--            <select name="major_id" id="major_id">--%>
-<%--              <option value="" label="--กรุณาเลือกหลักสูตร--"></option>--%>
-<%--              <c:forEach items="${majors}" var="major">--%>
-<%--                <option value="${major.major_id}">${major.name}</option>--%>
-<%--              </c:forEach>--%>
-<%--            </select>--%>
-<%--          </td>--%>
-<%--        </tr>--%>
         <tr>
           <td><label>รายละเอียด:</label></td>
-          <td><textarea name="ac_detail" id="ac_detail"></textarea></td>
+          <td><textarea class="txt_input" name="ac_detail" id="ac_detail"></textarea></td>
         </tr>
         <tr>
           <td><label>รูปภาพ:</label></td>
-          <td><input name="ac_img" type="text" id="ac_img"/></td>
+          <td><input class="txt_input" name="ac_img" type="text" id="ac_img"/></td>
         </tr>
         <tr>
-          <td><label></label></td>
+          <td></td>
           <td><input type="submit" value="บันทึก" class="save"/>
             <%--                        <input type="button" value="ยกเลิก"onclick="window.location.href='list'; return false;"class="cancel-button"/>--%>
           </td>

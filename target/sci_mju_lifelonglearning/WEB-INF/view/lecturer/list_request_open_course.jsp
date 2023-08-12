@@ -49,9 +49,9 @@
                                     <td><p>ดูตัวอย่าง</p></td>
                                     <td align="center"><a href="${pageContext.request.contextPath}/request_open_course/view_approve_request_open_course/${request_course.request_id}">ดูรายละเอียด</a></td>
                                     <td align="center">
-                                        <input type="button" value="ยกเลิก"
-                                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/request_open_course/${request_course.request_id}/delete'; return false; }"
-                                               class="cancel-button"/>
+                                        <input type="button" value="ผู้สมัคร"
+                                               onclick="window.location.href='${pageContext.request.contextPath}/course/${request_course.request_id}/list_member_to_approve'; return false;"
+                                        />
                                     </td>
                                 </tr>
                             </c:if>

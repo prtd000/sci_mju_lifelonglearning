@@ -8,7 +8,7 @@ import lifelong.model.Register;
 import java.util.List;
 
 public interface MemberService {
-    public void registerCourse(Register register);
+    void registerCourse(Register register);
 
     Member getMemberById (String memberId);
 

@@ -23,10 +23,26 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     @Transactional
+    public List<Register> getRegisterByRequestId(long roc_Id) {
+        return registerDao.getRegisterByRequestId(roc_Id);
+    }
+
+    @Override
+    @Transactional
+    public List<Register> getRegisterByRequestIdAndPayStatus(long roc_Id) {
+        return registerDao.getRegisterByRequestIdAndPayStatus(roc_Id);
+    }
+
+    @Override
+    @Transactional
     public Register getRegisterById(String memId) {
         return registerDao.getRegisterById(memId);
     }
-
+    @Override
+    @Transactional
+    public Register getRegisterByRegisterId(long register_Id) {
+        return registerDao.getRegisterByRegisterId(register_Id);
+    }
     @Override
     @Transactional
     public Register getLastRow() {
@@ -55,5 +71,11 @@ public class RegisterServiceImpl implements RegisterService {
     @Transactional
     public void deleteInvoice(long id) {
         registerDao.deleteInvoice(id);
+    }
+
+    @Override
+    @Transactional
+    public void updateRegister(Register register) {
+        registerDao.updateRegister(register);
     }
 }

@@ -1,10 +1,8 @@
 package lifelong.service;
 
-import lifelong.dao.CouresDao;
-import lifelong.model.Activity;
+import lifelong.dao.CourseDao;
 import lifelong.model.Course;
 import lifelong.model.Major;
-import lifelong.model.RequestOpenCourse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +13,7 @@ import java.util.List;
 public class CourseServiceImpl implements CourseService{
 
     @Autowired
-    private CouresDao couresDao;
+    private CourseDao couresDao;
     @Override
     @Transactional
     public List<Course> getCourses() {
@@ -42,8 +40,8 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     @Transactional
-    public String[] getCourseDetailOpject(String courseId) {
-        return couresDao.getCourseDetailOpject(courseId);
+    public String[] getCourseDetailObject(String courseId) {
+        return couresDao.getCourseDetailObject(courseId);
     }
 
     @Override

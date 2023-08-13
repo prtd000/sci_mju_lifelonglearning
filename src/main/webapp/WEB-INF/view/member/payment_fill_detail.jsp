@@ -42,19 +42,30 @@
             </tr>
             <tr>
                 <td>เวลาที่โอนตามหลักฐานการชำระเงิน</td>
-                <td><input type="text" name="receipt_paytime"></td>
+                <td><input type="time" name="receipt_paytime"></td>
             </tr>
             <tr>
                 <td>โอนจากธนาคาร</td>
-                <td><input type="text" name="receipt_banking"></td>
+                <td>
+                    <select id="receipt_banking" name="receipt_banking">
+                        <option value="กรุงไทย">กรุงไทย</option>
+                        <option value="ไทยพาณิชย์">ไทยพาณิชย์ (SCB)</option>
+                        <option value="กสิกรไทย">กสิกรไทย (KBank)</option>
+                        <option value="ออมสิน">ออมสิน</option>
+                        <option value="กรุงศรี">กรุงศรี</option>
+                        <option value="กรุงเทพ">กรุงเทพ</option>
+                        <option value="ทีทีบี">ทีทีบี</option>
+                        <option value="ธ.ก.ส">ธ.ก.ส</option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <td>จำนวนเงินที่ถูกโอน (฿)</td>
-                <td><input type="text" name="receipt_total"></td>
+                <td><input type="number" name="receipt_total"></td>
             </tr>
             <tr>
                 <td>เงินโอนจากบัญชีธนาคารเลขที่ (4 หลักสุดท้าย)</td>
-                <td><input type="text" name="last_four_digits"></td>
+                <td><input type="number" name="last_four_digits"></td>
             </tr>
             <tr>
                 <td colspan="2">

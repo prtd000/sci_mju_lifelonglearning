@@ -1,10 +1,7 @@
 package lifelong.controller;
 
 import lifelong.model.*;
-import lifelong.service.CourseService;
-import lifelong.service.MemberService;
-import lifelong.service.RegisterService;
-import lifelong.service.RequestOpCourseService;
+import lifelong.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +28,9 @@ public class MemberController {
 
     @Autowired
     private RequestOpCourseService requestOpCourseService;
+
+    @Autowired
+    private PaymentService paymentService;
 
     @GetMapping("/login")
     public String loginPage(Model model) {
@@ -94,6 +94,18 @@ public class MemberController {
         model.addAttribute("list_invoice",memberService.getListInvoice());
         model.addAttribute("mem_username",memberService.getMemberById(memId));
         model.addAttribute("register", registerService.getRegister(memId));
+
+//        model.addAttribute("pending","รอดำเนินการ");
+//        long receiptFK = paymentService.getReceiptByInvoiceId(invoiceId).getInvoice().getInvoice_id();
+//        long invoicePK = paymentService.getInvoiceById(invoiceId).getInvoice_id();
+//        System.out.println("receiptFK : " + receiptFK);
+//        System.out.println("invoicePK : " + invoicePK);
+//
+//        if (receiptFK == invoicePK){
+//            model.addAttribute("visibility", "hidden");
+//        }else {
+//            model.addAttribute("visibility", "none");
+//        }
         return "/member/list_course";
     }
 

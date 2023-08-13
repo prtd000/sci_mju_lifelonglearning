@@ -19,34 +19,6 @@
     <button id="FClick" class="tablinks" onclick="openList(event, 'listCourse')">หลักสูตร</button>
     <button class="tablinks" onclick="openList(event, 'listInvoice')">ที่ต้องชำระเงิน</button>
 
-<%--    <div class="tabcontent" id="listCourse">--%>
-<%--        <h1>My list Course</h1>--%>
-<%--        <h1>Username : ${mem_username.username}</h1>--%>
-<%--        <table>--%>
-<%--            <c:forEach var="invoice" items="${list_invoice}">--%>
-<%--                <h1></h1>--%>
-<%--                <c:if test="${invoice.pay_status == true}">--%>
-<%--                    <tr>--%>
-<%--                        <td style="width: 400px;">${invoice.register.requestOpenCourse.course.name}</td>--%>
-<%--                        <c:set var="txtstt" value="${invoice.register.study_result}"></c:set>--%>
-<%--                        <c:if var="stt" test="${txtstt == false}">--%>
-<%--                            <c:set var="txtstt" value="อยู่ระหว่างเรียน"></c:set>--%>
-<%--                        </c:if>--%>
-<%--                        <c:if var="stt" test="${txtstt == true}">--%>
-<%--                            <c:set var="txtstt" value="ผ่านหลักสูตร"></c:set>--%>
-<%--                        </c:if>--%>
-<%--                        <td style="width: 200px;">${txtstt}</td>--%>
-<%--                        <td>--%>
-<%--                            <a href="${pageContext.request.contextPath}/member/${invoice.register.member.username}/certificate">--%>
-<%--                                <button>ดูเกียรติบัตร</button>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                    </tr>--%>
-<%--                </c:if>--%>
-<%--            </c:forEach>--%>
-<%--        </table>--%>
-<%--    </div>--%>
-
     <div class="tabcontent" id="listCourse">
         <h1>My list Course</h1>
         <h1>Username : ${mem_username.username}</h1>
@@ -75,34 +47,10 @@
         </table>
     </div>
 
-<%--    <div class="tabcontent" id="listInvoice">--%>
-<%--        <h1>Invoice</h1>--%>
-<%--        <h1>Username : ${mem_username.username}</h1>--%>
-<%--        <table>--%>
-<%--            <c:forEach var="invoices" items="${list_invoice}">--%>
-<%--                <c:if test="${invoices.pay_status == false}">--%>
-<%--                    <tr>--%>
-<%--                        <td style="width: 550px;">${invoices.register.requestOpenCourse.course.name}</td>--%>
-<%--                        <td style="width: 100px">--%>
-<%--                            <a href="${pageContext.request.contextPath}/member/${invoices.register.member.username}/payment_detail/${invoices.invoice_id}">--%>
-<%--                                <button>ชำระเงิน</button>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <input type="button" value="ยกเลิก"--%>
-<%--                                   onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบ?')))--%>
-<%--                                           { window.location.href='${pageContext.request.contextPath}/member/${invoices.register.member.username}/${invoices.register.register_id}/delete';--%>
-<%--                                           return false; }"/>--%>
-<%--                        </td>--%>
-<%--                    </tr>--%>
-<%--                </c:if>--%>
-<%--            </c:forEach>--%>
-<%--        </table>--%>
-<%--    </div>--%>
-
     <div class="tabcontent" id="listInvoice">
         <h1>Invoice</h1>
         <h1>Username : ${mem_username.username}</h1>
+        ${stt}
         <table>
             <c:forEach var="invoices" items="${register}">
                 <c:if test="${invoices.invoice.pay_status == false}">
@@ -114,10 +62,7 @@
                             </a>
                         </td>
                         <td>
-                            <input type="button" value="ยกเลิก"
-                                   onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบ?')))
-                                           { window.location.href='${pageContext.request.contextPath}/member/${invoices.member.username}/${invoices.register_id}/delete';
-                                           return false; }"/>
+                            <input type="button" value="ยกเลิก" onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบ?'))){ window.location.href='${pageContext.request.contextPath}/member/${invoices.member.username}/${invoices.register_id}/delete';return false; }"/>
                         </td>
                     </tr>
                 </c:if>

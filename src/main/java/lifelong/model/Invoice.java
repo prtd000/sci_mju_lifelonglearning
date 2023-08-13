@@ -26,6 +26,9 @@ public class Invoice {
     @Column(nullable = false,length = 100)
     private boolean pay_status;
 
+    @Column(nullable = false,length = 100)
+    private String approve_status;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "register_id")
     private Register register;
@@ -37,12 +40,21 @@ public class Invoice {
     public Invoice() {
     }
 
-    public Invoice(long invoice_id, Date startPayment, Date endPayment, boolean pay_status, Register register) {
+    public Invoice(long invoice_id, Date startPayment, Date endPayment, boolean pay_status, String approve_status, Register register) {
         this.invoice_id = invoice_id;
         this.startPayment = startPayment;
         this.endPayment = endPayment;
         this.pay_status = pay_status;
+        this.approve_status = approve_status;
         this.register = register;
+    }
+
+    public String getApprove_status() {
+        return approve_status;
+    }
+
+    public void setApprove_status(String approve_status) {
+        this.approve_status = approve_status;
     }
 
     public boolean isPay_status() {

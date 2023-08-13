@@ -1,6 +1,5 @@
 package lifelong.controller;
 
-import lifelong.model.Invoice;
 import lifelong.model.Receipt;
 import lifelong.service.PaymentService;
 import lifelong.service.RegisterService;
@@ -9,10 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 
 @Controller
@@ -50,22 +47,11 @@ public class PaymentController {
         receipt.setLast_four_digits(Integer.parseInt(params.get("last_four_digits")));
         receipt.setInvoice(paymentService.getInvoiceById(invoiceId));
 
+        /*update pay status*/
+        /*..................*/
 
-//        long receiptId = 0;
-//        String slip = params.get("slip");
-//        Date payDate = dateFormat.parse(params.get("receipt_paydate"));
-//        String payTime = params.get("receipt_paytime");
-//        String banking = params.get("receipt_banking");
-//        double total = Double.parseDouble(params.get("receipt_total"));
-//        int digits = Integer.parseInt(params.get("last_four_digits"));
-//        Invoice invoice = paymentService.getInvoiceById(invoiceId);
-//
-//        Receipt receipt1 = new Receipt(receiptId, payDate, payTime, banking, digits, total, slip, invoice);
 
         paymentService.saveReceipt(receipt);
-        //registerService.deleteInvoice(paymentService.getInvoiceById(invoiceId).getRegister().getRegister_id());
-
-        System.out.println("Last Receipt : " + paymentService.getLastRowReceipt());
         return "redirect:/member/" + memId + "/listcourse";
     }
 

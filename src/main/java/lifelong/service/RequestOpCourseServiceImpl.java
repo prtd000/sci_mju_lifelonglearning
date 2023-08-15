@@ -1,10 +1,7 @@
 package lifelong.service;
 
 import lifelong.dao.RequestOpCourseDao;
-import lifelong.model.Course;
-import lifelong.model.Lecturer;
-import lifelong.model.Major;
-import lifelong.model.RequestOpenCourse;
+import lifelong.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,7 +72,11 @@ public class RequestOpCourseServiceImpl implements RequestOpCourseService {
     public void updateRequestOpenCourse(RequestOpenCourse requestOpenCourse) {
         requestOpCourseDao.updateRequestOpenCourse(requestOpenCourse);
     }
-
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> getRequestOpenCoursesByLecturerId(String lec_Id) {
+        return requestOpCourseDao.getRequestOpenCoursesByLecturerId(lec_Id);
+    }
     public String generateLatestId (long id) {
         String result = String.valueOf(id);
         while (result.length() != 3) {

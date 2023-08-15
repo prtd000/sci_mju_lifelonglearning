@@ -158,8 +158,10 @@
                     </tr>
                     <tr>
                         <td><label></label></td>
-                        <td><input type="button" value="ยกเลิกคำร้องขอ" class="cancel-button"/>
-                            <input type="submit" value="ยืนยันคำร้องขอ" class="cancel-button"/>
+                        <td><input type="button" name="statusResult" value="ยกเลิกคำร้องขอ"
+                                   onclick="if((confirm('คุณแน่ใจหรือว่าต้องการยกเลิกคำร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/course/note_cancel_request_open_course/${ROC_detail.request_id}'; return false; }"
+                                   class="cancel-button"/>
+                            <input type="submit" name="statusResult" value="ยืนยันคำร้องขอ" />
                         </td>
                     </tr>
                     </tbody>
@@ -168,11 +170,12 @@
         </div>
     </div>
 
+
     <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>
 </body>
 
 <script>
-    $(function() {
+$(function() {
         $("#datepicker1, #datepicker2, #datepicker3, #datepicker4, #datepicker5").datepicker({
             dateFormat: "mm/dd/yy" // รูปแบบวันที่ที่ต้องการ
         });

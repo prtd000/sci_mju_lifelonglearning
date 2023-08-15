@@ -35,6 +35,7 @@ public class Receipt {
     private String slip;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
     @JoinColumn(name = "invoice_id")
     private Invoice invoice;
 

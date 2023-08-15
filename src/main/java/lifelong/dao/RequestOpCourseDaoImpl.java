@@ -1,9 +1,6 @@
 package lifelong.dao;
 
-import lifelong.model.Course;
-import lifelong.model.Lecturer;
-import lifelong.model.Major;
-import lifelong.model.RequestOpenCourse;
+import lifelong.model.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -37,7 +34,14 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
         List<RequestOpenCourse> requestOpenCourses = query.getResultList();
         return requestOpenCourses;
     }
-
+    @Override
+    public List<RequestOpenCourse> getRequestOpenCoursesByLecturerId(String lec_id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse r where r.lecturer.id =: Id ", RequestOpenCourse.class);
+        query.setParameter("Id",lec_id);
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
     @Override
     public RequestOpenCourse getRequestOpenCourseDetail(long id) {
         Session session = sessionFactory.getCurrentSession();

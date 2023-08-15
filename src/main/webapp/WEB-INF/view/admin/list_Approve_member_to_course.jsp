@@ -35,13 +35,23 @@
     </tr>
 
     <c:forEach var="registers" items="${register_detail}">
+        <c:if test="${registers.invoice.approve_status == 'ผ่าน'}">
         <tr style="color: black">
             <td><p>${registers.member.idcard}</p></td>
             <td><p>${registers.member.firstName} ${registers.member.lastName}</p></td>
-            <td align="center"><input type="button" value="ดูข้อมูลการชำระเงิน"
-                                      onclick="window.location.href='${pageContext.request.contextPath}/course/${request_name.request_id}/view_payment_detail/${registers.invoice.invoice_id}'; return false;"/></td>
+            <td align="center">ผ่าน</td>
 <%--            <td align="center"><a href="${pageContext.request.contextPath}/course/${course.course_id}/course_detail"><button>ดูรายละเอียด</button></a></td>--%>
         </tr>
+        </c:if>
+        <c:if test="${registers.invoice.approve_status == 'รอดำเนินการ'}">
+            <tr style="color: black">
+                <td><p>${registers.member.idcard}</p></td>
+                <td><p>${registers.member.firstName} ${registers.member.lastName}</p></td>
+                <td align="center"><input type="button" value="ดูข้อมูลการชำระเงิน"
+                                          onclick="window.location.href='${pageContext.request.contextPath}/course/${request_name.request_id}/view_payment_detail/${registers.invoice.invoice_id}'; return false;"/></td>
+                    <%--            <td align="center"><a href="${pageContext.request.contextPath}/course/${course.course_id}/course_detail"><button>ดูรายละเอียด</button></a></td>--%>
+            </tr>
+        </c:if>
     </c:forEach>
 </table>
 </center>

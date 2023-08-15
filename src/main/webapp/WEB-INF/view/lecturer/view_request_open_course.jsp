@@ -21,7 +21,7 @@
 <body>
     <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
     <div id="header">
-        <h1>${title}</h1>
+        <h1>ดูรายละเอียดคำร้องขอ</h1>
     </div>
     <div class="container">
         <div id="container">
@@ -157,7 +157,7 @@
                             <a href="${pageContext.request.contextPath}/request_open_course/${ROC_detail.request_id}/update_page">แก้ไข</a>
 <%--                            <input type="button" value="ยกเลิก"onclick="window.location.href='list'; return false;"class="cancel-button"/>--%>
                             <input type="button" value="ย้อนกลับ"
-                                   onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/list_request_open_course'; return false;"
+                                   onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/${lec_id}/list_request_open_course'; return false;"
                                    class="cancel-button"/>
                         </td>
                     </tr>

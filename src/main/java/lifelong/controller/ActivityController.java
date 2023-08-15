@@ -119,7 +119,7 @@ public class ActivityController {
             return "redirect:/course/list_all_course";
         }else {
             activityService.deleteActivity(id);
-            return "redirect:/request_open_course/view_approve_request_open_course/"+activity.getRequestOpenCourse().getRequest_id();
+            return "redirect:/request_open_course/"+activity.getRequestOpenCourse().getLecturer().getUsername()+"/view_approve_request_open_course/"+activity.getRequestOpenCourse().getRequest_id();
         }
     }
     @GetMapping("/{roc_id}/list_course_activity")
@@ -137,15 +137,15 @@ public class ActivityController {
         return "lecturer/add_Course_Activity";
     }
     @Transactional
-    @PostMapping (path="/{id}/save_add_course_activity")
-    public String saveAddRequestCourseActivity(@PathVariable("id") long roc_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
+    @PostMapping (path="/{lec_id}/save_add_course_activity/{roc_id}")
+    public String saveAddRequestCourseActivity(@PathVariable("lec_id") String lec_id,@PathVariable("roc_id") long roc_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
         Date ac_date =  new Date();
         String ac_name = allReqParams.get("ac_name");
         String ac_detail = allReqParams.get("ac_detail");
         String ac_img = allReqParams.get("ac_img");
         String ac_type = "Private";
         RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
-        Lecturer lecturer = lecturerService.getLecturerById("somjai");
+        Lecturer lecturer = lecturerService.getLecturerById(lec_id);
 
         Activity public_activity_add = new Activity(ac_name,ac_date,ac_detail,ac_type,ac_img,requestOpenCourse,lecturer);
 
@@ -156,7 +156,7 @@ public class ActivityController {
 
         // เพิ่มกิจกรรมเข้าสู่ระบบโดยใช้อ็อบเจกต์ที่รวมแล้ว
         activityService.addActivityNews(mergedActivity);
-        return "redirect:/request_open_course/view_approve_request_open_course/"+roc_id;
+        return "redirect:/request_open_course/"+lec_id+"/view_approve_request_open_course/"+roc_id;
     }
 
     @GetMapping("/{id}/view_course_activity_page")

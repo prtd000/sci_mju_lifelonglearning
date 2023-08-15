@@ -25,8 +25,8 @@
 <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
 
 <h3>ตรวจสอบการชำระเงิน</h3>
-<form action="${pageContext.request.contextPath}/course/${request_id}/view_payment_detail/${payment.invoice.invoice_id}/approve" method="POST">
 <c:if test="${payment != null}">
+    <form action="${pageContext.request.contextPath}/course/${request_id}/view_payment_detail/${payment.invoice.invoice_id}/approve" method="POST">
     <h4>${payment.invoice.register.requestOpenCourse.course.name}</h4>
     <p>${payment.invoice.register.requestOpenCourse.course.major.name}</p>
     <hr>
@@ -68,6 +68,8 @@
         </tr>
 
     </table>
+    <td align="center"><input type="submit" value="ยืนยันการสมัคร"/></td>
+</form>
 </c:if>
 <c:if test="${payment == null}">
     <h1>ยังไม่มีการชำระเงิน</h1>
@@ -75,7 +77,5 @@
 <td align="center"><input type="button" value="ย้อนกลับ"
                           onclick="window.location.href='${pageContext.request.contextPath}/course/${request_id}/list_member_to_course'; return false;"/></td>
 <td align="center"><input type="button" value="ยกเลิก"/></td>
-<td align="center"><input type="submit" value="ยืนยันการสมัคร"/></td>
-</form>
 </body>
 </html>

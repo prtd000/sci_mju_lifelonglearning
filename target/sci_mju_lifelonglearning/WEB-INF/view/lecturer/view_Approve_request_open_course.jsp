@@ -98,7 +98,7 @@
                            onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/request_open_course/${RAOC_detail.request_id}/delete'; return false; }"
                            class="cancel-button"/>
                     <input type="button" value="ย้อนกลับ"
-                           onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/list_request_open_course'; return false;"
+                           onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/${lec_id}/list_request_open_course'; return false;"
                            class="cancel-button"/>
                     <input type="button" value="เพิ่มข่าวสารหลักสูตร"
                            onclick="window.location.href='${pageContext.request.contextPath}/activity/${RAOC_detail.request_id}/add_course_activity'; return false;"

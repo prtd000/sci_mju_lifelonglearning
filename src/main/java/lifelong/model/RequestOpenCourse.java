@@ -52,11 +52,12 @@ public class RequestOpenCourse {
     private String location;
 
     @Column(nullable = false)
-    private Boolean requestStatus;
+    private String requestStatus;
 
     @Column(name = "signature",nullable = false,length = 200)
     private String signature;
-
+    @Column(name = "cancel_note",length = 200)
+    private String note;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id")
     private Course course;
@@ -68,7 +69,7 @@ public class RequestOpenCourse {
     public RequestOpenCourse() {
     }
 
-    public RequestOpenCourse(Date requestDate, Date startRegister, Date endRegister, int quantity, Date startStudyDate, Date endStudyDate, String studyTime, String type_learn, String type_teach, Date applicationResult, String location, Boolean requestStatus, String signature, Course course, Lecturer lecturer) {
+    public RequestOpenCourse(Date requestDate, Date startRegister, Date endRegister, int quantity, Date startStudyDate, Date endStudyDate, String studyTime, String type_learn, String type_teach, Date applicationResult, String location, String requestStatus, String signature, Course course, Lecturer lecturer) {
         this.requestDate = requestDate;
         this.startRegister = startRegister;
         this.endRegister = endRegister;
@@ -182,11 +183,11 @@ public class RequestOpenCourse {
         this.location = location;
     }
 
-    public Boolean getRequestStatus() {
+    public String getRequestStatus() {
         return requestStatus;
     }
 
-    public void setRequestStatus(Boolean requestStatus) {
+    public void setRequestStatus(String requestStatus) {
         this.requestStatus = requestStatus;
     }
 
@@ -212,6 +213,14 @@ public class RequestOpenCourse {
 
     public void setLecturer(Lecturer lecturer) {
         this.lecturer = lecturer;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public void fill(RequestOpenCourse requestOpenCourse) {

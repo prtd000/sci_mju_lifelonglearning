@@ -13,7 +13,7 @@ public interface RequestOpCourseService {
 
     void saveRequestOpenCourse (RequestOpenCourse requestOpenCourse);
     List<RequestOpenCourse> getRequestOpenCourses();
-
+    List<RequestOpenCourse> getRequestOpenCoursesByLecturerId(String lec_id);
     RequestOpenCourse getRequestOpenCourseDetail(long requestId);
     void deleteRequestOpenCourse(long requestId);
     List<Major> getMajor();

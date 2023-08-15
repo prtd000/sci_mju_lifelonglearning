@@ -28,7 +28,7 @@
                     <h1 align="left">รายการการร้องขอ</h1>
                     <div class="hr_line"></div>
                     <button id="FClick" class="tablinks" onclick="openList(event, 'course')">หลักสูตร</button>
-                    <button class="tablinks" onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/add_roc'; return false;"class="add-button">ร้องขอ</button>
+                    <button class="tablinks" onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/${lecturer_id}/add_roc'; return false;"class="add-button">ร้องขอ</button>
                     <button class="tablinks" onclick="openList(event, 'list_request')">รายการร้องขอ</button>
 
                 </div>
@@ -43,11 +43,11 @@
                         </tr>
 
                         <c:forEach var="request_course" items="${requests_open_course}">
-                            <c:if test="${request_course.requestStatus == true}">
+                            <c:if test="${request_course.requestStatus == 'ผ่าน'}">
                                 <tr style="color: black">
                                     <td><p>${request_course.course.name}</p></td>
                                     <td><p>ดูตัวอย่าง</p></td>
-                                    <td align="center"><a href="${pageContext.request.contextPath}/request_open_course/view_approve_request_open_course/${request_course.request_id}">ดูรายละเอียด</a></td>
+                                    <td align="center"><a href="${pageContext.request.contextPath}/request_open_course/${lecturer_id}/view_approve_request_open_course/${request_course.request_id}">ดูรายละเอียด</a></td>
                                     <td align="center">
                                         <input type="button" value="ผู้สมัคร"
                                                onclick="window.location.href='${pageContext.request.contextPath}/course/${request_course.request_id}/list_member_to_approve'; return false;"
@@ -73,10 +73,10 @@
                         </tr>
 
                         <c:forEach var="request_course" items="${requests_open_course}">
-                            <c:if test="${request_course.requestStatus == false}">
+                            <c:if test="${request_course.requestStatus == 'รอดำเนินการ'}">
                                 <tr style="color: black">
                                     <td><p>${request_course.course.name}</p></td>
-                                    <td align="center"><a href="${pageContext.request.contextPath}/request_open_course/view_request_open_course/${request_course.request_id}">ดูรายละเอียด</a></td>
+                                    <td align="center"><a href="${pageContext.request.contextPath}/request_open_course/${lecturer_id}/view_request_open_course/${request_course.request_id}">ดูรายละเอียด</a></td>
                                     <td align="center">
                                         <input type="button" value="ยกเลิก"
                                                onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/request_open_course/${request_course.request_id}/delete'; return false; }"

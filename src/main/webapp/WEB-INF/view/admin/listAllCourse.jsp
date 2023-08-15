@@ -70,7 +70,7 @@
                         </tr>
 
                         <c:forEach var="request_course" items="${requests_open_course}">
-                            <c:if test="${request_course.requestStatus == true}">
+                            <c:if test="${request_course.requestStatus == 'ผ่าน'}">
                                 <tr style="color: black">
                                     <td><p>${request_course.course.name}</p></td>
                                     <td align="center">
@@ -96,7 +96,7 @@
                         </tr>
 
                         <c:forEach var="request_course" items="${requests_open_course}">
-                            <c:if test="${request_course.requestStatus == false}">
+                            <c:if test="${request_course.requestStatus == 'รอดำเนินการ'}">
                                 <tr style="color: black">
                                     <td><p>${request_course.course.name}</p></td>
                                     <td align="center">${request_course.requestDate}</td>

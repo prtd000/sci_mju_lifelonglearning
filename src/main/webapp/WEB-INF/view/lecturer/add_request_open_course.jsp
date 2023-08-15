@@ -33,7 +33,7 @@
         <div id="container">
             <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
             <br><br>
-            <form action="${pageContext.request.contextPath}/request_open_course/<%="somjai"%>/save" method="POST">
+            <form action="${pageContext.request.contextPath}/request_open_course/${lecturer.username}/save" method="POST">
                 <%
                     Date currentDate = new Date();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -160,7 +160,7 @@
                             <input type="submit" name="confirmButton" value="บันทึก" class="save"/>
                                 <%--                        <input type="button" value="ยกเลิก"onclick="window.location.href='list'; return false;"class="cancel-button"/>--%>
                             <input type="button" value="ย้อนกลับ"
-                                   onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/list_request_open_course'; return false;"
+                                   onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/${lecturer.username}/list_request_open_course'; return false;"
                                    class="cancel-button"/>
                         </td>
                     </tr>

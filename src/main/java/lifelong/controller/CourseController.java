@@ -54,23 +54,38 @@ public class CourseController {
 //        model.addAttribute("requests_open_course", requestOpCourseService.getRequestOpenCourses());
 //        return "admin/listAllCourse";
 //    }
-    @GetMapping("/view_request_open_course/{id}")
-    public String showRequestOpenCourse(@PathVariable("id") long id, Model model) {
-        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(id);
+    @GetMapping("/view_request_open_course/{request_id}")
+    public String showRequestOpenCourse(@PathVariable("request_id") long request_id, Model model) {
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(request_id);
         model.addAttribute("title", "ดูข้อมูลการร้องขอ");
         model.addAttribute("ROC_detail", requestOpenCourse);
         return "admin/view_request_open_course_by_admin";
     }
-    @PostMapping(path="/view_request_open_course/{id}/approve")
-    public String approveRequestOpenCourse(@PathVariable("id") long roc_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
+    @PostMapping(path="/view_request_open_course/{request_id}/approve")
+    public String approveRequestOpenCourse(@PathVariable("request_id") long roc_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
         RequestOpenCourse existingRequestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
         if (existingRequestOpenCourse != null) {
-            existingRequestOpenCourse.setRequestStatus(true);
+            existingRequestOpenCourse.setRequestStatus("ผ่าน");
             requestOpCourseService.updateRequestOpenCourse(existingRequestOpenCourse);
         }
         return "redirect:/course/list_all_course";
     }
-
+    @GetMapping("/note_cancel_request_open_course/{request_id}")
+    public String noteCancelRequestOpenCourse(@PathVariable("request_id") long request_id, Model model) {
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(request_id);
+        model.addAttribute("ROC_detail", requestOpenCourse);
+        return "admin/note_not_pass_detail";
+    }
+    @PostMapping(path="/note_cancel_request_open_course/{request_id}/cancel")
+    public String cancelRequestOpenCourse(@PathVariable("request_id") long roc_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
+        RequestOpenCourse existingRequestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
+        if (existingRequestOpenCourse != null) {
+            existingRequestOpenCourse.setRequestStatus("ไม่ผ่าน");
+            existingRequestOpenCourse.setNote(allReqParams.get("cancelReason"));
+            requestOpCourseService.updateRequestOpenCourse(existingRequestOpenCourse);
+        }
+        return "redirect:/course/list_all_course";
+    }
     @GetMapping("/{id}/course_detail")
     public String showCourseDetailByAdmin(@PathVariable("id") String id, Model model) {
         Course course = courseService.getCourseDetail(id);
@@ -184,7 +199,7 @@ public class CourseController {
     public String approveMemberToCourse(@PathVariable("request_id") long request_id,@PathVariable("invoice_id") long invoice_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
         Invoice invoice = paymentService.getInvoiceById(invoice_id);
         if (invoice != null) {
-            invoice.setPay_status(true);
+            invoice.setApprove_status("ผ่าน");
             paymentService.updateInvoice(invoice);
         }
         return "redirect:/course/list_all_course";

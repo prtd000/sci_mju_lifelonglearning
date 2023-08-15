@@ -47,7 +47,7 @@
           <td><input name="ac_img" type="text" id="ac_img" value="${activities.img}"/></td>
         </tr>
         <tr>
-          <td><label></label></td>
+          <td><a href="${pageContext.request.contextPath}/request_open_course/${activities.ac_id}/view_course_activity_page"><button>ย้อนกลับ</button></a></td>
           <td><input type="submit" value="บันทึก" class="save"/>
             <%--                        <input type="button" value="ยกเลิก"onclick="window.location.href='list'; return false;"class="cancel-button"/>--%>
           </td>

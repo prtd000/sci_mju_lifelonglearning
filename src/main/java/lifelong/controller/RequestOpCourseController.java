@@ -2,6 +2,7 @@ package lifelong.controller;
 
 import lifelong.model.Course;
 import lifelong.model.Lecturer;
+import lifelong.model.Register;
 import lifelong.model.RequestOpenCourse;
 import lifelong.service.ActivityService;
 import lifelong.service.CourseService;
@@ -35,20 +36,20 @@ public class RequestOpCourseController {
     private ActivityService activityService;
 
     private String title = "หลักสูตรที่ร้องขอ";
-    @GetMapping("/view_request_open_course/{id}")
-    public String showRequestOpenCourse(@PathVariable("id") long id, Model model) {
-        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(id);
+    @GetMapping("/{lec_id}/view_request_open_course/{roc_id}")
+    public String showRequestOpenCourse(@PathVariable("lec_id") String lec_id,@PathVariable("roc_id") long roc_id, Model model) {
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
         //model.addAttribute("title", "แก้ไข" + title);
         model.addAttribute("ROC_detail", requestOpenCourse);
         return "lecturer/view_request_open_course";
     }
 
-    @GetMapping("/view_approve_request_open_course/{id}")
-    public String showRequestApproveOpenCourse(@PathVariable("id") long id, Model model) {
-        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(id);
+    @GetMapping("/{lec_id}/view_approve_request_open_course/{roc_id}")
+    public String showRequestApproveOpenCourse(@PathVariable("lec_id") String lec_id,@PathVariable("roc_id") long roc_id, Model model) {
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
         model.addAttribute("title", "แก้ไข" + title);
         model.addAttribute("RAOC_detail", requestOpenCourse);
-        model.addAttribute("course_activities",activityService.getActivityDetailByCourseId(id));
+        model.addAttribute("course_activities",activityService.getActivityDetailByCourseId(roc_id));
         return "lecturer/view_Approve_request_open_course";
     }
     @InitBinder
@@ -57,25 +58,28 @@ public class RequestOpCourseController {
         dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 
-    @GetMapping("/{id}/delete")
-    public String deleteProduct(@PathVariable("id") long id) {
-        requestOpCourseService.deleteRequestOpenCourse(id);
-        return "redirect:/request_open_course/list_request_open_course";
+    @GetMapping("/{roc_id}/delete")
+    public String deleteProduct(@PathVariable("roc_id") long roc_id) {
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
+        requestOpCourseService.deleteRequestOpenCourse(roc_id);
+        String lec_id = requestOpenCourse.getLecturer().getUsername();
+        System.out.println(lec_id);
+        return "redirect:/request_open_course/"+ lec_id +"/list_request_open_course";
     }
 
-    @GetMapping("/add_roc")
-    public String showFormAddCourse(Model model) {
+    @GetMapping("/{lecturer_id}/add_roc")
+    public String showFormAddCourse(@PathVariable("lecturer_id") String lecturer_id,Model model) {
         model.addAttribute("title", "ร้องขอเปิด" + title);
-        model.addAttribute("lecturers",requestOpCourseService.getLecturer());
+        model.addAttribute("lecturer",requestOpCourseService.getLecturerDetail(lecturer_id));
         model.addAttribute("courses", courseService.getCourses());
         model.addAttribute("request_open_course", new RequestOpenCourse());
         return "lecturer/add_request_open_course";
     }
-    @GetMapping("/{id}/update_page")
-    public String showFormForUpdate(@PathVariable("id") long id, Model model) {
-        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(id);
+    @GetMapping("/{roc_id}/update_page")
+    public String showFormForUpdate(@PathVariable("roc_id") long roc_id, Model model) {
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
         model.addAttribute("title", "แก้ไขคำร้องขอเปิด" + title);
-        model.addAttribute("lecturers", requestOpCourseService.getLecturer());
+        model.addAttribute("lecturer", requestOpCourseService.getLecturer());
         model.addAttribute("courses", courseService.getCourses());
         model.addAttribute("request_open_course", requestOpenCourse);
         return "lecturer/update_request_open_course";
@@ -103,7 +107,7 @@ public class RequestOpCourseController {
         String type_learn = allReqParams.get("type_learn");
         String type_teach = allReqParams.get("type_teach");
         String location = allReqParams.get("location");
-        boolean requestStatusBool = false;
+        String requestStatusBool = "รอดำเนินการ";
         String signature = allReqParams.get("signature");
         Course course = courseService.getCourseById(allReqParams.get("course_id"));
 //        String lecturer_username = allReqParams.get("lecturer_username");
@@ -111,10 +115,10 @@ public class RequestOpCourseController {
 
         RequestOpenCourse requestOpenCourse_toAdd = new RequestOpenCourse(requestDate, startRegisterDate, endRegisterDate, quantity, startStudyDate, endStudyDate, studyTime, type_learn, type_teach, applicationResultDate, location, requestStatusBool, signature, course, lecturer);
         requestOpCourseService.saveRequestOpenCourse(requestOpenCourse_toAdd);
-        return "redirect:/request_open_course/list_request_open_course";
+        return "redirect:/request_open_course/"+ lec_id +"/list_request_open_course";
     }
-    @PostMapping (path="/{id}/update")
-    public String updateRequest(@PathVariable("id") String req_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
+    @PostMapping (path="/{req_id}/update")
+    public String updateRequest(@PathVariable("req_id") String req_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // เปลี่ยนรูปแบบวันที่ให้ตรงกับ HTML
 
@@ -140,12 +144,14 @@ public class RequestOpCourseController {
             existingRequest.setCourse(courseService.getCourseById(allReqParams.get("course_id")));
             requestOpCourseService.updateRequestOpenCourse(existingRequest);
         }
-        return "redirect:/request_open_course/list_request_open_course";
+        String lec_id = existingRequest.getLecturer().getUsername();
+        return "redirect:/request_open_course/"+ lec_id +"/view_request_open_course/"+ req_id;
     }
-    @GetMapping("/list_request_open_course")
-    public String listCourse(Model model) {
+    @GetMapping("/{lecturer_id}/list_request_open_course")
+    public String listCourse(@PathVariable("lecturer_id") String lecturer_id,Model model) {
         model.addAttribute("title", "รายการ");
-        model.addAttribute("requests_open_course", requestOpCourseService.getRequestOpenCourses());
+        model.addAttribute("lecturer_id", lecturer_id);
+        model.addAttribute("requests_open_course", requestOpCourseService.getRequestOpenCoursesByLecturerId(lecturer_id));
         return "lecturer/list_request_open_course";
     }
 }

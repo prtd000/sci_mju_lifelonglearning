@@ -12,6 +12,7 @@ public interface RequestOpCourseDao {
     Lecturer getLecturerDetail(String id);
 
     List<RequestOpenCourse> getRequestOpenCourses();
+    List<RequestOpenCourse> getRequestOpenCoursesByLecturerId(String lec_id);
     RequestOpenCourse getRequestOpenCourseDetail(long id);
 
     void saveRequestOpenCourse (RequestOpenCourse requestOpenCourse);

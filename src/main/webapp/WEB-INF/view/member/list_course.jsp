@@ -21,7 +21,6 @@
 
     <div class="tabcontent" id="listCourse">
         <h1>My list Course</h1>
-        <h1>Username : ${mem_username.username}</h1>
         <table>
             <c:forEach var="invoice" items="${register}">
                 <h1></h1>
@@ -49,8 +48,6 @@
 
     <div class="tabcontent" id="listInvoice">
         <h1>Invoice</h1>
-        <h1>Username : ${mem_username.username}</h1>
-        ${stt}
         <table>
             <c:forEach var="invoices" items="${register}">
                 <c:if test="${invoices.invoice.pay_status == false}">

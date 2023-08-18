@@ -24,16 +24,21 @@
         <div class="navbar-nav ms-auto py-0">
             <a href="${pageContext.request.contextPath}/" class="nav-item nav-link active">หน้าหลัก</a>
             <a href="#" class="nav-item nav-link">เกี่ยวกับคณะ</a>
+            <%--            <div class="nav-item dropdown">--%>
+            <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
+            <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link">หลักสูตรการอบรม</a>
+            <%--                <div class="dropdown-menu m-0">--%>
+            <%--                    <a href="#" class="dropdown-item">Reskill/Upskill</a>--%>
+            <%--                    <a href="#" class="dropdown-item">อบรมระยะสั้น</a>--%>
+
+            <%--                </div>--%>
+            <%--            </div>--%>
             <a href="#" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
             <a href="#" class="nav-item nav-link">เกี่ยวกับเรา</a>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle nav-item" data-bs-toggle="dropdown">เข้าสู่ระบบ</a>
-                <div class="dropdown-menu m-0">
-                    <a href="${pageContext.request.contextPath}/loginMember" class="dropdown-item">สำหรับสมาชิก</a>
-                    <a href="${pageContext.request.contextPath}/loginLecturer" class="dropdown-item">สำหรับบุคลากร</a>
-                    <a href="${pageContext.request.contextPath}/loginAdmin" class="dropdown-item">สำหรับผู้ดูแลระบบ</a>
-                </div>
-            </div>
+            <a href="#" class="nav-item nav-link">Admin</a>
+            <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link">ออกจากระบบ</a>
+
+            <%--            <a href="${pageContext.request.contextPath}/login" class="nav-item nav-link">เข้าสู่ระบบ</a>--%>
         </div>
     </div>
 </nav>

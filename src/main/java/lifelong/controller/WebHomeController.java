@@ -54,12 +54,33 @@ public class WebHomeController {
         model.addAttribute("majors",majorService.getMajors());
         return "search_course";
     }
+    /***********Login**********/
 
+    @GetMapping("/loginMember")
+    public String loginPageMember(Model model) {
+        model.addAttribute("title", "ลงชื่อเข้าสู่ระบบ");
+        return "member/loginMember";
+    }
+    @GetMapping("/loginLecturer")
+    public String loginPageLecturer(Model model) {
+        model.addAttribute("title", "สำหรับผู้รับผิดชอบหลักสูตร");
+        return "lecturer/loginLecturer";
+    }
+    @GetMapping("/loginAdmin")
+    public String loginPageAdmin(Model model) {
+        model.addAttribute("title", "สำหรับผู้ดูแลระบบ");
+        return "admin/loginAdmin";
+    }
+    @GetMapping("/access-denied")
+    public String showAccessDenied(Model model) {
+        model.addAttribute("title", "Access Denied");
+        return "access-denied";
+    }
     /***********Register Member**********/
 
     @GetMapping("/register_member")
     public String registerMember() {
-        return "register";
+        return "register_member";
     }
 
     @PostMapping("/register_member/save")

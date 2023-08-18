@@ -7,11 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/member")
@@ -36,12 +37,6 @@ public class MemberController {
     public String loginPage(Model model) {
         model.addAttribute("title", "Login");
         return "member/login";
-    }
-
-    @GetMapping("/access-denied")
-    public String showAccessDenied(Model model) {
-        model.addAttribute("title", "Access Denied");
-        return "member/access-denied";
     }
 
     @GetMapping("/{memid}/register_course/{courseid}/{requestid}")
@@ -83,6 +78,7 @@ public class MemberController {
         invoice.setStartPayment(payStart);
         invoice.setEndPayment(payEnd);
         invoice.setRegister(register1);
+        invoice.setApprove_status("รอดำเนินการ");
         registerService.doInvoice(invoice);
         return "redirect:/";
     }
@@ -94,18 +90,6 @@ public class MemberController {
         model.addAttribute("list_invoice",memberService.getListInvoice());
         model.addAttribute("mem_username",memberService.getMemberById(memId));
         model.addAttribute("register", registerService.getRegister(memId));
-
-//        model.addAttribute("pending","รอดำเนินการ");
-//        long receiptFK = paymentService.getReceiptByInvoiceId(invoiceId).getInvoice().getInvoice_id();
-//        long invoicePK = paymentService.getInvoiceById(invoiceId).getInvoice_id();
-//        System.out.println("receiptFK : " + receiptFK);
-//        System.out.println("invoicePK : " + invoicePK);
-//
-//        if (receiptFK == invoicePK){
-//            model.addAttribute("visibility", "hidden");
-//        }else {
-//            model.addAttribute("visibility", "none");
-//        }
         return "/member/list_course";
     }
 
@@ -130,7 +114,7 @@ public class MemberController {
 
     @PostMapping(path="/{memid}/update")
     public String updateProfile(@PathVariable("memid") String memId, @RequestParam Map<String, String> params) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Member member = memberService.getMemberById(memId);
         if (member != null) {
             member.setFirstName(params.get("firstName"));
@@ -139,6 +123,7 @@ public class MemberController {
             member.setTel(params.get("tel"));
             member.setEmail(params.get("email"));
             member.setEducation(params.get("education"));
+
             memberService.doRegisterMember(member);
         }
         return "redirect:/member/"+ memId +"/edit_profile";

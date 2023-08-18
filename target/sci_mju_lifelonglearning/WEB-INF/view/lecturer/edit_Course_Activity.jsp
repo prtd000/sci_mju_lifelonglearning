@@ -21,9 +21,10 @@
 </div>
 <div class="container">
   <div id="container">
-    <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
+    <c:if test="${activities != null}">
+    <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง555555555555555555555555555555</i>
     <br><br>
-    <form action="${pageContext.request.contextPath}/activity/${activities.ac_id}/update_course_add_activity" method="POST">
+    <form action="${pageContext.request.contextPath}/lecturer/${lec_id}/${activities.ac_id}/update_course_add_activity" method="POST">
       <table>
         <colgroup>
           <col style="width: 160px;">
@@ -47,7 +48,7 @@
           <td><input name="ac_img" type="text" id="ac_img" value="${activities.img}"/></td>
         </tr>
         <tr>
-          <td><a href="${pageContext.request.contextPath}/request_open_course/${activities.ac_id}/view_course_activity_page"><button>ย้อนกลับ</button></a></td>
+          <td><input type="button" onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lec_id}/${activities.ac_id}/view_course_activity_page/${request_id}'; return false;" value="ย้อนกลับ"></td>
           <td><input type="submit" value="บันทึก" class="save"/>
             <%--                        <input type="button" value="ยกเลิก"onclick="window.location.href='list'; return false;"class="cancel-button"/>--%>
           </td>
@@ -55,6 +56,10 @@
         </tbody>
       </table>
     </form>
+    </c:if>
+    <c:if test="${activities == null}">
+      <h3>ไม่พบข่าวสารนี้</h3>
+      <input type="button" onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lec_id}/view_approve_request_open_course/${request_id}'; return false;" value="ย้อนกลับ">    </c:if>
   </div>
 </div>
 <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>

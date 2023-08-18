@@ -23,7 +23,7 @@
   <div id="container">
     <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
     <br><br>
-      <form action="${pageContext.request.contextPath}/activity/${ROC_detail.lecturer.username}/save_add_course_activity/${ROC_detail.request_id}" method="POST">
+      <form action="${pageContext.request.contextPath}/lecturer/${ROC_detail.lecturer.username}/save_add_course_activity/${ROC_detail.request_id}" method="POST">
       <table>
         <colgroup>
           <col style="width: 160px;">
@@ -48,7 +48,7 @@
         </tr>
         <tr>
           <td><input type="button" value="ย้อนกลับ"
-                     onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/${ROC_detail.lecturer.username}/view_approve_request_open_course/${ROC_detail.request_id}'; return false;"
+                     onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${ROC_detail.lecturer.username}/view_approve_request_open_course/${ROC_detail.request_id}'; return false;"
                      class="cancel-button"/></td>
           <td><input type="submit" value="บันทึก" class="save"/>
             <%--                        <input type="button" value="ยกเลิก"onclick="window.location.href='list'; return false;"class="cancel-button"/>--%>

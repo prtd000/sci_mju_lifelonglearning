@@ -7,6 +7,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 @Repository
 public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
@@ -48,7 +49,23 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
         RequestOpenCourse requestOpenCourse = session.get(RequestOpenCourse.class, id);
         return requestOpenCourse;
     }
+    @Override
+    public RequestOpenCourse getRequestOpenCourseDetailToUpdate(long roc_id,String lec_id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("FROM RequestOpenCourse r WHERE r.id =: roc_id and r.lecturer.username =: lec_id", RequestOpenCourse.class);
+        query.setParameter("roc_id", roc_id);
+        query.setParameter("lec_id", lec_id);
 
+        try {
+            RequestOpenCourse requestOpenCourse = query.getSingleResult();
+            System.out.println(requestOpenCourse);
+            return requestOpenCourse;
+        } catch (NoResultException e) {
+            // ไม่พบข้อมูล ในกรณีนี้คุณสามารถจัดการตามที่คุณต้องการได้
+            // เช่น คืนค่า null, คืนค่าว่าง, หรือส่งกลับข้อความบอกว่าไม่พบข้อมูล
+            return null; // หรือ return ค่าที่คุณต้องการ
+        }
+    }
     @Override
     public void saveRequestOpenCourse(RequestOpenCourse requestOpenCourse) {
         Session session = sessionFactory.getCurrentSession();
@@ -56,10 +73,11 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
     }
 
     @Override
-    public void deleteRequestOpenCourse(long id) {
+    public void deleteRequestOpenCourse(long id,String lec_id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("delete from RequestOpenCourse where id=:request_id");
+        Query query = session.createQuery("delete from RequestOpenCourse where id=:request_id and lecturer.username =: lec_id");
         query.setParameter("request_id", id);
+        query.setParameter("lec_id", lec_id);
         query.executeUpdate();
     }
 

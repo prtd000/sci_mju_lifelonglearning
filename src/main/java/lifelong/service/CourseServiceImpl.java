@@ -1,6 +1,7 @@
 package lifelong.service;
 
 import lifelong.dao.CourseDao;
+import lifelong.model.AddImg;
 import lifelong.model.Course;
 import lifelong.model.Major;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,12 @@ public class CourseServiceImpl implements CourseService{
     @Transactional
     public List<Course> getCourses() {
         return couresDao.getCourses();
+    }
+
+    @Override
+    @Transactional
+    public List<AddImg> getAddImg() {
+        return couresDao.getAddImg();
     }
 
     @Override
@@ -49,6 +56,13 @@ public class CourseServiceImpl implements CourseService{
     public void doAddCourse(Course course) {
         couresDao.doAddCourse(course);
     }
+
+    @Override
+    @Transactional
+    public void doAddImg(AddImg addImg) {
+        couresDao.doAddImg(addImg);
+    }
+
     @Override
     @Transactional
     public void doAddMajor(Major major) {
@@ -59,5 +73,11 @@ public class CourseServiceImpl implements CourseService{
     @Transactional
     public void updateCourse(Course course) {
         couresDao.updateCourse(course);
+    }
+
+    @Override
+    @Transactional
+    public int getLatestFileCount() {
+        return couresDao.getLatestFileCount();
     }
 }

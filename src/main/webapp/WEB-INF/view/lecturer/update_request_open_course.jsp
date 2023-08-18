@@ -31,9 +31,10 @@
 </div>
 <div class="container">
     <div id="container">
-        <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
-        <br><br>
-        <form action="${pageContext.request.contextPath}/request_open_course/${request_open_course.request_id}/update" method="POST">
+        <c:if test="${request_open_course != null}">
+            <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
+            <br><br>
+        <form action="${pageContext.request.contextPath}/lecturer/${lec_id}/${request_open_course.request_id}/update" method="POST">
             <%
                 Date currentDate = new Date();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -166,13 +167,20 @@
                     <td>
                         <input type="submit" name="confirmButton" value="บันทึก" class="save" />
                         <input type="button" value="ย้อนกลับ"
-                               onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/view_request_open_course/${request_open_course.request_id}'; return false;"
+                               onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lec_id}/view_request_open_course/${request_open_course.request_id}'; return false;"
                                class="cancel-button"/>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </form>
+        </c:if>
+        <c:if test="${request_open_course == null}">
+            <h3>ไม่พบการร้องขอนี้</h3>
+            <input type="button" value="ย้อนกลับ"
+                   onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lec_id}/list_request_open_course'; return false;"
+                   class="cancel-button"/>
+        </c:if>
     </div>
 </div>
 

@@ -151,13 +151,13 @@
                     <tr>
                         <td><label></label></td>
                         <td><input type="button" value="ลบ"
-                                   onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/request_open_course/${ROC_detail.request_id}/delete'; return false; }"
+                                   onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lec_id}/${ROC_detail.request_id}/delete'; return false; }"
                                    class="cancel-button"/>
 <%--                            <input type="button" value="แก้ไข"/>--%>
-                            <a href="${pageContext.request.contextPath}/request_open_course/${ROC_detail.request_id}/update_page">แก้ไข</a>
+                            <a href="${pageContext.request.contextPath}/lecturer/${lec_id}/${ROC_detail.request_id}/update_page">แก้ไข</a>
 <%--                            <input type="button" value="ยกเลิก"onclick="window.location.href='list'; return false;"class="cancel-button"/>--%>
                             <input type="button" value="ย้อนกลับ"
-                                   onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/${lec_id}/list_request_open_course'; return false;"
+                                   onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lec_id}/list_request_open_course'; return false;"
                                    class="cancel-button"/>
                         </td>
                     </tr>

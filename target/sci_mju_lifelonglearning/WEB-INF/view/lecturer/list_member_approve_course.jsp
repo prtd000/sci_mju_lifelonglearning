@@ -52,7 +52,7 @@
         </c:forEach>
     </table>
     <input type="button" value="ย้อนกลับ"
-           onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/list_request_open_course'; return false;"
+           onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/list_request_open_course'; return false;"
            class="cancel-button"/>
 </div>
 </body>

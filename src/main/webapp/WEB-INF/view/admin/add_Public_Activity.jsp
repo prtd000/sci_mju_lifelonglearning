@@ -28,7 +28,7 @@
   <div id="container">
     <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
     <br><br>
-    <form action="${pageContext.request.contextPath}/activity/admin/save_public_add_activity" method="POST">
+    <form action="${pageContext.request.contextPath}/course/admin/save_public_add_activity" method="POST">
       <table style="width: 100%">
         <colgroup>
           <col style="width: 160px;">

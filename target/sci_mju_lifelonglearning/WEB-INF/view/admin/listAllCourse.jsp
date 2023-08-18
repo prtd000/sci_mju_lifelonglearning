@@ -112,7 +112,7 @@
                 <%--DIV ที่ 4--%>
                 <div id="Activity_News" class="tabcontent">
                     <h3>ข่าวสารและกิจกรรม</h3>
-                    <input type="button" value="ข่าวสาร"onclick="window.location.href='${pageContext.request.contextPath}/activity/public/add_activity'; return false;"class="add-button"/>
+                    <input type="button" value="ข่าวสาร"onclick="window.location.href='${pageContext.request.contextPath}/course/public/add_activity'; return false;"class="add-button"/>
                     <table class="table table-striped table-hover">
                         <tr style="color: black">
                             <td class="td_request">รายการข่าว</td>
@@ -125,11 +125,11 @@
                                 <td>${list.name}</td>
                                 <td>${list.date}</td>
                                 <td>
-                                    <a href="${pageContext.request.contextPath}/activity/public/${list.ac_id}/view_page"><button>ดูรายละเอียด</button></a>
+                                    <a href="${pageContext.request.contextPath}/course/public/${list.ac_id}/view_page"><button>ดูรายละเอียด</button></a>
                                 </td>
                                 <td>
                                     <input type="button" value="ยกเลิก"
-                                           onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/activity/${list.ac_id}/delete'; return false; }"
+                                           onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/course/${list.ac_id}/delete'; return false; }"
                                            class="cancel-button"/>
                                 </td>
                             </tr>

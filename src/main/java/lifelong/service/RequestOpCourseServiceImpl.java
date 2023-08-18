@@ -42,11 +42,16 @@ public class RequestOpCourseServiceImpl implements RequestOpCourseService {
     public RequestOpenCourse getRequestOpenCourseDetail(long requestId) {
         return requestOpCourseDao.getRequestOpenCourseDetail(requestId);
     }
+    @Override
+    @Transactional
+    public RequestOpenCourse getRequestOpenCourseDetailToUpdate(long roc_id,String lec_id) {
+        return requestOpCourseDao.getRequestOpenCourseDetailToUpdate(roc_id,lec_id);
+    }
 
     @Override
     @Transactional
-    public void deleteRequestOpenCourse(long requestId) {
-        requestOpCourseDao.deleteRequestOpenCourse(requestId);
+    public void deleteRequestOpenCourse(long requestId,String lec_id) {
+        requestOpCourseDao.deleteRequestOpenCourse(requestId,lec_id);
     }
 
     @Override

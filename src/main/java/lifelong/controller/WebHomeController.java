@@ -1,5 +1,6 @@
 package lifelong.controller;
 
+import lifelong.model.Course;
 import lifelong.model.Member;
 import lifelong.service.CourseService;
 import lifelong.service.MajorService;
@@ -27,6 +28,7 @@ public class WebHomeController {
 
     @GetMapping("/")
     public String listCourse(Model model) {
+//        model.addAttribute("title", "รายการ" + title);
         model.addAttribute("courses", courseService.getCourses());
         return "home";
     }
@@ -36,7 +38,13 @@ public class WebHomeController {
         model.addAttribute("majors",majorService.getMajors());
         return "search_course";
     }
-
+    @GetMapping("/{id}")
+    public String showCourseDetail(@PathVariable("id") String id, Model model) {
+        Course course = courseService.getCourseDetail(id);
+//        model.addAttribute("title", "แก้ไข" + title);
+        model.addAttribute("course_detail", course);
+        return "course/course-detail";
+    }
     @GetMapping("/search_course/{value}")
     public String searchCourseByCourseName(Model model, @PathVariable("value") String courseName) {
 //        model.addAttribute("title", "รายการ" + title);

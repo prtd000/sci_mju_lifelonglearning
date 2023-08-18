@@ -12,8 +12,10 @@ public interface ActivityDao {
     List<Activity> getPublicActivity();
 
     Activity getActivityDetail(long id);
+    Activity getActivityDetailToUpdate(long id , String lec_id);
     List<Activity> getActivityByRequestOpenCourseId(long roc_id);
     Activity updateActivity (Activity activity) ;
 
     void deleteActivity(long id);
+    void deleteCourseActivity(long id , String lec_id);
 }

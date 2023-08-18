@@ -1,13 +1,11 @@
 package lifelong.service;
 
-import lifelong.model.Activity;
-import lifelong.model.Course;
-import lifelong.model.Major;
-import lifelong.model.RequestOpenCourse;
+import lifelong.model.*;
 
 import java.util.List;
 public interface CourseService {
         List<Course> getCourses();
+        List<AddImg> getAddImg();
         Course getCourseDetail(String courseId);
         Course getCourseById(String course_id);
 
@@ -15,6 +13,10 @@ public interface CourseService {
         String[] getCourseDetailObject(String courseId);
         void doAddCourse(Course course);
 
+        void doAddImg(AddImg addImg);
+
         public void doAddMajor(Major major);
         void updateCourse(Course course);
+
+        int getLatestFileCount();
 }

@@ -1,5 +1,6 @@
 package lifelong.dao;
 
+import lifelong.model.AddImg;
 import lifelong.model.Course;
 import lifelong.model.Major;
 import org.hibernate.query.Query;
@@ -23,11 +24,29 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
+    public List<AddImg> getAddImg() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<AddImg> query = session.createQuery("from AddImg ",AddImg.class);
+        List<AddImg> addImgs = query.getResultList();
+        return addImgs;
+    }
+
+    @Override
     public Course getCourseDetail(String id) {
         Session session = sessionFactory.getCurrentSession();
         Course course = session.get(Course.class, id);
         return course;
     }
+
+    @Override
+    public int getLatestFileCount() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Long> query = session.createQuery("SELECT MAX(id) FROM AddImg", Long.class);
+        Long result = query.uniqueResult();
+        return result != null ? result.intValue() : 0; // ถ้าไม่พบข้อมูลให้ส่งค่า 0 แทน
+    }
+
+
 
     @Override
     public Course getCourseById(String course_id) {
@@ -67,6 +86,12 @@ public class CourseDaoImpl implements CourseDao {
     public void doAddMajor(Major major) {
         Session session = sessionFactory.getCurrentSession();
         session.saveOrUpdate(major);
+    }
+
+    @Override
+    public void doAddImg(AddImg addImg) {
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(addImg);
     }
 
 //    @Override

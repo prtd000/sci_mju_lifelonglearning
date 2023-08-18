@@ -46,12 +46,12 @@
           <td>${activities.img}</td>
         </tr>
         <tr>
-          <td><a href="${pageContext.request.contextPath}/request_open_course/${activities.requestOpenCourse.lecturer.username}/view_approve_request_open_course/${activities.requestOpenCourse.request_id}"><button>ย้อนกลับ</button></a>
+          <td><a href="${pageContext.request.contextPath}/lecturer/${activities.requestOpenCourse.lecturer.username}/view_approve_request_open_course/${activities.requestOpenCourse.request_id}"><button>ย้อนกลับ</button></a>
             <input type="button" value="ยกเลิก"
-                   onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/activity/${activities.ac_id}/delete'; return false; }"
+                   onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lec_id}/${activities.ac_id}/delete'; return false; }"
                    class="cancel-button"/>
           </td>
-          <td><a href="${pageContext.request.contextPath}/activity/public/${activities.ac_id}/edit_course_activity_page"><button>แก้ไข</button></a></td>
+          <td><a href="${pageContext.request.contextPath}/lecturer/${lec_id}/private/${activities.ac_id}/edit_course_activity_page/${roc_id}"><button>แก้ไข</button></a></td>
         </tr>
         </tbody>
       </table>

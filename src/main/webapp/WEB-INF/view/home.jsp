@@ -115,9 +115,9 @@
 <body>
 <!-- Navbar -->
 <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
-<input type="button" value="ร้องขอ"onclick="window.location.href='${pageContext.request.contextPath}/course/add_course'; return false;"class="add-button"/>
-<input type="button" value="ข่าวสาร"onclick="window.location.href='${pageContext.request.contextPath}/activity/public/add_activity'; return false;"class="add-button"/>
-<input type="button" value="list ข่าวสาร"onclick="window.location.href='${pageContext.request.contextPath}/activity/public/list_activity'; return false;"class="add-button"/>
+<%--<input type="button" value="ร้องขอ"onclick="window.location.href='${pageContext.request.contextPath}/course/add_course'; return false;"class="add-button"/>--%>
+<%--<input type="button" value="ข่าวสาร"onclick="window.location.href='${pageContext.request.contextPath}/activity/public/add_activity'; return false;"class="add-button"/>--%>
+<%--<input type="button" value="list ข่าวสาร"onclick="window.location.href='${pageContext.request.contextPath}/activity/public/list_activity'; return false;"class="add-button"/>--%>
 <!-- Carousel Start -->
 
 <div class="container-fluid p-0 mb-5">
@@ -198,7 +198,7 @@
                                              style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
                                         <div>
                                             <br>
-                                            <a href="${pageContext.request.contextPath}/course/${course.course_id}">
+                                            <a href="${pageContext.request.contextPath}/${course.course_id}">
                                                 <b><h4 class="item text_ellipsis" >${course.name}</h4></b>
                                             </a>
                                         </div>
@@ -206,7 +206,7 @@
                                         <b><p style="color: #0c7800; font-size: 22px">
                                             ราคา <fmt:formatNumber value="${courseFee}" />.00 บาท
                                         </p></b>
-                                        <a href="${pageContext.request.contextPath}/course/${course.course_id}">อ่านเพิ่มเติม<i
+                                        <a href="${pageContext.request.contextPath}/${course.course_id}">อ่านเพิ่มเติม<i
                                                 class="bi bi-arrow-right ms-2"></i></a></td>
                                     </div>
                                 </div>
@@ -253,7 +253,7 @@
                                              style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
                                         <div>
                                             <br>
-                                            <a href="${pageContext.request.contextPath}/course/${course.course_id}">
+                                            <a href="${pageContext.request.contextPath}/${course.course_id}">
                                                 <b><h4 class="item text_ellipsis" >${course.name}</h4></b>
                                             </a>
                                         </div>
@@ -261,7 +261,7 @@
                                         <b><p style="color: #0c7800; font-size: 22px">
                                             ราคา <fmt:formatNumber value="${courseFee}" />.00 บาท
                                         </p></b>
-                                        <a href="${pageContext.request.contextPath}/course/${course.course_id}">อ่านเพิ่มเติม<i
+                                        <a href="${pageContext.request.contextPath}/${course.course_id}">อ่านเพิ่มเติม<i
                                                 class="bi bi-arrow-right ms-2"></i></a></td>
                                     </div>
                                 </div>

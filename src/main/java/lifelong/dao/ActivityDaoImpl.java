@@ -9,6 +9,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 @Repository
@@ -36,6 +37,23 @@ public class ActivityDaoImpl implements ActivityDao{
         Activity activity = session.get(Activity.class, id);
         return activity;
     }
+    @Override
+    public Activity getActivityDetailToUpdate(long id , String lec_id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Activity> query = session.createQuery("FROM Activity a WHERE a.ac_id =: ac_id and a.lecturer.username =: lec_id", Activity.class);
+        query.setParameter("ac_id", id);
+        query.setParameter("lec_id", lec_id);
+
+        try {
+            Activity activity = query.getSingleResult();
+            System.out.println(activity);
+            return activity;
+        } catch (NoResultException e) {
+            // ไม่พบข้อมูล ในกรณีนี้คุณสามารถจัดการตามที่คุณต้องการได้
+            // เช่น คืนค่า null, คืนค่าว่าง, หรือส่งกลับข้อความบอกว่าไม่พบข้อมูล
+            return null; // หรือ return ค่าที่คุณต้องการ
+        }
+    }
 
     @Override
     public List<Activity> getActivityByRequestOpenCourseId(long id) {
@@ -57,6 +75,14 @@ public class ActivityDaoImpl implements ActivityDao{
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("delete from Activity where id=:ac_id");
         query.setParameter("ac_id", id);
+        query.executeUpdate();
+    }
+    @Override
+    public void deleteCourseActivity(long id , String lec_id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("delete from Activity where id=:ac_id and lecturer.username = : lec_id");
+        query.setParameter("ac_id", id);
+        query.setParameter("lec_id", lec_id);
         query.executeUpdate();
     }
 }

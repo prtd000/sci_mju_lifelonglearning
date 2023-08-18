@@ -95,13 +95,13 @@
             <tr>
                 <td><label></label></td>
                 <td><input type="button" value="ลบ"
-                           onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/request_open_course/${RAOC_detail.request_id}/delete'; return false; }"
+                           onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lec_id}/${RAOC_detail.request_id}/delete'; return false; }"
                            class="cancel-button"/>
                     <input type="button" value="ย้อนกลับ"
-                           onclick="window.location.href='${pageContext.request.contextPath}/request_open_course/${lec_id}/list_request_open_course'; return false;"
+                           onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lec_id}/list_request_open_course'; return false;"
                            class="cancel-button"/>
                     <input type="button" value="เพิ่มข่าวสารหลักสูตร"
-                           onclick="window.location.href='${pageContext.request.contextPath}/activity/${RAOC_detail.request_id}/add_course_activity'; return false;"
+                           onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${RAOC_detail.request_id}/add_course_activity'; return false;"
                            class="cancel-button"/>
                 </td>
             </tr>
@@ -119,11 +119,11 @@
                     <td>${list.name}</td>
                     <td>${list.date}</td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/activity/${list.ac_id}/view_course_activity_page"><button>ดูรายละเอียด</button></a>
+                        <a href="${pageContext.request.contextPath}/lecturer/${lec_id}/${list.ac_id}/view_course_activity_page/${roc_id}"><button>ดูรายละเอียด</button></a>
                     </td>
                     <td>
                         <input type="button" value="ยกเลิก"
-                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/activity/${list.ac_id}/delete'; return false; }"
+                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lec_id}/${list.ac_id}/delete'; return false; }"
                                class="cancel-button"/>
                     </td>
                 </tr>

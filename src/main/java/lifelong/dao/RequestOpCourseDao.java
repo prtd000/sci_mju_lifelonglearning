@@ -14,10 +14,10 @@ public interface RequestOpCourseDao {
     List<RequestOpenCourse> getRequestOpenCourses();
     List<RequestOpenCourse> getRequestOpenCoursesByLecturerId(String lec_id);
     RequestOpenCourse getRequestOpenCourseDetail(long id);
+    RequestOpenCourse getRequestOpenCourseDetailToUpdate(long roc_id,String lec_id);
 
     void saveRequestOpenCourse (RequestOpenCourse requestOpenCourse);
-    void deleteRequestOpenCourse(long id);
-
+    void deleteRequestOpenCourse(long id,String lec_id);
     RequestOpenCourse updateRequestOpenCourse (RequestOpenCourse requestOpenCourse) ;
 
     List<Major> getMajors();

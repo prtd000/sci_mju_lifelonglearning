@@ -12,9 +12,12 @@ public interface ActivityService {
     List<Activity> getPublicActivity();
 
     Activity getActivityDetail(long activityId);
+    Activity getActivityDetailToUpdate(long id , String lec_id);
 
     List<Activity> getActivityDetailByCourseId(long roc_Id);
 
     void updateActivity(Activity activity);
     void deleteActivity(long acId);
+
+    void deleteCourseActivity(long id , String lec_id);
 }

@@ -30,6 +30,11 @@ public class ActivityServiceImpl implements ActivityService{
     public Activity getActivityDetail(long activityId) {
         return activityDao.getActivityDetail(activityId);
     }
+    @Override
+    @Transactional
+    public Activity getActivityDetailToUpdate(long id , String lec_id) {
+        return activityDao.getActivityDetailToUpdate(id,lec_id);
+    }
 
     @Override
     @Transactional
@@ -47,5 +52,11 @@ public class ActivityServiceImpl implements ActivityService{
     @Transactional
     public void deleteActivity(long acId) {
         activityDao.deleteActivity(acId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCourseActivity(long id , String lec_id){
+        activityDao.deleteCourseActivity(id,lec_id);
     }
 }

@@ -25,11 +25,11 @@
             <td>${list.img}</td>
             <td>${list.detail}</td>
             <td>
-                <a href="${pageContext.request.contextPath}/activity/public/${list.ac_id}/view_page"><button>ดูรายละเอียด</button></a>
+                <a href="${pageContext.request.contextPath}/course/public/${list.ac_id}/view_page"><button>ดูรายละเอียด</button></a>
             </td>
             <td>
                 <input type="button" value="ยกเลิก"
-                       onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/activity/${list.ac_id}/delete'; return false; }"
+                       onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/course/${list.ac_id}/delete'; return false; }"
                        class="cancel-button"/>
             </td>
         </tr>

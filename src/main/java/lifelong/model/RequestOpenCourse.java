@@ -56,8 +56,7 @@ public class RequestOpenCourse {
 
     @Column(name = "signature",nullable = false,length = 200)
     private String signature;
-    @Column(name = "cancel_note",length = 200)
-    private String note;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id")
     private Course course;
@@ -213,14 +212,6 @@ public class RequestOpenCourse {
 
     public void setLecturer(Lecturer lecturer) {
         this.lecturer = lecturer;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
     }
 
     public void fill(RequestOpenCourse requestOpenCourse) {

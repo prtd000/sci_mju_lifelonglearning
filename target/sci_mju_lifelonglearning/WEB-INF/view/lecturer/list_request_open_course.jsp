@@ -79,7 +79,7 @@
                                     <td align="center"><a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/view_request_open_course/${request_course.request_id}">ดูรายละเอียด</a></td>
                                     <td align="center">
                                         <input type="button" value="ยกเลิก"
-                                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${request_course.request_id}/delete'; return false; }"
+                                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/delete_request_open_course'; return false; }"
                                                class="cancel-button"/>
                                     </td>
                                 </tr>

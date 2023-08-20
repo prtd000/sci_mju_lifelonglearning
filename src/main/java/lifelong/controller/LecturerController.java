@@ -37,66 +37,18 @@ public class LecturerController {
     @Autowired
     private SessionFactory sessionFactory;
     private String Activity_title = "ข่าวสารและกิจกรรม";
-    @GetMapping("/{lec_id}/view_request_open_course/{roc_id}")
-    public String showRequestOpenCourse(@PathVariable("lec_id") String lec_id,@PathVariable("roc_id") long roc_id, Model model) {
-        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
-        //model.addAttribute("title", "แก้ไข" + title);
-        model.addAttribute("ROC_detail", requestOpenCourse);
-        model.addAttribute("lec_id", lec_id);
-        return "lecturer/view_request_open_course";
-    }
 
-    @GetMapping("/{lec_id}/view_approve_request_open_course/{roc_id}")
-    public String showRequestApproveOpenCourse(@PathVariable("lec_id") String lec_id,@PathVariable("roc_id") long roc_id, Model model) {
-        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
-        model.addAttribute("title", "แก้ไข" + title);
-        model.addAttribute("RAOC_detail", requestOpenCourse);
-        model.addAttribute("course_activities",activityService.getActivityDetailByCourseId(roc_id));
-        return "lecturer/view_Approve_request_open_course";
-    }
-    @InitBinder
-    public void initBinder(WebDataBinder dataBinder) {
-        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
-        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
-    }
-
-//    @GetMapping("/{lec_id}/{roc_id}/delete")
-//    public String deleteProduct(@PathVariable("lec_id")String lec_id,@PathVariable("roc_id") long roc_id) {
-////        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetailToUpdate(roc_id,lec_id);
-//        requestOpCourseService.deleteRequestOpenCourse(roc_id,lec_id);
-////        String lec_id = requestOpenCourse.getLecturer().getUsername();
-//        System.out.println(lec_id);
-//        return "redirect:/lecturer/"+ lec_id +"/list_request_open_course";
-//    }
-
+    //******************Request Open Course*************************//
     @GetMapping("/{lecturer_id}/add_roc")
-    public String showFormAddCourse(@PathVariable("lecturer_id") String lecturer_id,Model model) {
+    public String getCourseRequest(@PathVariable("lecturer_id") String lecturer_id,Model model) {
         model.addAttribute("title", "ร้องขอเปิด" + title);
         model.addAttribute("lecturer",requestOpCourseService.getLecturerDetail(lecturer_id));
         model.addAttribute("courses", courseService.getCourses());
         model.addAttribute("request_open_course", new RequestOpenCourse());
         return "lecturer/add_request_open_course";
     }
-    @GetMapping("/{lec_id}/{roc_id}/update_page")
-    public String showFormForUpdate(@PathVariable("lec_id") String lec_id,@PathVariable("roc_id") long roc_id, Model model) {
-        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetailToUpdate(roc_id,lec_id);
-        model.addAttribute("title", "แก้ไขคำร้องขอเปิด" + title);
-        model.addAttribute("lecturer", requestOpCourseService.getLecturer());
-        model.addAttribute("courses", courseService.getCourses());
-        model.addAttribute("request_open_course", requestOpenCourse);
-        return "lecturer/update_request_open_course";
-    }
-
-    @PostMapping("/update_roc")
-    public String updateRequestOpCourse(@ModelAttribute("request_open_course") RequestOpenCourse requestOpenCourse) {
-        System.out.println(requestOpenCourse.getRequest_id());
-        return "redirect:list_request_open_course";
-    }
-
-
     @PostMapping (path="/{id}/save")
-    public String saveRequest(@PathVariable("id") String lec_id,@RequestParam Map<String, String> allReqParams,@RequestParam("confirmButton") String confirmButton) throws ParseException {
-
+    public String doRequestOpenCourseDetail(@PathVariable("id") String lec_id,@RequestParam Map<String, String> allReqParams,@RequestParam("confirmButton") String confirmButton) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // เปลี่ยนรูปแบบวันที่ให้ตรงกับ HTML
         Date requestDate = new Date();
         Date startRegisterDate = dateFormat.parse(allReqParams.get("startRegister"));
@@ -119,9 +71,30 @@ public class LecturerController {
         requestOpCourseService.saveRequestOpenCourse(requestOpenCourse_toAdd);
         return "redirect:/lecturer/"+ lec_id +"/list_request_open_course";
     }
-    @PostMapping (path="/{lec_id}/{req_id}/update")
-    public String updateRequest(@PathVariable("lec_id") String lec_id,@PathVariable("req_id") String req_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
+    //********************************************************//
 
+    //************************* List Request Course & List Approved Course***************************//
+    @GetMapping("/{lecturer_id}/list_request_open_course")
+    public String doListRequestCourseDetail(@PathVariable("lecturer_id") String lecturer_id,Model model) {
+        model.addAttribute("title", "รายการ");
+        model.addAttribute("lecturer_id", lecturer_id);
+        model.addAttribute("requests_open_course", requestOpCourseService.getRequestOpenCoursesByLecturerId(lecturer_id));
+        return "lecturer/list_request_open_course";
+    }
+    //**********************************************************************//
+
+    //*********************Edit Request Course****************************//
+    @GetMapping("/{lec_id}/{roc_id}/update_page")
+    public String getRequestCourseDetail(@PathVariable("lec_id") String lec_id,@PathVariable("roc_id") long roc_id, Model model) {
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetailToUpdate(roc_id,lec_id);
+        model.addAttribute("title", "แก้ไขคำร้องขอเปิด" + title);
+        model.addAttribute("lecturer", requestOpCourseService.getLecturer());
+        model.addAttribute("courses", courseService.getCourses());
+        model.addAttribute("request_open_course", requestOpenCourse);
+        return "lecturer/update_request_open_course";
+    }
+    @PostMapping (path="/{lec_id}/{req_id}/update")
+    public String doEditRequestCourseDetail(@PathVariable("lec_id") String lec_id,@PathVariable("req_id") String req_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // เปลี่ยนรูปแบบวันที่ให้ตรงกับ HTML
 
         //boolean requestStatusBool = false;
@@ -149,52 +122,93 @@ public class LecturerController {
 //        String lec_id = existingRequest.getLecturer().getUsername();
         return "redirect:/lecturer/"+ lec_id +"/view_request_open_course/"+ req_id;
     }
-    @GetMapping("/{lecturer_id}/list_request_open_course")
-    public String listCourse(@PathVariable("lecturer_id") String lecturer_id,Model model) {
+    //******************************************************************************//
+
+    //***************************Cancel Course Detail***********************************//
+    @GetMapping("/{lec_id}/{roc_id}/delete_request_open_course")
+    public String doEditCourseActivity(@PathVariable("lec_id")String lec_id,@PathVariable("roc_id") long roc_id) {
+//        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetailToUpdate(roc_id,lec_id);
+        requestOpCourseService.deleteRequestOpenCourse(roc_id,lec_id);
+//        String lec_id = requestOpenCourse.getLecturer().getUsername();
+        System.out.println(lec_id);
+        return "redirect:/lecturer/"+ lec_id +"/list_request_open_course";
+    }
+    //**********************************************************************************//
+
+    //*************************List Approved Course ต้องเพิ่ม หรือป่าว***************************//
+    @GetMapping("/{lecturer_id}/list_Approved_request_open_course")
+    public String getListApprovedCourseDetail(@PathVariable("lecturer_id") String lecturer_id,Model model) {
         model.addAttribute("title", "รายการ");
         model.addAttribute("lecturer_id", lecturer_id);
         model.addAttribute("requests_open_course", requestOpCourseService.getRequestOpenCoursesByLecturerId(lecturer_id));
-        return "lecturer/list_request_open_course";
+        return null;
     }
+    //**********************************************************************//
+
+    //**********************List Members*********************//
     @GetMapping("/{lecturer_id}/{request_id}/list_member_to_approve")
-    public String showListMemberToApprove(@PathVariable("lecturer_id") String lecturer_id,@PathVariable("request_id") long request_id , Model model) {
+    public String getListMembers(@PathVariable("lecturer_id") String lecturer_id,@PathVariable("request_id") long request_id , Model model) {
         List<Register> register = registerService.getRegisterByRequestIdAndPayStatus(request_id);
         model.addAttribute("title","TEST");
         model.addAttribute("registers",register);
         model.addAttribute("lecturer_id",lecturer_id);
         return "lecturer/list_member_approve_course";
     }
-    @GetMapping("/{lec_id}/private/{id}/edit_course_activity_page/{roc_id}")
-    public String showEditCourseActivity(@PathVariable("lec_id") String lec_id,@PathVariable("id") long id,@PathVariable("roc_id") long roc_id, Model model) {
-        Activity activity = activityService.getActivityDetailToUpdate(id,lec_id);
-        model.addAttribute("title", "แก้ไข" + Activity_title + "ทั่วไป");
-        model.addAttribute("activities", activity);
-        model.addAttribute("request_id", roc_id);
-        return "lecturer/edit_Course_Activity";
-    }
+    //***********************************************************//
 
+    //**************************getPrintListMember() IReport*******************//
+    //*********************************************************************//
+    //*********************************************************************//
+    //*********************************************************************//
+    //*********************************************************************//
+    //*********************************************************************//
+    //*********************************************************************//
+    //*********************************************************************//
+    //*********************************************************************//
 
-    @PostMapping (path="/{lec_id}/{id}/update_course_add_activity")
-    public String updateCourseActivity(@PathVariable("lec_id") String lec_id,@PathVariable("id") long ac_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
-//        long existingActivityId = Long.parseLong(ac_id);
-        Activity existingActivity = activityService.getActivityDetailToUpdate(ac_id,lec_id);
-        System.out.println("PASS");
-        if (existingActivity != null) {
-            existingActivity.setName(allReqParams.get("ac_name"));
-            existingActivity.setDetail(allReqParams.get("ac_detail"));
-            existingActivity.setImg(allReqParams.get("ac_img"));
-            activityService.updateActivity(existingActivity);
+    //******************Edit Study Result*****************//
+    @PostMapping(path = "/{request_id}/update_Status_Member_Result/{register_id}")
+    public String doEditStudyResult(
+            @PathVariable("request_id") long request_id,
+            @PathVariable("register_id") long register_id,
+            @RequestParam Map<String, String> allReqParams) throws ParseException {
+
+        String studyResult = allReqParams.get("studyResult");
+        Register register = registerService.getRegisterByRegisterId(register_id);
+        // ตรวจสอบค่า studyResult และดำเนินการตามที่คุณต้องการ
+        if ("ผ่านหลักสูตร".equals(studyResult)) {
+            register.setStudy_result(true);
+        } else if ("ไม่ผ่านหลักสูตร".equals(studyResult)) {
+            register.setStudy_result(false);
         }
-        return "redirect:/lecturer/"+lec_id+"/"+ac_id+"/view_course_activity_page/"+existingActivity.getRequestOpenCourse().getRequest_id();
-    }
+        String lec_id = register.getRequestOpenCourse().getLecturer().getUsername();
+        registerService.updateRegister(register);
 
-    @GetMapping("/{lec_id}/{id}/delete")
-    public String deleteActivity(@PathVariable("lec_id") String lec_id,@PathVariable("id") long id) {
-        Activity activity = activityService.getActivityDetail(id);
-            activityService.deleteCourseActivity(id,lec_id);
-            return "redirect:/lecturer/"+lec_id+"/view_approve_request_open_course/"+activity.getRequestOpenCourse().getRequest_id();
+        return "redirect:/lecturer/" +lec_id+"/"+ request_id + "/list_member_to_approve";
     }
+    //******************************************************//
 
+    //**************************View Sample Certificate*******************//
+    //*********************************************************************//
+    //*********************************************************************//
+    //*********************************************************************//
+    //*********************************************************************//
+    //*********************************************************************//
+    //*********************************************************************//
+    //*********************************************************************//
+    //*********************************************************************//
+
+    //***********************Upload Signature******************************//
+    //*********************************************************************//
+    //*********************************************************************//
+    //*********************************************************************//
+    //*********************************************************************//
+    //*********************************************************************//
+    //*********************************************************************//
+    //*********************************************************************//
+    //*********************************************************************//
+
+    //*********************Add Course Activity News*********************************//
     @GetMapping("/{roc_id}/add_course_activity")
     public String showFormAddCourseActivity(Model model, @PathVariable("roc_id") long roc_id) {
         RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
@@ -205,7 +219,7 @@ public class LecturerController {
     }
     @Transactional
     @PostMapping (path="/{lec_id}/save_add_course_activity/{roc_id}")
-    public String saveAddRequestCourseActivity(@PathVariable("lec_id") String lec_id,@PathVariable("roc_id") long roc_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
+    public String addCourseActivityNews(@PathVariable("lec_id") String lec_id,@PathVariable("roc_id") long roc_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
         Date ac_date =  new Date();
         String ac_name = allReqParams.get("ac_name");
         String ac_detail = allReqParams.get("ac_detail");
@@ -225,7 +239,91 @@ public class LecturerController {
         activityService.addActivityNews(mergedActivity);
         return "redirect:/lecturer/"+lec_id+"/view_approve_request_open_course/"+roc_id;
     }
+    //**********************************************************************************************//
 
+    //**************************ต้องสร้างเมททอด List Course Activity News****************************//
+    @GetMapping("/list_course_activity_news")
+    public String getListCourseActivityNews() {
+        return null;
+    }
+    //*********************************************************************************************//
+
+    //*************************หลังจาก List แล้วก็เข้าเมทตอทนี้เลย update Course Activity*******************************//
+    //*************************Edit Course Activity*****************************//
+    @GetMapping("/{lec_id}/private/{id}/edit_course_activity_page/{roc_id}")
+    public String getListCourseActivityNews(@PathVariable("lec_id") String lec_id,@PathVariable("id") long id,@PathVariable("roc_id") long roc_id, Model model) {
+        Activity activity = activityService.getActivityDetailToUpdate(id,lec_id);
+        model.addAttribute("title", "แก้ไข" + Activity_title + "ทั่วไป");
+        model.addAttribute("activities", activity);
+        model.addAttribute("request_id", roc_id);
+        return "lecturer/edit_Course_Activity";
+    }
+
+    @PostMapping (path="/{lec_id}/{id}/update_course_add_activity")
+    public String doEditCourseActivity(@PathVariable("lec_id") String lec_id,@PathVariable("id") long ac_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
+//        long existingActivityId = Long.parseLong(ac_id);
+        Activity existingActivity = activityService.getActivityDetailToUpdate(ac_id,lec_id);
+        System.out.println("PASS");
+        if (existingActivity != null) {
+            existingActivity.setName(allReqParams.get("ac_name"));
+            existingActivity.setDetail(allReqParams.get("ac_detail"));
+            existingActivity.setImg(allReqParams.get("ac_img"));
+            activityService.updateActivity(existingActivity);
+        }
+        return "redirect:/lecturer/"+lec_id+"/"+ac_id+"/view_course_activity_page/"+existingActivity.getRequestOpenCourse().getRequest_id();
+    }
+    //*****************************************************************************//
+
+    //***********************Delete Course Activity News***********************//
+    @GetMapping("/{lec_id}/{id}/delete")
+    public String doDeleteCourseActivityNews(@PathVariable("lec_id") String lec_id,@PathVariable("id") long id) {
+        Activity activity = activityService.getActivityDetail(id);
+        activityService.deleteCourseActivity(id,lec_id);
+        return "redirect:/lecturer/"+lec_id+"/view_approve_request_open_course/"+activity.getRequestOpenCourse().getRequest_id();
+    }
+    //****************************************************************************//
+
+
+
+
+
+
+
+
+
+    
+    //******************ไม่ดูแล้ว แก้ไขเลย*******************************//
+    @GetMapping("/{lec_id}/view_request_open_course/{roc_id}")
+    public String showRequestOpenCourse(@PathVariable("lec_id") String lec_id,@PathVariable("roc_id") long roc_id, Model model) {
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
+        //model.addAttribute("title", "แก้ไข" + title);
+        model.addAttribute("ROC_detail", requestOpenCourse);
+        model.addAttribute("lec_id", lec_id);
+        return "lecturer/view_request_open_course";
+    }
+
+    @GetMapping("/{lec_id}/view_approve_request_open_course/{roc_id}")
+    public String showRequestApproveOpenCourse(@PathVariable("lec_id") String lec_id,@PathVariable("roc_id") long roc_id, Model model) {
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
+        model.addAttribute("title", "แก้ไข" + title);
+        model.addAttribute("RAOC_detail", requestOpenCourse);
+        model.addAttribute("course_activities",activityService.getActivityDetailByCourseId(roc_id));
+        return "lecturer/view_Approve_request_open_course";
+    }
+    //*******************************************************************//
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+    }
+
+//    @PostMapping("/update_roc")
+//    public String updateRequestOpCourse(@ModelAttribute("request_open_course") RequestOpenCourse requestOpenCourse) {
+//        System.out.println(requestOpenCourse.getRequest_id());
+//        return "redirect:list_request_open_course";
+//    }
+
+    //**********************ไม่ดูแล้ว แก้ไขเลย**************************************//
     @GetMapping("/{lec_id}/{ac_id}/view_course_activity_page/{roc_id}")
     public String showCourseActivityDetail(@PathVariable("lec_id") String lec_id,@PathVariable("ac_id") long ac_id,@PathVariable("roc_id") long roc_id, Model model) {
         Activity activity = activityService.getActivityDetailToUpdate(ac_id,lec_id);
@@ -234,4 +332,5 @@ public class LecturerController {
         model.addAttribute("request_id", roc_id);
         return "lecturer/view_detail_course_activity";
     }
+    //**********************************************************************//
 }

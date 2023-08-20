@@ -26,7 +26,7 @@
             <td class="td_cancel" align="center"></td>
         </tr>
         <c:forEach var="list" items="${registers}">
-            <form action="${pageContext.request.contextPath}/course/${request_id}/update_Status_Member_Result/${list.register_id}" method="POST">            <tr>
+            <form action="${pageContext.request.contextPath}/lecturer/${request_id}/update_Status_Member_Result/${list.register_id}" method="POST">            <tr>
                 <td>${list.member.idcard}</td>
                 <td>${list.member.firstName} ${list.member.lastName}</td>
                 <td align="center">

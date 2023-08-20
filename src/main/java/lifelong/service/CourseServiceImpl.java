@@ -4,6 +4,7 @@ import lifelong.dao.CourseDao;
 import lifelong.model.AddImg;
 import lifelong.model.Course;
 import lifelong.model.Major;
+import lifelong.model.RequestOpenCourse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,11 @@ public class CourseServiceImpl implements CourseService{
     @Transactional
     public List<Course> getCourses() {
         return couresDao.getCourses();
+    }
+
+    @Override
+    public List<RequestOpenCourse> getListRequestOpCourse() {
+        return couresDao.getListRequestOpCourse();
     }
 
     @Override

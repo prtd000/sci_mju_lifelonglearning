@@ -3,12 +3,15 @@ package lifelong.dao;
 import lifelong.model.AddImg;
 import lifelong.model.Course;
 import lifelong.model.Major;
+import lifelong.model.RequestOpenCourse;
 
 import java.util.List;
 
 
 public interface CourseDao {
     List<Course> getCourses();
+
+    List<RequestOpenCourse> getListRequestOpCourse();
     List<AddImg> getAddImg();
     Course getCourseDetail(String id);
 

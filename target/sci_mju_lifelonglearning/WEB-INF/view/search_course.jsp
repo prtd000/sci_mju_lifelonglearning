@@ -1,4 +1,7 @@
 <%@ page import="java.text.DecimalFormat" %>
+<%@ page import="lifelong.model.Admin" %>
+<%@ page import="lifelong.model.Member" %>
+<%@ page import="lifelong.model.Lecturer" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -101,40 +104,38 @@
 
 <body>
 <!-- Navbar Start -->
-<nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-    <%--    <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png" style="height: 79px; margin-left: 57px; position: absolute;">--%>
-    <%--    <div style="margin-left: 151px">--%>
-    <%--        <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">--%>
-    <%--            <h1 class="display-5 m-0 text-primary">LIFELONG<span class="text-secondary">LEARNING</span></h1>--%>
-    <%--        </a>--%>
-    <%--    </div>--%>
-    <div style="margin: 0 0 5% 0">
-        <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">
-            <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png" style="height: 79px; margin-left: 57px; position: absolute;">
-        </a>
-    </div>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
-        <div class="navbar-nav ms-auto py-0">
-            <a href="${pageContext.request.contextPath}/" class="nav-item nav-link">หน้าหลัก</a>
-            <%--            <a href="#" class="nav-item nav-link">เกี่ยวกับคณะ</a>--%>
-            <%--            <div class="nav-item dropdown">--%>
-            <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
-            <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link active">หลักสูตรการอบรม</a>
-            <%--                <div class="dropdown-menu m-0">--%>
-            <%--                    <a href="#" class="dropdown-item">Reskill/Upskill</a>--%>
-            <%--                    <a href="#" class="dropdown-item">อบรมระยะสั้น</a>--%>
+<%
+    Admin admin = (Admin) session.getAttribute("admin");
+    Member member = (Member) session.getAttribute("member");
+    Lecturer lecturer = (Lecturer) session.getAttribute("lecturer");
 
-            <%--                </div>--%>
-            <%--            </div>--%>
-            <%--            <a href="#" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>--%>
-            <%--            <a href="#" class="nav-item nav-link">เกี่ยวกับเรา</a>--%>
-            <%--            <a href="#" class="nav-item nav-link">เข้าสู่ระบบ</a>--%>
-        </div>
-    </div>
-</nav>
+    String flag = "";
+    if (admin != null) {
+        flag = "admin";
+    }else if (lecturer != null) {
+        flag = "lecturer";
+    } else if (member != null) {
+        flag = "member";
+    }else {
+        flag = "null";
+    }
+%>
+
+<c:set var="flag" value="<%= flag %>"></c:set>
+<c:choose>
+    <c:when test="${flag.equals('admin')}">
+        <jsp:include page="/WEB-INF/view/admin/nav_admin.jsp"/>
+    </c:when>
+    <c:when test="${flag.equals('lecturer')}">
+        <jsp:include page="/WEB-INF/view/lecturer/nav_lecturer.jsp"/>
+    </c:when>
+    <c:when test="${flag.equals('member')}">
+        <jsp:include page="/WEB-INF/view/member/nav_member.jsp"/>
+    </c:when>
+    <c:otherwise>
+        <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
+    </c:otherwise>
+</c:choose>
 <!-- Navbar End -->
 <!-- Services Start -->
 <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
@@ -177,7 +178,7 @@
                                         <br>
 <%--                                        <h4 class="item" style="max-width: 100px;display: -webkit-box;white-space: nowrap; overflow: hidden;text-overflow: ellipsis;-webkit-line-clamp: 2;--%>
 <%--  -webkit-box-orient: vertical; " >${course.name}</h4>--%>
-                                        <a href="${pageContext.request.contextPath}/course/${course.course_id}">
+                                        <a href="${pageContext.request.contextPath}/${course.course_id}">
                                             <b><h4 class="item text_ellipsis" >${course.name}</h4></b>
                                         </a>
                                     </div>
@@ -188,9 +189,18 @@
 <%--                                        <fmt:setLocale value="en_US"/>--%>
 <%--                                        <fmt:formatNumber type="currency" value ="${courseFee}"/>--%>
                                             ราคา <fmt:formatNumber value="${courseFee}" />.00 บาท
-                                    </p></b>
-                                    <a href="${pageContext.request.contextPath}/course/${course.course_id}">อ่านเพิ่มเติม<i
-                                            class="bi bi-arrow-right ms-2"></i></a></td>
+                                    </p></b
+                                        <!--ไม่สมบูรณ์ ต้องแสดง RequestOpenCours ที่ Lecturer Request-->
+
+<%--                                    <c:choose>--%>
+<%--                                        <c:when test="${flag.equals('member')}">--%>
+<%--                                            <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${req.course.course_id}/${req.request_id}">อ่านเพิ่มเติม<i class="bi bi-arrow-right ms-2"></i></a>--%>
+<%--                                        </c:when>--%>
+<%--                                        <c:otherwise>--%>
+<%--                                            <a href="${pageContext.request.contextPath}/${req.course.course_id}">อ่านเพิ่มเติม<i class="bi bi-arrow-right ms-2"></i></a>--%>
+<%--                                        </c:otherwise>--%>
+<%--                                    </c:choose>--%>
+                                    <a href="${pageContext.request.contextPath}/${course.course_id}">อ่านเพิ่มเติม<i class="bi bi-arrow-right ms-2"></i></a>
                                 </div>
                             </div>
                         </div>

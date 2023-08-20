@@ -1,6 +1,10 @@
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="lifelong.model.Admin" %>
+<%@ page import="lifelong.model.Member" %>
+<%@ page import="lifelong.model.Lecturer" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
@@ -35,7 +39,39 @@
     <%--    </style>--%>
 </head>
 <body>
-<jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
+<!-- Navbar -->
+<%
+    Admin admin = (Admin) session.getAttribute("admin");
+    Member member = (Member) session.getAttribute("member");
+    Lecturer lecturer = (Lecturer) session.getAttribute("lecturer");
+
+    String flag = "";
+    if (admin != null) {
+        flag = "admin";
+    }else if (lecturer != null) {
+        flag = "lecturer";
+    } else if (member != null) {
+        flag = "member";
+    }else {
+        flag = "null";
+    }
+%>
+
+<c:set var="flag" value="<%= flag %>"></c:set>
+<c:choose>
+    <c:when test="${flag.equals('admin')}">
+        <jsp:include page="/WEB-INF/view/admin/nav_admin.jsp"/>
+    </c:when>
+    <c:when test="${flag.equals('lecturer')}">
+        <jsp:include page="/WEB-INF/view/lecturer/nav_lecturer.jsp"/>
+    </c:when>
+    <c:when test="${flag.equals('member')}">
+        <jsp:include page="/WEB-INF/view/member/nav_member.jsp"/>
+    </c:when>
+    <c:otherwise>
+        <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
+    </c:otherwise>
+</c:choose>
 
 <div class="block_position">
     <h1>${course_detail.name}</h1>
@@ -99,61 +135,6 @@
         </table>
     </div>
     <br>
-    <!--Course News--->
-    <%--    <div class="block_news_big">--%>
-    <%--        <h1>ข่าวสารเกี่ยวกับหลักสูตร</h1>--%>
-    <%--        <div class="block_news">--%>
-    <%--            <div><img src="${pageContext.request.contextPath}/assets/img/banner1.jpeg" alt="News_img" class="news_img"></div>--%>
-    <%--            <div class="news_content">--%>
-    <%--                <h1>Title</h1>--%>
-    <%--                <p>1 มีนาคม 2566</p>--%>
-    <%--            </div>--%>
-    <%--        </div>--%>
-    <%--        <div class="block_news">--%>
-    <%--            <div><img src="${pageContext.request.contextPath}/assets/img/banner1.jpeg" alt="News_img" class="news_img"></div>--%>
-    <%--            <div  class="news_content">--%>
-    <%--                <h1>Title</h1>--%>
-    <%--                <p>1 มีนาคม 2566</p>--%>
-    <%--            </div>--%>
-    <%--        </div>--%>
-    <%--        <div class="block_news">--%>
-    <%--            <div><img src="${pageContext.request.contextPath}/assets/img/banner1.jpeg" alt="News_img" class="news_img"></div>--%>
-    <%--            <div  class="news_content">--%>
-    <%--                <h1>Title</h1>--%>
-    <%--                <p>1 มีนาคม 2566</p>--%>
-    <%--            </div>--%>
-    <%--        </div>--%>
-    <%--        <div class="block_news">--%>
-    <%--            <div><img src="${pageContext.request.contextPath}/assets/img/banner1.jpeg" alt="News_img" class="news_img"></div>--%>
-    <%--            <div  class="news_content">--%>
-    <%--                <h1>Title</h1>--%>
-    <%--                <p>1 มีนาคม 2566</p>--%>
-    <%--            </div>--%>
-    <%--        </div>--%>
-    <%--    </div>--%>
-
-    <!---Lecturer Data---->
-    <%--    <div class="block_lecturer">--%>
-    <%--        <h4>อาจารย์ผู้รับผิดชอบหลักสูตร</h4>--%>
-    <%--        <div>--%>
-    <%--            <table>--%>
-    <%--                <tr>--%>
-    <%--                    <td>icon</td>--%>
-    <%--                    <td>อ.ดร.ฐาปนพงษ์ รักกาญจนันท์</td>--%>
-    <%--                </tr>--%>
-    <%--                <tr>--%>
-    <%--                    <td>icon</td>--%>
-    <%--                    <td>คณะวิทยาศาสตร์</td>--%>
-    <%--                </tr>--%>
-    <%--                <tr>--%>
-    <%--                    <td>icon</td>--%>
-    <%--                    <td>การเรียนรูปแบบ Online</td>--%>
-    <%--                </tr>--%>
-    <%--            </table>--%>
-    <%--            <a href="" class="btn btn-primary py-md-3 px-md-5 me-3">ลงทะเบียน</a>--%>
-    <%--&lt;%&ndash;            <button class="btn_register_course_detail">ลงทะเบียน</button>&ndash;%&gt;--%>
-    <%--        </div>--%>
-    <%--    </div>--%>
     <form:form action="${pageContext.request.contextPath}/member/${member_id}/register_course/${course_id}/${request_op_course.request_id}/register" modelAttribute="register" method="GET">
         <div>
             <%

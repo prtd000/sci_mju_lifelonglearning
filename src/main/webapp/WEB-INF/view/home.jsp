@@ -202,7 +202,7 @@
 <!-- Carousel End -->
 
 
-<!-- Course Start -->
+<!-------------------- Non-Degree ----------------------->
 <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
   <div class="container">
     <div class="text-center mx-auto mb-5" style="max-width: 600px;">
@@ -256,8 +256,9 @@
 
   </div>
 </div>
-<!-- Course End -->
-<!-- Course Start -->
+<!--------------------End Non-Degree ----------------------->
+
+<!-------------------- หลักสูตรอบรมระยะสั้น ----------------------->
 <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
   <div class="container">
     <div class="text-center mx-auto mb-5" style="max-width: 600px;">
@@ -310,7 +311,7 @@
     </div>
   </div>
 </div>
-<!-- Course End -->
+<!--------------------End หลักสูตรอบรมระยะสั้น ----------------------->
 <div align="center">
   <a href="${pageContext.request.contextPath}/search_course"><button class="btn_all_course_home">หลักสูตรทั้งหมด</button></a>
 </div>

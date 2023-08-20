@@ -3,6 +3,7 @@ package lifelong.dao;
 import lifelong.model.AddImg;
 import lifelong.model.Course;
 import lifelong.model.Major;
+import lifelong.model.RequestOpenCourse;
 import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -21,6 +22,14 @@ public class CourseDaoImpl implements CourseDao {
         Query<Course> query = session.createQuery("from Course ",Course.class);
         List<Course> courses = query.getResultList();
         return courses;
+    }
+
+    @Override
+    public List<RequestOpenCourse> getListRequestOpCourse() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse ",RequestOpenCourse.class);
+        List<RequestOpenCourse> list = query.getResultList();
+        return list;
     }
 
     @Override

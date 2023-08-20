@@ -80,7 +80,7 @@ public class MemberController {
         invoice.setRegister(register1);
         invoice.setApprove_status("รอดำเนินการ");
         registerService.doInvoice(invoice);
-        return "redirect:/";
+        return "redirect:/member/"+ memid+"/listcourse";
     }
 
 

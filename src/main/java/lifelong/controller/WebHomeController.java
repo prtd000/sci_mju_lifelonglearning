@@ -34,6 +34,8 @@ public class WebHomeController {
     }
     @GetMapping("/search_course")
     public String searchCourse(Model model) {
+        /****Send listRequest****/
+        //model.addAttribute("listRequest",courseService.getListRequestOpCourse());
         model.addAttribute("courses", courseService.getCourses());
         model.addAttribute("majors",majorService.getMajors());
         return "search_course";

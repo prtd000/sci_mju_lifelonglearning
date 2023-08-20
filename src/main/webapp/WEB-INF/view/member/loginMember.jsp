@@ -1,3 +1,6 @@
+<%@ page import="lifelong.model.Admin" %>
+<%@ page import="lifelong.model.Member" %>
+<%@ page import="lifelong.model.Lecturer" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -11,6 +14,39 @@
 </head>
 <body style="font-family: Mitr">
 
+<!-- Navbar -->
+<%
+    Admin admin = (Admin) session.getAttribute("admin");
+    Member member = (Member) session.getAttribute("member");
+    Lecturer lecturer = (Lecturer) session.getAttribute("lecturer");
+
+    String flag = "";
+    if (admin != null) {
+        flag = "admin";
+    }else if (lecturer != null) {
+        flag = "lecturer";
+    } else if (member != null) {
+        flag = "member";
+    }else {
+        flag = "null";
+    }
+%>
+
+<c:set var="flag" value="<%= flag %>"></c:set>
+<c:choose>
+    <c:when test="${flag.equals('admin')}">
+        <jsp:include page="/WEB-INF/view/admin/nav_admin.jsp"/>
+    </c:when>
+    <c:when test="${flag.equals('lecturer')}">
+        <jsp:include page="/WEB-INF/view/lecturer/nav_lecturer.jsp"/>
+    </c:when>
+    <c:when test="${flag.equals('member')}">
+        <jsp:include page="/WEB-INF/view/member/nav_member.jsp"/>
+    </c:when>
+    <c:otherwise>
+        <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
+    </c:otherwise>
+</c:choose>
 <center>
     <br><br><br><br>
     <h1 class="log-header">${title}</h1>

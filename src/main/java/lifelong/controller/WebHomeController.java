@@ -6,6 +6,7 @@ import lifelong.service.CourseService;
 import lifelong.service.MajorService;
 import lifelong.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class WebHomeController {
     @GetMapping("/search_course")
     public String searchCourse(Model model) {
         /****Send listRequest****/
-        //model.addAttribute("listRequest",courseService.getListRequestOpCourse());
+        model.addAttribute("listRequest",courseService.getListRequestOpCourse());
         model.addAttribute("courses", courseService.getCourses());
         model.addAttribute("majors",majorService.getMajors());
         return "search_course";
@@ -87,7 +88,8 @@ public class WebHomeController {
 
     @PostMapping("/register_member/save")
     public String saveAddMember(@RequestParam Map<String, String> addParams) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
         String idcard = addParams.get("idcard");
         String firstName = addParams.get("firstName");
@@ -101,7 +103,10 @@ public class WebHomeController {
         String username = addParams.get("username");
         String password = addParams.get("password");
 
-        Member member = new Member(username,password,idcard,firstName,lastName,gender,birthday,email,tel,education);
+        String encrypted = bCryptPasswordEncoder.encode(password);
+        System.out.println("Encrypt: " + encrypted);
+
+        Member member = new Member(username,encrypted,idcard,firstName,lastName,gender,birthday,email,tel,education);
         memberService.doRegisterMember(member);
 
         return "redirect:/";

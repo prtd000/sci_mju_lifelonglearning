@@ -12,7 +12,7 @@ public class Lecturer {
     @Column(name = "lec_username",nullable = false,length = 10)
     private String username;
 
-    @Column(name = "lec_password",nullable = false,length = 16)
+    @Column(name = "lec_password",nullable = false,length = 225)
     private String password;
 
     @Column(name = "lec_idcard",nullable = false,length = 20)

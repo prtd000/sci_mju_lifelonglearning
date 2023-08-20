@@ -21,4 +21,5 @@ public interface CourseService {
         void updateCourse(Course course);
 
         int getLatestFileCount();
+        int getImgCourseMaxId(String course_type);
 }

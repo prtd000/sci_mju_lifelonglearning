@@ -1,0 +1,189 @@
+<changelist name="Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]" date="1692525075563" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 8/20/2023 4:50 PM [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="src/main/webapp/assets/img/course_img/C006.png" />
+    <option name="AFTER_PATH" value="src/main/webapp/assets/img/course_img/N_IMG0005.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/N_IMG0005.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/lifelong/model/Course.class" />
+    <option name="AFTER_PATH" value="target/classes/lifelong/model/Course.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/Course.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/sci_mju_lifelonglearning/assets/img/course_img/C003.png" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/model/Course.class" />
+    <option name="AFTER_PATH" value="target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/model/Course.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/Course1.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/model/RequestOpenCourse.class" />
+    <option name="AFTER_PATH" value="target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/model/RequestOpenCourse.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/RequestOpenCourse.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/sci_mju_lifelonglearning/assets/img/course_img/C008.png" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/utils/ImgPath.class" />
+    <option name="AFTER_PATH" value="target/classes/utils/ImgPath.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/ImgPath.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/service/CourseService.class" />
+    <option name="AFTER_PATH" value="target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/service/CourseService.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/CourseService.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/ActivityController.class" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/sci_mju_lifelonglearning/assets/img/course_img/C006.png" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/sci_mju_lifelonglearning/WEB-INF/classes/utils/ImgPath.class" />
+    <option name="AFTER_PATH" value="target/sci_mju_lifelonglearning/WEB-INF/classes/utils/ImgPath.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/ImgPath1.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="src/main/webapp/assets/img/course_img/C005.png" />
+    <option name="AFTER_PATH" value="src/main/webapp/assets/img/course_img/N_IMG0004.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/N_IMG0004.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/CourseController.class" />
+    <option name="AFTER_PATH" value="target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/CourseController.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/CourseController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="src/main/webapp/assets/img/course_img/C002.png" />
+    <option name="AFTER_PATH" value="src/main/webapp/assets/img/course_img/C_IMG0002.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/C_IMG0002.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/sci_mju_lifelonglearning/assets/img/course_img/C005.png" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="src/main/webapp/assets/img/course_img/N_IMG0001.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/N_IMG0001.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/sci_mju_lifelonglearning/assets/img/course_img/C002.png" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/lifelong/service/CourseService.class" />
+    <option name="AFTER_PATH" value="target/classes/lifelong/service/CourseService.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/CourseService1.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="src/main/webapp/assets/img/course_img/C008.png" />
+    <option name="AFTER_PATH" value="src/main/webapp/assets/img/course_img/N_IMG0007.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/N_IMG0007.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/lifelong/dao/CourseDaoImpl.class" />
+    <option name="AFTER_PATH" value="target/classes/lifelong/dao/CourseDaoImpl.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/CourseDaoImpl.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/sci_mju_lifelonglearning/assets/img/course_img/C004.png" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/sci_mju_lifelonglearning/assets/img/course_img/C009.png" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/dao/CourseDao.class" />
+    <option name="AFTER_PATH" value="target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/dao/CourseDao.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/CourseDao.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/lifelong/model/RequestOpenCourse.class" />
+    <option name="AFTER_PATH" value="target/classes/lifelong/model/RequestOpenCourse.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/RequestOpenCourse1.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="src/main/webapp/assets/img/course_img/C004.png" />
+    <option name="AFTER_PATH" value="src/main/webapp/assets/img/course_img/N_IMG0003.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/N_IMG0003.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/lifelong/controller/ActivityController.class" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/dao/CourseDaoImpl.class" />
+    <option name="AFTER_PATH" value="target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/dao/CourseDaoImpl.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/CourseDaoImpl1.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="src/main/webapp/assets/img/course_img/C007.png" />
+    <option name="AFTER_PATH" value="src/main/webapp/assets/img/course_img/N_IMG0006.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/N_IMG0006.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/sci_mju_lifelonglearning/assets/img/course_img/C001.png" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="src/main/webapp/assets/img/course_img/C009.png" />
+    <option name="AFTER_PATH" value="src/main/webapp/assets/img/course_img/N_IMG0008.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/N_IMG0008.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/lifelong/controller/CourseController.class" />
+    <option name="AFTER_PATH" value="target/classes/lifelong/controller/CourseController.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/CourseController1.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/lifelong/dao/CourseDao.class" />
+    <option name="AFTER_PATH" value="target/classes/lifelong/dao/CourseDao.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/CourseDao1.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="src/main/webapp/assets/img/course_img/C001.png" />
+    <option name="AFTER_PATH" value="src/main/webapp/assets/img/course_img/C_IMG0001.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/C_IMG0001.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="src/main/webapp/assets/img/course_img/C003.png" />
+    <option name="AFTER_PATH" value="src/main/webapp/assets/img/course_img/N_IMG0002.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/N_IMG0002.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/sci_mju_lifelonglearning/assets/img/course_img/C007.png" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/lifelong/service/CourseServiceImpl.class" />
+    <option name="AFTER_PATH" value="target/classes/lifelong/service/CourseServiceImpl.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/CourseServiceImpl.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/service/CourseServiceImpl.class" />
+    <option name="AFTER_PATH" value="target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/service/CourseServiceImpl.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_20_2023_4_50_PM_[Changes]/CourseServiceImpl1.class" />
+  </binary>
+</changelist>

@@ -23,5 +23,8 @@ public interface CourseDao {
     void doAddMajor(Major major);
     void doAddImg(AddImg addImg);
     Course updateCourse (Course course) ;
+    int getCourseMaxId(String course_type);
+
+    int getImgCourseMaxId(String course_type);
 }
 

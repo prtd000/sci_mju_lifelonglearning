@@ -56,26 +56,58 @@ public class CourseController {
     }
 
     @PostMapping(path = "/admin/save")
-    public String doAddCourse(@RequestParam Map<String, String> allReqParams) throws ParseException {
-        String course_id = allReqParams.get("course_id");
+    public String doAddCourse(@RequestParam Map<String, String> allReqParams,@RequestParam("course_img") MultipartFile img) throws ParseException {
         String course_name = allReqParams.get("course_name");
         String certificateName = allReqParams.get("certificateName");
-        String course_img = allReqParams.get("course_img");
         String course_principle = allReqParams.get("course_principle");
         String course_object = allReqParams.get("course_object");
         int course_totalHours = Integer.parseInt(allReqParams.get("course_totalHours"));
         String course_targetOccupation = allReqParams.get("course_targetOccupation");
         double course_fee = Double.parseDouble(allReqParams.get("course_fee"));
         String course_file = allReqParams.get("course_file");
-        String course_status = allReqParams.get("course_status");
+        String course_status = "ยังไม่เปิดสอน";
         String course_linkMooc = allReqParams.get("course_linkMooc");
+
         String course_type = allReqParams.get("course_type");
+
         Major major = majorService.getMajorDetail(allReqParams.get("major_id"));
 
-        Course course_add = new Course(course_id, course_name, certificateName, course_img, course_principle, course_object, course_totalHours,
-                course_targetOccupation, course_fee, course_file, course_status, course_linkMooc, course_type, major);
-        courseService.doAddCourse(course_add);
-        return "redirect:/";
+        try {
+
+            // กำหนด path ที่จะบันทึกไฟล์
+            String uploadPath = ImgPath.pathImg + "/course_img/";
+
+            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
+            Path directoryPath = Paths.get(uploadPath);
+            Files.createDirectories(directoryPath);
+
+            // ดึงนามสกุลไฟล์จากชื่อไฟล์
+            String originalFileName = img.getOriginalFilename();
+            String fileExtension = getFileExtension(originalFileName);
+
+            int latestFileCount = courseService.getImgCourseMaxId(course_type); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
+
+            String course_img = "";
+            if (Objects.equals(course_type, "หลักสูตรอบรมระยะสั้น")){
+                // สร้างรหัสไฟล์ใหม่ในรูปแบบ "C_IMG0001", "C_IMG0002", ...
+                course_img = String.format("C_IMG%04d%s", ++latestFileCount, fileExtension);
+            }else {
+                // สร้างรหัสไฟล์ใหม่ในรูปแบบ "N_IMG0001", "N_IMG0002", ...
+                course_img = String.format("N_IMG%04d%s", ++latestFileCount, fileExtension);
+            }
+
+            // บันทึกไฟล์ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
+            Path filePath = Paths.get(uploadPath, course_img);
+            Files.write(filePath, img.getBytes());
+
+            // บันทึก path ไปยังฐานข้อมูล
+            Course course_add = new Course(course_name, certificateName, course_img, course_principle, course_object, course_totalHours,
+                    course_targetOccupation, course_fee, course_file, course_status, course_linkMooc, course_type, major);
+            courseService.doAddCourse(course_add);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/course/list_all_course";
     }
     //***********************************************//
 

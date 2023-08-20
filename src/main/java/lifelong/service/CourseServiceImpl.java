@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CourseServiceImpl implements CourseService{
@@ -61,6 +62,9 @@ public class CourseServiceImpl implements CourseService{
     @Override
     @Transactional
     public void doAddCourse(Course course) {
+        String course_type = course.getCourse_type();
+        long id = couresDao.getCourseMaxId(course_type);
+        course.setCourse_id(generateMacCourseId(id + 1,course_type));
         couresDao.doAddCourse(course);
     }
 
@@ -86,5 +90,23 @@ public class CourseServiceImpl implements CourseService{
     @Transactional
     public int getLatestFileCount() {
         return couresDao.getLatestFileCount();
+    }
+
+    @Override
+    @Transactional
+    public int getImgCourseMaxId(String course_type) {
+        return couresDao.getImgCourseMaxId(course_type);
+    }
+
+    public String generateMacCourseId (long id,String course_type) {
+        String result = String.valueOf(id);
+        while (result.length() != 3) {
+            result = "0" + result;
+        }
+        if (Objects.equals(course_type, "หลักสูตรอบรมระยะสั้น")){
+            return "C" + result;
+        }else {
+            return "N" + result;
+        }
     }
 }

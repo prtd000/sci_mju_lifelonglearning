@@ -66,8 +66,7 @@ public class Course {
     public Course() {
     }
 
-    public Course(String course_id, String name, String certificateName, String img, String principle, String object, int totalHours, String targetOccupation, double fee, String file, String status, String linkMooc, String course_type, Major major) {
-        this.course_id = course_id;
+    public Course(String name, String certificateName, String img, String principle, String object, int totalHours, String targetOccupation, double fee, String file, String status, String linkMooc, String course_type, Major major) {
         this.name = name;
         this.certificateName = certificateName;
         this.img = img;

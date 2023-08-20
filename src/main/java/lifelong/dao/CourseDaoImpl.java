@@ -27,8 +27,11 @@ public class CourseDaoImpl implements CourseDao {
     @Override
     public List<RequestOpenCourse> getListRequestOpCourse() {
         Session session = sessionFactory.getCurrentSession();
-        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse ",RequestOpenCourse.class);
+        String stt_pass = "ผ่าน";
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse rq where rq.requestStatus =: pass",RequestOpenCourse.class);
+        query.setParameter("pass", stt_pass);
         List<RequestOpenCourse> list = query.getResultList();
+        System.out.println("Request num of pass : " + list.size());
         return list;
     }
 

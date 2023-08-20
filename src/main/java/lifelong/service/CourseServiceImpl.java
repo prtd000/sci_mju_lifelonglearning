@@ -23,6 +23,7 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
+    @Transactional
     public List<RequestOpenCourse> getListRequestOpCourse() {
         return couresDao.getListRequestOpCourse();
     }

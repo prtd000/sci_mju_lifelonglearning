@@ -13,7 +13,7 @@ public class Member {
     @Column(name = "mem_username",length = 10)
     private String username;
 
-    @Column(name = "mem_password",nullable = false,length = 16)
+    @Column(name = "mem_password",nullable = false,length = 225)
     private String password;
 
     @Column(name = "mem_idcard",nullable = false,length = 20)

@@ -187,7 +187,33 @@ public int getCourseMaxId(String course_type) {
         }
     }
 
+    @Override
+    public int getCoursePDFMaxId() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<String> query;
+            // ดึงค่ามากสุดที่มีตัวอักษรเริ่มต้นด้วย "C"
+            query = session.createQuery(
+                    "SELECT MAX(c.file) FROM Course c " +
+                            "WHERE c.file LIKE 'PDF_%'",
+                    String.class
+            );
+        String maxString = query.getSingleResult();
 
+        String imagePrefix = "PDF_";
+        if (maxString != null && maxString.length() > imagePrefix.length()) {
+            // ตัดส่วนของ "PDF_" และส่วนของไฟล์ภาพออก
+            int dotIndex = maxString.lastIndexOf(".");
+            if (dotIndex > 0) {
+                maxString = maxString.substring(0, dotIndex); // ตัดส่วนนามสกุลออก
+            }
+            maxString = maxString.replace("PDF_", "");
+
+            int maxNumericId = Integer.parseInt(maxString);
+            return maxNumericId;
+        } else {
+            return 0;
+        }
+    }
 
 
 }

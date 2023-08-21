@@ -98,6 +98,12 @@ public class CourseServiceImpl implements CourseService{
         return couresDao.getImgCourseMaxId(course_type);
     }
 
+    @Override
+    @Transactional
+    public int getCoursePDFMaxId() {
+        return couresDao.getCoursePDFMaxId();
+    }
+
     public String generateMacCourseId (long id,String course_type) {
         String result = String.valueOf(id);
         while (result.length() != 3) {

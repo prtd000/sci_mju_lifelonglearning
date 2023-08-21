@@ -26,5 +26,6 @@ public interface CourseDao {
     int getCourseMaxId(String course_type);
 
     int getImgCourseMaxId(String course_type);
+    int getCoursePDFMaxId();
 }
 

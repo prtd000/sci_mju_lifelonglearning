@@ -16,20 +16,20 @@ public class AddImg {
     private String detail;
 
     @Column
-    private String img;
+    private String pdf;
 
     public AddImg() {
     }
 
-    public AddImg(long id, String detail, String img) {
+    public AddImg(long id, String detail, String pdf) {
         this.id = id;
         this.detail = detail;
-        this.img = img;
+        this.pdf = pdf;
     }
 
-    public AddImg(String detail, String img) {
+    public AddImg(String detail, String pdf) {
         this.detail = detail;
-        this.img = img;
+        this.pdf = pdf;
     }
 
     public long getId() {
@@ -49,11 +49,11 @@ public class AddImg {
     }
 
     public String getImg() {
-        return img;
+        return pdf;
     }
 
     public void setImg(String img) {
-        this.img = img;
+        this.pdf = img;
     }
 }
 

@@ -22,4 +22,6 @@ public interface CourseService {
 
         int getLatestFileCount();
         int getImgCourseMaxId(String course_type);
+
+        int getCoursePDFMaxId();
 }

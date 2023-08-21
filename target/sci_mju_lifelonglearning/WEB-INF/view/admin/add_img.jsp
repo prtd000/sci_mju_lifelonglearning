@@ -12,7 +12,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="${pageContext.request.contextPath}/course/addImg" method="post" enctype="multipart/form-data">
+    <form action="${pageContext.request.contextPath}/course/addPDF" method="post" enctype="multipart/form-data">
         <input type="text" name="detail" placeholder="Image Detail"><br>
         <input type="file" name="file"><br>
         <button type="submit">Upload Image</button>

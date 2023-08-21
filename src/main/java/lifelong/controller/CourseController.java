@@ -56,7 +56,9 @@ public class CourseController {
     }
 
     @PostMapping(path = "/admin/save")
-    public String doAddCourse(@RequestParam Map<String, String> allReqParams,@RequestParam("course_img") MultipartFile img) throws ParseException {
+    public String doAddCourse(@RequestParam Map<String, String> allReqParams,
+                              @RequestParam("course_img") MultipartFile img,
+                              @RequestParam("course_file") MultipartFile pdf) throws ParseException {
         String course_name = allReqParams.get("course_name");
         String certificateName = allReqParams.get("certificateName");
         String course_principle = allReqParams.get("course_principle");
@@ -64,7 +66,6 @@ public class CourseController {
         int course_totalHours = Integer.parseInt(allReqParams.get("course_totalHours"));
         String course_targetOccupation = allReqParams.get("course_targetOccupation");
         double course_fee = Double.parseDouble(allReqParams.get("course_fee"));
-        String course_file = allReqParams.get("course_file");
         String course_status = "ยังไม่เปิดสอน";
         String course_linkMooc = allReqParams.get("course_linkMooc");
 
@@ -74,35 +75,78 @@ public class CourseController {
 
         try {
 
+            // เพิ่ม รูปภาพ
             // กำหนด path ที่จะบันทึกไฟล์
-            String uploadPath = ImgPath.pathImg + "/course_img/";
+            String uploadPathIMG = ImgPath.pathImg + "/course_img/";
 
-            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
-            Path directoryPath = Paths.get(uploadPath);
-            Files.createDirectories(directoryPath);
+//            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
+//            // รูปภาพ
+//            Path directoryPathIMG = Paths.get(uploadPathIMG);
+//            Files.createDirectories(directoryPathIMG);
+//
+//            // ดึงนามสกุลไฟล์จากชื่อไฟล์
+//            // รูปภาพ
+//            String originalImgFileName = img.getOriginalFilename();
+//            String fileImgExtension = getFileExtension(originalImgFileName);
+//
+            int maxIdImgFile = courseService.getImgCourseMaxId(course_type); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
+//
+//            String course_img = "";
+//            if (Objects.equals(course_type, "หลักสูตรอบรมระยะสั้น")){
+//                // สร้างรหัสไฟล์ใหม่ในรูปแบบ "C_IMG0001", "C_IMG0002", ...
+//                course_img = String.format("C_IMG%04d%s", ++latestFileCount, fileImgExtension);
+//            }else {
+//                // สร้างรหัสไฟล์ใหม่ในรูปแบบ "N_IMG0001", "N_IMG0002", ...
+//                course_img = String.format("N_IMG%04d%s", ++latestFileCount, fileImgExtension);
+//            }
+//            // บันทึกไฟล์ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
+//            Path imgPath = Paths.get(uploadPathIMG, course_img);
+//            Files.write(imgPath, img.getBytes());
 
-            // ดึงนามสกุลไฟล์จากชื่อไฟล์
-            String originalFileName = img.getOriginalFilename();
-            String fileExtension = getFileExtension(originalFileName);
+//            // เพิ่ม PDF
+//            // กำหนด path ที่จะบันทึกไฟล์
+            String uploadPathPDF = ImgPath.pathImg + "/course_pdf/";
+//
+//            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
+//            Path directoryPathPDF = Paths.get(uploadPathPDF);
+//            Files.createDirectories(directoryPathPDF);
+//
+//            // ดึงนามสกุลไฟล์จากชื่อไฟล์
+//            // PDF
+//            String originalPdfFileName = pdf.getOriginalFilename();
+//            String filePdfExtension = getFileExtension(originalPdfFileName);
+//
+//            String course_pdf = String.format("PDF_%04d%s", ++latestFileCount, filePdfExtension);
+//
+//            // บันทึกไฟล์ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
+//            Path pdfPath = Paths.get(uploadPathPDF, course_pdf);
+//            Files.write(pdfPath, pdf.getBytes());
 
-            int latestFileCount = courseService.getImgCourseMaxId(course_type); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
-
+            // บันทึกไฟล์รูปภาพ
+            String imgOriginalFileName = img.getOriginalFilename();
+            String imgFileExtension = getFileExtension(imgOriginalFileName);
             String course_img = "";
             if (Objects.equals(course_type, "หลักสูตรอบรมระยะสั้น")){
                 // สร้างรหัสไฟล์ใหม่ในรูปแบบ "C_IMG0001", "C_IMG0002", ...
-                course_img = String.format("C_IMG%04d%s", ++latestFileCount, fileExtension);
+                course_img = String.format("C_IMG%04d%s", ++maxIdImgFile, imgFileExtension);
             }else {
                 // สร้างรหัสไฟล์ใหม่ในรูปแบบ "N_IMG0001", "N_IMG0002", ...
-                course_img = String.format("N_IMG%04d%s", ++latestFileCount, fileExtension);
+                course_img = String.format("N_IMG%04d%s", ++maxIdImgFile, imgFileExtension);
             }
+            Path imgFilePath = Paths.get(uploadPathIMG, course_img);
+            Files.write(imgFilePath, img.getBytes());
 
-            // บันทึกไฟล์ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
-            Path filePath = Paths.get(uploadPath, course_img);
-            Files.write(filePath, img.getBytes());
+            // บันทึกไฟล์ PDF
+            int maxIdPDFFile = courseService.getCoursePDFMaxId(); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
+            String pdfOriginalFileName = pdf.getOriginalFilename();
+            String pdfFileExtension = getFileExtension(pdfOriginalFileName);
+            String course_pdf = String.format("PDF_%04d%s", ++maxIdPDFFile, pdfFileExtension);
+            Path pdfFilePath = Paths.get(uploadPathPDF, course_pdf);
+            Files.write(pdfFilePath, pdf.getBytes());
 
             // บันทึก path ไปยังฐานข้อมูล
             Course course_add = new Course(course_name, certificateName, course_img, course_principle, course_object, course_totalHours,
-                    course_targetOccupation, course_fee, course_file, course_status, course_linkMooc, course_type, major);
+                    course_targetOccupation, course_fee, course_pdf, course_status, course_linkMooc, course_type, major);
             courseService.doAddCourse(course_add);
         } catch (IOException e) {
             e.printStackTrace();
@@ -332,6 +376,7 @@ public class CourseController {
     @Autowired
     private ServletContext servletContext;
 
+    //************************** IMG ***********************************//
     @PostMapping("/addImg")
     public String addImg(@RequestParam("detail") String detail, @RequestParam("file") MultipartFile file) {
         try {
@@ -363,6 +408,42 @@ public class CourseController {
         }
 
         return "redirect:/"; // หรือไปยังหน้าที่คุณต้องการ
+    }
+
+    //********************* PDF *********************************//
+    @PostMapping("/addPDF")
+    public String addPDF(@RequestParam("detail") String detail, @RequestParam("file") MultipartFile file) {
+        try {
+
+            // กำหนด path ที่จะบันทึกไฟล์
+            String uploadPath = ImgPath.pathImg + "/course_pdf/";
+
+            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
+            Path directoryPath = Paths.get(uploadPath);
+            Files.createDirectories(directoryPath);
+
+            // ดึงนามสกุลไฟล์จากชื่อไฟล์
+            String originalFileName = file.getOriginalFilename();
+            String fileExtension = getFileExtension(originalFileName);
+            int latestFileCount = courseService.getLatestFileCount(); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
+
+            // สร้างรหัสไฟล์ใหม่ในรูปแบบ "IMG_0001", "IMG_0002", ...
+            String newFileName = String.format("PDF_%04d%s", ++latestFileCount, fileExtension);
+
+            // บันทึกไฟล์ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
+            // บันทึกไฟล์ PDF ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
+            Path filePath = Paths.get(uploadPath, newFileName);
+            Files.write(filePath, file.getBytes());
+
+            // บันทึกเส้นทางไฟล์ในฐานข้อมูล
+            String pdfPath = uploadPath + "/" + newFileName;
+            AddImg newImg = new AddImg(detail, pdfPath);
+            courseService.doAddImg(newImg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/coursr/add_img"; // หรือไปยังหน้าที่คุณต้องการ
     }
 
     // รับนามสกุลไฟล์จากชื่อไฟล์

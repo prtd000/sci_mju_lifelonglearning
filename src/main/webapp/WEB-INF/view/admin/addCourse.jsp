@@ -74,7 +74,7 @@
                 </tr>
                 <tr>
                     <td><label>ไฟล์หลักสูตร:</label></td>
-                    <td><input name="course_file" type="text" id="course_file"/></td>
+                    <td><input name="course_file" type="file" id="course_file"/></td>
                 </tr>
                 <tr>
                     <td><label>ลิ้งค์หลักสูตร:</label></td>

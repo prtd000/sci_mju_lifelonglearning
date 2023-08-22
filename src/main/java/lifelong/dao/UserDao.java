@@ -14,4 +14,6 @@ public interface UserDao {
 
     Admin getAdminByUsername (String id);
 
+
+    List<Member> getUsernames ();
 }

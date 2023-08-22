@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="sci_mju_lifelonglearning" />
+        <module name="science_mju_lifelonglearning" />
       </profile>
     </annotationProcessing>
   </component>

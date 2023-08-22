@@ -39,5 +39,11 @@ public class UserServiceImpl implements UserService{
         Admin admin = userDao.getAdminByUsername(username);
         return (admin != null && admin.getUsername() != null && bCryptPasswordEncoder.matches(password,admin.getPassword())?admin:null);
     }
+    @Override
+    @Transactional
+    public List<Member> getUsernames() {
+        return userDao.getUsernames();
+    }
+
 
 }

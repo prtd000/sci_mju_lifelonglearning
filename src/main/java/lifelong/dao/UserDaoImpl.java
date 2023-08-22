@@ -1,6 +1,7 @@
 package lifelong.dao;
 
 import lifelong.model.Admin;
+import lifelong.model.Course;
 import lifelong.model.Lecturer;
 import lifelong.model.Member;
 import org.hibernate.Session;
@@ -8,6 +9,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class UserDaoImpl implements UserDao{
@@ -55,5 +58,13 @@ public class UserDaoImpl implements UserDao{
 
         }
         return admin;
+    }
+
+    @Override
+    public List<Member> getUsernames() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Member> query = session.createQuery("from Member ",Member.class);
+        List<Member> members = query.getResultList();
+        return members;
     }
 }

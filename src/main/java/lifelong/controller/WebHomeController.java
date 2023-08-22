@@ -5,15 +5,21 @@ import lifelong.model.Member;
 import lifelong.service.CourseService;
 import lifelong.service.MajorService;
 import lifelong.service.MemberService;
+import lifelong.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Map;
 
 @Controller
@@ -26,6 +32,9 @@ public class WebHomeController {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/")
     public String listCourse(Model model) {
@@ -82,20 +91,27 @@ public class WebHomeController {
     /***********Register Member**********/
 
     @GetMapping("/register_member")
-    public String registerMember() {
+    public String registerMember(Model model, HttpSession session) {
+        //model.addAttribute("listUser",userService.getUsernames());
+        session.setAttribute("listUser" , userService.getUsernames());
         return "register_member";
     }
 
     @PostMapping("/register_member/save")
     public String saveAddMember(@RequestParam Map<String, String> addParams) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        /******Change*******/
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String hbd = addParams.get("birthday");
+        LocalDate birthday = LocalDate.parse(hbd, dateFormatter);
+        LocalDate newBirthday = birthday.plusYears(543);
+
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
         String idcard = addParams.get("idcard");
         String firstName = addParams.get("firstName");
         String lastName = addParams.get("lastName");
-        String hbd = addParams.get("birthday");
-        Date birthday = dateFormat.parse(hbd);
+        Date new_birthday = convertLocalDateToDate(newBirthday);
         String gender = addParams.get("gender");
         String tel = addParams.get("tel");
         String email = addParams.get("email");
@@ -106,9 +122,15 @@ public class WebHomeController {
         String encrypted = bCryptPasswordEncoder.encode(password);
         System.out.println("Encrypt: " + encrypted);
 
-        Member member = new Member(username,encrypted,idcard,firstName,lastName,gender,birthday,email,tel,education);
+        Member member = new Member(username,encrypted,idcard,firstName,lastName,gender,new_birthday,email,tel,education);
         memberService.doRegisterMember(member);
 
         return "redirect:/";
+    }
+
+    private Date convertLocalDateToDate(LocalDate localDate) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(localDate.getYear(), localDate.getMonthValue() - 1, localDate.getDayOfMonth());
+        return calendar.getTime();
     }
 }

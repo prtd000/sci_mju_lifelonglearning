@@ -3,6 +3,7 @@ package lifelong.controller;
 import lifelong.model.*;
 import lifelong.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -89,7 +90,8 @@ public class MemberController {
         model.addAttribute("list_course", memberService.getMyListCourse(memId));
         model.addAttribute("list_invoice",memberService.getListInvoice());
         model.addAttribute("mem_username",memberService.getMemberById(memId));
-        model.addAttribute("register", registerService.getRegister(memId));
+        model.addAttribute("register", registerService.getRegister
+                (memId));
         return "/member/list_course";
     }
 
@@ -137,9 +139,10 @@ public class MemberController {
 
     @PostMapping(path="/{memid}/update_password")
     public String updatePassword(@PathVariable("memid") String memId, @RequestParam Map<String, String> params) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         Member member = memberService.getMemberById(memId);
         if (member != null) {
-            member.setPassword(params.get("confirmPassword"));
+            member.setPassword(bCryptPasswordEncoder.encode(params.get("confirmPassword")));
             memberService.doRegisterMember(member);
         }
         return "redirect:/member/"+ memId +"/edit_profile";

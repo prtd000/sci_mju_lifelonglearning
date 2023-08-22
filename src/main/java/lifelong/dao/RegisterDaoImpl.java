@@ -24,9 +24,6 @@ public class RegisterDaoImpl implements RegisterDao {
         Query<Register> query = session.createQuery("from Register r where r.member.id =: Id ", Register.class);
         query.setParameter("Id",memId);
         List<Register> registers = query.getResultList();
-        for (Register r: registers) {
-            System.out.println("registerId " + memId + " : " + r.getRegister_id());
-        }
         return registers;
     }
 

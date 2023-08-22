@@ -14,4 +14,6 @@ public interface UserService {
 
     Admin loginAdmin (String username , String password);
 
+
+    List<Member> getUsernames ();
 }

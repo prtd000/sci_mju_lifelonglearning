@@ -26,11 +26,11 @@
     String flag = "";
     if (admin != null) {
         flag = "admin";
-    }else if (lecturer != null) {
+    } else if (lecturer != null) {
         flag = "lecturer";
     } else if (member != null) {
         flag = "member";
-    }else {
+    } else {
         flag = "null";
     }
 %>
@@ -56,49 +56,90 @@
     <button class="tablinks" onclick="openList(event, 'listInvoice')">ที่ต้องชำระเงิน</button>
 
     <div class="tabcontent" id="listCourse">
-        <h1>My list Course</h1>
         <table>
+            <tr>
+                <td>รายการ</td>
+                <td style="width: 130px; text-align: center;">เริ่มเรียน</td>
+                <td style="width: 130px; text-align: center;">สิ้นสุดการเรียน</td>
+                <td style="width: 130px; text-align: center;">สถานะ</td>
+                <td style="width: 130px; text-align: center;">เกียรติบัตร</td>
+            </tr>
             <c:forEach var="invoice" items="${register}">
-                <h1></h1>
-                <c:if test="${invoice.invoice.pay_status == true}">
-                    <tr>
-                        <td style="width: 400px;">${invoice.requestOpenCourse.course.name}</td>
-                        <c:set var="txtstt" value="${invoice.study_result}"></c:set>
-                        <c:if var="stt" test="${txtstt == false}">
-                            <c:set var="txtstt" value="อยู่ระหว่างเรียน"></c:set>
-                        </c:if>
-                        <c:if var="stt" test="${txtstt == true}">
-                            <c:set var="txtstt" value="ผ่านหลักสูตร"></c:set>
-                        </c:if>
-                        <td style="width: 200px;">${txtstt}</td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/member/${invoice.member.username}/certificate">
-                                <button>ดูเกียรติบัตร</button>
-                            </a>
-                        </td>
-                    </tr>
-                </c:if>
+                <tr>
+                    <c:choose>
+
+                        <c:when test="${invoice.invoice.pay_status == true}">
+                            <c:choose>
+                                <c:when test="${invoice.invoice.approve_status.equals('ผ่าน')}">
+                                    <td>${invoice.requestOpenCourse.course.name}</td>
+                                    <td style="text-align: center;">${invoice.requestOpenCourse.startStudyDate}</td>
+                                    <td style="text-align: center;">${invoice.requestOpenCourse.endStudyDate}</td>
+                                    <c:set var="txtstt" value="${invoice.study_result}"></c:set>
+                                    <c:if var="stt" test="${txtstt == false}">
+                                        <c:set var="txtstt" value="อยู่ระหว่างเรียน"></c:set>
+                                        <td style="width: 200px; text-align: center; color: #ee8e18; font-weight: bold;">${txtstt}</td>
+                                    </c:if>
+
+                                    <c:if var="stt" test="${txtstt == true}">
+                                        <c:set var="txtstt" value="ผ่านหลักสูตร"></c:set>
+                                        <td style="width: 200px; text-align: center; color: green; font-weight: bold;">${txtstt}</td>
+                                        <td>
+                                            <a href="${pageContext.request.contextPath}/member/${invoice.member.username}/certificate">
+                                                <button style="text-align: center;">ดูเกียรติบัตร</button>
+                                            </a>
+                                        </td>
+                                    </c:if>
+                                </c:when>
+                            </c:choose>
+                        </c:when>
+                        <c:otherwise>
+
+                        </c:otherwise>
+                    </c:choose>
+                </tr>
             </c:forEach>
         </table>
     </div>
 
     <div class="tabcontent" id="listInvoice">
-        <h1>Invoice</h1>
         <table>
+            <tr>
+                <td>รายการ</td>
+                <td style="width: 130px; text-align: center;">เริ่มชำระเงิน</td>
+                <td style="width: 130px; text-align: center;">สิ้นสุดชำระเงิน</td>
+                <td style="width: 130px; text-align: center;">สถานะ</td>
+                <td style="width: 130px; text-align: center;">ยกเลิก</td>
+            </tr>
             <c:forEach var="invoices" items="${register}">
-                <c:if test="${invoices.invoice.pay_status == false}">
-                    <tr>
-                        <td style="width: 550px;">${invoices.requestOpenCourse.course.name}</td>
-                        <td style="width: 100px">
-                            <a href="${pageContext.request.contextPath}/member/${invoices.member.username}/payment_detail/${invoices.invoice.invoice_id}">
-                                <button>ชำระเงิน</button>
-                            </a>
-                        </td>
-                        <td>
-                            <input type="button" value="ยกเลิก" onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบ?'))){ window.location.href='${pageContext.request.contextPath}/member/${invoices.member.username}/${invoices.register_id}/delete';return false; }"/>
-                        </td>
-                    </tr>
-                </c:if>
+                <tr>
+                    <c:choose>
+                        <c:when test="${invoices.invoice.pay_status == true}">
+                            <c:if test="${invoices.invoice.approve_status.equals('รอดำเนินการ')}">
+                                <td style="width: 550px;">${invoices.requestOpenCourse.course.name}</td>
+                                <td style="text-align: center;"></td>
+                                <td style="text-align: center;"></td>
+                                <td style="text-align: center;">
+                                    <p style="color: #F4B133">${invoices.invoice.approve_status}</p>
+                                </td>
+                                <td style="text-align: center;"></td>
+                            </c:if>
+                        </c:when>
+                        <c:otherwise>
+                            <td style="width: 550px;">${invoices.requestOpenCourse.course.name}</td>
+                            <td style="text-align: center;">${invoices.invoice.startPayment}</td>
+                            <td style="text-align: center;">${invoices.invoice.endPayment}</td>
+                            <td style="width: 100px; text-align: center;">
+                                <a href="${pageContext.request.contextPath}/member/${invoices.member.username}/payment_detail/${invoices.invoice.invoice_id}">
+                                    <button>ชำระเงิน</button>
+                                </a>
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="button" value="ยกเลิก"
+                                       onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบ?'))){ window.location.href='${pageContext.request.contextPath}/member/${invoices.member.username}/${invoices.register_id}/delete';return false; }"/>
+                            </td>
+                        </c:otherwise>
+                    </c:choose>
+                </tr>
             </c:forEach>
         </table>
     </div>

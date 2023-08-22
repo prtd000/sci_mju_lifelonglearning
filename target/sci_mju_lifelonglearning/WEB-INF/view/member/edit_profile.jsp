@@ -1,7 +1,8 @@
 <%@ page import="lifelong.model.Admin" %>
 <%@ page import="lifelong.model.Member" %>
 <%@ page import="lifelong.model.Lecturer" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%--
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--
   Created by IntelliJ IDEA.
   User: asus
   Date: 2/8/2566
@@ -13,7 +14,29 @@
 <head>
     <title>Title</title>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const dateInput = document.getElementById("datePicker");
 
+            // Get today's date
+            const today = new Date().toISOString().split("T")[0];
+
+            // Set the max attribute to today's date
+            dateInput.setAttribute("max", today);
+        });
+
+        /***** can't do not select date future ********/
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const dateInput = document.getElementById("datePicker");
+
+            // Get today's date
+            const today = new Date().toISOString().split("T")[0];
+
+            // Set the max attribute to today's date
+            dateInput.setAttribute("max", today);
+        });
+    </script>
 </head>
 <body>
 <!-- Navbar -->
@@ -67,7 +90,7 @@
                 <td><label>เบอร์โทร</label></td>
             </tr>
             <tr>
-                <td><input type="date" value="${member.birthday}" name="birthday" style="width: 100%;"></td>
+                <td><input type="date" value="${member.birthday}" id="datePicker" name="birthday" style="width: 100%;"/></td>
                 <td><input type="text" value="${member.tel}" name="tel"></td>
             </tr>
             <tr>

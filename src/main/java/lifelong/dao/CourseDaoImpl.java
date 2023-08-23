@@ -45,6 +45,20 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
+    public AddImg getPdfById(long id) {
+        Session session = sessionFactory.getCurrentSession();
+        AddImg addImg = session.get(AddImg.class, id);
+        return addImg;
+    }
+
+    @Override
+    public AddImg updatePDF(AddImg addImg) {
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(addImg);
+        return addImg;
+    }
+
+    @Override
     public Course getCourseDetail(String id) {
         Session session = sessionFactory.getCurrentSession();
         Course course = session.get(Course.class, id);

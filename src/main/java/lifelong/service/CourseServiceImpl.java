@@ -37,6 +37,18 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     @Transactional
+    public AddImg getPdfById(long id) {
+        return couresDao.getPdfById(id);
+    }
+
+    @Override
+    @Transactional
+    public void updatePDF(AddImg addImg) {
+        couresDao.updatePDF(addImg);
+    }
+
+    @Override
+    @Transactional
     public Course getCourseDetail(String courseId) {
         return couresDao.getCourseDetail(courseId);
     }

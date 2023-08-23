@@ -13,6 +13,10 @@ public interface CourseDao {
 
     List<RequestOpenCourse> getListRequestOpCourse();
     List<AddImg> getAddImg();
+
+    AddImg getPdfById(long id);
+    AddImg updatePDF (AddImg addImg) ;
+
     Course getCourseDetail(String id);
 
     int getLatestFileCount();

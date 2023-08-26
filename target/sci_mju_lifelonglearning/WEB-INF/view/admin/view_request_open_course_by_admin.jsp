@@ -224,7 +224,7 @@
                             <td><label></label></td>
                             <td>
                                 <input type="button" name="statusResult" value="ยกเลิกคำร้องขอ"
-                                       onclick="if(confirm('คุณแน่ใจหรือว่าต้องการยกเลิกคำร้องขอนี้?')) { window.location.href='${pageContext.request.contextPath}/course/note_cancel_request_open_course/${ROC_detail.request_id}'; }"
+                                       onclick="cancelRequest();"
                                        class="cancel-button"/>
                                 <input type="button" name="statusResult" value="ยืนยันคำร้องขอ" onclick="confirmSubmit();" />
                             </td>
@@ -245,11 +245,29 @@
 </c:choose>
 
 </body>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function confirmSubmit() {
         if (confirm('คุณแน่ใจหรือว่าต้องการดำเนินการตามคำร้องขอนี้?')) {
             document.getElementById('approval-form').submit();
+        }
+    }
+
+    function cancelRequest() {
+        if (confirm('คุณแน่ใจหรือว่าต้องการยกเลิกคำร้องขอนี้?')) {
+            $.ajax({
+                type: "POST",
+                url: "${pageContext.request.contextPath}/course/${admin_id}/view_request_open_course/${request_id}/cancel",
+                data: {},
+                success: function(response) {
+                    // ทำอะไรก็ตามที่คุณต้องการหลังจากสำเร็จ
+                    window.location.href = "${pageContext.request.contextPath}/course/${admin_id}/list_all_course"; // ตัวอย่างเท่านั้น
+                },
+                error: function(error) {
+                    console.error("เกิดข้อผิดพลาดในการส่งคำขอ:", error);
+                    // ทำอะไรก็ตามที่คุณต้องการในกรณีเกิดข้อผิดพลาด
+                }
+            });
         }
     }
 </script>

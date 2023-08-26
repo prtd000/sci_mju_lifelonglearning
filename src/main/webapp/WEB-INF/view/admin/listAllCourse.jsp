@@ -199,7 +199,7 @@
                                         </td>
                                         <td>
                                             <input type="button" value="ยกเลิก"
-                                                   onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/course/${list.ac_id}/delete'; return false; }"
+                                                   onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/course/${admin_id}/${list.ac_id}/delete'; return false; }"
                                                    class="cancel-button"/>
                                         </td>
                                     </tr>

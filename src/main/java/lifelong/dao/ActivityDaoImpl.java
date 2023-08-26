@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class ActivityDaoImpl implements ActivityDao{
@@ -32,13 +33,13 @@ public class ActivityDaoImpl implements ActivityDao{
     }
 
     @Override
-    public Activity getActivityDetail(long id) {
+    public Activity getActivityDetail(String id) {
         Session session = sessionFactory.getCurrentSession();
         Activity activity = session.get(Activity.class, id);
         return activity;
     }
     @Override
-    public Activity getActivityDetailToUpdate(long id , String lec_id) {
+    public Activity getActivityDetailToUpdate(String id , String lec_id) {
         Session session = sessionFactory.getCurrentSession();
         Query<Activity> query = session.createQuery("FROM Activity a WHERE a.ac_id =: ac_id and a.lecturer.username =: lec_id", Activity.class);
         query.setParameter("ac_id", id);
@@ -71,18 +72,56 @@ public class ActivityDaoImpl implements ActivityDao{
     }
 
     @Override
-    public void deleteActivity(long id) {
+    public void deleteActivity(String id) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("delete from Activity where id=:ac_id");
         query.setParameter("ac_id", id);
         query.executeUpdate();
     }
     @Override
-    public void deleteCourseActivity(long id , String lec_id) {
+    public int getLatestActivityCount() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Long> query = session.createQuery("SELECT MAX(id) FROM Activity ", Long.class);
+        Long result = query.uniqueResult();
+        return result != null ? result.intValue() : 0; // ถ้าไม่พบข้อมูลให้ส่งค่า 0 แทน
+    }
+    @Override
+    public void deleteCourseActivity(String id , String lec_id) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("delete from Activity where id=:ac_id and lecturer.username = : lec_id");
         query.setParameter("ac_id", id);
         query.setParameter("lec_id", lec_id);
         query.executeUpdate();
+    }
+    @Override
+    public int getActivityMaxId(String activity_type) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<String> query;
+        if (Objects.equals(activity_type, "Public")) {
+            // ดึงค่ามากสุดที่มีตัวอักษรเริ่มต้นด้วย "AP"
+            query = session.createQuery(
+                    "SELECT MAX(a.ac_id) FROM Activity a " +
+                            "WHERE a.ac_id LIKE 'AP%'",
+                    String.class
+            );
+        } else {
+            // ดึงค่ามากสุดที่มีตัวอักษรเริ่มต้นด้วย "AC"
+            query = session.createQuery(
+                    "SELECT MAX(a.ac_id) FROM Activity a " +
+                            "WHERE a.ac_id LIKE 'AC%'",
+                    String.class
+            );
+        }
+        String maxString = query.getSingleResult();
+
+        if (maxString != null && maxString.length() > 1) {
+            // ตัดส่วน AP กับ AC ออก
+            maxString = maxString.replace("AP", "").replace("AC", "");
+            int maxNumericId = Integer.parseInt(maxString);
+            return maxNumericId;
+        } else {
+            // หากไม่สามารถดึงค่าได้หรือค่ามีความยาวน้อยกว่า 2 จะคืนค่าเริ่มต้นหรือค่าที่เหมาะสม
+            return 0; // เปลี่ยนตามความเหมาะสม
+        }
     }
 }

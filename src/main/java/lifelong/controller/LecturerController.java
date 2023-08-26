@@ -251,7 +251,7 @@ public class LecturerController {
     //*************************หลังจาก List แล้วก็เข้าเมทตอทนี้เลย update Course Activity*******************************//
     //*************************Edit Course Activity*****************************//
     @GetMapping("/{lec_id}/private/{id}/edit_course_activity_page/{roc_id}")
-    public String getListCourseActivityNews(@PathVariable("lec_id") String lec_id,@PathVariable("id") long id,@PathVariable("roc_id") long roc_id, Model model) {
+    public String getListCourseActivityNews(@PathVariable("lec_id") String lec_id,@PathVariable("id") String id,@PathVariable("roc_id") long roc_id, Model model) {
         Activity activity = activityService.getActivityDetailToUpdate(id,lec_id);
         model.addAttribute("title", "แก้ไข" + Activity_title + "ทั่วไป");
         model.addAttribute("activities", activity);
@@ -260,7 +260,7 @@ public class LecturerController {
     }
 
     @PostMapping (path="/{lec_id}/{id}/update_course_add_activity")
-    public String doEditCourseActivity(@PathVariable("lec_id") String lec_id,@PathVariable("id") long ac_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
+    public String doEditCourseActivity(@PathVariable("lec_id") String lec_id,@PathVariable("id") String ac_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
 //        long existingActivityId = Long.parseLong(ac_id);
         Activity existingActivity = activityService.getActivityDetailToUpdate(ac_id,lec_id);
         System.out.println("PASS");
@@ -276,7 +276,7 @@ public class LecturerController {
 
     //***********************Delete Course Activity News***********************//
     @GetMapping("/{lec_id}/{id}/delete")
-    public String doDeleteCourseActivityNews(@PathVariable("lec_id") String lec_id,@PathVariable("id") long id) {
+    public String doDeleteCourseActivityNews(@PathVariable("lec_id") String lec_id,@PathVariable("id") String id) {
         Activity activity = activityService.getActivityDetail(id);
         activityService.deleteCourseActivity(id,lec_id);
         return "redirect:/lecturer/"+lec_id+"/view_approve_request_open_course/"+activity.getRequestOpenCourse().getRequest_id();
@@ -325,7 +325,7 @@ public class LecturerController {
 
     //**********************ไม่ดูแล้ว แก้ไขเลย**************************************//
     @GetMapping("/{lec_id}/{ac_id}/view_course_activity_page/{roc_id}")
-    public String showCourseActivityDetail(@PathVariable("lec_id") String lec_id,@PathVariable("ac_id") long ac_id,@PathVariable("roc_id") long roc_id, Model model) {
+    public String showCourseActivityDetail(@PathVariable("lec_id") String lec_id,@PathVariable("ac_id") String ac_id,@PathVariable("roc_id") long roc_id, Model model) {
         Activity activity = activityService.getActivityDetailToUpdate(ac_id,lec_id);
         model.addAttribute("title", "รายละเอียด" + Activity_title + "ทั่วไป");
         model.addAttribute("activities", activity);

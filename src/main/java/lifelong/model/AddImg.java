@@ -3,6 +3,8 @@ package lifelong.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "imgs")
@@ -15,22 +17,37 @@ public class AddImg {
     @Column
     private String detail;
 
-    @Column
-    private String pdf;
+//    @ElementCollection
+//    @CollectionTable(name = "img_names", joinColumns = @JoinColumn(name = "img_id"))
+//    @Column(name = "img")
+//    private List<String> imgNames = new ArrayList<>();
 
+    @Column(columnDefinition = "TEXT") // ใช้ TEXT สำหรับเก็บ JSON ในฐานข้อมูล
+    private String imgNamesJson; // เก็บสตริง JSON ของรายชื่อไฟล์ภาพ
     public AddImg() {
     }
 
-    public AddImg(long id, String detail, String pdf) {
+    public AddImg(long id, String detail, String imgNamesJson) {
         this.id = id;
         this.detail = detail;
-        this.pdf = pdf;
+        this.imgNamesJson = imgNamesJson;
     }
 
-    public AddImg(String detail, String pdf) {
+    public AddImg(String detail, String imgNamesJson) {
         this.detail = detail;
-        this.pdf = pdf;
+        this.imgNamesJson = imgNamesJson;
     }
+
+    //    public AddImg(long id, String detail, List<String> imgNames) {
+//        this.id = id;
+//        this.detail = detail;
+//        this.imgNames = imgNames;
+//    }
+//
+//    public AddImg(String detail, List<String> imgNames) {
+//        this.detail = detail;
+//        this.imgNames = imgNames;
+//    }
 
     public long getId() {
         return id;
@@ -48,12 +65,20 @@ public class AddImg {
         this.detail = detail;
     }
 
-    public String getImg() {
-        return pdf;
+//    public List<String> getImgNames() {
+//        return imgNames;
+//    }
+//
+//    public void setImgNames(List<String> imgNames) {
+//        this.imgNames = imgNames;
+//    }
+
+    public String getImgNamesJson() {
+        return imgNamesJson;
     }
 
-    public void setImg(String img) {
-        this.pdf = img;
+    public void setImgNamesJson(String imgNamesJson) {
+        this.imgNamesJson = imgNamesJson;
     }
 }
 

@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="lifelong.model.*" %>
 <!DOCTYPEhtml>
 <html>
@@ -92,6 +93,7 @@
               <col style="width: 160px;">
               <col style="width: auto;">
             </colgroup>
+
             <tbody>
             <tr>
               <td><label>ชื่อข่าว:</label></td>
@@ -103,7 +105,16 @@
             </tr>
             <tr>
               <td><label>รูปภาพ:</label></td>
-              <td><input name="ac_img" type="text" id="ac_img" value="${activities.img}"/></td>
+              <td><input type="file" name="file" id="file" multiple/><br>
+                <c:if test="${not empty pdf.imgNamesJson}">
+                  <h2>Existing Images:</h2>
+                  <c:set var="imgNames" value="${pdf.imgNamesJson}" />
+                  <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
+                    <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}" />
+                    <p>IMG: ${listImg}</p>
+                  </c:forEach>
+                </c:if>
+                <input name="ac_img" type="text" id="ac_img" value="${activities.img}"/></td>
             </tr>
             <tr>
               <td><input type="button" value="ย้อนกลับ"

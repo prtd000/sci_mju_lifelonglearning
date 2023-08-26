@@ -1,5 +1,6 @@
 package lifelong.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lifelong.model.*;
 import lifelong.service.*;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -8,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+//import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
@@ -178,6 +179,15 @@ public class CourseController {
         }
         return "redirect:/course/"+admin_id+"/list_all_course";
     }
+
+    @PostMapping(path = "/{admin_id}/view_request_open_course/{request_id}/cancel")
+    public String cancelRequestOpenCourse(@PathVariable("request_id") long roc_id,@PathVariable("admin_id") String admin_id, @RequestParam Map<String, String> allReqParams) throws ParseException {
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
+        String lec_id = requestOpenCourse.getLecturer().getUsername();
+        requestOpCourseService.deleteRequestOpenCourse(roc_id,lec_id);
+
+        return "redirect:/course/"+admin_id+"/list_all_course";
+    }
     //******************************************************//
 
     //**********List All Course************//
@@ -341,15 +351,50 @@ public class CourseController {
     }
 
     @PostMapping(path = "/{admin_id}/save_public_add_activity")
-    public String addActivityNews(@PathVariable("admin_id") String admin_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
-        String ac_name = allReqParams.get("ac_name");
-        Date ac_date = new Date();
-        String ac_detail = allReqParams.get("ac_detail");
-        String ac_type = "Public";
-        String ac_img = allReqParams.get("ac_img");
+    public String addActivityNews(@PathVariable("admin_id") String admin_id,
+                                  @RequestParam Map<String, String> allReqParams,
+                                  @RequestParam("ac_img") MultipartFile[] ac_img) throws ParseException {
+        try {
+            List<String> newFileNames = new ArrayList<>();
 
-        Activity public_activity_add = new Activity(ac_name, ac_date, ac_detail, ac_type, ac_img);
-        activityService.addActivityNews(public_activity_add);
+            String ac_name = allReqParams.get("ac_name");
+            Date ac_date = new Date();
+            String ac_detail = allReqParams.get("ac_detail");
+            String ac_type = "Public";
+//            String ac_img = allReqParams.get("ac_img");
+//            int maxIdImgFile = courseService.getImgCourseMaxId(course_type); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
+            int latestId = activityService.getActivityMaxId(ac_type); // Get the latest id from the database
+
+            int count = 1;
+            for (MultipartFile img : ac_img) {
+                String uploadPath = ImgPath.pathImg + "/activity/public/public_activity"+(latestId+1)+"/";
+                Path directoryPath = Paths.get(uploadPath);
+                Files.createDirectories(directoryPath);
+
+                String originalFileName = img.getOriginalFilename();
+                String fileExtension = getFileExtension(originalFileName);
+
+                String formattedId = String.format("%02d", latestId+1);
+                String formattedSequence = String.format("%04d", count);
+                String newFileName = String.format("IMG_%s_%s%s", formattedId, formattedSequence, fileExtension);
+                Path filePath = Paths.get(uploadPath, newFileName);
+                Files.write(filePath, img.getBytes());
+
+                newFileNames.add(newFileName);
+                count++;
+            }
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String imgNamesJson = objectMapper.writeValueAsString(newFileNames); // Convert the list to JSON
+
+//            AddImg newImg = new AddImg(detail, imgNamesJson);
+            Activity public_activity_add = new Activity(ac_name, ac_date, ac_detail, ac_type, imgNamesJson);
+            activityService.addActivityNews(public_activity_add);
+//            courseService.doAddImg(newImg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return "redirect:/course/"+admin_id+"/list_all_course";
     }
     //*********************************************************//
@@ -365,7 +410,7 @@ public class CourseController {
 
     //**********ไม่มีแล้ว*************************//
     @GetMapping("/public/{id}/view_page")
-    public String showActivityDetail(@PathVariable("id") long id, Model model) {
+    public String showActivityDetail(@PathVariable("id") String id, Model model) {
         Activity activity = activityService.getActivityDetail(id);
         model.addAttribute("title", "รายละเอียด" + title + "ทั่วไป");
         model.addAttribute("activities", activity);
@@ -375,7 +420,7 @@ public class CourseController {
 
     //********Edit Activity News (ต่อ List Activity)******************//
     @GetMapping("/public/{id}/edit_page")
-    public String getListActivityNews(@PathVariable("id") long id, Model model) {
+    public String getListActivityNews(@PathVariable("id") String id, Model model) {
         Activity activity = activityService.getActivityDetail(id);
         model.addAttribute("title", "แก้ไข" + title + "ทั่วไป");
         model.addAttribute("activities", activity);
@@ -384,8 +429,7 @@ public class CourseController {
 
     @PostMapping(path = "/{id}/update_public_add_activity")
     public String doEditActivityNews(@PathVariable("id") String ac_id, @RequestParam Map<String, String> allReqParams) throws ParseException {
-        long existingActivityId = Long.parseLong(ac_id);
-        Activity existingActivity = activityService.getActivityDetail(existingActivityId);
+        Activity existingActivity = activityService.getActivityDetail(ac_id);
         System.out.println("PASS");
         if (existingActivity != null) {
             existingActivity.setName(allReqParams.get("ac_name"));
@@ -398,9 +442,30 @@ public class CourseController {
     //**********************************************//
 
     //***************Delete Activity News********************//
-    @GetMapping("/delete")
-    public String doDeleteActivityNews() {
-        return null;
+    @GetMapping("/{admin_id}/{ac_id}/delete")
+    public String doDeleteActivityNews(@PathVariable String ac_id, @PathVariable String admin_id) throws IOException {
+        Activity activity = activityService.getActivityDetail(ac_id);
+        String activity_id = activity.getAc_id();
+        activity_id = activity_id.replace("AP", "").replace("AC", "");
+        int maxNumericId = Integer.parseInt(activity_id);
+        System.out.println(maxNumericId);
+        // ลบข้อมูลเดิมก่อน
+        String deletePath = ImgPath.pathImg + "/activity/public/public_activity"+maxNumericId+"/";
+        Path deletedirectoryPath = Paths.get(deletePath);
+
+
+        if (Files.isDirectory(deletedirectoryPath)) {
+            // ลบไดเร็กทอรีและเนื้อหาภายใน
+            Files.walk(deletedirectoryPath)
+                    .sorted(Comparator.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(File::delete);
+        } else {
+            // ลบไฟล์
+            Files.delete(deletedirectoryPath);
+        }
+        activityService.deleteActivity(ac_id);
+        return "redirect:/course/"+admin_id+"/list_all_course";
     }
     //*******************************************************//
 
@@ -454,91 +519,270 @@ public class CourseController {
     public String addImg(Model model, HttpSession session) {
 //        List<AddImg> addImg = courseService.getAddImg();
 //        model.addAttribute("list_img",courseService.getAddImg());
-        session.setAttribute("list_img",courseService.getAddImg());
+//        session.setAttribute("list_img",courseService.getAddImg());
+        List<AddImg> imageList = courseService.getAddImg(); // ดึงข้อมูลรูปภาพทั้งหมดจากฐานข้อมูล
+        model.addAttribute("list_img", imageList); // ส่งข้อมูลไปยังหน้า JSP
         return "admin/add_img";
-    }
-    @GetMapping("/checkImage")
-    public ResponseEntity<String> checkImageExists(@RequestParam long search_img) {
-        AddImg img = courseService.getPdfById(1);
-        System.out.println(search_img);
-        if (img != null) {
-            return ResponseEntity.ok("exists");
-        } else {
-            return ResponseEntity.ok("not_exists");
-        }
     }
 
     @Autowired
     private ServletContext servletContext;
 
     //************************** IMG ***********************************//
-    @PostMapping("/addImg")
-    public String addImg(@RequestParam("detail") String detail, @RequestParam("file") MultipartFile file) {
+//    @PostMapping("/addImg")
+//    public String addImg(@RequestParam("detail") String detail, @RequestParam("file") MultipartFile file) {
+//        try {
+//
+//            // กำหนด path ที่จะบันทึกไฟล์
+//            String uploadPath = ImgPath.pathImg + "/addImg/";
+//
+//            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
+//            Path directoryPath = Paths.get(uploadPath);
+//            Files.createDirectories(directoryPath);
+//
+//            // ดึงนามสกุลไฟล์จากชื่อไฟล์
+//            String originalFileName = file.getOriginalFilename();
+//            String fileExtension = getFileExtension(originalFileName);
+//            int latestFileCount = courseService.getLatestFileCount(); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
+//
+//            // สร้างรหัสไฟล์ใหม่ในรูปแบบ "IMG_0001", "IMG_0002", ...
+//            String newFileName = String.format("IMG_%04d%s", ++latestFileCount, fileExtension);
+//
+//            // บันทึกไฟล์ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
+//            Path filePath = Paths.get(uploadPath, newFileName);
+//            Files.write(filePath, file.getBytes());
+//
+//            // บันทึก path ไปยังฐานข้อมูล
+//            AddImg newImg = new AddImg(detail, newFileName);
+//            courseService.doAddImg(newImg);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return "redirect:/"; // หรือไปยังหน้าที่คุณต้องการ
+//    }
+    //**********************เพิ่มรูปทีละหลายๆรูป*************************//
+//    @PostMapping("/addListImg")
+//    public String addImg(@RequestParam("detail") String detail, @RequestParam("files") MultipartFile[] files) {
+//        try {
+//            String uploadPath = ImgPath.pathImg + "/addImg/";
+//            Path directoryPath = Paths.get(uploadPath);
+//            Files.createDirectories(directoryPath);
+//
+//            int latestFileCount = courseService.getLatestFileCount();
+//
+//            List<String> newFileNames = new ArrayList<>(); // สร้างรายชื่อไฟล์ใหม่
+//
+//            for (MultipartFile file : files) {
+//                String originalFileName = file.getOriginalFilename();
+//                String fileExtension = getFileExtension(originalFileName);
+//                String newFileName = String.format("IMG_%04d%s", ++latestFileCount, fileExtension);
+//                Path filePath = Paths.get(uploadPath, newFileName);
+//                Files.write(filePath, file.getBytes());
+//
+//                newFileNames.add(newFileName); // เพิ่มชื่อไฟล์ในรายชื่อใหม่
+//            }
+//
+//            AddImg newImg = new AddImg(detail, newFileNames); // ส่งรายชื่อไฟล์ใหม่ไปในคอนสตรักเตอร์
+//            courseService.doAddImg(newImg);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return "redirect:/"; // หรือไปยังหน้าที่คุณต้องการ
+//    }
+
+//    @PostMapping("/addListImg")
+//    public String addImg(@RequestParam("detail") String detail, @RequestParam("files") MultipartFile[] files) {
+//        try {
+//            String uploadPath = ImgPath.pathImg + "/addImg/";
+//            Path directoryPath = Paths.get(uploadPath);
+//            Files.createDirectories(directoryPath);
+//
+//            int latestFileCount = courseService.getLatestFileCount();
+//
+//            List<String> newFileNames = new ArrayList<>();
+//            int latestId = courseService.getLatestFileCount(); // Get the latest id from the database
+//
+//            for (MultipartFile file : files) {
+//                String originalFileName = file.getOriginalFilename();
+//                String fileExtension = getFileExtension(originalFileName);
+//
+//                latestId++; // Increment the latestId for each set of images
+//
+//                for (int i = 1; i <= 3; i++) { // Assuming you have 3 images per id
+//                    String formattedId = String.format("%02d", latestId);
+//                    String formattedSequence = String.format("%04d", i);
+//                    String newFileName = String.format("IMG_%s_%s%s", formattedId, formattedSequence, fileExtension);
+//                    Path filePath = Paths.get(uploadPath, newFileName);
+//                    Files.write(filePath, file.getBytes());
+//
+//                    newFileNames.add(newFileName);
+//                }
+//            }
+//
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            String imgNamesJson = objectMapper.writeValueAsString(newFileNames); // เขียนรายชื่อไฟล์เป็น JSON
+//
+//            AddImg newImg = new AddImg(detail, imgNamesJson);
+//            courseService.doAddImg(newImg);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return "redirect:/"; // หรือไปยังหน้าที่คุณต้องการ
+//    }
+
+    @PostMapping("/addListImg")
+    public String addImg(@RequestParam("detail") String detail, @RequestParam("files") MultipartFile[] files) {
         try {
+            List<String> newFileNames = new ArrayList<>();
 
-            // กำหนด path ที่จะบันทึกไฟล์
-            String uploadPath = ImgPath.pathImg + "/addImg/";
+            int latestId = courseService.getLatestFileCount(); // Get the latest id from the database
 
-            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
-            Path directoryPath = Paths.get(uploadPath);
-            Files.createDirectories(directoryPath);
+            int count = 1;
+            for (MultipartFile file : files) {
+                String uploadPath = ImgPath.pathImg + "/addImg/listimg"+(latestId+1)+"/";
+                Path directoryPath = Paths.get(uploadPath);
+                Files.createDirectories(directoryPath);
 
-            // ดึงนามสกุลไฟล์จากชื่อไฟล์
-            String originalFileName = file.getOriginalFilename();
-            String fileExtension = getFileExtension(originalFileName);
-            int latestFileCount = courseService.getLatestFileCount(); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
+                String originalFileName = file.getOriginalFilename();
+                String fileExtension = getFileExtension(originalFileName);
 
-            // สร้างรหัสไฟล์ใหม่ในรูปแบบ "IMG_0001", "IMG_0002", ...
-            String newFileName = String.format("IMG_%04d%s", ++latestFileCount, fileExtension);
+                    String formattedId = String.format("%02d", latestId+1);
+                    String formattedSequence = String.format("%04d", count);
+                    String newFileName = String.format("IMG_%s_%s%s", formattedId, formattedSequence, fileExtension);
+                    Path filePath = Paths.get(uploadPath, newFileName);
+                    Files.write(filePath, file.getBytes());
 
-            // บันทึกไฟล์ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
-            Path filePath = Paths.get(uploadPath, newFileName);
-            Files.write(filePath, file.getBytes());
+                    newFileNames.add(newFileName);
+                    count++;
+            }
 
-            // บันทึก path ไปยังฐานข้อมูล
-            AddImg newImg = new AddImg(detail, newFileName);
+            ObjectMapper objectMapper = new ObjectMapper();
+            String imgNamesJson = objectMapper.writeValueAsString(newFileNames); // Convert the list to JSON
+
+            AddImg newImg = new AddImg(detail, imgNamesJson);
             courseService.doAddImg(newImg);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return "redirect:/"; // หรือไปยังหน้าที่คุณต้องการ
+        return "redirect:/"; // Redirect to the desired page
+    }
+
+    //************************************************************//
+    @GetMapping("/editPDF/{list_img_Id}")
+    public String showEditListForm(@PathVariable long list_img_Id, Model model) {
+        // ดึงข้อมูล PDF จากฐานข้อมูลโดยใช้ pdfId
+        AddImg pdf = courseService.getPdfById(list_img_Id);
+
+        // ส่งข้อมูล PDF ไปยังหน้าแก้ไข
+        model.addAttribute("pdf", pdf);
+
+        return "admin/edit_img"; // ชื่อหน้าแก้ไขของคุณ
+    }
+
+    // สร้างเมธอดใน Controller สำหรับแก้ไขรูปภาพ
+    @PostMapping("/editListImg/{list_img_Id}")
+    public String editListImg(@RequestParam("detail") String newDetail,
+                              @RequestParam("file") MultipartFile[] files, @PathVariable long list_img_Id) {
+        try {
+            List<String> newFileNames = new ArrayList<>();
+
+            // เรียกดูข้อมูลรูปภาพที่ต้องการแก้ไข
+            AddImg existingImg = courseService.getPdfById(list_img_Id);
+
+            String existingImgNamesJson = existingImg.getImgNamesJson();
+            List<String> existingImgNames = new ObjectMapper().readValue(existingImgNamesJson, ArrayList.class);
+            // ลบข้อมูลในฐานข้อมูลก่อน
+            existingImgNames.clear();
+            // ลบข้อมูลเดิมก่อน
+            String deletePath = ImgPath.pathImg + "/addImg/listimg" + list_img_Id + "/";
+            Path deletedirectoryPath = Paths.get(deletePath);
+
+
+            if (Files.isDirectory(deletedirectoryPath)) {
+                // ลบไดเร็กทอรีและเนื้อหาภายใน
+                Files.walk(deletedirectoryPath)
+                        .sorted(Comparator.reverseOrder())
+                        .map(Path::toFile)
+                        .forEach(File::delete);
+            } else {
+                // ลบไฟล์
+                Files.delete(deletedirectoryPath);
+            }
+
+            // เพิ่มข้อมูลใหม่
+            int count = 1;
+            for (MultipartFile file : files) {
+                String uploadPath = ImgPath.pathImg + "/addImg/listimg" + list_img_Id + "/";
+                Path directoryPath = Paths.get(uploadPath);
+                Files.createDirectories(directoryPath);
+
+                String originalFileName = file.getOriginalFilename();
+                String fileExtension = getFileExtension(originalFileName);
+
+                String formattedId = String.format("%02d", list_img_Id);
+                String formattedSequence = String.format("%04d", count);
+                String newFileName = String.format("IMG_%s_%s%s", formattedId, formattedSequence, fileExtension);
+                Path filePath = Paths.get(uploadPath, newFileName);
+                Files.write(filePath, file.getBytes());
+
+                newFileNames.add(newFileName);
+                count++;
+            }
+
+            existingImgNames.addAll(newFileNames); // เพิ่มชื่อรูปภาพใหม่ลงในรายการรูปภาพเดิม
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String imgNamesJson = objectMapper.writeValueAsString(existingImgNames); // แปลงรายการรูปภาพใหม่เป็น JSON
+
+            // อัพเดตรายละเอียดและรายการรูปภาพในฐานข้อมูล
+            existingImg.setDetail(newDetail);
+            existingImg.setImgNamesJson(imgNamesJson);
+            courseService.updatePDF(existingImg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/"; // ลิ้งค์ไปยังหน้าที่ต้องการหลังจากการแก้ไข
     }
 
     //********************* PDF *********************************//
-    @PostMapping("/addPDF")
-    public String addPDF(@RequestParam("detail") String detail, @RequestParam("file") MultipartFile file) {
-        try {
-
-            // กำหนด path ที่จะบันทึกไฟล์
-            String uploadPath = ImgPath.pathImg + "/course_pdf/pdf/";
-
-            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
-            Path directoryPath = Paths.get(uploadPath);
-            Files.createDirectories(directoryPath);
-
-            // ดึงนามสกุลไฟล์จากชื่อไฟล์
-            String originalFileName = file.getOriginalFilename();
-            String fileExtension = getFileExtension(originalFileName);
-            int latestFileCount = courseService.getLatestFileCount(); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
-
-            // สร้างรหัสไฟล์ใหม่ในรูปแบบ "IMG_0001", "IMG_0002", ...
-            String newFileName = String.format("PDF_%04d%s", ++latestFileCount, fileExtension);
-
-            // บันทึกไฟล์ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
-            // บันทึกไฟล์ PDF ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
-            Path filePath = Paths.get(uploadPath, newFileName);
-            Files.write(filePath, file.getBytes());
-
-            // บันทึกเส้นทางไฟล์ในฐานข้อมูล
-            AddImg newImg = new AddImg(detail, newFileName);
-            courseService.doAddImg(newImg);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return "redirect:/coursr/add_img"; // หรือไปยังหน้าที่คุณต้องการ
-    }
+//    @PostMapping("/addPDF")
+//    public String addPDF(@RequestParam("detail") String detail, @RequestParam("file") MultipartFile file) {
+//        try {
+//
+//            // กำหนด path ที่จะบันทึกไฟล์
+//            String uploadPath = ImgPath.pathImg + "/course_pdf/pdf/";
+//
+//            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
+//            Path directoryPath = Paths.get(uploadPath);
+//            Files.createDirectories(directoryPath);
+//
+//            // ดึงนามสกุลไฟล์จากชื่อไฟล์
+//            String originalFileName = file.getOriginalFilename();
+//            String fileExtension = getFileExtension(originalFileName);
+//            int latestFileCount = courseService.getLatestFileCount(); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
+//
+//            // สร้างรหัสไฟล์ใหม่ในรูปแบบ "IMG_0001", "IMG_0002", ...
+//            String newFileName = String.format("PDF_%04d%s", ++latestFileCount, fileExtension);
+//
+//            // บันทึกไฟล์ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
+//            // บันทึกไฟล์ PDF ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
+//            Path filePath = Paths.get(uploadPath, newFileName);
+//            Files.write(filePath, file.getBytes());
+//
+//            // บันทึกเส้นทางไฟล์ในฐานข้อมูล
+//            AddImg newImg = new AddImg(detail, newFileName);
+//            courseService.doAddImg(newImg);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return "redirect:/coursr/add_img"; // หรือไปยังหน้าที่คุณต้องการ
+//    }
 
     // รับนามสกุลไฟล์จากชื่อไฟล์
     private String getFileExtension(String fileName) {
@@ -549,56 +793,56 @@ public class CourseController {
         return "";
     }
 
-    @GetMapping("/editPDF/{pdfId}")
-    public String showEditForm(@PathVariable long pdfId, Model model) {
-        // ดึงข้อมูล PDF จากฐานข้อมูลโดยใช้ pdfId
-        AddImg pdf = courseService.getPdfById(pdfId);
+//    @GetMapping("/editPDF/{pdfId}")
+//    public String showEditForm(@PathVariable long pdfId, Model model) {
+//        // ดึงข้อมูล PDF จากฐานข้อมูลโดยใช้ pdfId
+//        AddImg pdf = courseService.getPdfById(pdfId);
+//
+//        // ส่งข้อมูล PDF ไปยังหน้าแก้ไข
+//        model.addAttribute("pdf", pdf);
+//
+//        return "admin/edit_img"; // ชื่อหน้าแก้ไขของคุณ
+//    }
 
-        // ส่งข้อมูล PDF ไปยังหน้าแก้ไข
-        model.addAttribute("pdf", pdf);
-
-        return "admin/edit_img"; // ชื่อหน้าแก้ไขของคุณ
-    }
-
-    @PostMapping("/editPDF/{pdfId}")
-    public String editPDF(
-            @PathVariable long pdfId,
-            @RequestParam("detail") String detail,
-            @RequestParam("file") MultipartFile file,
-            @RequestParam(value = "existingFileName", required = false) String existingFileName
-    ) {
-        try {
-            // ดึงข้อมูล PDF ที่ต้องการแก้ไขจากฐานข้อมูล
-            AddImg pdfToUpdate = courseService.getPdfById(pdfId);
-            // กำหนด path ที่จะบันทึกไฟล์
-            String uploadPath = ImgPath.pathImg + "/course_pdf/pdf/";
-            // ถ้ามีการอัพโหลดไฟล์ใหม่
-            if (!file.isEmpty()) {
-                // ลบไฟล์ PDF เดิม (ถ้ามี)
-                Path path1 = Paths.get(uploadPath, existingFileName);
-                if (existingFileName != null) {
-                    if (Files.exists(path1)) {
-                        Files.delete(path1);
-                    }
-                }
-
-                // บันทึกไฟล์ใหม่
-                Files.write(path1, file.getBytes());
-
-                // อัพเดตข้อมูลในฐานข้อมูล
-                pdfToUpdate.setDetail(detail);
-                pdfToUpdate.setImg(existingFileName);
-                courseService.updatePDF(pdfToUpdate);
-            } else {
-                // ไม่มีการอัพโหลดไฟล์ใหม่ แต่อาจมีการอัพเดตข้อมูลอื่น ๆ ที่ต้องการทำในกรณีนี้
-                pdfToUpdate.setDetail(detail);
-                courseService.updatePDF(pdfToUpdate);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return "redirect:/course/add_img"; // หรือไปยังหน้าที่คุณต้องการ
-    }
+//    @PostMapping("/editPDF/{pdfId}")
+//    public String editPDF(
+//            @PathVariable long pdfId,
+//            @RequestParam("detail") String detail,
+//            @RequestParam("file") MultipartFile file,
+//            @RequestParam(value = "existingFileName", required = false) String existingFileName
+//    ) {
+//        try {
+//            // ดึงข้อมูล PDF ที่ต้องการแก้ไขจากฐานข้อมูล
+//            AddImg pdfToUpdate = courseService.getPdfById(pdfId);
+//            // กำหนด path ที่จะบันทึกไฟล์
+//            String uploadPath = ImgPath.pathImg + "/course_pdf/pdf/";
+//            // ถ้ามีการอัพโหลดไฟล์ใหม่
+//            if (!file.isEmpty()) {
+//                // ลบไฟล์ PDF เดิม (ถ้ามี)
+//                Path path1 = Paths.get(uploadPath, existingFileName);
+//                if (existingFileName != null) {
+//                    if (Files.exists(path1)) {
+//                        Files.delete(path1);
+//                    }
+//                }
+//
+//                // บันทึกไฟล์ใหม่
+//                Files.write(path1, file.getBytes());
+//
+//                // อัพเดตข้อมูลในฐานข้อมูล
+//                pdfToUpdate.setDetail(detail);
+//                pdfToUpdate.setImg(existingFileName);
+//                courseService.updatePDF(pdfToUpdate);
+//            } else {
+//                // ไม่มีการอัพโหลดไฟล์ใหม่ แต่อาจมีการอัพเดตข้อมูลอื่น ๆ ที่ต้องการทำในกรณีนี้
+//                pdfToUpdate.setDetail(detail);
+//                courseService.updatePDF(pdfToUpdate);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return "redirect:/course/add_img"; // หรือไปยังหน้าที่คุณต้องการ
+//    }
 
 }

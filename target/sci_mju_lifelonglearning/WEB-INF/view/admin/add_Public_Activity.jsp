@@ -92,7 +92,7 @@
       <div id="container">
         <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
         <br><br>
-        <form action="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/save_public_add_activity" method="POST">
+        <form action="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/save_public_add_activity" method="POST" enctype="multipart/form-data">
           <table style="width: 100%">
             <colgroup>
               <col style="width: 160px;">
@@ -109,7 +109,7 @@
             </tr>
             <tr>
               <td><label>รูปภาพ:</label></td>
-              <td><input class="txt_input" name="ac_img" type="text" id="ac_img"/></td>
+              <td><input class="txt_input" name="ac_img" type="file" id="ac_img" multiple/></td>
             </tr>
             <tr>
               <td></td>

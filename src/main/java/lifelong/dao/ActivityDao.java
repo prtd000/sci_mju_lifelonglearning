@@ -11,11 +11,13 @@ public interface ActivityDao {
 
     List<Activity> getPublicActivity();
 
-    Activity getActivityDetail(long id);
-    Activity getActivityDetailToUpdate(long id , String lec_id);
+    Activity getActivityDetail(String id);
+    Activity getActivityDetailToUpdate(String id , String lec_id);
     List<Activity> getActivityByRequestOpenCourseId(long roc_id);
     Activity updateActivity (Activity activity) ;
 
-    void deleteActivity(long id);
-    void deleteCourseActivity(long id , String lec_id);
+    void deleteActivity(String id);
+    void deleteCourseActivity(String id , String lec_id);
+    int getActivityMaxId(String activity_type);
+    int getLatestActivityCount();
 }

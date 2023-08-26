@@ -1,7 +1,12 @@
 <%@ page import="java.util.List" %>
 <%@ page import="lifelong.model.Member" %>
 <%@ page import="lifelong.model.AddImg" %>
+<%@ page import="lifelong.service.ActivityServiceImpl" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
 <%--
   Created by IntelliJ IDEA.
   User: DELL
@@ -10,22 +15,24 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    List<AddImg> addImgs = (List<AddImg>) session.getAttribute("list_img");
-%>
 <html>
 <head>
-    <title>Title</title>
+    <title>Image Slideshow</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 </head>
 <body>
-<%for(AddImg a : addImgs){%>
-    <%=a.getId()%>
-<%}%>
-<%--    <form action="${pageContext.request.contextPath}/course/addPDF" method="post" enctype="multipart/form-data">--%>
+
+<%--    <form action="${pageContext.request.contextPath}/course/addImg" method="post" enctype="multipart/form-data">--%>
 <%--        <input type="text" name="detail" placeholder="Image Detail"><br>--%>
 <%--        <input type="file" name="file"><br>--%>
 <%--        <button type="submit">Upload Image</button>--%>
 <%--    </form>--%>
+
+<form action="${pageContext.request.contextPath}/course/addListImg" method="post" enctype="multipart/form-data">
+    <input type="text" name="detail" placeholder="Image Detail"><br>
+    <input type="file" name="files" multiple><br> <!-- ใช้ 'files' แทน 'file' และเพิ่ม 'multiple' เพื่ออัปโหลดหลายไฟล์ -->
+    <button type="submit">Upload Images</button>
+</form>
 
 <%--    <c:forEach var="list" items="${list_img}">--%>
 <%--        <label>รูปภาพ :--%>
@@ -36,40 +43,86 @@
 <%--        <label>รายละเอียด : ${list.detail}</label><br>--%>
 <%--    </c:forEach>--%>
 
-<form action="/checkImage" method="get">
-    <input type="text" name="search_img" id="search_img">
-</form>
-<div id="alert_check"></div>
-</body>
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <c:forEach var="list" items="${list_img}">
+            <c:set var="imgNames" value="${list.imgNamesJson}" />
+            <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
+                <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}" />
+
+                <div class="swiper-slide">
+                    <label>รูปภาพ :
+                        <img src="${pageContext.request.contextPath}/assets/img/addImg/${listImg}" alt="course_image" class="c_img" style="width: 20%">
+                        <br>IMG : ${listImg}
+                    </label><br>
+                </div>
+            </c:forEach>
+            <label>รายละเอียด : ${list.detail}</label><br>
+        </c:forEach>
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+</div>
+
+
+<%--<div class="swiper-container">--%>
+<%--    <div class="swiper-wrapper">--%>
+<%--        <c:forEach var="list" items="${list_img}">--%>
+<%--            &lt;%&ndash; Call the method to parse image names using EL &ndash;%&gt;--%>
+<%--            <c:set var="imgArray" value="${activityServiceImpl.parseImageNames(list.imgNamesJson)}" />--%>
+<%--            <c:forEach var="listImg" items="${imgArray}">--%>
+<%--                <div class="swiper-slide">--%>
+<%--                    <label>รูปภาพ :--%>
+<%--                        <img src="${pageContext.request.contextPath}/assets/img/addImg/${listImg}" alt="course_image" class="c_img" style="width: 20px">--%>
+<%--                        <br>IMG : ${listImg}--%>
+<%--                    </label><br>--%>
+<%--                </div>--%>
+<%--            </c:forEach>--%>
+<%--            <label>รายละเอียด : ${list.detail}</label><br>--%>
+<%--        </c:forEach>--%>
+<%--    </div>--%>
+<%--    <div class="swiper-button-next"></div>--%>
+<%--    <div class="swiper-button-prev"></div>--%>
+<%--</div>--%>
+<%--<%--%>
+<%--    String list_img = (String) request.getAttribute("list_img");--%>
+
+<%--    // Remove square brackets and quotes from the input string--%>
+<%--    list_img = list_img.replace("[", "").replace("]", "").replace("\"", "");--%>
+
+<%--    // Split the comma-separated values into an array--%>
+<%--    String[] imgNames = list_img.split(",");--%>
+<%--%>--%>
+<%--<div class="swiper-container">--%>
+<%--    <div class="swiper-wrapper">--%>
+<%--        <c:forEach var="imgName" items="<%= imgNames %>">--%>
+<%--            <div class="swiper-slide">--%>
+<%--                <label>รูปภาพ :--%>
+<%--                    <img src="${pageContext.request.contextPath}/assets/img/addImg/${imgName}" alt="course_image" class="c_img" style="width: 20%">--%>
+<%--                    <br>IMG : ${imgName}--%>
+<%--                </label><br>--%>
+<%--            </div>--%>
+<%--        </c:forEach>--%>
+<%--    </div>--%>
+<%--    <div class="swiper-button-next"></div>--%>
+<%--    <div class="swiper-button-prev"></div>--%>
+<%--</div>--%>
+
+
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script>
-    document.getElementById("search_img").addEventListener("input", function() {
-        const searchImgValue = document.getElementById("search_img").value;
-        const alertCheckElement = document.getElementById("alert_check");
-
-        if (searchImgValue.trim() === "") {
-            alertCheckElement.textContent = "";
-            return;
-        }
-
-        // เรียกใช้งาน URL ของการตรวจสอบค่าในฐานข้อมูล
-        const checkImageUrl = "/checkImage?search_img=" + searchImgValue;
-        console.log("searchImgValue : "+searchImgValue);
-        fetch(checkImageUrl)
-            .then(response => response.text())
-            .then(result => {
-                console.log("Result from server:", result); // ดูค่าที่ได้จาก Server ใน Console
-                if (result === "exists") {
-                    alertCheckElement.textContent = "Image exists in the database.";
-                } else {
-                    alertCheckElement.textContent = "Image does not exist in the database.";
-                }
-            })
-            .catch(error => {
-                console.error("Request failed:", error);
-            });
+    document.addEventListener("DOMContentLoaded", function () {
+        var swiper = new Swiper(".swiper-container", {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
     });
-
 </script>
 
+</body>
 
 </html>

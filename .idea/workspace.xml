@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="science_mju_lifelonglearning:war exploded" />
+      <artifact name="sci_mju_lifelonglearning:war exploded" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
@@ -10,17 +10,51 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="94ee3265-17d3-4173-99b1-845ba8ed6d22" name="Changes" comment="New Page ListCourse By Member , Register Check Username">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/PDF_0001.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/PDF_0002.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/PDF_0003.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/PDF_0004.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/PDF_0005.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/PDF_0006.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/PDF_0007.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/PDF_0008.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/PDF_0009.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_pdf/PDF_0006.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/controller/CourseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/controller/CourseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/controller/LecturerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/controller/LecturerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/dao/ActivityDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/dao/ActivityDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/dao/ActivityDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/dao/ActivityDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/model/Activity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/model/Activity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/model/AddImg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/model/AddImg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/service/ActivityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/service/ActivityService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/service/ActivityServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/service/ActivityServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/ImgPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/ImgPath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/add_Public_Activity.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/add_Public_Activity.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/add_img.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/add_img.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/edit_Public_Activity.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/edit_Public_Activity.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/edit_img.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/edit_img.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/listAllCourse.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/listAllCourse.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/view_request_open_course_by_admin.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/view_request_open_course_by_admin.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_img/N_IMG0009.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/assets/img/course_img/N_IMG0009.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/controller/CourseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/controller/CourseController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/controller/LecturerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/controller/LecturerController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/dao/ActivityDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/dao/ActivityDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/dao/ActivityDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/dao/ActivityDaoImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/model/Activity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/model/Activity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/model/AddImg.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/model/AddImg.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/service/ActivityService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/service/ActivityService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/service/ActivityServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/service/ActivityServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/utils/ImgPath.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/utils/ImgPath.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/CourseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/CourseController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/LecturerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/LecturerController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/dao/ActivityDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/dao/ActivityDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/dao/ActivityDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/dao/ActivityDaoImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/model/Activity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/model/Activity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/model/AddImg.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/model/AddImg.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/service/ActivityService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/service/ActivityService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/service/ActivityServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/service/ActivityServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/utils/ImgPath.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/utils/ImgPath.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/add_Public_Activity.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/add_Public_Activity.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/add_img.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/add_img.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/edit_Public_Activity.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/edit_Public_Activity.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/edit_img.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/edit_img.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/listAllCourse.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/listAllCourse.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_img/N_IMG0009.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_img/N_IMG0009.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,23 +119,24 @@
     <option name="showMembers" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/asus/Desktop/New folder/science_mju_lifelonglearning&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;copyright&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;3cf1e3a8d7150692bef73feaeba94849&quot;,
-    &quot;two.files.diff.last.used.file&quot;: &quot;D:/Project-Final-2023/Final/science_mju_lifelonglearning/src/main/resources/application.properties&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/asus/Desktop/New folder/science_mju_lifelonglearning",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "copyright",
+    "spring.configuration.checksum": "c0faf4302789075769c5234e0e8bc511",
+    "two.files.diff.last.used.file": "D:/Project-Final-2023/Final/science_mju_lifelonglearning/src/main/resources/application.properties",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Project-Final-2023\Final\science_mju_lifelonglearning\src\main\webapp\assets\img\course_pdf" />
@@ -116,15 +151,14 @@
     <configuration name="Tomcat 9.0.64" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.64" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
-        <artifact name="science_mju_lifelonglearning:war exploded">
+        <artifact name="sci_mju_lifelonglearning:war exploded">
           <settings>
-            <option name="CONTEXT_PATH" value="/science_mju_lifelonglearning_war_exploded" />
+            <option name="CONTEXT_PATH" value="/sci_mju_lifelonglearning_war_exploded" />
           </settings>
         </artifact>
       </deployment>
       <server-settings>
         <option name="BASE_DIRECTORY_NAME" value="533e9454-7c84-4a78-87e7-8f99d48f7300" />
-        <option name="HTTP_PORT" value="8081" />
       </server-settings>
       <predefined_log_file enabled="true" id="Tomcat" />
       <predefined_log_file enabled="true" id="Tomcat Catalina" />
@@ -231,6 +265,9 @@
       <workItem from="1692684644742" duration="14684000" />
       <workItem from="1692701262307" duration="135000" />
       <workItem from="1692701430245" duration="974000" />
+      <workItem from="1692887279287" duration="76000" />
+      <workItem from="1692887430572" duration="9642000" />
+      <workItem from="1692944961304" duration="18797000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <created>1692351063976</created>

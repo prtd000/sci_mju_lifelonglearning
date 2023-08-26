@@ -10,10 +10,10 @@ import java.util.Date;
 public class Activity {
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+//    @GeneratedValue(generator = "increment")
+//    @GenericGenerator(name = "increment", strategy = "increment")
     @Column(length = 10)
-    private long ac_id;
+    private String ac_id;
 
     @Column(name = "ac_name",nullable = false)
     private String name;
@@ -27,8 +27,8 @@ public class Activity {
     @Column(name = "ac_type",nullable = false,length = 150)
     private String type;
 
-    @Column(name = "ac_img",nullable = false,length = 200)
-    private String img;
+    @Column(columnDefinition = "TEXT",name = "ac_img",nullable = false,length = 200) // ใช้ TEXT สำหรับเก็บ JSON ในฐานข้อมูล
+    private String img; // เก็บสตริง JSON ของรายชื่อไฟล์ภาพ
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "request_id")
@@ -60,11 +60,11 @@ public class Activity {
         this.lecturer = lecturer;
     }
 
-    public long getAc_id() {
+    public String getAc_id() {
         return ac_id;
     }
 
-    public void setAc_id(long ac_id) {
+    public void setAc_id(String ac_id) {
         this.ac_id = ac_id;
     }
 

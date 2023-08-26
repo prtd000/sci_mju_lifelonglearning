@@ -11,13 +11,16 @@ public interface ActivityService {
 
     List<Activity> getPublicActivity();
 
-    Activity getActivityDetail(long activityId);
-    Activity getActivityDetailToUpdate(long id , String lec_id);
+    Activity getActivityDetail(String activityId);
+    Activity getActivityDetailToUpdate(String id , String lec_id);
 
     List<Activity> getActivityDetailByCourseId(long roc_Id);
 
     void updateActivity(Activity activity);
-    void deleteActivity(long acId);
+    void deleteActivity(String acId);
 
-    void deleteCourseActivity(long id , String lec_id);
+    void deleteCourseActivity(String id , String lec_id);
+
+    int getLatestActivityCount();
+    int getActivityMaxId(String activity_type);
 }

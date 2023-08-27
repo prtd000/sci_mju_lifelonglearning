@@ -14,6 +14,9 @@ public class RequestOpenCourse {
     @Column(length = 10)
     private long request_id;
 
+    @Column(length = 10)
+    private int round;
+
     @Column(nullable = false)
     private Date requestDate;
     @Temporal(TemporalType.DATE)
@@ -233,5 +236,12 @@ public class RequestOpenCourse {
         this.lecturer = requestOpenCourse.getLecturer();
     }
 
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
+    }
 }
 

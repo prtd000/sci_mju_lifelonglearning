@@ -10,35 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="94ee3265-17d3-4173-99b1-845ba8ed6d22" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/controller/CourseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/controller/CourseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/controller/LecturerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/controller/LecturerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/edit_Public_Activity.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/edit_Public_Activity.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/add_Course_Activity.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/add_Course_Activity.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/add_request_open_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/add_request_open_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/edit_Course_Activity.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/edit_Course_Activity.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/list_member_approve_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/list_member_approve_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/list_request_open_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/list_request_open_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/nav_lecturer.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/nav_lecturer.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/update_request_open_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/update_request_open_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/view_Approve_request_open_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/view_Approve_request_open_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/view_detail_course_activity.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/view_detail_course_activity.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/view_request_open_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/view_request_open_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/controller/CourseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/controller/CourseController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/controller/LecturerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/controller/LecturerController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/CourseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/CourseController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/LecturerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/LecturerController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/edit_Public_Activity.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/edit_Public_Activity.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/add_Course_Activity.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/add_Course_Activity.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/add_request_open_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/add_request_open_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/edit_Course_Activity.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/edit_Course_Activity.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/list_member_approve_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/list_member_approve_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/list_request_open_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/list_request_open_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/nav_lecturer.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/nav_lecturer.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/update_request_open_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/update_request_open_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/view_Approve_request_open_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/view_Approve_request_open_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/view_detail_course_activity.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/view_detail_course_activity.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/view_request_open_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/view_request_open_course.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/model/RequestOpenCourse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/model/RequestOpenCourse.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -253,7 +225,7 @@
       <workItem from="1692887430572" duration="9642000" />
       <workItem from="1692944961304" duration="18797000" />
       <workItem from="1693028464444" duration="13531000" />
-      <workItem from="1693117200193" duration="772000" />
+      <workItem from="1693117200193" duration="1739000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <created>1692351063976</created>
@@ -325,7 +297,14 @@
       <option name="project" value="LOCAL" />
       <updated>1693028682899</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="commit update lecturer jsp">
+      <created>1693119989398</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1693119989398</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -346,6 +325,7 @@
     <MESSAGE value="commit" />
     <MESSAGE value="New Page ListCourse By Member , Register Check Username" />
     <MESSAGE value="activity" />
-    <option name="LAST_COMMIT_MESSAGE" value="activity" />
+    <MESSAGE value="commit update lecturer jsp" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit update lecturer jsp" />
   </component>
 </project>

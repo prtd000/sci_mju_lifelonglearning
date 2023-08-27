@@ -77,6 +77,13 @@ public class RequestOpCourseServiceImpl implements RequestOpCourseService {
     public void updateRequestOpenCourse(RequestOpenCourse requestOpenCourse) {
         requestOpCourseDao.updateRequestOpenCourse(requestOpenCourse);
     }
+
+    @Override
+    @Transactional
+    public int getSignatureCourseMaxId() {
+        return requestOpCourseDao.getSignatureCourseMaxId();
+    }
+
     @Override
     @Transactional
     public List<RequestOpenCourse> getRequestOpenCoursesByLecturerId(String lec_Id) {

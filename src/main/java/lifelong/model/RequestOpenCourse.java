@@ -71,7 +71,8 @@ public class RequestOpenCourse {
     public RequestOpenCourse() {
     }
 
-    public RequestOpenCourse(Date requestDate, Date startRegister, Date endRegister, int quantity, Date startStudyDate, Date endStudyDate, String studyTime, String type_learn, String type_teach, Date applicationResult, String location, String requestStatus, String signature, Course course, Lecturer lecturer) {
+    public RequestOpenCourse(int round,Date requestDate, Date startRegister, Date endRegister, int quantity, Date startStudyDate, Date endStudyDate, String studyTime, String type_learn, String type_teach, Date applicationResult, String location, String requestStatus, String signature, Course course, Lecturer lecturer) {
+        this.round = round;
         this.requestDate = requestDate;
         this.startRegister = startRegister;
         this.endRegister = endRegister;

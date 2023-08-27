@@ -24,4 +24,6 @@ public interface RequestOpCourseDao {
     void doRequestOpenCourseDetail(RequestOpenCourse requestOpenCourse);
 
     long getLatestId();
+
+    int getSignatureCourseMaxId();
 }

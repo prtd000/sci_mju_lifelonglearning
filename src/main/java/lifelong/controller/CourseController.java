@@ -83,6 +83,9 @@ public class CourseController {
             // เพิ่ม รูปภาพ
             // กำหนด path ที่จะบันทึกไฟล์
             String uploadPathIMG = ImgPath.pathImg + "/course_img/";
+            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
+            Path directoryPathIMG = Paths.get(uploadPathIMG);
+            Files.createDirectories(directoryPathIMG);
 
 //            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
 //            // รูปภาพ
@@ -111,6 +114,9 @@ public class CourseController {
 //            // เพิ่ม PDF
 //            // กำหนด path ที่จะบันทึกไฟล์
             String uploadPathPDF = ImgPath.pathImg + "/course_pdf/";
+            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
+            Path directoryPathPDF = Paths.get(uploadPathPDF);
+            Files.createDirectories(directoryPathPDF);
 //
 //            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
 //            Path directoryPathPDF = Paths.get(uploadPathPDF);
@@ -367,7 +373,8 @@ public class CourseController {
 
             int count = 1;
             for (MultipartFile img : ac_img) {
-                String uploadPath = ImgPath.pathImg + "/activity/public/public_activity"+(latestId+1)+"/";
+                String folderName = String.format("AP%03d", latestId+1);
+                String uploadPath = ImgPath.pathImg + "/activity/public/"+folderName+"/";
                 Path directoryPath = Paths.get(uploadPath);
                 Files.createDirectories(directoryPath);
 

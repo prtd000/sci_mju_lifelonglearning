@@ -107,4 +107,29 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
         Query<Long> query = session.createQuery("SELECT COUNT(rq) FROM RequestOpenCourse rq", Long.class);
         return query.getSingleResult();
     }
+
+    @Override
+    public int getSignatureCourseMaxId() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<String> query = session.createQuery(
+                "SELECT MAX(re.signature) FROM RequestOpenCourse re " +
+                        "WHERE re.signature LIKE 'SIG%'",
+                String.class
+        );
+        String maxString = query.getSingleResult();
+
+        if (maxString != null && maxString.length() > 1) {
+            // ตัดส่วนของ "SIG" และส่วนของไฟล์ภาพออก
+            int dotIndex = maxString.lastIndexOf(".");
+            if (dotIndex > 0) {
+                maxString = maxString.substring(0, dotIndex); // ตัดส่วนนามสกุลออก
+            }
+            maxString = maxString.replace("SIG", "");
+
+            return Integer.parseInt(maxString);
+        } else {
+            // หากไม่สามารถดึงค่าได้หรือค่ามีความยาวน้อยกว่า 2 จะคืนค่าเริ่มต้นหรือค่าที่เหมาะสม
+            return 0; // เปลี่ยนตามความเหมาะสม
+        }
+    }
 }

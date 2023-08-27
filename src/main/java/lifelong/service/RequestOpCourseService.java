@@ -20,4 +20,5 @@ public interface RequestOpCourseService {
     List<Major> getMajor();
     void doRequestOpenCourseDetail(RequestOpenCourse requestOpenCourse);
     void updateRequestOpenCourse(RequestOpenCourse requestOpenCourse);
+    int getSignatureCourseMaxId();
 }

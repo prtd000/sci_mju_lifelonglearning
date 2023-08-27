@@ -105,7 +105,7 @@
         <div id="container">
             <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
             <br><br>
-            <form action="${pageContext.request.contextPath}/lecturer/${lecturer.username}/save" method="POST">
+            <form action="${pageContext.request.contextPath}/lecturer/${lecturer.username}/save" method="POST" enctype="multipart/form-data">
                 <%
                     Date currentDate = new Date();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -163,7 +163,7 @@
                     <tr>
                         <td><label>จำนวนรับสมัคร:</label></td>
                         <td>
-                            <input name="quantity" id="quantity" cssClass="number" autocomplete="off"/>
+                            <input name="quantity" id="quantity" type="number" autocomplete="off"/>
                         </td>
                     </tr>
                     <tr>
@@ -193,13 +193,23 @@
                     <tr>
                         <td><label>ประเภทการเรียน:</label></td>
                         <td>
-                            <input name="type_learn" id="type_learn" autocomplete="off"/>
+                            <select name="type_learn" id="type_learn">
+                                <option value="">--กรุณาเลือกประเภทการเรียน--</option>
+                                <option value="ชั้นเรียน 100%">ชั้นเรียน 100%</option>
+                                <option value="ออนไลน์ 100%">ออนไลน์ 100%</option>
+                                <option value="แบบผสมชั้นเรียนและออนไลน์">แบบผสมชั้นเรียนและออนไลน์</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
                         <td><label>รูปแบบการสอน:</label></td>
                         <td>
-                            <input name="type_teach" id="type_teach" autocomplete="off"/>
+                            <select name="type_teach" id="type_teach">
+                                <option value="">--กรุณาเลือกรูปแบบการสอน--</option>
+                                <option value="แบบที่ 1 เรียนร่วมกับนักศึกษาในหลักสูตร">แบบที่ 1 เรียนร่วมกับนักศึกษาในหลักสูตร</option>
+                                <option value="แบบที่ 2 แยกกลุ่มเรียนโดยเฉพาะ">แบบที่ 2 แยกกลุ่มเรียนโดยเฉพาะ</option>
+                                <option value="จัดการเรียนการสอนร่วมกับทั้งแบบที่ 1 และแบบที่ 2">จัดการเรียนการสอนร่วมกับทั้งแบบที่ 1 และ แบบที่ 2</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
@@ -211,7 +221,7 @@
                     <tr>
                         <td><label>ลายเซ็น:</label></td>
                         <td>
-                            <input name="signature" id="signature" autocomplete="off"/>
+                            <input type="file" name="signature" id="signature" autocomplete="off"/>
                         </td>
                     </tr>
 <%--                    <tr>--%>

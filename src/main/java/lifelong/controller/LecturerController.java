@@ -11,12 +11,19 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import utils.ImgPath;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/lecturer")
@@ -38,6 +45,15 @@ public class LecturerController {
     private SessionFactory sessionFactory;
     private String Activity_title = "ข่าวสารและกิจกรรม";
 
+
+    // รับนามสกุลไฟล์จากชื่อไฟล์
+    private String getFileExtension(String fileName) {
+        int dotIndex = fileName.lastIndexOf('.');
+        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
+            return fileName.substring(dotIndex);
+        }
+        return "";
+    }
     //******************Request Open Course*************************//
     @GetMapping("/{lecturer_id}/add_roc")
     public String getCourseRequest(@PathVariable("lecturer_id") String lecturer_id,Model model) {
@@ -48,8 +64,11 @@ public class LecturerController {
         return "lecturer/add_request_open_course";
     }
     @PostMapping (path="/{id}/save")
-    public String doRequestOpenCourseDetail(@PathVariable("id") String lec_id,@RequestParam Map<String, String> allReqParams,@RequestParam("confirmButton") String confirmButton) throws ParseException {
+    public String doRequestOpenCourseDetail(@PathVariable("id") String lec_id,
+                                            @RequestParam Map<String, String> allReqParams,
+                                            @RequestParam("signature") MultipartFile signature) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // เปลี่ยนรูปแบบวันที่ให้ตรงกับ HTML
+        int round = 0;
         Date requestDate = new Date();
         Date startRegisterDate = dateFormat.parse(allReqParams.get("startRegister"));
         Date endRegisterDate = dateFormat.parse(allReqParams.get("endRegister"));
@@ -62,13 +81,47 @@ public class LecturerController {
         String type_teach = allReqParams.get("type_teach");
         String location = allReqParams.get("location");
         String requestStatusBool = "รอดำเนินการ";
-        String signature = allReqParams.get("signature");
+//        String signature = allReqParams.get("signature");
         Course course = courseService.getCourseById(allReqParams.get("course_id"));
 //        String lecturer_username = allReqParams.get("lecturer_username");
         Lecturer lecturer = lecturerService.getLecturerById(lec_id);
 
-        RequestOpenCourse requestOpenCourse_toAdd = new RequestOpenCourse(requestDate, startRegisterDate, endRegisterDate, quantity, startStudyDate, endStudyDate, studyTime, type_learn, type_teach, applicationResultDate, location, requestStatusBool, signature, course, lecturer);
-        requestOpCourseService.saveRequestOpenCourse(requestOpenCourse_toAdd);
+        try {
+
+            // เพิ่ม รูปภาพ
+            // กำหนด path ที่จะบันทึกไฟล์
+            String uploadPathIMG = ImgPath.pathImg + "/request_open_course/signature/";
+
+//            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
+//            // รูปภาพ
+//            Path directoryPathIMG = Paths.get(uploadPathIMG);
+//            Files.createDirectories(directoryPathIMG);
+//
+//            // ดึงนามสกุลไฟล์จากชื่อไฟล์
+//            // รูปภาพ
+//            String originalImgFileName = img.getOriginalFilename();
+//            String fileImgExtension = getFileExtension(originalImgFileName);
+//
+            int maxIdImgFile = requestOpCourseService.getSignatureCourseMaxId(); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
+
+            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
+            Path directoryPath = Paths.get(uploadPathIMG);
+            Files.createDirectories(directoryPath);
+
+            String imgOriginalFileName = signature.getOriginalFilename();
+            String imgFileExtension = getFileExtension(imgOriginalFileName);
+            String signature_img = "";
+            // สร้างรหัสไฟล์ใหม่ในรูปแบบ "SIG0001", ...
+            signature_img = String.format("SIG%04d%s", ++maxIdImgFile, imgFileExtension);
+            Path imgFilePath = Paths.get(uploadPathIMG, signature_img);
+            Files.write(imgFilePath, signature.getBytes());
+
+            // บันทึก path ไปยังฐานข้อมูล
+            RequestOpenCourse requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate, startRegisterDate, endRegisterDate, quantity, startStudyDate, endStudyDate, studyTime, type_learn, type_teach, applicationResultDate, location, requestStatusBool, signature_img, course, lecturer);
+            requestOpCourseService.saveRequestOpenCourse(requestOpenCourse_toAdd);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return "redirect:/lecturer/"+ lec_id +"/list_request_open_course";
     }
     //********************************************************//

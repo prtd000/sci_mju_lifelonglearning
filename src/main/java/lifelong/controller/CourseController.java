@@ -408,17 +408,7 @@ public class CourseController {
     }
     //************************************************//
 
-    //**********ไม่มีแล้ว*************************//
-    @GetMapping("/public/{id}/view_page")
-    public String showActivityDetail(@PathVariable("id") String id, Model model) {
-        Activity activity = activityService.getActivityDetail(id);
-        model.addAttribute("title", "รายละเอียด" + title + "ทั่วไป");
-        model.addAttribute("activities", activity);
-        return "admin/view_detail_public_activity";
-    }
-    //******************************************//
-
-    //********Edit Activity News (ต่อ List Activity)******************//
+    //********Edit Activity News ******************//
     @GetMapping("/public/{id}/edit_page")
     public String getListActivityNews(@PathVariable("id") String id, Model model) {
         Activity activity = activityService.getActivityDetail(id);
@@ -427,17 +417,75 @@ public class CourseController {
         return "admin/edit_Public_Activity";
     }
 
-    @PostMapping(path = "/{id}/update_public_add_activity")
-    public String doEditActivityNews(@PathVariable("id") String ac_id, @RequestParam Map<String, String> allReqParams) throws ParseException {
-        Activity existingActivity = activityService.getActivityDetail(ac_id);
-        System.out.println("PASS");
-        if (existingActivity != null) {
+    @PostMapping(path = "/{admin}/{id}/update_public_add_activity")
+    public String doEditActivityNews(@PathVariable("id") String ac_id,
+                                     @RequestParam("ac_img") MultipartFile[] imgs,
+                                     @RequestParam Map<String, String> allReqParams,
+                                     @PathVariable String admin) throws ParseException {
+        try {
+            List<String> newFileNames = new ArrayList<>();
+
+            // เรียกดูข้อมูลรูปภาพที่ต้องการแก้ไข
+            Activity existingActivity = activityService.getActivityDetail(ac_id);
+            String activity_id = existingActivity.getAc_id();
+            activity_id = activity_id.replace("AP", "").replace("AC", "");
+            int maxNumericId = Integer.parseInt(activity_id);
+            String existingActivityImg = existingActivity.getImg();
+            List<String> existingImgNames = new ObjectMapper().readValue(existingActivityImg, ArrayList.class);
+            // ลบข้อมูลในฐานข้อมูลก่อน
+            existingImgNames.clear();
+            // ลบข้อมูลเดิมก่อน
+            String deletePath = ImgPath.pathImg + "/activity/public/public_activity"+maxNumericId+"/";
+            Path deletedirectoryPath = Paths.get(deletePath);
+
+
+            if (Files.isDirectory(deletedirectoryPath)) {
+                // ลบไดเร็กทอรีและเนื้อหาภายใน
+                Files.walk(deletedirectoryPath)
+                        .sorted(Comparator.reverseOrder())
+                        .map(Path::toFile)
+                        .forEach(File::delete);
+            } else {
+                // ลบไฟล์
+                Files.delete(deletedirectoryPath);
+            }
+
+            // เพิ่มข้อมูลใหม่
+            int count = 1;
+            for (MultipartFile img : imgs) {
+                String uploadPath = ImgPath.pathImg + "/activity/public/public_activity"+maxNumericId+"/";
+                Path directoryPath = Paths.get(uploadPath);
+                Files.createDirectories(directoryPath);
+
+                String originalFileName = img.getOriginalFilename();
+                String fileExtension = getFileExtension(originalFileName);
+
+                String formattedId = String.format("%02d", maxNumericId);
+                String formattedSequence = String.format("%04d", count);
+                String newFileName = String.format("IMG_%s_%s%s", formattedId, formattedSequence, fileExtension);
+                Path filePath = Paths.get(uploadPath, newFileName);
+                Files.write(filePath, img.getBytes());
+
+                newFileNames.add(newFileName);
+                count++;
+            }
+
+            existingImgNames.addAll(newFileNames); // เพิ่มชื่อรูปภาพใหม่ลงในรายการรูปภาพเดิม
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String imgNamesJson = objectMapper.writeValueAsString(existingImgNames); // แปลงรายการรูปภาพใหม่เป็น JSON
+
+            // อัพเดตรายละเอียดและรายการรูปภาพในฐานข้อมูล
             existingActivity.setName(allReqParams.get("ac_name"));
             existingActivity.setDetail(allReqParams.get("ac_detail"));
-            existingActivity.setImg(allReqParams.get("ac_img"));
+            existingActivity.setImg(imgNamesJson);
             activityService.updateActivity(existingActivity);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return "redirect:/course/public/" + ac_id + "/view_page";
+        System.out.println("PASS");
+
+        return "redirect:/course/"+admin+"/list_all_course";
     }
     //**********************************************//
 

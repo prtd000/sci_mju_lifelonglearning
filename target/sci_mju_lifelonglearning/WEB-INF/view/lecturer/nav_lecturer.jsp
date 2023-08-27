@@ -1,8 +1,11 @@
+<%@ page import="lifelong.model.Lecturer" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <form:form action="${pageContext.request.contextPath}/logout" method="post" name="frmLogout"></form:form>
-
+<%
+  Lecturer lecturer = (Lecturer) session.getAttribute("lecturer");
+%>
 <!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
   <%--    <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png" style="height: 79px; margin-left: 57px; position: absolute;">--%>
@@ -27,6 +30,7 @@
       <%--            <div class="nav-item dropdown">--%>
       <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
       <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link">หลักสูตรการอบรม</a>
+      <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link">รายการร้องขอ</a>
       <%--                <div class="dropdown-menu m-0">--%>
       <%--                    <a href="#" class="dropdown-item">Reskill/Upskill</a>--%>
       <%--                    <a href="#" class="dropdown-item">อบรมระยะสั้น</a>--%>

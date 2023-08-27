@@ -120,7 +120,7 @@ public class LecturerController {
             requestOpCourseService.updateRequestOpenCourse(existingRequest);
         }
 //        String lec_id = existingRequest.getLecturer().getUsername();
-        return "redirect:/lecturer/"+ lec_id +"/view_request_open_course/"+ req_id;
+        return "redirect:/lecturer/"+ lec_id +"/list_request_open_course";
     }
     //******************************************************************************//
 

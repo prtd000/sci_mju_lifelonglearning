@@ -87,7 +87,7 @@
       <div id="container">
         <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
         <br><br>
-        <form action="${pageContext.request.contextPath}/course/${activities.ac_id}/update_public_add_activity" method="POST">
+        <form action="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/${activities.ac_id}/update_public_add_activity" method="POST" enctype="multipart/form-data">
           <table>
             <colgroup>
               <col style="width: 160px;">
@@ -105,16 +105,16 @@
             </tr>
             <tr>
               <td><label>รูปภาพ:</label></td>
-              <td><input type="file" name="file" id="file" multiple/><br>
-                <c:if test="${not empty pdf.imgNamesJson}">
+              <td><input name="ac_img" type="file" id="ac_img" value="${activities.img}" multiple/>
+                <c:if test="${not empty activities.img}">
                   <h2>Existing Images:</h2>
-                  <c:set var="imgNames" value="${pdf.imgNamesJson}" />
+                  <c:set var="imgNames" value="${activities.img}" />
                   <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
                     <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}" />
                     <p>IMG: ${listImg}</p>
                   </c:forEach>
                 </c:if>
-                <input name="ac_img" type="text" id="ac_img" value="${activities.img}"/></td>
+              </td>
             </tr>
             <tr>
               <td><input type="button" value="ย้อนกลับ"

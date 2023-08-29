@@ -14,16 +14,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import utils.ImgPath;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Controller
 @RequestMapping("/lecturer")
@@ -147,13 +145,13 @@ public class LecturerController {
         return "lecturer/update_request_open_course";
     }
     @PostMapping (path="/{lec_id}/{req_id}/update")
-    public String doEditRequestCourseDetail(@PathVariable("lec_id") String lec_id,@PathVariable("req_id") String req_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
+    public String doEditRequestCourseDetail(@PathVariable("lec_id") String lec_id,
+                                            @PathVariable("req_id") String req_id,
+                                            @RequestParam(value = "original_signature", required = false) String original_signature,
+                                            @RequestParam("signature") MultipartFile signature,
+                                            @RequestParam Map<String, String> allReqParams) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // เปลี่ยนรูปแบบวันที่ให้ตรงกับ HTML
-
-        //boolean requestStatusBool = false;
-
-//        Lecturer lecturer = lecturerService.getLecturerById(lec_id);
-
+        // ดึงข้อมูล PDF ที่ต้องการแก้ไขจากฐานข้อมูล
         long existingRequestId = Long.parseLong(req_id);
         RequestOpenCourse existingRequest = requestOpCourseService.getRequestOpenCourseDetailToUpdate(existingRequestId,lec_id);
         System.out.println("PASS");
@@ -168,9 +166,37 @@ public class LecturerController {
             existingRequest.setType_learn(allReqParams.get("type_learn"));
             existingRequest.setType_teach(allReqParams.get("type_teach"));
             existingRequest.setLocation(allReqParams.get("location"));
-            existingRequest.setSignature(allReqParams.get("signature"));
             existingRequest.setCourse(courseService.getCourseById(allReqParams.get("course_id")));
-            requestOpCourseService.updateRequestOpenCourse(existingRequest);
+        }
+
+        try {
+//            AddImg pdfToUpdate = courseService.getPdfById(pdfId);
+            // กำหนด path ที่จะบันทึกไฟล์
+            String uploadPathSIG = ImgPath.pathImg + "/request_open_course/signature/";
+//            String uploadPath = ImgPath.pathImg + "/course_pdf/pdf/";
+            // ถ้ามีการอัพโหลดไฟล์ใหม่
+            if (!signature.isEmpty()) {
+                // ลบไฟล์ PDF เดิม (ถ้ามี)
+                Path path1 = Paths.get(uploadPathSIG, original_signature);
+                if (original_signature != null) {
+                    if (Files.exists(path1)) {
+                        Files.delete(path1);
+                    }
+                }
+
+                // บันทึกไฟล์ใหม่
+                Files.write(path1, signature.getBytes());
+
+                // อัพเดตข้อมูลในฐานข้อมูล
+                assert existingRequest != null;
+                existingRequest.setSignature(original_signature);
+                requestOpCourseService.updateRequestOpenCourse(existingRequest);
+            } else {
+                // ไม่มีการอัพโหลดไฟล์ใหม่ แต่อาจมีการอัพเดตข้อมูลอื่น ๆ ที่ต้องการทำในกรณีนี้
+                requestOpCourseService.updateRequestOpenCourse(existingRequest);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 //        String lec_id = existingRequest.getLecturer().getUsername();
         return "redirect:/lecturer/"+ lec_id +"/list_request_open_course";
@@ -179,11 +205,17 @@ public class LecturerController {
 
     //***************************Cancel Course Detail***********************************//
     @GetMapping("/{lec_id}/{roc_id}/delete_request_open_course")
-    public String doEditCourseActivity(@PathVariable("lec_id")String lec_id,@PathVariable("roc_id") long roc_id) {
+    public String doEditCourseActivity(@PathVariable("lec_id")String lec_id,@PathVariable("roc_id") long roc_id) throws IOException {
 //        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetailToUpdate(roc_id,lec_id);
-        requestOpCourseService.deleteRequestOpenCourse(roc_id,lec_id);
 //        String lec_id = requestOpenCourse.getLecturer().getUsername();
-        System.out.println(lec_id);
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
+        String signature = requestOpenCourse.getSignature();
+        // ลบข้อมูลเดิมก่อน
+        String deletePath = ImgPath.pathImg + "/request_open_course/signature/";
+        Path deletedirectoryPath = Paths.get(deletePath,signature);
+        Files.delete(deletedirectoryPath);
+        requestOpCourseService.deleteRequestOpenCourse(roc_id,lec_id);
+
         return "redirect:/lecturer/"+ lec_id +"/list_request_open_course";
     }
     //**********************************************************************************//

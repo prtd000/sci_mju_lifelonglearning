@@ -106,7 +106,7 @@
         <c:if test="${request_open_course != null}">
             <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
             <br><br>
-        <form action="${pageContext.request.contextPath}/lecturer/${lec_id}/${request_open_course.request_id}/update" method="POST">
+        <form action="${pageContext.request.contextPath}/lecturer/${lec_id}/${request_open_course.request_id}/update" method="POST" enctype="multipart/form-data">
             <%
                 Date currentDate = new Date();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -171,7 +171,7 @@
                 <tr>
                     <td><label>จำนวนรับสมัคร:</label></td>
                     <td>
-                        <input name="quantity" id="quantity" cssClass="number" autocomplete="off" value="${request_open_course.quantity}"/>
+                        <input name="quantity" id="quantity" type="number" autocomplete="off" value="${request_open_course.quantity}"/>
                     </td>
                 </tr>
                 <tr>
@@ -201,13 +201,23 @@
                 <tr>
                     <td><label>ประเภทการเรียน:</label></td>
                     <td>
-                        <input name="type_learn" id="type_learn" autocomplete="off" value="${request_open_course.type_learn}"/>
+                        <select name="type_learn" id="type_learn">
+                            <option value="">--กรุณาเลือกประเภทการเรียน--</option>
+                            <option value="ชั้นเรียน 100%" ${request_open_course.type_learn == 'ชั้นเรียน 100%'?'selected':''}>ชั้นเรียน 100%</option>
+                            <option value="ออนไลน์ 100%" ${request_open_course.type_learn == 'ออนไลน์ 100%'?'selected':''}>ออนไลน์ 100%</option>
+                            <option value="แบบผสมชั้นเรียนและออนไลน์" ${request_open_course.type_learn == 'แบบผสมชั้นเรียนและออนไลน์'?'selected':''}>แบบผสมชั้นเรียนและออนไลน์</option>
+                        </select>
                     </td>
                 </tr>
                 <tr>
                     <td><label>รูปแบบการสอน:</label></td>
                     <td>
-                        <input name="type_teach" id="type_teach" autocomplete="off" value="${request_open_course.type_teach}"/>
+                        <select name="type_teach" id="type_teach">
+                            <option value="">--กรุณาเลือกรูปแบบการสอน--</option>
+                            <option value="แบบที่ 1 เรียนร่วมกับนักศึกษาในหลักสูตร" ${request_open_course.type_teach == 'แบบที่ 1 เรียนร่วมกับนักศึกษาในหลักสูตร'?'selected':''}>แบบที่ 1 เรียนร่วมกับนักศึกษาในหลักสูตร</option>
+                            <option value="แบบที่ 2 แยกกลุ่มเรียนโดยเฉพาะ" ${request_open_course.type_teach == 'แบบที่ 2 แยกกลุ่มเรียนโดยเฉพาะ'?'selected':''}>แบบที่ 2 แยกกลุ่มเรียนโดยเฉพาะ</option>
+                            <option value="จัดการเรียนการสอนร่วมกับทั้งแบบที่ 1 และแบบที่ 2" ${request_open_course.type_teach == 'จัดการเรียนการสอนร่วมกับทั้งแบบที่ 1 และแบบที่ 2'?'selected':''}>จัดการเรียนการสอนร่วมกับทั้งแบบที่ 1 และ แบบที่ 2</option>
+                        </select>
                     </td>
                 </tr>
                 <tr>
@@ -219,7 +229,11 @@
                 <tr>
                     <td><label>ลายเซ็น:</label></td>
                     <td>
-                        <input name="signature" id="signature" autocomplete="off" value="${request_open_course.signature}"/>
+                        <input name="signature" id="signature" type="file" autocomplete="off"/>
+                        <c:if test="${not empty request_open_course.signature}">
+                            <input type="hidden" name="original_signature" value="${request_open_course.signature}" />
+                            <a href="${request_open_course.signature}" target="_blank">${request_open_course.signature}</a>
+                        </c:if>
                     </td>
                 </tr>
                 <%--                    <tr>--%>

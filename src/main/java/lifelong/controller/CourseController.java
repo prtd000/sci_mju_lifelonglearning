@@ -3,28 +3,21 @@ package lifelong.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lifelong.model.*;
 import lifelong.service.*;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 //import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.*;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 import utils.ImgPath;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
@@ -819,6 +812,7 @@ public class CourseController {
 //            // ดึงนามสกุลไฟล์จากชื่อไฟล์
 //            String originalFileName = file.getOriginalFilename();
 //            String fileExtension = getFileExtension(originalFileName);
+//
 //            int latestFileCount = courseService.getLatestFileCount(); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
 //
 //            // สร้างรหัสไฟล์ใหม่ในรูปแบบ "IMG_0001", "IMG_0002", ...
@@ -899,5 +893,59 @@ public class CourseController {
 //
 //        return "redirect:/course/add_img"; // หรือไปยังหน้าที่คุณต้องการ
 //    }
+
+
+    @GetMapping("/show_test")
+    public String showTest(Model model) {
+
+        return "test"; // ชื่อหน้าแก้ไขของคุณ
+    }
+
+    @Autowired
+    private TestService testService;
+    @PostMapping("/add_Test_ListImg")
+    public String addImg(@RequestParam("imageFile") MultipartFile[] imageFiles) throws IOException {
+        int latestId = testService.max_id(); // Get the latest id from the database
+
+        int count = 1;
+        List<String> newFileNames = new ArrayList<>(); // To store the new file names
+
+        for (MultipartFile imageFile : imageFiles) {
+            if (!imageFile.isEmpty()) {
+                String uploadDirectory = ImgPath.pathImg + "/addImg/" + (latestId + 1);
+
+                Path directoryPath = Paths.get(uploadDirectory);
+                Files.createDirectories(directoryPath);
+
+                String fileName = imageFile.getOriginalFilename();
+                String fileExtension = getFileExtension(fileName);
+
+                String formattedId = String.format("%02d", latestId + 1);
+                String formattedSequence = String.format("%04d", count);
+                String newFileName = String.format("IMG_%s_%s%s", formattedId, formattedSequence, fileExtension);
+                Path filePath = Paths.get(uploadDirectory, newFileName);
+
+                // Write the image file to the specified path
+                Files.write(filePath, imageFile.getBytes());
+
+                // Store the new file name in the list
+                newFileNames.add(newFileName);
+
+                count++;
+            }
+        }
+
+        // Create an ImageModel instance and add the file names to the image list
+        Test_img image = new Test_img();
+        image.getImgNames().addAll(newFileNames);
+
+        // Save the image data to the database
+        image.setId(latestId+1);
+        testService.doAddImg(image);
+
+        return "redirect:/"; // Redirect to the desired page
+    }
+
+    // Helper function to get the file extension
 
 }

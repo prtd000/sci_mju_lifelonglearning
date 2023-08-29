@@ -25,7 +25,7 @@
             <a href="${pageContext.request.contextPath}/" class="nav-item nav-link active">หน้าหลัก</a>
             <a href="#" class="nav-item nav-link">เกี่ยวกับคณะ</a>
             <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link">หลักสูตรการอบรม</a>
-            <a href="#" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
+            <a href="${pageContext.request.contextPath}/view_course_activity" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
             <a href="#" class="nav-item nav-link">เกี่ยวกับเรา</a>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle nav-item" data-bs-toggle="dropdown">เข้าสู่ระบบ</a>

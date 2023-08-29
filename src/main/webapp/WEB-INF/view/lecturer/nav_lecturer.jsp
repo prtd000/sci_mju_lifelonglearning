@@ -37,7 +37,7 @@
 
       <%--                </div>--%>
       <%--            </div>--%>
-      <a href="#" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
+      <a href="${pageContext.request.contextPath}/view_course_activity" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
       <a href="#" class="nav-item nav-link">เกี่ยวกับเรา</a>
       <a href="#" class="nav-item nav-link">Lecturer</a>
       <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link">ออกจากระบบ</a>

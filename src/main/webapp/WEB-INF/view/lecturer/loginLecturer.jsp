@@ -5,11 +5,14 @@
 <html>
 <head>
   <title>${title}</title>
-  <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">
+<%--  <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
+  <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
-<body style="font-family: Mitr">
+<body>
+<jsp:include page="/WEB-INF/view/layouts/check_nav.jsp"/>
+
 
 <center>
   <br><br><br><br>

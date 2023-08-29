@@ -1,7 +1,9 @@
 <%@ page import="lifelong.model.Admin" %>
 <%@ page import="lifelong.model.Member" %>
 <%@ page import="lifelong.model.Lecturer" %>
+<%@ page import="java.time.LocalDate" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -14,6 +16,7 @@
 <html>
 <head>
     <title>Title</title>
+
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 </head>
 <body>
@@ -129,9 +132,39 @@
                             <td style="text-align: center;">${invoices.invoice.startPayment}</td>
                             <td style="text-align: center;">${invoices.invoice.endPayment}</td>
                             <td style="width: 100px; text-align: center;">
-                                <a href="${pageContext.request.contextPath}/member/${invoices.member.username}/payment_detail/${invoices.invoice.invoice_id}">
-                                    <button>ชำระเงิน</button>
-                                </a>
+                                <!---Start check date--->
+                                <c:set var="startpay" value="${invoices.invoice.startPayment}"/>
+                                <c:set var="s_year" value="${fn:substring(startpay, 0, 4)}"/>
+                                <c:set var="s_month" value="${fn:substring(startpay, 5, 7)}"/>
+                                <c:set var="s_day" value="${fn:substring(startpay, 8, 10)}"/>
+
+                                <c:set var="endpay" value="${invoices.invoice.endPayment}"/>
+                                <c:set var="e_year" value="${fn:substring(endpay, 0, 4)}"/>
+                                <c:set var="e_month" value="${fn:substring(endpay, 5, 7)}"/>
+                                <c:set var="e_day" value="${fn:substring(endpay, 8, 10)}"/>
+
+                                <c:set var="currentDate" value="<%=LocalDate.now()%>"/>
+                                <c:set var="startDate" value="${LocalDate.of(s_year, s_month, s_day)}"/>
+                                <c:set var="endDate" value="${LocalDate.of(e_year, e_month, e_day)}"/>
+
+
+                                <c:if test="${currentDate.isBefore(startDate)}">
+                                    <p>เร็วๆนี้</p>
+                                </c:if>
+
+                                <c:if test="${currentDate.isAfter(endDate)}">
+                                    <p style="color: red;">เลยกำหนดชำระเงิน</p>
+                                </c:if>
+
+                                <c:if test="${currentDate.equals(startDate) || currentDate.equals(endDate)}">
+                                    <a href="${pageContext.request.contextPath}/member/${invoices.member.username}/payment_detail/${invoices.invoice.invoice_id}"><button>ชำระเงิน</button></a>
+                                </c:if>
+
+                                <c:if test="${currentDate.isAfter(startDate) && currentDate.isBefore(endDate)}">
+                                    <a href="${pageContext.request.contextPath}/member/${invoices.member.username}/payment_detail/${invoices.invoice.invoice_id}"><button>ชำระเงิน</button></a>
+                                </c:if>
+in
+                                <!---End check date--->
                             </td>
                             <td style="text-align: center;">
                                 <input type="button" value="ยกเลิก"

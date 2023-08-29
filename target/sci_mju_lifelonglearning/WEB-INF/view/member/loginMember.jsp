@@ -8,45 +8,17 @@
 <html>
 <head>
     <title>${title}</title>
-    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">
+<%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
+    <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
-<body style="font-family: Mitr">
+<body>
 
 <!-- Navbar -->
-<%
-    Admin admin = (Admin) session.getAttribute("admin");
-    Member member = (Member) session.getAttribute("member");
-    Lecturer lecturer = (Lecturer) session.getAttribute("lecturer");
+<jsp:include page="/WEB-INF/view/layouts/check_nav.jsp"/>
 
-    String flag = "";
-    if (admin != null) {
-        flag = "admin";
-    }else if (lecturer != null) {
-        flag = "lecturer";
-    } else if (member != null) {
-        flag = "member";
-    }else {
-        flag = "null";
-    }
-%>
-
-<c:set var="flag" value="<%= flag %>"></c:set>
-<c:choose>
-    <c:when test="${flag.equals('admin')}">
-        <jsp:include page="/WEB-INF/view/admin/nav_admin.jsp"/>
-    </c:when>
-    <c:when test="${flag.equals('lecturer')}">
-        <jsp:include page="/WEB-INF/view/lecturer/nav_lecturer.jsp"/>
-    </c:when>
-    <c:when test="${flag.equals('member')}">
-        <jsp:include page="/WEB-INF/view/member/nav_member.jsp"/>
-    </c:when>
-    <c:otherwise>
-        <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
-    </c:otherwise>
-</c:choose>
 <center>
     <br><br><br><br>
     <h1 class="log-header">${title}</h1>

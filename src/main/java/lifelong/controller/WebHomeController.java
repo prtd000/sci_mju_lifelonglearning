@@ -2,10 +2,7 @@ package lifelong.controller;
 
 import lifelong.model.Course;
 import lifelong.model.Member;
-import lifelong.service.CourseService;
-import lifelong.service.MajorService;
-import lifelong.service.MemberService;
-import lifelong.service.UserService;
+import lifelong.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -35,6 +32,9 @@ public class WebHomeController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ActivityService activityService;
 
     @GetMapping("/")
     public String listCourse(Model model) {
@@ -66,6 +66,17 @@ public class WebHomeController {
         model.addAttribute("majors",majorService.getMajors());
         return "search_course";
     }
+
+    @GetMapping("/view_course_activity")
+    public String viewCourseActivity(Model model) {
+        model.addAttribute("list_activities", activityService.getPublicActivity());
+        return "view_course_activity";
+    }
+
+
+
+
+
     /***********Login**********/
 
     @GetMapping("/loginMember")
@@ -133,4 +144,6 @@ public class WebHomeController {
         calendar.set(localDate.getYear(), localDate.getMonthValue() - 1, localDate.getDayOfMonth());
         return calendar.getTime();
     }
+
+
 }

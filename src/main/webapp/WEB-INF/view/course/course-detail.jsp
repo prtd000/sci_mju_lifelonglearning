@@ -5,13 +5,16 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />--%>
+<%--<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>--%>
 <html>
 <head>
     <title>${course_detail.name}</title>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
-<%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
-<%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
+    <%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
+    <%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
     <link href="${pageContext.request.contextPath}/assets/css/course_detail.css" rel="stylesheet">
+    <%--    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />--%>
 </head>
 <body>
 <!-- Navbar -->
@@ -23,11 +26,11 @@
     String flag = "";
     if (admin != null) {
         flag = "admin";
-    }else if (lecturer != null) {
+    } else if (lecturer != null) {
         flag = "lecturer";
     } else if (member != null) {
         flag = "member";
-    }else {
+    } else {
         flag = "null";
     }
 %>
@@ -52,7 +55,7 @@
 <%--${course_detail.course_id}--%>
 <%--${course_detail.totalHours}--%>
 <c:set var="object" value="${course_detail.object}"></c:set>
-    <c:set var="parts" value="${fn:split(object, '$%')}" />
+<c:set var="parts" value="${fn:split(object, '$%')}"/>
 <div class="block_position">
     <h1>
         ${course_detail.name}
@@ -65,9 +68,10 @@
 
     <!--Image--->
     <div>
-        <img src="${pageContext.request.contextPath}/assets/img/course_img/${course_detail.img}" alt="course_image" class="c_img">
+        <img src="${pageContext.request.contextPath}/assets/img/course_img/${course_detail.img}" alt="course_image"
+             class="c_img">
     </div>
-<br>
+    <br>
     <!--Detail-->
     <div>
         <h1>คำอธิบายหลักสูตร</h1>
@@ -76,7 +80,7 @@
                 ${course_detail.principle}
             </span>
         </div>
-<br>
+        <br>
         <hr>
         <!---Sub_Detail-->
         <table>
@@ -94,12 +98,12 @@
                 <td class="t2">
                     <c:forEach items="${parts}" var="part">
                         <c:set var="count" value="${count+1}"></c:set>
-                        ${count} )  <c:out value="${part}"/><br/>
+                        ${count} ) <c:out value="${part}"/><br/>
                     </c:forEach>
                 </td>
             </tr>
-                <td class="t1">ระยะเวลาเรียน</td>
-                <td class="t2">${course_detail.totalHours} ชั่วโมง</td>
+            <td class="t1">ระยะเวลาเรียน</td>
+            <td class="t2">${course_detail.totalHours} ชั่วโมง</td>
             </tr>
             <tr>
                 <td class="t1">เป้าหมายกลุ่มอาชีพ</td>
@@ -114,64 +118,53 @@
                 <td class="t2">${course_detail.linkMooc}</td>
             </tr>
         </table>
+        <%--        <div class="swiper-container">--%>
+        <%--            <div class="swiper-wrapper">--%>
+        <%--                <c:forEach var="list" items="${list_activities}">--%>
+        <%--                    <c:set var="imgNames" value="${list.imgNamesJson}" />--%>
+        <%--                    <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">--%>
+        <%--                        <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}" />--%>
+
+        <%--                        <div class="swiper-slide">--%>
+        <%--                            <label>รูปภาพ :--%>
+        <%--                                <img src="${pageContext.request.contextPath}/assets/img/addImg/${listImg}" alt="course_image" class="c_img" style="width: 20%">--%>
+        <%--                                <br>IMG : ${listImg}--%>
+        <%--                            </label><br>--%>
+        <%--                        </div>--%>
+        <%--                    </c:forEach>--%>
+        <%--                    <label>รายละเอียด : ${list.detail}</label><br>--%>
+        <%--                </c:forEach>--%>
+        <%--            </div>--%>
+        <%--            <div class="swiper-button-next"></div>--%>
+        <%--            <div class="swiper-button-prev"></div>--%>
+        <%--        </div>--%>
+        <%--    </div>--%>
+        <!--Course News--->
+
+        <!---Lecturer Data---->
+        <%--    <div class="block_lecturer">--%>
+        <%--        <h4>อาจารย์ผู้รับผิดชอบหลักสูตร</h4>--%>
+        <%--        <div>--%>
+        <%--            <table>--%>
+        <%--                <tr>--%>
+        <%--                    <td>icon</td>--%>
+        <%--                    <td>อ.ดร.ฐาปนพงษ์ รักกาญจนันท์</td>--%>
+        <%--                </tr>--%>
+        <%--                <tr>--%>
+        <%--                    <td>icon</td>--%>
+        <%--                    <td>คณะวิทยาศาสตร์</td>--%>
+        <%--                </tr>--%>
+        <%--                <tr>--%>
+        <%--                    <td>icon</td>--%>
+        <%--                    <td>การเรียนรูปแบบ Online</td>--%>
+        <%--                </tr>--%>
+        <%--            </table>--%>
+        <%--            <a href="" class="btn btn-primary py-md-3 px-md-5 me-3">ลงทะเบียน</a>--%>
+        <%--&lt;%&ndash;            <button class="btn_register_course_detail">ลงทะเบียน</button>&ndash;%&gt;--%>
+        <%--        </div>--%>
     </div>
-    <!--Course News--->
-<%--    <div class="block_news_big">--%>
-<%--        <h1>ข่าวสารเกี่ยวกับหลักสูตร</h1>--%>
-<%--        <div class="block_news">--%>
-<%--            <div><img src="${pageContext.request.contextPath}/assets/img/banner1.jpeg" alt="News_img" class="news_img"></div>--%>
-<%--            <div class="news_content">--%>
-<%--                <h1>Title</h1>--%>
-<%--                <p>1 มีนาคม 2566</p>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <div class="block_news">--%>
-<%--            <div><img src="${pageContext.request.contextPath}/assets/img/banner1.jpeg" alt="News_img" class="news_img"></div>--%>
-<%--            <div  class="news_content">--%>
-<%--                <h1>Title</h1>--%>
-<%--                <p>1 มีนาคม 2566</p>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <div class="block_news">--%>
-<%--            <div><img src="${pageContext.request.contextPath}/assets/img/banner1.jpeg" alt="News_img" class="news_img"></div>--%>
-<%--            <div  class="news_content">--%>
-<%--                <h1>Title</h1>--%>
-<%--                <p>1 มีนาคม 2566</p>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--        <div class="block_news">--%>
-<%--            <div><img src="${pageContext.request.contextPath}/assets/img/banner1.jpeg" alt="News_img" class="news_img"></div>--%>
-<%--            <div  class="news_content">--%>
-<%--                <h1>Title</h1>--%>
-<%--                <p>1 มีนาคม 2566</p>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-
-    <!---Lecturer Data---->
-<%--    <div class="block_lecturer">--%>
-<%--        <h4>อาจารย์ผู้รับผิดชอบหลักสูตร</h4>--%>
-<%--        <div>--%>
-<%--            <table>--%>
-<%--                <tr>--%>
-<%--                    <td>icon</td>--%>
-<%--                    <td>อ.ดร.ฐาปนพงษ์ รักกาญจนันท์</td>--%>
-<%--                </tr>--%>
-<%--                <tr>--%>
-<%--                    <td>icon</td>--%>
-<%--                    <td>คณะวิทยาศาสตร์</td>--%>
-<%--                </tr>--%>
-<%--                <tr>--%>
-<%--                    <td>icon</td>--%>
-<%--                    <td>การเรียนรูปแบบ Online</td>--%>
-<%--                </tr>--%>
-<%--            </table>--%>
-<%--            <a href="" class="btn btn-primary py-md-3 px-md-5 me-3">ลงทะเบียน</a>--%>
-<%--&lt;%&ndash;            <button class="btn_register_course_detail">ลงทะเบียน</button>&ndash;%&gt;--%>
-<%--        </div>--%>
-<%--    </div>--%>
 </div>
-
 <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>
 </body>
+
 </html>

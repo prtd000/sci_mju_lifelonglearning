@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
 
 @Controller
 @RequestMapping("/member")
@@ -90,8 +88,14 @@ public class MemberController {
         model.addAttribute("list_course", memberService.getMyListCourse(memId));
         model.addAttribute("list_invoice",memberService.getListInvoice());
         model.addAttribute("mem_username",memberService.getMemberById(memId));
-        model.addAttribute("register", registerService.getRegister
-                (memId));
+        model.addAttribute("register", registerService.getRegister(memId));
+
+//        ArrayList<Date> list = new ArrayList<>();
+//        for (Register register : registerService.getRegister(memId)){
+//            System.out.println("Start Pay : " + register.getInvoice().getStartPayment());
+//            list.add(register.getInvoice().getStartPayment());
+//        }
+//        model.addAttribute("start_pay",list);
         return "/member/list_course";
     }
 

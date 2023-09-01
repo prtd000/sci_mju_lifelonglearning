@@ -61,7 +61,7 @@
     </table>
     <hr>
     <h5>อัพโหลดหลักฐานการชำระเงิน</h5>
-    <form action="${pageContext.request.contextPath}/member/${payment.register.member.username}/payment_fill_detail/${payment.invoice_id}/save" method="post">
+    <form action="${pageContext.request.contextPath}/member/${payment.register.member.username}/payment_fill_detail/${payment.invoice_id}/save" method="post" onsubmit="return confirm('ยืนยันข้อมูลการชำระเงิน')" enctype="multipart/form-data">
 
         <table border="1">
             <tr>
@@ -93,10 +93,6 @@
                         <option value="ธ.ก.ส">ธ.ก.ส</option>
                     </select>
                 </td>
-            </tr>
-            <tr>
-                <td>จำนวนเงินที่ถูกโอน (฿)</td>
-                <td><input type="number" name="receipt_total"></td>
             </tr>
             <tr>
                 <td>เงินโอนจากบัญชีธนาคารเลขที่ (4 หลักสุดท้าย)</td>

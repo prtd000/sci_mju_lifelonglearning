@@ -28,27 +28,22 @@ public class Receipt {
     @Column(name = "receipt_lastfourdigits" , nullable = false , length = 4)
     private int last_four_digits;
 
-    @Column(name = "receipt_total",nullable = false,length = 10)
-    private double total;
-
     @Column(name = "receipt_slip",nullable = false,length = 200)
     private String slip;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @MapsId
     @JoinColumn(name = "invoice_id")
     private Invoice invoice;
 
     public Receipt() {
     }
 
-    public Receipt(long receipt_id, Date pay_date, String pay_time, String banking, int last_four_digits, double total, String slip, Invoice invoice) {
+    public Receipt(long receipt_id, Date pay_date, String pay_time, String banking, int last_four_digits, String slip, Invoice invoice) {
         this.receipt_id = receipt_id;
         this.pay_date = pay_date;
         this.pay_time = pay_time;
         this.banking = banking;
         this.last_four_digits = last_four_digits;
-        this.total = total;
         this.slip = slip;
         this.invoice = invoice;
     }
@@ -91,14 +86,6 @@ public class Receipt {
 
     public void setLast_four_digits(int last_four_digits) {
         this.last_four_digits = last_four_digits;
-    }
-
-    public double getTotal() {
-        return total;
-    }
-
-    public void setTotal(double total) {
-        this.total = total;
     }
 
     public String getSlip() {

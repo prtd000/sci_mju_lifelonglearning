@@ -135,26 +135,28 @@
         </table>
     </div>
     <br>
-    <form:form action="${pageContext.request.contextPath}/member/${member_id}/register_course/${course_id}/${request_op_course.request_id}/register" modelAttribute="register" method="GET">
-        <div>
-            <%
-                Date currentDate = new Date();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-                String date = dateFormat.format(currentDate);
+<%--    <form:form action="${pageContext.request.contextPath}/member/${member_id}/register_course/${course_id}/${request_op_course.request_id}/register" modelAttribute="register" method="GET">--%>
+<%--        <div>--%>
+<%--            <%--%>
+<%--                Date currentDate = new Date();--%>
+<%--                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");--%>
+<%--                String date = dateFormat.format(currentDate);--%>
 
-                int std_result = 0;
-                int registerID = 0;
-            %>
+<%--                int std_result = 0;--%>
+<%--                int registerID = 0;--%>
+<%--            %>--%>
 
-            <p>RegisterID (PK) : <%=registerID%></p><br>
-            <p>Current Date : <%=date%></p><br>
-            <p>Study_result : <%=std_result%></p><br>
-            <p>RequestID (FK) : ${request_op_course.request_id}</p><br>
-            <p>MemberID (FK) : ${member_id}</p>
-            <br>
-            <input type="submit" value="register"/>
-        </div>
-    </form:form>
+<%--            <p>RegisterID (PK) : <%=registerID%></p><br>--%>
+<%--            <p>Current Date : <%=date%></p><br>--%>
+<%--            <p>Study_result : <%=std_result%></p><br>--%>
+<%--            <p>RequestID (FK) : ${request_op_course.request_id}</p><br>--%>
+<%--            <p>MemberID (FK) : ${member_id}</p>--%>
+<%--            <br>--%>
+<%--            <input type="submit" value="register"/>--%>
+<%--        </div>--%>
+<%--    </form:form>--%>
+
+    <button onclick="if((confirm('ยืนยันการลงทะเบียน'))){ window.location.href='${pageContext.request.contextPath}/member/${member_id}/register_course/${course_id}/${request_op_course.request_id}/register';return false; }">สมัคร</button>
 </div>
 
 

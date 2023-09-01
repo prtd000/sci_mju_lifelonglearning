@@ -118,7 +118,6 @@
             text-overflow: ellipsis;
         }
     </style>
-
 </head>
 
 <body>

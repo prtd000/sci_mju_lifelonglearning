@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface RegisterDao {
 
+    List<Register> getListRegister();
+
     List<Register> getRegister(String memId);
 
     Register getRegisterById(String memId);

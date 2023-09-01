@@ -29,7 +29,7 @@
 <%--                    <a class="text-light" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>เข้าสู่ระบบ</a>--%>
 <%--                </div>--%>
 <%--            </div>--%>
-            <div id="map" style="width: 200px; height: 200px;"></div>
+            <div id="map" style="width: 500px; height: 400px;"></div>
             <div class="col-lg-3 col-md-6">
                 <h3 class="text-white mb-4">ติดต่อ</h3>
                 <p class="mb-2"><i class="bi bi-geo-alt text-primary me-2"></i>63 หมู่ 4 ตำบลหนองหาร <br> &nbsp;&nbsp;&nbsp; อำเภอสันทราย จังหวัดเชียงใหม่ 50290</p>

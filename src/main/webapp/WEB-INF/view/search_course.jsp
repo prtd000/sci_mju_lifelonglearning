@@ -142,6 +142,7 @@
             <!----------End Search------------>
 
             <!----------Course 1------------>
+
             <c:forEach var="course" items="${courses}">
                 <%
                     DecimalFormat f = new DecimalFormat("#,###");
@@ -154,37 +155,149 @@
                              style="width: 400px; height: 635px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
 
                             <c:choose>
+<%--                                <c:when test="${flag.equals('member')}">--%>
+<%--                                    <div class="p-5">--%>
+<%--                                        <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}"--%>
+<%--                                             style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">--%>
+<%--                                        <br>--%>
+<%--                                        <h4 class="item text_ellipsis">${course.name}</h4></b>--%>
+<%--                                        <p>${course.major.name}</p>--%>
+<%--                                        <p style="font-weight: bold; color: dodgerblue">${course.course_type}</p>--%>
+<%--                                        <b><p style="color: #0c7800; font-size: 22px">ราคา <fmt:formatNumber value="${courseFee}"/>.00 บาท</p></b>--%>
+
+<%--                                        <c:forEach var="listReq" items="${listRequest}">--%>
+<%--                                            <c:choose>--%>
+<%--                                                <c:when test="${listReq.course.course_id.equals(course.course_id)}">--%>
+<%--                                                    <table>--%>
+<%--                                                        <tr>--%>
+<%--                                                            <td style="width: 250px;">--%>
+<%--                                                                <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${course.course_id}/${listReq.request_id}"><b>ลงทะเบียน</b><i class="bi bi-arrow-right ms-2"></i></a>--%>
+<%--                                                            </td>--%>
+<%--                                                            <td>--%>
+<%--                                                                <p style="color: green; font-weight: bold">เปิด</p>--%>
+<%--                                                            </td>--%>
+<%--                                                        </tr>--%>
+<%--                                                    </table>--%>
+<%--                                                </c:when>--%>
+<%--                                                <c:otherwise>--%>
+<%--                                                    <p style="color: green"></p>--%>
+<%--                                                </c:otherwise>--%>
+<%--                                            </c:choose>--%>
+<%--                                        </c:forEach>--%>
+<%--                                    </div>--%>
+<%--                                </c:when>--%>
                                 <c:when test="${flag.equals('member')}">
                                     <div class="p-5">
-                                        <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}" style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
+                                        <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}"
+                                             style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
                                         <br>
-                                            <h4 class="item text_ellipsis">${course.name}</h4></b>
-                                            <p>${course.major.name}</p>
-                                            <p style="font-weight: bold; color: dodgerblue">${course.course_type}</p>
-                                            <b><p style="color: #0c7800; font-size: 22px">ราคา <fmt:formatNumber value="${courseFee}"/>.00 บาท</p></b>
+                                        <h4 class="item text_ellipsis">${course.name}</h4></b>
+                                        <p>${course.major.name}</p>
+                                        <p style="font-weight: bold; color: dodgerblue">${course.course_type}</p>
+                                        <b><p style="color: #0c7800; font-size: 22px">ราคา <fmt:formatNumber value="${courseFee}"/>.00 บาท</p></b>
 
-                                            <c:forEach var="listReq" items="${listRequest}">
-                                            <c:choose>
-                                            <c:when test="${listReq.course.course_id.equals(course.course_id)}">
-                                            <table>
-                                                <tr>
-                                                    <td style="width: 250px;">
-                                                        <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${course.course_id}/${listReq.request_id}"><b>ลงทะเบียน</b><i class="bi bi-arrow-right ms-2"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <p style="color: green; font-weight: bold">เปิด</p>
-                                                    </td>
-                                                </tr>
-                                            </table>
+                                        <c:choose>
+                                            <c:when test="${list_invoice.size() == 0}">
+                                                <c:choose>
+                                                    <%-------- ผ่าน ---------%>
+                                                    <c:when test="${listRegister.size() == 0}">
+                                                        <c:forEach var="listReq" items="${listRequest}">
+                                                            <c:choose>
+                                                                <c:when test="${listReq.course.course_id.equals(course.course_id)}">
+                                                                    <table>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${course.course_id}/${listReq.request_id}"><b>ลงทะเบียน</b><i class="bi bi-arrow-right ms-2"></i></a>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p style="color: green; font-weight: bold">เปิด</p>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <p></p>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:forEach>
+                                                    </c:when>
+                                                    <%-----------------%>
+                                                    <c:otherwise>
+
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </c:when>
+
+                                            <%-------- ยังไม่เสร็จ ---------%>
+<%--                                            <c:otherwise>--%>
+<%--                                                <c:forEach var="listReq" items="${listRequest}">--%>
+<%--                                                    <c:forEach var="listInvoice" items="${list_invoice}">--%>
+<%--                                                        <c:choose>--%>
+<%--                                                            <c:when test="${listInvoice.register.requestOpenCourse.request_id == listReq.request_id}">--%>
+<%--                                                                &lt;%&ndash;------ ลอง approve status มาเข้าเงื่อนไง if ด้วย -------&ndash;%&gt;--%>
+<%--                                                                <c:if test="${listInvoice.approve_status.equals('รอดำเนินการ')}">--%>
+<%--                                                                    <table>--%>
+<%--                                                                        <tr>--%>
+<%--                                                                            <td style="width: 250px;">--%>
+<%--                                                                                <c:choose>--%>
+<%--                                                                                    <c:when test="${listInvoice.approve_status.equals('ผ่าน')}">--%>
+<%--                                                                                        <p style="color: red; font-weight: bold;">ลงทะเบียนแล้ว</p>--%>
+<%--                                                                                    </c:when>--%>
+<%--                                                                                    <c:otherwise>--%>
+<%--                                                                                        <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${course.course_id}/${listInvoice.register.requestOpenCourse.request_id}"><b>ลงทะเบียน</b><i class="bi bi-arrow-right ms-2"></i></a>--%>
+<%--                                                                                    </c:otherwise>--%>
+<%--                                                                                </c:choose>--%>
+<%--                                                                            </td>--%>
+<%--                                                                            <td>--%>
+<%--                                                                                <p style="color: green; font-weight: bold">เปิด</p>--%>
+<%--                                                                            </td>--%>
+<%--                                                                        </tr>--%>
+<%--                                                                    </table>--%>
+<%--                                                                </c:if>--%>
+<%--                                                            </c:when>--%>
+<%--                                                            <c:otherwise>--%>
+
+<%--                                                            </c:otherwise>--%>
+<%--                                                        </c:choose>--%>
+<%--                                                    </c:forEach>--%>
+<%--                                                </c:forEach>--%>
+<%--                                            </c:otherwise>--%>
+
+                                            <%-------- Lastest ---------%>
                                             <c:otherwise>
-                                            <p style="color: green"></p>
+                                                <c:forEach var="listInvoice" items="${list_invoice}">
+                                                    <c:choose>
+                                                        <c:when test="${listInvoice.register.requestOpenCourse.course.course_id.equals(course.course_id)}">
+                                                            <table>
+                                                                <tr>
+                                                                    <td style="width: 250px;">
+                                                                        <c:choose>
+                                                                            <c:when test="${listInvoice.approve_status.equals('ผ่าน')}">
+                                                                                <p style="color: red; font-weight: bold;">ลงทะเบียนแล้ว</p>
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${course.course_id}/${listInvoice.register.requestOpenCourse.request_id}"><b>ลงทะเบียน</b><i class="bi bi-arrow-right ms-2"></i></a>
+                                                                            </c:otherwise>
+                                                                        </c:choose>
+                                                                    </td>
+                                                                    <td>
+                                                                        <p style="color: green; font-weight: bold">เปิด</p>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </c:when>
+                                                        <c:otherwise>
+
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach>
                                             </c:otherwise>
-                                            </c:choose>
-                                            </c:forEach>
+                                            <%-------- Doing ---------%>
+                                        </c:choose>
                                     </div>
                                 </c:when>
 
+                                <%-------- User ---------%>
                                 <c:otherwise>
                                     <a href="${pageContext.request.contextPath}/${course.course_id}">
                                         <div class="p-5">
@@ -196,7 +309,8 @@
                                             </div>
                                             <p>${course.major.name}</p>
                                             <p style="font-weight: bold; color: dodgerblue">${course.course_type}</p>
-                                            <b><p style="color: #0c7800; font-size: 22px">ราคา <fmt:formatNumber value="${courseFee}"/>.00 บาท</p></b>
+                                            <b><p style="color: #0c7800; font-size: 22px">ราคา <fmt:formatNumber
+                                                    value="${courseFee}"/>.00 บาท</p></b>
 
                                             <table>
                                                 <tr>
@@ -222,8 +336,6 @@
                                     </a>
                                 </c:otherwise>
                             </c:choose>
-
-
                         </div>
                     </div>
                 </div>

@@ -61,28 +61,28 @@
     </table>
     <hr>
     <h5>อัพโหลดหลักฐานการชำระเงิน</h5>
-    <form action="${pageContext.request.contextPath}/member/${payment.register.member.username}/payment_fill_detail/${payment.invoice_id}/save" method="post" onsubmit="return confirm('ยืนยันข้อมูลการชำระเงิน')" enctype="multipart/form-data">
+    <form action="${pageContext.request.contextPath}/member/${payment.register.member.username}/update_payment_fill_detail/${payment.invoice_id}/update" method="post" onsubmit="return confirm('ยืนยันข้อมูลการชำระเงิน')" enctype="multipart/form-data">
 
         <table border="1">
             <tr>
                 <td style="width: 315px"><p style="color: red;">*ภาพตัวอย่าง*</p></td>
-                <td><input type="file" name="slip"></td>
+                <td><input type="file" name="slip" value="${receipt.slip}"></td>
             </tr>
         </table>
         <hr>
         <table>
             <tr>
                 <td style="width: 450px;">วันที่โอนตามหลักฐานการชำระเงิน</td>
-                <td><input type="date" name="receipt_paydate"></td>
+                <td><input type="date" name="receipt_paydate" value="${receipt.pay_date}"></td>
             </tr>
             <tr>
                 <td>เวลาที่โอนตามหลักฐานการชำระเงิน</td>
-                <td><input type="time" name="receipt_paytime"></td>
+                <td><input type="time" name="receipt_paytime" value="${receipt.pay_time}"></td>
             </tr>
             <tr>
                 <td>โอนจากธนาคาร</td>
                 <td>
-                    <select id="receipt_banking" name="receipt_banking">
+                    <select id="receipt_banking" name="receipt_banking" >
                         <option value="กรุงไทย">กรุงไทย</option>
                         <option value="ไทยพาณิชย์">ไทยพาณิชย์ (SCB)</option>
                         <option value="กสิกรไทย">กสิกรไทย (KBank)</option>
@@ -96,7 +96,7 @@
             </tr>
             <tr>
                 <td>เงินโอนจากบัญชีธนาคารเลขที่ (4 หลักสุดท้าย)</td>
-                <td><input type="number" name="last_four_digits"></td>
+                <td><input type="number" name="last_four_digits" value="${receipt.last_four_digits}"></td>
             </tr>
             <tr>
                 <td colspan="2">
@@ -108,5 +108,30 @@
 </center>
 
 <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>
+
+<script>
+    let index = 0;
+    const banking = "${receipt.banking}";
+    if (banking === "กรุงไทย") {
+        index = 0;
+    } else if (banking === "ไทยพาณิชย์") {
+        index = 1;
+    } else if (banking === "กสิกรไทย") {
+        index = 2;
+    } else if (banking === "ออมสิน") {
+        index = 3;
+    } else if (banking === "กรุงศรี") {
+        index = 4;
+    } else if (banking === "กรุงเทพ") {
+        index = 5;
+    } else if (banking === "ทีทีบี") {
+        index = 6;
+    } else if (banking === "ธ.ก.ส") {
+        index = 7;
+    }
+    window.onload = function () {
+        document.getElementById("receipt_banking").selectedIndex = index;
+    };
+</script>
 </body>
 </html>

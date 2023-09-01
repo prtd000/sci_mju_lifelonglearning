@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface RegisterService {
 
+    List<Register> getListRegister();
     List<Register> getRegister(String memId);
     List<Register> getRegisterByRequestId(long roc_Id);
     List<Register>getRegisterByRequestIdAndPayStatus(long roc_Id);

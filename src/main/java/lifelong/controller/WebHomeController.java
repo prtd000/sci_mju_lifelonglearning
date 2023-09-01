@@ -36,6 +36,9 @@ public class WebHomeController {
     @Autowired
     private ActivityService activityService;
 
+    @Autowired
+    private RegisterService registerService;
+
     @GetMapping("/")
     public String listCourse(Model model) {
 //        model.addAttribute("title", "รายการ" + title);
@@ -46,8 +49,15 @@ public class WebHomeController {
     public String searchCourse(Model model) {
         /****Send listRequest****/
         model.addAttribute("listRequest",courseService.getListRequestOpCourse());
+        model.addAttribute("listRegister", registerService.getListRegister());
+        model.addAttribute("list_invoice",memberService.getListInvoice());
         model.addAttribute("courses", courseService.getCourses());
         model.addAttribute("majors",majorService.getMajors());
+
+        System.out.println("listRequest  : " + courseService.getListRequestOpCourse());
+        System.out.println("listRegister : " + registerService.getListRegister());
+        System.out.println("list_invoice : " + memberService.getListInvoice());
+
         return "search_course";
     }
     @GetMapping("/{id}")

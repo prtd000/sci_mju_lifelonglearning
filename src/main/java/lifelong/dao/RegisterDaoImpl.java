@@ -19,6 +19,13 @@ public class RegisterDaoImpl implements RegisterDao {
     private SessionFactory sessionFactory;
 
     @Override
+    public List<Register> getListRegister() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Register> query = session.createQuery("from Register", Register.class);
+        return query.getResultList();
+    }
+
+    @Override
     public List<Register> getRegister(String memId) {
         Session session = sessionFactory.getCurrentSession();
         Query<Register> query = session.createQuery("from Register r where r.member.id =: Id ", Register.class);
@@ -78,7 +85,7 @@ public class RegisterDaoImpl implements RegisterDao {
     @Override
     public void doInvoice(Invoice invoice) {
         Session session = sessionFactory.getCurrentSession();
-        session.save(invoice);
+        session.saveOrUpdate(invoice);
     }
 
     @Override

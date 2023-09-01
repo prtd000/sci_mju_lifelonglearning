@@ -17,6 +17,12 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     @Transactional
+    public List<Register> getListRegister() {
+        return registerDao.getListRegister();
+    }
+
+    @Override
+    @Transactional
     public List<Register> getRegister(String memId) {
         return registerDao.getRegister(memId);
     }

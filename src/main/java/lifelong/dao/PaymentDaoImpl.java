@@ -72,4 +72,40 @@ public class PaymentDaoImpl implements PaymentDao{
         Receipt receipt = (Receipt) query.uniqueResult();
         return receipt;
     }
+
+    @Override
+    public int getLatestFileCount() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Long> query = session.createQuery("SELECT MAX(id) FROM Receipt ", Long.class);
+        Long result = query.uniqueResult();
+        return result != null ? result.intValue() : 0; // ถ้าไม่พบข้อมูลให้ส่งค่า 0 แทน
+    }
+
+    @Override
+    public int getSlipMaxId() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<String> query;
+        // ดึงค่ามากสุดที่มีตัวอักษรเริ่มต้นด้วย "C"
+        query = session.createQuery(
+                "SELECT MAX(r.slip) FROM Receipt r " +
+                          "WHERE r.slip LIKE 'SLIP_%'",
+                String.class
+        );
+        String maxString = query.getSingleResult();
+
+        String imagePrefix = "SLIP_";
+        if (maxString != null && maxString.length() > imagePrefix.length()) {
+            // ตัดส่วนของ "PDF_" และส่วนของไฟล์ภาพออก
+            int dotIndex = maxString.lastIndexOf(".");
+            if (dotIndex > 0) {
+                maxString = maxString.substring(0, dotIndex); // ตัดส่วนนามสกุลออก
+            }
+            maxString = maxString.replace("SLIP_", "");
+
+            int maxNumericId = Integer.parseInt(maxString);
+            return maxNumericId;
+        } else {
+            return 0;
+        }
+    }
 }

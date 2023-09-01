@@ -9,7 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import utils.ImgPath;
 
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.InvalidAlgorithmParameterException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,10 +45,9 @@ public class PaymentController {
     }
 
     @PostMapping("/{memid}/payment_fill_detail/{invoice_id}/save")
-    public String savePaymentFillDetail(@PathVariable("memid") String memId, @PathVariable("invoice_id") long invoiceId, Model model, @RequestParam Map<String, String> params) throws ParseException {
+    public String savePaymentFillDetail(@PathVariable("memid") String memId, @PathVariable("invoice_id") long invoiceId, @RequestParam Map<String, String> params, @RequestParam("slip") MultipartFile file,HttpSession session) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        /*update pay status*/
         Invoice invoice = paymentService.getInvoiceById(invoiceId);
         if (invoice != null) {
             invoice.setPay_status(true);
@@ -49,17 +55,117 @@ public class PaymentController {
         }
 
         Receipt receipt = new Receipt();
-        receipt.setReceipt_id(0);
-        receipt.setSlip(params.get("slip"));
-        receipt.setPay_date(dateFormat.parse(params.get("receipt_paydate")));
-        receipt.setPay_time(params.get("receipt_paytime"));
-        receipt.setBanking(params.get("receipt_banking"));
-        receipt.setTotal(Double.parseDouble(params.get("receipt_total")));
-        receipt.setLast_four_digits(Integer.parseInt(params.get("last_four_digits")));
-        receipt.setInvoice(paymentService.getInvoiceById(invoiceId));
 
-        paymentService.saveReceipt(receipt);
+        /*********Convert Slip**********/
+        try {
+            receipt.setReceipt_id(0);
+            receipt.setPay_date(dateFormat.parse(params.get("receipt_paydate")));
+            receipt.setPay_time(params.get("receipt_paytime"));
+            receipt.setBanking(params.get("receipt_banking"));
+            receipt.setLast_four_digits(Integer.parseInt(params.get("last_four_digits")));
+            receipt.setInvoice(paymentService.getInvoiceById(invoiceId));
+
+
+            // กำหนด path ที่จะบันทึกไฟล์
+            String uploadPath = ImgPath.pathImg + "/slip/";
+
+            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
+            Path directoryPath = Paths.get(uploadPath);
+            Files.createDirectories(directoryPath);
+
+            // ดึงนามสกุลไฟล์จากชื่อไฟล์
+            String originalFileName = file.getOriginalFilename();
+            String fileExtension = getFileExtension(originalFileName);
+
+
+            int latestFileCount = paymentService.getLatestFileCount(); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
+
+            // สร้างรหัสไฟล์ใหม่ในรูปแบบ "IMG_0001", "IMG_0002", ...
+            String newFileName = String.format("SLIP_%04d%s", ++latestFileCount, fileExtension);
+
+            // บันทึกไฟล์ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
+            // บันทึกไฟล์ PDF ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
+            Path filePath = Paths.get(uploadPath, newFileName);
+            Files.write(filePath, file.getBytes());
+
+            // บันทึกเส้นทางไฟล์ในฐานข้อมูล
+            receipt.setSlip(newFileName);
+            paymentService.saveReceipt(receipt);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        session.setAttribute("updateSuccess",true);
+
         return "redirect:/member/" + memId + "/listcourse";
     }
+
+    private String getFileExtension(String fileName) {
+        int dotIndex = fileName.lastIndexOf('.');
+        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
+            return fileName.substring(dotIndex);
+        }
+        return "";
+    }
+
+    @GetMapping("/{memid}/update_payment_fill_detail/{invoice_id}")
+    public String updatePaymentFillDetail(@PathVariable("memid") String memId, @PathVariable("invoice_id") long invoiceId, Model model) {
+        model.addAttribute("payment", paymentService.getInvoiceById(invoiceId));
+        model.addAttribute("receipt", paymentService.getReceiptByInvoiceId(invoiceId));
+        return "member/update_payment_fill_detail";
+    }
+
+    @PostMapping("/{memid}/update_payment_fill_detail/{invoice_id}/update")
+    public String updatePaymentFillDetail(@PathVariable("memid") String memId, Model model, @PathVariable("invoice_id") long invoiceId, @RequestParam Map<String, String> params, @RequestParam("slip") MultipartFile file, HttpSession session) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        Receipt receipt = paymentService.getReceiptByInvoiceId(invoiceId);
+//        Invoice invoice = paymentService.getInvoiceById(invoiceId);
+        if (receipt != null){
+            /*********Convert Slip**********/
+            try {
+                receipt.setPay_date(dateFormat.parse(params.get("receipt_paydate")));
+                receipt.setPay_time(params.get("receipt_paytime"));
+                receipt.setBanking(params.get("receipt_banking"));
+                receipt.setLast_four_digits(Integer.parseInt(params.get("last_four_digits")));
+//                invoice.setApprove_status("รอดำเนินการ");
+
+                // กำหนด path ที่จะบันทึกไฟล์
+                String uploadPath = ImgPath.pathImg + "/slip/";
+
+                // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
+                Path directoryPath = Paths.get(uploadPath);
+                Files.createDirectories(directoryPath);
+
+                // ดึงนามสกุลไฟล์จากชื่อไฟล์
+                String originalFileName = file.getOriginalFilename();
+                String fileExtension = getFileExtension(originalFileName);
+
+
+                int latestFileCount = paymentService.getLatestFileCount(); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
+
+                // สร้างรหัสไฟล์ใหม่ในรูปแบบ "IMG_0001", "IMG_0002", ...
+                String newFileName = String.format("SLIP_%04d%s", ++latestFileCount, fileExtension);
+
+                // บันทึกไฟล์ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
+                // บันทึกไฟล์ PDF ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
+                Path filePath = Paths.get(uploadPath, newFileName);
+                Files.write(filePath, file.getBytes());
+
+                // บันทึกเส้นทางไฟล์ในฐานข้อมูล
+                receipt.setSlip(newFileName);
+//                registerService.doInvoice(invoice);
+                paymentService.saveReceipt(receipt);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        session.setAttribute("update","success");
+
+        return "redirect:/member/" + memId + "/listcourse";
+    }
+
+
 
 }

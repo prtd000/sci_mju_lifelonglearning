@@ -16,4 +16,8 @@ public interface PaymentDao {
     Invoice updateInvoice (Invoice invoice) ;
 
     Receipt getLastRowReceipt();
+
+    int getLatestFileCount();
+
+    int getSlipMaxId();
 }

@@ -148,7 +148,8 @@
         <button class="tablinks" onclick="openList(event, 'form2')">Step 2</button>
         <button class="tablinks" onclick="openList(event, 'form3')">Step 3</button>
     </div>
-    <form action="${pageContext.request.contextPath}/register_member/save" name="frm" method="POST">
+
+    <form action="${pageContext.request.contextPath}/register_member/save" name="frm" method="POST" onsubmit="return confirmSubmit();">
         <!-- Form 1 -->
         <div id="form1" class="block_form1 tabcontent">
             <table>
@@ -240,7 +241,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <input type="submit" value="สมัครสมาชิก">
+                        <input type="submit" value="สมัครสมาชิก" />
                     </td>
                 </tr>
             </table>
@@ -297,5 +298,9 @@
     });
 
     /**********************************************/
+
+    function confirmSubmit() {
+        return confirm("ยืนยันการสมัครสมาชิก");
+    }
 </script>
 </html>

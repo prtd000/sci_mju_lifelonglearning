@@ -48,4 +48,16 @@ public class PaymentServiceImpl implements PaymentService{
     public Receipt getLastRowReceipt() {
         return paymentDao.getLastRowReceipt();
     }
+
+    @Override
+    @Transactional
+    public int getLatestFileCount() {
+        return paymentDao.getLatestFileCount();
+    }
+
+    @Override
+    @Transactional
+    public int getSlipMaxId() {
+        return paymentDao.getSlipMaxId();
+    }
 }

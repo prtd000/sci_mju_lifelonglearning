@@ -17,4 +17,10 @@ public interface PaymentService {
     void updateInvoice(Invoice invoice);
 
     Receipt getLastRowReceipt();
+
+    int getLatestFileCount();
+
+    int getSlipMaxId();
+
+
 }

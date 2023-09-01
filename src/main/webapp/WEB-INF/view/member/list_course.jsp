@@ -110,8 +110,8 @@
                 <td>รายการ</td>
                 <td style="width: 130px; text-align: center;">เริ่มชำระเงิน</td>
                 <td style="width: 130px; text-align: center;">สิ้นสุดชำระเงิน</td>
-                <td style="width: 130px; text-align: center;">สถานะ</td>
-                <td style="width: 130px; text-align: center;">ยกเลิก</td>
+                <td style="width: 150px; text-align: center;">สถานะ</td>
+                <td style="width: 130px; text-align: center;">หมายเหตุ</td>
             </tr>
             <c:forEach var="invoices" items="${register}">
                 <tr>
@@ -126,6 +126,31 @@
                                 </td>
                                 <td style="text-align: center;"></td>
                             </c:if>
+                            <c:if test="${invoices.invoice.approve_status.equals('ไม่ผ่าน')}">
+                                <% String stt_update = (String) session.getAttribute("update"); %>
+                                <c:set var="status_update" value="<%= stt_update %>" />
+                                <c:choose>
+                                    <c:when test="${status_update.equals('success')}">
+                                        <td style="width: 550px;">${invoices.requestOpenCourse.course.name}</td>
+                                        <td style="text-align: center;"></td>
+                                        <td style="text-align: center;"></td>
+                                        <td style="text-align: center;">
+                                            <p style="color: green; font-weight: bold;">แก้ไขการชำระเงินแล้ว</p>
+                                        </td>
+                                        <td style="text-align: center;"><p style="color: yellow; font-weight: bold">รอดำเนินการ</p></td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td style="width: 550px;">${invoices.requestOpenCourse.course.name}</td>
+                                        <td style="text-align: center;"></td>
+                                        <td style="text-align: center;"></td>
+                                        <td style="text-align: center;">
+                                            <a href="${pageContext.request.contextPath}/member/${invoices.member.username}/update_payment_fill_detail/${invoices.invoice.invoice_id}"><button>แก้ไขการชำระเงิน</button></a>
+                                        </td>
+                                        <td style="text-align: center;"><p style="color: red; font-weight: bold;">${invoices.invoice.approve_status}</p></td>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
+
                         </c:when>
                         <c:otherwise>
                             <td style="width: 550px;">${invoices.requestOpenCourse.course.name}</td>
@@ -163,12 +188,10 @@
                                 <c:if test="${currentDate.isAfter(startDate) && currentDate.isBefore(endDate)}">
                                     <a href="${pageContext.request.contextPath}/member/${invoices.member.username}/payment_detail/${invoices.invoice.invoice_id}"><button>ชำระเงิน</button></a>
                                 </c:if>
-in
                                 <!---End check date--->
                             </td>
                             <td style="text-align: center;">
-                                <input type="button" value="ยกเลิก"
-                                       onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบ?'))){ window.location.href='${pageContext.request.contextPath}/member/${invoices.member.username}/${invoices.register_id}/delete';return false; }"/>
+                                <input type="button" value="ยกเลิก" onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบ?'))){ window.location.href='${pageContext.request.contextPath}/member/${invoices.member.username}/${invoices.register_id}/delete';return false; }"/>
                             </td>
                         </c:otherwise>
                     </c:choose>

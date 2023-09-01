@@ -49,6 +49,17 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
         RequestOpenCourse requestOpenCourse = session.get(RequestOpenCourse.class, id);
         return requestOpenCourse;
     }
+
+    @Override
+    public List<RequestOpenCourse> checkRequestOpenCourseByCourseIdToUnApprove(String course_id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse r where r.course.id =: Id "+
+                "and r.round = 0 and r.requestStatus = 'รอดำเนินการ'", RequestOpenCourse.class);
+        query.setParameter("Id",course_id);
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
+
     @Override
     public RequestOpenCourse getRequestOpenCourseDetailToUpdate(long roc_id,String lec_id) {
         Session session = sessionFactory.getCurrentSession();
@@ -132,4 +143,32 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
             return 0; // เปลี่ยนตามความเหมาะสม
         }
     }
+
+    @Override
+    public int getRequestCourseRoundMaxId(String course_id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Integer> query = session.createQuery("SELECT MAX(re.round) FROM RequestOpenCourse re " +
+                "where re.course.id=:cid ", Integer.class);
+        query.setParameter("cid", course_id);
+        return query.uniqueResult(); // ถ้าไม่พบข้อมูลให้ส่งค่า 0 แทน
+    }
+
+    @Override
+    public List<Register> checkRegisterToDelete(long request_id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Register> query = session.createQuery("FROM Register r WHERE r.requestOpenCourse.id =: roc_id ", Register.class);
+        query.setParameter("roc_id", request_id);
+
+        try {
+            List<Register> register = query.getResultList();
+            System.out.println(register);
+            return register;
+        } catch (NoResultException e) {
+            // ไม่พบข้อมูล ในกรณีนี้คุณสามารถจัดการตามที่คุณต้องการได้
+            // เช่น คืนค่า null, คืนค่าว่าง, หรือส่งกลับข้อความบอกว่าไม่พบข้อมูล
+            return null; // หรือ return ค่าที่คุณต้องการ
+        }
+    }
+
+
 }

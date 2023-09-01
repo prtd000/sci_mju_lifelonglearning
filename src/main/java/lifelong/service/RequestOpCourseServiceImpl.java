@@ -86,6 +86,24 @@ public class RequestOpCourseServiceImpl implements RequestOpCourseService {
 
     @Override
     @Transactional
+    public int getRequestCourseRoundMaxId(String course_id) {
+        return requestOpCourseDao.getRequestCourseRoundMaxId(course_id);
+    }
+
+    @Override
+    @Transactional
+    public List<Register> checkRegisterToDelete(long request_id) {
+        return requestOpCourseDao.checkRegisterToDelete(request_id);
+    }
+
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> checkRequestOpenCourseByCourseIdToUnApprove(String course_id) {
+        return requestOpCourseDao.checkRequestOpenCourseByCourseIdToUnApprove(course_id);
+    }
+
+    @Override
+    @Transactional
     public List<RequestOpenCourse> getRequestOpenCoursesByLecturerId(String lec_Id) {
         return requestOpCourseDao.getRequestOpenCoursesByLecturerId(lec_Id);
     }

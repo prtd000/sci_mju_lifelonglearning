@@ -9,6 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPEhtml>
 <html>
 <head>
@@ -96,7 +97,7 @@
     <c:if test="${activities != null}">
     <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง555555555555555555555555555555</i>
     <br><br>
-    <form action="${pageContext.request.contextPath}/lecturer/${lec_id}/${activities.ac_id}/update_course_add_activity" method="POST">
+    <form action="${pageContext.request.contextPath}/lecturer/${lec_id}/${activities.ac_id}/update_course_add_activity" method="POST" enctype="multipart/form-data">
       <table>
         <colgroup>
           <col style="width: 160px;">
@@ -117,10 +118,19 @@
         </tr>
         <tr>
           <td><label>รูปภาพ:</label></td>
-          <td><input name="ac_img" type="text" id="ac_img" value="${activities.img}"/></td>
+          <td><b>เพิ่มรูปภาพใหม่</b><br>
+            <input name="ac_img" type="file" id="ac_img" value="${activities.img}" multiple/>
+            <c:if test="${not empty activities.img}">
+              <c:set var="imgNames" value="${activities.img}" />
+              <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
+                <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}" />
+                <p>IMG: ${listImg}</p>
+              </c:forEach>
+            </c:if>
+          </td>
         </tr>
         <tr>
-          <td><input type="button" onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lec_id}/${activities.ac_id}/view_course_activity_page/${request_id}'; return false;" value="ย้อนกลับ"></td>
+          <td><input type="button" onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${activities.requestOpenCourse.request_id}/list_course_activity_news'; return false;" value="ย้อนกลับ"></td>
           <td><input type="submit" value="บันทึก" class="save"/>
             <%--                        <input type="button" value="ยกเลิก"onclick="window.location.href='list'; return false;"class="cancel-button"/>--%>
           </td>
@@ -131,7 +141,7 @@
     </c:if>
     <c:if test="${activities == null}">
       <h3>ไม่พบข่าวสารนี้</h3>
-      <input type="button" onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lec_id}/view_approve_request_open_course/${request_id}'; return false;" value="ย้อนกลับ">    </c:if>
+      <input type="button" onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${activities.requestOpenCourse.request_id}/list_course_activity_news'; return false;" value="ย้อนกลับ">    </c:if>
   </div>
 </div>
   </c:when>

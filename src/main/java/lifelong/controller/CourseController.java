@@ -170,21 +170,47 @@ public class CourseController {
     }
 
     @PostMapping(path = "/{admin_id}/view_request_open_course/{request_id}/approve")
-    public String doApproveRequest(@PathVariable("request_id") long roc_id,@PathVariable("admin_id") String admin_id, @RequestParam Map<String, String> allReqParams) throws ParseException {
+    public String doApproveRequest(@PathVariable("request_id") long roc_id,
+                                   @PathVariable("admin_id") String admin_id,
+                                   @RequestParam Map<String, String> allReqParams) throws ParseException, IOException {
         RequestOpenCourse existingRequestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
         if (existingRequestOpenCourse != null) {
             existingRequestOpenCourse.setRequestStatus("ผ่าน");
+
+            int round = requestOpCourseService.getRequestCourseRoundMaxId(existingRequestOpenCourse.getCourse().getCourse_id());
+            existingRequestOpenCourse.setRound(++round);
             requestOpCourseService.updateRequestOpenCourse(existingRequestOpenCourse);
+
+            // แก้ไขคำร้องขออื่นๆที่รอขอมาเหมือนกันแต่ยังไม่ผ่าน
+            List<RequestOpenCourse> requestOpenCourses = requestOpCourseService.checkRequestOpenCourseByCourseIdToUnApprove(existingRequestOpenCourse.getCourse().getCourse_id());
+            for (RequestOpenCourse requestOpenCourse : requestOpenCourses) {
+                // แก้ไขสถานะ Request Open Course อื่นๆ
+                requestOpenCourse.setRequestStatus("ไม่ผ่าน");
+                requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
+            }
+            //แก้ไขตาราง Course
+            Course course = courseService.getCourseById(existingRequestOpenCourse.getCourse().getCourse_id());
+            course.setStatus("เปิดสอน");
+            courseService.updateCourse(course);
         }
         return "redirect:/course/"+admin_id+"/list_all_course";
     }
 
     @PostMapping(path = "/{admin_id}/view_request_open_course/{request_id}/cancel")
-    public String cancelRequestOpenCourse(@PathVariable("request_id") long roc_id,@PathVariable("admin_id") String admin_id, @RequestParam Map<String, String> allReqParams) throws ParseException {
-        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
-        String lec_id = requestOpenCourse.getLecturer().getUsername();
-        requestOpCourseService.deleteRequestOpenCourse(roc_id,lec_id);
+    public String cancelRequestOpenCourse(@PathVariable("request_id") long roc_id,
+                                          @PathVariable("admin_id") String admin_id,
+                                          @RequestParam Map<String, String> allReqParams) throws ParseException {
+        // เป็นการลบข้อมูลไปเลย
+//        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
+//        String lec_id = requestOpenCourse.getLecturer().getUsername();
+//        requestOpCourseService.deleteRequestOpenCourse(roc_id,lec_id);
 
+        // เป็นการแก้ไขข้อมูล
+        RequestOpenCourse existingRequestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
+        if (existingRequestOpenCourse != null) {
+            existingRequestOpenCourse.setRequestStatus("ไม่ผ่าน");
+            requestOpCourseService.updateRequestOpenCourse(existingRequestOpenCourse);
+        }
         return "redirect:/course/"+admin_id+"/list_all_course";
     }
     //******************************************************//
@@ -194,6 +220,7 @@ public class CourseController {
     public String getListAllCourse(Model model ,@PathVariable("admin_id") String admin_id) {
         model.addAttribute("title", "รายการ" + title);
         model.addAttribute("courses", courseService.getCourses());
+//        model.addAttribute("courses", courseService.getCoursesAndRequests());
         model.addAttribute("requests_open_course", requestOpCourseService.getRequestOpenCourses());
         model.addAttribute("list_activities", activityService.getPublicActivity());
         model.addAttribute("admin_id",admin_id);
@@ -359,7 +386,7 @@ public class CourseController {
             String ac_name = allReqParams.get("ac_name");
             Date ac_date = new Date();
             String ac_detail = allReqParams.get("ac_detail");
-            String ac_type = "Public";
+            String ac_type = "ข่าวสารทั่วไป";
 //            String ac_img = allReqParams.get("ac_img");
 //            int maxIdImgFile = courseService.getImgCourseMaxId(course_type); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
             int latestId = activityService.getActivityMaxId(ac_type); // Get the latest id from the database
@@ -435,7 +462,8 @@ public class CourseController {
             // ลบข้อมูลในฐานข้อมูลก่อน
             existingImgNames.clear();
             // ลบข้อมูลเดิมก่อน
-            String deletePath = ImgPath.pathImg + "/activity/public/public_activity"+maxNumericId+"/";
+            String deletePath = ImgPath.pathImg + "/activity/public/"+existingActivity.getAc_id()+"/";
+//            String deletePath = ImgPath.pathImg + "/activity/public/public_activity"+maxNumericId+"/";
             Path deletedirectoryPath = Paths.get(deletePath);
 
 
@@ -453,7 +481,7 @@ public class CourseController {
             // เพิ่มข้อมูลใหม่
             int count = 1;
             for (MultipartFile img : imgs) {
-                String uploadPath = ImgPath.pathImg + "/activity/public/public_activity"+maxNumericId+"/";
+                String uploadPath = ImgPath.pathImg + "/activity/public/public_activity"+existingActivity.getAc_id()+"/";
                 Path directoryPath = Paths.get(uploadPath);
                 Files.createDirectories(directoryPath);
 
@@ -493,12 +521,12 @@ public class CourseController {
     @GetMapping("/{admin_id}/{ac_id}/delete")
     public String doDeleteActivityNews(@PathVariable String ac_id, @PathVariable String admin_id) throws IOException {
         Activity activity = activityService.getActivityDetail(ac_id);
-        String activity_id = activity.getAc_id();
-        activity_id = activity_id.replace("AP", "").replace("AC", "");
-        int maxNumericId = Integer.parseInt(activity_id);
-        System.out.println(maxNumericId);
+//        String activity_id = activity.getAc_id();
+//        activity_id = activity_id.replace("AP", "").replace("AC", "");
+//        int maxNumericId = Integer.parseInt(activity_id);
+////        System.out.println(maxNumericId);
         // ลบข้อมูลเดิมก่อน
-        String deletePath = ImgPath.pathImg + "/activity/public/public_activity"+maxNumericId+"/";
+        String deletePath = ImgPath.pathImg + "/activity/public/"+activity.getAc_id()+"/";
         Path deletedirectoryPath = Paths.get(deletePath);
 
 
@@ -798,40 +826,40 @@ public class CourseController {
     }
 
     //********************* PDF *********************************//
-//    @PostMapping("/addPDF")
-//    public String addPDF(@RequestParam("detail") String detail, @RequestParam("file") MultipartFile file) {
-//        try {
-//
-//            // กำหนด path ที่จะบันทึกไฟล์
-//            String uploadPath = ImgPath.pathImg + "/course_pdf/pdf/";
-//
-//            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
-//            Path directoryPath = Paths.get(uploadPath);
-//            Files.createDirectories(directoryPath);
-//
-//            // ดึงนามสกุลไฟล์จากชื่อไฟล์
-//            String originalFileName = file.getOriginalFilename();
-//            String fileExtension = getFileExtension(originalFileName);
-//
-//            int latestFileCount = courseService.getLatestFileCount(); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
-//
-//            // สร้างรหัสไฟล์ใหม่ในรูปแบบ "IMG_0001", "IMG_0002", ...
-//            String newFileName = String.format("PDF_%04d%s", ++latestFileCount, fileExtension);
-//
-//            // บันทึกไฟล์ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
-//            // บันทึกไฟล์ PDF ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
-//            Path filePath = Paths.get(uploadPath, newFileName);
-//            Files.write(filePath, file.getBytes());
-//
-//            // บันทึกเส้นทางไฟล์ในฐานข้อมูล
-//            AddImg newImg = new AddImg(detail, newFileName);
-//            courseService.doAddImg(newImg);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return "redirect:/coursr/add_img"; // หรือไปยังหน้าที่คุณต้องการ
-//    }
+    @PostMapping("/addPDF")
+    public String addPDF(@RequestParam("detail") String detail, @RequestParam("file") MultipartFile file) {
+        try {
+
+            // กำหนด path ที่จะบันทึกไฟล์
+            String uploadPath = ImgPath.pathImg + "/course_pdf/pdf/";
+
+            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
+            Path directoryPath = Paths.get(uploadPath);
+            Files.createDirectories(directoryPath);
+
+            // ดึงนามสกุลไฟล์จากชื่อไฟล์
+            String originalFileName = file.getOriginalFilename();
+            String fileExtension = getFileExtension(originalFileName);
+
+            int latestFileCount = courseService.getLatestFileCount(); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
+
+            // สร้างรหัสไฟล์ใหม่ในรูปแบบ "IMG_0001", "IMG_0002", ...
+            String newFileName = String.format("PDF_%04d%s", ++latestFileCount, fileExtension);
+
+            // บันทึกไฟล์ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
+            // บันทึกไฟล์ PDF ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
+            Path filePath = Paths.get(uploadPath, newFileName);
+            Files.write(filePath, file.getBytes());
+
+            // บันทึกเส้นทางไฟล์ในฐานข้อมูล
+            AddImg newImg = new AddImg(detail, newFileName);
+            courseService.doAddImg(newImg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/coursr/add_img"; // หรือไปยังหน้าที่คุณต้องการ
+    }
 
     // รับนามสกุลไฟล์จากชื่อไฟล์
     private String getFileExtension(String fileName) {

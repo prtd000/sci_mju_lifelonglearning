@@ -1,5 +1,6 @@
 package lifelong.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lifelong.model.*;
 import lifelong.service.*;
 import org.hibernate.Session;
@@ -57,7 +58,7 @@ public class LecturerController {
     public String getCourseRequest(@PathVariable("lecturer_id") String lecturer_id,Model model) {
         model.addAttribute("title", "ร้องขอเปิด" + title);
         model.addAttribute("lecturer",requestOpCourseService.getLecturerDetail(lecturer_id));
-        model.addAttribute("courses", courseService.getCourses());
+        model.addAttribute("courses", courseService.getCoursesByCourseStatus());
         model.addAttribute("request_open_course", new RequestOpenCourse());
         return "lecturer/add_request_open_course";
     }
@@ -208,13 +209,38 @@ public class LecturerController {
     public String doEditCourseActivity(@PathVariable("lec_id")String lec_id,@PathVariable("roc_id") long roc_id) throws IOException {
 //        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetailToUpdate(roc_id,lec_id);
 //        String lec_id = requestOpenCourse.getLecturer().getUsername();
-        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
-        String signature = requestOpenCourse.getSignature();
-        // ลบข้อมูลเดิมก่อน
-        String deletePath = ImgPath.pathImg + "/request_open_course/signature/";
-        Path deletedirectoryPath = Paths.get(deletePath,signature);
-        Files.delete(deletedirectoryPath);
-        requestOpCourseService.deleteRequestOpenCourse(roc_id,lec_id);
+        List<Register> registers = requestOpCourseService.checkRegisterToDelete(roc_id);
+        if (registers.size() == 0){
+            RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
+            String signature = requestOpenCourse.getSignature();
+            // ลบข้อมูลเดิมก่อน
+            String deletePath = ImgPath.pathImg + "/request_open_course/signature/";
+            Path deletedirectoryPath = Paths.get(deletePath,signature);
+            Files.delete(deletedirectoryPath);
+            // ลบข้อมูลกิจกรรมที่เกี่ยวข้อง
+            List<Activity> activities = activityService.getActivityDetailByCourseId(roc_id);
+            for (Activity activity : activities) {
+                // ลบข้อมูลที่เกี่ยวข้องกับกิจกรรม (เช่น ไฟล์แนบ)
+                String deleteImgActivityPath = ImgPath.pathImg + "/activity/private/"+activity.getAc_id()+"/";
+                Path deletedirectoryImgActivityPath = Paths.get(deleteImgActivityPath);
+                if (Files.isDirectory(deletedirectoryImgActivityPath)) {
+                    // ลบไดเร็กทอรีและเนื้อหาภายใน
+                    Files.walk(deletedirectoryImgActivityPath)
+                            .sorted(Comparator.reverseOrder())
+                            .map(Path::toFile)
+                            .forEach(File::delete);
+                } else {
+                    // ลบไฟล์
+                    Files.delete(deletedirectoryImgActivityPath);
+                }
+                // ลบข้อมูลกิจกรรม
+                activityService.deleteActivity(activity.getAc_id());
+            }
+            requestOpCourseService.deleteRequestOpenCourse(roc_id,lec_id);
+        }else {
+            // ส่งพารามิเตอร์ "error" ใน URL เพื่อระบุว่าเกิดข้อผิดพลาด
+            return "redirect:/lecturer/" + lec_id + "/list_request_open_course?error=true";
+        }
 
         return "redirect:/lecturer/"+ lec_id +"/list_request_open_course";
     }
@@ -304,32 +330,66 @@ public class LecturerController {
     }
     @Transactional
     @PostMapping (path="/{lec_id}/save_add_course_activity/{roc_id}")
-    public String addCourseActivityNews(@PathVariable("lec_id") String lec_id,@PathVariable("roc_id") long roc_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
-        Date ac_date =  new Date();
-        String ac_name = allReqParams.get("ac_name");
-        String ac_detail = allReqParams.get("ac_detail");
-        String ac_img = allReqParams.get("ac_img");
-        String ac_type = "Private";
-        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
-        Lecturer lecturer = lecturerService.getLecturerById(lec_id);
+    public String addCourseActivityNews(@PathVariable("lec_id") String lec_id,
+                                        @PathVariable("roc_id") long roc_id,
+                                        @RequestParam("ac_img") MultipartFile[] ac_img,
+                                        @RequestParam Map<String, String> allReqParams) throws ParseException {
+        try {
+            List<String> newFileNames = new ArrayList<>();
 
-        Activity public_activity_add = new Activity(ac_name,ac_date,ac_detail,ac_type,ac_img,requestOpenCourse,lecturer);
+            Date ac_date =  new Date();
+            String ac_name = allReqParams.get("ac_name");
+            String ac_detail = allReqParams.get("ac_detail");
+            String ac_type = "ข่าวสารประจำหลักสูตร";
+            RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
+            Lecturer lecturer = lecturerService.getLecturerById(lec_id);
+//            int maxIdImgFile = courseService.getImgCourseMaxId(course_type); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
+            int latestId = activityService.getActivityMaxId(ac_type); // Get the latest id from the database
 
-        Session session = sessionFactory.getCurrentSession();
+            int count = 1;
+            for (MultipartFile img : ac_img) {
+                String folderName = String.format("AC%03d", latestId+1);
+                String uploadPath = ImgPath.pathImg + "/activity/private/"+folderName+"/";
+                Path directoryPath = Paths.get(uploadPath);
+                Files.createDirectories(directoryPath);
 
-        // ใช้ session.merge() เพื่อรวมหรืออัปเดตอ็อบเจกต์ลงใน session
-        Activity mergedActivity = (Activity) session.merge(public_activity_add);
+                String originalFileName = img.getOriginalFilename();
+                String fileExtension = getFileExtension(originalFileName);
 
-        // เพิ่มกิจกรรมเข้าสู่ระบบโดยใช้อ็อบเจกต์ที่รวมแล้ว
-        activityService.addActivityNews(mergedActivity);
-        return "redirect:/lecturer/"+lec_id+"/view_approve_request_open_course/"+roc_id;
+                String formattedId = String.format("%02d", latestId+1);
+                String formattedSequence = String.format("%04d", count);
+                String newFileName = String.format("IMG_%s_%s%s", formattedId, formattedSequence, fileExtension);
+                Path filePath = Paths.get(uploadPath, newFileName);
+                Files.write(filePath, img.getBytes());
+
+                newFileNames.add(newFileName);
+                count++;
+            }
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String imgNamesJson = objectMapper.writeValueAsString(newFileNames); // Convert the list to JSON
+
+            Activity public_activity_add = new Activity(ac_name,ac_date,ac_detail,ac_type,imgNamesJson,requestOpenCourse,lecturer);
+//            Session session = sessionFactory.getCurrentSession();
+            activityService.addActivityNews(public_activity_add);
+            // ใช้ session.merge() เพื่อรวมหรืออัปเดตอ็อบเจกต์ลงใน session
+//            Activity mergedActivity = (Activity) session.merge(public_activity_add);
+
+            // เพิ่มกิจกรรมเข้าสู่ระบบโดยใช้อ็อบเจกต์ที่รวมแล้ว
+//            activityService.addActivityNews(mergedActivity);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/lecturer/"+roc_id+"/list_course_activity_news";
     }
     //**********************************************************************************************//
 
     //**************************ต้องสร้างเมททอด List Course Activity News****************************//
-    @GetMapping("/list_course_activity_news")
-    public String getListCourseActivityNews() {
-        return null;
+    @GetMapping("/{roc_id}/list_course_activity_news")
+    public String getListCourseActivityNews(Model model, @PathVariable("roc_id") long roc_id) {
+        model.addAttribute("list_activity",activityService.getActivityDetailByCourseId(roc_id));
+        return "lecturer/list_course_activity";
     }
     //*********************************************************************************************//
 
@@ -345,26 +405,96 @@ public class LecturerController {
     }
 
     @PostMapping (path="/{lec_id}/{id}/update_course_add_activity")
-    public String doEditCourseActivity(@PathVariable("lec_id") String lec_id,@PathVariable("id") String ac_id,@RequestParam Map<String, String> allReqParams) throws ParseException {
+    public String doEditCourseActivity(@PathVariable("lec_id") String lec_id,
+                                       @PathVariable("id") String ac_id,
+                                       @RequestParam("ac_img") MultipartFile[] imgs,
+                                       @RequestParam Map<String, String> allReqParams) throws ParseException {
 //        long existingActivityId = Long.parseLong(ac_id);
-        Activity existingActivity = activityService.getActivityDetailToUpdate(ac_id,lec_id);
-        System.out.println("PASS");
-        if (existingActivity != null) {
+        Activity activity = activityService.getActivityDetailToUpdate(ac_id,lec_id);
+        try {
+            List<String> newFileNames = new ArrayList<>();
+
+            // เรียกดูข้อมูลรูปภาพที่ต้องการแก้ไข
+            Activity existingActivity = activityService.getActivityDetailToUpdate(ac_id,lec_id);
+            String activity_id = existingActivity.getAc_id();
+            activity_id = activity_id.replace("AP", "").replace("AC", "");
+            int maxNumericId = Integer.parseInt(activity_id);
+            String existingActivityImg = existingActivity.getImg();
+            List<String> existingImgNames = new ObjectMapper().readValue(existingActivityImg, ArrayList.class);
+            // ลบข้อมูลในฐานข้อมูลก่อน
+            existingImgNames.clear();
+            // ลบข้อมูลเดิมก่อน
+            String deletePath = ImgPath.pathImg + "/activity/private/"+existingActivity.getAc_id()+"/";
+//            String deletePath = ImgPath.pathImg + "/activity/public/public_activity"+maxNumericId+"/";
+            Path deletedirectoryPath = Paths.get(deletePath);
+
+
+            if (Files.isDirectory(deletedirectoryPath)) {
+                // ลบไดเร็กทอรีและเนื้อหาภายใน
+                Files.walk(deletedirectoryPath)
+                        .sorted(Comparator.reverseOrder())
+                        .map(Path::toFile)
+                        .forEach(File::delete);
+            } else {
+                // ลบไฟล์
+                Files.delete(deletedirectoryPath);
+            }
+
+            // เพิ่มข้อมูลใหม่
+            int count = 1;
+            for (MultipartFile img : imgs) {
+                String uploadPath = ImgPath.pathImg + "/activity/private/"+existingActivity.getAc_id()+"/";
+                Path directoryPath = Paths.get(uploadPath);
+                Files.createDirectories(directoryPath);
+
+                String originalFileName = img.getOriginalFilename();
+                String fileExtension = getFileExtension(originalFileName);
+
+                String formattedId = String.format("%02d", maxNumericId);
+                String formattedSequence = String.format("%04d", count);
+                String newFileName = String.format("IMG_%s_%s%s", formattedId, formattedSequence, fileExtension);
+                Path filePath = Paths.get(uploadPath, newFileName);
+                Files.write(filePath, img.getBytes());
+
+                newFileNames.add(newFileName);
+                count++;
+            }
+
+            existingImgNames.addAll(newFileNames); // เพิ่มชื่อรูปภาพใหม่ลงในรายการรูปภาพเดิม
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String imgNamesJson = objectMapper.writeValueAsString(existingImgNames); // แปลงรายการรูปภาพใหม่เป็น JSON
+
+            // อัพเดตรายละเอียดและรายการรูปภาพในฐานข้อมูล
             existingActivity.setName(allReqParams.get("ac_name"));
             existingActivity.setDetail(allReqParams.get("ac_detail"));
-            existingActivity.setImg(allReqParams.get("ac_img"));
+            existingActivity.setImg(imgNamesJson);
             activityService.updateActivity(existingActivity);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return "redirect:/lecturer/"+lec_id+"/"+ac_id+"/view_course_activity_page/"+existingActivity.getRequestOpenCourse().getRequest_id();
+        return "redirect:/lecturer/"+activity.getRequestOpenCourse().getRequest_id()+"/list_course_activity_news";
     }
     //*****************************************************************************//
 
     //***********************Delete Course Activity News***********************//
     @GetMapping("/{lec_id}/{id}/delete")
-    public String doDeleteCourseActivityNews(@PathVariable("lec_id") String lec_id,@PathVariable("id") String id) {
+    public String doDeleteCourseActivityNews(@PathVariable("lec_id") String lec_id,@PathVariable("id") String id) throws IOException {
         Activity activity = activityService.getActivityDetail(id);
+        String deletePath = ImgPath.pathImg + "/activity/private/"+activity.getAc_id()+"/";
+        Path deletedirectoryPath = Paths.get(deletePath);
+        if (Files.isDirectory(deletedirectoryPath)) {
+            // ลบไดเร็กทอรีและเนื้อหาภายใน
+            Files.walk(deletedirectoryPath)
+                    .sorted(Comparator.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(File::delete);
+        } else {
+            // ลบไฟล์
+            Files.delete(deletedirectoryPath);
+        }
         activityService.deleteCourseActivity(id,lec_id);
-        return "redirect:/lecturer/"+lec_id+"/view_approve_request_open_course/"+activity.getRequestOpenCourse().getRequest_id();
+        return "redirect:/lecturer/"+activity.getRequestOpenCourse().getRequest_id()+"/list_course_activity_news";
     }
     //****************************************************************************//
 

@@ -81,7 +81,7 @@ public class ActivityServiceImpl implements ActivityService{
         while (result.length() != 3) {
             result = "0" + result;
         }
-        if (Objects.equals(activity_type, "Public")){
+        if (Objects.equals(activity_type, "ข่าวสารทั่วไป")){
             return "AP" + result;
         }else {
             return "AC" + result;

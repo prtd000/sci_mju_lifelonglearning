@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -63,6 +64,8 @@ public class Course {
             inverseJoinColumns = { @JoinColumn(name = "lec_username",nullable = false) })
     private Set<Lecturer> lecturers;
 
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<RequestOpenCourse> requests;
     public Course() {
     }
 
@@ -200,5 +203,13 @@ public class Course {
 
     public void setLecturers(Set<Lecturer> lecturers) {
         this.lecturers = lecturers;
+    }
+
+    public List<RequestOpenCourse> getRequests() {
+        return requests;
+    }
+
+    public void setRequests(List<RequestOpenCourse> requests) {
+        this.requests = requests;
     }
 }

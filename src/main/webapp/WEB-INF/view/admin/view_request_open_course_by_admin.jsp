@@ -89,7 +89,6 @@
         </div>
         <div class="container">
             <div id="container">
-                <i>Detail</i>
                 <br><br>
                 <form id="approval-form" action="${pageContext.request.contextPath}/course/${admin_id}/view_request_open_course/${ROC_detail.request_id}/approve" method="POST">
                     <table>
@@ -103,14 +102,6 @@
                             <td><input type="button" value="ย้อนกลับ"
                                        onclick="window.location.href='${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course'; return false;"
                                        class="cancel-button"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>รหัสการร้องขอ:</label>
-                            </td>
-                            <td>
-                                <label>${ROC_detail.request_id}</label>
                             </td>
                         </tr>
                         <tr>

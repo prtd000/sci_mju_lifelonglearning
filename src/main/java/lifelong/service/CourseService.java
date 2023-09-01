@@ -5,6 +5,8 @@ import lifelong.model.*;
 import java.util.List;
 public interface CourseService {
         List<Course> getCourses();
+//        List<Object[]> getCoursesAndRequests();
+        List<Course> getCoursesByCourseStatus();
 
         List<RequestOpenCourse> getListRequestOpCourse();
         List<AddImg> getAddImg();

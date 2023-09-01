@@ -1,9 +1,6 @@
 package lifelong.service;
 
-import lifelong.model.Course;
-import lifelong.model.Lecturer;
-import lifelong.model.Major;
-import lifelong.model.RequestOpenCourse;
+import lifelong.model.*;
 
 import java.util.List;
 
@@ -21,4 +18,8 @@ public interface RequestOpCourseService {
     void doRequestOpenCourseDetail(RequestOpenCourse requestOpenCourse);
     void updateRequestOpenCourse(RequestOpenCourse requestOpenCourse);
     int getSignatureCourseMaxId();
+
+    int getRequestCourseRoundMaxId(String course_id);
+    List<Register> checkRegisterToDelete(long request_id);
+    List<RequestOpenCourse> checkRequestOpenCourseByCourseIdToUnApprove(String course_id);
 }

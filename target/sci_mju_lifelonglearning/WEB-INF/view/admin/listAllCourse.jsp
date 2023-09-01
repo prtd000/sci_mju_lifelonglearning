@@ -102,60 +102,67 @@
                                 <%--                    <h1 align="left">รายการการร้องขอ</h1>--%>
                             <div class="hr_line"></div>
                             <button id="FClick" class="tablinks" onclick="openList(event, 'course')">หลักสูตร</button>
-                            <button class="tablinks" onclick="openList(event, 'request_course_Active')">หลักสูตรที่กำลังเปิดสอน</button>
                             <button class="tablinks" onclick="openList(event, 'list_request')">รายการร้องขอ</button>
                             <button class="tablinks" onclick="openList(event, 'Activity_News')">ข่าวสารและกิจกรรม</button>
 
                         </div>
                             <%--DIV แรก--%>
                         <div id="course" class="tabcontent">
-                            <h3>หลักสูตรทั้งหมด</h3>
-                            <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course"><button>เพิ่มหลักสูตร</button></a>
+                            <h3><b>หลักสูตรทั้งหมด</b></h3>
+                            <hr>
+                            <br>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td align="left" style="width: 50%"><h5><b>หลักสูตรที่กำลังเปิดสอน</b></h5></td>
+                                    <td align="right" style="width: 50%"><a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course"><button>เพิ่มหลักสูตร</button></a></td>
+                                </tr>
+                            </table>
                             <table class="table table-striped table-hover">
                                 <tr style="color: black">
                                     <td class="td_course_name">ชื่อหลักสูตร</td>
-                                    <td class="td_status"></td>
+                                    <td class="td_status">ระยะเวลาในการเรียน</td>
                                     <td class="td_list_member"></td>
                                     <td class="td_detail"></td>
                                 </tr>
 
                                 <c:forEach var="course" items="${courses}">
+                                    <c:if test="${course.status == 'เปิดสอน'}">
                                     <tr style="color: black">
                                         <td><p>${course.name}</p></td>
-                                        <td><p>${course.status}</p></td>
+                                        <td>
+                                            <c:forEach var="request" items="${course.requests}">
+                                                <p>${request.startStudyDate} - ${request.endStudyDate}</p>
+                                            </c:forEach>
+                                        </td>
                                         <td align="center"><a><button>ดูรายชื่อ</button></a></td>
                                         <td align="center"><a href="${pageContext.request.contextPath}/course/${course.course_id}/edit_course"><button>แก้ไข</button></a></td>
                                     </tr>
+                                    </c:if>
                                 </c:forEach>
                             </table>
-                        </div>
-                            <%--DIV ที่ 2--%>
-                        <div id="request_course_Active" class="tabcontent">
-                            <h3>หลักสูตรที่กำลังเปิดสอน</h3>
+                            <br>
+                            <h5><b>หลักสูตรที่ยังไม่เปิดสอน</b></h5>
                             <table class="table table-striped table-hover">
                                 <tr style="color: black">
-                                    <td class="td_request">ชื่อหลักสูตร</td>
-                                    <td class="td_edit" align="center"></td>
-                                    <td class="td_cancel" align="center"></td>
+                                    <td class="td_course_name">ชื่อหลักสูตร</td>
+                                    <td class="td_status"></td>
+<%--                                    <td class="td_list_member"></td>--%>
+                                    <td class="td_detail"></td>
                                 </tr>
 
-                                <c:forEach var="request_course" items="${requests_open_course}">
-                                    <c:if test="${request_course.requestStatus == 'ผ่าน'}">
+                                <c:forEach var="course" items="${courses}">
+                                    <c:if test="${course.status == 'ยังไม่เปิดสอน'}">
                                         <tr style="color: black">
-                                            <td><p>${request_course.course.name}</p></td>
-                                            <td align="center">
-                                                <input type="button" value="ผู้เข้าร่วม" onclick="window.location.href='${pageContext.request.contextPath}/course/${request_course.request_id}/list_member_to_course'; return false;"/>
-                                            </td>
-                                            <td align="center">
-                                                <input type="button" value="ดูรายละเอียด"
-                                                       onclick="window.location.href='${pageContext.request.contextPath}/course/${admin_id}/view_approve_request_open_course/${request_course.request_id}'; return false;"/>
-                                            </td>
+                                            <td><p>${course.name}</p></td>
+                                            <td><p>${course.course_type}</p></td>
+<%--                                            <td align="center"><a><button>ดูรายชื่อ</button></a></td>--%>
+                                            <td align="center"><a href="${pageContext.request.contextPath}/course/${course.course_id}/edit_course"><button>แก้ไข</button></a></td>
                                         </tr>
                                     </c:if>
                                 </c:forEach>
                             </table>
                         </div>
-                            <%--DIV ที่ 3--%>
+                            <%--DIV ที่ 2--%>
                         <div id="list_request" class="tabcontent">
                             <h3>รายการร้องขอ</h3>
                             <table class="table table-striped table-hover">
@@ -179,7 +186,7 @@
                                 </c:forEach>
                             </table>
                         </div>
-                            <%--DIV ที่ 4--%>
+                            <%--DIV ที่ 3--%>
                         <div id="Activity_News" class="tabcontent">
                             <h3>ข่าวสารและกิจกรรม</h3>
                             <input type="button" value="ข่าวสาร"onclick="window.location.href='${pageContext.request.contextPath}/course/public/add_activity'; return false;"class="add-button"/>

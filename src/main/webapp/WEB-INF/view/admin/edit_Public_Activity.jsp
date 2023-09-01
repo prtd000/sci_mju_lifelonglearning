@@ -107,7 +107,6 @@
               <td><label>รูปภาพ:</label></td>
               <td><input name="ac_img" type="file" id="ac_img" value="${activities.img}" multiple/>
                 <c:if test="${not empty activities.img}">
-                  <h2>Existing Images:</h2>
                   <c:set var="imgNames" value="${activities.img}" />
                   <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
                     <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}" />

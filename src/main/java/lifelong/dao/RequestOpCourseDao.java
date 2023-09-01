@@ -1,9 +1,6 @@
 package lifelong.dao;
 
-import lifelong.model.Course;
-import lifelong.model.Lecturer;
-import lifelong.model.Major;
-import lifelong.model.RequestOpenCourse;
+import lifelong.model.*;
 
 import java.util.List;
 
@@ -14,6 +11,7 @@ public interface RequestOpCourseDao {
     List<RequestOpenCourse> getRequestOpenCourses();
     List<RequestOpenCourse> getRequestOpenCoursesByLecturerId(String lec_id);
     RequestOpenCourse getRequestOpenCourseDetail(long id);
+    List<RequestOpenCourse> checkRequestOpenCourseByCourseIdToUnApprove(String course_id);
     RequestOpenCourse getRequestOpenCourseDetailToUpdate(long roc_id,String lec_id);
 
     void saveRequestOpenCourse (RequestOpenCourse requestOpenCourse);
@@ -26,4 +24,6 @@ public interface RequestOpCourseDao {
     long getLatestId();
 
     int getSignatureCourseMaxId();
+    int getRequestCourseRoundMaxId(String course_id);
+    List<Register> checkRegisterToDelete(long request_id);
 }

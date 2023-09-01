@@ -16,104 +16,116 @@ import java.util.Objects;
 public class CourseServiceImpl implements CourseService{
 
     @Autowired
-    private CourseDao couresDao;
+    private CourseDao courseDao;
     @Override
     @Transactional
     public List<Course> getCourses() {
-        return couresDao.getCourses();
+        return courseDao.getCourses();
+    }
+
+//    @Override
+//    @Transactional
+//    public List<Object[]> getCoursesAndRequests() {
+//        return courseDao.getCoursesAndRequests();
+//    }
+
+    @Override
+    @Transactional
+    public List<Course> getCoursesByCourseStatus() {
+        return courseDao.getCoursesByCourseStatus();
     }
 
     @Override
     @Transactional
     public List<RequestOpenCourse> getListRequestOpCourse() {
-        return couresDao.getListRequestOpCourse();
+        return courseDao.getListRequestOpCourse();
     }
 
     @Override
     @Transactional
     public List<AddImg> getAddImg() {
-        return couresDao.getAddImg();
+        return courseDao.getAddImg();
     }
 
     @Override
     @Transactional
     public AddImg getPdfById(long id) {
-        return couresDao.getPdfById(id);
+        return courseDao.getPdfById(id);
     }
 
     @Override
     @Transactional
     public void updatePDF(AddImg addImg) {
-        couresDao.updatePDF(addImg);
+        courseDao.updatePDF(addImg);
     }
 
     @Override
     @Transactional
     public Course getCourseDetail(String courseId) {
-        return couresDao.getCourseDetail(courseId);
+        return courseDao.getCourseDetail(courseId);
     }
 
     @Override
     @Transactional
     public Course getCourseById(String course_id) {
-        return couresDao.getCourseById(course_id);
+        return courseDao.getCourseById(course_id);
     }
 
     @Override
     @Transactional
     public List<Course> getCoursesByName(String courseName) {
-        return couresDao.getCoursesByName(courseName);
+        return courseDao.getCoursesByName(courseName);
     }
 
     @Override
     @Transactional
     public String[] getCourseDetailObject(String courseId) {
-        return couresDao.getCourseDetailObject(courseId);
+        return courseDao.getCourseDetailObject(courseId);
     }
 
     @Override
     @Transactional
     public void doAddCourse(Course course) {
         String course_type = course.getCourse_type();
-        long id = couresDao.getCourseMaxId(course_type);
+        long id = courseDao.getCourseMaxId(course_type);
         course.setCourse_id(generateMacCourseId(id + 1,course_type));
-        couresDao.doAddCourse(course);
+        courseDao.doAddCourse(course);
     }
 
     @Override
     @Transactional
     public void doAddImg(AddImg addImg) {
-        couresDao.doAddImg(addImg);
+        courseDao.doAddImg(addImg);
     }
 
     @Override
     @Transactional
     public void doAddMajor(Major major) {
-        couresDao.doAddMajor(major);
+        courseDao.doAddMajor(major);
     }
 
     @Override
     @Transactional
     public void updateCourse(Course course) {
-        couresDao.updateCourse(course);
+        courseDao.updateCourse(course);
     }
 
     @Override
     @Transactional
     public int getLatestFileCount() {
-        return couresDao.getLatestFileCount();
+        return courseDao.getLatestFileCount();
     }
 
     @Override
     @Transactional
     public int getImgCourseMaxId(String course_type) {
-        return couresDao.getImgCourseMaxId(course_type);
+        return courseDao.getImgCourseMaxId(course_type);
     }
 
     @Override
     @Transactional
     public int getCoursePDFMaxId() {
-        return couresDao.getCoursePDFMaxId();
+        return courseDao.getCoursePDFMaxId();
     }
 
     public String generateMacCourseId (long id,String course_type) {

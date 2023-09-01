@@ -27,7 +27,7 @@ public class ActivityDaoImpl implements ActivityDao{
     public List<Activity> getPublicActivity() {
         Session session = sessionFactory.getCurrentSession();
         Query<Activity> query = session.createQuery("from Activity a where a.type =:acType",Activity.class);
-        query.setParameter("acType", "Public");
+        query.setParameter("acType", "ข่าวสารทั่วไป");
         List<Activity> activities = query.getResultList();
         return activities;
     }
@@ -97,7 +97,7 @@ public class ActivityDaoImpl implements ActivityDao{
     public int getActivityMaxId(String activity_type) {
         Session session = sessionFactory.getCurrentSession();
         Query<String> query;
-        if (Objects.equals(activity_type, "Public")) {
+        if (Objects.equals(activity_type, "ข่าวสารทั่วไป")) {
             // ดึงค่ามากสุดที่มีตัวอักษรเริ่มต้นด้วย "AP"
             query = session.createQuery(
                     "SELECT MAX(a.ac_id) FROM Activity a " +

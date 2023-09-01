@@ -114,8 +114,9 @@
                         <tr style="color: black">
                             <td class="td_request">รายละเอียดหลักสูตร</td>
                             <td class="td_certificate" align="center">ตัวอย่างเกียรติบัตร</td>
-                            <td class="td_edit" align="center">รายละเอียดคำร้อง</td>
-                            <td class="td_cancel" align="center">ยกเลิกการร้องขอ</td>
+                            <td class="td_cancel" align="center">ผู้สมัคร</td>
+                            <td class="td_edit" align="center">ข่าวสาร</td>
+                            <td class="td_edit" align="center"></td>
                         </tr>
 
                         <c:forEach var="request_course" items="${requests_open_course}">
@@ -123,11 +124,23 @@
                                 <tr style="color: black">
                                     <td><p>${request_course.course.name}</p></td>
                                     <td><p>ดูตัวอย่าง</p></td>
-                                    <td align="center"><a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/view_approve_request_open_course/${request_course.request_id}">ดูรายละเอียด</a></td>
                                     <td align="center">
-                                        <input type="button" value="ผู้สมัคร"
+                                        <input type="button" value="1/${request_course.quantity}"
                                                onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve'; return false;"
                                         />
+                                    </td>
+                                    <td align="center">
+                                        <input type="button" value="เพิ่มข่าวสาร"
+                                               onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_course.request_id}/add_course_activity'; return false;"
+                                        />
+                                        <input type="button" value="รายการข่าวสาร"
+                                               onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_course.request_id}/list_course_activity_news'; return false;"
+                                        />
+                                    </td>
+                                    <td align="center">
+                                        <input type="button" value="ยกเลิก"
+                                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบหลักสูตรนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/delete_request_open_course'; return false; }"
+                                               class="cancel-button"/>
                                     </td>
                                 </tr>
                             </c:if>
@@ -200,4 +213,14 @@
         evt.currentTarget.className += " active";
     }
 </script>
+<%-- เรียกใช้คำสั่ง Java เพื่อตรวจสอบว่ามีพารามิเตอร์ "error" หรือไม่ --%>
+<% String errorParam = request.getParameter("error"); %>
+
+<%-- ตรวจสอบว่ามีพารามิเตอร์ "error" และมีค่าเป็น "true" หรือไม่ --%>
+<% if (errorParam != null && errorParam.equals("true")) { %>
+<script>
+    // แสดง alert ใน JavaScript
+    alert("ไม่สามารถลบข้อมูลได้ เพราะมีผู้ที่สมัครหลักสูตรนี้อยู่");
+</script>
+<% } %>
 </html>

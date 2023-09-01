@@ -10,6 +10,9 @@ import java.util.List;
 
 public interface CourseDao {
     List<Course> getCourses();
+//    List<Course> getCoursesAndRequests();
+
+    List<Course> getCoursesByCourseStatus();
 
     List<RequestOpenCourse> getListRequestOpCourse();
     List<AddImg> getAddImg();

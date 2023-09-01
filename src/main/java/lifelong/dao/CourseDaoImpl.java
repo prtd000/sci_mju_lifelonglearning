@@ -25,6 +25,22 @@ public class CourseDaoImpl implements CourseDao {
         return courses;
     }
 
+//    @Override
+//    public List<Course> getCoursesByRequest() {
+//        Session session = sessionFactory.getCurrentSession();
+//        Query<Course> query = session.createQuery("from Course c join RequestOpenCourse roc on c.id = roc.course.id ",Course.class);
+//        List<Course> courses = query.getResultList();
+//        return courses;
+//    }
+
+    @Override
+    public List<Course> getCoursesByCourseStatus() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Course> query = session.createQuery("from Course where status =: c_status",Course.class);
+        query.setParameter("c_status", "ยังไม่เปิดสอน");
+        return query.getResultList();
+    }
+
     @Override
     public List<RequestOpenCourse> getListRequestOpCourse() {
         Session session = sessionFactory.getCurrentSession();

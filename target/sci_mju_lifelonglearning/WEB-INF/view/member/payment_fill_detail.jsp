@@ -13,6 +13,57 @@
 <head>
     <title>Title</title>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
+    <script>
+        function previewImage(input) {
+            var preview = document.getElementById('preview');
+            var fileInput = document.getElementById('fileInput');
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.src = '';
+                preview.style.display = 'none';
+            }
+        }
+
+        /***** can't do not select date future ********/
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const dateInput = document.getElementById("datePicker");
+
+            // Get today's date
+            const today = new Date().toISOString().split("T")[0];
+
+            // Set the max attribute to today's date
+            dateInput.setAttribute("max", today);
+        });
+    </script>
+    <style>
+        .file-input {
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-label {
+            background-color: #f38644;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .file-label:hover {
+            background-color: #d0692e;
+        }
+    </style>
 </head>
 <body>
 <!-- Navbar -->
@@ -62,18 +113,23 @@
     <hr>
     <h5>อัพโหลดหลักฐานการชำระเงิน</h5>
     <form action="${pageContext.request.contextPath}/member/${payment.register.member.username}/payment_fill_detail/${payment.invoice_id}/save" method="post" onsubmit="return confirm('ยืนยันข้อมูลการชำระเงิน')" enctype="multipart/form-data">
-
         <table border="1">
-            <tr>
-                <td style="width: 315px"><p style="color: red;">*ภาพตัวอย่าง*</p></td>
-                <td><input type="file" name="slip"></td>
+            <tr style="height: 350px;">
+                <td style="width: 315px">
+                    <label for="fileInput" class="file-label" style="margin-left: 120px;">Choose a file</label>
+                    <input type="file" id="fileInput" accept="image/*" name="slip" class="file-input" onchange="previewImage(this)">
+                </td>
+                <td style="width: 315px">
+                    <p style="color: red; margin-top: 26px; margin-left: 80px; font-weight: bold;">*รูปหลักฐานการชำระเงิน*</p> <br>
+                    <img id="preview" src="" alt="Image Preview" style="display: none; height: 270px; margin-left: 28px; margin-top: -24px;">
+                </td>
             </tr>
         </table>
         <hr>
         <table>
             <tr>
                 <td style="width: 450px;">วันที่โอนตามหลักฐานการชำระเงิน</td>
-                <td><input type="date" name="receipt_paydate"></td>
+                <td><input type="date" name="receipt_paydate" id="datePicker"></td>
             </tr>
             <tr>
                 <td>เวลาที่โอนตามหลักฐานการชำระเงิน</td>
@@ -109,4 +165,5 @@
 
 <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>
 </body>
+
 </html>

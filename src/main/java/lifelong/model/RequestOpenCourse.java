@@ -244,5 +244,6 @@ public class RequestOpenCourse {
     public void setRound(int round) {
         this.round = round;
     }
+
 }
 

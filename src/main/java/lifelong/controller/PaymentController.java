@@ -39,13 +39,13 @@ public class PaymentController {
     }
 
     @GetMapping("/{memid}/payment_fill_detail/{invoice_id}")
-    public String paymentFillDetail(@PathVariable("memid") String memId, @PathVariable("invoice_id") long invoiceId, Model model) {
+    public String makePayment(@PathVariable("memid") String memId, @PathVariable("invoice_id") long invoiceId, Model model) {
         model.addAttribute("payment", paymentService.getInvoiceById(invoiceId));
         return "member/payment_fill_detail";
     }
 
     @PostMapping("/{memid}/payment_fill_detail/{invoice_id}/save")
-    public String savePaymentFillDetail(@PathVariable("memid") String memId, @PathVariable("invoice_id") long invoiceId, @RequestParam Map<String, String> params, @RequestParam("slip") MultipartFile file,HttpSession session) throws ParseException {
+    public String saveMakePayment(@PathVariable("memid") String memId, @PathVariable("invoice_id") long invoiceId, @RequestParam Map<String, String> params, @RequestParam("slip") MultipartFile file,HttpSession session) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Invoice invoice = paymentService.getInvoiceById(invoiceId);
@@ -109,14 +109,14 @@ public class PaymentController {
     }
 
     @GetMapping("/{memid}/update_payment_fill_detail/{invoice_id}")
-    public String updatePaymentFillDetail(@PathVariable("memid") String memId, @PathVariable("invoice_id") long invoiceId, Model model) {
+    public String updateMakePaymentDetail(@PathVariable("memid") String memId, @PathVariable("invoice_id") long invoiceId, Model model) {
         model.addAttribute("payment", paymentService.getInvoiceById(invoiceId));
         model.addAttribute("receipt", paymentService.getReceiptByInvoiceId(invoiceId));
         return "member/update_payment_fill_detail";
     }
 
     @PostMapping("/{memid}/update_payment_fill_detail/{invoice_id}/update")
-    public String updatePaymentFillDetail(@PathVariable("memid") String memId, Model model, @PathVariable("invoice_id") long invoiceId, @RequestParam Map<String, String> params, @RequestParam("slip") MultipartFile file, HttpSession session) throws ParseException {
+    public String updateMakePayment(@PathVariable("memid") String memId, Model model, @PathVariable("invoice_id") long invoiceId, @RequestParam Map<String, String> params, @RequestParam("slip") MultipartFile file, HttpSession session) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Receipt receipt = paymentService.getReceiptByInvoiceId(invoiceId);

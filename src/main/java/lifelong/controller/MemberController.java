@@ -40,7 +40,7 @@ public class MemberController {
     }
 
     @GetMapping("/{memid}/register_course/{courseid}/{requestid}")
-    public String gotoRegisterCourse(@PathVariable("memid") String mem_id, @PathVariable("courseid") String courseid, @PathVariable("requestid") long requestid, Model model) {
+    public String viewRegisterCourse(@PathVariable("memid") String mem_id, @PathVariable("courseid") String courseid, @PathVariable("requestid") long requestid, Model model) {
         Course course = courseService.getCourseDetail(courseid);
         RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(requestid);
         model.addAttribute("request_op_course", requestOpenCourse);
@@ -97,7 +97,7 @@ public class MemberController {
 
 
     @GetMapping("{memid}/listcourse")
-    public String listCourse(@PathVariable("memid") String memId, Model model) {
+    public String listCourseByMember(@PathVariable("memid") String memId, Model model) {
         model.addAttribute("list_course", memberService.getMyListCourse(memId));
         model.addAttribute("list_invoice", memberService.getListInvoice());
         model.addAttribute("mem_username", memberService.getMemberById(memId));
@@ -111,6 +111,18 @@ public class MemberController {
         registerService.deleteRegister(id);
         return "redirect:/member/" + memId + "/listcourse";
     }
+
+    /***** Start ViewCourseActivityNews *****/
+
+
+
+
+
+
+
+
+
+    /***** End ViewCourseActivityNews *****/
 
     @GetMapping("{memid}/certificate")
     public String viewCertificate(@PathVariable("memid") String memId, Model model) {

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -54,33 +53,28 @@ public class WebHomeController {
         model.addAttribute("courses", courseService.getCourses());
         model.addAttribute("majors",majorService.getMajors());
 
-        System.out.println("listRequest  : " + courseService.getListRequestOpCourse());
-        System.out.println("listRegister : " + registerService.getListRegister());
-        System.out.println("list_invoice : " + memberService.getListInvoice());
-
         return "search_course";
     }
     @GetMapping("/{id}")
-    public String showCourseDetail(@PathVariable("id") String id, Model model) {
+    public String viewCourseDetail(@PathVariable("id") String id, Model model) {
         Course course = courseService.getCourseDetail(id);
-//        model.addAttribute("title", "แก้ไข" + title);
         model.addAttribute("course_detail", course);
         return "course/course-detail";
     }
-    @GetMapping("/search_course/{value}")
-    public String searchCourseByCourseName(Model model, @PathVariable("value") String courseName) {
-//        model.addAttribute("title", "รายการ" + title);
-        System.out.println(courseName);
-        model.addAttribute("majorName",courseName);
-        model.addAttribute("courses", courseService.getCoursesByName(courseName));
-        model.addAttribute("majors",majorService.getMajors());
-        return "search_course";
-    }
+//
+//    @GetMapping("/search_course/{value}")
+//    public String searchCourseByCourseName(Model model, @PathVariable("value") String courseName) {
+//        System.out.println(courseName);
+//        model.addAttribute("majorName",courseName);
+//        model.addAttribute("courses", courseService.getCoursesByName(courseName));
+//        model.addAttribute("majors",majorService.getMajors());
+//        return "search_course";
+//    }
 
-    @GetMapping("/view_course_activity")
-    public String viewCourseActivity(Model model) {
+    @GetMapping("/view_activity")
+    public String viewActivityNews(Model model) {
         model.addAttribute("list_activities", activityService.getPublicActivity());
-        return "view_course_activity";
+        return "view_public_activity";
     }
 
 
@@ -90,17 +84,17 @@ public class WebHomeController {
     /***********Login**********/
 
     @GetMapping("/loginMember")
-    public String loginPageMember(Model model) {
+    public String loginMember(Model model) {
         model.addAttribute("title", "ลงชื่อเข้าสู่ระบบ");
         return "member/loginMember";
     }
     @GetMapping("/loginLecturer")
-    public String loginPageLecturer(Model model) {
+    public String loginLecturer(Model model) {
         model.addAttribute("title", "สำหรับผู้รับผิดชอบหลักสูตร");
         return "lecturer/loginLecturer";
     }
     @GetMapping("/loginAdmin")
-    public String loginPageAdmin(Model model) {
+    public String loginAdmin(Model model) {
         model.addAttribute("title", "สำหรับผู้ดูแลระบบ");
         return "admin/loginAdmin";
     }
@@ -112,14 +106,14 @@ public class WebHomeController {
     /***********Register Member**********/
 
     @GetMapping("/register_member")
-    public String registerMember(Model model, HttpSession session) {
+    public String register(Model model, HttpSession session) {
         //model.addAttribute("listUser",userService.getUsernames());
         session.setAttribute("listUser" , userService.getUsernames());
         return "register_member";
     }
 
     @PostMapping("/register_member/save")
-    public String saveAddMember(@RequestParam Map<String, String> addParams) throws ParseException {
+    public String saveMember(@RequestParam Map<String, String> addParams) throws ParseException {
 
         /******Change*******/
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

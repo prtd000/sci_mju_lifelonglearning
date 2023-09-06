@@ -146,7 +146,7 @@
                                         <td style="text-align: center;">
                                             <a href="${pageContext.request.contextPath}/member/${invoices.member.username}/update_payment_fill_detail/${invoices.invoice.invoice_id}"><button>แก้ไขการชำระเงิน</button></a>
                                         </td>
-                                        <td style="text-align: center;"><p style="color: red; font-weight: bold;">${invoices.invoice.approve_status}</p></td>
+                                        <td style="text-align: center;"><p style="color: red; font-weight: bold;">กรุณาอัพโหลดหลักฐานการชำระเงินใหม่</p></td>
                                     </c:otherwise>
                                 </c:choose>
                             </c:if>

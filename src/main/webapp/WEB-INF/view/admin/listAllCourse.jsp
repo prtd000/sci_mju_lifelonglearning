@@ -129,12 +129,15 @@
                                     <c:if test="${course.status == 'เปิดสอน'}">
                                     <tr style="color: black">
                                         <td><p>${course.name}</p></td>
-                                        <td>
-                                            <c:forEach var="request" items="${course.requests}">
-                                                <p>${request.startStudyDate} - ${request.endStudyDate}</p>
+                                            <c:forEach var="request" items="${requests_open_course}">
+                                                <c:if test="${course.course_id == request.course.course_id && request.requestStatus == 'ผ่าน'}">
+                                                    <td>
+                                                        <p>${request.startStudyDate} - ${request.endStudyDate}</p><br>
+                                                    </td>
+                                                    <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course"><button>ดูรายชื่อ</button></a></td>
+                                                </c:if>
                                             </c:forEach>
-                                        </td>
-                                        <td align="center"><a><button>ดูรายชื่อ</button></a></td>
+
                                         <td align="center"><a href="${pageContext.request.contextPath}/course/${course.course_id}/edit_course"><button>แก้ไข</button></a></td>
                                     </tr>
                                     </c:if>

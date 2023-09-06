@@ -344,8 +344,10 @@ public class CourseController {
     public String showListMemberToRequestCourse(@PathVariable("roc_id") long roc_id, Model model) {
         List<Register> register = registerService.getRegisterByRequestId(roc_id);
         RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
+        List<Receipt> list_receipt = registerService.getReceipt();
         model.addAttribute("title", "แก้ไข" + title);
         model.addAttribute("register_detail", register);
+        model.addAttribute("receipt",list_receipt);
         model.addAttribute("request_name", requestOpenCourse);
         return "admin/list_Approve_member_to_course";
     }
@@ -357,15 +359,38 @@ public class CourseController {
         model.addAttribute("request_id", request_id);
         return "admin/view_payment_detail";
     }
+//    @PostMapping(path = "/{request_id}/{admin_id}/view_payment_detail/{invoice_id}/approve")
+//    public String updatePaymentStatus(@PathVariable("request_id") long request_id,
+//                                      @PathVariable("admin_id") String admin_id,
+//                                      @PathVariable("invoice_id") long invoice_id,
+//                                      @RequestParam Map<String, String> allReqParams) throws ParseException {
+//        Invoice invoice = paymentService.getInvoiceById(invoice_id);
+//        if (invoice != null) {
+//            invoice.setApprove_status("ผ่าน");
+//            paymentService.updateInvoice(invoice);
+//        }
+//        return "redirect:/course/"+request_id+"/list_member_to_course";
+//    }
     @PostMapping(path = "/{request_id}/{admin_id}/view_payment_detail/{invoice_id}/approve")
-    public String updatePaymentStatus(@PathVariable("request_id") long request_id,@PathVariable("admin_id") String admin_id, @PathVariable("invoice_id") long invoice_id, @RequestParam Map<String, String> allReqParams) throws ParseException {
+    public String updatePaymentStatus(
+            @PathVariable("request_id") long request_id,
+            @RequestParam Map<String, String> allReqParams,
+            @PathVariable String admin_id,
+            @PathVariable long invoice_id) throws ParseException {
+
+        String approveResult = allReqParams.get("approveResult");
         Invoice invoice = paymentService.getInvoiceById(invoice_id);
-        if (invoice != null) {
+        // ตรวจสอบค่า approveResult และดำเนินการตามที่คุณต้องการ
+        if ("ยืนยันการสมัคร".equals(approveResult)) {
             invoice.setApprove_status("ผ่าน");
-            paymentService.updateInvoice(invoice);
+        } else if ("ยกเลิกการสมัคร".equals(approveResult)) {
+            invoice.setApprove_status("ไม่ผ่าน");
         }
-        return "redirect:/course/"+admin_id+"/list_all_course";
+        paymentService.updateInvoice(invoice);
+
+        return "redirect:/course/"+request_id+"/list_member_to_course";
     }
+
     //*******************************************************************//
 
     //**************Add Activity News************************//
@@ -481,7 +506,7 @@ public class CourseController {
             // เพิ่มข้อมูลใหม่
             int count = 1;
             for (MultipartFile img : imgs) {
-                String uploadPath = ImgPath.pathImg + "/activity/public/public_activity"+existingActivity.getAc_id()+"/";
+                String uploadPath = ImgPath.pathImg + "/activity/public/"+existingActivity.getAc_id()+"/";
                 Path directoryPath = Paths.get(uploadPath);
                 Files.createDirectories(directoryPath);
 

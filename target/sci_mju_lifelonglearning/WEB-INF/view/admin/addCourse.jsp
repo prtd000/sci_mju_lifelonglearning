@@ -85,7 +85,7 @@
             <div id="container">
                 <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
                 <br><br>
-                <form action="${pageContext.request.contextPath}/course/${admin_id}/save" method="POST" enctype="multipart/form-data">
+                <form action="${pageContext.request.contextPath}/course/${admin_id}/save" method="POST" enctype="multipart/form-data" onsubmit="return confirmAction();">
                     <table>
                         <colgroup>
                             <col style="width: 160px;">
@@ -176,4 +176,14 @@
     </c:otherwise>
 </c:choose>
 </body>
+<script>
+    function confirmAction() {
+        var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการเพิ่มหลักสูตรนี้?");
+        if (result) {
+            return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
+        } else {
+            return false; // ถ้าผู้ใช้กด Cancel ให้ยกเลิกการส่งฟอร์ม
+        }
+    }
+</script>
 </html>

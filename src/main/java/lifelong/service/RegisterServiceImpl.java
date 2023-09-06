@@ -2,6 +2,7 @@ package lifelong.service;
 
 import lifelong.dao.RegisterDao;
 import lifelong.model.Invoice;
+import lifelong.model.Receipt;
 import lifelong.model.Register;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,12 @@ public class RegisterServiceImpl implements RegisterService {
     @Transactional
     public List<Register> getRegisterByRequestId(long roc_Id) {
         return registerDao.getRegisterByRequestId(roc_Id);
+    }
+
+    @Override
+    @Transactional
+    public List<Receipt> getReceipt() {
+        return registerDao.getReceipt();
     }
 
     @Override

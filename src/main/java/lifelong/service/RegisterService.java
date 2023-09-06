@@ -1,6 +1,7 @@
 package lifelong.service;
 
 import lifelong.model.Invoice;
+import lifelong.model.Receipt;
 import lifelong.model.Register;
 import lifelong.model.RequestOpenCourse;
 
@@ -12,6 +13,7 @@ public interface RegisterService {
     List<Register> getListRegister();
     List<Register> getRegister(String memId);
     List<Register> getRegisterByRequestId(long roc_Id);
+    List<Receipt> getReceipt();
     List<Register>getRegisterByRequestIdAndPayStatus(long roc_Id);
     Register getRegisterById(String memId);
 

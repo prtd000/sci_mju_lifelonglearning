@@ -21,6 +21,12 @@
             font-family: 'Prompt', sans-serif;
             font-weight: 700 !important;
         }
+        /*.pay_detail{*/
+        /*    display: inline-block;*/
+        /*}*/
+        .main_container{
+            width: 70%;
+        }
     </style>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 </head>
@@ -88,59 +94,72 @@
             </div>
         </nav>
         <!-- Navbar End -->
-        <h3>ตรวจสอบการชำระเงิน</h3>
-        <c:if test="${payment != null}">
-            <form action="${pageContext.request.contextPath}/course/${request_id}/<%=admin.getUsername()%>/view_payment_detail/${payment.invoice.invoice_id}/approve" method="POST">
-                <h4>${payment.invoice.register.requestOpenCourse.course.name}</h4>
-                <p>${payment.invoice.register.requestOpenCourse.course.major.name}</p>
-                <hr>
-                <table>
-                    <tr>
-                        <td colspan="2">หลักฐานการชำระเงิน</td>
-                        <td rowspan="3">${payment.slip}</td>
-                    </tr>
-                    <tr>
-                        <td>${payment.invoice.register.member.idcard}</td>
-                        <td>${payment.invoice.register.member.firstName} ${payment.invoice.register.member.lastName}</td>
-                    </tr>
-                    <tr>
-                        <td>ยอดชำระเงินทั้งหมด</td>
-                        <td>${payment.invoice.register.requestOpenCourse.course.fee}0 บาท</td>
-                    </tr>
-                </table>
-                <hr>
-                <table>
-                    <tr>
-                        <td>วันที่โอนตามหลักฐานการชำระเงิน</td>
-                        <td>${payment.pay_date}</td>
-                    </tr>
-                    <tr>
-                        <td>เวลาที่โอนตามหลักฐานการชำระเงิน</td>
-                        <td>${payment.pay_time}</td>
-                    </tr>
-                    <tr>
-                        <td>โอนจากธนาคาร</td>
-                        <td>${payment.banking}</td>
-                    </tr>
-                    <tr>
-                        <td>จำนวนเงินที่ถูกโอน (ฺ฿)</td>
-                        <td>${payment.total}</td>
-                    </tr>
-                    <tr>
-                        <td>เงินโอนจากบัญชีธนาคารเลขที่ (4 หลักสุดท้าย)</td>
-                        <td>${payment.last_four_digits}</td>
-                    </tr>
+        <div align="center">
+            <div class="main_container">
+                <br>
+                <h3><b>ตรวจสอบการชำระเงิน</b></h3>
+                <c:if test="${payment != null}">
+                    <form id="approval-form" action="${pageContext.request.contextPath}/course/${request_id}/<%=admin.getUsername()%>/view_payment_detail/${payment.invoice.invoice_id}/approve" method="POST" onsubmit="return confirmAction();">
+                        <h4>${payment.invoice.register.requestOpenCourse.course.name}</h4>
+                        <p>${payment.invoice.register.requestOpenCourse.course.major.name}</p>
+                        <hr>
+                        <div align="center">
+                            <div class="pay_detail" style="margin-top: 0">
+                                <table>
+                                    <tr>
+                                        <td colspan="2"><h4>หลักฐานการชำระเงิน</h4></td>
+                                        <td rowspan="3"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>${payment.invoice.register.member.idcard}</td>
+                                        <td>${payment.invoice.register.member.firstName} ${payment.invoice.register.member.lastName}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ยอดชำระเงินทั้งหมด </td>
+                                        <td>${payment.invoice.register.requestOpenCourse.course.fee}0 บาท</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="pay_detail"><img src="${pageContext.request.contextPath}/assets/img/slip/${payment.slip}" width="400px"></div>
+                        </div>
+                        <hr>
+                        <table>
+                            <tr>
+                                <td>วันที่โอนตามหลักฐานการชำระเงิน</td>
+                                <td><b>${payment.pay_date}</b></td>
+                            </tr>
+                            <tr>
+                                <td>เวลาที่โอนตามหลักฐานการชำระเงิน</td>
+                                <td><b>${payment.pay_time}</b></td>
+                            </tr>
+                            <tr>
+                                <td>โอนจากธนาคาร</td>
+                                <td><b>${payment.banking}</b></td>
+                            </tr>
+                            <tr>
+                                <td>จำนวนเงินที่ถูกโอน (ฺ฿)</td>
+                                <td><b>${payment.invoice.register.requestOpenCourse.course.fee}0 บาท</b></td>
+                            </tr>
+                            <tr>
+                                <td>เงินโอนจากบัญชีธนาคารเลขที่ (4 หลักสุดท้าย)</td>
+                                <td><b>${payment.last_four_digits}</b></td>
+                            </tr>
 
-                </table>
-                <td align="center"><input type="submit" value="ยืนยันการสมัคร"/></td>
-            </form>
-        </c:if>
-        <c:if test="${payment == null}">
-            <h1>ยังไม่มีการชำระเงิน</h1>
-        </c:if>
+                        </table>
+<%--                        <td align="center"><input type="button" value="ยืนยันการสมัคร" onclick="confirmSubmit();"/></td>--%>
+<%--                        <td align="center"><input type="button" value="ยืนยันการสมัคร"/></td>--%>
+                        <input type="submit" name="approveResult" value="ยืนยันการสมัคร"/>
+                        <input type="submit" name="approveResult" value="ยกเลิกการสมัคร"/>
+
+                    </form>
+                </c:if>
+                <c:if test="${payment == null}">
+                    <h1>ยังไม่มีการชำระเงิน</h1>
+                </c:if>
+            </div>
+        </div>
         <td align="center"><input type="button" value="ย้อนกลับ"
                                   onclick="window.location.href='${pageContext.request.contextPath}/course/${request_id}/list_member_to_course'; return false;"/></td>
-        <td align="center"><input type="button" value="ยกเลิก"/></td>
     </c:when>
     <c:when test="${flag.equals('null')}">
         <h1>กรุณา Log in ใหม่</h1>
@@ -152,4 +171,26 @@
 </c:choose>
 
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // function confirmSubmit(approveResult) {
+    //     if (confirm('คุณแน่ใจหรือว่าต้องการ ' + approveResult + ' ?')) {
+    //         document.getElementById('approval-form').submit();
+    //     }
+    // }
+    //
+    // function cancelSubmit(approveResult) {
+    //     if (confirm('คุณแน่ใจหรือว่าต้องการ ' + approveResult + ' ?')) {
+    //         document.getElementById('approval-form').submit();
+    //     }
+    // }
+    function confirmAction() {
+        var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการดำเนินการนี้?");
+        if (result) {
+            return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
+        } else {
+            return false; // ถ้าผู้ใช้กด Cancel ให้ยกเลิกการส่งฟอร์ม
+        }
+    }
+</script>
 </html>

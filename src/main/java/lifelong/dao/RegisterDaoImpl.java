@@ -1,9 +1,6 @@
 package lifelong.dao;
 
-import lifelong.model.Course;
-import lifelong.model.Invoice;
-import lifelong.model.Register;
-import lifelong.model.RequestOpenCourse;
+import lifelong.model.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -42,6 +39,15 @@ public class RegisterDaoImpl implements RegisterDao {
         List<Register> registers = query.getResultList();
         return registers;
     }
+
+    @Override
+    public List<Receipt> getReceipt() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Receipt> query = session.createQuery("from Receipt ", Receipt.class);
+        List<Receipt> receipts = query.getResultList();
+        return receipts;
+    }
+
     @Override
     public List<Register> getRegisterByRequestIdAndPayStatus(long roc_Id) {
         Session session = sessionFactory.getCurrentSession();

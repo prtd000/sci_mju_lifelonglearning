@@ -173,6 +173,17 @@
                                     </td>
                                 </tr>
                             </c:if>
+                            <c:if test="${request_course.requestStatus == 'ไม่ผ่าน'}">
+                                <tr style="color: black">
+                                    <td><p>${request_course.course.name}</p></td>
+                                    <td align="center"><p style="color: red">ไม่ผ่าน</p></td>
+                                    <td align="center">
+                                        <input type="button" value="ยกเลิก"
+                                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/delete_request_open_course'; return false; }"
+                                               class="cancel-button"/>
+                                    </td>
+                                </tr>
+                            </c:if>
                         </c:forEach>
                     </table>
                 </div>

@@ -1,9 +1,6 @@
 package lifelong.dao;
 
-import lifelong.model.Course;
-import lifelong.model.Invoice;
-import lifelong.model.Register;
-import lifelong.model.RequestOpenCourse;
+import lifelong.model.*;
 
 import java.util.List;
 
@@ -26,6 +23,8 @@ public interface RegisterDao {
     Register getLastRow();
 
     List<Register> getRegisterByRequestId(long roc_Id);
+
+    List<Receipt> getReceipt();
 
     List<Register> getRegisterByRequestIdAndPayStatus(long roc_Id);
 

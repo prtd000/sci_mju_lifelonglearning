@@ -94,7 +94,8 @@
                 <tr style="color: black">
                     <td class="td_id_card">รหัสบัตรประชาชน</td>
                     <td class="td_name">ชื่อ - นามสกุล</td>
-                    <td class="td_view"></td>
+                    <td class="td_name">วันเวลาในการชำระเงิน</td>
+                    <td class="td_name"></td>
                 </tr>
 
                 <c:forEach var="registers" items="${register_detail}">
@@ -102,18 +103,49 @@
                         <tr style="color: black">
                             <td><p>${registers.member.idcard}</p></td>
                             <td><p>${registers.member.firstName} ${registers.member.lastName}</p></td>
-                            <td align="center">ผ่าน</td>
+                            <td align="center">
+                                <c:forEach var="receipts" items="${receipt}">
+                                    <c:if test="${registers.invoice.invoice_id == receipts.invoice.invoice_id}">
+                                        <p>${receipts.pay_time} ${receipts.pay_date}</p>
+                                    </c:if>
+                                </c:forEach>
+                            </td>
+                            <td style="color: green">ผ่าน</td>
+                                <%--            <td align="center"><a href="${pageContext.request.contextPath}/course/${course.course_id}/course_detail"><button>ดูรายละเอียด</button></a></td>--%>
+                        </tr>
+                    </c:if>
+                    <c:if test="${registers.invoice.approve_status == 'ไม่ผ่าน'}">
+                        <tr style="color: black">
+                            <td><p>${registers.member.idcard}</p></td>
+                            <td><p>${registers.member.firstName} ${registers.member.lastName}</p></td>
+                            <td align="center">
+                                <c:forEach var="receipts" items="${receipt}">
+                                    <c:if test="${registers.invoice.invoice_id == receipts.invoice.invoice_id}">
+                                        <p>${receipts.pay_time} ${receipts.pay_date}</p>
+                                    </c:if>
+                                </c:forEach>
+                            </td>
+                            <td style="color: red">ไม่ผ่าน</td>
                                 <%--            <td align="center"><a href="${pageContext.request.contextPath}/course/${course.course_id}/course_detail"><button>ดูรายละเอียด</button></a></td>--%>
                         </tr>
                     </c:if>
                     <c:if test="${registers.invoice.approve_status == 'รอดำเนินการ'}">
-                        <tr style="color: black">
-                            <td><p>${registers.member.idcard}</p></td>
-                            <td><p>${registers.member.firstName} ${registers.member.lastName}</p></td>
-                            <td align="center"><input type="button" value="ดูข้อมูลการชำระเงิน"
-                                                      onclick="window.location.href='${pageContext.request.contextPath}/course/${request_name.request_id}/view_payment_detail/${registers.invoice.invoice_id}'; return false;"/></td>
-                                <%--            <td align="center"><a href="${pageContext.request.contextPath}/course/${course.course_id}/course_detail"><button>ดูรายละเอียด</button></a></td>--%>
-                        </tr>
+                        <c:if test="${registers.invoice.pay_status == true}">
+                            <tr style="color: black">
+                                <td><p>${registers.member.idcard}</p></td>
+                                <td><p>${registers.member.firstName} ${registers.member.lastName}</p></td>
+                                <td>
+                                    <c:forEach var="receipts" items="${receipt}">
+                                        <c:if test="${registers.invoice.invoice_id == receipts.invoice.invoice_id}">
+                                            <p>${receipts.pay_time} ${receipts.pay_date}</p>
+                                        </c:if>
+                                    </c:forEach>
+                                </td>
+                                <td align="center"><input type="button" value="ดูข้อมูลการชำระเงิน"
+                                                          onclick="window.location.href='${pageContext.request.contextPath}/course/${request_name.request_id}/view_payment_detail/${registers.invoice.invoice_id}'; return false;"/></td>
+                                    <%--            <td align="center"><a href="${pageContext.request.contextPath}/course/${course.course_id}/course_detail"><button>ดูรายละเอียด</button></a></td>--%>
+                            </tr>
+                        </c:if>
                     </c:if>
                 </c:forEach>
             </table>

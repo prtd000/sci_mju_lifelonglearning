@@ -5,14 +5,14 @@
 <%@ page import="lifelong.model.Lecturer" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <html>
 <head>
     <title>${title}</title>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
     <%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
-    <%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
-    <link href="${pageContext.request.contextPath}/assets/css/best.css" rel="stylesheet">
 
     <%--    <style>--%>
     <%--        .block_position{--%>
@@ -131,7 +131,6 @@
                 <td class="t2"><a href="${pageContext.request.contextPath}/assets/file/${course_detail.file}" download>เอกสารประกอบการเรียน.pdf</a>
                 </td>
             </tr>
-            </tr>
         </table>
     </div>
     <br>
@@ -156,7 +155,28 @@
 <%--        </div>--%>
 <%--    </form:form>--%>
 
-    <button onclick="if((confirm('ยืนยันการลงทะเบียน'))){ window.location.href='${pageContext.request.contextPath}/member/${member_id}/register_course/${course_id}/${request_op_course.request_id}/register';return false; }">สมัคร</button>
+    <button onclick="if((confirm('ยืนยันการลงทะเบียน'))){ window.location.href='${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${request_op_course.course.course_id}/${request_op_course.request_id}/register';return false; }">สมัคร</button>
+    <br>
+<%--    Course News--%>
+    <c:forEach var="list" items="${activity}">
+        <div class="block_news_big" style="float: left">
+            <h1>ข่าวสารเกี่ยวกับหลักสูตร</h1>
+            <div class="block_news">
+<%--                <c:set var="imgNames" value="${list.img}"/>--%>
+<%--                <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">--%>
+<%--                    <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}"/>--%>
+<%--                    <td><img src="${pageContext.request.contextPath}/assets/img/activity/public/${list.ac_id}/${listImg}" alt="News_img" class="news_img"></td>--%>
+<%--                </c:forEach>--%>
+<%--                <div><img src="img/banner1.jpeg" alt="News_img" class="news_img"></div>--%>
+                <div class="news_content">
+                    <h1>${list.name}</h1>
+                    <h4>${list.type}</h4>
+                    <p>${list.detail}</p>
+                    <p>${list.date}</p>
+                </div>
+            </div>
+        </div>
+    </c:forEach>
 </div>
 
 

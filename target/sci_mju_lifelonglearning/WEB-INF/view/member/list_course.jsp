@@ -54,6 +54,7 @@
     </c:otherwise>
 </c:choose>
 <center>
+    <c:set var="username" value="<%= member.getUsername() %>" />
 
     <button id="FClick" class="tablinks" onclick="openList(event, 'listCourse')">หลักสูตร</button>
     <button class="tablinks" onclick="openList(event, 'listInvoice')">ที่ต้องชำระเงิน</button>
@@ -182,11 +183,11 @@
                                 </c:if>
 
                                 <c:if test="${currentDate.equals(startDate) || currentDate.equals(endDate)}">
-                                    <a href="${pageContext.request.contextPath}/member/${invoices.member.username}/payment_detail/${invoices.invoice.invoice_id}"><button>ชำระเงิน</button></a>
+                                    <a href="${pageContext.request.contextPath}/member/${username}/payment_fill_detail/${invoices.invoice.invoice_id}"><button>ชำระเงิน</button></a>
                                 </c:if>
 
                                 <c:if test="${currentDate.isAfter(startDate) && currentDate.isBefore(endDate)}">
-                                    <a href="${pageContext.request.contextPath}/member/${invoices.member.username}/payment_detail/${invoices.invoice.invoice_id}"><button>ชำระเงิน</button></a>
+                                    <a href="${pageContext.request.contextPath}/member/${username}/payment_fill_detail/${invoices.invoice.invoice_id}"><button>ชำระเงิน</button></a>
                                 </c:if>
                                 <!---End check date--->
                             </td>

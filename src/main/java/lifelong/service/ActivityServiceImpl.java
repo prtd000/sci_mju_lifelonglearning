@@ -32,6 +32,12 @@ public class ActivityServiceImpl implements ActivityService{
 
     @Override
     @Transactional
+    public List<Activity> getViewCourseActivityNews() {
+        return activityDao.getViewCourseActivityNews();
+    }
+
+    @Override
+    @Transactional
     public Activity getActivityDetail(String activityId) {
         return activityDao.getActivityDetail(activityId);
     }

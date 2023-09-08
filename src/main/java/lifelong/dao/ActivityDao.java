@@ -11,6 +11,8 @@ public interface ActivityDao {
 
     List<Activity> getPublicActivity();
 
+    List<Activity> getViewCourseActivityNews();
+
     Activity getActivityDetail(String id);
     Activity getActivityDetailToUpdate(String id , String lec_id);
     List<Activity> getActivityByRequestOpenCourseId(long roc_id);

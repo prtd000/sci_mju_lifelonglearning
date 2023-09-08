@@ -33,6 +33,9 @@ public class MemberController {
     @Autowired
     private PaymentService paymentService;
 
+    @Autowired
+    private ActivityService activityService;
+
     @GetMapping("/login")
     public String loginPage(Model model) {
         model.addAttribute("title", "Login");
@@ -45,10 +48,7 @@ public class MemberController {
         RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(requestid);
         model.addAttribute("request_op_course", requestOpenCourse);
         model.addAttribute("course_detail", course);
-        model.addAttribute("course_id", courseid);
-        model.addAttribute("member_id", mem_id);
-        model.addAttribute("title", "RegisterCourse");
-        model.addAttribute("register", new Register());
+        model.addAttribute("activity" , activityService.getViewCourseActivityNews());
         return "member/register_course";
     }
 

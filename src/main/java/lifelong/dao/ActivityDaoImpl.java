@@ -27,7 +27,16 @@ public class ActivityDaoImpl implements ActivityDao{
     public List<Activity> getPublicActivity() {
         Session session = sessionFactory.getCurrentSession();
         Query<Activity> query = session.createQuery("from Activity a where a.type =:acType",Activity.class);
-        query.setParameter("acType", "public");
+        query.setParameter("acType", "ข่าวสารทั่วไป");
+        List<Activity> activities = query.getResultList();
+        return activities;
+    }
+
+    @Override
+    public List<Activity> getViewCourseActivityNews() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Activity> query = session.createQuery("from Activity a where a.type =:acType",Activity.class);
+        query.setParameter("acType", "ข่าวสารประจำหลักสูตร");
         List<Activity> activities = query.getResultList();
         return activities;
     }

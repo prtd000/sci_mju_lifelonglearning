@@ -77,6 +77,8 @@ public class WebHomeController {
         return "view_public_activity";
     }
 
+    
+
 
 
 

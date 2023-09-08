@@ -32,12 +32,6 @@ public class PaymentController {
     @Autowired
     private RegisterService registerService;
 
-    @GetMapping("/{memid}/payment_detail/{invoice_id}")
-    public String paymentDetail(@PathVariable("memid") String memId, @PathVariable("invoice_id") long invoiceId, Model model) {
-        model.addAttribute("payment", paymentService.getInvoiceById(invoiceId));
-        return "member/payment_detail";
-    }
-
     @GetMapping("/{memid}/payment_fill_detail/{invoice_id}")
     public String makePayment(@PathVariable("memid") String memId, @PathVariable("invoice_id") long invoiceId, Model model) {
         model.addAttribute("payment", paymentService.getInvoiceById(invoiceId));

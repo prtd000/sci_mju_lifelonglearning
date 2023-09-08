@@ -35,7 +35,7 @@
 
         /***** can't do not select date future ********/
 
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const dateInput = document.getElementById("datePicker");
 
             // Get today's date
@@ -75,11 +75,11 @@
     String flag = "";
     if (admin != null) {
         flag = "admin";
-    }else if (lecturer != null) {
+    } else if (lecturer != null) {
         flag = "lecturer";
     } else if (member != null) {
         flag = "member";
-    }else {
+    } else {
         flag = "null";
     }
 %>
@@ -100,27 +100,43 @@
     </c:otherwise>
 </c:choose>
 <center>
-    <br><br>
-    <h1>ยืนยันการชำระเงิน</h1>
+    <br>
+    <h1>การชำระเงิน</h1>
     <hr>
+    <h4>${payment.register.requestOpenCourse.course.name}</h4>
+    <p>${payment.register.requestOpenCourse.course.major.name}</p>
+    <hr>
+
+    <h4>โอนไปยัง</h4>
     <table>
         <tr>
-            <td style="width: 200px">ยอดการชำระเงินทั้งหมด</td>
-            <td>${payment.register.requestOpenCourse.course.fee}</td>
-            <td>บาท</td>
+            <td style="width: 200px;">ธนาคารปลายทาง</td>
+            <td style="width: 150px;">กรุงไทย</td>
+        </tr>
+        <tr>
+            <td>เลขที่บัญชี</td>
+            <td>679-5-60403-1</td>
         </tr>
     </table>
     <hr>
-    <h5>อัพโหลดหลักฐานการชำระเงิน</h5>
-    <form action="${pageContext.request.contextPath}/member/${payment.register.member.username}/payment_fill_detail/${payment.invoice_id}/save" method="post" onsubmit="return confirm('ยืนยันข้อมูลการชำระเงิน')" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td style="width: 200px;">ยอดรวมชำระเงินทั้งหมด</td>
+            <td style="width: 150px;">${payment.register.requestOpenCourse.course.fee} บาท</td>
+        </tr>
+    </table>
+    <hr>
+    <form action="${pageContext.request.contextPath}/member/${payment.register.member.username}/payment_fill_detail/${payment.invoice_id}/save"
+          method="post" onsubmit="return confirm('ยืนยันข้อมูลการชำระเงิน')" enctype="multipart/form-data">
         <table border="1">
             <tr style="height: 350px;">
                 <td style="width: 315px">
                     <label for="fileInput" class="file-label" style="margin-left: 120px;">Choose a file</label>
-                    <input type="file" id="fileInput" accept="image/*" name="slip" class="file-input" onchange="previewImage(this)">
+                    <input type="file" id="fileInput" accept="image/*" name="slip" class="file-input"
+                           onchange="previewImage(this)">
                 </td>
-                <td style="width: 315px">
-                    <p style="color: red; margin-top: 26px; margin-left: 80px; font-weight: bold;">*รูปหลักฐานการชำระเงิน*</p> <br>
+                <td style="width: 315px; text-align: -webkit-center;">
+                    <p style="color: red; margin-top: 26px; font-weight: bold;">*อัพโหลดหลักฐานการชำระเงิน*</p> <br>
                     <img id="preview" src="" alt="Image Preview" style="display: none; height: 270px; margin-left: 28px; margin-top: -24px;">
                 </td>
             </tr>

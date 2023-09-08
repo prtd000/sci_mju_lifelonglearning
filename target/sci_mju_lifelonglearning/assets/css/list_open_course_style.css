@@ -50,3 +50,30 @@ body{
     width: 32.5%;
     margin-bottom: 10px;
 }
+
+/*****  RegisterCourse.jsp : Activity Course ******/
+.news_img{
+    height: 180px;
+    border-radius: 20px 10px 0px 0px;
+}
+
+.block_news_big{
+    margin-top: 50px;
+
+}
+
+.block_news{
+    display: inline-block;
+    background-color: burlywood;
+    margin-bottom: 40px;
+    border-radius: 20px;
+    margin-left: 10px;
+}
+
+.news_content{
+    padding: 15px;
+}
+
+.c_img{
+    height: 500px;
+}

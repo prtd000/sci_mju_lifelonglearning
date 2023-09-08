@@ -11,6 +11,8 @@ public interface ActivityService {
 
     List<Activity> getPublicActivity();
 
+    List<Activity> getViewCourseActivityNews();
+
     Activity getActivityDetail(String activityId);
     Activity getActivityDetailToUpdate(String id , String lec_id);
 

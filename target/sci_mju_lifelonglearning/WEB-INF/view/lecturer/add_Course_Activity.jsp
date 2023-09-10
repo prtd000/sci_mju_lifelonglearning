@@ -94,7 +94,7 @@
   <div id="container">
     <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
     <br><br>
-      <form action="${pageContext.request.contextPath}/lecturer/${ROC_detail.lecturer.username}/save_add_course_activity/${ROC_detail.request_id}" method="POST" enctype="multipart/form-data">
+      <form onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/lecturer/${ROC_detail.lecturer.username}/save_add_course_activity/${ROC_detail.request_id}" method="POST" enctype="multipart/form-data">
       <table>
         <colgroup>
           <col style="width: 160px;">
@@ -140,4 +140,14 @@
   </c:otherwise>
 </c:choose>
 </body>
+<script>
+  function confirmAction() {
+    var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการเพิ่มข่าวสารนี้?");
+    if (result) {
+      return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
+    } else {
+      return false; // ถ้าผู้ใช้กด Cancel ให้ยกเลิกการส่งฟอร์ม
+    }
+  }
+</script>
 </html>

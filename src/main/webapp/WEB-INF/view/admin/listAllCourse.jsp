@@ -179,7 +179,7 @@
                                     <c:if test="${request_course.requestStatus == 'รอดำเนินการ'}">
                                         <tr style="color: black">
                                             <td><p>${request_course.course.name}</p></td>
-                                            <td align="center">${request_course.requestDate}</td>
+                                            <td align="center"><fmt:formatDate value="${request_course.requestDate}" pattern="dd/MM/yyyy" var="formattedDate" />${formattedDate}</td>
                                             <td align="center">
                                                 <input type="button" value="ดูรายละเอียด"
                                                        onclick="window.location.href='${pageContext.request.contextPath}/course/${admin_id}/view_request_open_course/${request_course.request_id}'; return false;"/>

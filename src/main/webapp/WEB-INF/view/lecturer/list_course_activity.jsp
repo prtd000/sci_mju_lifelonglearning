@@ -89,40 +89,42 @@
         </nav>
         <!-- Navbar End -->
 <div align="center">
-    <h3>ข่าวสารประจำหลักสูตร</h3>
-        <%--<a href="${pageContext.request.contextPath}/course/add_course"><button>เพิ่มหลักสูตร</button></a>--%>
-    <center>
-        <input type="button" value="เพิ่มข่าวสาร"
-               onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${roc_id}/add_course_activity'; return false;"
-        />
-        <table class="table table-striped table-hover">
-            <tr style="color: black">
-                <td class="td_request">ชื่อข่าว</td>
-                <td class="td_edit" align="center">วันที่เผยแพร่</td>
-                <td class="td_cancel" align="center">ประเภท</td>
-                <td class="td_edit" align="center"></td>
-                <td class="td_cancel" align="center"></td>
-            </tr>
-            <c:forEach var="list" items="${list_activity}">
-                <tr>
-                    <td>${list.name}</td>
-                    <td>${list.date}</td>
-                    <td>${list.type}</td>
-                    <td>
-                        <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/private/${list.ac_id}/edit_course_activity_page/${list.requestOpenCourse.request_id}"><button>แก้ไข</button></a>
-                    </td>
-                    <td>
-                        <input type="button" value="ยกเลิก"
-                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${list.ac_id}/delete'; return false; }"
-                               class="cancel-button"/>
-                    </td>
+    <div style="width: 70%">
+        <h3>ข่าวสารประจำหลักสูตร</h3>
+            <%--<a href="${pageContext.request.contextPath}/course/add_course"><button>เพิ่มหลักสูตร</button></a>--%>
+        <center>
+            <input type="button" value="เพิ่มข่าวสาร"
+                   onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${roc_id}/add_course_activity'; return false;"
+            />
+            <table class="table table-striped table-hover">
+                <tr style="color: black">
+                    <td class="td_request">ชื่อข่าว</td>
+                    <td class="td_edit" align="center">วันที่เผยแพร่</td>
+                    <td class="td_cancel" align="center">ประเภท</td>
+                    <td class="td_edit" align="center"></td>
+                    <td class="td_cancel" align="center"></td>
                 </tr>
-            </c:forEach>
-        </table>
-    </center>
-    <input type="button" value="ย้อนกลับ"
-           onclick="window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course'; return false;"
-           class="cancel-button"/>
+                <c:forEach var="list" items="${list_activity}">
+                    <tr>
+                        <td>${list.name}</td>
+                        <td>${list.date}</td>
+                        <td>${list.type}</td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/private/${list.ac_id}/edit_course_activity_page/${list.requestOpenCourse.request_id}"><button>แก้ไข</button></a>
+                        </td>
+                        <td>
+                            <input type="button" value="ยกเลิก"
+                                   onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${list.ac_id}/delete'; return false; }"
+                                   class="cancel-button"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </center>
+        <input type="button" value="ย้อนกลับ"
+               onclick="window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course'; return false;"
+               class="cancel-button"/>
+    </div>
 </div>
     </c:when>
     <c:when test="${flag.equals('null')}">

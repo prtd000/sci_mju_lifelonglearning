@@ -237,6 +237,10 @@ public class LecturerController {
                 activityService.deleteActivity(activity.getAc_id());
             }
             requestOpCourseService.deleteRequestOpenCourse(roc_id,lec_id);
+            //แก้ไขตาราง Course
+            Course course = courseService.getCourseById(requestOpenCourse.getCourse().getCourse_id());
+            course.setStatus("ยังไม่เปิดสอน");
+            courseService.updateCourse(course);
         }else {
             // ส่งพารามิเตอร์ "error" ใน URL เพื่อระบุว่าเกิดข้อผิดพลาด
             return "redirect:/lecturer/" + lec_id + "/list_request_open_course?error=true";
@@ -421,54 +425,72 @@ public class LecturerController {
             int maxNumericId = Integer.parseInt(activity_id);
             String existingActivityImg = existingActivity.getImg();
             List<String> existingImgNames = new ObjectMapper().readValue(existingActivityImg, ArrayList.class);
-            // ลบข้อมูลในฐานข้อมูลก่อน
-            existingImgNames.clear();
-            // ลบข้อมูลเดิมก่อน
-            String deletePath = ImgPath.pathImg + "/activity/private/"+existingActivity.getAc_id()+"/";
+            System.out.println("IMG : " + imgs.length);
+            String checkfileExtension = "";
+            String status = "pass";
+
+            if(imgs.length == 1){
+                for (MultipartFile img : imgs) {
+                    String originalFileName = img.getOriginalFilename();
+                    checkfileExtension = getFileExtension(originalFileName);
+                    System.out.println("Check : " + checkfileExtension);
+                }
+                if (!checkfileExtension.equals("")){
+                    status = "pass";
+                }else {
+                    status = "null";
+                }
+            }
+            if (status.equals("pass")){
+                // ลบข้อมูลในฐานข้อมูลก่อน
+                existingImgNames.clear();
+                // ลบข้อมูลเดิมก่อน
+                String deletePath = ImgPath.pathImg + "/activity/private/"+existingActivity.getAc_id()+"/";
 //            String deletePath = ImgPath.pathImg + "/activity/public/public_activity"+maxNumericId+"/";
-            Path deletedirectoryPath = Paths.get(deletePath);
+                Path deletedirectoryPath = Paths.get(deletePath);
 
 
-            if (Files.isDirectory(deletedirectoryPath)) {
-                // ลบไดเร็กทอรีและเนื้อหาภายใน
-                Files.walk(deletedirectoryPath)
-                        .sorted(Comparator.reverseOrder())
-                        .map(Path::toFile)
-                        .forEach(File::delete);
-            } else {
-                // ลบไฟล์
-                Files.delete(deletedirectoryPath);
+                if (Files.isDirectory(deletedirectoryPath)) {
+                    // ลบไดเร็กทอรีและเนื้อหาภายใน
+                    Files.walk(deletedirectoryPath)
+                            .sorted(Comparator.reverseOrder())
+                            .map(Path::toFile)
+                            .forEach(File::delete);
+                } else {
+                    // ลบไฟล์
+                    Files.delete(deletedirectoryPath);
+                }
+
+                // เพิ่มข้อมูลใหม่
+                int count = 1;
+                for (MultipartFile img : imgs) {
+                    String uploadPath = ImgPath.pathImg + "/activity/private/"+existingActivity.getAc_id()+"/";
+                    Path directoryPath = Paths.get(uploadPath);
+                    Files.createDirectories(directoryPath);
+
+                    String originalFileName = img.getOriginalFilename();
+                    String fileExtension = getFileExtension(originalFileName);
+
+                    String formattedId = String.format("%02d", maxNumericId);
+                    String formattedSequence = String.format("%04d", count);
+                    String newFileName = String.format("IMG_%s_%s%s", formattedId, formattedSequence, fileExtension);
+                    Path filePath = Paths.get(uploadPath, newFileName);
+                    Files.write(filePath, img.getBytes());
+
+                    newFileNames.add(newFileName);
+                    count++;
+                }
+
+                existingImgNames.addAll(newFileNames); // เพิ่มชื่อรูปภาพใหม่ลงในรายการรูปภาพเดิม
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                String imgNamesJson = objectMapper.writeValueAsString(existingImgNames); // แปลงรายการรูปภาพใหม่เป็น JSON
+                existingActivity.setImg(imgNamesJson);
             }
-
-            // เพิ่มข้อมูลใหม่
-            int count = 1;
-            for (MultipartFile img : imgs) {
-                String uploadPath = ImgPath.pathImg + "/activity/private/"+existingActivity.getAc_id()+"/";
-                Path directoryPath = Paths.get(uploadPath);
-                Files.createDirectories(directoryPath);
-
-                String originalFileName = img.getOriginalFilename();
-                String fileExtension = getFileExtension(originalFileName);
-
-                String formattedId = String.format("%02d", maxNumericId);
-                String formattedSequence = String.format("%04d", count);
-                String newFileName = String.format("IMG_%s_%s%s", formattedId, formattedSequence, fileExtension);
-                Path filePath = Paths.get(uploadPath, newFileName);
-                Files.write(filePath, img.getBytes());
-
-                newFileNames.add(newFileName);
-                count++;
-            }
-
-            existingImgNames.addAll(newFileNames); // เพิ่มชื่อรูปภาพใหม่ลงในรายการรูปภาพเดิม
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            String imgNamesJson = objectMapper.writeValueAsString(existingImgNames); // แปลงรายการรูปภาพใหม่เป็น JSON
 
             // อัพเดตรายละเอียดและรายการรูปภาพในฐานข้อมูล
             existingActivity.setName(allReqParams.get("ac_name"));
             existingActivity.setDetail(allReqParams.get("ac_detail"));
-            existingActivity.setImg(imgNamesJson);
             activityService.updateActivity(existingActivity);
         } catch (IOException e) {
             e.printStackTrace();

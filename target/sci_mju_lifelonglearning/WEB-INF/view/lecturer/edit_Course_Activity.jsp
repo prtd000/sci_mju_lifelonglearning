@@ -97,7 +97,7 @@
     <c:if test="${activities != null}">
     <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง555555555555555555555555555555</i>
     <br><br>
-    <form action="${pageContext.request.contextPath}/lecturer/${lec_id}/${activities.ac_id}/update_course_add_activity" method="POST" enctype="multipart/form-data">
+    <form onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/lecturer/${lec_id}/${activities.ac_id}/update_course_add_activity" method="POST" enctype="multipart/form-data">
       <table>
         <colgroup>
           <col style="width: 160px;">
@@ -121,10 +121,12 @@
           <td><b>เพิ่มรูปภาพใหม่</b><br>
             <input name="ac_img" type="file" id="ac_img" value="${activities.img}" multiple/>
             <c:if test="${not empty activities.img}">
-              <c:set var="imgNames" value="${activities.img}" />
+              <c:set var="imgNames" value="${activities.img}" /><br>
               <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
                 <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}" />
-                <p>IMG: ${listImg}</p>
+                <div style="display: inline-block">
+                  <img src="${pageContext.request.contextPath}/assets/img/activity/private/${activities.ac_id}/${listImg}" width="70px">
+                </div>
               </c:forEach>
             </c:if>
           </td>
@@ -154,4 +156,14 @@
   </c:otherwise>
 </c:choose>
 </body>
+<script>
+  function confirmAction() {
+    var result = confirm("คุณแน่ใจหรือไม่ว่าต้องกาแก้ไขข่าวสารนี้?");
+    if (result) {
+      return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
+    } else {
+      return false; // ถ้าผู้ใช้กด Cancel ให้ยกเลิกการส่งฟอร์ม
+    }
+  }
+</script>
 </html>

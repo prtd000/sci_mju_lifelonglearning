@@ -132,7 +132,7 @@
                         </tr>
                         <tr>
                             <td><label>ค่าธรรมเนียม:</label></td>
-                            <td><input name="course_fee" type="text" id="course_fee"/></td>
+                            <td><input name="course_fee" type="number" id="course_fee"/></td>
                         </tr>
                         <tr>
                             <td><label>ไฟล์หลักสูตร:</label></td>

@@ -106,7 +106,7 @@
         <c:if test="${request_open_course != null}">
             <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
             <br><br>
-        <form action="${pageContext.request.contextPath}/lecturer/${lec_id}/${request_open_course.request_id}/update" method="POST" enctype="multipart/form-data">
+        <form onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/lecturer/${lec_id}/${request_open_course.request_id}/update" method="POST" enctype="multipart/form-data">
             <%
                 Date currentDate = new Date();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -306,6 +306,16 @@
         }
         document.getElementById(cityName).style.display = "block";
         evt.currentTarget.className += " active";
+    }
+</script>
+<script>
+    function confirmAction() {
+        var result = confirm("คุณแน่ใจหรือไม่ว่าต้องกาแก้ไขการร้องขอนี้?");
+        if (result) {
+            return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
+        } else {
+            return false; // ถ้าผู้ใช้กด Cancel ให้ยกเลิกการส่งฟอร์ม
+        }
     }
 </script>
 </html>

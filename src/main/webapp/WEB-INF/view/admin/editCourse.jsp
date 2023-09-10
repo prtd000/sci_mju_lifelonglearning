@@ -105,10 +105,6 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><label>รหัสหลักสูตร:</label></td>
-                            <td><input name="course_id" type="text" id="course_id" value="${course.course_id}"/></td>
-                        </tr>
-                        <tr>
                             <td><label>ชื่อหลักสูตร:</label></td>
                             <td><input name="course_name" type="text" id="course_name" value="${course.name}"/></td>
                         </tr>
@@ -144,7 +140,7 @@
                         </tr>
                         <tr>
                             <td><label>ค่าธรรมเนียม:</label></td>
-                            <td><input name="course_fee" type="text" id="course_fee" value="${course.fee}"/></td>
+                            <td><input name="course_fee" type="number" id="course_fee" value="${course.fee}"/></td>
                         </tr>
                         <tr>
                             <td><label>ไฟล์หลักสูตร:</label></td>

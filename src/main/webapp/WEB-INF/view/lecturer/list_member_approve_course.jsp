@@ -7,6 +7,7 @@
     <title>${title}</title>
     <link href="${pageContext.request.contextPath}/assets/css/list_open_course_style.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet">
+    <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
     <style>
         h1{
             font-family: 'Prompt', sans-serif;
@@ -99,28 +100,31 @@
             <td class="td_cancel" align="center"></td>
         </tr>
         <c:forEach var="list" items="${registers}">
-            <form action="${pageContext.request.contextPath}/lecturer/${request_id}/update_Status_Member_Result/${list.register_id}" method="POST">            <tr>
-                <td>${list.member.idcard}</td>
-                <td>${list.member.firstName} ${list.member.lastName}</td>
-                <td align="center">
-                    <c:set var="color" value="red"></c:set>
-                    <c:set var="study_result" value="ไม่ผ่านหลักสูตร"></c:set>
-                    <c:if test="${list.study_result == true}">
-                        <c:set var="color" value="green"></c:set>
-                        <c:set var="study_result" value="ผ่านหลักสูตร"></c:set>
-                    </c:if>
-                    <p style="color: ${color}">${study_result}</p>
-                </td align="center">
-<%--                <td>--%>
-<%--                    ${list.invoice.pay_status}--%>
-<%--                </td>--%>
-                <td align="center">
-                    <input type="submit" name="studyResult" value="ผ่านหลักสูตร"/>
-                </td>
-                <td align="center">
-                    <input type="submit" name="studyResult" value="ไม่ผ่านหลักสูตร"/>
-                </td>
-            </tr>
+            <form action="${pageContext.request.contextPath}/lecturer/${request_id}/update_Status_Member_Result/${list.register_id}" method="POST" onsubmit="return confirmAction();">
+                <tr>
+                <c:if test="${list.invoice.approve_status == 'ผ่าน'}">
+                    <td>${list.member.idcard}</td>
+                    <td>${list.member.firstName} ${list.member.lastName}</td>
+                    <td align="center">
+                        <c:set var="color" value="red"></c:set>
+                        <c:set var="study_result" value="ไม่ผ่านหลักสูตร"></c:set>
+                        <c:if test="${list.study_result == true}">
+                            <c:set var="color" value="green"></c:set>
+                            <c:set var="study_result" value="ผ่านหลักสูตร"></c:set>
+                        </c:if>
+                        <p style="color: ${color}">${study_result}</p>
+                    </td align="center">
+                        <%--                <td>--%>
+                        <%--                    ${list.invoice.pay_status}--%>
+                        <%--                </td>--%>
+                    <td align="center">
+                        <input type="submit" name="studyResult" value="ผ่านหลักสูตร"/>
+                    </td>
+                    <td align="center">
+                        <input type="submit" name="studyResult" value="ไม่ผ่านหลักสูตร"/>
+                    </td>
+                </tr>
+                </c:if>
             </form>
         </c:forEach>
     </table>
@@ -156,6 +160,16 @@
         }
         document.getElementById(list_name).style.display = "block";
         evt.currentTarget.className += " active";
+    }
+</script>
+<script>
+    function confirmAction() {
+        var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการดำเนินการขั้นตอนต่อไปนี้?");
+        if (result) {
+            return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
+        } else {
+            return false; // ถ้าผู้ใช้กด Cancel ให้ยกเลิกการส่งฟอร์ม
+        }
     }
 </script>
 </html>

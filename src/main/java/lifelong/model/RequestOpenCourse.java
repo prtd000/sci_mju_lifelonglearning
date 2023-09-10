@@ -1,7 +1,8 @@
 package lifelong.model;
 
 import org.hibernate.annotations.GenericGenerator;
-
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.*;
 import java.util.Date;
 
@@ -88,6 +89,17 @@ public class RequestOpenCourse {
         this.signature = signature;
         this.course = course;
         this.lecturer = lecturer;
+    }
+
+    // เพิ่มเมทอดเพื่อเช็คว่าวันปัจจุบันเยอะกว่า endStudyDate
+    public void checkEndDate() {
+        Date currentDate = new Date(); // วันปัจจุบัน
+
+        if (currentDate.after(endStudyDate)) {
+            // ถ้าวันปัจจุบันหลังจาก endStudyDate
+            this.requestStatus = "เสร็จสิ้น"; // เปลี่ยนค่า requestStatus เป็น "เสร็จสิ้น"
+
+        }
     }
 
     public long getRequest_id() {

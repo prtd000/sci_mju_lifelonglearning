@@ -66,6 +66,7 @@ public class RegisterDaoImpl implements RegisterDao {
         Register register = query.getSingleResult();
         return register;
     }
+
     @Override
     public Register getRegisterByRegisterId(long register_Id) {
         Session session = sessionFactory.getCurrentSession();

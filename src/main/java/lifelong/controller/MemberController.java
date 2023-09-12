@@ -43,12 +43,22 @@ public class MemberController {
     }
 
     @GetMapping("/{memid}/register_course/{courseid}/{requestid}")
-    public String viewRegisterCourse(@PathVariable("memid") String mem_id, @PathVariable("courseid") String courseid, @PathVariable("requestid") long requestid, Model model) {
+    public String viewRegisterCourse(@PathVariable("memid") String mem_id, @PathVariable("courseid") String courseid, @PathVariable("requestid") long request_id, Model model) {
+        boolean registered = false;
+
         Course course = courseService.getCourseDetail(courseid);
-        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(requestid);
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(request_id);
         model.addAttribute("request_op_course", requestOpenCourse);
         model.addAttribute("course_detail", course);
         model.addAttribute("activity" , activityService.getViewCourseActivityNews());
+
+        for (Register r : registerService.getRegister(mem_id)){
+            if (r.getRequestOpenCourse().getRequest_id() == request_id){
+                registered = true;
+            }
+        }
+        model.addAttribute("registered" ,registered);
+
         return "member/register_course";
     }
 

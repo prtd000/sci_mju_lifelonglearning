@@ -33,10 +33,11 @@ public class ActivityDaoImpl implements ActivityDao{
     }
 
     @Override
-    public List<Activity> getViewCourseActivityNews() {
+    public List<Activity> getViewCourseActivityNews(long req_id) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Activity> query = session.createQuery("from Activity a where a.type =:acType",Activity.class);
+        Query<Activity> query = session.createQuery("from Activity a where a.type =:acType and a.requestOpenCourse.request_id =: reqId",Activity.class);
         query.setParameter("acType", "ข่าวสารประจำหลักสูตร");
+        query.setParameter("reqId" ,req_id);
         List<Activity> activities = query.getResultList();
         return activities;
     }

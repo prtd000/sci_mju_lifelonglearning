@@ -132,32 +132,32 @@
 
 <%--    Now--%>
     <c:if test="${registered == true}">
-        <button style="color: red; background-color: #d5d5d5; opacity: 50%" disabled>ลงทะเบียนแล้ว</button>
+        <button style="color: red;
+                       font-weight: bold;
+                       border-radius: 20px;
+                       height: 50px;
+                       width: 150px;
+                       background-color: #dfdfdf;"
+                       disabled>ลงทะเบียนแล้ว
+        </button>
     </c:if>
     <c:if test="${registered == false}">
         <button onclick="if((confirm('ยืนยันการลงทะเบียน'))){ window.location.href='${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${request_op_course.course.course_id}/${request_op_course.request_id}/register';return false; }">สมัคร</button>
     </c:if>
 
-
-
-<%--    <c:forEach var="regis" items="${regis_mem_id}">--%>
-<%--        <c:if test="${regis.requestOpenCourse.request_id == req_id}">--%>
-<%--            <p>match</p><br>--%>
-<%--            <button style="color: red; background-color: #d5d5d5; opacity: 50%" disabled>ลงทะเบียนแล้ว</button>--%>
-<%--        </c:if>--%>
-<%--        <c:if test="${regis.requestOpenCourse.request_id != req_id}">--%>
-<%--            <p>not match</p><br>--%>
-<%--            <button onclick="if((confirm('ยืนยันการลงทะเบียน'))){ window.location.href='${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${request_op_course.course.course_id}/${request_op_course.request_id}/register';return false; }">สมัคร</button>--%>
-<%--        </c:if>--%>
-<%--    </c:forEach>--%>
-
-
-
-    <br>
+    <br><br>
 <%--    Course News--%>
+    <c:choose>
+        <c:when test="${activity.size() == 0}">
+            <h1 style="display: none">ข่าวสารเกี่ยวกับหลักสูตร</h1>
+        </c:when>
+        <c:otherwise>
+            <h1 style="display: block">ข่าวสารเกี่ยวกับหลักสูตร</h1>
+        </c:otherwise>
+    </c:choose>
+
     <c:forEach var="list" items="${activity}">
         <div class="block_news_big" style="float: left">
-            <h1>ข่าวสารเกี่ยวกับหลักสูตร</h1>
             <div class="block_news">
 <%--                <c:set var="imgNames" value="${list.img}"/>--%>
 <%--                <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">--%>

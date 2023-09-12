@@ -160,60 +160,65 @@
 
                             <c:choose>
                                 <c:when test="${flag.equals('member')}">
-                                        <div class="p-5">
-                                            <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}"
-                                                 style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
-                                            <br><br>
-                                            <h4 class="item text_ellipsis">${course.name}</h4></b>
-                                            <p>${course.major.name}</p>
-                                            <p style="font-weight: bold; color: dodgerblue">${course.course_type}</p>
-                                            <b><p style="color: #0c7800; font-size: 22px">ราคา <fmt:formatNumber value="${courseFee}"/>.00 บาท</p></b>
+                                    <div class="p-5">
+                                        <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}"
+                                             style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
+                                        <br><br>
+                                        <h4 class="item text_ellipsis">${course.name}</h4></b>
+                                        <p>${course.major.name}</p>
+                                        <p style="font-weight: bold; color: dodgerblue">${course.course_type}</p>
+                                        <b><p style="color: #0c7800; font-size: 22px">ราคา <fmt:formatNumber value="${courseFee}"/>.00 บาท</p></b>
 
-                                            <c:set var="username" value="<%= member.getUsername() %>"/>
-                                            <table>
-                                                <tr>
-                                                    <td>
-                                                        <c:forEach var="listReq" items="${listRequest}">
-                                                            <c:choose>
-                                                                <c:when test="${listReq.course.course_id.equals(course.course_id)}">
-                                                                    <c:set var="status" value="true" />
-                                                                    <c:forEach var="invoices" items="${list_invoice}">
-                                                                        <c:choose>
-                                                                            <c:when test="${invoices.register.member.username.equals(username) && invoices.register.requestOpenCourse.request_id == listReq.request_id}">
-                                                                                <c:if test="${invoices.pay_status == true && invoices.approve_status.equals('ผ่าน')}">
-                                                                                    <td style="width: 250px;">
-                                                                                        <p style="color: red; font-weight: bold;">ลงทะเบียนแล้ว</p>
-                                                                                    </td>
-                                                                                    <c:set var="status" value="false"/>
-                                                                                </c:if>
-                                                                                <c:if test="${invoices.pay_status == false || (invoices.pay_status == true && invoices.approve_status.equals('รอดำเนินการ'))}">
-                                                                                    <td style="width: 250px;">
-                                                                                        <p style="color: #c9c92f; font-weight: bold">รอดำเนินการ</p>
-                                                                                    </td>
-                                                                                    <c:set var="status" value="false"/>
-                                                                                </c:if>
-                                                                            </c:when>
-                                                                        </c:choose>
-                                                                    </c:forEach>
+                                        <c:set var="username" value="<%= member.getUsername() %>"/>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <c:forEach var="listReq" items="${listRequest}">
+                                                        <c:choose>
+                                                            <c:when test="${listReq.course.course_id.equals(course.course_id)}">
+                                                                <c:set var="status" value="true" />
+                                                                <c:forEach var="invoices" items="${list_invoice}">
+                                                                    <c:choose>
+                                                                        <c:when test="${invoices.register.member.username.equals(username) && invoices.register.requestOpenCourse.request_id == listReq.request_id}">
+                                                                            <c:if test="${invoices.pay_status == true && invoices.approve_status.equals('ผ่าน')}">
+                                                                                <td style="width: 250px;">
+                                                                                    <p style="color: red; font-weight: bold;">ลงทะเบียนแล้ว</p>
+                                                                                </td>
+                                                                                <c:set var="status" value="false"/>
+                                                                            </c:if>
 
-                                                                    <c:if test="${empty list_invoice || status == true}">
-                                                                        <td style="width: 250px;">
-                                                                            <a href="${pageContext.request.contextPath}/member/${username}/register_course/${course.course_id}/${listReq.request_id}"><b>ลงทะเบียน</b><i class="bi bi-arrow-right ms-2"></i></a>
-                                                                        </td>
-                                                                    </c:if>
+                                                                            <c:if test="${invoices.pay_status == false || (invoices.pay_status == true && invoices.approve_status.equals('รอดำเนินการ'))}">
+                                                                                <td style="width: 250px;">
+                                                                                    <p style="color: #c9c92f; font-weight: bold">รอดำเนินการ</p>
+                                                                                </td>
+                                                                                <c:set var="status" value="false"/>
+                                                                            </c:if>
+                                                                            <td style="width: 129px; vertical-align: baseline;">
+                                                                                <a href="${pageContext.request.contextPath}/member/${username}/register_course/${course.course_id}/${listReq.request_id}">
+                                                                                    <b>อ่านเพิ่มเติม</b>
+                                                                                </a>
+                                                                            </td>
+                                                                        </c:when>
+                                                                    </c:choose>
+                                                                </c:forEach>
 
+                                                                <c:if test="${empty list_invoice || status == true}">
+                                                                    <td style="width: 250px; vertical-align: baseline;">
+                                                                        <a href="${pageContext.request.contextPath}/member/${username}/register_course/${course.course_id}/${listReq.request_id}"><b>ลงทะเบียน</b><i class="bi bi-arrow-right ms-2"></i></a>
+                                                                    </td>
                                                                     <td>
                                                                         <a href="${pageContext.request.contextPath}/member/${username}/register_course/${course.course_id}/${listReq.request_id}">
                                                                             <p style="color: green; font-weight: bold">เปิด</p>
                                                                         </a>
                                                                     </td>
-                                                                </c:when>
-                                                            </c:choose>
-                                                        </c:forEach>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
+                                                                </c:if>
+                                                            </c:when>
+                                                        </c:choose>
+                                                    </c:forEach>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                 </c:when>
 
                                 <%-------- User ---------%>

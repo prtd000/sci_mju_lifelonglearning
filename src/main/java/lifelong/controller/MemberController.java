@@ -50,7 +50,7 @@ public class MemberController {
         RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(request_id);
         model.addAttribute("request_op_course", requestOpenCourse);
         model.addAttribute("course_detail", course);
-        model.addAttribute("activity" , activityService.getViewCourseActivityNews());
+        model.addAttribute("activity" , activityService.getViewCourseActivityNews(request_id));
 
         for (Register r : registerService.getRegister(mem_id)){
             if (r.getRequestOpenCourse().getRequest_id() == request_id){
@@ -105,7 +105,6 @@ public class MemberController {
 //        return "redirect:/member/"+ memid+"/listcourse";
     }
 
-
     @GetMapping("{memid}/listcourse")
     public String listCourseByMember(@PathVariable("memid") String memId, Model model) {
         model.addAttribute("list_course", memberService.getMyListCourse(memId));
@@ -121,18 +120,6 @@ public class MemberController {
         registerService.deleteRegister(id);
         return "redirect:/member/" + memId + "/listcourse";
     }
-
-    /***** Start ViewCourseActivityNews *****/
-
-
-
-
-
-
-
-
-
-    /***** End ViewCourseActivityNews *****/
 
     @GetMapping("{memid}/certificate")
     public String viewCertificate(@PathVariable("memid") String memId, Model model) {

@@ -12,31 +12,6 @@
 <head>
     <title>${title}</title>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
-    <%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
-
-    <%--    <style>--%>
-    <%--        .block_position{--%>
-    <%--            margin-left: 350px;--%>
-    <%--            margin-top: 54px;--%>
-    <%--            width: 900px;--%>
-    <%--            display: inline-block;--%>
-    <%--        }--%>
-
-    <%--        .c_img{--%>
-    <%--            width: 850px;--%>
-    <%--        }--%>
-    <%--        .t1{--%>
-    <%--            width: 200px;--%>
-    <%--            font-weight: bold;--%>
-    <%--            margin-top: 0px;--%>
-    <%--            vertical-align: top;--%>
-    <%--        }--%>
-    <%--        .t2{--%>
-    <%--            width: 650px;--%>
-    <%--            vertical-align: top;--%>
-    <%--        }--%>
-
-    <%--    </style>--%>
 </head>
 <body>
 <!-- Navbar -->
@@ -155,7 +130,29 @@
 <%--        </div>--%>
 <%--    </form:form>--%>
 
-    <button onclick="if((confirm('ยืนยันการลงทะเบียน'))){ window.location.href='${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${request_op_course.course.course_id}/${request_op_course.request_id}/register';return false; }">สมัคร</button>
+<%--    Now--%>
+    <c:if test="${registered == true}">
+        <button style="color: red; background-color: #d5d5d5; opacity: 50%" disabled>ลงทะเบียนแล้ว</button>
+    </c:if>
+    <c:if test="${registered == false}">
+        <button onclick="if((confirm('ยืนยันการลงทะเบียน'))){ window.location.href='${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${request_op_course.course.course_id}/${request_op_course.request_id}/register';return false; }">สมัคร</button>
+    </c:if>
+
+
+
+<%--    <c:forEach var="regis" items="${regis_mem_id}">--%>
+<%--        <c:if test="${regis.requestOpenCourse.request_id == req_id}">--%>
+<%--            <p>match</p><br>--%>
+<%--            <button style="color: red; background-color: #d5d5d5; opacity: 50%" disabled>ลงทะเบียนแล้ว</button>--%>
+<%--        </c:if>--%>
+<%--        <c:if test="${regis.requestOpenCourse.request_id != req_id}">--%>
+<%--            <p>not match</p><br>--%>
+<%--            <button onclick="if((confirm('ยืนยันการลงทะเบียน'))){ window.location.href='${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${request_op_course.course.course_id}/${request_op_course.request_id}/register';return false; }">สมัคร</button>--%>
+<%--        </c:if>--%>
+<%--    </c:forEach>--%>
+
+
+
     <br>
 <%--    Course News--%>
     <c:forEach var="list" items="${activity}">

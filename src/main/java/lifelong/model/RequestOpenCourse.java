@@ -4,7 +4,10 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "request_open_course")
@@ -69,6 +72,26 @@ public class RequestOpenCourse {
     @JoinColumn(name = "lec_username")
     private Lecturer lecturer;
 
+    @OneToMany(mappedBy = "requestOpenCourse", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Register> registerList = new ArrayList<>();
+
+
+    // เมธอดเพื่อเพิ่มข้อมูล Register เข้า List
+    public int getNumberOfApprovedRegistrations() {
+        int count = 0;
+        for (Register register : registerList) {
+            if (register.getInvoice() != null && "ผ่าน".equals(register.getInvoice().getApprove_status())) {
+                count++;
+            }
+        }
+        return count;
+    }
+    // สร้างเมธอดเพื่อนับจำนวนคนที่สมัครสำหรับหลักสูตรนี้
+    // เมธอดเพื่อนับจำนวน Register ที่มีใน List
+//    public int getNumberOfRegistrations() {
+//        return registerList.size();
+//    }
+
     public RequestOpenCourse() {
     }
 
@@ -91,16 +114,18 @@ public class RequestOpenCourse {
         this.lecturer = lecturer;
     }
 
-    // เพิ่มเมทอดเพื่อเช็คว่าวันปัจจุบันเยอะกว่า endStudyDate
     public void checkEndDate() {
         Date currentDate = new Date(); // วันปัจจุบัน
 
-        if (currentDate.after(endStudyDate)) {
-            // ถ้าวันปัจจุบันหลังจาก endStudyDate
-            this.requestStatus = "เสร็จสิ้น"; // เปลี่ยนค่า requestStatus เป็น "เสร็จสิ้น"
-
+        if(!Objects.equals(requestStatus, "เสร็จสิ้น")){
+            if (currentDate.after(endStudyDate)) {
+                // ถ้าวันปัจจุบันหลังจาก endStudyDate
+                this.requestStatus = "เสร็จสิ้น"; // เปลี่ยนค่า requestStatus เป็น "เสร็จสิ้น"
+                this.course.setStatus("ยังไม่เปิดสอน");
+            }
         }
     }
+
 
     public long getRequest_id() {
         return request_id;

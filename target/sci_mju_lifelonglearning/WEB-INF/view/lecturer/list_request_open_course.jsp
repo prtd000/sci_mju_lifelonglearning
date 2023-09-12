@@ -125,7 +125,7 @@
                                     <td><p>${request_course.course.name}</p></td>
                                     <td><p>ดูตัวอย่าง</p></td>
                                     <td align="center">
-                                        <input type="button" value="1/${request_course.quantity}"
+                                        <input type="button" value="${request_course.numberOfApprovedRegistrations}/${request_course.quantity}"
                                                onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve'; return false;"
                                         />
                                     </td>

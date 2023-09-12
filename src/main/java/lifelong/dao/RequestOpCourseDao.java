@@ -26,4 +26,6 @@ public interface RequestOpCourseDao {
     int getSignatureCourseMaxId();
     int getRequestCourseRoundMaxId(String course_id);
     List<Register> checkRegisterToDelete(long request_id);
+
+    List<Register> getRegistersByRocId(long request_id);
 }

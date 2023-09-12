@@ -128,9 +128,10 @@ public class LecturerController {
     //************************* List Request Course & List Approved Course***************************//
     @GetMapping("/{lecturer_id}/list_request_open_course")
     public String doListRequestCourseDetail(@PathVariable("lecturer_id") String lecturer_id,Model model) {
+        List<RequestOpenCourse> requestOpenCourse = requestOpCourseService.getRequestOpenCoursesByLecturerId(lecturer_id);
         model.addAttribute("title", "รายการ");
         model.addAttribute("lecturer_id", lecturer_id);
-        model.addAttribute("requests_open_course", requestOpCourseService.getRequestOpenCoursesByLecturerId(lecturer_id));
+        model.addAttribute("requests_open_course", requestOpenCourse);
         return "lecturer/list_request_open_course";
     }
     //**********************************************************************//
@@ -570,4 +571,7 @@ public class LecturerController {
         return "lecturer/view_detail_course_activity";
     }
     //**********************************************************************//
+
+
 }
+

@@ -10,6 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPEhtml>
 <html>
 <head>
@@ -126,10 +127,27 @@
                             <td><label>หลักการและเหตุผล:</label></td>
                             <td><textarea name="course_principle" id="course_principle">${course.principle}</textarea></td>
                         </tr>
+                        <c:set var="object" value="${course.object}"></c:set>
+                        <c:set var="parts" value="${fn:split(object, '$%')}"/>
                         <tr>
                             <td><label>วัตถุประสงค์:</label></td>
-                            <td><textarea name="course_object" id="course_object">${course.object}</textarea></td>
+                            <td>
+                                <div id="objectives-container">
+                                    <c:forEach items="${parts}" var="part">
+                                        <div class="objective-container">
+                                                <input type="text" name="course_objectives[]" class="objective" id="course_object" value="${part}"/>
+                                                <button type="button" onclick="removeObjective(this)">ลบ</button><br>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                                <button type="button" onclick="addObjective()">เพิ่มวัตถุประสงค์</button>
+
+                            </td>
                         </tr>
+<%--                        <tr>--%>
+<%--                            <td><label>วัตถุประสงค์:</label></td>--%>
+<%--                            <td><textarea name="course_object" id="course_object">${course.object}</textarea></td>--%>
+<%--                        </tr>--%>
                         <tr>
                             <td><label>ระยะเวลาในการเรียน:</label></td>
                             <td><input name="course_totalHours" type="number" id="course_totalHours" value="${course.totalHours}"/></td>
@@ -203,6 +221,41 @@
             return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
         } else {
             return false; // ถ้าผู้ใช้กด Cancel ให้ยกเลิกการส่งฟอร์ม
+        }
+    }
+</script>
+<script>
+    function addObjective() {
+        var container = document.getElementById('objectives-container');
+        var objectiveContainer = document.createElement('div');
+        objectiveContainer.className = 'objective-container';
+
+        var objectiveInput = document.createElement('input');
+        objectiveInput.type = 'text';
+        objectiveInput.name = 'course_objectives[]'; // ใช้ [] เพื่อรับค่าเป็น array ใน Controller
+        objectiveInput.className = 'objective';
+
+        var removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.textContent = 'ลบ';
+        removeButton.onclick = function() {
+            container.removeChild(objectiveContainer);
+        };
+
+        objectiveContainer.appendChild(objectiveInput);
+        objectiveContainer.appendChild(removeButton);
+        container.appendChild(objectiveContainer);
+    }
+
+    function removeObjective(button) {
+        var container = document.getElementById('objectives-container');
+        var objectiveContainer = button.parentNode;
+
+        // ตรวจสอบว่ามีวัตถุประสงค์อย่างน้อยหนึ่งรายการ
+        if (container.getElementsByClassName('objective-container').length > 1) {
+            container.removeChild(objectiveContainer);
+        } else {
+            alert('คุณไม่สามารถลบวัตถุประสงค์ได้อีก');
         }
     }
 </script>

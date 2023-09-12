@@ -120,7 +120,16 @@
                         </tr>
                         <tr>
                             <td><label>วัตถุประสงค์:</label></td>
-                            <td><textarea name="course_object" id="course_object"></textarea></td>
+                            <td>
+                                <div id="objectives-container">
+                                    <div class="objective-container">
+                                        <input type="text" name="course_objectives[]" class="objective" id="course_object"/>
+                                        <button type="button" onclick="removeObjective(this)">ลบ</button>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="addObjective()">เพิ่มวัตถุประสงค์</button>
+
+                            </td>
                         </tr>
                         <tr>
                             <td><label>ระยะเวลาในการเรียน:</label></td>
@@ -186,4 +195,40 @@
         }
     }
 </script>
+<script>
+    function addObjective() {
+        var container = document.getElementById('objectives-container');
+        var objectiveContainer = document.createElement('div');
+        objectiveContainer.className = 'objective-container';
+
+        var objectiveInput = document.createElement('input');
+        objectiveInput.type = 'text';
+        objectiveInput.name = 'course_objectives[]'; // ใช้ [] เพื่อรับค่าเป็น array ใน Controller
+        objectiveInput.className = 'objective';
+
+        var removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.textContent = 'ลบ';
+        removeButton.onclick = function() {
+            container.removeChild(objectiveContainer);
+        };
+
+        objectiveContainer.appendChild(objectiveInput);
+        objectiveContainer.appendChild(removeButton);
+        container.appendChild(objectiveContainer);
+    }
+
+    function removeObjective(button) {
+        var container = document.getElementById('objectives-container');
+        var objectiveContainer = button.parentNode;
+
+        // ตรวจสอบว่ามีวัตถุประสงค์อย่างน้อยหนึ่งรายการ
+        if (container.getElementsByClassName('objective-container').length > 1) {
+            container.removeChild(objectiveContainer);
+        } else {
+            alert('คุณไม่สามารถลบวัตถุประสงค์ได้อีก');
+        }
+    }
+</script>
+
 </html>

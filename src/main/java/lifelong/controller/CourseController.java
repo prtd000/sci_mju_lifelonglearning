@@ -56,11 +56,18 @@ public class CourseController {
     public String doAddCourse(@RequestParam Map<String, String> allReqParams,
                               @RequestParam("course_img") MultipartFile img,
                               @RequestParam("course_file") MultipartFile pdf,
+                              @RequestParam("course_objectives[]") String[] courseObjectives,
                               @PathVariable("admin_id") String admin_id) throws ParseException {
         String course_name = allReqParams.get("course_name");
         String certificateName = allReqParams.get("certificateName");
         String course_principle = allReqParams.get("course_principle");
-        String course_object = allReqParams.get("course_object");
+//        String course_object = allReqParams.get("course_object");
+        String course_object = "";
+        for (String objective : courseObjectives) {
+            System.out.println("วัตถุประสงค์: " + objective);
+            course_object = course_object +"$%"+ objective;
+            // ทำตามการจัดการที่คุณต้องการ เช่น บันทึกข้อมูลลงฐานข้อมูล
+        }
         int course_totalHours = Integer.parseInt(allReqParams.get("course_totalHours"));
         String course_targetOccupation = allReqParams.get("course_targetOccupation");
         double course_fee = Double.parseDouble(allReqParams.get("course_fee"));
@@ -241,6 +248,7 @@ public class CourseController {
     @PostMapping(path = "/{admin_id}/{id}/update_edit_course")
     public String doEditCourse(@PathVariable("admin_id") String admin_id,
                                @PathVariable("id") String course_id,
+                               @RequestParam("course_objectives[]") String[] courseObjectives,
                                @RequestParam("course_img") MultipartFile course_img,
                                @RequestParam(value = "original_img", required = false) String original_img,
                                @RequestParam("course_file") MultipartFile course_file,
@@ -252,7 +260,13 @@ public class CourseController {
             existingCourse.setCertificateName(allReqParams.get("certificateName"));
 //            existingCourse.setImg(allReqParams.get("course_img"));
             existingCourse.setPrinciple(allReqParams.get("course_principle"));
-            existingCourse.setObject(allReqParams.get("course_object"));
+            String course_object = "";
+            for (String objective : courseObjectives) {
+                System.out.println("วัตถุประสงค์: " + objective);
+                course_object = course_object +"$%"+ objective;
+                // ทำตามการจัดการที่คุณต้องการ เช่น บันทึกข้อมูลลงฐานข้อมูล
+            }
+            existingCourse.setObject(course_object);
             existingCourse.setTotalHours(Integer.parseInt(allReqParams.get("course_totalHours")));
             existingCourse.setTargetOccupation(allReqParams.get("course_targetOccupation"));
             existingCourse.setFee(Double.parseDouble(allReqParams.get("course_fee")));

@@ -2,6 +2,7 @@ package lifelong.controller;
 
 import lifelong.model.Course;
 import lifelong.model.Member;
+import lifelong.model.RequestOpenCourse;
 import lifelong.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,15 +14,15 @@ import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class WebHomeController {
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private RequestOpCourseService requestOpCourseService;
 
     @Autowired
     private MajorService majorService;
@@ -40,10 +41,22 @@ public class WebHomeController {
 
     @GetMapping("/")
     public String listCourse(Model model) {
-//        model.addAttribute("title", "รายการ" + title);
+        List<RequestOpenCourse> requestOpenCourses = requestOpCourseService.getRequestOpenCourses();
+        List<Course> coursess = courseService.getCourses();
+
+        // ตรวจสอบและอัพเดต requestStatus สำหรับทุก RequestOpenCourse
+        for (RequestOpenCourse requestOpenCourse : requestOpenCourses) {
+            requestOpenCourse.checkEndDate();
+            requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
+            System.out.println("RequestStatus : " + requestOpenCourse.getRequestStatus());
+        }
+        for (Course course : coursess) {
+            System.out.println("CourseStatus : " + course.getStatus());
+        }
         model.addAttribute("courses", courseService.getCourses());
         return "home";
     }
+
     @GetMapping("/search_course")
     public String searchCourse(Model model) {
         /****Send listRequest****/

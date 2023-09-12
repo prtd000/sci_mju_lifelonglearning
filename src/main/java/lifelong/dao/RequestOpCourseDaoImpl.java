@@ -170,5 +170,14 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
         }
     }
 
+    @Override
+    public List<Register> getRegistersByRocId(long request_id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Register> query = session.createQuery("from Register r where r.requestOpenCourse.request_id =: Id ", Register.class);
+        query.setParameter("Id",request_id);
+        List<Register> registers = query.getResultList();
+        return registers;
+    }
+
 
 }

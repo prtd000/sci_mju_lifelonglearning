@@ -159,11 +159,11 @@
     <c:forEach var="list" items="${activity}">
         <div class="block_news_big" style="float: left">
             <div class="block_news">
-<%--                <c:set var="imgNames" value="${list.img}"/>--%>
-<%--                <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">--%>
-<%--                    <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}"/>--%>
-<%--                    <td><img src="${pageContext.request.contextPath}/assets/img/activity/public/${list.ac_id}/${listImg}" alt="News_img" class="news_img"></td>--%>
-<%--                </c:forEach>--%>
+                <c:set var="imgNames" value="${list.img}"/>
+                <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
+                    <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}"/>
+                    <td><img src="${pageContext.request.contextPath}/assets/img/activity/private/${list.ac_id}/${listImg}" alt="News_img" class="news_img"></td>
+                </c:forEach>
 <%--                <div><img src="img/banner1.jpeg" alt="News_img" class="news_img"></div>--%>
                 <div class="news_content">
                     <h1>${list.name}</h1>

@@ -2,9 +2,12 @@ package lifelong.controller;
 
 import lifelong.model.*;
 import lifelong.service.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +39,10 @@ public class MemberController {
     @Autowired
     private ActivityService activityService;
 
+    @Autowired
+    private SessionFactory sessionFactory;
+
+
     @GetMapping("/login")
     public String loginPage(Model model) {
         model.addAttribute("title", "Login");
@@ -62,8 +69,12 @@ public class MemberController {
         return "member/register_course";
     }
 
+    @Transactional
     @GetMapping("/{memid}/register_course/{courseid}/{requestid}/register")
     public String registerCourse(@PathVariable("courseid") String courseid, @PathVariable("requestid") long requestid, @PathVariable("memid") String memid) {
+
+        Session session = sessionFactory.getCurrentSession();
+
         /*****Insert Register*****/
         Register register = new Register();
         register.setRegister_date(new Date());
@@ -100,7 +111,9 @@ public class MemberController {
         invoice.setEndPayment(payEnd);
         invoice.setRegister(register1);
         invoice.setApprove_status("รอดำเนินการ");
-        registerService.doInvoice(invoice);
+        Invoice invoice1 = (Invoice) session.merge(invoice);
+
+        registerService.doInvoice(invoice1);
         return "redirect:/search_course";
 //        return "redirect:/member/"+ memid+"/listcourse";
     }

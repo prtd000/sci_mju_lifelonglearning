@@ -175,7 +175,7 @@
                                                 <td>
                                                     <c:forEach var="listReq" items="${listRequest}">
                                                         <c:choose>
-                                                            <c:when test="${listReq.course.course_id.equals(course.course_id)}">
+                                                            <c:when test="${listReq.course.course_id.equals(course.course_id) && listReq.requestStatus.equals('ผ่าน')}">
                                                                 <c:set var="status" value="true" />
                                                                 <c:forEach var="invoices" items="${list_invoice}">
                                                                     <c:choose>

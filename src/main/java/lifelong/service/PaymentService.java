@@ -8,6 +8,8 @@ public interface PaymentService {
 
     Invoice getInvoiceById(long invoice_id);
 
+    Invoice getInvoiceByMemberId (String memId);
+
     Receipt getReceiptById(long receipt_id);
 
     Receipt getReceiptByInvoiceId(long invoice_id);

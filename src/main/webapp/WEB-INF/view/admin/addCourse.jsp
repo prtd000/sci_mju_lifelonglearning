@@ -1,10 +1,4 @@
-<%@ page import="lifelong.model.*" %><%--
-  Created by IntelliJ IDEA.
-  User: DELL
-  Date: 5/30/2023
-  Time: 1:26 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="lifelong.model.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -453,6 +447,7 @@
     // เรียกใช้ฟังก์ชันเมื่อคลิก Next ใน Step 2
     document.getElementById("nextBtn").addEventListener("click", displayDataInStep3);
 </script>
+<%------------- bootstrap ----------------%>
 <script>
     var currentTab = 0; // Current tab is set to be the first tab (0)
     showTab(currentTab); // Display the current tab
@@ -527,6 +522,7 @@
         x[n].className += " active";
     }
 </script>
+<%------------- bootstrap ----------------%>
 <script>
     function addObjective() {
         var container = document.getElementById('objectives-container');

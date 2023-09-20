@@ -55,16 +55,16 @@ public class MemberController {
 
         Course course = courseService.getCourseDetail(courseid);
         RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(request_id);
-        model.addAttribute("request_op_course", requestOpenCourse);
+        model.addAttribute("req", requestOpenCourse);
         model.addAttribute("course_detail", course);
-        model.addAttribute("activity" , activityService.getViewCourseActivityNews(request_id));
+        model.addAttribute("activity", activityService.getViewCourseActivityNews(request_id));
 
-        for (Register r : registerService.getRegister(mem_id)){
-            if (r.getRequestOpenCourse().getRequest_id() == request_id){
+        for (Register r : registerService.getRegister(mem_id)) {
+            if (r.getRequestOpenCourse().getRequest_id() == request_id) {
                 registered = true;
             }
         }
-        model.addAttribute("registered" ,registered);
+        model.addAttribute("registered", registered);
 
         return "member/register_course";
     }
@@ -119,10 +119,20 @@ public class MemberController {
 
     @GetMapping("{memid}/listcourse")
     public String listCourseByMember(@PathVariable("memid") String memId, Model model) {
+        Date currentDate = new Date(); // วันปัจจุบัน
+
         model.addAttribute("list_course", memberService.getMyListCourse(memId));
         model.addAttribute("list_invoice", memberService.getListInvoice());
         model.addAttribute("mem_username", memberService.getMemberById(memId));
         model.addAttribute("register", registerService.getRegister(memId));
+
+        for (Register register : registerService.getRegister(memId)){
+            if (!register.getInvoice().getPay_status() && currentDate.after(register.getInvoice().getEndPayment())){
+                Invoice invoice = paymentService.getInvoiceByMemberId(memId);
+                invoice.setApprove_status("เลยกำหนดชำระเงิน");
+                registerService.doInvoice(invoice);
+            }
+        }
         return "/member/list_course";
     }
 
@@ -137,7 +147,7 @@ public class MemberController {
 
     @GetMapping("{memid}/certificate")
     public String viewCertificate(@PathVariable("memid") String memId, Model model) {
-        model.addAttribute("register" , registerService.getRegisterById(memId));
+        model.addAttribute("register", registerService.getRegisterById(memId));
         return "/member/view_certificate";
     }
 

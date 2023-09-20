@@ -49,15 +49,16 @@
 </c:choose>
 
 <div class="block_position">
-    <h1>${course_detail.name}</h1>
+
+    <h1>${req.course.name}</h1>
     <!--Major name--->
     <div>
-        <p>${course_detail.major.name}</p>
+        <p>${req.course.major.name}</p>
     </div>
 
     <!--Image--->
     <div>
-        <img src="${pageContext.request.contextPath}/assets/img/course_img/${course_detail.img}" alt="course_image"
+        <img src="${pageContext.request.contextPath}/assets/img/course_img/${req.course.img}" alt="course_image"
              class="c_img">
     </div>
     <br>
@@ -66,7 +67,7 @@
         <h1>คำอธิบายหลักสูตร</h1>
         <div>
         <span>
-            ${course_detail.principle}
+            ${req.course.principle}
         </span>
         </div>
         <br>
@@ -74,62 +75,63 @@
         <!---Sub_Detail-->
         <table>
             <tr>
-                <td class="t1">หมวดสาขาวิชา</td>
-                <td class="t2">${course_detail.major.name}</td>
+                <td class="t1" style="width: 178px;">หมวดสาขาวิชา</td>
+                <td class="t2">${req.course.major.name}</td>
             </tr>
             <tr>
                 <td class="t1">ชื่อเกีตรติบัตร</td>
-                <td class="t2">${course_detail.certificateName}</td>
+                <td class="t2">${req.course.certificateName}</td>
             </tr>
             <tr>
                 <td class="t1">วัตถุประสงค์</td>
 
-                <td class="t2">${course_detail.object}</td>
+                <td class="t2">${req.course.object}</td>
             </tr>
             <td class="t1">ระยะเวลาเรียน</td>
-            <td class="t2">${course_detail.totalHours} ชั่วโมง</td>
+            <td class="t2">${req.course.totalHours} ชั่วโมง</td>
             </tr>
             <tr>
                 <td class="t1">เป้าหมายกลุ่มอาชีพ</td>
-                <td class="t2">${course_detail.targetOccupation}</td>
+                <td class="t2">${req.course.targetOccupation}</td>
             </tr>
             <tr>
                 <td class="t1">ค่าธรรมเนียม</td>
-                <td class="t2">${course_detail.fee}0 บาท</td>
+                <td class="t2">${req.course.fee} บาท</td>
             </tr>
-            <tr>
-                <td class="t1">ลิ้งค์หลักสูตร</td>
-                <td class="t2">${course_detail.linkMooc}</td>
-            </tr>
+
+            <c:choose>
+                <c:when test="${req.type_learn.equals('เรียนออนไลน์')}">
+                    <tr>
+                        <td>ลิ้ง Mooc</td>
+                        <td><a href="${pageContext.request.contextPath}/${req.linkMooc}">${req.linkMooc}</a></td>
+                    </tr>
+                </c:when>
+                <c:when test="${req.type_learn.equals('เรียนในสถานศึกษา')}">
+                    <tr>
+                        <td>สถานที่เรียน</td>
+                        <td>${req.location}</td>
+                    </tr>
+                </c:when>
+                <c:when test="${req.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
+                    <tr>
+                        <td>ลิ้ง Mooc</td>
+                        <td><a href="${pageContext.request.contextPath}/${req.linkMooc}">${req.linkMooc}</a></td>
+                    </tr>
+                    <tr>
+                        <td>สถานที่เรียน</td>
+                        <td>${req.location}</td>
+                    </tr>
+                </c:when>
+            </c:choose>
+
             <tr>
                 <td class="t1">เนื้อหาของหลักสูตร</td>
-                <td class="t2"><a href="${pageContext.request.contextPath}/assets/file/${course_detail.file}" download>เอกสารประกอบการเรียน.pdf</a>
+                <td class="t2"><a href="${pageContext.request.contextPath}/assets/file/${req.course.file}" download>เอกสารประกอบการเรียน.pdf</a>
                 </td>
             </tr>
         </table>
     </div>
     <br>
-<%--    <form:form action="${pageContext.request.contextPath}/member/${member_id}/register_course/${course_id}/${request_op_course.request_id}/register" modelAttribute="register" method="GET">--%>
-<%--        <div>--%>
-<%--            <%--%>
-<%--                Date currentDate = new Date();--%>
-<%--                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");--%>
-<%--                String date = dateFormat.format(currentDate);--%>
-
-<%--                int std_result = 0;--%>
-<%--                int registerID = 0;--%>
-<%--            %>--%>
-
-<%--            <p>RegisterID (PK) : <%=registerID%></p><br>--%>
-<%--            <p>Current Date : <%=date%></p><br>--%>
-<%--            <p>Study_result : <%=std_result%></p><br>--%>
-<%--            <p>RequestID (FK) : ${request_op_course.request_id}</p><br>--%>
-<%--            <p>MemberID (FK) : ${member_id}</p>--%>
-<%--            <br>--%>
-<%--            <input type="submit" value="register"/>--%>
-<%--        </div>--%>
-<%--    </form:form>--%>
-
 <%--    Now--%>
     <c:if test="${registered == true}">
         <button style="color: red;
@@ -142,7 +144,7 @@
         </button>
     </c:if>
     <c:if test="${registered == false}">
-        <button onclick="if((confirm('ยืนยันการลงทะเบียน'))){ window.location.href='${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${request_op_course.course.course_id}/${request_op_course.request_id}/register';return false; }">สมัคร</button>
+        <button onclick="if((confirm('ยืนยันการลงทะเบียน'))){ window.location.href='${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${req.course.course_id}/${req.request_id}/register';return false; }">สมัคร</button>
     </c:if>
 
     <br><br>

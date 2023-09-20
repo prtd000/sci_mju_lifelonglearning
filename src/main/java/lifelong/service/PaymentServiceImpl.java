@@ -21,6 +21,12 @@ public class PaymentServiceImpl implements PaymentService{
 
     @Override
     @Transactional
+    public Invoice getInvoiceByMemberId(String memId) {
+        return paymentDao.getInvoiceByMemberId(memId);
+    }
+
+    @Override
+    @Transactional
     public Receipt getReceiptById(long receipt_id) {
         return paymentDao.getReceiptById(receipt_id);
     }

@@ -126,7 +126,7 @@ public class WebHomeController {
     public String register(Model model, HttpSession session) {
         //model.addAttribute("listUser",userService.getUsernames());
         session.setAttribute("listUser" , userService.getUsernames());
-        return "register_member";
+        return "register-member";
     }
 
     @PostMapping("/register_member/save")
@@ -149,7 +149,7 @@ public class WebHomeController {
         String email = addParams.get("email");
         String education = addParams.get("education");
         String username = addParams.get("username");
-        String password = addParams.get("password");
+        String password = addParams.get("confirmPassword");
 
         String encrypted = bCryptPasswordEncoder.encode(password);
         System.out.println("Encrypt: " + encrypted);

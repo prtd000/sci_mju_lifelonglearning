@@ -10,7 +10,6 @@
     <title>${title}</title>
 <%--    <link href="${pageContext.request.contextPath}/assets/css/list_open_course_style.css" rel="stylesheet">--%>
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/assets/css/list_all_course.css" rel="stylesheet">
     <style>
         h1{
             font-family: 'Prompt', sans-serif;
@@ -21,6 +20,32 @@
         }
     </style>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
+    <style>
+        .td_request{
+            width: 30%;
+        }
+        .td_cancel{
+            width: 15%;
+        }
+        .td_lec{
+            width: 13%;
+        }
+        .td_roc,.td_learn,.td_type{
+            width: 10%;
+        }
+        .td_qty{
+            width: 7%;
+        }
+        .tabcontent{
+            width: 70%;
+        }
+        .td_course_name{
+            width: 80%;
+        }
+        .td_type_learn{
+            width: 20%;
+        }
+    </style>
 </head>
 <body>
 <%
@@ -97,7 +122,7 @@
                         <%--                    <h1>รายการการร้องขอ</h1>--%>
                         <%--                </div>--%>
                         <%--            </td>--%>
-                    <td class="list_course" align="left">
+                    <td class="list_course" align="center">
                         <div class="list_course_detail" align="center">
                                 <%--                    <h1 align="left">รายการการร้องขอ</h1>--%>
                             <div class="hr_line"></div>
@@ -105,7 +130,7 @@
                             <button class="tablinks" onclick="openList(event, 'list_request')">รายการร้องขอ</button>
                         </div>
                             <%--DIV แรก--%>
-                        <div id="course" class="tabcontent">
+                        <div id="course" class="tabcontent" align="left">
                             <h3><b>หลักสูตรทั้งหมด</b></h3>
                             <hr>
                             <br>
@@ -143,7 +168,7 @@
                             <table class="table table-striped table-hover">
                                 <tr style="color: black">
                                     <td class="td_course_name">ชื่อหลักสูตร</td>
-                                    <td class="td_status"></td>
+                                    <td class="td_type_learn"></td>
 <%--                                    <td class="td_list_member"></td>--%>
                                     <td class="td_detail"></td>
                                 </tr>
@@ -152,7 +177,7 @@
                                     <c:if test="${course.status == 'ยังไม่เปิดสอน'}">
                                         <tr style="color: black">
                                             <td><p>${course.name}</p></td>
-                                            <td><p>${course.course_type}</p></td>
+                                            <td align="center"><p>${course.course_type}</p></td>
 <%--                                            <td align="center"><a><button>ดูรายชื่อ</button></a></td>--%>
                                             <td align="center"><a href="${pageContext.request.contextPath}/course/${course.course_id}/edit_course"><button>แก้ไข</button></a></td>
                                         </tr>
@@ -161,20 +186,33 @@
                             </table>
                         </div>
                             <%--DIV ที่ 2--%>
-                        <div id="list_request" class="tabcontent">
+                        <div id="list_request" class="tabcontent" align="left">
                             <h3>รายการร้องขอ</h3>
+                            <hr>
+                            <br>
                             <table class="table table-striped table-hover">
                                 <tr style="color: black">
                                     <td class="td_request">รายละเอียดการร้องขอ</td>
-                                    <td class="td_edit" align="center">วันที่ร้องขอ</td>
+                                    <td class="td_roc" align="center">วันที่ร้องขอ</td>
+                                    <td class="td_learn" align="center">ระยะเวลาเรียน</td>
+                                    <td class="td_qty" align="center">จำนวน</td>
+                                    <td class="td_type" align="center">ประเภท</td>
+                                    <td class="td_lec" align="center">อาจารย์</td>
                                     <td class="td_cancel" align="center"></td>
                                 </tr>
 
                                 <c:forEach var="request_course" items="${requests_open_course}">
                                     <c:if test="${request_course.requestStatus == 'รอดำเนินการ'}">
+                                        <fmt:formatDate value="${request_course.requestDate}" pattern="dd/MM/yyyy" var="formattedDate" />
+                                        <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                        <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
                                         <tr style="color: black">
                                             <td><p>${request_course.course.name}</p></td>
-                                            <td align="center"><fmt:formatDate value="${request_course.requestDate}" pattern="dd/MM/yyyy" var="formattedDate" />${formattedDate}</td>
+                                            <td align="center">${formattedDate}</td>
+                                            <td align="center"><p>${startStudyDate} ถึง ${endStudyDate}</p></td>
+                                            <td align="center"><p>${request_course.quantity}</p></td>
+                                            <td align="center"><p>${request_course.type_learn}</p></td>
+                                            <td align="center"><p>${request_course.lecturer.firstName} ${request_course.lecturer.lastName}</p></td>
                                             <td align="center">
                                                 <input type="button" value="ดูรายละเอียด"
                                                        onclick="window.location.href='${pageContext.request.contextPath}/course/${admin_id}/view_request_open_course/${request_course.request_id}'; return false;"/>

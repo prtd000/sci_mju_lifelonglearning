@@ -72,7 +72,7 @@
                         <%--            <div class="nav-item dropdown">--%>
                         <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
                     <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active">หลักสูตรทั้งหมด</a>
-                    <a href="#" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
+                    <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
                     <a href="#" class="nav-item nav-link">Admin</a>
                     <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link">ออกจากระบบ</a>
 
@@ -119,7 +119,8 @@
                                 <input name="course_img" type="file" id="course_img" />
                                 <c:if test="${not empty course.file}">
                                     <input type="hidden" name="original_img" value="${course.img}" />
-                                    <a href="${course.img}" target="_blank">${course.img}</a>
+                                    <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}" width="100px">
+<%--                                    <a href="${course.img}" target="_blank">${course.img}</a>--%>
                                 </c:if>
                             </td>
                         </tr>

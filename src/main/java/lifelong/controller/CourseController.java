@@ -72,7 +72,6 @@ public class CourseController {
         String course_targetOccupation = allReqParams.get("course_targetOccupation");
         double course_fee = Double.parseDouble(allReqParams.get("course_fee"));
         String course_status = "ยังไม่เปิดสอน";
-        String course_linkMooc = allReqParams.get("course_linkMooc");
 
         String course_type = allReqParams.get("course_type");
 
@@ -157,7 +156,7 @@ public class CourseController {
 
             // บันทึก path ไปยังฐานข้อมูล
             Course course_add = new Course(course_name, certificateName, course_img, course_principle, course_object, course_totalHours,
-                    course_targetOccupation, course_fee, course_pdf, course_status, course_linkMooc, course_type, major);
+                    course_targetOccupation, course_fee, course_pdf, course_status, course_type, major);
             courseService.doAddCourse(course_add);
         } catch (IOException e) {
             e.printStackTrace();
@@ -271,7 +270,6 @@ public class CourseController {
             existingCourse.setTargetOccupation(allReqParams.get("course_targetOccupation"));
             existingCourse.setFee(Double.parseDouble(allReqParams.get("course_fee")));
 //            existingCourse.setFile(allReqParams.get("course_file"));
-            existingCourse.setLinkMooc(allReqParams.get("course_linkMooc"));
             existingCourse.setCourse_type(allReqParams.get("course_type"));
             existingCourse.setMajor(majorService.getMajorDetail(allReqParams.get("major_id")));
 
@@ -461,7 +459,7 @@ public class CourseController {
             e.printStackTrace();
         }
 
-        return "redirect:/course/"+admin_id+"/list_all_course";
+        return "redirect:/course/public/list_activity";
     }
     //*********************************************************//
 
@@ -569,7 +567,7 @@ public class CourseController {
         }
         System.out.println("PASS");
 
-        return "redirect:/course/"+admin+"/list_all_course";
+        return "redirect:/course/public/list_activity";
     }
     //**********************************************//
 
@@ -597,7 +595,7 @@ public class CourseController {
             Files.delete(deletedirectoryPath);
         }
         activityService.deleteActivity(ac_id);
-        return "redirect:/course/"+admin_id+"/list_all_course";
+        return "redirect:/course/public/list_activity";
     }
     //*******************************************************//
 

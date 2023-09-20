@@ -77,7 +77,7 @@
             <%--            <div class="nav-item dropdown">--%>
             <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
             <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active">หลักสูตรทั้งหมด</a>
-            <a href="#" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
+            <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
             <a href="#" class="nav-item nav-link">Admin</a>
             <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link">ออกจากระบบ</a>
 
@@ -103,8 +103,6 @@
                             <div class="hr_line"></div>
                             <button id="FClick" class="tablinks" onclick="openList(event, 'course')">หลักสูตร</button>
                             <button class="tablinks" onclick="openList(event, 'list_request')">รายการร้องขอ</button>
-                            <button class="tablinks" onclick="openList(event, 'Activity_News')">ข่าวสารและกิจกรรม</button>
-
                         </div>
                             <%--DIV แรก--%>
                         <div id="course" class="tabcontent">
@@ -122,7 +120,6 @@
                                     <td class="td_course_name">ชื่อหลักสูตร</td>
                                     <td class="td_status">ระยะเวลาในการเรียน</td>
                                     <td class="td_list_member"></td>
-                                    <td class="td_detail"></td>
                                 </tr>
 
                                 <c:forEach var="course" items="${courses}">
@@ -137,8 +134,6 @@
                                                     <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course"><button>ดูรายชื่อ</button></a></td>
                                                 </c:if>
                                             </c:forEach>
-
-                                        <td align="center"><a href="${pageContext.request.contextPath}/course/${course.course_id}/edit_course"><button>แก้ไข</button></a></td>
                                     </tr>
                                     </c:if>
                                 </c:forEach>
@@ -190,32 +185,6 @@
                             </table>
                         </div>
                             <%--DIV ที่ 3--%>
-                        <div id="Activity_News" class="tabcontent">
-                            <h3>ข่าวสารและกิจกรรม</h3>
-                            <input type="button" value="ข่าวสาร"onclick="window.location.href='${pageContext.request.contextPath}/course/public/add_activity'; return false;"class="add-button"/>
-                            <table class="table table-striped table-hover">
-                                <tr style="color: black">
-                                    <td class="td_request">รายการข่าว</td>
-                                    <td class="td_edit" align="center">วันที่ออกข่าว</td>
-                                    <td class="td_cancel" align="center"></td>
-                                    <td class="td_cancel" align="center"></td>
-                                </tr>
-                                <c:forEach var="list" items="${list_activities}">
-                                    <tr>
-                                        <td>${list.name}</td>
-                                        <td>${list.date}</td>
-                                        <td>
-                                            <a href="${pageContext.request.contextPath}/course/public/${list.ac_id}/edit_page"><button>แก้ไข</button></a>
-                                        </td>
-                                        <td>
-                                            <input type="button" value="ยกเลิก"
-                                                   onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/course/${admin_id}/${list.ac_id}/delete'; return false; }"
-                                                   class="cancel-button"/>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </table>
-                        </div>
 
                     </td>
                 </tr>

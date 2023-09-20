@@ -79,6 +79,7 @@ public class LecturerController {
         String type_learn = allReqParams.get("type_learn");
         String type_teach = allReqParams.get("type_teach");
         String location = allReqParams.get("location");
+        String link_mooc = allReqParams.get("link_mooc");
         String requestStatusBool = "รอดำเนินการ";
 //        String signature = allReqParams.get("signature");
         Course course = courseService.getCourseById(allReqParams.get("course_id"));
@@ -116,7 +117,18 @@ public class LecturerController {
             Files.write(imgFilePath, signature.getBytes());
 
             // บันทึก path ไปยังฐานข้อมูล
-            RequestOpenCourse requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate, startRegisterDate, endRegisterDate, quantity, startStudyDate, endStudyDate, studyTime, type_learn, type_teach, applicationResultDate, location, requestStatusBool, signature_img, course, lecturer);
+            RequestOpenCourse requestOpenCourse_toAdd;
+            if (Objects.equals(type_learn, "เรียนในสถานศึกษา")){
+                requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate, startRegisterDate, endRegisterDate, quantity, startStudyDate, endStudyDate, studyTime, type_learn, type_teach, applicationResultDate, requestStatusBool, signature_img, course, lecturer);
+                requestOpenCourse_toAdd.setLocation(location);
+            } else if (Objects.equals(type_learn, "เรียนออนไลน์")) {
+                requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate, startRegisterDate, endRegisterDate, quantity, startStudyDate, endStudyDate, studyTime, type_learn, type_teach, applicationResultDate, requestStatusBool, signature_img, course, lecturer);
+                requestOpenCourse_toAdd.setLinkMooc(link_mooc);
+            }else {
+                requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate, startRegisterDate, endRegisterDate, quantity, startStudyDate, endStudyDate, studyTime, type_learn, type_teach, applicationResultDate, requestStatusBool, signature_img, course, lecturer);
+                requestOpenCourse_toAdd.setLocation(location);
+                requestOpenCourse_toAdd.setLinkMooc(link_mooc);
+            }
             requestOpCourseService.saveRequestOpenCourse(requestOpenCourse_toAdd);
         } catch (IOException e) {
             e.printStackTrace();
@@ -166,8 +178,19 @@ public class LecturerController {
             existingRequest.setStudyTime(allReqParams.get("studyTime"));
             existingRequest.setApplicationResult(dateFormat.parse(allReqParams.get("applicationResult")));
             existingRequest.setType_learn(allReqParams.get("type_learn"));
+            String type_learn = allReqParams.get("type_learn");
+            if (Objects.equals(type_learn, "เรียนในสถานศึกษา")){
+                existingRequest.setLinkMooc(null);
+                existingRequest.setLocation(allReqParams.get("location"));
+            } else if (Objects.equals(type_learn, "เรียนออนไลน์")) {
+                existingRequest.setLocation(null);
+                existingRequest.setLinkMooc(allReqParams.get("link_mooc"));
+            }else {
+                existingRequest.setLocation(allReqParams.get("location"));
+                existingRequest.setLinkMooc(allReqParams.get("link_mooc"));
+            }
             existingRequest.setType_teach(allReqParams.get("type_teach"));
-            existingRequest.setLocation(allReqParams.get("location"));
+
             existingRequest.setCourse(courseService.getCourseById(allReqParams.get("course_id")));
         }
 

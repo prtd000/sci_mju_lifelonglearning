@@ -49,9 +49,6 @@ public class Course {
     @Column(name = "course_status",nullable = false,length = 100)
     private String status;
 
-    @Column(name = "course_linkMooc",nullable = false)
-    private String linkMooc;
-
     @Column(name = "course_type",nullable = false,length = 50)
     private String course_type;
     @ManyToOne(cascade = CascadeType.ALL)
@@ -69,7 +66,7 @@ public class Course {
     public Course() {
     }
 
-    public Course(String name, String certificateName, String img, String principle, String object, int totalHours, String targetOccupation, double fee, String file, String status, String linkMooc, String course_type, Major major) {
+    public Course(String name, String certificateName, String img, String principle, String object, int totalHours, String targetOccupation, double fee, String file, String status, String course_type, Major major) {
         this.name = name;
         this.certificateName = certificateName;
         this.img = img;
@@ -80,7 +77,6 @@ public class Course {
         this.fee = fee;
         this.file = file;
         this.status = status;
-        this.linkMooc = linkMooc;
         this.course_type = course_type;
         this.major = major;
     }
@@ -171,14 +167,6 @@ public class Course {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getLinkMooc() {
-        return linkMooc;
-    }
-
-    public void setLinkMooc(String linkMooc) {
-        this.linkMooc = linkMooc;
     }
 
     public Major getMajor() {

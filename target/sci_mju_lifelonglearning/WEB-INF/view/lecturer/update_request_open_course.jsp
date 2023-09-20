@@ -25,6 +25,11 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 </head>
+<script>
+    window.onload = function () {
+        showHideFields(); // เรียกฟังก์ชันนี้เมื่อหน้าเว็บโหลด
+    }
+</script>
 <body>
 <%
     Admin admin = (Admin) session.getAttribute("admin");
@@ -201,12 +206,26 @@
                 <tr>
                     <td><label>ประเภทการเรียน:</label></td>
                     <td>
-                        <select name="type_learn" id="type_learn">
+                        <select name="type_learn" id="type_learn" onchange="showHideFields()">
                             <option value="">--กรุณาเลือกประเภทการเรียน--</option>
-                            <option value="ชั้นเรียน 100%" ${request_open_course.type_learn == 'ชั้นเรียน 100%'?'selected':''}>ชั้นเรียน 100%</option>
-                            <option value="ออนไลน์ 100%" ${request_open_course.type_learn == 'ออนไลน์ 100%'?'selected':''}>ออนไลน์ 100%</option>
-                            <option value="แบบผสมชั้นเรียนและออนไลน์" ${request_open_course.type_learn == 'แบบผสมชั้นเรียนและออนไลน์'?'selected':''}>แบบผสมชั้นเรียนและออนไลน์</option>
+                            <option value="เรียนออนไลน์" ${request_open_course.type_learn == 'เรียนออนไลน์' ? 'selected' : ''}>เรียนออนไลน์</option>
+                            <option value="เรียนในสถานศึกษา" ${request_open_course.type_learn == 'เรียนในสถานศึกษา' ? 'selected' : ''}>เรียนในสถานศึกษา</option>
+                            <option value="เรียนทั้งออนไลน์และในสถานศึกษา" ${request_open_course.type_learn == 'เรียนทั้งออนไลน์และในสถานศึกษา' ? 'selected' : ''}>เรียนทั้งออนไลน์และในสถานศึกษา</option>
                         </select>
+                    </td>
+                </tr>
+
+                <tr id="locationRow" style="display: none;">
+                    <td><label>สถานที่:</label></td>
+                    <td>
+                        <input name="location" id="location" autocomplete="off" value="${request_open_course.location}"/>
+                    </td>
+                </tr>
+
+                <tr id="moocRow" style="display: none;">
+                    <td><label>link mooc (สำหรับเรียนออนไลน์):</label></td>
+                    <td>
+                        <input name="link_mooc" id="link_mooc" autocomplete="off" value="${request_open_course.linkMooc}"/>
                     </td>
                 </tr>
                 <tr>
@@ -221,12 +240,6 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><label>สถานที่:</label></td>
-                    <td>
-                        <input name="location" id="location" autocomplete="off" value="${request_open_course.location}"/>
-                    </td>
-                </tr>
-                <tr>
                     <td><label>ลายเซ็น:</label></td>
                     <td>
                         <input name="signature" id="signature" type="file" autocomplete="off"/>
@@ -236,18 +249,6 @@
                         </c:if>
                     </td>
                 </tr>
-                <%--                    <tr>--%>
-                <%--                        <td>--%>
-                <%--                            <label>อาจารย์ประจำหลักสูตร:</label>--%>
-                <%--                        </td>--%>
-                <%--                        <td>--%>
-                <%--                            <select name="lecturer_username" id="lecturer_username">--%>
-                <%--                                <c:forEach items="${lecturers}" var="lecturer">--%>
-                <%--                                    <option value="${lecturer.username}">${lecturer.firstName}</option>--%>
-                <%--                                </c:forEach>--%>
-                <%--                            </select>--%>
-                <%--                        </td>--%>
-                <%--                    </tr>--%>
                 <tr>
                     <td><label></label></td>
                     <td>
@@ -279,6 +280,30 @@
     </c:otherwise>
 </c:choose>
 </body>
+<script>
+    function showHideFields() {
+        var typeLearnSelect = document.getElementById("type_learn");
+        var locationRow = document.getElementById("locationRow");
+        var moocRow = document.getElementById("moocRow");
+
+        var selectedOption = typeLearnSelect.value;
+
+        if (selectedOption === "เรียนในสถานศึกษา") {
+            locationRow.style.display = "table-row";
+            moocRow.style.display = "none";
+        } else if (selectedOption === "เรียนออนไลน์") {
+            locationRow.style.display = "none";
+            moocRow.style.display = "table-row";
+        } else if (selectedOption === "เรียนทั้งออนไลน์และในสถานศึกษา") {
+            locationRow.style.display = "table-row";
+            moocRow.style.display = "table-row";
+        } else {
+            locationRow.style.display = "none";
+            moocRow.style.display = "none";
+        }
+    }
+
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const quantityInput = document.getElementById("quantity");

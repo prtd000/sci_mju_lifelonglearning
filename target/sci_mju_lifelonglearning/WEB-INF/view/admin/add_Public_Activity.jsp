@@ -75,8 +75,8 @@
           <a href="#" class="nav-item nav-link">เกี่ยวกับคณะ</a>
             <%--            <div class="nav-item dropdown">--%>
             <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
-          <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active">หลักสูตรทั้งหมด</a>
-          <a href="#" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
+          <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link">หลักสูตรทั้งหมด</a>
+          <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link active">ข่าวสารและกิจกรรม</a>
           <a href="#" class="nav-item nav-link">Admin</a>
           <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link">ออกจากระบบ</a>
 

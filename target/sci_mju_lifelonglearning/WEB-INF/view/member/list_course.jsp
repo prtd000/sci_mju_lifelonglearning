@@ -185,11 +185,11 @@
                                 </c:if>
                                 <!---End check date--->
                             </td>
-                            <c:if test="${currentDate.isAfter(endDate)}">
-                                <td style="text-align: center;">
-                                    <input type="button" value="ลงทะเบียนใหม่" onclick="if((confirm('ยืนยันการลงทะเบียนใหม่อีกครั้ง?'))){ window.location.href='${pageContext.request.contextPath}/member/${invoices.member.username}/${invoices.register_id}/delete';return false; }"/>
-                                </td>
-                            </c:if>
+<%--                            <c:if test="${currentDate.isAfter(endDate)}">--%>
+<%--                                <td style="text-align: center;">--%>
+<%--                                    <input type="button" value="ลงทะเบียนใหม่" onclick="if((confirm('ยืนยันการลงทะเบียนใหม่อีกครั้ง?'))){ window.location.href='${pageContext.request.contextPath}/member/${invoices.member.username}/${invoices.register_id}/delete';return false; }"/>--%>
+<%--                                </td>--%>
+<%--                            </c:if>--%>
                         </c:otherwise>
                     </c:choose>
                 </tr>

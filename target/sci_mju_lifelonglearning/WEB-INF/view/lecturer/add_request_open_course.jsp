@@ -24,6 +24,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+
 </head>
 <body>
 <%
@@ -120,14 +121,6 @@
                         <col style="width: auto;">
                     </colgroup>
                     <tbody>
-<%--                    <tr>--%>
-<%--                        <td>--%>
-<%--                            <label>รหัสการร้องขอ:</label>--%>
-<%--                        </td>--%>
-<%--                        <td><form:input path="request_id"/>--%>
-<%--                            <form:errors path="request_id" cssClass="error"/>--%>
-<%--                        </td>--%>
-<%--                    </tr>--%>
                     <tr>
                         <td>
                             <label>หลักสูตร:</label>
@@ -140,14 +133,6 @@
                             </select>
                         </td>
                     </tr>
-<%--                    <tr>--%>
-<%--                        <td>--%>
-<%--                            <label>วันที่ร้องขอ:</label>--%>
-<%--                        </td>--%>
-<%--&lt;%&ndash;                        <%date = dateFormat.parse("12/12/2002");%>&ndash;%&gt;--%>
-<%--                        <td><form:input path="requestDate" type="text"/>--%>
-<%--                                <form:errors path="requestDate" cssClass="error"/>--%>
-<%--                    </tr>--%>
                     <tr>
                         <td>
                             <label>วันเปิดรับสมัคร:</label>
@@ -191,17 +176,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><label>ประเภทการเรียน:</label></td>
-                        <td>
-                            <select name="type_learn" id="type_learn">
-                                <option value="">--กรุณาเลือกประเภทการเรียน--</option>
-                                <option value="ชั้นเรียน 100%">ชั้นเรียน 100%</option>
-                                <option value="ออนไลน์ 100%">ออนไลน์ 100%</option>
-                                <option value="แบบผสมชั้นเรียนและออนไลน์">แบบผสมชั้นเรียนและออนไลน์</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
                         <td><label>รูปแบบการสอน:</label></td>
                         <td>
                             <select name="type_teach" id="type_teach">
@@ -213,9 +187,27 @@
                         </td>
                     </tr>
                     <tr>
+                        <td><label>ประเภทการเรียน:</label></td>
+                        <td>
+                            <select name="type_learn" id="type_learn" onchange="showHideFields()">
+                                <option value="">--กรุณาเลือกประเภทการเรียน--</option>
+                                <option value="เรียนออนไลน์">เรียนออนไลน์</option>
+                                <option value="เรียนในสถานศึกษา">เรียนในสถานศึกษา</option>
+                                <option value="เรียนทั้งออนไลน์และในสถานศึกษา">เรียนทั้งออนไลน์และในสถานศึกษา</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr id="locationRow" style="display: none;">
                         <td><label>สถานที่:</label></td>
                         <td>
                             <input name="location" id="location" autocomplete="off"/>
+                        </td>
+                    </tr>
+
+                    <tr id="moocRow" style="display: none;">
+                        <td><label>link mooc (สำหรับเรียนออนไลน์):</label></td>
+                        <td>
+                            <input name="link_mooc" id="link_mooc" autocomplete="off"/>
                         </td>
                     </tr>
                     <tr>
@@ -224,18 +216,6 @@
                             <input type="file" name="signature" id="signature" autocomplete="off"/>
                         </td>
                     </tr>
-<%--                    <tr>--%>
-<%--                        <td>--%>
-<%--                            <label>อาจารย์ประจำหลักสูตร:</label>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <select name="lecturer_username" id="lecturer_username">--%>
-<%--                                <c:forEach items="${lecturers}" var="lecturer">--%>
-<%--                                    <option value="${lecturer.username}">${lecturer.firstName}</option>--%>
-<%--                                </c:forEach>--%>
-<%--                            </select>--%>
-<%--                        </td>--%>
-<%--                    </tr>--%>
                     <tr>
                         <td><label></label></td>
                         <td>
@@ -263,6 +243,29 @@
 </c:choose>
 </body>
 <script>
+    function showHideFields() {
+        var typeLearnSelect = document.getElementById("type_learn");
+        var locationRow = document.getElementById("locationRow");
+        var moocRow = document.getElementById("moocRow");
+
+        var selectedOption = typeLearnSelect.value;
+
+        if (selectedOption === "เรียนในสถานศึกษา") {
+            locationRow.style.display = "table-row";
+            moocRow.style.display = "none";
+        } else if (selectedOption === "เรียนออนไลน์") {
+            locationRow.style.display = "none";
+            moocRow.style.display = "table-row";
+        } else if (selectedOption === "เรียนทั้งออนไลน์และในสถานศึกษา") {
+            locationRow.style.display = "table-row";
+            moocRow.style.display = "table-row";
+        } else {
+            locationRow.style.display = "none";
+            moocRow.style.display = "none";
+        }
+    }
+</script>
+<script>
     function confirmAction() {
         var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการร้องขอหลักสูตรนี้?");
         if (result) {
@@ -287,11 +290,38 @@
     });
 </script>
 <script>
-    $(function() {
-        $("#datepicker1, #datepicker2, #datepicker3, #datepicker4, #datepicker5").datepicker({
-            dateFormat: "mm/dd/yy" // รูปแบบวันที่ที่ต้องการ
-        });
-    });
+    // รับค่า element ของวันเปิดรับสมัครและวันปิดรับสมัคร
+    var startRegisterInput = document.getElementById("startRegister");
+    var endRegisterInput = document.getElementById("endRegister");
+    var startStudyDateInput = document.getElementById("startStudyDate");
+    var endStudyDateInput = document.getElementById("endStudyDate");
+    var applicationResultInput = document.getElementById("applicationResult");
+
+    // รับวันที่ปัจจุบัน
+    var currentDate = new Date();
+    var currentDateString = currentDate.toISOString().slice(0, 10); // แปลงเป็นรูปแบบ yyyy-MM-dd
+
+    // กำหนดค่าวันที่ปัจจุบันในฟิลด์ของวันเปิดรับสมัครและวันปิดรับสมัคร
+    startRegisterInput.value = currentDateString;
+    endRegisterInput.value = currentDateString;
+    startStudyDateInput.value = currentDateString;
+    endStudyDateInput.value = currentDateString;
+    applicationResultInput.value = currentDateString;
+
+    // กำหนดค่าสูงสุดให้เป็นวันปัจจุบัน
+    startRegisterInput.min = currentDateString;
+    endRegisterInput.min = currentDateString;
+    startStudyDateInput.min = currentDateString;
+    endStudyDateInput.min = currentDateString;
+    applicationResultInput.min = currentDateString;
+</script>
+
+<script>
+    // $(function() {
+    //     $("#datepicker1, #datepicker2, #datepicker3, #datepicker4, #datepicker5").datepicker({
+    //         dateFormat: "mm/dd/yy" // รูปแบบวันที่ที่ต้องการ
+    //     });
+    // });
     function openCity(evt, cityName) {
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tabcontent");

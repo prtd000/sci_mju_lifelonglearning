@@ -55,8 +55,11 @@ public class RequestOpenCourse {
     @Column(nullable = false)
     private Date applicationResult;
 
-    @Column(nullable = false)
+    @Column
     private String location;
+
+    @Column(name = "course_linkMooc")
+    private String linkMooc;
 
     @Column(nullable = false)
     private String requestStatus;
@@ -95,7 +98,7 @@ public class RequestOpenCourse {
     public RequestOpenCourse() {
     }
 
-    public RequestOpenCourse(int round,Date requestDate, Date startRegister, Date endRegister, int quantity, Date startStudyDate, Date endStudyDate, String studyTime, String type_learn, String type_teach, Date applicationResult, String location, String requestStatus, String signature, Course course, Lecturer lecturer) {
+    public RequestOpenCourse(int round, Date requestDate, Date startRegister, Date endRegister, int quantity, Date startStudyDate, Date endStudyDate, String studyTime, String type_learn, String type_teach, Date applicationResult, String requestStatus, String signature, Course course, Lecturer lecturer) {
         this.round = round;
         this.requestDate = requestDate;
         this.startRegister = startRegister;
@@ -107,7 +110,6 @@ public class RequestOpenCourse {
         this.type_learn = type_learn;
         this.type_teach = type_teach;
         this.applicationResult = applicationResult;
-        this.location = location;
         this.requestStatus = requestStatus;
         this.signature = signature;
         this.course = course;
@@ -118,7 +120,7 @@ public class RequestOpenCourse {
         Date currentDate = new Date(); // วันปัจจุบัน
 
         if(!Objects.equals(requestStatus, "เสร็จสิ้น")){
-            if (currentDate.after(endStudyDate)) {
+            if (currentDate.after(endStudyDate) && Objects.equals(requestStatus, "ผ่าน")) {
                 // ถ้าวันปัจจุบันหลังจาก endStudyDate
                 this.requestStatus = "เสร็จสิ้น"; // เปลี่ยนค่า requestStatus เป็น "เสร็จสิ้น"
                 this.course.setStatus("ยังไม่เปิดสอน");
@@ -223,6 +225,14 @@ public class RequestOpenCourse {
         this.location = location;
     }
 
+    public String getLinkMooc() {
+        return linkMooc;
+    }
+
+    public void setLinkMooc(String linkMooc) {
+        this.linkMooc = linkMooc;
+    }
+
     public String getRequestStatus() {
         return requestStatus;
     }
@@ -253,25 +263,6 @@ public class RequestOpenCourse {
 
     public void setLecturer(Lecturer lecturer) {
         this.lecturer = lecturer;
-    }
-
-    public void fill(RequestOpenCourse requestOpenCourse) {
-        this.request_id = requestOpenCourse.getRequest_id();
-        this.requestDate = requestOpenCourse.getRequestDate();
-        this.startRegister = requestOpenCourse.getStartRegister();
-        this.endRegister = requestOpenCourse.getEndRegister();
-        this.quantity = requestOpenCourse.getQuantity();
-        this.startStudyDate = requestOpenCourse.getStartStudyDate();
-        this.endStudyDate = requestOpenCourse.getEndStudyDate();
-        this.studyTime = requestOpenCourse.getStudyTime();
-        this.type_learn = requestOpenCourse.getType_learn();
-        this.type_teach = requestOpenCourse.getType_teach();
-        this.applicationResult = requestOpenCourse.getApplicationResult();
-        this.location = requestOpenCourse.getLocation();
-        this.requestStatus = requestOpenCourse.getRequestStatus();
-        this.signature = requestOpenCourse.getSignature();
-        this.course = requestOpenCourse.getCourse();
-        this.lecturer = requestOpenCourse.getLecturer();
     }
 
     public int getRound() {

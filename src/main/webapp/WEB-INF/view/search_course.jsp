@@ -156,7 +156,7 @@
                 <div class="block col-lg-4 col-md-6 wow zoomIn" style="transition: 0.5s" data-name=${course.name}>
                     <div class="col-lg-4 col-md-6 wow zoomIn" style="cursor: pointer" data-wow-delay="0.3s">
                         <div class="bg-light border-bottom border-5 border-primary rounded"
-                             style="width: 400px; height: 635px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
+                             style="width: 400px; height: 670px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
 
                             <c:choose>
                                 <c:when test="${flag.equals('member')}">
@@ -167,6 +167,11 @@
                                         <h4 class="item text_ellipsis">${course.name}</h4></b>
                                         <p>${course.major.name}</p>
                                         <p style="font-weight: bold; color: dodgerblue">${course.course_type}</p>
+                                        <c:forEach var="list" items="${list_req}">
+                                            <c:if test="${list.course.course_id eq course.course_id}">
+                                                <p style="color: red; font-weight: bold">${list.type_learn}</p>
+                                            </c:if>
+                                        </c:forEach>
                                         <b><p style="color: #0c7800; font-size: 22px">ราคา <fmt:formatNumber value="${courseFee}"/>.00 บาท</p></b>
 
                                         <c:set var="username" value="<%= member.getUsername() %>"/>
@@ -233,6 +238,11 @@
                                             </div>
                                             <p>${course.major.name}</p>
                                             <p style="font-weight: bold; color: dodgerblue">${course.course_type}</p>
+                                            <c:forEach var="list" items="${list_req}">
+                                                <c:if test="${list.course.course_id eq course.course_id}">
+                                                    <p style="color: red; font-weight: bold">${list.type_learn}</p>
+                                                </c:if>
+                                            </c:forEach>
                                             <b><p style="color: #0c7800; font-size: 22px">ราคา <fmt:formatNumber
                                                     value="${courseFee}"/>.00 บาท</p></b>
 

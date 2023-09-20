@@ -42,7 +42,7 @@ public class WebHomeController {
     @GetMapping("/")
     public String listCourse(Model model) {
         List<RequestOpenCourse> requestOpenCourses = requestOpCourseService.getRequestOpenCourses();
-        List<Course> coursess = courseService.getCourses();
+        List<Course> courses = courseService.getCourses();
 
         // ตรวจสอบและอัพเดต requestStatus สำหรับทุก RequestOpenCourse
         for (RequestOpenCourse requestOpenCourse : requestOpenCourses) {
@@ -50,9 +50,10 @@ public class WebHomeController {
             requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
             System.out.println("RequestStatus : " + requestOpenCourse.getRequestStatus());
         }
-        for (Course course : coursess) {
+        for (Course course : courses) {
             System.out.println("CourseStatus : " + course.getStatus());
         }
+        model.addAttribute("list_req",requestOpCourseService.getRequestOpenCourses());
         model.addAttribute("courses", courseService.getCourses());
         return "home";
     }
@@ -65,6 +66,7 @@ public class WebHomeController {
         model.addAttribute("list_invoice",memberService.getListInvoice());
         model.addAttribute("courses", courseService.getCourses());
         model.addAttribute("majors",majorService.getMajors());
+        model.addAttribute("list_req",requestOpCourseService.getRequestOpenCourses());
 
         return "search_course";
     }
@@ -134,14 +136,14 @@ public class WebHomeController {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String hbd = addParams.get("birthday");
         LocalDate birthday = LocalDate.parse(hbd, dateFormatter);
-        LocalDate newBirthday = birthday.plusYears(543);
+//        LocalDate newBirthday = birthday.plusYears(543);
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
         String idcard = addParams.get("idcard");
         String firstName = addParams.get("firstName");
         String lastName = addParams.get("lastName");
-        Date new_birthday = convertLocalDateToDate(newBirthday);
+        Date new_birthday = convertLocalDateToDate(birthday);
         String gender = addParams.get("gender");
         String tel = addParams.get("tel");
         String email = addParams.get("email");

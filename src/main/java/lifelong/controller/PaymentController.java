@@ -90,8 +90,13 @@ public class PaymentController {
         }
 
         session.setAttribute("updateSuccess",true);
+        return "redirect:/member/" + memId + "/receipt/" + invoiceId;
+    }
 
-        return "redirect:/member/" + memId + "/listcourse";
+    @GetMapping("/{memid}/receipt/{invoice_id}")
+    public String printReceipt(@PathVariable("memid") String memId, @PathVariable("invoice_id") long invoiceId, Model model) {
+        model.addAttribute("receipt",paymentService.getReceiptByInvoiceId(invoiceId));
+        return "member/print_receipt";
     }
 
     private String getFileExtension(String fileName) {
@@ -114,7 +119,7 @@ public class PaymentController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Receipt receipt = paymentService.getReceiptByInvoiceId(invoiceId);
-//        Invoice invoice = paymentService.getInvoiceById(invoiceId);
+        Invoice invoice = paymentService.getInvoiceById(invoiceId);
         if (receipt != null){
             /*********Convert Slip**********/
             try {
@@ -122,7 +127,7 @@ public class PaymentController {
                 receipt.setPay_time(params.get("receipt_paytime"));
                 receipt.setBanking(params.get("receipt_banking"));
                 receipt.setLast_four_digits(Integer.parseInt(params.get("last_four_digits")));
-//                invoice.setApprove_status("รอดำเนินการ");
+                invoice.setApprove_status("รอดำเนินการ");
 
                 // กำหนด path ที่จะบันทึกไฟล์
                 String uploadPath = ImgPath.pathImg + "/slip/";
@@ -148,7 +153,7 @@ public class PaymentController {
 
                 // บันทึกเส้นทางไฟล์ในฐานข้อมูล
                 receipt.setSlip(newFileName);
-//                registerService.doInvoice(invoice);
+                registerService.doInvoice(invoice);
                 paymentService.saveReceipt(receipt);
             } catch (IOException e) {
                 e.printStackTrace();

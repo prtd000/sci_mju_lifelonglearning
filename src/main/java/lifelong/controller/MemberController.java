@@ -114,8 +114,7 @@ public class MemberController {
         Invoice invoice1 = (Invoice) session.merge(invoice);
 
         registerService.doInvoice(invoice1);
-        return "redirect:/search_course";
-//        return "redirect:/member/"+ memid+"/listcourse";
+        return "redirect:/member/" + memid + "/listcourse";
     }
 
     @GetMapping("{memid}/listcourse")
@@ -127,16 +126,18 @@ public class MemberController {
         return "/member/list_course";
     }
 
-    @GetMapping("{memid}/{id}/delete")
-    public String deleteRegister(@PathVariable("memid") String memId, @PathVariable("id") long id) {
+    @GetMapping("{memid}/{regis_id}/delete")
+    public String deleteRegister(@PathVariable("memid") String memId, @PathVariable("regis_id") long id) {
+        Register register = registerService.getRegisterByRegisterId(id);
         registerService.deleteInvoice(id);
         registerService.deleteRegister(id);
-        return "redirect:/member/" + memId + "/listcourse";
+
+        return "redirect:/member/" + memId + "/register_course/" + register.getRequestOpenCourse().getCourse().getCourse_id() + "/" + register.getRequestOpenCourse().getRequest_id();
     }
 
     @GetMapping("{memid}/certificate")
     public String viewCertificate(@PathVariable("memid") String memId, Model model) {
-        model.addAttribute("member", memberService.getMemberById(memId));
+        model.addAttribute("register" , registerService.getRegisterById(memId));
         return "/member/view_certificate";
     }
 

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,9 +37,18 @@ public class ActivityDaoImpl implements ActivityDao{
     @Override
     public List<Activity> getViewCourseActivityNews(long req_id) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Activity> query = session.createQuery("from Activity a where a.type =:acType and a.requestOpenCourse.request_id =: reqId",Activity.class);
+        Query<Activity> query = session.createQuery("FROM Activity a WHERE a.type =: acType AND a.requestOpenCourse.request_id =: reqId AND a.date >= :threeMonthsAgo", Activity.class);
         query.setParameter("acType", "ข่าวสารประจำหลักสูตร");
-        query.setParameter("reqId" ,req_id);
+        query.setParameter("reqId", req_id);
+
+        // คำนวณวันที่ก่อน 3 เดือนจากวันปัจจุบัน
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.MONTH, -3);
+        Date threeMonthsAgo = calendar.getTime();
+
+        query.setParameter("threeMonthsAgo", threeMonthsAgo);
+
         List<Activity> activities = query.getResultList();
         return activities;
     }

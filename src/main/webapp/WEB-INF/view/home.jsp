@@ -190,7 +190,7 @@
 
         <div class="row g-5">
             <!----------Course 1------------>
-            <c:set var="non_num" value="0"></c:set>
+            <c:set var="non_num" value="0" />
             <c:forEach var="course" items="${courses}">
                 <% DecimalFormat f = new DecimalFormat("#,###"); %>
                 <%-- <c:set var="majorName" value="<%= type%>"/> --%>
@@ -200,18 +200,22 @@
                             <div class="block col-lg-4 col-md-6 wow zoomIn" style="transition: 0.5s" data-name=${course.name}>
                                 <div class="col-lg-4 col-md-6 wow zoomIn" style="cursor: pointer" data-wow-delay="0.3s">
                                     <div class="bg-light border-bottom border-5 border-primary rounded"
-                                         style="width: 400px; height: 590px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
+                                         style="width: 400px; height: 615px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
                                         <a href="${pageContext.request.contextPath}/${course.course_id}">
                                         <div class="p-5">
                                             <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}"
                                                  style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
                                             <div>
                                                 <br>
-
                                                 <b><h4 class="item text_ellipsis">${course.name}</h4></b>
 
                                             </div>
                                             <p>${course.major.name}</p>
+                                            <c:forEach var="list_non" items="${list_req}">
+                                                <c:if test="${list_non.course.course_id eq course.course_id}">
+                                                    <p style="color: red; font-weight: bold">${list_non.type_learn}</p>
+                                                </c:if>
+                                            </c:forEach>
                                             <b><p style="color: #0c7800; font-size: 22px">
                                                 ราคา <fmt:formatNumber value="${courseFee}"/>.00 บาท
                                             </p></b>
@@ -223,9 +227,8 @@
                                 </div>
                             </div>
 
-                        <c:set var="non_num" value="${non_num+1}"></c:set>
+                        <c:set var="non_num" value="${non_num+1}" />
                     </c:if>
-
                 </c:if>
             </c:forEach>
         </div>
@@ -250,7 +253,7 @@
 
         <div class="row g-5">
             <!----------Course 1------------>
-            <c:set var="non_num" value="0"></c:set>
+            <c:set var="non_num" value="0" />
             <c:forEach var="course" items="${courses}">
                 <% DecimalFormat f = new DecimalFormat("#,###"); %>
                 <%-- <c:set var="majorName" value="<%= type%>"/> --%>
@@ -261,7 +264,7 @@
                                  data-name=${course.name}>
                                 <div class="col-lg-4 col-md-6 wow zoomIn" style="cursor: pointer" data-wow-delay="0.3s">
                                     <div class="bg-light border-bottom border-5 border-primary rounded"
-                                         style="width: 400px; height: 590px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
+                                         style="width: 400px; height: 615px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
                                         <a href="${pageContext.request.contextPath}/${course.course_id}">
                                         <div class="p-5">
                                             <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}"
@@ -271,6 +274,11 @@
                                                 <b><h4 class="item text_ellipsis">${course.name}</h4></b>
                                             </div>
                                             <p>${course.major.name}</p>
+                                            <c:forEach var="list" items="${list_req}">
+                                                <c:if test="${list.course.course_id eq course.course_id}">
+                                                    <p style="color: red; font-weight: bold">${list.type_learn}</p>
+                                                </c:if>
+                                            </c:forEach>
                                             <b><p style="color: #0c7800; font-size: 22px">
                                                 ราคา <fmt:formatNumber value="${courseFee}"/>.00 บาท
                                             </p></b>
@@ -281,7 +289,7 @@
                                     </div>
                                 </div>
                             </div>
-                        <c:set var="non_num" value="${non_num+1}"></c:set>
+                        <c:set var="non_num" value="${non_num+1}" />
                     </c:if>
                 </c:if>
             </c:forEach>
@@ -328,9 +336,9 @@
                     <br><br><br>
                     <h5 class="text-primary text-uppercase" style="letter-spacing: 5px;">มาร่วมเป็นส่วนหนึ่งกับเรา</h5>
                     <br>
-                    <p class="font-ab">เพิ่มโอกาศแห่งความสำเร็จ</p>
-                    <p class="font-ab">ที่สร้างด้วยตัวคุณเอง</p>
-                    <p class="font-ab">จากการเรียนรู้ที่ไม่มีสิ้นสุดกับพวกเรา</p>
+                    <p class="font-ab">การเรียนรู้อย่างไม่มีที่สิ้นสุด</p>
+                    <p class="font-ab">เป็นวิถีทางที่จะเพิ่มโอกาสให้คุณ</p>
+                    <p class="font-ab">สร้างความสำเร็จได้ด้วยมือของคุณเอง</p>
                 </div>
                 <br><br><br><br>
                 <button class="btn-register-ab">สมัครเลย !</button>

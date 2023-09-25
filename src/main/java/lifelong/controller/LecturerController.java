@@ -178,6 +178,7 @@ public class LecturerController {
             existingRequest.setStudyTime(allReqParams.get("studyTime"));
             existingRequest.setApplicationResult(dateFormat.parse(allReqParams.get("applicationResult")));
             existingRequest.setType_learn(allReqParams.get("type_learn"));
+            existingRequest.setRequestStatus("รอดำเนินการ");
             String type_learn = allReqParams.get("type_learn");
             if (Objects.equals(type_learn, "เรียนในสถานศึกษา")){
                 existingRequest.setLinkMooc(null);

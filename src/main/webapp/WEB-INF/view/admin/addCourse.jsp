@@ -13,133 +13,7 @@
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
-    <style>
-        body{
-            font-family: 'Open Sans', sans-serif;
-        }
-        #signUpForm {
-            max-width: 60%;
-            background-color: #ffffff;
-            margin: 40px auto;
-            padding: 40px;
-            box-shadow: 0px 6px 18px rgb(0 0 0 / 9%);
-            border-radius: 12px;
-        }
-        #signUpForm .form-header {
-            gap: 5px;
-            text-align: center;
-            font-size: .9em;
-        }
-        #signUpForm .form-header .stepIndicator {
-            position: relative;
-            flex: 1;
-            padding-bottom: 30px;
-        }
-        #signUpForm .form-header .stepIndicator.active {
-            font-weight: 600;
-        }
-        #signUpForm .form-header .stepIndicator.finish {
-            font-weight: 600;
-            color: #ff7b31;
-        }
-        #signUpForm .form-header .stepIndicator::before {
-            content: "";
-            position: absolute;
-            left: 50%;
-            bottom: 0;
-            transform: translateX(-50%);
-            z-index: 9;
-            width: 20px;
-            height: 20px;
-            background-color: #efdbd5;
-            border-radius: 50%;
-            border: 3px solid #f5eeec;
-        }
-        #signUpForm .form-header .stepIndicator.active::before {
-            background-color: #edbca7;
-            border: 3px solid #f9e2d5;
-        }
-        #signUpForm .form-header .stepIndicator.finish::before {
-            background-color: #ff7b31;
-            border: 3px solid #e1bfb7;
-        }
-        #signUpForm .form-header .stepIndicator::after {
-            content: "";
-            position: absolute;
-            left: 50%;
-            bottom: 8px;
-            width: 100%;
-            height: 3px;
-            background-color: #f3f3f3;
-        }
-        #signUpForm .form-header .stepIndicator.active::after {
-            background-color: #edb4a7;
-        }
-        #signUpForm .form-header .stepIndicator.finish::after {
-            background-color: #ff7b31;
-        }
-        #signUpForm .form-header .stepIndicator:last-child:after {
-            display: none;
-        }
-        #signUpForm input,#signUpForm select {
-            padding: 15px 20px;
-            width: 100%;
-            font-size: 1em;
-            border: 1px solid #e3e3e3;
-            border-radius: 5px;
-        }
-        #signUpForm input:focus,#signUpForm select:focus {
-            border: 1px solid #ff7b31;
-            outline: 0;
-        }
-        #signUpForm input.invalid,#signUpForm select.invalid {
-            border: 1px solid #ffbda5;
-        }
-        #signUpForm .step {
-            display: none;
-        }
-        #signUpForm .form-footer{
-            overflow:auto;
-            gap: 20px;
-        }
-        #signUpForm .form-footer button{
-            background-color: #ff7b31;
-            border: 1px solid #ff7b31 !important;
-            color: #ffffff;
-            border: none;
-            padding: 13px 30px;
-            font-size: 1em;
-            cursor: pointer;
-            border-radius: 5px;
-            flex: 1;
-            margin-top: 5px;
-        }
-        #signUpForm .form-footer button:hover {
-            opacity: 0.8;
-        }
-
-        #signUpForm .form-footer #prevBtn {
-            background-color: #fff;
-            color: #ff7b31;
-        }
-        /* CSS สำหรับซ่อนปุ่ม "ลบ" */
-        .btn-danger {
-            display: none;
-            margin-left: 10px;
-        }
-        .objective,.course_totalHours,.course_fee{
-            flex: 1;
-        }
-        .objective-container,.course-totalHours-container,.course-fee-container{
-            width: 100%;
-            display: flex;
-            align-items: center;
-        }
-        .l1{
-            margin-left: 5px;
-            margin-right: 10px;
-        }
-    </style>
+    <link href="${pageContext.request.contextPath}/assets/css/admin/style_addcourse.css" rel="stylesheet">
     <script>
         function previewImage(input) {
             var preview = document.getElementById('preview');
@@ -274,7 +148,7 @@
                                     </div>
                                     <label>สาขา:</label>
                                     <select name="major_id" id="major_id" class="form-select" oninput="this.className = ''">
-                                        <option value="" label="--กรุณาเลือกหลักสูตร--"></option>
+                                        <option value="" label="--กรุณาเลือกสาขา--"></option>
                                         <c:forEach items="${majors}" var="major">
                                             <option value="${major.major_id}">${major.name}</option>
                                         </c:forEach>

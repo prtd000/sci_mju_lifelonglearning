@@ -89,6 +89,13 @@ public class RequestOpenCourse {
         }
         return count;
     }
+    public int getNumberOfAllRegistrations() {
+        int count = 0;
+        for (Register register : registerList) {
+            count++;
+        }
+        return count;
+    }
     // สร้างเมธอดเพื่อนับจำนวนคนที่สมัครสำหรับหลักสูตรนี้
     // เมธอดเพื่อนับจำนวน Register ที่มีใน List
 //    public int getNumberOfRegistrations() {

@@ -85,11 +85,13 @@
                 </div>
             </div>
         </nav>
-        <!-- Navbar End -->
-        <h2>${request_name.course.name}</h2>
-        <h3>รายชื่อผู้สมัคร</h3>
-        <%--<a href="${pageContext.request.contextPath}/course/add_course"><button>เพิ่มหลักสูตร</button></a>--%>
-        <center>
+        <div align="center" class="main_container">
+            <br>
+            <br>
+            <!-- Navbar End -->
+            <h2>${request_name.course.name}</h2>
+            <h3>รายชื่อผู้สมัคร</h3>
+                <%--<a href="${pageContext.request.contextPath}/course/add_course"><button>เพิ่มหลักสูตร</button></a>--%>
             <table class="table table-striped table-hover" style="width: 70%">
                 <tr style="color: black">
                     <td class="td_id_card">รหัสบัตรประชาชน</td>
@@ -129,6 +131,7 @@
                     </tr>
                 </c:forEach>
             </table>
+        </div>
     </c:when>
     <c:when test="${flag.equals('null')}">
         <h1>กรุณา Log in ใหม่</h1>

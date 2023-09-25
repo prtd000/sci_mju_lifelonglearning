@@ -97,7 +97,7 @@
         <div align="center">
             <div class="main_container">
                 <br>
-                <h3><b>ตรวจสอบการชำระเงิน</b></h3>
+                <h5><b>ตรวจสอบการชำระเงิน</b></h5>
                 <c:if test="${payment != null}">
                     <form id="approval-form" action="${pageContext.request.contextPath}/course/${request_id}/<%=admin.getUsername()%>/view_payment_detail/${payment.invoice.invoice_id}/approve" method="POST" onsubmit="return confirmAction();">
                         <h4>${payment.invoice.register.requestOpenCourse.course.name}</h4>
@@ -107,8 +107,12 @@
                             <div class="pay_detail" style="margin-top: 0">
                                 <table>
                                     <tr>
-                                        <td colspan="2"><h4>หลักฐานการชำระเงิน</h4></td>
-                                        <td rowspan="3"></td>
+                                        <td><h5>หลักฐานการชำระเงิน</h5></td>
+                                        <td></td>
+                                        <td rowspan="10"><img src="${pageContext.request.contextPath}/assets/img/slip/${payment.slip}" height="400px" style="margin-left: 20px"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><hr></td>
                                     </tr>
                                     <tr>
                                         <td>${payment.invoice.register.member.idcard}</td>
@@ -118,36 +122,33 @@
                                         <td>ยอดชำระเงินทั้งหมด </td>
                                         <td>${payment.invoice.register.requestOpenCourse.course.fee}0 บาท</td>
                                     </tr>
+                                    <tr>
+                                        <td colspan="2"><hr></td>
+                                    </tr>
+                                    <tr>
+                                        <td>วันที่โอนตามหลักฐานการชำระเงิน</td>
+                                        <td><b>${payment.pay_date}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>เวลาที่โอนตามหลักฐานการชำระเงิน</td>
+                                        <td><b>${payment.pay_time}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>โอนจากธนาคาร</td>
+                                        <td><b>${payment.banking}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>จำนวนเงินที่ถูกโอน (ฺ฿)</td>
+                                        <td><b>${payment.invoice.register.requestOpenCourse.course.fee}0 บาท</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>เงินโอนจากบัญชีธนาคารเลขที่ (4 หลักสุดท้าย)</td>
+                                        <td><b>${payment.last_four_digits}</b></td>
+                                    </tr>
                                 </table>
+                                <hr>
                             </div>
-                            <div class="pay_detail"><img src="${pageContext.request.contextPath}/assets/img/slip/${payment.slip}" width="400px"></div>
                         </div>
-                        <hr>
-                        <table>
-                            <tr>
-                                <td>วันที่โอนตามหลักฐานการชำระเงิน</td>
-                                <td><b>${payment.pay_date}</b></td>
-                            </tr>
-                            <tr>
-                                <td>เวลาที่โอนตามหลักฐานการชำระเงิน</td>
-                                <td><b>${payment.pay_time}</b></td>
-                            </tr>
-                            <tr>
-                                <td>โอนจากธนาคาร</td>
-                                <td><b>${payment.banking}</b></td>
-                            </tr>
-                            <tr>
-                                <td>จำนวนเงินที่ถูกโอน (ฺ฿)</td>
-                                <td><b>${payment.invoice.register.requestOpenCourse.course.fee}0 บาท</b></td>
-                            </tr>
-                            <tr>
-                                <td>เงินโอนจากบัญชีธนาคารเลขที่ (4 หลักสุดท้าย)</td>
-                                <td><b>${payment.last_four_digits}</b></td>
-                            </tr>
-
-                        </table>
-<%--                        <td align="center"><input type="button" value="ยืนยันการสมัคร" onclick="confirmSubmit();"/></td>--%>
-<%--                        <td align="center"><input type="button" value="ยืนยันการสมัคร"/></td>--%>
                         <input type="submit" name="approveResult" value="ยืนยันการสมัคร"/>
                         <input type="submit" name="approveResult" value="ยกเลิกการสมัคร"/>
 

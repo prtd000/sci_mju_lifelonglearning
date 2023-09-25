@@ -117,12 +117,24 @@
                         <%--                <td>--%>
                         <%--                    ${list.invoice.pay_status}--%>
                         <%--                </td>--%>
-                    <td align="center">
-                        <input type="submit" name="studyResult" value="ผ่านหลักสูตร"/>
-                    </td>
-                    <td align="center">
-                        <input type="submit" name="studyResult" value="ไม่ผ่านหลักสูตร"/>
-                    </td>
+                    <c:choose>
+                        <c:when test="${list.study_result == true}">
+                            <td align="center">
+                                <input type="submit" name="studyResult" value="ไม่ผ่านหลักสูตร"/>
+                            </td>
+                            <td align="center">
+                                <input type="submit" name="studyResult" value="ผ่านหลักสูตร" style="display: none;"/>
+                            </td>
+                        </c:when>
+                        <c:otherwise>
+                            <td align="center">
+                                <input type="submit" name="studyResult" value="ผ่านหลักสูตร"/>
+                            </td>
+                            <td align="center">
+                                <input type="submit" name="studyResult" value="ไม่ผ่านหลักสูตร" style="display: none;"/>
+                            </td>
+                        </c:otherwise>
+                    </c:choose>
                 </tr>
                 </c:if>
             </form>

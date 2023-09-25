@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPEhtml>
 <html>
 <head>
@@ -113,7 +114,7 @@
             <div id="container">
                 <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
                 <br><br>
-                <form id="signUpForm" action="${pageContext.request.contextPath}/course/${admin_id}/save" method="POST" enctype="multipart/form-data" onsubmit="return confirmAction();">
+                <form id="signUpForm" action="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/${course.course_id}/update_edit_course" method="POST" enctype="multipart/form-data"onsubmit="return confirmAction();">
                     <!-- start step indicators -->
                     <div class="form-header d-flex mb-4">
                         <span class="stepIndicator">Account Setup</span>
@@ -132,33 +133,53 @@
                                     <div class="mb-3">
                                         <select name="course_type" id="course_type" class="form-select" oninput="this.className = ''">
                                             <option value="" label="--กรุณาเลือกหลักสูตร--"></option>
-                                            <option value="หลักสูตรอบรมระยะสั้น" label="หลักสูตรอบรมระยะสั้น"></option>
-                                            <option value="Non-Degree" label="Non-Degree"></option>
+                                            <option value="หลักสูตรอบรมระยะสั้น" label="หลักสูตรอบรมระยะสั้น" ${course.course_type == 'หลักสูตรอบรมระยะสั้น' ? 'selected' : ''}></option>
+                                            <option value="Non-Degree" label="Non-Degree" ${course.course_type == 'Non-Degree' ? 'selected' : ''}></option>
                                         </select>
                                     </div>
                                     <label>ชื่อหลักสูตร</label>
                                     <div class="mb-3">
-                                        <input name="course_name" type="text" id="course_name" placeholder="ชื่อหลักสูตร" oninput="this.className = ''"/>
+                                        <input name="course_name" type="text" id="course_name" placeholder="ชื่อหลักสูตร" value="${course.name}" oninput="this.className = ''"/>
                                             <%--                        <input type="password" placeholder="Password" oninput="this.className = ''" name="password">--%>
                                     </div>
                                     <label>ชื่อเกียรติบัตร</label>
                                     <div class="mb-3">
-                                        <input name="certificateName" type="text" id="certificateName" placeholder="ชื่อเกียรติบัตร" oninput="this.className = ''"/>
+                                        <input name="certificateName" type="text" id="certificateName" placeholder="ชื่อเกียรติบัตร" value="${course.certificateName}" oninput="this.className = ''"/>
                                             <%--                        <input type="password" placeholder="Password" oninput="this.className = ''" name="password">--%>
                                     </div>
                                     <label>สาขา:</label>
                                     <select name="major_id" id="major_id" class="form-select" oninput="this.className = ''">
                                         <option value="" label="--กรุณาเลือกสาขา--"></option>
                                         <c:forEach items="${majors}" var="major">
-                                            <option value="${major.major_id}">${major.name}</option>
+                                            <c:choose>
+                                                <c:when test="${major.major_id eq course.major.major_id}">
+                                                    <option value="${major.major_id}" selected>${major.name}</option>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <option value="${major.major_id}">${major.name}</option>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </c:forEach>
                                     </select>
                                 </td>
+<%--                                <td style="width: 40%; vertical-align: top;">--%>
+<%--                                    <label>รูปหลักสูตร</label>--%>
+<%--                                    <div class="mb-3" align="center">--%>
+<%--                                        <input name="course_img" type="file" id="fileInput" accept="image/*" onchange="previewImage(this)" class="form-control"/>--%>
+<%--                                        <c:if test="${not empty course.file}">--%>
+<%--                                            <input type="hidden" name="original_img" value="${course.img}" />--%>
+<%--                                            <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}" id="preview" alt="Image Preview" style=" height: 170px; margin-top: 10px; border-radius: 10px">--%>
+<%--                                        </c:if>--%>
+<%--                                    </div>--%>
+<%--                                </td>--%>
                                 <td style="width: 40%; vertical-align: top;">
                                     <label>รูปหลักสูตร</label>
                                     <div class="mb-3" align="center">
                                         <input name="course_img" type="file" id="fileInput" accept="image/*" onchange="previewImage(this)" class="form-control"/>
-                                        <img id="preview" src="" alt="Image Preview" style="display: none; height: 170px; margin-top: 10px; border-radius: 10px">
+                                        <c:if test="${not empty course.file}">
+                                            <input type="hidden" name="original_img" value="${course.img}" />
+                                            <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}" id="preview" alt="Image Preview" style="height: 170px; margin-top: 10px; border-radius: 10px">
+                                        </c:if>
                                     </div>
                                 </td>
                             </tr>
@@ -166,7 +187,7 @@
                                 <td colspan="2">
                                     <div class="mb-3">
                                         <div class="form-floating">
-                                            <textarea class="form-control" placeholder="" id="floatingTextarea2" name="course_principle" style="height: 100px"></textarea>
+                                            <textarea class="form-control" placeholder="" id="floatingTextarea2" name="course_principle" style="height: 100px">${course.principle}</textarea>
                                             <label for="floatingTextarea2">หลักการและเหตุผล</label>
                                         </div>
                                     </div>
@@ -181,13 +202,17 @@
                         <table style="width: 100%">
                             <tr>
                                 <td colspan="3">
+                                    <c:set var="object" value="${course.object}"></c:set>
+                                    <c:set var="parts" value="${fn:split(object, '$%')}"/>
                                     <label>วัตถุประสงค์</label>
                                     <div class="mb-3">
                                         <div id="objectives-container">
-                                            <div class="objective-container">
-                                                <input name="course_objectives[]" type="text" id="course_object" oninput="this.className = ''" class="objective"/>
-                                                <button type="button" onclick="removeObjective(this)" class="btn btn-danger">ลบ</button>
-                                            </div>
+                                            <c:forEach items="${parts}" var="part">
+                                                <div class="objective-container">
+                                                    <input type="text" name="course_objectives[]" class="objective" id="course_object" value="${part}" oninput="this.className = ''"/>
+                                                    <button type="button" onclick="removeObjective(this)" class="btn btn-danger">ลบ</button>
+                                                </div>
+                                            </c:forEach>
                                         </div>
                                         <button type="button" onclick="addObjective()">เพิ่มวัตถุประสงค์</button>
                                     </div>
@@ -198,7 +223,7 @@
                                     <label>ระยะเวลาในการเรียน</label>
                                     <div class="mb-3">
                                         <div class="course-totalHours-container">
-                                            <input name="course_totalHours" type="number" id="course_totalHours" class="course_totalHours" placeholder="ระยะเวลาในการเรียน" oninput="this.className = ''">
+                                            <input name="course_totalHours" type="number" id="course_totalHours" class="course_totalHours" placeholder="ระยะเวลาในการเรียน" value="${course.totalHours}" oninput="this.className = ''">
                                             <label class="l1"> ชั่วโมง</label>
                                         </div>
                                     </div>
@@ -207,7 +232,7 @@
                                     <label>ค่าธรรมเนียม</label>
                                     <div class="mb-3">
                                         <div class="course-fee-container">
-                                            <input name="course_fee" type="number" id="course_fee" class="course_fee" placeholder="ค่าธรรมเนียม" oninput="this.className = ''">
+                                            <input name="course_fee" type="number" id="course_fee" class="course_fee" placeholder="ค่าธรรมเนียม" value="${course.fee}" oninput="this.className = ''">
                                             <label class="l1"> บาท</label>
                                         </div>
                                     </div>
@@ -217,6 +242,10 @@
                                     <div class="mb-3">
                                         <div class="course-totalHours-container">
                                             <input name="course_file" type="file" id="course_file" accept="file/*" class="form-control"/>
+                                            <c:if test="${not empty course.file}">
+                                                <input type="hidden" name="original_file" value="${course.file}" />
+                                                <a href="${course.file}" target="_blank">${course.file}</a>
+                                            </c:if>
                                         </div>
                                     </div>
                                 </td>
@@ -225,7 +254,7 @@
                                 <td colspan="3">
                                     <div class="mb-3">
                                         <div class="form-floating">
-                                            <textarea class="form-control" placeholder="" id="floatingTextarea3" name="course_targetOccupation" style="height: 100px"></textarea>
+                                            <textarea class="form-control" placeholder="" id="floatingTextarea3" name="course_targetOccupation" style="height: 100px">${course.targetOccupation}</textarea>
                                             <label for="floatingTextarea3">เป้าหมายกลุ่มอาชีพ</label>
                                         </div>
                                     </div>
@@ -245,7 +274,7 @@
                             <p>ชื่อเกียรติบัตร: <span id="displayCertificateName"></span></p>
                             <p>สาขาวิชา: <span id="displayMajor"></span></p>
                             <p>หลักการและเหตุผล: <span id="displayCoursePrinciple"></span> </p>
-                            <img id="displayPreview" src="" alt="Image Preview" style="display: none; height: 170px; margin-top: 10px; border-radius: 10px">
+                            <img id="displayPreview" src="" alt="Image Preview" style="height: 170px; margin-top: 10px; border-radius: 10px">
                             <!-- เพิ่มข้อมูลอื่น ๆ ที่คุณต้องการแสดงจาก Step 1 -->
                         </div>
 
@@ -290,6 +319,36 @@
     }
 </script>
 <script>
+    // function displayDataInStep3() {
+    //     // ข้อมูลจาก Step 1
+    //     const courseType = document.getElementById("course_type").value;
+    //     const courseName = document.getElementById("course_name").value;
+    //     const certificateName = document.getElementById("certificateName").value;
+    //     const major = document.getElementById("major_id").value;
+    //     const course_principle = document.getElementById("floatingTextarea2").value;
+    //
+    //     // ข้อมูลจาก Step 2
+    //     const objectives = document.querySelectorAll("input[name='course_objectives[]']");
+    //     const totalHours = document.getElementById("course_totalHours").value;
+    //     const fee = document.getElementById("course_fee").value;
+    //     const courseFile = document.getElementById("course_file").value;
+    //     const targetOccupation = document.getElementById("floatingTextarea3").value;
+    //
+    //     // แสดงข้อมูลใน Step 3
+    //     document.getElementById("displayCourseType").textContent = courseType;
+    //     document.getElementById("displayCourseName").textContent = courseName;
+    //     document.getElementById("displayCertificateName").textContent = certificateName;
+    //     document.getElementById("displayMajor").textContent = major;
+    //     document.getElementById("displayCoursePrinciple").textContent = course_principle;
+    //     document.getElementById("displayObjectives").textContent = Array.from(objectives).map(obj => obj.value).join(", ");
+    //     document.getElementById("displayTotalHours").textContent = totalHours;
+    //     document.getElementById("displayFee").textContent = fee;
+    //     document.getElementById("displayCourseFile").textContent = courseFile;
+    //     document.getElementById("displayTargetOccupation").textContent = targetOccupation;
+    // }
+    //
+    // // เรียกใช้ฟังก์ชันเมื่อคลิก Next ใน Step 2
+    // document.getElementById("nextBtn").addEventListener("click", displayDataInStep3);
     function displayDataInStep3() {
         // ข้อมูลจาก Step 1
         const courseType = document.getElementById("course_type").value;
@@ -297,6 +356,7 @@
         const certificateName = document.getElementById("certificateName").value;
         const major = document.getElementById("major_id").value;
         const course_principle = document.getElementById("floatingTextarea2").value;
+        const course_img = document.getElementById("preview").src; // เพิ่มบรรทัดนี้
 
         // ข้อมูลจาก Step 2
         const objectives = document.querySelectorAll("input[name='course_objectives[]']");
@@ -311,6 +371,7 @@
         document.getElementById("displayCertificateName").textContent = certificateName;
         document.getElementById("displayMajor").textContent = major;
         document.getElementById("displayCoursePrinciple").textContent = course_principle;
+        document.getElementById("displayPreview").src = course_img; // เพิ่มบรรทัดนี้
         document.getElementById("displayObjectives").textContent = Array.from(objectives).map(obj => obj.value).join(", ");
         document.getElementById("displayTotalHours").textContent = totalHours;
         document.getElementById("displayFee").textContent = fee;
@@ -318,8 +379,6 @@
         document.getElementById("displayTargetOccupation").textContent = targetOccupation;
     }
 
-    // เรียกใช้ฟังก์ชันเมื่อคลิก Next ใน Step 2
-    document.getElementById("nextBtn").addEventListener("click", displayDataInStep3);
 </script>
 <%------------- bootstrap ----------------%>
 <script>
@@ -345,6 +404,24 @@
         fixStepIndicator(n)
     }
 
+    // function nextPrev(n) {
+    //     // This function will figure out which tab to display
+    //     var x = document.getElementsByClassName("step");
+    //     // Exit the function if any field in the current tab is invalid:
+    //     if (n == 1 && !validateForm()) return false;
+    //     // Hide the current tab:
+    //     x[currentTab].style.display = "none";
+    //     // Increase or decrease the current tab by 1:
+    //     currentTab = currentTab + n;
+    //     // if you have reached the end of the form...
+    //     if (currentTab >= x.length) {
+    //         // ... the form gets submitted:
+    //         document.getElementById("signUpForm").submit();
+    //         return false;
+    //     }
+    //     // Otherwise, display the correct tab:
+    //     showTab(currentTab);
+    // }
     function nextPrev(n) {
         // This function will figure out which tab to display
         var x = document.getElementsByClassName("step");
@@ -354,7 +431,7 @@
         x[currentTab].style.display = "none";
         // Increase or decrease the current tab by 1:
         currentTab = currentTab + n;
-        // if you have reached the end of the form...
+        // If you have reached the end of the form...
         if (currentTab >= x.length) {
             // ... the form gets submitted:
             document.getElementById("signUpForm").submit();
@@ -362,28 +439,57 @@
         }
         // Otherwise, display the correct tab:
         showTab(currentTab);
+
+        // เรียกใช้ฟังก์ชันแสดงข้อมูลใน Step 3 ในขั้นตอนการสร้างแบบฟอร์ม
+        if (currentTab === 2) {
+            displayDataInStep3();
+        }
     }
 
+    // function validateForm() {
+    //     // This function deals with validation of the form fields
+    //     var x, y, i, valid = true;
+    //     x = document.getElementsByClassName("step");
+    //     y = x[currentTab].getElementsByTagName("input");
+    //     // A loop that checks every input field in the current tab:
+    //     for (i = 0; i < y.length; i++) {
+    //         // If a field is empty...
+    //         if (y[i].value == "") {
+    //             // add an "invalid" class to the field:
+    //             y[i].className += " invalid";
+    //             // and set the current valid status to false
+    //             valid = false;
+    //         }
+    //     }
+    //     // If the valid status is true, mark the step as finished and valid:
+    //     if (valid) {
+    //         document.getElementsByClassName("stepIndicator")[currentTab].className += " finish";
+    //     }
+    //     return valid; // return the valid status
+    // }
     function validateForm() {
         // This function deals with validation of the form fields
         var x, y, i, valid = true;
         x = document.getElementsByClassName("step");
         y = x[currentTab].getElementsByTagName("input");
+
         // A loop that checks every input field in the current tab:
         for (i = 0; i < y.length; i++) {
-            // If a field is empty...
-            if (y[i].value == "") {
-                // add an "invalid" class to the field:
+            // If a field is empty and not the file input field...
+            if (y[i].value === "" && y[i].type !== "file") {
+                // Add an "invalid" class to the field:
                 y[i].className += " invalid";
-                // and set the current valid status to false
+                // And set the current valid status to false
                 valid = false;
             }
         }
+
         // If the valid status is true, mark the step as finished and valid:
         if (valid) {
             document.getElementsByClassName("stepIndicator")[currentTab].className += " finish";
         }
-        return valid; // return the valid status
+
+        return valid; // Return the valid status
     }
 
     function fixStepIndicator(n) {
@@ -398,6 +504,7 @@
 </script>
 <%------------- bootstrap ----------------%>
 <script>
+    updateRemoveButtons();
     function addObjective() {
         var container = document.getElementById('objectives-container');
         var objectiveContainer = document.createElement('div');
@@ -423,6 +530,20 @@
         updateRemoveButtons();
     }
 
+    // function updateRemoveButtons() {
+    //     var containers = document.getElementsByClassName('objective-container');
+    //     var removeButtons = document.querySelectorAll('.objective-container button.btn-danger');
+    //
+    //     if (containers.length === 1) {
+    //         for (var i = 0; i < removeButtons.length; i++) {
+    //             removeButtons[i].style.display = 'none';
+    //         }
+    //     } else {
+    //         for (var i = 0; i < removeButtons.length; i++) {
+    //             removeButtons[i].style.display = 'block';
+    //         }
+    //     }
+    // }
     function updateRemoveButtons() {
         var containers = document.getElementsByClassName('objective-container');
         var removeButtons = document.querySelectorAll('.objective-container button.btn-danger');
@@ -437,6 +558,7 @@
             }
         }
     }
+
 
     function removeObjective(button) {
         var container = document.getElementById('objectives-container');

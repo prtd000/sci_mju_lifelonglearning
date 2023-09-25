@@ -1,18 +1,54 @@
 <%@ page import="lifelong.model.*" %>
+<%@ page import="java.util.Date" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>${title}</title>
-    <link href="${pageContext.request.contextPath}/assets/css/list_open_course_style.css" rel="stylesheet">
+<%--    <link href="${pageContext.request.contextPath}/assets/css/list_open_course_style.css" rel="stylesheet">--%>
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/assets/css/list_all_course.css" rel="stylesheet">
+<%--    <link href="${pageContext.request.contextPath}/assets/css/list_all_course.css" rel="stylesheet">--%>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
     <style>
         h1{
             font-family: 'Prompt', sans-serif;
             font-weight: 700 !important;
+        }
+    </style>
+    <style>
+        .td_request{
+            width: 30%;
+        }
+        .td_cancel{
+            width: 15%;
+        }
+        .td_lec{
+            width: 13%;
+        }
+        .td_roc,.td_learn,.td_type{
+            width: 10%;
+        }
+        .td_qty{
+            width: 7%;
+        }
+        .tabcontent{
+            width: 70%;
+        }
+        .td_course_name{
+            width: 80%;
+        }
+        .td_type_learn{
+            width: 20%;
+        }
+        .td_ap_course_name{
+            width: 55%;
+        }
+        .td_status{
+            width: 25%;
+        }
+        .td_list_member{
+            width: 20%;
         }
     </style>
 </head>
@@ -94,12 +130,7 @@
     <h1>${title}</h1>
     <table class="container">
         <tr align="center">
-            <td class="lec_detail" align="left">
-                <div class="list_course_detail">
-                    <h1>รายการการร้องขอ</h1>
-                </div>
-            </td>
-            <td class="list_course" align="left">
+            <td class="list_course" align="center">
                 <div class="list_course_detail" align="center">
                     <h1 align="left">รายการการร้องขอ</h1>
                     <div class="hr_line"></div>
@@ -113,6 +144,7 @@
                     <table class="table table-striped table-hover">
                         <tr style="color: black">
                             <td class="td_request">รายละเอียดหลักสูตร</td>
+                            <td class="td_learn" align="center">ระยะเวลาเรียน</td>
                             <td class="td_certificate" align="center">ตัวอย่างเกียรติบัตร</td>
                             <td class="td_cancel" align="center">ผู้สมัคร</td>
                             <td class="td_edit" align="center">ข่าวสาร</td>
@@ -121,8 +153,11 @@
 
                         <c:forEach var="request_course" items="${requests_open_course}">
                             <c:if test="${request_course.requestStatus == 'ผ่าน'}">
+                                <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
                                 <tr style="color: black">
                                     <td><p>${request_course.course.name}</p></td>
+                                    <td align="center"><p>${startStudyDate} ถึง ${endStudyDate}</p></td>
                                     <td><p>ดูตัวอย่าง</p></td>
                                     <td align="center">
                                         <input type="button" value="${request_course.numberOfApprovedRegistrations}/${request_course.quantity}"
@@ -138,9 +173,16 @@
                                         />
                                     </td>
                                     <td align="center">
-                                        <input type="button" value="ยกเลิก"
-                                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบหลักสูตรนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/delete_request_open_course'; return false; }"
-                                               class="cancel-button"/>
+                                        <!-- เช็คว่าวันที่ applicationResult เลยหรือไม่ -->
+                                        <%
+                                            Date currentDate = new Date(); // วันปัจจุบัน
+                                        %>
+                                        <c:set var="currentDate1" value="<%=currentDate%>"/>
+                                        <c:if test="${currentDate1 < request_course.applicationResult}">
+                                            <input type="button" value="ยกเลิก"
+                                                   onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบหลักสูตรนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/delete_request_open_course'; return false; }"
+                                                   class="cancel-button"/>
+                                        </c:if>
                                     </td>
                                 </tr>
                             </c:if>
@@ -154,30 +196,64 @@
                 </div>
 
                 <div id="list_request" class="tabcontent">
+                    <h4>หลักสูตรที่ร้องขอ</h4>
                     <table class="table table-striped table-hover">
                         <tr style="color: black">
                             <td class="td_request">รายละเอียดการร้องขอ</td>
-                            <td class="td_edit" align="center">รายละเอียดคำร้อง</td>
-                            <td class="td_cancel" align="center">ยกเลิกการร้องขอ</td>
+                            <td class="td_roc" align="center">วันที่ร้องขอ</td>
+                            <td class="td_learn" align="center">ระยะเวลาเรียน</td>
+                            <td class="td_qty" align="center">จำนวน</td>
+                            <td class="td_type" align="center">ประเภท</td>
+                            <td class="td_lec" align="center">อาจารย์</td>
+                            <td class="td_cancel" align="center"></td>
                         </tr>
 
                         <c:forEach var="request_course" items="${requests_open_course}">
                             <c:if test="${request_course.requestStatus == 'รอดำเนินการ'}">
+                                <fmt:formatDate value="${request_course.requestDate}" pattern="dd/MM/yyyy" var="formattedDate" />
+                                <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
                                 <tr style="color: black">
                                     <td><p>${request_course.course.name}</p></td>
-                                    <td align="center"><a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/update_page">แก้ไข</a></td>
+                                    <td align="center">${formattedDate}</td>
+                                    <td align="center"><p>${startStudyDate} ถึง ${endStudyDate}</p></td>
+                                    <td align="center"><p>${request_course.quantity}</p></td>
+                                    <td align="center"><p>${request_course.type_learn}</p></td>
+                                    <td align="center"><p>${request_course.lecturer.firstName} ${request_course.lecturer.lastName}</p></td>
                                     <td align="center">
+                                        <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/update_page">แก้ไข</a>
                                         <input type="button" value="ยกเลิก"
                                                onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/delete_request_open_course'; return false; }"
                                                class="cancel-button"/>
                                     </td>
                                 </tr>
                             </c:if>
+                        </c:forEach>
+                    </table>
+
+                    <h4>หลักสูตรที่ไม่ผ่านการร้องขอ</h4>
+                    <table class="table table-striped table-hover">
+                        <tr style="color: black">
+                            <td class="td_request">รายละเอียดการร้องขอ</td>
+                            <td class="td_roc" align="center">วันที่ร้องขอ</td>
+                            <td class="td_learn" align="center">ระยะเวลาเรียน</td>
+                            <td class="td_qty" align="center">จำนวน</td>
+                            <td class="td_type" align="center">ประเภท</td>
+                            <td class="td_lec" align="center">สถานะ</td>
+                            <td class="td_cancel" align="center"></td>
+                        </tr>
+
+                        <c:forEach var="request_course" items="${requests_open_course}">
                             <c:if test="${request_course.requestStatus == 'ไม่ผ่าน'}">
                                 <tr style="color: black">
                                     <td><p>${request_course.course.name}</p></td>
+                                    <td align="center">${formattedDate}</td>
+                                    <td align="center"><p>${startStudyDate} ถึง ${endStudyDate}</p></td>
+                                    <td align="center"><p>${request_course.quantity}</p></td>
+                                    <td align="center"><p>${request_course.type_learn}</p></td>
                                     <td align="center"><p style="color: red">ไม่ผ่าน</p></td>
                                     <td align="center">
+                                        <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/update_page">แก้ไข</a>
                                         <input type="button" value="ยกเลิก"
                                                onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/delete_request_open_course'; return false; }"
                                                class="cancel-button"/>

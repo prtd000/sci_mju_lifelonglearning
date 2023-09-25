@@ -45,6 +45,15 @@
         .td_type_learn{
             width: 20%;
         }
+        .td_ap_course_name{
+            width: 55%;
+        }
+        .td_status{
+            width: 25%;
+        }
+        .td_list_member{
+            width: 20%;
+        }
     </style>
 </head>
 <body>
@@ -142,24 +151,26 @@
                             </table>
                             <table class="table table-striped table-hover">
                                 <tr style="color: black">
-                                    <td class="td_course_name">ชื่อหลักสูตร</td>
-                                    <td class="td_status">ระยะเวลาในการเรียน</td>
-                                    <td class="td_list_member"></td>
+                                    <td class="td_ap_course_name">ชื่อหลักสูตร</td>
+                                    <td class="td_status" align="center">ระยะเวลาในการเรียน</td>
+                                    <td class="td_list_member" align="center">รายชื่อผู้สมัคร</td>
                                 </tr>
 
                                 <c:forEach var="course" items="${courses}">
                                     <c:if test="${course.status == 'เปิดสอน'}">
-                                    <tr style="color: black">
-                                        <td><p>${course.name}</p></td>
-                                            <c:forEach var="request" items="${requests_open_course}">
-                                                <c:if test="${course.course_id == request.course.course_id && request.requestStatus == 'ผ่าน'}">
-                                                    <td>
-                                                        <p>${request.startStudyDate} - ${request.endStudyDate}</p><br>
-                                                    </td>
-                                                    <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course"><button>ดูรายชื่อ</button></a></td>
-                                                </c:if>
-                                            </c:forEach>
-                                    </tr>
+                                        <tr style="color: black">
+                                            <td><p>${course.name}</p></td>
+                                                <c:forEach var="request" items="${requests_open_course}">
+                                                    <fmt:formatDate value="${request.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                                    <fmt:formatDate value="${request.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
+                                                    <c:if test="${course.course_id == request.course.course_id && request.requestStatus == 'ผ่าน'}">
+                                                        <td align="center">
+                                                            <p>${startStudyDate} - ${endStudyDate}</p><br>
+                                                        </td>
+                                                        <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course"><button>${request.numberOfAllRegistrations}/${request.quantity}</button></a></td>
+                                                    </c:if>
+                                                </c:forEach>
+                                        </tr>
                                     </c:if>
                                 </c:forEach>
                             </table>

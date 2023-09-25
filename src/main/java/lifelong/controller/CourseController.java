@@ -241,7 +241,7 @@ public class CourseController {
         model.addAttribute("title", "แก้ไข" + title);
         model.addAttribute("majors", majorService.getMajors());
         model.addAttribute("course", course);
-        return "admin/editCourse";
+        return "admin/edit_Course";
     }
 
     @PostMapping(path = "/{admin_id}/{id}/update_edit_course")

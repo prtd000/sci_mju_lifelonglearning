@@ -317,9 +317,9 @@ public class LecturerController {
         Register register = registerService.getRegisterByRegisterId(register_id);
         // ตรวจสอบค่า studyResult และดำเนินการตามที่คุณต้องการ
         if ("ผ่านหลักสูตร".equals(studyResult)) {
-            register.setStudy_result(true);
+            register.setStudy_result("ผ่านหลักสูตร");
         } else if ("ไม่ผ่านหลักสูตร".equals(studyResult)) {
-            register.setStudy_result(false);
+            register.setStudy_result("ไม่ผ่านหลักสูตร");
         }
         String lec_id = register.getRequestOpenCourse().getLecturer().getUsername();
         registerService.updateRegister(register);

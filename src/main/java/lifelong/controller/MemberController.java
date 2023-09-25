@@ -79,7 +79,7 @@ public class MemberController {
         /*****Insert Register*****/
         Register register = new Register();
         register.setRegister_date(new Date());
-        register.setStudy_result(false);
+        register.setStudy_result("กำลังเรียน");
         register.setRequestOpenCourse(requestOpCourseService.getRequestOpenCourseDetail(requestid));
         register.setMember(memberService.getMemberById(memid));
         registerService.saveRegister(register);
@@ -87,7 +87,7 @@ public class MemberController {
         /*****GetLastLow for Insert To Invoice Table After RegisterCourse ********/
         long register_id = registerService.getLastRow().getRegister_id();
         Date register_date = registerService.getLastRow().getRegister_date();
-        boolean study_result = registerService.getLastRow().getStudy_result();
+        String study_result = registerService.getLastRow().getStudy_result();
         Member member = registerService.getLastRow().getMember();
         RequestOpenCourse requestOpenCourse = registerService.getLastRow().getRequestOpenCourse();
         Register register1 = new Register(register_id, register_date, study_result, member, requestOpenCourse);

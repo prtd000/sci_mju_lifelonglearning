@@ -19,7 +19,7 @@ public class Register {
     private Date register_date;
 
     @Column(nullable = false)
-    private Boolean study_result;
+    private String study_result;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "mem_username")
@@ -36,7 +36,7 @@ public class Register {
     public Register() {
     }
 
-    public Register(long register_id, Date register_date, Boolean study_result, Member member, RequestOpenCourse requestOpenCourse) {
+    public Register(long register_id, Date register_date, String study_result, Member member, RequestOpenCourse requestOpenCourse) {
         this.register_id = register_id;
         this.register_date = register_date;
         this.study_result = study_result;
@@ -60,11 +60,11 @@ public class Register {
         this.register_date = register_date;
     }
 
-    public Boolean getStudy_result() {
+    public String getStudy_result() {
         return study_result;
     }
 
-    public void setStudy_result(Boolean study_result) {
+    public void setStudy_result(String study_result) {
         this.study_result = study_result;
     }
 

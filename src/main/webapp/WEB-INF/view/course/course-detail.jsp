@@ -14,7 +14,106 @@
     <%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
     <%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
     <link href="${pageContext.request.contextPath}/assets/css/course_detail.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200&family=Prompt:wght@200&display=swap" rel="stylesheet">
+
+    <%--    Google Font--%>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <%--    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />--%>
+
+    <style>
+        .banner {
+            width: 100%;
+            height: 54%;
+            object-fit: cover;
+            object-position: top;
+            filter: brightness(0.7);
+        }
+
+        .header_1{
+            font-family: 'Archivo', sans-serif;
+            position: absolute;
+            font-size: 60px;
+            font-weight: 900;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+        }
+
+        .header_2{
+            font-family: 'Archivo', sans-serif;
+            position: absolute;
+            font-size: 33px;
+            font-weight: 700;
+            top: 39%;
+            left: 38%;
+            letter-spacing: 1px;
+            transform: translate(-50%, -50%);
+            color: white;
+        }
+
+        .bt_register{
+            position: absolute;
+            top: 47%;
+            left: 24%;
+            width: 177px;
+            height: 49px;
+            transform: translate(37%, -50%);
+            border: 2px solid white;
+            border-radius: 4px;
+            color: black;
+            font-weight: 700;
+            transition: 0.5s;
+        }
+        .bt_register:hover{
+            color: white;
+            background-color: rgba(255, 255, 255, 0);
+            transition: 0.5s;
+        }
+
+        .block_position {
+            margin-left: 461px;
+            margin-top: 54px;
+            width: 830px;
+            display: inline-block;
+        }
+
+        .c_name {
+            color: black;
+            width: 860px;
+            font-size: 42px;
+            font-weight: bold;
+        }
+
+        .major_name {
+            color: black;
+            font-size: 20px;
+        }
+
+        .img {
+            height: 770px;
+            width: 832px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px 2px #b8b6b6;
+        }
+
+        .c_principle {
+            width: 833px;
+            text-align: justify;
+            color: black;
+        }
+
+        table[class='detail'] tr td:first-child{
+            width: 155px;
+        }
+        table[class='detail'] tr td{
+            font-weight: bold;
+        }
+        tr{
+            height: 50px;
+        }
+    </style>
 </head>
 <body>
 <!-- Navbar -->
@@ -35,7 +134,7 @@
     }
 %>
 
-<c:set var="flag" value="<%= flag %>"></c:set>
+<c:set var="flag" value="<%= flag %>"/>
 <c:choose>
     <c:when test="${flag.equals('admin')}">
         <jsp:include page="/WEB-INF/view/admin/nav_admin.jsp"/>
@@ -50,72 +149,64 @@
         <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
     </c:otherwise>
 </c:choose>
-<%--${course_detail.name}--%>
-<%--${course_detail.major.name}--%>
-<%--${course_detail.course_id}--%>
-<%--${course_detail.totalHours}--%>
-<c:set var="object" value="${course_detail.object}"></c:set>
+
+<c:set var="object" value="${course_detail.object}"/>
 <c:set var="parts" value="${fn:split(object, '$%')}"/>
+<img src="${pageContext.request.contextPath}/assets/img/banner3.png" class="banner" alt="banner"/>
+<p class="header_1">LIFELONG EDUCATION</p>
+<p class="header_2">MAEJO UNIVERSITY</p>
+<button class="bt_register" href="${pageContext.request.contextPath}/register_member">สมัครเลย!</button>
+
+
 <div class="block_position">
-    <h1>
-        ${course_detail.name}
-    </h1>
+    <p class="c_name">${course_detail.name}</p>
 
     <!--Major name--->
-    <div>
-        <p>${course_detail.major.name}</p>
-    </div>
-
-    <!--Image--->
-    <div>
-        <img src="${pageContext.request.contextPath}/assets/img/course_img/${course_detail.img}" alt="course_image"
-             class="c_img">
-    </div>
+    <p class="major_name">${course_detail.major.name}</p>
     <br>
+    <!--Image--->
+    <img src="${pageContext.request.contextPath}/assets/img/course_img/${course_detail.img}" alt="course_image" class="img">
+    <br><br><br>
     <!--Detail-->
     <div>
-        <h1>คำอธิบายหลักสูตร</h1>
-        <div>
-            <span>
-                ${course_detail.principle}
-            </span>
-        </div>
-        <br>
+        <h1 style="font-size: 30px;">รายละเอียดหลักสูตร</h1>
+        <p class="c_principle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${course_detail.principle}</p>
         <hr>
         <!---Sub_Detail-->
-        <table>
+        <table class="detail" style="color: black;">
             <tr>
-                <td class="t1">หมวดสาขาวิชา</td>
-                <td class="t2">${course_detail.major.name}</td>
+                <td>ประเภทหลักสูตร</td>
+                <td>${course_detail.course_type}</td>
             </tr>
             <tr>
-                <td class="t1">ชื่อเกียรติบัตร</td>
-                <td class="t2">${course_detail.certificateName}</td>
+                <td>หมวดสาขาวิชา</td>
+                <td>${course_detail.major.name}</td>
             </tr>
             <tr>
-                <c:set var="count" value="0"></c:set>
-                <td class="t1">วัตถุประสงค์</td>
-                <td class="t2">
+                <td>ชื่อเกียรติบัตร</td>
+                <td>${course_detail.certificateName}</td>
+            </tr>
+            <tr>
+                <c:set var="count" value="0"/>
+                <td>วัตถุประสงค์</td>
+                <td>
                     <c:forEach items="${parts}" var="part">
-                        <c:set var="count" value="${count+1}"></c:set>
+                        <c:set var="count" value="${count+1}"/>
                         ${count} ) <c:out value="${part}"/><br/>
                     </c:forEach>
                 </td>
             </tr>
-            <td class="t1">ระยะเวลาเรียน</td>
-            <td class="t2">${course_detail.totalHours} ชั่วโมง</td>
+            <tr>
+                <td>ระยะเวลาเรียน</td>
+                <td>${course_detail.totalHours} ชั่วโมง</td>
             </tr>
             <tr>
-                <td class="t1">เป้าหมายกลุ่มอาชีพ</td>
-                <td class="t2">${course_detail.targetOccupation}</td>
+                <td>เป้าหมายกลุ่มอาชีพ</td>
+                <td>${course_detail.targetOccupation}</td>
             </tr>
             <tr>
-                <td class="t1">ค่าธรรมเนียม</td>
-                <td class="t2">${course_detail.fee}0 บาท</td>
-            </tr>
-            <tr>
-                <td class="t1">ลิ้งค์หลักสูตร</td>
-                <td class="t2">${course_detail.linkMooc}</td>
+                <td>ค่าธรรมเนียม</td>
+                <td>${course_detail.fee} บาท</td>
             </tr>
         </table>
         <%--        <div class="swiper-container">--%>
@@ -141,27 +232,6 @@
         <%--    </div>--%>
         <!--Course News--->
 
-        <!---Lecturer Data---->
-        <%--    <div class="block_lecturer">--%>
-        <%--        <h4>อาจารย์ผู้รับผิดชอบหลักสูตร</h4>--%>
-        <%--        <div>--%>
-        <%--            <table>--%>
-        <%--                <tr>--%>
-        <%--                    <td>icon</td>--%>
-        <%--                    <td>อ.ดร.ฐาปนพงษ์ รักกาญจนันท์</td>--%>
-        <%--                </tr>--%>
-        <%--                <tr>--%>
-        <%--                    <td>icon</td>--%>
-        <%--                    <td>คณะวิทยาศาสตร์</td>--%>
-        <%--                </tr>--%>
-        <%--                <tr>--%>
-        <%--                    <td>icon</td>--%>
-        <%--                    <td>การเรียนรูปแบบ Online</td>--%>
-        <%--                </tr>--%>
-        <%--            </table>--%>
-        <%--            <a href="" class="btn btn-primary py-md-3 px-md-5 me-3">ลงทะเบียน</a>--%>
-        <%--&lt;%&ndash;            <button class="btn_register_course_detail">ลงทะเบียน</button>&ndash;%&gt;--%>
-        <%--        </div>--%>
     </div>
 </div>
 <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>

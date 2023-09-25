@@ -39,7 +39,7 @@ public class PaymentController {
     }
 
     @PostMapping("/{memid}/payment_fill_detail/{invoice_id}/save")
-    public String saveMakePayment(@PathVariable("memid") String memId, @PathVariable("invoice_id") long invoiceId, @RequestParam Map<String, String> params, @RequestParam("slip") MultipartFile file,HttpSession session) throws ParseException {
+    public String saveMakePayment(@PathVariable("memid") String memId, @PathVariable("invoice_id") long invoiceId, @RequestParam Map<String, String> params, @RequestParam("slip") MultipartFile file, HttpSession session) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Invoice invoice = paymentService.getInvoiceById(invoiceId);

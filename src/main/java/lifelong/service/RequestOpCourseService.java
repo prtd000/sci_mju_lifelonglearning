@@ -8,6 +8,8 @@ public interface RequestOpCourseService {
     List<Lecturer> getLecturer();
     Lecturer getLecturerDetail(String lecUser);
 
+    RequestOpenCourse getRequestOpCourseByCourseId (String courseId);
+
     void saveRequestOpenCourse (RequestOpenCourse requestOpenCourse);
     List<RequestOpenCourse> getRequestOpenCourses();
     List<RequestOpenCourse> getRequestOpenCoursesByLecturerId(String lec_id);

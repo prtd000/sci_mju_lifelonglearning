@@ -40,7 +40,7 @@
       <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/listcourse" class="nav-item nav-link">หลักสูตรของฉัน</a>
       <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
       <a href="#" class="nav-item nav-link">เกี่ยวกับเรา</a>
-      <a href="#" class="nav-item nav-link">Member</a>
+      <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/edit_profile" class="nav-item nav-link">ข้อมูลส่วนตัว</a>
       <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link">ออกจากระบบ</a>
     </div>
   </div>

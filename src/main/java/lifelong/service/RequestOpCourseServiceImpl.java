@@ -27,6 +27,12 @@ public class RequestOpCourseServiceImpl implements RequestOpCourseService {
 
     @Override
     @Transactional
+    public RequestOpenCourse getRequestOpCourseByCourseId(String courseId) {
+        return requestOpCourseDao.getRequestOpCourseByCourseId(courseId);
+    }
+
+    @Override
+    @Transactional
     public void saveRequestOpenCourse(RequestOpenCourse requestOpenCourse) {
         requestOpCourseDao.saveRequestOpenCourse(requestOpenCourse);
     }

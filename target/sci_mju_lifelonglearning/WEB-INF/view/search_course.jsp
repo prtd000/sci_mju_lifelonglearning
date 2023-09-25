@@ -32,6 +32,17 @@
             border: 0;
         }
 
+        .search_bar{
+            width: 97%;
+            height: 50px;
+            border-radius: 7px;
+            color: black;
+            margin-left: 21px;
+            font-size: 19px;
+            border: 1px solid black;
+            text-align: center;
+        }
+
         .block {
             display: inline-block;
             float: left;
@@ -101,7 +112,7 @@
     }
 %>
 
-<c:set var="flag" value="<%= flag %>"></c:set>
+<c:set var="flag" value="<%= flag %>"/>
 <c:choose>
     <c:when test="${flag.equals('admin')}">
         <jsp:include page="/WEB-INF/view/admin/nav_admin.jsp"/>
@@ -127,25 +138,24 @@
 
         <div class="row g-5">
             <!----------Search------------>
-            <input type="text" class="form-control me-2" id="searchInput" onkeyup="search()"
-                   placeholder="ค้นหาหลักสูตรที่คุณสนใจ..." style="width: 55%; margin-right: 2%">
-            <select class="form-select" name="majorId" id="majorSelect" style="width: 40%"
-                    onchange="document.location.href = '${pageContext.request.contextPath}/search_course/' + this.value">
-                <%--                    <select name="majorId" id="majorSelect" style="width: 40%">--%>
-                <%--                    <select class="form-select" name="majorId" id="majorSelect" style="width: 40%" onchange="document.location.href = 'https://itsci.mju.ac.th/sci_mju_lifelonglearning/search_course/' + this.value">--%>
-                <option value="หลักสูตรทั้งหมด">--กรุณาเลือกรายการ--</option>
+            <input type="text" class="form-control me-2 search_bar" id="searchInput" onkeyup="search()" placeholder="ค้นหาหลักสูตรที่คุณสนใจ...">
+<%--            <select class="form-select" name="majorId" id="majorSelect" style="width: 40%"--%>
+<%--                    onchange="document.location.href = '${pageContext.request.contextPath}/search_course/' + this.value">--%>
+<%--                &lt;%&ndash;                    <select name="majorId" id="majorSelect" style="width: 40%">&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                    <select class="form-select" name="majorId" id="majorSelect" style="width: 40%" onchange="document.location.href = 'https://itsci.mju.ac.th/sci_mju_lifelonglearning/search_course/' + this.value">&ndash;%&gt;--%>
+<%--                <option value="หลักสูตรทั้งหมด">--กรุณาเลือกรายการ--</option>--%>
 
-                <c:forEach items="${majors}" var="major">
-                    <option value="${major.name}">${major.name}</option>
-                </c:forEach>
-            </select>
-            <%! String majorName = "";%>
+<%--                <c:forEach items="${majors}" var="major">--%>
+<%--                    <option value="${major.name}">${major.name}</option>--%>
+<%--                </c:forEach>--%>
+<%--            </select>--%>
+<%--            <%! String majorName = "";%>--%>
 
-            <h3 id="showlist">${majorName}</h3>
+<%--            <h3 id="showlist">${majorName}</h3>--%>
 
             <!----------End Search------------>
 
-            <!----------Course 1------------>
+            <!----------Show List Course------------>
 
             <c:forEach var="course" items="${courses}">
                 <%
@@ -288,5 +298,23 @@
             $("#showlist").html(list);
         });
     });
+
+    function search() {
+        var input = document.getElementById("searchInput").value.toLowerCase();
+        var blocks = document.getElementsByClassName("block");
+
+        for (var i = 0; i < blocks.length; i++) {
+            var block = blocks[i];
+            var text = block.getAttribute("data-name").toLowerCase();
+
+            if (text.includes(input)) {
+                block.style.display = "block";
+            } else {
+                block.style.display = "none";
+            }
+        }
+    }
 </script>
+
+
 </html>

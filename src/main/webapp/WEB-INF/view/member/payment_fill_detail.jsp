@@ -11,7 +11,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Payment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
     <script>
         function previewImage(input) {
@@ -63,6 +64,12 @@
         .file-label:hover {
             background-color: #d0692e;
         }
+
+        td{
+            font-weight: bold;
+            color: black;
+            font-size: 19px;
+        }
     </style>
 </head>
 <body>
@@ -84,7 +91,7 @@
     }
 %>
 
-<c:set var="flag" value="<%= flag %>"></c:set>
+<c:set var="flag" value="<%= flag %>" />
 <c:choose>
     <c:when test="${flag.equals('admin')}">
         <jsp:include page="/WEB-INF/view/admin/nav_admin.jsp"/>
@@ -101,8 +108,8 @@
 </c:choose>
 <center>
     <br>
-    <h1>การชำระเงิน</h1>
-    <hr>
+    <h1>ข้อมูลการชำระเงิน</h1>
+    <br>
     <h4>${payment.register.requestOpenCourse.course.name}</h4>
     <p>${payment.register.requestOpenCourse.course.major.name}</p>
     <hr>
@@ -110,7 +117,7 @@
     <h4>โอนไปยัง</h4>
     <table>
         <tr>
-            <td style="width: 200px;">ธนาคารปลายทาง</td>
+            <td style="width: 255px;">ธนาคารปลายทาง</td>
             <td style="width: 150px;">กรุงไทย</td>
         </tr>
         <tr>
@@ -121,14 +128,14 @@
     <hr>
     <table>
         <tr>
-            <td style="width: 200px;">ยอดรวมชำระเงินทั้งหมด</td>
+            <td style="width: 255px;">ยอดรวมชำระเงินทั้งหมด</td>
             <td style="width: 150px;">${payment.register.requestOpenCourse.course.fee} บาท</td>
         </tr>
     </table>
-    <hr>
+    <br>
     <form action="${pageContext.request.contextPath}/member/${payment.register.member.username}/payment_fill_detail/${payment.invoice_id}/save"
           method="post" onsubmit="return confirm('ยืนยันข้อมูลการชำระเงิน')" enctype="multipart/form-data">
-        <table border="1">
+        <table style="box-shadow: 0px 0px 9px 0px #636363; border-radius: 28px; height: 430px;">
             <tr style="height: 350px;">
                 <td style="width: 315px">
                     <label for="fileInput" class="file-label" style="margin-left: 120px;">Choose a file</label>
@@ -141,20 +148,20 @@
                 </td>
             </tr>
         </table>
-        <hr>
+        <br>
         <table>
             <tr>
                 <td style="width: 450px;">วันที่โอนตามหลักฐานการชำระเงิน</td>
-                <td><input type="date" name="receipt_paydate" id="datePicker"></td>
+                <td><input type="date" name="receipt_paydate" id="datePicker" class="form-control" style="color: black; font-weight: bold;"></td>
             </tr>
             <tr>
                 <td>เวลาที่โอนตามหลักฐานการชำระเงิน</td>
-                <td><input type="time" name="receipt_paytime"></td>
+                <td><input type="time" name="receipt_paytime" class="form-control" style="color: black; font-weight: bold;"></td>
             </tr>
             <tr>
                 <td>โอนจากธนาคาร</td>
                 <td>
-                    <select id="receipt_banking" name="receipt_banking">
+                    <select id="receipt_banking" name="receipt_banking" class="form-select" aria-label="Default select example" style="color: black; font-weight: bold;">
                         <option value="กรุงไทย">กรุงไทย</option>
                         <option value="ไทยพาณิชย์">ไทยพาณิชย์ (SCB)</option>
                         <option value="กสิกรไทย">กสิกรไทย (KBank)</option>
@@ -168,11 +175,15 @@
             </tr>
             <tr>
                 <td>เงินโอนจากบัญชีธนาคารเลขที่ (4 หลักสุดท้าย)</td>
-                <td><input type="number" name="last_four_digits"></td>
+                <td><input type="number" name="last_four_digits" class="form-control" style="color: black; font-weight: bold;"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><br></td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <input type="submit" style="width: 100%;" value="ยืนยันข้อมูลการชำระเงิน">
+                    <input type="submit" style="width: 100%;" value="ยืนยันข้อมูลการชำระเงิน" class="btn btn-outline-success">
                 </td>
             </tr>
         </table>

@@ -16,18 +16,21 @@
 <!DOCTYPEhtml>
 <html>
 <head>
-    <title>${title}</title>
+    <title>สมัครสมาชิก</title>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <!-- google font -->
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200&family=Prompt:wght@200&display=swap" rel="stylesheet">
+<%--    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">--%>
 
     <style>
         body {
-            font-family: 'Open Sans', sans-serif;
+            font-family: 'Mitr', sans-serif;
+
+            /*font-family: 'Open Sans', sans-serif;*/
         }
 
         #signUpForm {
@@ -154,6 +157,21 @@
             color: #ff7b31;
         }
 
+        label{
+            font-weight: bold;
+            color: black;
+        }
+
+        .table-step3{
+            color: black;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        table[class='table-step3'] tr {
+            height: 50px;
+        }
+
     </style>
     <script>
         function previewImage(input) {
@@ -219,15 +237,15 @@
             <form id="signUpForm" action="${pageContext.request.contextPath}/register_member/save" name="frm" method="POST" onsubmit="return confirmSubmit();">
                 <!-- start step indicators -->
                 <div class="form-header d-flex mb-4">
-                    <span class="stepIndicator">ขั้นตอนที่ 1</span>
-                    <span class="stepIndicator">ขั้นตอนที่ 2</span>
-                    <span class="stepIndicator">ตรวจสอบข้อมูล</span>
+                    <span class="stepIndicator" style="font-size: 20px;">ขั้นตอนที่ 1</span>
+                    <span class="stepIndicator" style="font-size: 20px;">ขั้นตอนที่ 2</span>
+                    <span class="stepIndicator" style="font-size: 20px;">ตรวจสอบข้อมูล</span>
                 </div>
                 <!-- end step indicators -->
 
                 <!-- step one -->
                 <div class="step" style="display: inline-block">
-                    <p class="text-center mb-4">สมัครสมาชิก</p>
+                    <p class="text-center mb-4" style="font-size: 20px; font-weight: bold;">สมัครสมาชิก</p>
                     <table style="width: 100%; border: 1px">
                         <tr>
                             <td style="width: 60%">
@@ -247,10 +265,10 @@
                                 <div class="mb-3">
                                     <table>
                                         <tr>
+                                            <td style="width: 35px;"><input type="radio" name="gender" value="ชาย"></td>
                                             <td><label>ชาย</label></td>
-                                            <td><input type="radio" name="gender" value="ชาย"></td>
+                                            <td style="width: 35px;"><input type="radio" name="gender" value="หญิง"></td>
                                             <td><label>หญิง</label></td>
-                                            <td><input type="radio" name="gender" value="หญิง"></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -265,7 +283,7 @@
 
                 <!-- step two -->
                 <div class="step">
-                    <p class="text-center mb-4">ขั้นตอนที่ 2</p>
+                    <p class="text-center mb-4" style="font-size: 20px; font-weight: bold;">สมัครสมาชิก</p>
                     <table style="width: 100%">
                         <tr>
                             <td>
@@ -329,37 +347,67 @@
 
                 <!-- step three -->
                 <div class="step">
-                    <h2 class="text-center mb-4">ตรวจสอบข้อมูล</h2>
-                    <div>
-                        <h3>ข้อมูลจาก Step 1</h3>
-                        <p>บัตรประชาชน: <span id="displayIdCard"></span></p>
-                        <p>ชื่อจริง: <span id="displayFirstName"></span></p>
-                        <p>นามสกุล: <span id="displayLastName"></span></p>
-                        <p>เพศ: <span id="displayGender"></span></p>
-                        <p>อีเมล: <span id="displayEmail"></span></p>
-                    </div>
-
-                    <div>
-                        <h3>ข้อมูลจาก Step 2</h3>
-                        <p>วันเดือนปีเกิด: <span id="displayDatePicker"></span></p>
-                        <p>เบอร์: <span id="displayTel"></span></p>
-                        <p>การศึกษา: <span id="displayEducation"></span></p>
-                        <p>ชื่อบัญชี: <span id="displayUsername"></span></p>
-                        <p>รหัสผ่าน: <span id="displayPassword"></span></p>
-                        <!-- เพิ่มข้อมูลอื่น ๆ ที่คุณต้องการแสดงจาก Step 2 -->
-                    </div>
+                    <h2 class="text-center mb-4" style="font-size: 20px; font-weight: bold;">ตรวจสอบข้อมูล</h2>
+                    <center>
+                        <div>
+                            <table class="table-step3">
+                                <tr>
+                                    <td style="width: 200px">บัตรประชาชน</td>
+                                    <td><span id="displayIdCard"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>ชื่อจริง</td>
+                                    <td><span id="displayFirstName"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>นามสกุล</td>
+                                    <td><span id="displayLastName"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>เพศ</td>
+                                    <td><span id="displayGender"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>อีเมล</td>
+                                    <td><span id="displayEmail"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>วันเดือนปีเกิด</td>
+                                    <td><span id="displayDatePicker"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>เบอร์</td>
+                                    <td><span id="displayTel"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>การศึกษา</td>
+                                    <td><span id="displayEducation"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>ชื่อบัญชี</td>
+                                    <td><span id="displayUsername"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>รหัสผ่าน</td>
+                                    <td><span id="displayPassword"></span></td>
+                                </tr>
+                            </table>
+                            <!-- เพิ่มข้อมูลอื่น ๆ ที่คุณต้องการแสดงจาก Step 2 -->
+                        </div>
+                    </center>
+                    <br>
                 </div>
 
                 <!-- start previous / next buttons -->
                 <div class="form-footer d-flex">
-                    <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-                    <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                    <button type="button" id="prevBtn" onclick="nextPrev(-1)">ย้อนกลับ</button>
+                    <button type="button" id="nextBtn" onclick="nextPrev(1)">ต่อไป</button>
                 </div>
                 <!-- end previous / next buttons -->
             </form>
         </div>
     </div>
-
+<jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>
 </body>
 <script>
 
@@ -417,6 +465,18 @@
         dateInput.setAttribute("max", today);
     });
 
+    /******** Format Date to dd/mm/yyyy **************/
+
+    function formatDateElement(elementId) {
+        var text = document.getElementById(elementId).value;
+        var date = new Date(text);
+
+        var day = date.getDate();
+        var month = date.getMonth() + 1; // เพิ่ม 1 เนื่องจากเดือนเริ่มต้นจาก 0
+        var year = date.getFullYear();
+
+        return day + '/' + month + '/' + year;
+    }
 
     /****************** Alert Ask sure ? ****************************/
 
@@ -434,7 +494,6 @@
         const email = document.getElementById("email").value;
 
         // ข้อมูลจาก Step 2
-        const datePicker = document.getElementById("datePicker").value;
         const tel = document.getElementById("tel").value;
         const education = document.getElementById("education").value;
         const username = document.getElementById("username").value;
@@ -446,7 +505,7 @@
         document.getElementById("displayFirstName").textContent = firstName;
         document.getElementById("displayLastName").textContent = lastName;
         document.getElementById("displayEmail").textContent = email;
-        document.getElementById("displayDatePicker").textContent = datePicker;
+        document.getElementById("displayDatePicker").textContent = formatDateElement("datePicker");
         document.getElementById("displayTel").textContent = tel;
         document.getElementById("displayEducation").textContent = education;
         document.getElementById("displayUsername").textContent = username;
@@ -492,9 +551,9 @@
             document.getElementById("prevBtn").style.display = "inline";
         }
         if (n == (x.length - 1)) {
-            document.getElementById("nextBtn").innerHTML = "Submit";
+            document.getElementById("nextBtn").innerHTML = "ยืนยัน";
         } else {
-            document.getElementById("nextBtn").innerHTML = "Next";
+            document.getElementById("nextBtn").innerHTML = "ต่อไป";
         }
         //... and run a function that will display the correct step indicator:
         fixStepIndicator(n)

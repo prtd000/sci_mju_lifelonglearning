@@ -1,6 +1,3 @@
-<%@ page import="lifelong.model.Admin" %>
-<%@ page import="lifelong.model.Member" %>
-<%@ page import="lifelong.model.Lecturer" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -8,11 +5,10 @@
 <html>
 <head>
     <title>${title}</title>
-<%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
-    <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 </head>
 <body>
 
@@ -21,18 +17,19 @@
 
 <center>
     <br><br><br><br>
-    <h1 class="log-header">${title}</h1>
+    <h1 style="font-size: 28px;">${title}</h1>
+    <br>
     <div class="log-div">
         <form:form action="${pageContext.request.contextPath}/doLoginMember" method="POST">
             <table>
                 <tr>
-                    <td><p>ชื่อผู้ใช้</p></td>
-                    <td><input type="text" name="username" class="form-control"/></td>
+                    <td style="width: 88px; font-weight: bold; color: black; font-size: 19px;"><p class="form-label">ชื่อผู้ใช้</p></td>
+                    <td><input type="text" name="username" class="form-control"/> <br></td>
                 </tr>
 
                 <tr>
-                    <td><p>รหัสผ่าน</p></td>
-                    <td><input type="password" name="password" class="form-control"/></td>
+                    <td style="width: 88px; font-weight: bold; color: black; font-size: 19px;"><p class="form-label">รหัสผ่าน</p></td>
+                    <td><input type="password" name="password" class="form-control"/> <br></td>
                 </tr>
 
                 <tr>
@@ -41,7 +38,7 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td><a href="${pageContext.request.contextPath}/register_member">สมัครสมาชิก</a></td>
+                    <td><br><a href="${pageContext.request.contextPath}/register_member" class="link-primary">สมัครสมาชิก</a></td>
                 </tr>
 
                 <tr>
@@ -54,8 +51,9 @@
             </table>
         </form:form>
     </div>
+    <br><br><br>
 </center>
 
-
+<jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>
 </body>
 </html>

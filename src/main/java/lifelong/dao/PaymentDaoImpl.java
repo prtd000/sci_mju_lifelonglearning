@@ -2,6 +2,7 @@ package lifelong.dao;
 
 import lifelong.model.Invoice;
 import lifelong.model.Receipt;
+import lifelong.model.Register;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.hibernate.query.Query;
 
 import javax.persistence.NoResultException;
 import javax.swing.*;
+import java.util.List;
 
 @Repository
 public class PaymentDaoImpl implements PaymentDao{
@@ -32,6 +34,14 @@ public class PaymentDaoImpl implements PaymentDao{
         Query<Invoice> query = session.createQuery("FROM Invoice i where i.register.member.username =: mem_id ",Invoice.class);
         query.setParameter("mem_id",memId);
         return query.getSingleResult();
+    }
+
+    @Override
+    public List<Invoice> getListInvoiceByMemberId(String memId) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Invoice> query = session.createQuery("from Invoice i where i.register.member.username =: Id ", Invoice.class);
+        query.setParameter("Id",memId);
+        return query.getResultList();
     }
 
     @Override

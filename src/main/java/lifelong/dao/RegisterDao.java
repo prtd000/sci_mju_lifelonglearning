@@ -10,8 +10,6 @@ public interface RegisterDao {
 
     List<Register> getRegister(String memId);
 
-    Register getRegisterById(String memId);
-
     void saveRegister(Register register);
 
     void deleteRegister(long id);

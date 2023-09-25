@@ -11,37 +11,6 @@
 
 
 /*-------------Course detail---------*/
-.block_position{
-    margin-left: 137px;
-    margin-top: 54px;
-    width: 900px;
-    display: inline-block;
-}
-
-.c_img{
-    width: 850px;
-}
-
-.news_img{
-    height: 180px;
-    border-radius: 20px 10px 0px 0px;
-}
-
-.block_news{
-    display: inline-block;
-    background-color: burlywood;
-    margin-bottom: 40px;
-    border-radius: 20px;
-    margin-left: 10px;
-}
-
-.news_content{
-    padding: 15px;
-}
-
-.block_news_big{
-    margin-top: 50px;
-}
 
 .block_lecturer{
     display: inline-block;

@@ -48,11 +48,6 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     @Transactional
-    public Register getRegisterById(String memId) {
-        return registerDao.getRegisterById(memId);
-    }
-    @Override
-    @Transactional
     public Register getRegisterByRegisterId(long register_Id) {
         return registerDao.getRegisterByRegisterId(register_Id);
     }

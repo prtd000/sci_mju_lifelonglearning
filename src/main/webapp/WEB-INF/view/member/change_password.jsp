@@ -12,7 +12,16 @@
 <html>
 <head>
     <title>Change Password</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
+    <style>
+        label{
+            font-weight: bold;
+            color: black;
+        }
+    </style>
 </head>
 <body>
 <!-- Navbar -->
@@ -33,7 +42,7 @@
     }
 %>
 
-<c:set var="flag" value="<%= flag %>"></c:set>
+<c:set var="flag" value="<%= flag %>" />
 <c:choose>
     <c:when test="${flag.equals('admin')}">
         <jsp:include page="/WEB-INF/view/admin/nav_admin.jsp"/>
@@ -48,21 +57,23 @@
         <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
     </c:otherwise>
 </c:choose>
-<h1>เปลี่ยนรหัสผ่าน</h1>
-<hr>
+
 <center>
+    <br>
+    <h1>เปลี่ยนรหัสผ่าน</h1>
+    <hr><br><br>
     <form action="${pageContext.request.contextPath}/member/${member.username}/update_password" method="post">
         <table>
             <tr>
-                <td>รหัสผ่านใหม่</td>
+                <td><label class="form-label">รหัสผ่านใหม่</label></td>
                 <td style="width: 30px;"></td>
-                <td><input type="password" id="newPassword" name="newPassword" placeholder="รหัสผ่านใหม่"></td>
+                <td><input type="password" id="newPassword" name="newPassword" placeholder="รหัสผ่านใหม่" class="form-control"></td>
             </tr>
             <tr>
-                <td>ยืนยันรหัสผ่านใหม่</td>
+                <td><label class="form-label">ยืนยันรหัสผ่านใหม่</label></td>
                 <td></td>
                 <td><input type="password" id="confirmPassword" name="confirmPassword" placeholder="ยืนยันรหัสผ่านใหม่"
-                           onkeyup="checkPasswordMatch()"></td>
+                           onkeyup="checkPasswordMatch()" class="form-control"></td>
             </tr>
             <tr>
                 <td></td>
@@ -72,7 +83,7 @@
             <tr>
                 <td></td>
                 <td></td>
-                <td><input type="submit" value="บันทึก"></td>
+                <td><input type="submit" value="บันทึก" class="btn btn-outline-success"></td>
             </tr>
 
         </table>

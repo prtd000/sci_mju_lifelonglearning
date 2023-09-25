@@ -16,8 +16,16 @@
 <html>
 <head>
     <title>Title</title>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
+    <style>
+        table tr th {
+            font-size: 19px;
+            color: black;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <!-- Navbar -->
@@ -38,7 +46,7 @@
     }
 %>
 
-<c:set var="flag" value="<%= flag %>"></c:set>
+<c:set var="flag" value="<%= flag %>" />
 <c:choose>
     <c:when test="${flag.equals('admin')}">
         <jsp:include page="/WEB-INF/view/admin/nav_admin.jsp"/>
@@ -55,18 +63,20 @@
 </c:choose>
 <center>
     <c:set var="username" value="<%= member.getUsername() %>" />
+    <br>
 
-    <button id="FClick" class="tablinks" onclick="openList(event, 'listCourse')">หลักสูตร</button>
-    <button class="tablinks" onclick="openList(event, 'listInvoice')">ที่ต้องชำระเงิน</button>
+    <button id="FClick" class="tablinks btn btn-success" onclick="openList(event, 'listCourse')">หลักสูตร</button>
+    <button class="tablinks btn btn-danger" onclick="openList(event, 'listInvoice')">ที่ต้องชำระเงิน</button>
+    <br><br>
 
     <div class="tabcontent" id="listCourse">
-        <table>
+        <table class="table table-hover" style="width: 1200px;">
             <tr>
-                <td>รายการ</td>
-                <td style="width: 130px; text-align: center;">เริ่มเรียน</td>
-                <td style="width: 130px; text-align: center;">สิ้นสุดการเรียน</td>
-                <td style="width: 130px; text-align: center;">สถานะ</td>
-                <td style="width: 130px; text-align: center;">เกียรติบัตร</td>
+                <th style="text-align: left;">รายการ</th>
+                <th style="width: 130px;">เริ่มเรียน</th>
+                <th style="width: 130px;">สิ้นสุดการเรียน</th>
+                <th style="width: 130px;">สถานะ</th>
+                <th style="width: 130px;">เกียรติบัตร</th>
             </tr>
             <c:forEach var="invoice" items="${register}">
                 <tr>
@@ -76,20 +86,22 @@
                             <c:choose>
                                 <c:when test="${invoice.invoice.approve_status.equals('ผ่าน')}">
                                     <td>${invoice.requestOpenCourse.course.name}</td>
-                                    <td style="text-align: center;">${invoice.requestOpenCourse.startStudyDate}</td>
-                                    <td style="text-align: center;">${invoice.requestOpenCourse.endStudyDate}</td>
+                                    <td style="text-align: center;"><p id="formattedStartStudy">${invoice.requestOpenCourse.startStudyDate}</p></td>
+                                    <td style="text-align: center;"><p id="formattedEndStudy">${invoice.requestOpenCourse.endStudyDate}</p></td>
+
                                     <c:set var="txtstt" value="${invoice.study_result}"></c:set>
                                     <c:if var="stt" test="${txtstt == false}">
                                         <c:set var="txtstt" value="อยู่ระหว่างเรียน"></c:set>
                                         <td style="width: 200px; text-align: center; color: #ee8e18; font-weight: bold;">${txtstt}</td>
+                                        <td></td>
                                     </c:if>
 
                                     <c:if var="stt" test="${txtstt == true}">
                                         <c:set var="txtstt" value="ผ่านหลักสูตร"></c:set>
                                         <td style="width: 200px; text-align: center; color: green; font-weight: bold;">${txtstt}</td>
                                         <td>
-                                            <a href="${pageContext.request.contextPath}/member/${invoice.member.username}/certificate">
-                                                <button style="text-align: center;">ดูเกียรติบัตร</button>
+                                            <a href="${pageContext.request.contextPath}/member/${invoice.member.username}/certificate/${invoice.register_id}">
+                                                <button style="text-align: center;" class="btn btn-outline-success">ดูเกียรติบัตร</button>
                                             </a>
                                         </td>
                                     </c:if>
@@ -106,13 +118,13 @@
     </div>
 
     <div class="tabcontent" id="listInvoice">
-        <table>
+        <table class="table table-hover" style="width: 1200px;">
             <tr>
-                <td>รายการ</td>
-                <td style="width: 130px; text-align: center;">เริ่มชำระเงิน</td>
-                <td style="width: 130px; text-align: center;">สิ้นสุดชำระเงิน</td>
-                <td style="width: 160px; text-align: center;">สถานะ</td>
-                <td style="width: 130px; text-align: center;">หมายเหตุ</td>
+                <th style="text-align: left;">รายการ</th>
+                <th style="width: 130px;">เริ่มชำระเงิน</th>
+                <th style="width: 130px;">สิ้นสุดชำระเงิน</th>
+                <th style="width: 160px;">สถานะ</th>
+                <th style="width: 130px;">หมายเหตุ</th>
             </tr>
             <c:forEach var="invoices" items="${register}">
                 <tr>
@@ -126,7 +138,7 @@
                         <c:when test="${invoices.invoice.pay_status == true}">
                             <c:if test="${invoices.invoice.approve_status.equals('รอดำเนินการ')}">
                                 <td style="text-align: center;">
-                                    <p style="color: #F4B133">${invoices.invoice.approve_status}</p>
+                                    <p style="font-weight: bold; color: #ee8e18;">${invoices.invoice.approve_status}</p>
                                 </td>
                                 <td style="text-align: center;"></td>
                             </c:if>
@@ -138,11 +150,11 @@
                                         <td style="text-align: center;">
                                             <p style="color: green; font-weight: bold;">แก้ไขการชำระเงินแล้ว</p>
                                         </td>
-                                        <td style="text-align: center;"><p style="color: yellow; font-weight: bold">รอดำเนินการ</p></td>
+                                        <td style="text-align: center;"><p style="font-weight: bold; color: #ee8e18;">รอดำเนินการ</p></td>
                                     </c:when>
                                     <c:otherwise>
                                         <td style="text-align: center;">
-                                            <a href="${pageContext.request.contextPath}/member/${invoices.member.username}/update_payment_fill_detail/${invoices.invoice.invoice_id}"><button>แก้ไขการชำระเงิน</button></a>
+                                            <a href="${pageContext.request.contextPath}/member/${invoices.member.username}/update_payment_fill_detail/${invoices.invoice.invoice_id}"><button class="btn btn-outline-danger">แก้ไขการชำระเงิน</button></a>
                                         </td>
                                         <td style="text-align: center;"><p style="color: red; font-weight: bold;">กรุณาอัพโหลดหลักฐานการชำระเงินใหม่</p></td>
                                     </c:otherwise>
@@ -169,7 +181,7 @@
 
 
                                 <c:if test="${currentDate.isBefore(startDate)}">
-                                    <p>เร็วๆนี้</p>
+                                    <p style="color: black; font-weight: bold;">เร็วๆนี้</p>
                                 </c:if>
 
                                 <c:if test="${currentDate.isAfter(endDate)}">
@@ -177,14 +189,20 @@
                                 </c:if>
 
                                 <c:if test="${currentDate.equals(startDate) || currentDate.equals(endDate)}">
-                                    <a href="${pageContext.request.contextPath}/member/${username}/payment_fill_detail/${invoices.invoice.invoice_id}"><button>ชำระเงิน</button></a>
+                                    <a href="${pageContext.request.contextPath}/member/${username}/payment_fill_detail/${invoices.invoice.invoice_id}"><button class="btn btn-outline-dark">ชำระเงิน</button></a>
                                 </c:if>
 
                                 <c:if test="${currentDate.isAfter(startDate) && currentDate.isBefore(endDate)}">
-                                    <a href="${pageContext.request.contextPath}/member/${username}/payment_fill_detail/${invoices.invoice.invoice_id}"><button>ชำระเงิน</button></a>
+                                    <a href="${pageContext.request.contextPath}/member/${username}/payment_fill_detail/${invoices.invoice.invoice_id}"><button class="btn btn-outline-dark">ชำระเงิน</button></a>
                                 </c:if>
                                 <!---End check date--->
                             </td>
+                            <td>
+                                <c:if test="${currentDate.isAfter(endDate)}">
+                                    <p style="color: black; font-weight: bold">เลยกำหนดชำระเงิน</p>
+                                </c:if>
+                            </td>
+
 <%--                            <c:if test="${currentDate.isAfter(endDate)}">--%>
 <%--                                <td style="text-align: center;">--%>
 <%--                                    <input type="button" value="ลงทะเบียนใหม่" onclick="if((confirm('ยืนยันการลงทะเบียนใหม่อีกครั้ง?'))){ window.location.href='${pageContext.request.contextPath}/member/${invoices.member.username}/${invoices.register_id}/delete';return false; }"/>--%>
@@ -237,6 +255,13 @@
 
     var formattedEndPayment = formatDateElement("formattedEndPayment");
     document.getElementById("formattedEndPayment").textContent = formattedEndPayment;
+
+    var formattedStartStudy = formatDateElement("formattedStartStudy");
+    document.getElementById("formattedStartStudy").textContent = formattedStartStudy;
+
+    var formattedEndStudy = formatDateElement("formattedEndStudy");
+    document.getElementById("formattedEndStudy").textContent = formattedEndStudy;
+
 
 </script>
 </html>

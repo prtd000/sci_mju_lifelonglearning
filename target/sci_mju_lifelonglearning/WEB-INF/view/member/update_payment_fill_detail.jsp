@@ -11,7 +11,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Update Payment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
     <script>
         function previewImage(input) {
@@ -62,6 +63,11 @@
         .file-label:hover {
             background-color: #d0692e;
         }
+        td{
+            font-weight: bold;
+            color: black;
+            font-size: 19px;
+        }
     </style>
 </head>
 <body>
@@ -83,7 +89,7 @@
     }
 %>
 
-<c:set var="flag" value="<%= flag %>"></c:set>
+<c:set var="flag" value="<%= flag %>" />
 <c:choose>
     <c:when test="${flag.equals('admin')}">
         <jsp:include page="/WEB-INF/view/admin/nav_admin.jsp"/>
@@ -99,46 +105,59 @@
     </c:otherwise>
 </c:choose>
 <center>
-    <br><br>
-    <h1>ยืนยันการชำระเงิน</h1>
+    <br>
+    <h1>แก้ไขการชำระเงิน</h1>
+    <br>
+    <h4>${payment.register.requestOpenCourse.course.name}</h4>
+    <p>${payment.register.requestOpenCourse.course.major.name}</p>
     <hr>
+    <h4>โอนไปยัง</h4>
     <table>
         <tr>
-            <td style="width: 200px">ยอดการชำระเงินทั้งหมด</td>
-            <td>${payment.register.requestOpenCourse.course.fee}</td>
-            <td>บาท</td>
+            <td style="width: 255px;">ธนาคารปลายทาง</td>
+            <td style="width: 150px;">กรุงไทย</td>
+        </tr>
+        <tr>
+            <td>เลขที่บัญชี</td>
+            <td>679-5-60403-1</td>
         </tr>
     </table>
     <hr>
-    <h5>อัพโหลดหลักฐานการชำระเงิน</h5>
+    <table>
+        <tr>
+            <td style="width: 255px;">ยอดรวมชำระเงินทั้งหมด</td>
+            <td style="width: 150px;">${payment.register.requestOpenCourse.course.fee} บาท</td>
+        </tr>
+    </table>
+    <br>
     <form action="${pageContext.request.contextPath}/member/${payment.register.member.username}/update_payment_fill_detail/${payment.invoice_id}/update" method="post" onsubmit="return confirm('ยืนยันข้อมูลการชำระเงิน')" enctype="multipart/form-data">
 
-        <table border="1">
+        <table style="box-shadow: 0px 0px 9px 0px #636363; border-radius: 28px; height: 430px;">
             <tr style="height: 350px;">
                 <td style="width: 315px">
                     <label for="fileInput" class="file-label" style="margin-left: 120px;">Choose a file</label>
                     <input type="file" id="fileInput" accept="image/*" name="slip" class="file-input" value="${receipt.slip}" onchange="previewImage(this)">
                 </td>
                 <td style="width: 315px">
-                    <p style="color: red; margin-top: 26px; margin-left: 80px; font-weight: bold;">*รูปหลักฐานการชำระเงิน*</p> <br>
+                    <p style="color: red; margin-top: 26px; margin-left: 12px; font-weight: bold; text-align: center;">*กรุณาอัพโหลด* <br> *รูปหลักฐานการชำระเงินอีกครั้ง*</p> <br>
                     <img id="preview" src="" alt="Image Preview" style="display: none; height: 270px; margin-left: 28px; margin-top: -24px;">
                 </td>
             </tr>
         </table>
-        <hr>
+        <br>
         <table>
             <tr>
                 <td style="width: 450px;">วันที่โอนตามหลักฐานการชำระเงิน</td>
-                <td><input type="date" name="receipt_paydate" value="${receipt.pay_date}" id="datePicker"></td>
+                <td><input type="date" name="receipt_paydate" value="${receipt.pay_date}" id="datePicker" class="form-control" style="color: black; font-weight: bold;"></td>
             </tr>
             <tr>
                 <td>เวลาที่โอนตามหลักฐานการชำระเงิน</td>
-                <td><input type="time" name="receipt_paytime" value="${receipt.pay_time}"></td>
+                <td><input type="time" name="receipt_paytime" value="${receipt.pay_time}" class="form-control" style="color: black; font-weight: bold;"></td>
             </tr>
             <tr>
                 <td>โอนจากธนาคาร</td>
                 <td>
-                    <select id="receipt_banking" name="receipt_banking" >
+                    <select id="receipt_banking" name="receipt_banking" class="form-select" aria-label="Default select example" style="color: black; font-weight: bold;">
                         <option value="กรุงไทย">กรุงไทย</option>
                         <option value="ไทยพาณิชย์">ไทยพาณิชย์ (SCB)</option>
                         <option value="กสิกรไทย">กสิกรไทย (KBank)</option>
@@ -152,11 +171,15 @@
             </tr>
             <tr>
                 <td>เงินโอนจากบัญชีธนาคารเลขที่ (4 หลักสุดท้าย)</td>
-                <td><input type="number" name="last_four_digits" value="${receipt.last_four_digits}"></td>
+                <td><input type="number" name="last_four_digits" value="${receipt.last_four_digits}" class="form-control" style="color: black; font-weight: bold;"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><br></td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <input type="submit" style="width: 100%;" value="ยืนยันข้อมูลการชำระเงิน">
+                    <input type="submit" style="width: 100%;" value="ยืนยันข้อมูลการชำระเงิน" class="btn btn-outline-success">
                 </td>
             </tr>
         </table>

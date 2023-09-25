@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -54,9 +55,9 @@ public class MemberController {
         boolean registered = false;
 
         Course course = courseService.getCourseDetail(courseid);
-        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(request_id);
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpCourseByCourseId(courseid);
         model.addAttribute("req", requestOpenCourse);
-        model.addAttribute("course_detail", course);
+        model.addAttribute("course", course);
         model.addAttribute("activity", activityService.getViewCourseActivityNews(request_id));
 
         for (Register r : registerService.getRegister(mem_id)) {
@@ -126,11 +127,11 @@ public class MemberController {
         model.addAttribute("mem_username", memberService.getMemberById(memId));
         model.addAttribute("register", registerService.getRegister(memId));
 
-        for (Register register : registerService.getRegister(memId)){
-            if (!register.getInvoice().getPay_status() && currentDate.after(register.getInvoice().getEndPayment())){
-                Invoice invoice = paymentService.getInvoiceByMemberId(memId);
-                invoice.setApprove_status("เลยกำหนดชำระเงิน");
-                registerService.doInvoice(invoice);
+        List<Invoice> invoices = paymentService.getListInvoiceByMemberId(memId);
+        for (Invoice list : invoices) {
+            if (!list.getPay_status() && currentDate.after(list.getEndPayment())) {
+                list.setApprove_status("เลยกำหนดชำระเงิน");
+                registerService.doInvoice(list);
             }
         }
         return "/member/list_course";
@@ -145,9 +146,9 @@ public class MemberController {
         return "redirect:/member/" + memId + "/register_course/" + register.getRequestOpenCourse().getCourse().getCourse_id() + "/" + register.getRequestOpenCourse().getRequest_id();
     }
 
-    @GetMapping("{memid}/certificate")
-    public String viewCertificate(@PathVariable("memid") String memId, Model model) {
-        model.addAttribute("register", registerService.getRegisterById(memId));
+    @GetMapping("{memid}/certificate/{registerId}")
+    public String viewCertificate(@PathVariable("memid") String memId, @PathVariable("registerId") long regisId, Model model) {
+        model.addAttribute("register", registerService.getRegisterByRegisterId(regisId));
         return "/member/view_certificate";
     }
 

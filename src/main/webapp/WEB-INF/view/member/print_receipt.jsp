@@ -21,17 +21,24 @@
     <%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.12/jspdf.plugin.autotable.min.js"></script>--%>
     <%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>--%>
 
+    <%--    bootstrap--%>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <%--    jspdf--%>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
             integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/"
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=TH+Sarabun+New&display=swap">
+
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200&family=Prompt:wght@200&display=swap" rel="stylesheet">
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 
     <style>
         #pdfContent {
             width: fit-content;
-            padding: 18px;
+            padding: 46px;
             border-radius: 15px;
             box-shadow: 0px 0px 5px 0px black;
             border: 0;
@@ -45,14 +52,109 @@
             vertical-align: center;
         }
 
+        .txt_address{
+            position: absolute;
+            font-size: 17px;
+            font-weight: bold;
+            color: black;
+            top: 39%;
+            left: 42.5%;
+            transform: translate(-50%, -50%);
+        }
         .name_txt {
+            position: absolute;
             font-size: 25px;
             font-weight: bold;
+            color: black;
+            top: 49%;
+            left: 35.8%;
+            transform: translate(-50%, -50%);
         }
-
-        .total_txt {
+        .txt_banking{
+            position: absolute;
+            font-size: 19px;
             font-weight: bold;
-            font-size: 24px;
+            color: black;
+            top: 55%;
+            left: 35.5%;
+            transform: translate(-50%, -50%);
+        }
+        .txt_date{
+            position: absolute;
+            font-size: 19px;
+            font-weight: bold;
+            color: black;
+            top: 61%;
+            left: 35.9%;
+            transform: translate(-50%, -50%);
+        }
+        .txt_header{
+            font-family: 'Mitr', sans-serif;
+            position: absolute;
+            font-size: 31px;
+            font-weight: bold;
+            color: black;
+            top: 55%;
+            left: 62.2%;
+            transform: translate(-50%, -50%);
+        }
+        .txt_header_name{
+            position: absolute;
+            font-size: 19px;
+            font-weight: bold;
+            color: black;
+            top: 68%;
+            left: 33.5%;
+            transform: translate(-50%, -50%);
+        }
+        .txt_header_price{
+            position: absolute;
+            font-size: 19px;
+            font-weight: bold;
+            color: black;
+            top: 68%;
+            left: 61%;
+            transform: translate(-50%, -50%);
+        }
+        .txt_list_name{
+            position: absolute;
+            font-size: 18px;
+            font-weight: bold;
+            color: black;
+            top: 72%;
+            left: 39.5%;
+            transform: translate(-50%, -50%);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            width: 260px;
+        }
+        .txt_price{
+            position: absolute;
+            font-size: 18px;
+            font-weight: bold;
+            color: black;
+            top: 72%;
+            left: 62.8%;
+            transform: translate(-50%, -50%);
+        }
+        .total_txt {
+            position: absolute;
+            font-size: 26px;
+            font-weight: bold;
+            color: black;
+            top: 83%;
+            left: 35.5%;
+            transform: translate(-50%, -50%);
+        }
+        .total_txt_price {
+            position: absolute;
+            font-size: 26px;
+            font-weight: bold;
+            color: black;
+            top: 83%;
+            left: 64%;
+            transform: translate(-50%, -50%);
         }
     </style>
 </head>
@@ -92,15 +194,17 @@
 </c:choose>
 <center>
     <br>
-    <button id="downloadButton" style="cursor: pointer;">ดาวน์โหลด PDF</button>
+    <button id="downloadButton" style="cursor: pointer;" class="btn btn-secondary">ดาวน์โหลด PDF</button>
     <br><br>
 
     <div id="pdfContent">
         <table>
             <tr style="vertical-align: bottom;">
                 <td style="width: 500px;">
-                    คณะวิทยาศาสตร์ มหาวิทยาลัยแม่โจ้ <br>
-                    63 หมู่ 4 ตำบลหนองหาร อำเภอสันทราย จังหวัดเชียงใหม่ 50290
+                    <p class="txt_address">
+                        คณะวิทยาศาสตร์ มหาวิทยาลัยแม่โจ้ <br>
+                        63 หมู่ 4 ต.หนองหาร อ.สันทราย จ.เชียงใหม่ 50290
+                    </p>
                 </td>
                 <td>
                     <img src="${pageContext.request.contextPath}/assets/img/icon_mju_science.png"
@@ -116,30 +220,30 @@
                 <td>
                     <p class="name_txt">${receipt.invoice.register.member.firstName}
                         &nbsp; ${receipt.invoice.register.member.lastName}</p>
-                    <p>${receipt.banking}</p>
-                    <p id="formattedDatePayment">${receipt.pay_date}</p>
+                    <p class="txt_banking">ธนาคาร ${receipt.banking}</p>
+                    <p id="formattedDatePayment" class="txt_date">${receipt.pay_date}</p>
                 </td>
-                <td><h1>RECEIPT</h1></td>
+                <td><p class="txt_header">ใบเสร็จ</p></td>
             </tr>
-            <tr style="height: 22px;">
+            <tr style="height: 150px;">
                 <td colspan="2"></td>
             </tr>
             <tr>
-                <th>Item Descriptions</th>
-                <th>Price</th>
+                <th><p class="txt_header_name">รายการ</p></th>
+                <th><p class="txt_header_price">ราคา</p></th>
             </tr>
             <tr>
-                <td><p>${receipt.invoice.register.requestOpenCourse.course.name}</p></td>
-                <td><p>${receipt.invoice.register.requestOpenCourse.course.fee} Baht</p></td>
+                <td><p class="txt_list_name">${receipt.invoice.register.requestOpenCourse.course.name}</p></td>
+                <td><p class="txt_price">${receipt.invoice.register.requestOpenCourse.course.fee} บาท</p></td>
             </tr>
-            <tr>
+            <tr style="height: 164px;">
                 <td colspan="2">
                     <hr style="">
                 </td>
             </tr>
             <tr>
-                <td><p class="total_txt">Total</p></td>
-                <td><p class="total_txt">${receipt.invoice.register.requestOpenCourse.course.fee} Baht</p></td>
+                <td><p class="total_txt">รวมทั้งหมด</p></td>
+                <td><p class="total_txt_price">${receipt.invoice.register.requestOpenCourse.course.fee} บาท</p></td>
             </tr>
         </table>
     </div>
@@ -150,14 +254,13 @@
 <script>
     document.getElementById('downloadButton').addEventListener('click', function () {
         const pdfContent = document.getElementById("pdfContent");
+        pdfContent.style.marginTop = '-20px';
 
         // สร้าง Canvas ที่มีขนาดเท่ากับเนื้อหา
         html2canvas(pdfContent).then(function (canvas) {
             // หาขนาดของ Canvas ที่สร้าง
             const canvasWidth = canvas.width - 100;
             const canvasHeight = canvas.height - 20;
-            console.log('canvasWidth : ' + canvas.width)
-            console.log('canvasHeight : ' + canvas.height)
 
             // สร้างเอกสาร PDF ด้วยขนาด Canvas
             var doc = new jsPDF({
@@ -172,6 +275,7 @@
 
             // บันทึกเอกสาร PDF
             doc.save('Receipt.pdf');
+            pdfContent.style.marginTop = '0';
         });
     });
 

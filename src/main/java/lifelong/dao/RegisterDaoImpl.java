@@ -59,19 +59,10 @@ public class RegisterDaoImpl implements RegisterDao {
     }
 
     @Override
-    public Register getRegisterById(String memId) {
-        Session session = sessionFactory.getCurrentSession();
-        Query<Register> query = session.createQuery("FROM Register r WHERE r.member.id =: memId", Register.class);
-        query.setParameter("memId", memId);
-        Register register = query.getSingleResult();
-        return register;
-    }
-
-    @Override
     public Register getRegisterByRegisterId(long register_Id) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Register> query = session.createQuery("FROM Register r WHERE r.id =: memId", Register.class);
-        query.setParameter("memId", register_Id);
+        Query<Register> query = session.createQuery("FROM Register r WHERE r.register_id =: regisId", Register.class);
+        query.setParameter("regisId", register_Id);
         Register register = query.getSingleResult();
         return register;
     }

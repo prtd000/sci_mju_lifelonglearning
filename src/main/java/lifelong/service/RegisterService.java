@@ -14,9 +14,9 @@ public interface RegisterService {
     List<Register> getRegister(String memId);
     List<Register> getRegisterByRequestId(long roc_Id);
 
+
     List<Receipt> getReceipt();
     List<Register>getRegisterByRequestIdAndPayStatus(long roc_Id);
-    Register getRegisterById(String memId);
 
     Register getRegisterByRegisterId(long register_Id);
 

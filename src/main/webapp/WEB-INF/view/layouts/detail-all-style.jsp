@@ -54,20 +54,3 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<script>
-    function search() {
-        var input = document.getElementById("searchInput").value.toLowerCase();
-        var blocks = document.getElementsByClassName("block");
-
-        for (var i = 0; i < blocks.length; i++) {
-            var block = blocks[i];
-            var text = block.getAttribute("data-name").toLowerCase();
-
-            if (text.includes(input)) {
-                block.style.display = "block";
-            } else {
-                block.style.display = "none";
-            }
-        }
-    }
-</script>

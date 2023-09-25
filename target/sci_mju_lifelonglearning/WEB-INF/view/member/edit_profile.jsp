@@ -12,7 +12,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Edit Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -37,6 +40,13 @@
             dateInput.setAttribute("max", today);
         });
     </script>
+    <style>
+        tr td label{
+            font-size: 18px;
+            font-weight: bold;
+            color: black;
+        }
+    </style>
 </head>
 <body>
 <!-- Navbar -->
@@ -57,7 +67,7 @@
     }
 %>
 
-<c:set var="flag" value="<%= flag %>"></c:set>
+<c:set var="flag" value="<%= flag %>" />
 <c:choose>
     <c:when test="${flag.equals('admin')}">
         <jsp:include page="/WEB-INF/view/admin/nav_admin.jsp"/>
@@ -72,39 +82,41 @@
         <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
     </c:otherwise>
 </c:choose>
-<h1>แก้ไขข้อมูลส่วนตัว</h1>
-<hr>
+
 <center>
+    <br>
+    <h1>ข้อมูลส่วนตัว</h1><br>
+    <hr><br><br>
     <form action="${pageContext.request.contextPath}/member/${member.username}/update" method="post">
         <table>
             <tr>
-                <td><label>ชื่อ</label></td>
-                <td><label>นามสกุล</label></td>
+                <td><label class="form-label">ชื่อ</label></td>
+                <td><label class="form-label">นามสกุล</label></td>
             </tr>
             <tr>
-                <td><input type="text" value="${member.firstName}" name="firstName"></td>
-                <td><input type="text" value="${member.lastName}" name="lastName"></td>
+                <td><input type="text" value="${member.firstName}" name="firstName" class="form-control"></td>
+                <td><input type="text" value="${member.lastName}" name="lastName" class="form-control"></td>
             </tr>
             <tr>
-                <td><label>วัน/เดือน/ปี</label></td>
-                <td><label>เบอร์โทร</label></td>
+                <td><label class="form-label">วัน/เดือน/ปี</label></td>
+                <td><label class="form-label">เบอร์โทร</label></td>
             </tr>
             <tr>
-                <td><input type="date" value="${member.birthday}" id="datePicker" name="birthday" style="width: 100%;"/></td>
-                <td><input type="text" value="${member.tel}" name="tel"></td>
+                <td><input type="date" value="${member.birthday}" id="datePicker" name="birthday" class="form-control" style="width: 100%;"/></td>
+                <td><input type="text" value="${member.tel}" name="tel" class="form-control"></td>
             </tr>
             <tr>
-                <td><label>อีเมล</label></td>
+                <td><label class="form-label">อีเมล</label></td>
             </tr>
             <tr>
-                <td colspan="2"><input type="text" value="${member.email}" style="width: 100%" name="email"></td>
+                <td colspan="2"><input type="text" value="${member.email}" class="form-control" style="width: 100%" name="email"></td>
             </tr>
             <tr>
-                <td><label>ระดับการศึกษา</label></td>
+                <td><label class="form-label">ระดับการศึกษา</label></td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <select id="education" name="education">
+                    <select id="education" name="education" class="form-select" aria-label="Default select example">
                         <option value="ระดับมัธยมศึกษา">ระดับมัธยมศึกษา</option>
                         <option value="ระดับอาชีวศึกษา">ระดับอาชีวศึกษา</option>
                         <option value="ระดับอุดมศึกษา">ระดับอุดมศึกษา</option>
@@ -115,14 +127,18 @@
                 </td>
             </tr>
             <tr>
+                <td><br></td>
+                <td></td>
+            </tr>
+            <tr>
                 <td>
-                    <input type="submit" value="บันทึก">
-                    <button><a href="${pageContext.request.contextPath}/member/${member.username}/change_password">เปลี่ยนรหัสผ่าน</a></button>
+                    <input type="submit" value="บันทึก" class="btn btn-success">
+                    <button class="btn btn-dark"><a href="${pageContext.request.contextPath}/member/${member.username}/change_password" style="color: white">เปลี่ยนรหัสผ่าน</a></button>
                 </td>
             </tr>
         </table>
     </form>
-
+    <br><hr><br>
 </center>
 
 <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>

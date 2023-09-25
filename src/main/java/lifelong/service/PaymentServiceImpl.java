@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class PaymentServiceImpl implements PaymentService{
 
@@ -23,6 +25,12 @@ public class PaymentServiceImpl implements PaymentService{
     @Transactional
     public Invoice getInvoiceByMemberId(String memId) {
         return paymentDao.getInvoiceByMemberId(memId);
+    }
+
+    @Override
+    @Transactional
+    public List<Invoice> getListInvoiceByMemberId(String memId) {
+        return paymentDao.getListInvoiceByMemberId(memId);
     }
 
     @Override

@@ -81,7 +81,6 @@
             <c:forEach var="invoice" items="${register}">
                 <tr>
                     <c:choose>
-
                         <c:when test="${invoice.invoice.pay_status == true}">
                             <c:choose>
                                 <c:when test="${invoice.invoice.approve_status.equals('ผ่าน')}">
@@ -89,22 +88,28 @@
                                     <td style="text-align: center;"><p id="formattedStartStudy">${invoice.requestOpenCourse.startStudyDate}</p></td>
                                     <td style="text-align: center;"><p id="formattedEndStudy">${invoice.requestOpenCourse.endStudyDate}</p></td>
 
-                                    <c:set var="txtstt" value="${invoice.study_result}"></c:set>
-                                    <c:if var="stt" test="${txtstt == false}">
-                                        <c:set var="txtstt" value="อยู่ระหว่างเรียน"></c:set>
-                                        <td style="width: 200px; text-align: center; color: #ee8e18; font-weight: bold;">${txtstt}</td>
-                                        <td></td>
-                                    </c:if>
+                                    <c:choose>
+                                        <c:when test="${invoice.study_result.equals('ผ่าน')}">
+                                            <td style="width: 200px; text-align: center; color: green; font-weight: bold;">${invoice.study_result}</td>
+                                            <td>
+                                                <a href="${pageContext.request.contextPath}/member/${invoice.member.username}/certificate/${invoice.register_id}">
+                                                    <button style="text-align: center;" class="btn btn-outline-success">ดูเกียรติบัตร</button>
+                                                </a>
+                                            </td>
+                                        </c:when>
 
-                                    <c:if var="stt" test="${txtstt == true}">
-                                        <c:set var="txtstt" value="ผ่านหลักสูตร"></c:set>
-                                        <td style="width: 200px; text-align: center; color: green; font-weight: bold;">${txtstt}</td>
-                                        <td>
-                                            <a href="${pageContext.request.contextPath}/member/${invoice.member.username}/certificate/${invoice.register_id}">
-                                                <button style="text-align: center;" class="btn btn-outline-success">ดูเกียรติบัตร</button>
-                                            </a>
-                                        </td>
-                                    </c:if>
+                                        <c:when test="${invoice.study_result.equals('กำลังเรียน')}">
+                                            <td style="width: 200px; text-align: center; color: #ee8e18; font-weight: bold;">${invoice.study_result}</td>
+                                            <td></td>
+                                        </c:when>
+
+                                        <c:when test="${invoice.study_result.equals('ไม่ผ่าน')}">
+                                            <td style="width: 200px; text-align: center; color: red; font-weight: bold;">
+                                                ${invoice.study_result}
+                                            </td>
+                                            <td></td>
+                                        </c:when>
+                                    </c:choose>
                                 </c:when>
                             </c:choose>
                         </c:when>

@@ -17,6 +17,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
+    <style>
+        tr td label{
+            font-size: 18px;
+            font-weight: bold;
+            color: black;
+        }
+    </style>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const dateInput = document.getElementById("datePicker");
@@ -39,14 +47,62 @@
             // Set the max attribute to today's date
             dateInput.setAttribute("max", today);
         });
-    </script>
-    <style>
-        tr td label{
-            font-size: 18px;
-            font-weight: bold;
-            color: black;
+
+        /****************** Script *****************************/
+        //----------First Name------------
+        function checkScript(frm) {
+
+            //---------FirstName----------
+            var name = /^[ก-์A-Za-z]+$/
+            if (!frm.firstName.value.match(name)) {
+                alert("ชื่อจริงต้องเป็นภาษาไทยหรืออังกฤษเท่านั้น (ห้ามกรอกเป็นตัวเลข หรือ อักขระต่างๆ !!)");
+                frm.firstName.value = "";
+                return false;
+            }
+
+            //-----------Last Name-------------
+            if (!frm.lastName.value.match(name)) {
+                alert("นามสกุลเป็นภาษาไทยหรืออังกฤษเท่านั้น (ห้ามกรอกเป็นตัวเลข หรือ อักขระต่างๆ !!)");
+                frm.lastName.value = "";
+                return false;
+            }
+
+            //------------------Birth Day----------------
+            var birthday = new Date(document.getElementById('datePicker').value.split("/")[2] - 543 + "-"
+                + document.getElementById('datePicker').value.split("/")[1] + "-"
+                + document.getElementById('datePicker').value.split("/")[0]);
+
+            var birthday2 = new Date();
+            birthday2.setFullYear(new Date().getFullYear() - 16);
+
+            if (birthday.getTime() > birthday2.getTime()) {
+                alert("อายุของผู้สมัครสมาชิกจะต้องมีอายุ 16 ปีขึ้นไป !!");
+                return false;
+            } else if (frm.birthday.value === "") {
+                alert("กรุณากรอกวันเกิดปีเกิด");
+                frm.birthday.value = "";
+                return false;
+            }
+
+            //------------Tel---------------
+            var tel = /^[0-9]{3}[-][0-9]{3}[-][0-9]{4}|[\d]{7,10}$/
+            if (!frm.tel.value.match(tel)) {
+                alert("กรอกเบอร์โทรศัพท์มือถือให้ถูกต้อง (ตัวอย่าง 06x-xxx-xxxx)");
+                frm.tel.value = "";
+                return false;
+            }
+
+            //------------Email---------------
+            var Email = /^.+@.+\..{2,3}$/;
+            if (!frm.email.value.match(Email)) {
+                alert("กรอกอีเมล์ให้ถูกต้อง");
+                frm.email.value = "";
+                return false;
+            }
         }
-    </style>
+
+    </script>
+
 </head>
 <body>
 <!-- Navbar -->
@@ -87,14 +143,14 @@
     <br>
     <h1>ข้อมูลส่วนตัว</h1><br>
     <hr><br><br>
-    <form action="${pageContext.request.contextPath}/member/${member.username}/update" method="post">
+    <form action="${pageContext.request.contextPath}/member/${member.username}/update" name="frm" method="post">
         <table>
             <tr>
                 <td><label class="form-label">ชื่อ</label></td>
                 <td><label class="form-label">นามสกุล</label></td>
             </tr>
             <tr>
-                <td><input type="text" value="${member.firstName}" name="firstName" class="form-control"></td>
+                <td><input type="text" value="${member.firstName}" name="firstName" id="firstName" class="form-control" onkeyup="CheckFirstName()"></td>
                 <td><input type="text" value="${member.lastName}" name="lastName" class="form-control"></td>
             </tr>
             <tr>
@@ -103,13 +159,13 @@
             </tr>
             <tr>
                 <td><input type="date" value="${member.birthday}" id="datePicker" name="birthday" class="form-control" style="width: 100%;"/></td>
-                <td><input type="text" value="${member.tel}" name="tel" class="form-control"></td>
+                <td><input type="text" value="${member.tel}" id="tel"  name="tel" class="form-control"></td>
             </tr>
             <tr>
                 <td><label class="form-label">อีเมล</label></td>
             </tr>
             <tr>
-                <td colspan="2"><input type="text" value="${member.email}" class="form-control" style="width: 100%" name="email"></td>
+                <td colspan="2"><input type="text" value="${member.email}" class="form-control" style="width: 100%" name="email" id="email"></td>
             </tr>
             <tr>
                 <td><label class="form-label">ระดับการศึกษา</label></td>
@@ -132,7 +188,7 @@
             </tr>
             <tr>
                 <td>
-                    <input type="submit" value="บันทึก" class="btn btn-success">
+                    <input type="submit" value="บันทึก" class="btn btn-success" onclick="return checkScript(frm)">
                     <button class="btn btn-dark"><a href="${pageContext.request.contextPath}/member/${member.username}/change_password" style="color: white">เปลี่ยนรหัสผ่าน</a></button>
                 </td>
             </tr>

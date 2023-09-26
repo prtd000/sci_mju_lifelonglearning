@@ -107,12 +107,12 @@ public class WebHomeController {
     }
     @GetMapping("/loginLecturer")
     public String loginLecturer(Model model) {
-        model.addAttribute("title", "สำหรับผู้รับผิดชอบหลักสูตร");
+        model.addAttribute("title", "ผู้รับผิดชอบหลักสูตร");
         return "lecturer/loginLecturer";
     }
     @GetMapping("/loginAdmin")
     public String loginAdmin(Model model) {
-        model.addAttribute("title", "สำหรับผู้ดูแลระบบ");
+        model.addAttribute("title", "ผู้ดูแลระบบ");
         return "admin/loginAdmin";
     }
     @GetMapping("/access-denied")

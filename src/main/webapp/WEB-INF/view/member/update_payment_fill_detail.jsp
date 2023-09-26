@@ -44,6 +44,44 @@
             // Set the max attribute to today's date
             dateInput.setAttribute("max", today);
         });
+
+        /****************** Script *****************************/
+        function checkScript(frm) {
+            //------------File---------------
+            var extall = "jpg,jpeg,png";
+            file = frm.slip.value;
+            ext = file.split('.').pop().toLowerCase();
+
+            if (parseInt(extall.indexOf(ext)) < 0) {
+                alert('แนบเป็นไฟล์ : ' + extall + ' เท่านั้น !!');
+                frm.slip.value = "";
+                return false;
+            } else if (frm.slip.value === "") {
+                alert("กรุณาแนบหลักฐานการชำระเงินด้วย");
+                return false
+            }
+
+            //-----------------Payment Date----------------
+            if (frm.datePicker.value === "" || frm.datePicker.value === null || frm.datePicker.value === undefined  ) {
+                alert("กรุณากรอกวันที่ชำระเงิน");
+                frm.datePicker.value = "";
+                return false;
+            }
+
+            //------------receipt_paytime--------------
+            if (frm.receipt_paytime.value === "") {
+                alert("กรุณาเลือกเวลาที่ชำระเงิน");
+                return false;
+            }
+
+            //------------last_four_digits--------------
+            var digits = /^[0-9]{4}$/;
+            if (!frm.last_four_digits.value.match(digits)) {
+                alert("กรอกเลขบัญชีธนาคารเลขที่ (4 หลักสุดท้าย)");
+                frm.last_four_digits.value = "";
+                return false;
+            }
+        }
     </script>
     <style>
         .file-input {
@@ -130,7 +168,7 @@
         </tr>
     </table>
     <br>
-    <form action="${pageContext.request.contextPath}/member/${payment.register.member.username}/update_payment_fill_detail/${payment.invoice_id}/update" method="post" onsubmit="return confirm('ยืนยันข้อมูลการชำระเงิน')" enctype="multipart/form-data">
+    <form action="${pageContext.request.contextPath}/member/${payment.register.member.username}/update_payment_fill_detail/${payment.invoice_id}/update" method="post" name="frm" onsubmit="return confirm('ยืนยันข้อมูลการชำระเงิน')" enctype="multipart/form-data">
 
         <table style="box-shadow: 0px 0px 9px 0px #636363; border-radius: 28px; height: 430px;">
             <tr style="height: 350px;">
@@ -179,7 +217,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <input type="submit" style="width: 100%;" value="ยืนยันข้อมูลการชำระเงิน" class="btn btn-outline-success">
+                    <input type="submit" style="width: 100%;" value="ยืนยันข้อมูลการชำระเงิน" class="btn btn-outline-success" onclick="return checkScript(frm)">
                 </td>
             </tr>
         </table>

@@ -16,7 +16,7 @@
 <!DOCTYPEhtml>
 <html>
 <head>
-    <title>สมัครสมาชิก</title>
+    <title>Register Member</title>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -199,6 +199,116 @@
                 displayPreview.style.display = 'none';
             }
         }
+
+        /****************** Script *****************************/
+        function checkScript(frm) {
+            //-------------Id Card-------------
+            var idCard = /^[0-9]{13}|[\d]{1}[-|\s][\d]{4}[-|\s][\d]{5}[-|\s][\d]{2}[-|\s][\d]{1}$/;
+
+            if(frm.idcard.value === ""){
+                alert("กรอกเลขบัตรประชาชน");
+                return false;
+            }else if (!frm.idcard.value.match(idCard)) {
+                alert("กรอกเลขบัตรประชาชนให้ถูกต้อง");
+                frm.idcard.value = "";
+                return false;
+            }
+
+            //---------FirstName----------
+            var name = /^[ก-์A-Za-z]+$/
+            if (frm.firstName.value === ""){
+                alert("กรุณากรอกชื่อจริง");
+                return false;
+            } else if (!frm.firstName.value.match(name)) {
+                alert("ชื่อจริงต้องเป็นภาษาไทยหรืออังกฤษเท่านั้น (ห้ามกรอกเป็นตัวเลข หรือ อักขระต่างๆ !!)");
+                frm.firstName.value = "";
+                return false;
+            }
+
+            //-----------Last Name-------------
+            if (frm.lastName.value === ""){
+                alert("กรุณากรอกนามสกุล");
+                return false;
+            }else if (!frm.lastName.value.match(name)) {
+                alert("นามสกุลเป็นภาษาไทยหรืออังกฤษเท่านั้น (ห้ามกรอกเป็นตัวเลข หรือ อักขระต่างๆ !!)");
+                frm.lastName.value = "";
+                return false;
+            }
+
+            //------------Gender-------------
+            var gendercheck = document.getElementsByName('gender');
+            var gendernull = false;
+            for (var i = 0; i < gendercheck.length; i++) {
+                if (gendercheck[i].checked) {
+                    gendernull = true;
+                    break;
+                }
+            }
+            if (!gendernull) {
+                alert("กรุณาเลือกเพศ");
+                return false;
+            }
+
+            //------------Email---------------
+            var Email = /^.+@.+\..{2,3}$/;
+            if (frm.email.value === ""){
+                alert("กรุณากรอกอีเมล");
+                return false;
+            } else if (!frm.email.value.match(Email)) {
+                alert("กรอกอีเมล์ให้ถูกต้อง");
+                frm.email.value = "";
+                return false;
+            }
+
+            //------------------Birth Day----------------
+            var birthday = new Date(document.getElementById('datePicker').value.split("/")[2] - 543 + "-"
+                + document.getElementById('datePicker').value.split("/")[1] + "-"
+                + document.getElementById('datePicker').value.split("/")[0]);
+
+            var birthday2 = new Date();
+            birthday2.setFullYear(new Date().getFullYear() - 16);
+
+            if (birthday.getTime() > birthday2.getTime()) {
+                alert("อายุของผู้สมัครสมาชิกจะต้องมีอายุ 16 ปีขึ้นไป !!");
+                return false;
+            }else if (frm.birthday.value === "") {
+                alert("กรุณากรอกวันเกิดปีเกิด");
+                frm.birthday.value = "";
+                return false;
+            }
+
+            //------------Tel---------------
+            var tel = /^[0-9]{3}[-][0-9]{3}[-][0-9]{4}|[\d]{7,10}$/
+            if (!frm.tel.value.match(tel)) {
+                alert("กรอกเบอร์โทรศัพท์มือถือให้ถูกต้อง (ตัวอย่าง 06x-xxx-xxxx)");
+                frm.tel.value = "";
+                return false;
+            }
+
+            //------------Education--------------
+            if (frm.education.value === "กรุณาเลือกระดับการศึกษา") {
+                alert("กรุณาเลือกระดับการศึกษา");
+                return false;
+            }
+
+            //Check Username
+            var username = /^[A-Za-z0-9(_)]{4,10}$/;
+            if (!frm.username.value.match(username)) {
+                alert("กรุณากรอกบัญชีผู้ใช้เป็นภาษาอังกฤษและตัวเลข (อย่างน้อย 4 - 10 ตัว)");
+                frm.username.value = "";
+                return false;
+            }
+
+            //Check Password
+            var password = /^[0-9]{4,8}$/;
+            if (!frm.password.value.match(password)) {
+                alert("รหัสผ่านต้องเป็นตัวเลข (อย่างน้อย 4 - 8 ตัว)");
+                frm.password.value = "";
+                frm.confirmPassword.value = "";
+                return false;
+            }
+
+        }
     </script>
 </head>
 <body>
@@ -306,6 +416,7 @@
                                 <label>การศึกษา</label>
                                 <div class="mb-3">
                                     <select id="education" name="education" class="form-select" oninput="this.className = ''">
+                                        <option value="กรุณาเลือกระดับการศึกษา" selected>กรุณาเลือกระดับการศึกษา</option>
                                         <option value="ระดับมัธยมศึกษา">ระดับมัธยมศึกษา</option>
                                         <option value="ระดับอาชีวศึกษา">ระดับอาชีวศึกษา</option>
                                         <option value="ระดับอุดมศึกษา">ระดับอุดมศึกษา</option>
@@ -401,7 +512,7 @@
                 <!-- start previous / next buttons -->
                 <div class="form-footer d-flex">
                     <button type="button" id="prevBtn" onclick="nextPrev(-1)">ย้อนกลับ</button>
-                    <button type="button" id="nextBtn" onclick="nextPrev(1)">ต่อไป</button>
+                    <button type="button" id="nextBtn" onclick="nextPrev(1); return checkScript(frm)">ต่อไป</button>
                 </div>
                 <!-- end previous / next buttons -->
             </form>

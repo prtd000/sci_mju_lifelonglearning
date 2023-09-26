@@ -5,10 +5,49 @@
 <html>
 <head>
     <title>${title}</title>
-
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200&family=Prompt:wght@200&display=swap" rel="stylesheet">
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
+
+    <script>
+        /****************** Script *****************************/
+        function checkScript(frm) {
+            //Check Username
+            var username = /^[A-Za-z0-9(_)]{4,10}$/;
+            if (!frm.username.value.match(username)) {
+                alert("กรุณากรอกบัญชีผู้ใช้เป็นภาษาอังกฤษและตัวเลข (อย่างน้อย 4 - 10 ตัว)");
+                frm.username.value = "";
+                return false;
+            }
+
+            //Check Password
+            var password = /^[0-9]{4,8}$/;
+            if (!frm.password.value.match(password)) {
+                alert("รหัสผ่านต้องเป็นตัวเลข (อย่างน้อย 4 - 8 ตัว)");
+                frm.password.value = "";
+                return false;
+            }
+        }
+    </script>
+
+    <style>
+        .log-div{
+            width: fit-content;
+            padding: 86px;
+            box-shadow: 0px 0px 10px 2px #c6c5c5;
+            border-radius: 10px;
+        }
+        .header{
+            font-size: 37px;
+            font-family: 'Mitr', sans-serif;
+            color: #3b5f3b;
+            font-weight: bold;
+            position: absolute;
+            top: 31%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
 </head>
 <body>
 
@@ -16,11 +55,12 @@
 <jsp:include page="/WEB-INF/view/layouts/check_nav.jsp"/>
 
 <center>
-    <br><br><br><br>
-    <h1 style="font-size: 28px;">${title}</h1>
-    <br>
+    <br><br><br>
+    <p class="header">${title}</p>
+
     <div class="log-div">
-        <form:form action="${pageContext.request.contextPath}/doLoginMember" method="POST">
+        <br><br><br>
+        <form action="${pageContext.request.contextPath}/doLoginMember" name="frm" method="POST">
             <table>
                 <tr>
                     <td style="width: 88px; font-weight: bold; color: black; font-size: 19px;"><p class="form-label">ชื่อผู้ใช้</p></td>
@@ -34,11 +74,11 @@
 
                 <tr>
                     <td></td>
-                    <td><input type="submit" value="เข้าสู่ระบบ" class="btn btn-outline-success"/></td>
+                    <td><input type="submit" value="เข้าสู่ระบบ" class="btn btn-outline-success" onclick="return checkScript(frm)"/></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><br><a href="${pageContext.request.contextPath}/register_member" class="link-primary">สมัครสมาชิก</a></td>
+                    <td><br><a href="${pageContext.request.contextPath}/register_member" class="link-primary" style="font-weight: bold;">สมัครสมาชิก</a></td>
                 </tr>
 
                 <tr>
@@ -49,7 +89,7 @@
                     </td>
                 </tr>
             </table>
-        </form:form>
+        </form>
     </div>
     <br><br><br>
 </center>

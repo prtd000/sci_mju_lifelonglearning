@@ -6,6 +6,8 @@
 <%@ page import="lifelong.dao.RegisterDaoImpl" %>
 <%@ page import="java.util.List" %>
 <%@ page import="lifelong.model.Register" %>
+<%@ page import="org.springframework.beans.factory.annotation.Autowired" %>
+<%@ page import="lifelong.service.RequestOpCourseService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>

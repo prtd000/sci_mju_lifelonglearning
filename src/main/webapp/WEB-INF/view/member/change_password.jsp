@@ -22,6 +22,18 @@
             color: black;
         }
     </style>
+    <script>
+        function checkScript(frm) {
+            //Check Password
+            var password = /^[0-9]{4,8}$/;
+            if (!frm.newPassword.value.match(password)) {
+                alert("รหัสผ่านต้องเป็นตัวเลข (อย่างน้อย 4 - 8 ตัว)");
+                frm.newPassword.value = "";
+                frm.confirmPassword.value = "";
+                return false;
+            }
+        }
+    </script>
 </head>
 <body>
 <!-- Navbar -->
@@ -62,7 +74,7 @@
     <br>
     <h1>เปลี่ยนรหัสผ่าน</h1>
     <hr><br><br>
-    <form action="${pageContext.request.contextPath}/member/${member.username}/update_password" method="post">
+    <form action="${pageContext.request.contextPath}/member/${member.username}/update_password" name="frm" method="post">
         <table>
             <tr>
                 <td><label class="form-label">รหัสผ่านใหม่</label></td>
@@ -83,7 +95,7 @@
             <tr>
                 <td></td>
                 <td></td>
-                <td><input type="submit" value="บันทึก" class="btn btn-outline-success"></td>
+                <td><input type="submit" value="บันทึก" class="btn btn-outline-success" onclick="return checkScript(frm)"></td>
             </tr>
 
         </table>

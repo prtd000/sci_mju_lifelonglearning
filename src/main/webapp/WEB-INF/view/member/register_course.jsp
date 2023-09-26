@@ -114,6 +114,51 @@
         tr{
             height: 50px;
         }
+
+
+        /**************** Activity *****************/
+        .block_news{
+            box-shadow: 0px 0px 10px 2px #bebcbc;
+            border-radius: 14px;
+            width: 350px;
+            height: 510px;
+            margin-right: 30px;
+        }
+        .news_img{
+            height: 250px;
+            width: 350px;
+            object-fit: cover;
+            border-radius: 14px 14px 0px 0px;
+        }
+        .news_content{
+            padding: 21px 25px 2px 25px;
+        }
+
+        .header_news{
+            color: black;
+            font-weight: bold;
+            font-size: 28px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 300px;
+        }
+
+        div.block_detail_news {
+            max-height: calc(5 * 1.2em); /* 5 บรรทัด * ความสูงของแต่ละบรรทัด (1.2em) */
+            overflow: hidden;
+            position: relative;
+        }
+
+        div.block_detail_news::before {
+            content: " ..."; /* เพิ่ม ellipsis นำหน้าข้อความที่ตัด */
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: white; /* สีพื้นหลังของ ellipsis */
+            padding-left: 5px; /* ระยะห่างระหว่าง ellipsis และข้อความ */
+        }
+
     </style>
 </head>
 <body>
@@ -253,17 +298,16 @@
             </tr>
         </table>
     </div>
-    <br>
-
-
-    <br><br>
+    <br><br><br>
 <%--    Course News--%>
     <c:choose>
         <c:when test="${activity.size() == 0}">
-            <h1 style="display: none">ข่าวสารเกี่ยวกับหลักสูตร</h1>
+            <h1 style="display: none">ข่าวสารประจำหลักสูตร</h1>
         </c:when>
         <c:otherwise>
-            <h1 style="display: block">ข่าวสารเกี่ยวกับหลักสูตร</h1>
+            <h1 style="display: block">ข่าวสารประจำหลักสูตร</h1>
+            <hr>
+            <br>
         </c:otherwise>
     </c:choose>
 
@@ -275,12 +319,14 @@
                     <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}"/>
                     <td><img src="${pageContext.request.contextPath}/assets/img/activity/private/${list.ac_id}/${listImg}" alt="News_img" class="news_img"></td>
                 </c:forEach>
-<%--                <div><img src="img/banner1.jpeg" alt="News_img" class="news_img"></div>--%>
                 <div class="news_content">
-                    <h1>${list.name}</h1>
-                    <h4>${list.type}</h4>
-                    <p>${list.detail}</p>
-                    <p>${list.date}</p>
+                    <p class="header_news">${list.name}</p>
+                    <c:set var="date" value="${list.date}"/>
+                    <c:set var="format_date" value="${fn:substring(date, 0, 10)}"/>
+                    <p style="color: black;" id="news_date">${format_date}</p>
+                    <div class="block_detail_news">
+                        <p class="detail_news">${list.detail}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -289,5 +335,23 @@
 
 
 <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>
+<%--<script>--%>
+<%--    /******** Format Date to dd/mm/yyyy **************/--%>
+
+<%--    function formatDateElement(elementId) {--%>
+<%--        var text = document.getElementById(elementId).textContent;--%>
+<%--        var date = new Date(text);--%>
+
+<%--        var day = date.getDate();--%>
+<%--        var month = date.getMonth() + 1; // เพิ่ม 1 เนื่องจากเดือนเริ่มต้นจาก 0--%>
+<%--        var year = date.getFullYear();--%>
+
+<%--        return 'วันที่ : ' + day + '/' + month + '/' + year;--%>
+<%--    }--%>
+
+<%--    var formattedNews_date = formatDateElement("news_date");--%>
+<%--    document.getElementById("news_date").textContent = formattedNews_date;--%>
+<%--</script>--%>
 </body>
+
 </html>

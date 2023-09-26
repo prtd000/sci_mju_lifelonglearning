@@ -109,6 +109,12 @@ public class RequestOpCourseServiceImpl implements RequestOpCourseService {
     }
 
     @Override
+    @Transactional
+    public List<RequestOpenCourse> getRequestOpenCoursesByLecturerIdAndStatus(String lec_id) {
+        return requestOpCourseDao.getRequestOpenCoursesByLecturerIdAndStatus(lec_id);
+    }
+
+    @Override
     public List<Register> getRegistersByRocId(long request_id) {
         return requestOpCourseDao.getRegistersByRocId(request_id);
     }

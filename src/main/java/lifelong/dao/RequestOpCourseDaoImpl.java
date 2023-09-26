@@ -51,6 +51,16 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
         List<RequestOpenCourse> requestOpenCourses = query.getResultList();
         return requestOpenCourses;
     }
+
+    @Override
+    public List<RequestOpenCourse> getRequestOpenCoursesByLecturerIdAndStatus(String lec_id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse r where r.lecturer.id =: Id and r.requestStatus = 'รอดำเนินการ'", RequestOpenCourse.class);
+        query.setParameter("Id",lec_id);
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
+
     @Override
     public RequestOpenCourse getRequestOpenCourseDetail(long id) {
         Session session = sessionFactory.getCurrentSession();

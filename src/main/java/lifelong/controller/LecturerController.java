@@ -59,6 +59,7 @@ public class LecturerController {
         model.addAttribute("title", "ร้องขอเปิด" + title);
         model.addAttribute("lecturer",requestOpCourseService.getLecturerDetail(lecturer_id));
         model.addAttribute("courses", courseService.getCoursesByCourseStatus());
+        model.addAttribute("request_select",requestOpCourseService.getRequestOpenCoursesByLecturerIdAndStatus(lecturer_id));
         model.addAttribute("request_open_course", new RequestOpenCourse());
         return "lecturer/add_request_open_course_new";
     }
@@ -66,6 +67,7 @@ public class LecturerController {
     public String doRequestOpenCourseDetail(@PathVariable("id") String lec_id,
                                             @RequestParam Map<String, String> allReqParams,
                                             @RequestParam("signature") MultipartFile signature) throws ParseException {
+//        ตรงนี้
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // เปลี่ยนรูปแบบวันที่ให้ตรงกับ HTML
         int round = 0;
         Date requestDate = new Date();
@@ -230,10 +232,26 @@ public class LecturerController {
     //******************************************************************************//
 
     //***************************Cancel Course Detail***********************************//
+    @GetMapping("/{lec_id}/{roc_id}/cancel_request_open_course")
+    public String doCancelCourseDetail(@PathVariable("lec_id")String lec_id,@PathVariable("roc_id") long roc_id) throws IOException {
+        List<Register> registers = requestOpCourseService.checkRegisterToDelete(roc_id);
+        if (registers.size() == 0){
+            RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
+            requestOpenCourse.setRequestStatus("ถูกยกเลิก");
+            requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
+            //แก้ไขตาราง Course
+            Course course = courseService.getCourseById(requestOpenCourse.getCourse().getCourse_id());
+            course.setStatus("ยังไม่เปิดสอน");
+            courseService.updateCourse(course);
+        }else {
+            // ส่งพารามิเตอร์ "error" ใน URL เพื่อระบุว่าเกิดข้อผิดพลาด
+            return "redirect:/lecturer/" + lec_id + "/list_request_open_course?error=true";
+        }
+
+        return "redirect:/lecturer/"+ lec_id +"/list_request_open_course";
+    }
     @GetMapping("/{lec_id}/{roc_id}/delete_request_open_course")
-    public String doEditCourseActivity(@PathVariable("lec_id")String lec_id,@PathVariable("roc_id") long roc_id) throws IOException {
-//        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetailToUpdate(roc_id,lec_id);
-//        String lec_id = requestOpenCourse.getLecturer().getUsername();
+    public String doDeleteCourseDetail(@PathVariable("lec_id")String lec_id,@PathVariable("roc_id") long roc_id) throws IOException {
         List<Register> registers = requestOpCourseService.checkRegisterToDelete(roc_id);
         if (registers.size() == 0){
             RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);

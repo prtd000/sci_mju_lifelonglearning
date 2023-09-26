@@ -24,5 +24,7 @@ public interface RequestOpCourseService {
     int getRequestCourseRoundMaxId(String course_id);
     List<Register> checkRegisterToDelete(long request_id);
     List<RequestOpenCourse> checkRequestOpenCourseByCourseIdToUnApprove(String course_id);
+
+    List<RequestOpenCourse> getRequestOpenCoursesByLecturerIdAndStatus(String lec_id);
     List<Register> getRegistersByRocId(long request_id);
 }

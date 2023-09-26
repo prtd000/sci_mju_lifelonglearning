@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPEhtml>
 <html>
 <head>
@@ -139,8 +140,14 @@
                                 <td colspan="2">
                                     <label>หลักสูตร</label>
                                     <select name="course_id" id="course_id" class="form-select" oninput="this.className = ''">
+                                        <c:set var="requestedCourseIds" value="" />
+                                        <c:forEach var="item1" items="${request_select}">
+                                            <c:set var="requestedCourseIds" value="${requestedCourseIds},${item1.course.course_id}" />
+                                        </c:forEach>
                                         <c:forEach items="${courses}" var="course">
-                                            <option value="${course.course_id}">${course.name}</option>
+                                            <c:if test="${not fn:contains(requestedCourseIds, course.course_id)}">
+                                                <option value="${course.course_id}">${course.name}</option>
+                                            </c:if>
                                         </c:forEach>
                                     </select>
                                 </td>

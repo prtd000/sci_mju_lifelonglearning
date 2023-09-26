@@ -2,6 +2,7 @@ package lifelong.controller;
 
 import lifelong.model.Course;
 import lifelong.model.Member;
+import lifelong.model.Register;
 import lifelong.model.RequestOpenCourse;
 import lifelong.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ public class WebHomeController {
     public String listCourse(Model model) {
         List<RequestOpenCourse> requestOpenCourses = requestOpCourseService.getRequestOpenCourses();
         List<Course> courses = courseService.getCourses();
+        List<Register> registers = registerService.getListRegister();
 
         // ตรวจสอบและอัพเดต requestStatus สำหรับทุก RequestOpenCourse
         for (RequestOpenCourse requestOpenCourse : requestOpenCourses) {
@@ -50,11 +52,8 @@ public class WebHomeController {
             requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
             System.out.println("RequestStatus : " + requestOpenCourse.getRequestStatus());
         }
-        for (Course course : courses) {
-            System.out.println("CourseStatus : " + course.getStatus());
-        }
-        model.addAttribute("list_req",requestOpCourseService.getRequestOpenCourses());
-        model.addAttribute("courses", courseService.getCourses());
+        model.addAttribute("list_req",requestOpenCourses);
+        model.addAttribute("courses", courses);
         return "home";
     }
 

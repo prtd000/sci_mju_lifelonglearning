@@ -106,19 +106,20 @@
                     <td>${list.member.idcard}</td>
                     <td>${list.member.firstName} ${list.member.lastName}</td>
                     <td align="center">
-                        <c:set var="color" value="red"></c:set>
-                        <c:set var="study_result" value="ไม่ผ่านหลักสูตร"></c:set>
-                        <c:if test="${list.study_result == true}">
+                        <c:set var="color" value="orange"></c:set>
+                        <c:if test="${list.study_result == 'ผ่าน'}">
                             <c:set var="color" value="green"></c:set>
-                            <c:set var="study_result" value="ผ่านหลักสูตร"></c:set>
                         </c:if>
-                        <p style="color: ${color}">${study_result}</p>
+                        <c:if test="${list.study_result == 'ไม่ผ่าน'}">
+                            <c:set var="color" value="red"></c:set>
+                        </c:if>
+                        <p style="color: ${color}">${list.study_result}</p>
                     </td align="center">
                         <%--                <td>--%>
                         <%--                    ${list.invoice.pay_status}--%>
                         <%--                </td>--%>
                     <c:choose>
-                        <c:when test="${list.study_result == true}">
+                        <c:when test="${list.study_result == 'ผ่าน'}">
                             <td align="center">
                                 <input type="submit" name="studyResult" value="ไม่ผ่านหลักสูตร"/>
                             </td>

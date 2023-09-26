@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name="register")
@@ -42,6 +43,16 @@ public class Register {
         this.study_result = study_result;
         this.member = member;
         this.requestOpenCourse = requestOpenCourse;
+    }
+    public void checkDateStudyResult() {
+        Date currentDate = new Date(); // วันปัจจุบัน
+
+        if(Objects.equals(invoice.getApprove_status(), "ผ่าน")){
+            if (currentDate.after(requestOpenCourse.getEndStudyDate()) && Objects.equals(study_result, "กำลังเรียน")) {
+                this.study_result = "ไม่ผ่าน";
+//                this.course.setStatus("ยังไม่เปิดสอน");
+            }
+        }
     }
 
     public long getRegister_id() {

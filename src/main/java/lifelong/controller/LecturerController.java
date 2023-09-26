@@ -60,7 +60,7 @@ public class LecturerController {
         model.addAttribute("lecturer",requestOpCourseService.getLecturerDetail(lecturer_id));
         model.addAttribute("courses", courseService.getCoursesByCourseStatus());
         model.addAttribute("request_open_course", new RequestOpenCourse());
-        return "lecturer/add_request_open_course";
+        return "lecturer/add_request_open_course_new";
     }
     @PostMapping (path="/{id}/save")
     public String doRequestOpenCourseDetail(@PathVariable("id") String lec_id,
@@ -156,7 +156,7 @@ public class LecturerController {
         model.addAttribute("lecturer", requestOpCourseService.getLecturer());
         model.addAttribute("courses", courseService.getCourses());
         model.addAttribute("request_open_course", requestOpenCourse);
-        return "lecturer/update_request_open_course";
+        return "lecturer/edit_request_open_course";
     }
     @PostMapping (path="/{lec_id}/{req_id}/update")
     public String doEditRequestCourseDetail(@PathVariable("lec_id") String lec_id,
@@ -317,9 +317,9 @@ public class LecturerController {
         Register register = registerService.getRegisterByRegisterId(register_id);
         // ตรวจสอบค่า studyResult และดำเนินการตามที่คุณต้องการ
         if ("ผ่านหลักสูตร".equals(studyResult)) {
-            register.setStudy_result("ผ่านหลักสูตร");
+            register.setStudy_result("ผ่าน");
         } else if ("ไม่ผ่านหลักสูตร".equals(studyResult)) {
-            register.setStudy_result("ไม่ผ่านหลักสูตร");
+            register.setStudy_result("ไม่ผ่าน");
         }
         String lec_id = register.getRequestOpenCourse().getLecturer().getUsername();
         registerService.updateRegister(register);

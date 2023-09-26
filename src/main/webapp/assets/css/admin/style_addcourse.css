@@ -111,10 +111,10 @@ body{
     display: none;
     margin-left: 10px;
 }
-.objective,.course_totalHours,.course_fee{
+.objective,.course_totalHours,.course_fee,.flex-td{
     flex: 1;
 }
-.objective-container,.course-totalHours-container,.course-fee-container{
+.objective-container,.course-totalHours-container,.course-fee-container,.flex-container{
     width: 100%;
     display: flex;
     align-items: center;

@@ -8,10 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
 <html>
 <head>
-    <title>Title</title>
+    <title>Public Activity</title>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 
     <style>
@@ -74,9 +76,11 @@
                                 </td>
                             </tr>
                             <tr>
-                                <c:set var="date" value="${list.date}"/>
-                                <c:set var="format_date" value="${fn:substring(date, 0, 10)}"/>
-                                <td colspan="2"><p class="date_news">วันที่ : ${format_date}</p></td>
+                                <fmt:formatDate value="${list.date}" pattern="dd/MM/yyyy" var="activity_date" />
+                                <c:set var="format_date" value="${fn:substring(activity_date, 0, 10)}"/>
+                                <td colspan="2">
+                                    <p style="color: black;">ประกาศเมื่อวันที่ : ${format_date}</p>
+                                </td>
                             </tr>
                             <tr>
                                 <c:set var="imgNames" value="${list.img}"/>
@@ -97,21 +101,4 @@
     <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>
 </body>
 
-<script>
-    /******** Format Date to dd/mm/yyyy **************/
-
-    function formatDateElement(elementId) {
-        var text = document.getElementById(elementId).textContent;
-        var date = new Date(text);
-
-        var day = date.getDate();
-        var month = date.getMonth() + 1; // เพิ่ม 1 เนื่องจากเดือนเริ่มต้นจาก 0
-        var year = date.getFullYear();
-
-        return day + '/' + month + '/' + year;
-    }
-
-    var formattedNews_date = formatDateElement("news_date");
-    document.getElementById("news_date").textContent = formattedNews_date;
-</script>
 </html>

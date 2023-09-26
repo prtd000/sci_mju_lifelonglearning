@@ -53,6 +53,13 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
+    public List<RequestOpenCourse> getAllListRequestCourse() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse",RequestOpenCourse.class);
+        return query.getResultList();
+    }
+
+    @Override
     public List<AddImg> getAddImg() {
         Session session = sessionFactory.getCurrentSession();
         Query<AddImg> query = session.createQuery("from AddImg ",AddImg.class);

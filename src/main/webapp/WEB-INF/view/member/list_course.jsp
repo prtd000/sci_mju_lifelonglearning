@@ -4,6 +4,7 @@
 <%@ page import="java.time.LocalDate" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -85,8 +86,10 @@
                             <c:choose>
                                 <c:when test="${invoice.invoice.approve_status.equals('ผ่าน')}">
                                     <td>${invoice.requestOpenCourse.course.name}</td>
-                                    <td style="text-align: center;"><p id="formattedStartStudy">${invoice.requestOpenCourse.startStudyDate}</p></td>
-                                    <td style="text-align: center;"><p id="formattedEndStudy">${invoice.requestOpenCourse.endStudyDate}</p></td>
+                                    <fmt:formatDate value="${invoice.requestOpenCourse.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                    <fmt:formatDate value="${invoice.requestOpenCourse.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
+                                    <td style="text-align: center;"><p>${startStudyDate}</p></td>
+                                    <td style="text-align: center;"><p>${endStudyDate}</p></td>
 
                                     <c:choose>
                                         <c:when test="${invoice.study_result.equals('ผ่าน')}">
@@ -123,20 +126,22 @@
     </div>
 
     <div class="tabcontent" id="listInvoice">
-        <table class="table table-hover" style="width: 1200px;">
+        <table class="table table-hover" style="width: 1260px;">
             <tr>
                 <th style="text-align: left;">รายการ</th>
                 <th style="width: 130px;">เริ่มชำระเงิน</th>
                 <th style="width: 130px;">สิ้นสุดชำระเงิน</th>
                 <th style="width: 160px;">สถานะ</th>
-                <th style="width: 130px;">หมายเหตุ</th>
+                <th style="width: 170px;">หมายเหตุ</th>
             </tr>
             <c:forEach var="invoices" items="${register}">
                 <tr>
                     <c:if test="${invoices.invoice.approve_status ne 'ผ่าน'}">
                         <td style="width: 550px;">${invoices.requestOpenCourse.course.name}</td>
-                        <td style="text-align: center;"><p id="formattedStartPayment">${invoices.invoice.startPayment}</p></td>
-                        <td style="text-align: center;"><p id="formattedEndPayment">${invoices.invoice.endPayment}</p></td>
+                        <fmt:formatDate value="${invoices.invoice.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
+                        <fmt:formatDate value="${invoices.invoice.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
+                        <td style="text-align: center;"><p>${startPayment}</p></td>
+                        <td style="text-align: center;"><p>${endPayment}</p></td>
                     </c:if>
 
                     <c:choose>

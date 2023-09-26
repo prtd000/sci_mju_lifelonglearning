@@ -25,14 +25,14 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
         <div class="navbar-nav ms-auto py-0">
-            <a href="${pageContext.request.contextPath}/" class="nav-item nav-link active">หน้าหลัก</a>
-            <a href="#" class="nav-item nav-link">เกี่ยวกับคณะ</a>
+            <a href="${pageContext.request.contextPath}/" class="nav-item nav-link active" style="font-size: 18px">หน้าหลัก</a>
+            <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
             <%--            <div class="nav-item dropdown">--%>
             <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
-            <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link">หลักสูตรทั้งหมด</a>
-            <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
-            <a href="#" class="nav-item nav-link">Admin</a>
-            <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link">ออกจากระบบ</a>
+            <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรทั้งหมด</a>
+            <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
+            <a href="#" class="nav-item nav-link" style="font-size: 18px">ผู้ดูแลระบบ</a>
+            <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
 
             <%--            <a href="${pageContext.request.contextPath}/login" class="nav-item nav-link">เข้าสู่ระบบ</a>--%>
         </div>

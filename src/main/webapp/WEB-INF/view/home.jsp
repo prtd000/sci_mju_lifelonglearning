@@ -117,6 +117,19 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        .course_name{
+            font-family: 'Mitr', sans-serif;
+            color: #e24c07;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        table[class='icon'] tr td:first-child{
+            width: 44px;
+            vertical-align: top;
+        }
+
     </style>
 </head>
 
@@ -200,27 +213,45 @@
                             <div class="block col-lg-4 col-md-6 wow zoomIn" style="transition: 0.5s" data-name=${course.name}>
                                 <div class="col-lg-4 col-md-6 wow zoomIn" style="cursor: pointer" data-wow-delay="0.3s">
                                     <div class="bg-light border-bottom border-5 border-primary rounded"
-                                         style="width: 400px; height: 615px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
+                                         style="width: 400px; height: 625px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
                                         <a href="${pageContext.request.contextPath}/${course.course_id}">
                                         <div class="p-5">
-                                            <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}"
-                                                 style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
+                                            <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}" style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
                                             <div>
                                                 <br>
-                                                <b><h4 class="item text_ellipsis">${course.name}</h4></b>
-
+                                                <b><p class="item text_ellipsis course_name">${course.name}</p></b>
                                             </div>
-                                            <p>${course.major.name}</p>
-                                            <c:forEach var="list_non" items="${list_req}">
-                                                <c:if test="${list_non.course.course_id eq course.course_id}">
-                                                    <p style="color: red; font-weight: bold">${list_non.type_learn}</p>
-                                                </c:if>
-                                            </c:forEach>
-                                            <b><p style="color: #0c7800; font-size: 22px">
-                                                ราคา <fmt:formatNumber value="${courseFee}"/>.00 บาท
-                                            </p></b>
-                                            <a href="${pageContext.request.contextPath}/${course.course_id}">อ่านเพิ่มเติม<i
-                                                    class="bi bi-arrow-right ms-2"></i></a></td>
+                                            <p style="font-weight: bold; color: dodgerblue">${course.major.name}</p>
+
+                                            <table class="icon">
+                                                <c:forEach var="list" items="${list_req}">
+                                                    <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนในสถานศึกษา')}">
+                                                        <tr>
+                                                            <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
+                                                            <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
+                                                        </tr>
+                                                    </c:if>
+                                                    <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนออนไลน์')}">
+                                                        <tr>
+                                                            <td><img src="${pageContext.request.contextPath}/assets/img/online.png" style="height: 25px;"></td>
+                                                            <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
+                                                        </tr>
+                                                    </c:if>
+                                                    <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
+                                                        <tr>
+                                                            <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
+                                                            <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
+                                                        </tr>
+                                                    </c:if>
+                                                </c:forEach>
+                                                <tr>
+                                                    <td><img src="${pageContext.request.contextPath}/assets/img/money.png" style="height: 25px;"></td>
+                                                    <td><b><p style="color: #12b100;">ราคา <fmt:formatNumber value="${courseFee}"/>.00 บาท</p></b></td>
+                                                </tr>
+                                            </table>
+
+<%--                                            <hr style="background-color: black">--%>
+<%--                                            <a href="${pageContext.request.contextPath}/${course.course_id}" style="font-weight: bold;">อ่านเพิ่มเติม<i class="bi bi-arrow-right ms-2"></i></a>--%>
                                         </div>
                                         </a>
                                     </div>
@@ -264,27 +295,46 @@
                                  data-name=${course.name}>
                                 <div class="col-lg-4 col-md-6 wow zoomIn" style="cursor: pointer" data-wow-delay="0.3s">
                                     <div class="bg-light border-bottom border-5 border-primary rounded"
-                                         style="width: 400px; height: 615px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
+                                         style="width: 400px; height: 625px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
                                         <a href="${pageContext.request.contextPath}/${course.course_id}">
-                                        <div class="p-5">
-                                            <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}"
-                                                 style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
-                                            <div>
-                                                <br>
-                                                <b><h4 class="item text_ellipsis">${course.name}</h4></b>
+                                            <div class="p-5">
+                                                <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}" style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
+                                                <div>
+                                                    <br>
+                                                    <b><p class="item text_ellipsis course_name">${course.name}</p></b>
+                                                </div>
+                                                <p style="font-weight: bold; color: dodgerblue">${course.major.name}</p>
+
+                                                <table class="icon">
+                                                    <c:forEach var="list" items="${list_req}">
+                                                        <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนในสถานศึกษา')}">
+                                                            <tr>
+                                                                <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
+                                                                <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
+                                                            </tr>
+                                                        </c:if>
+                                                        <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนออนไลน์')}">
+                                                            <tr>
+                                                                <td><img src="${pageContext.request.contextPath}/assets/img/online.png" style="height: 25px;"></td>
+                                                                <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
+                                                            </tr>
+                                                        </c:if>
+                                                        <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
+                                                            <tr>
+                                                                <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
+                                                                <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
+                                                            </tr>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                    <tr>
+                                                        <td><img src="${pageContext.request.contextPath}/assets/img/money.png" style="height: 25px;"></td>
+                                                        <td><b><p style="color: #12b100;">ราคา <fmt:formatNumber value="${courseFee}"/>.00 บาท</p></b></td>
+                                                    </tr>
+                                                </table>
+
+                                                    <%--                                            <hr style="background-color: black">--%>
+                                                    <%--                                            <a href="${pageContext.request.contextPath}/${course.course_id}" style="font-weight: bold;">อ่านเพิ่มเติม<i class="bi bi-arrow-right ms-2"></i></a>--%>
                                             </div>
-                                            <p>${course.major.name}</p>
-                                            <c:forEach var="list" items="${list_req}">
-                                                <c:if test="${list.course.course_id eq course.course_id}">
-                                                    <p style="color: red; font-weight: bold">${list.type_learn}</p>
-                                                </c:if>
-                                            </c:forEach>
-                                            <b><p style="color: #0c7800; font-size: 22px">
-                                                ราคา <fmt:formatNumber value="${courseFee}"/>.00 บาท
-                                            </p></b>
-                                            <a href="${pageContext.request.contextPath}/course/${course.course_id}">อ่านเพิ่มเติม<i
-                                                    class="bi bi-arrow-right ms-2"></i></a>
-                                        </div>
                                         </a>
                                     </div>
                                 </div>
@@ -341,7 +391,7 @@
                     <p class="font-ab">สร้างความสำเร็จได้ด้วยมือของคุณเอง</p>
                 </div>
                 <br><br><br><br>
-                <button class="btn-register-ab">สมัครเลย !</button>
+                <a href="${pageContext.request.contextPath}/register_member"><button class="btn-register-ab">สมัครเลย !</button></a>
             </div>
 
         </div>

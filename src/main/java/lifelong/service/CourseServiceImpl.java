@@ -43,6 +43,12 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     @Transactional
+    public List<RequestOpenCourse> getAllListRequestCourse() {
+        return courseDao.getAllListRequestCourse();
+    }
+
+    @Override
+    @Transactional
     public List<AddImg> getAddImg() {
         return courseDao.getAddImg();
     }

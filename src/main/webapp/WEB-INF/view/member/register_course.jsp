@@ -7,6 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 <head>
@@ -321,9 +322,9 @@
                 </c:forEach>
                 <div class="news_content">
                     <p class="header_news">${list.name}</p>
-                    <c:set var="date" value="${list.date}"/>
-                    <c:set var="format_date" value="${fn:substring(date, 0, 10)}"/>
-                    <p style="color: black;" id="news_date">${format_date}</p>
+                    <fmt:formatDate value="${list.date}" pattern="dd/MM/yyyy" var="activity_date" />
+                    <c:set var="format_date" value="${fn:substring(activity_date, 0, 10)}"/>
+                    <p style="color: black;">${format_date}</p>
                     <div class="block_detail_news">
                         <p class="detail_news">${list.detail}</p>
                     </div>

@@ -15,6 +15,8 @@ public interface CourseDao {
     List<Course> getCoursesByCourseStatus();
 
     List<RequestOpenCourse> getListRequestOpCourse();
+
+    List<RequestOpenCourse> getAllListRequestCourse();
     List<AddImg> getAddImg();
 
     AddImg getPdfById(long id);

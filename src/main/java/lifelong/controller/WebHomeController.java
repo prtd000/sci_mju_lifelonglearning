@@ -60,7 +60,7 @@ public class WebHomeController {
     @GetMapping("/search_course")
     public String searchCourse(Model model) {
         /****Send listRequest****/
-        model.addAttribute("listRequest",courseService.getListRequestOpCourse());
+        model.addAttribute("listRequest",courseService.getAllListRequestCourse());
         model.addAttribute("listRegister", registerService.getListRegister());
         model.addAttribute("list_invoice",memberService.getListInvoice());
         model.addAttribute("courses", courseService.getCourses());
@@ -90,12 +90,6 @@ public class WebHomeController {
         model.addAttribute("list_activities", activityService.getPublicActivity());
         return "view_public_activity";
     }
-
-    
-
-
-
-
 
     /***********Login**********/
 

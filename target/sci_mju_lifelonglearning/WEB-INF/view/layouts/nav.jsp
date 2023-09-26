@@ -3,6 +3,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <form:form action="${pageContext.request.contextPath}/logout" method="post" name="frmLogout"></form:form>
 
+<style>
+    a{
+        font-size: 18px;
+    }
+</style>
 <!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
     <%--    <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png" style="height: 79px; margin-left: 57px; position: absolute;">--%>
@@ -22,17 +27,17 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
         <div class="navbar-nav ms-auto py-0">
-            <a href="${pageContext.request.contextPath}/" class="nav-item nav-link active">หน้าหลัก</a>
-            <a href="#" class="nav-item nav-link">เกี่ยวกับคณะ</a>
-            <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link">หลักสูตรการอบรม</a>
-            <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
-            <a href="#" class="nav-item nav-link">เกี่ยวกับเรา</a>
+            <a href="${pageContext.request.contextPath}/" class="nav-item nav-link active" style="font-size: 18px">หน้าหลัก</a>
+            <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
+            <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรการอบรม</a>
+            <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
+            <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับเรา</a>
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle nav-item" data-bs-toggle="dropdown">เข้าสู่ระบบ</a>
+                <a href="#" class="nav-link dropdown-toggle nav-item" data-bs-toggle="dropdown" style="font-size: 18px">เข้าสู่ระบบ</a>
                 <div class="dropdown-menu m-0">
-                    <a href="${pageContext.request.contextPath}/loginMember" class="dropdown-item">สำหรับสมาชิก</a>
-                    <a href="${pageContext.request.contextPath}/loginLecturer" class="dropdown-item">สำหรับบุคลากร</a>
-                    <a href="${pageContext.request.contextPath}/loginAdmin" class="dropdown-item">สำหรับผู้ดูแลระบบ</a>
+                    <a href="${pageContext.request.contextPath}/loginMember" class="dropdown-item" style="font-size: 18px">สำหรับสมาชิก</a>
+                    <a href="${pageContext.request.contextPath}/loginLecturer" class="dropdown-item" style="font-size: 18px">สำหรับบุคลากร</a>
+                    <a href="${pageContext.request.contextPath}/loginAdmin" class="dropdown-item" style="font-size: 18px">สำหรับผู้ดูแลระบบ</a>
                 </div>
             </div>
         </div>

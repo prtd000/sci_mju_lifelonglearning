@@ -160,6 +160,11 @@
             padding-left: 5px; /* ระยะห่างระหว่าง ellipsis และข้อความ */
         }
 
+        .detail_news{
+            color: black;
+            font-size: 15px;
+        }
+
     </style>
 </head>
 <body>
@@ -313,24 +318,31 @@
     </c:choose>
 
     <c:forEach var="list" items="${activity}">
-        <div class="block_news_big" style="float: left">
-            <div class="block_news">
-                <c:set var="imgNames" value="${list.img}"/>
-                <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
-                    <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}"/>
-                    <td><img src="${pageContext.request.contextPath}/assets/img/activity/private/${list.ac_id}/${listImg}" alt="News_img" class="news_img"></td>
-                </c:forEach>
-                <div class="news_content">
-                    <p class="header_news">${list.name}</p>
-                    <fmt:formatDate value="${list.date}" pattern="dd/MM/yyyy" var="activity_date" />
-                    <c:set var="format_date" value="${fn:substring(activity_date, 0, 10)}"/>
-                    <p style="color: black;">${format_date}</p>
-                    <div class="block_detail_news">
-                        <p class="detail_news">${list.detail}</p>
+        <a href="${pageContext.request.contextPath}/member/private_activity/${list.ac_id}">
+            <div class="block_news_big" style="float: left">
+                <div class="block_news">
+                    <c:set var="looped" value="false"/>
+                    <c:set var="imgNames" value="${list.img}"/>
+                    <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
+                        <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}"/>
+                        <c:if test="${!looped}">
+                            <td><img src="${pageContext.request.contextPath}/assets/img/activity/private/${list.ac_id}/${listImg}" alt="News_img" class="news_img"></td>
+                            <c:set var="looped" value="true"/>
+                        </c:if>
+                    </c:forEach>
+
+                    <div class="news_content">
+                        <p class="header_news">${list.name}</p>
+                        <fmt:formatDate value="${list.date}" pattern="dd/MM/yyyy" var="activity_date" />
+                        <c:set var="format_date" value="${fn:substring(activity_date, 0, 10)}"/>
+                        <p style="color: black;">${format_date}</p>
+                        <div class="block_detail_news">
+                            <p class="detail_news">${list.detail}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     </c:forEach>
 </div>
 

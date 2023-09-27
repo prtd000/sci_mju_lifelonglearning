@@ -37,8 +37,14 @@
             <div class="col-lg-3 col-md-6" style="width: 422px; margin-top: 0px">
                 <img src="${pageContext.request.contextPath}/assets/img/icon_mju_science.png" style="height: 160px">
                 <p style="color: white; font-weight: bold">คณะวิทยาศาสตร์ มหาวิทยาลัยแม่โจ้</p>
-                <i class="bi bi-geo-alt text-primary me-2"></i><a class="mb-2" href="https://maps.app.goo.gl/D5gqUfJ9g8MouXMd8" style="cursor: pointer; color: white;">https://maps.app.goo.gl/D5gqUfJ9g8MouXMd8</a>
-                <i class="bi bi-facebook text-primary me-2"></i><a class="mb-2" href="https://www.facebook.com/sciencemjupage" style="cursor: pointer; color: white;">https://www.facebook.com/sciencemjupage</a>
+                <table>
+                    <tr>
+                        <td><a href="https://web.facebook.com/sciencemjupage"><img src="${pageContext.request.contextPath}/assets/img/facebook.png" style="height: 40px; cursor: pointer; margin-right: 12px;"></a></td>
+                        <td><a href="https://www.instagram.com/scimju/?igshid=OGQ5ZDc2ODk2ZA%3D%3D&fbclid=IwAR3Y8YxJgAHGg_pK9cp_BTgBew5zqXo9En9-zymXdTik2buwPmB8NjsxL9w"><img src="${pageContext.request.contextPath}/assets/img/instagram.png" style="height: 40px; cursor: pointer; margin-right: 12px;"></a></td>
+                        <td><a href="https://www.tiktok.com/@dekscimju?is_from_webapp=1&sender_device=pc"><img src="${pageContext.request.contextPath}/assets/img/tik-tok.png" style="height: 40px; cursor: pointer; margin-right: 12px;"></a></td>
+                        <td><a href="https://maps.app.goo.gl/D5gqUfJ9g8MouXMd8"><img src="${pageContext.request.contextPath}/assets/img/google-maps.png" style="height: 40px; cursor: pointer; margin-right: 12px;"></a></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

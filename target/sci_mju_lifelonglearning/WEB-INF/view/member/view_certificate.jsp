@@ -12,7 +12,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Certificate</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -26,9 +26,9 @@
         .mem-name{
             position: absolute;
             font-weight: bold;
-            font-size: 46px;
+            font-size: 48px;
             color: black;
-            top: 42%;
+            top: 45%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
@@ -37,7 +37,7 @@
             font-weight: bold;
             font-size: 33px;
             color: black;
-            top: 53%;
+            top: 58%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
@@ -46,8 +46,8 @@
             position: absolute;
             font-size: 21px;
             color: black;
-            top: 67.5%;
-            left: 41%;
+            top: 74%;
+            left: 40%;
             transform: translate(-50%, -50%);
         }
 
@@ -70,24 +70,24 @@
         .signature{
             height: 74px;
             position: absolute;
-            top: 61%;
-            left: 41.5%;
+            top: 66%;
+            left: 40.5%;
             transform: translate(-50%, -50%);
         }
         .name-assistant{
             position: absolute;
             font-size: 21px;
             color: black;
-            top: 67.5%;
-            left: 59.5%;
+            top: 74%;
+            left: 60.5%;
             transform: translate(-50%, -50%);
         }
         .sig-assistant{
             position: absolute;
             font-size: 26px;
             color: black;
-            top: 63.5%;
-            left: 59.5%;
+            top: 69.5%;
+            left: 60.5%;
             transform: translate(-50%, -50%);
         }
     </style>
@@ -146,12 +146,12 @@
         document.getElementById('downloadButton').addEventListener('click', function () {
             // แปลงรูปภาพเป็น Canvas
             var contentElement = document.getElementById('content');
-            contentElement.style.marginTop = '-20px';
+            contentElement.style.marginTop = '-15px';
 
             html2canvas(document.getElementById('content')).then(function (canvas) {
                 // นี่คือความกว้างและความสูงของ Canvas
-                var canvasWidth = canvas.width - 1020; //บีบ width ให้แคบ
-                var canvasHeight = canvas.height - 28;
+                var canvasWidth = canvas.width - 845; //บีบ width ให้แคบ
+                var canvasHeight = canvas.height - 28; //
 
                 // สร้าง PDF โดยให้หน้ากระดาษ PDF มีขนาดแนวนอน (landscape)
                 var pdf = new jsPDF({
@@ -162,7 +162,8 @@
                 });
 
                 // เพิ่มรูปภาพเข้าใน PDF โดยใช้ขนาดเดียวกับ Canvas
-                pdf.addImage(canvas.toDataURL('image/jpeg',1), 'JPEG', -342, 0, 1200 , 370);
+                                                                     //(X และ Y ของรูปภาพใน PDF  , ขนาดของรูปภาพใน PDF)
+                pdf.addImage(canvas.toDataURL('image/PNG',1), 'PNG', -281, 0, 1080 , 370);
 
                 // บันทึก PDF หรือเปิดในหน้าต่างใหม่
                 pdf.save('Certificate.pdf');

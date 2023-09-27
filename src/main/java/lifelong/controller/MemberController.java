@@ -192,5 +192,11 @@ public class MemberController {
         return "redirect:/member/" + memId + "/edit_profile";
     }
 
+    @GetMapping("private_activity/{ac_id}")
+    public String activityDetail(@PathVariable("ac_id") String acId, Model model) {
+        model.addAttribute("ac_detail" , activityService.getActivityDetail(acId));
+        return "/member/activity_private";
+    }
+
 
 }

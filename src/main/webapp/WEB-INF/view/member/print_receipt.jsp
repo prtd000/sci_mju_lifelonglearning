@@ -57,8 +57,8 @@
             font-size: 17px;
             font-weight: bold;
             color: black;
-            top: 39%;
-            left: 42.5%;
+            top: 43%;
+            left: 42%;
             transform: translate(-50%, -50%);
         }
         .name_txt {
@@ -66,8 +66,8 @@
             font-size: 25px;
             font-weight: bold;
             color: black;
-            top: 49%;
-            left: 35.8%;
+            top: 54%;
+            left: 34.5%;
             transform: translate(-50%, -50%);
         }
         .txt_banking{
@@ -75,8 +75,8 @@
             font-size: 19px;
             font-weight: bold;
             color: black;
-            top: 55%;
-            left: 35.8%;
+            top: 60%;
+            left: 34.4%;
             transform: translate(-50%, -50%);
         }
         .txt_date{
@@ -84,8 +84,8 @@
             font-size: 19px;
             font-weight: bold;
             color: black;
-            top: 61%;
-            left: 35.9%;
+            top: 66%;
+            left: 34.5%;
             transform: translate(-50%, -50%);
         }
         .txt_header{
@@ -94,7 +94,7 @@
             font-size: 31px;
             font-weight: bold;
             color: black;
-            top: 55%;
+            top: 60%;
             left: 62.2%;
             transform: translate(-50%, -50%);
         }
@@ -103,8 +103,8 @@
             font-size: 19px;
             font-weight: bold;
             color: black;
-            top: 68%;
-            left: 33.5%;
+            top: 74%;
+            left: 32%;
             transform: translate(-50%, -50%);
         }
         .txt_header_price{
@@ -112,7 +112,7 @@
             font-size: 19px;
             font-weight: bold;
             color: black;
-            top: 68%;
+            top: 74%;
             left: 61%;
             transform: translate(-50%, -50%);
         }
@@ -121,21 +121,21 @@
             font-size: 18px;
             font-weight: bold;
             color: black;
-            top: 72%;
-            left: 39.5%;
+            top: 79%;
+            left: 40.8%;
             transform: translate(-50%, -50%);
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
-            width: 260px;
+            width: 328px;
         }
         .txt_price{
             position: absolute;
             font-size: 18px;
             font-weight: bold;
             color: black;
-            top: 72%;
-            left: 62.8%;
+            top: 79%;
+            left: 63%;
             transform: translate(-50%, -50%);
         }
         .total_txt {
@@ -143,8 +143,8 @@
             font-size: 26px;
             font-weight: bold;
             color: black;
-            top: 83%;
-            left: 35.5%;
+            top: 89%;
+            left: 34.5%;
             transform: translate(-50%, -50%);
         }
         .total_txt_price {
@@ -152,8 +152,8 @@
             font-size: 26px;
             font-weight: bold;
             color: black;
-            top: 83%;
-            left: 64%;
+            top: 89%;
+            left: 64.5%;
             transform: translate(-50%, -50%);
         }
     </style>
@@ -197,8 +197,8 @@
     <button id="downloadButton" style="cursor: pointer;" class="btn btn-secondary">ดาวน์โหลด PDF</button>
     <br><br>
 
-    <div id="pdfContent">
-        <table>
+    <div id="pdfContent" style="width: 700px">
+        <table style="width: 605px;">
             <tr style="vertical-align: bottom;">
                 <td style="width: 500px;">
                     <p class="txt_address">
@@ -208,7 +208,7 @@
                 </td>
                 <td>
                     <img src="${pageContext.request.contextPath}/assets/img/icon_mju_science.png"
-                         style="height: 112px;">
+                         style="height: 112px; margin-left: -76px;">
                 </td>
             </tr>
             <tr>

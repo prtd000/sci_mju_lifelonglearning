@@ -38,7 +38,7 @@
             font-size: 60px;
             font-weight: 900;
             top: 30%;
-            left: 50%;
+            left: 49%;
             transform: translate(-50%, -50%);
             color: white;
         }
@@ -49,7 +49,7 @@
             font-size: 33px;
             font-weight: 700;
             top: 39%;
-            left: 38%;
+            left: 35.5%;
             letter-spacing: 1px;
             transform: translate(-50%, -50%);
             color: white;
@@ -75,7 +75,7 @@
         }
 
         .block_position {
-            margin-left: 461px;
+            margin-left: 370px;
             margin-top: 54px;
             width: 830px;
             display: inline-block;

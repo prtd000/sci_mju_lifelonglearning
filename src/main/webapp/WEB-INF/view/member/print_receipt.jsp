@@ -76,7 +76,7 @@
             font-weight: bold;
             color: black;
             top: 55%;
-            left: 35.4%;
+            left: 35.8%;
             transform: translate(-50%, -50%);
         }
         .txt_date{

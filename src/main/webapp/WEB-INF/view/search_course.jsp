@@ -193,26 +193,36 @@
                                         <b><p class="item text_ellipsis course_name">${course.name}</p></b>
                                         <p style="font-weight: bold; color: dodgerblue">${course.course_type}</p>
                                         <table class="icon">
+                                            <c:set var="notFoundTypeLearn" value="false" />
                                             <c:forEach var="list" items="${list_req}">
                                                 <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนในสถานศึกษา')}">
                                                     <tr>
                                                         <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
                                                         <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
                                                     </tr>
+                                                    <c:set var="notFoundTypeLearn" value="true" />
                                                 </c:if>
                                                 <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนออนไลน์')}">
                                                     <tr>
                                                         <td><img src="${pageContext.request.contextPath}/assets/img/online.png" style="height: 25px;"></td>
                                                         <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
                                                     </tr>
+                                                    <c:set var="notFoundTypeLearn" value="true" />
                                                 </c:if>
                                                 <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
                                                     <tr>
                                                         <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
                                                         <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
                                                     </tr>
+                                                    <c:set var="notFoundTypeLearn" value="true" />
                                                 </c:if>
                                             </c:forEach>
+                                            <c:if test="${!notFoundTypeLearn}">
+                                                <tr>
+                                                    <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
+                                                    <td><p style="color: #5b5b5b; font-weight: bold">-</p></td>
+                                                </tr>
+                                            </c:if>
                                             <tr>
                                                 <td><img src="${pageContext.request.contextPath}/assets/img/money.png" style="height: 25px;"></td>
                                                 <td><b><p style="color: #12b100;">ราคา <fmt:formatNumber value="${courseFee}"/>.00 บาท</p></b></td>
@@ -224,39 +234,38 @@
                                         <table>
                                             <tr>
                                                 <td>
-                                                    <c:forEach var="listReq" items="${listRequest}">
+                                                <c:set var="notFoundCourse" value="true" />
+                                                <c:forEach var="listReq" items="${listRequest}">
                                                         <c:choose>
                                                             <c:when test="${listReq.course.course_id.equals(course.course_id) && listReq.requestStatus.equals('ผ่าน')}">
                                                                 <c:set var="status" value="true" />
                                                                 <c:forEach var="invoices" items="${list_invoice}">
                                                                     <c:choose>
                                                                         <c:when test="${invoices.register.member.username.equals(username) && invoices.register.requestOpenCourse.request_id == listReq.request_id}">
+                                                                            <td style="width: 590px; vertical-align: baseline;">
+                                                                                <a href="${pageContext.request.contextPath}/member/${username}/register_course/${course.course_id}/${listReq.request_id}" style="font-family: 'Mitr', sans-serif; font-size: 20px; font-weight: 100;">อ่านเพิ่มเติม<i class="bi bi-arrow-right ms-2"></i></a>
+                                                                            </td>
                                                                             <c:if test="${invoices.pay_status == true && invoices.approve_status.equals('ผ่าน')}">
-                                                                                <td style="width: 250px;">
+                                                                                <td style="width: 305px;">
                                                                                     <p style="color: red; font-family: 'Mitr', sans-serif; font-size: 20px; font-weight: 100;">ลงทะเบียนแล้ว</p>
                                                                                 </td>
                                                                                 <c:set var="status" value="false"/>
                                                                             </c:if>
 
                                                                             <c:if test="${invoices.pay_status == true && invoices.approve_status.equals('ไม่ผ่าน')}">
-                                                                                <td style="width: 250px;">
+                                                                                <td style="width: 305px;">
                                                                                     <p style="color: #e8b904; font-family: 'Mitr', sans-serif; font-size: 20px; font-weight: 100;">รอดำเนินการ</p>
                                                                                 </td>
                                                                                 <c:set var="status" value="false"/>
                                                                             </c:if>
 
                                                                             <c:if test="${invoices.pay_status == false || (invoices.pay_status == true && invoices.approve_status.equals('รอดำเนินการ'))}">
-                                                                                <td style="width: 250px;">
+                                                                                <td style="width: 305px;">
                                                                                     <p style="color: #e8b904; font-family: 'Mitr', sans-serif; font-size: 20px; font-weight: 100;">รอดำเนินการ</p>
                                                                                 </td>
                                                                                 <c:set var="status" value="false"/>
                                                                             </c:if>
-
-                                                                            <td style="width: 129px; vertical-align: baseline;">
-                                                                                <a href="${pageContext.request.contextPath}/member/${username}/register_course/${course.course_id}/${listReq.request_id}" style="font-family: 'Mitr', sans-serif; font-size: 20px; font-weight: 100;">
-                                                                                    <b>อ่านเพิ่มเติม</b>
-                                                                                </a>
-                                                                            </td>
+                                                                            <c:set var="notFoundCourse" value="false" />
                                                                         </c:when>
                                                                     </c:choose>
                                                                 </c:forEach>
@@ -270,10 +279,20 @@
                                                                             <p style="color: green; font-family: 'Mitr', sans-serif; font-size: 20px; font-weight: 500;">เปิด</p>
                                                                         </a>
                                                                     </td>
+                                                                    <c:set var="notFoundCourse" value="false" />
                                                                 </c:if>
                                                             </c:when>
                                                         </c:choose>
                                                     </c:forEach>
+                                                    <c:if test="${notFoundCourse}">
+                                                        <!-- เมื่อไม่พบ course_id ใน listRequest -->
+                                                        <td style="width: 250px; vertical-align: top;">
+                                                            <a href="${pageContext.request.contextPath}/${course.course_id}" style="font-family: 'Mitr', sans-serif; font-size: 20px; font-weight: 500;">อ่านเพิ่มเติม<i class="bi bi-arrow-right ms-2"></i></a>
+                                                        </td>
+                                                        <td style="width: 87px">
+                                                            <p style="font-family: 'Mitr', sans-serif; font-size: 20px; font-weight: 500;">ยังไม่เปิด</p>
+                                                        </td>
+                                                    </c:if>
                                                 </td>
                                             </tr>
                                         </table>
@@ -292,26 +311,37 @@
                                             </div>
                                             <p style="font-weight: bold; color: dodgerblue">${course.course_type}</p>
                                             <table class="icon">
+                                                <c:set var="notFoundTypeLearn" value="false" />
                                                 <c:forEach var="list" items="${list_req}">
                                                     <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนในสถานศึกษา')}">
                                                         <tr>
                                                             <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
                                                             <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
                                                         </tr>
+                                                        <c:set var="notFoundTypeLearn" value="true" />
                                                     </c:if>
                                                     <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนออนไลน์')}">
                                                         <tr>
                                                             <td><img src="${pageContext.request.contextPath}/assets/img/online.png" style="height: 25px;"></td>
                                                             <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
                                                         </tr>
+                                                        <c:set var="notFoundTypeLearn" value="true" />
                                                     </c:if>
                                                     <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
                                                         <tr>
                                                             <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
                                                             <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
                                                         </tr>
+                                                        <c:set var="notFoundTypeLearn" value="true" />
                                                     </c:if>
                                                 </c:forEach>
+                                                <c:if test="${!notFoundTypeLearn}">
+                                                    <tr>
+                                                        <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
+                                                        <td><p style="color: #5b5b5b; font-weight: bold">-</p></td>
+                                                    </tr>
+                                                </c:if>
+
                                                 <tr>
                                                     <td><img src="${pageContext.request.contextPath}/assets/img/money.png" style="height: 25px;"></td>
                                                     <td><b><p style="color: #12b100;">ราคา <fmt:formatNumber value="${courseFee}"/>.00 บาท</p></b></td>

@@ -123,6 +123,7 @@
             color: #e24c07;
             font-size: 20px;
             font-weight: 500;
+            height: 63px;
         }
 
         table[class='icon'] tr td:first-child{
@@ -221,29 +222,39 @@
                                                 <br>
                                                 <b><p class="item text_ellipsis course_name">${course.name}</p></b>
                                             </div>
-                                            <p style="font-weight: bold; color: dodgerblue">${course.major.name}</p>
+                                            <p style="font-size: 16px; font-weight: bold; color: dodgerblue">${course.major.name}</p>
 
                                             <table class="icon">
+                                                <c:set var="notFoundTypeLearn" value="false" />
                                                 <c:forEach var="list" items="${list_req}">
                                                     <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนในสถานศึกษา')}">
                                                         <tr>
                                                             <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
                                                             <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
                                                         </tr>
+                                                        <c:set var="notFoundTypeLearn" value="true" />
                                                     </c:if>
                                                     <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนออนไลน์')}">
                                                         <tr>
                                                             <td><img src="${pageContext.request.contextPath}/assets/img/online.png" style="height: 25px;"></td>
                                                             <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
                                                         </tr>
+                                                        <c:set var="notFoundTypeLearn" value="true" />
                                                     </c:if>
                                                     <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
                                                         <tr>
                                                             <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
                                                             <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
                                                         </tr>
+                                                        <c:set var="notFoundTypeLearn" value="true" />
                                                     </c:if>
                                                 </c:forEach>
+                                                <c:if test="${!notFoundTypeLearn}">
+                                                    <tr>
+                                                        <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
+                                                        <td><p style="color: #5b5b5b; font-weight: bold">-</p></td>
+                                                    </tr>
+                                                </c:if>
                                                 <tr>
                                                     <td><img src="${pageContext.request.contextPath}/assets/img/money.png" style="height: 25px;"></td>
                                                     <td><b><p style="color: #12b100;">ราคา <fmt:formatNumber value="${courseFee}"/>.00 บาท</p></b></td>

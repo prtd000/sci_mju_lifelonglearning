@@ -178,9 +178,9 @@
                                             Date currentDate = new Date(); // วันปัจจุบัน
                                         %>
                                         <c:set var="currentDate1" value="<%=currentDate%>"/>
-                                        <c:if test="${currentDate1 < request_course.applicationResult}">
+                                        <c:if test="${currentDate1 < request_course.applicationResult && request_course.numberOfAllRegistrations == 0}">
                                             <input type="button" value="ยกเลิก"
-                                                   onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบหลักสูตรนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/delete_request_open_course'; return false; }"
+                                                   onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบหลักสูตรนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/cancel_request_open_course'; return false; }"
                                                    class="cancel-button"/>
                                         </c:if>
                                     </td>

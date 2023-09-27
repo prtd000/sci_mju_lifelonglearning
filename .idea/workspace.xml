@@ -9,17 +9,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1f988c8c-8432-4649-a620-5b531a6a17f3" name="Changes" comment="">
+    <list default="true" id="94ee3265-17d3-4173-99b1-845ba8ed6d22" name="Changes" comment="home">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/controller/LecturerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/controller/LecturerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/dao/RequestOpCourseDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/dao/RequestOpCourseDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/dao/RequestOpCourseDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/dao/RequestOpCourseDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/service/RequestOpCourseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/service/RequestOpCourseService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/service/RequestOpCourseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/service/RequestOpCourseServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/add_request_open_course_new.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/add_request_open_course_new.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/list_request_open_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/list_request_open_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/controller/LecturerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/controller/LecturerController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/LecturerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/LecturerController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/home.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/search_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/search_course.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/dao/RequestOpCourseDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/dao/RequestOpCourseDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/dao/RequestOpCourseDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/dao/RequestOpCourseDaoImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/service/RequestOpCourseService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/service/RequestOpCourseService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/service/RequestOpCourseServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/service/RequestOpCourseServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/dao/RequestOpCourseDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/dao/RequestOpCourseDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/dao/RequestOpCourseDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/dao/RequestOpCourseDaoImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/service/RequestOpCourseService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/service/RequestOpCourseService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/service/RequestOpCourseServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/service/RequestOpCourseServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/home.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/list_request_open_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/list_request_open_course.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/search_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/search_course.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -216,7 +220,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="1f988c8c-8432-4649-a620-5b531a6a17f3" name="Changes" comment="" />
+      <changelist id="94ee3265-17d3-4173-99b1-845ba8ed6d22" name="Changes" comment="home" />
       <created>1692170311558</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -280,6 +284,7 @@
       <workItem from="1695540830106" duration="3955000" />
       <workItem from="1695560531599" duration="16448000" />
       <workItem from="1695716631473" duration="8144000" />
+      <workItem from="1695781108745" duration="3728000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <created>1692351063976</created>
@@ -463,7 +468,21 @@
       <option name="project" value="LOCAL" />
       <updated>1695717868403</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="home search">
+      <created>1695745186126</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1695745186127</updated>
+    </task>
+    <task id="LOCAL-00028" summary="home">
+      <created>1695745281663</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1695745281663</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -492,7 +511,9 @@
     <MESSAGE value="update detail" />
     <MESSAGE value="edit class Register" />
     <MESSAGE value="add edit request" />
-    <option name="LAST_COMMIT_MESSAGE" value="add edit request" />
+    <MESSAGE value="home search" />
+    <MESSAGE value="home" />
+    <option name="LAST_COMMIT_MESSAGE" value="home" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

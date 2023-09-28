@@ -7,9 +7,6 @@
 <head>
     <title>${title}</title>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
@@ -76,12 +73,6 @@
         <% assert admin != null; %>
         <!-- Navbar Start -->
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-                <%--    <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png" style="height: 79px; margin-left: 57px; position: absolute;">--%>
-                <%--    <div style="margin-left: 151px">--%>
-                <%--        <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">--%>
-                <%--            <h1 class="display-5 m-0 text-primary">LIFELONG<span class="text-secondary">LEARNING</span></h1>--%>
-                <%--        </a>--%>
-                <%--    </div>--%>
             <div style="margin: 0 0 5% 0">
                 <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">
                     <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png"
@@ -93,36 +84,23 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="${pageContext.request.contextPath}/" class="nav-item nav-link active">หน้าหลัก</a>
-                    <a href="#" class="nav-item nav-link">เกี่ยวกับคณะ</a>
-                        <%--            <div class="nav-item dropdown">--%>
-                        <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
-                    <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link">หลักสูตรการอบรม</a>
-                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link">รายการร้องขอ</a>
-                        <%--                <div class="dropdown-menu m-0">--%>
-                        <%--                    <a href="#" class="dropdown-item">Reskill/Upskill</a>--%>
-                        <%--                    <a href="#" class="dropdown-item">อบรมระยะสั้น</a>--%>
-
-                        <%--                </div>--%>
-                        <%--            </div>--%>
-                    <a href="#" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
-                    <a href="#" class="nav-item nav-link">เกี่ยวกับเรา</a>
-                    <a href="#" class="nav-item nav-link">Lecturer</a>
-                    <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link">ออกจากระบบ</a>
-
-                        <%--            <a href="${pageContext.request.contextPath}/login" class="nav-item nav-link">เข้าสู่ระบบ</a>--%>
+                    <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 18px">หน้าหลัก</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
+                    <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรการอบรม</a>
+                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link active" style="font-size: 18px">รายการร้องขอ</a>
+                    <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับเรา</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 18px">อาจารย์ผู้รับผิดชอบหลักสูตร</a>
+                    <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
                 </div>
             </div>
         </nav>
         <!-- Navbar End -->
-        <div id="header">
-            <h1>${title}</h1>
-        </div>
         <div class="container">
             <div id="container">
-                <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
-                <br><br>
                 <form id="signUpForm" onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/lecturer/${lec_id}/${request_open_course.request_id}/update" method="POST" enctype="multipart/form-data">
+                    <h3>แก้ไขการร้องขอเปิดหลักสูตร</h3>
+                    <hr>
                     <!-- start step indicators -->
                     <div class="form-header d-flex mb-4">
                         <span class="stepIndicator">ข้อมูลการสมัคร</span>

@@ -478,7 +478,7 @@ public class CourseController {
         Activity activity = activityService.getActivityDetail(id);
         model.addAttribute("title", "แก้ไข" + title + "ทั่วไป");
         model.addAttribute("activities", activity);
-        return "admin/edit_Public_Activity";
+        return "admin/edit_Public_Activity_News";
     }
 
     @PostMapping(path = "/{admin}/{id}/update_public_add_activity")

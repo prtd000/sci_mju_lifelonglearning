@@ -7,9 +7,6 @@
 <head>
     <title>${title}</title>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
@@ -106,14 +103,11 @@
             </div>
         </nav>
         <!-- Navbar End -->
-        <div id="header">
-            <h1>${title}</h1>
-        </div>
         <div class="container">
             <div id="container">
-                <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
-                <br><br>
                 <form id="signUpForm" action="${pageContext.request.contextPath}/course/${admin_id}/save" method="POST" enctype="multipart/form-data" onsubmit="return confirmAction();">
+                    <h3>เพิ่มหลักสูตรใหม่</h3>
+                    <hr>
                     <!-- start step indicators -->
                     <div class="form-header d-flex mb-4">
                         <span class="stepIndicator">Account Setup</span>

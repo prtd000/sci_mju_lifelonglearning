@@ -10,51 +10,9 @@
     <title>${title}</title>
 <%--    <link href="${pageContext.request.contextPath}/assets/css/list_open_course_style.css" rel="stylesheet">--%>
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        h1{
-            font-family: 'Prompt', sans-serif;
-            font-weight: 700 !important;
-        }
-        .bottom{
-            height: 20%;
-        }
-    </style>
+    <link href="${pageContext.request.contextPath}/assets/css/admin/listAllCourse.css" rel="stylesheet">
+
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
-    <style>
-        .td_request{
-            width: 30%;
-        }
-        .td_cancel{
-            width: 15%;
-        }
-        .td_lec{
-            width: 13%;
-        }
-        .td_roc,.td_learn,.td_type{
-            width: 10%;
-        }
-        .td_qty{
-            width: 7%;
-        }
-        .tabcontent{
-            width: 70%;
-        }
-        .td_course_name{
-            width: 80%;
-        }
-        .td_type_learn{
-            width: 20%;
-        }
-        .td_ap_course_name{
-            width: 55%;
-        }
-        .td_status{
-            width: 25%;
-        }
-        .td_list_member{
-            width: 20%;
-        }
-    </style>
 </head>
 <body>
 <%

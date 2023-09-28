@@ -8,49 +8,8 @@
     <title>${title}</title>
 <%--    <link href="${pageContext.request.contextPath}/assets/css/list_open_course_style.css" rel="stylesheet">--%>
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet">
-<%--    <link href="${pageContext.request.contextPath}/assets/css/list_all_course.css" rel="stylesheet">--%>
+    <link href="${pageContext.request.contextPath}/assets/css/lecturer/list_request_open_course.css" rel="stylesheet">
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
-    <style>
-        h1{
-            font-family: 'Prompt', sans-serif;
-            font-weight: 700 !important;
-        }
-    </style>
-    <style>
-        .td_request{
-            width: 30%;
-        }
-        .td_cancel{
-            width: 15%;
-        }
-        .td_lec{
-            width: 13%;
-        }
-        .td_roc,.td_learn,.td_type{
-            width: 10%;
-        }
-        .td_qty{
-            width: 7%;
-        }
-        .tabcontent{
-            width: 70%;
-        }
-        .td_course_name{
-            width: 80%;
-        }
-        .td_type_learn{
-            width: 20%;
-        }
-        .td_ap_course_name{
-            width: 55%;
-        }
-        .td_status{
-            width: 25%;
-        }
-        .td_list_member{
-            width: 20%;
-        }
-    </style>
 </head>
 <body>
 <%
@@ -86,43 +45,27 @@
         <% assert admin != null; %>
         <!-- Navbar Start -->
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-        <%--    <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png" style="height: 79px; margin-left: 57px; position: absolute;">--%>
-        <%--    <div style="margin-left: 151px">--%>
-        <%--        <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">--%>
-        <%--            <h1 class="display-5 m-0 text-primary">LIFELONG<span class="text-secondary">LEARNING</span></h1>--%>
-        <%--        </a>--%>
-        <%--    </div>--%>
-        <div style="margin: 0 0 5% 0">
-        <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">
-        <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png"
-        style="height: 79px; margin-left: 57px; position: absolute;">
-        </a>
-        </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
-        <div class="navbar-nav ms-auto py-0">
-        <a href="${pageContext.request.contextPath}/" class="nav-item nav-link active">หน้าหลัก</a>
-        <a href="#" class="nav-item nav-link">เกี่ยวกับคณะ</a>
-        <%--            <div class="nav-item dropdown">--%>
-        <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
-        <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link">หลักสูตรการอบรม</a>
-        <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link">รายการร้องขอ</a>
-        <%--                <div class="dropdown-menu m-0">--%>
-        <%--                    <a href="#" class="dropdown-item">Reskill/Upskill</a>--%>
-        <%--                    <a href="#" class="dropdown-item">อบรมระยะสั้น</a>--%>
-
-        <%--                </div>--%>
-        <%--            </div>--%>
-        <a href="#" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
-        <a href="#" class="nav-item nav-link">เกี่ยวกับเรา</a>
-        <a href="#" class="nav-item nav-link">Lecturer</a>
-        <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link">ออกจากระบบ</a>
-
-        <%--            <a href="${pageContext.request.contextPath}/login" class="nav-item nav-link">เข้าสู่ระบบ</a>--%>
-        </div>
-        </div>
+            <div style="margin: 0 0 5% 0">
+                <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">
+                    <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png"
+                         style="height: 79px; margin-left: 57px; position: absolute;">
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
+                <div class="navbar-nav ms-auto py-0">
+                    <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 18px">หน้าหลัก</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
+                    <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรการอบรม</a>
+                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link active" style="font-size: 18px">รายการร้องขอ</a>
+                    <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับเรา</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 18px">อาจารย์ผู้รับผิดชอบหลักสูตร</a>
+                    <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
+                </div>
+            </div>
         </nav>
         <!-- Navbar End -->
 
@@ -158,7 +101,9 @@
                                 <tr style="color: black">
                                     <td><p>${request_course.course.name}</p></td>
                                     <td align="center"><p>${startStudyDate} ถึง ${endStudyDate}</p></td>
-                                    <td><p>ดูตัวอย่าง</p></td>
+                                    <td align="center">
+                                        <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/view_sample_certificate">ดูตัวอย่าง</a>
+                                    </td>
                                     <td align="center">
                                         <input type="button" value="${request_course.numberOfApprovedRegistrations}/${request_course.quantity}"
                                                onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve'; return false;"

@@ -10,6 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPEhtml>
 <html>
 <head>
@@ -28,6 +29,8 @@
 <script>
   function previewImages() {
     var preview = document.getElementById('imagePreview');
+    var loadImg = document.getElementById('loadImg');
+    var ac_img = document.getElementById('ac_img');
     var img_label = document.getElementById('img_label');
     var files = document.getElementById('ac_img').files;
     var maxImagesToShow = 3; // จำนวนรูปภาพที่ต้องการแสดงเป็นตัวอย่าง
@@ -58,6 +61,9 @@
       // preview.appendChild(message);
       img_label.appendChild(message);
     }
+    loadImg.style.display = 'none';
+    preview.style.display = 'block';
+    img_label.style.display = 'block';
   }
 
 </script>
@@ -128,10 +134,10 @@
     <div class="container">
       <div id="container">
 
-        <form id="signUpForm" onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/save_public_add_activity" method="POST" enctype="multipart/form-data">
+        <form id="signUpForm" onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/${activities.ac_id}/update_public_add_activity" method="POST" enctype="multipart/form-data">
           <!-- step one -->
           <div class="step">
-            <h3>เพิ่มข่าวสารทั่วไป</h3>
+            <h3>แก้ไขข่าวสารทั่วไป</h3>
             <hr>
             <table style="width: 100%">
               <tr>
@@ -139,7 +145,7 @@
                   <label>ชื่อข่าวสาร</label>
                   <div class="mb-3">
                     <div class="course-totalHours-container">
-                      <input name="ac_name" id="ac_name" type="text" autocomplete="off" oninput="this.className = ''" class="flex-td"/>
+                      <input name="ac_name" id="ac_name" type="text" autocomplete="off" oninput="this.className = ''" class="flex-td" value="${activities.name}"/>
                     </div>
                   </div>
                 </td>
@@ -148,7 +154,7 @@
                 <td>
                   <div class="mb-3">
                     <div class="form-floating">
-                      <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px"></textarea>
+                      <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px">${activities.detail}</textarea>
                       <label for="ac_detail">รายละเอียด</label>
                     </div>
                   </div>
@@ -170,8 +176,27 @@
               </tr>
               <tr>
                 <td>
-                  <div id="imagePreview"></div>
-                  <label id="img_label"></label>
+                  <div id="loadImg">
+                    <c:if test="${not empty activities.img}">
+                      <c:set var="imgNames" value="${activities.img}" />
+                      <c:set var="imgArray" value="${fn:split(imgNames, ',')}" />
+
+                      <c:forEach var="listImg" items="${imgArray}" varStatus="loop">
+                        <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}" />
+                        <c:if test="${loop.index < 3}">
+                          <div style="display: inline-block">
+                            <img src="${pageContext.request.contextPath}/assets/img/activity/public/${activities.ac_id}/${listImg}" width="200px">
+                          </div>
+                        </c:if>
+                      </c:forEach>
+
+                      <c:if test="${fn:length(imgArray) > 3}">
+                        <label>และรูปภาพอีก ${fn:length(imgArray) - 3} รูป</label>
+                      </c:if>
+                    </c:if>
+                  </div>
+                  <div id="imagePreview" style="display: none"></div>
+                  <label id="img_label" style="display: none"></label>
                 </td>
               </tr>
             </table>

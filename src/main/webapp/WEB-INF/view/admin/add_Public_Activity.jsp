@@ -15,12 +15,52 @@
 <head>
   <title>เพิ่ม${title}</title>
   <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
+  <!-- google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+  <link href="${pageContext.request.contextPath}/assets/css/admin/style_addcourse.css" rel="stylesheet">
 </head>
 <style>
   .txt_input {
     width: 70%;
   }
 </style>
+<script>
+  function previewImages() {
+    var preview = document.getElementById('imagePreview');
+    var img_label = document.getElementById('img_label');
+    var files = document.getElementById('ac_img').files;
+    var maxImagesToShow = 3; // จำนวนรูปภาพที่ต้องการแสดงเป็นตัวอย่าง
+    var remainingImages = files.length - maxImagesToShow; // จำนวนรูปภาพที่เหลือ
+
+    preview.innerHTML = ''; // ล้างเนื้อหาที่แสดงรูปภาพตัวอย่างเก่า
+    img_label.innerHTML = '';
+
+    for (var i = 0; i < maxImagesToShow; i++) {
+      var file = files[i];
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        var img = document.createElement('img');
+        img.src = e.target.result;
+        img.style.maxWidth = '200px'; // ตั้งความกว้างสูงสุดของรูปภาพ
+        img.style.maxHeight = '200px'; // ตั้งความสูงสูงสุดของรูปภาพ
+        preview.appendChild(img); // เพิ่มรูปภาพลงในตัวแสดงรูปภาพตัวอย่าง
+      };
+
+      reader.readAsDataURL(file); // อ่านไฟล์ภาพและแสดงผล
+    }
+
+    if (remainingImages > 0) {
+      var remainingImagesText = 'และรูปภาพอีก ' + remainingImages + ' รูป';
+      var message = document.createElement('p');
+      message.textContent = remainingImagesText;
+      // preview.appendChild(message);
+      img_label.appendChild(message);
+    }
+  }
+
+</script>
 <body>
 <%
   Admin admin = (Admin) session.getAttribute("admin");
@@ -85,40 +125,65 @@
       </div>
     </nav>
     <!-- Navbar End -->
-    <div id="header">
-      <h1>เพิ่ม${title}</h1>
-    </div>
     <div class="container">
       <div id="container">
-        <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง</i>
-        <br><br>
-        <form onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/save_public_add_activity" method="POST" enctype="multipart/form-data">
-          <table style="width: 100%">
-            <colgroup>
-              <col style="width: 160px;">
-              <col style="width: auto;">
-            </colgroup>
-            <tbody>
-            <tr>
-              <td><label>ชื่อข่าว:</label></td>
-              <td><input class="txt_input" style="width: 70%" name="ac_name" type="text" id="ac_name"/></td>
-            </tr>
-            <tr>
-              <td><label>รายละเอียด:</label></td>
-              <td><textarea class="txt_input" name="ac_detail" id="ac_detail"></textarea></td>
-            </tr>
-            <tr>
-              <td><label>รูปภาพ:</label></td>
-              <td><input class="txt_input" name="ac_img" type="file" id="ac_img" multiple/></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td><input type="submit" value="บันทึก" class="save"/>
-                  <%--                        <input type="button" value="ยกเลิก"onclick="window.location.href='list'; return false;"class="cancel-button"/>--%>
-              </td>
-            </tr>
-            </tbody>
-          </table>
+
+        <form id="signUpForm" onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/save_public_add_activity" method="POST" enctype="multipart/form-data">
+          <!-- step one -->
+          <div class="step">
+            <h3>เพิ่มข่าวสารทั่วไป</h3>
+            <hr>
+            <table style="width: 100%">
+              <tr>
+                <td>
+                  <label>ชื่อข่าวสาร</label>
+                  <div class="mb-3">
+                    <div class="course-totalHours-container">
+                      <input name="ac_name" id="ac_name" type="text" autocomplete="off" oninput="this.className = ''" class="flex-td"/>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="mb-3">
+                    <div class="form-floating">
+                      <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px"></textarea>
+                      <label for="ac_detail">รายละเอียด</label>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label>รูปภาพ</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="mb-3">
+                    <div class="form-floating">
+                      <input class="txt_input" name="ac_img" type="file" id="ac_img" accept="image/*" multiple onchange="previewImages()"/>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div id="imagePreview"></div>
+                  <label id="img_label"></label>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <!-- start previous / next buttons -->
+          <div style="width: 100%" align="center" class="flex-container">
+            <input type="button" value="ย้อนกลับ"
+                   onclick="window.location.href='${pageContext.request.contextPath}/course/public/list_activity'; return false;"
+                   style="width: 47%" class="flex-container"/>
+            <input type="submit" value="บันทึก" class="button-5" style="width: 47%"/>
+          </div>
+          <!-- end previous / next buttons -->
         </form>
       </div>
     </div>
@@ -133,6 +198,12 @@
 </c:choose>
 </body>
 <script>
+  var currentTab = 0; // Current tab is set to be the first tab (0)
+  showTab(currentTab); // Display the current tab
+  function showTab(n) {
+    var x = document.getElementsByClassName("step");
+    x[n].style.display = "block";
+  }
   function confirmAction() {
     var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการเพิ่มข่าวสารนี้?");
     if (result) {

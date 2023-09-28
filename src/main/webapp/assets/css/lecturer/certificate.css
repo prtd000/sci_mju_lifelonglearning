@@ -1,0 +1,120 @@
+#signUpForm{
+    max-width: 95%;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+#menuForm {
+    max-width: 50%;
+    background-color: #ffffff;
+    padding: 40px;
+    box-shadow: 0px 6px 18px rgb(0 0 0 / 9%);
+    border-radius: 12px;
+}
+#menuForm .form-header {
+    gap: 5px;
+    text-align: center;
+    font-size: .9em;
+}
+#menuForm .form-header .stepIndicator {
+    position: relative;
+    flex: 1;
+    padding-bottom: 30px;
+}
+#menuForm .form-header .stepIndicator.active {
+    font-weight: 600;
+}
+#menuForm .form-header .stepIndicator.finish {
+    font-weight: 600;
+    color: #ff7b31;
+}
+#menuForm .form-header .stepIndicator::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    z-index: 9;
+    width: 20px;
+    height: 20px;
+    background-color: #efdbd5;
+    border-radius: 50%;
+    border: 3px solid #f5eeec;
+}
+#menuForm .form-header .stepIndicator.active::before {
+    background-color: #edbca7;
+    border: 3px solid #f9e2d5;
+}
+#menuForm .form-header .stepIndicator.finish::before {
+    background-color: #ff7b31;
+    border: 3px solid #e1bfb7;
+}
+#menuForm .form-header .stepIndicator::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 8px;
+    width: 100%;
+    height: 3px;
+    background-color: #f3f3f3;
+}
+#menuForm .form-header .stepIndicator.active::after {
+    background-color: #edb4a7;
+}
+#menuForm .form-header .stepIndicator.finish::after {
+    background-color: #ff7b31;
+}
+#menuForm .form-header .stepIndicator:last-child:after {
+    display: none;
+}
+#menuForm input,#menuForm select {
+    padding: 15px 20px;
+    width: 100%;
+    font-size: 1em;
+    border: 1px solid #e3e3e3;
+    border-radius: 5px;
+}
+#menuForm input:focus,#menuForm select:focus {
+    border: 1px solid #ff7b31;
+    outline: 0;
+}
+#menuForm input.invalid,#menuForm select.invalid {
+    border: 1px solid #ffbda5;
+}
+#menuForm .step {
+    display: none;
+}
+#menuForm .form-footer{
+    overflow:auto;
+    gap: 20px;
+}
+#menuForm .form-footer button{
+    background-color: #ff7b31;
+    border: 1px solid #ff7b31 !important;
+    color: #ffffff;
+    border: none;
+    padding: 13px 30px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    flex: 1;
+    margin-top: 5px;
+}
+#menuForm .form-footer button:hover {
+    opacity: 0.8;
+}
+
+#menuForm .form-footer #prevBtn {
+    background-color: #fff;
+    color: #ff7b31;
+}
+#menuForm{
+    max-width: 100%;
+}
+.label-cer{
+    font-size: 18px;
+    margin-bottom: 25px;
+    margin-top: 10px;
+}
+p{
+    margin-bottom: 27px;
+}

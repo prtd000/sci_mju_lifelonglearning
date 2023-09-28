@@ -15,7 +15,52 @@
 <head>
   <title>เพิ่ม${title}</title>
   <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
+  <!-- google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+  <link href="${pageContext.request.contextPath}/assets/css/admin/style_addcourse.css" rel="stylesheet">
 </head>
+<script>
+  function previewImages() {
+    var preview = document.getElementById('imagePreview');
+    var loadImg = document.getElementById('loadImg');
+    var ac_img = document.getElementById('ac_img');
+    var img_label = document.getElementById('img_label');
+    var files = document.getElementById('ac_img').files;
+    var maxImagesToShow = 3; // จำนวนรูปภาพที่ต้องการแสดงเป็นตัวอย่าง
+    var remainingImages = files.length - maxImagesToShow; // จำนวนรูปภาพที่เหลือ
+
+    preview.innerHTML = ''; // ล้างเนื้อหาที่แสดงรูปภาพตัวอย่างเก่า
+    img_label.innerHTML = '';
+
+    for (var i = 0; i < maxImagesToShow; i++) {
+      var file = files[i];
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        var img = document.createElement('img');
+        img.src = e.target.result;
+        img.style.maxWidth = '200px'; // ตั้งความกว้างสูงสุดของรูปภาพ
+        img.style.maxHeight = '200px'; // ตั้งความสูงสูงสุดของรูปภาพ
+        preview.appendChild(img); // เพิ่มรูปภาพลงในตัวแสดงรูปภาพตัวอย่าง
+      };
+
+      reader.readAsDataURL(file); // อ่านไฟล์ภาพและแสดงผล
+    }
+
+    if (remainingImages > 0) {
+      var remainingImagesText = 'และรูปภาพอีก ' + remainingImages + ' รูป';
+      var message = document.createElement('p');
+      message.textContent = remainingImagesText;
+      // preview.appendChild(message);
+      img_label.appendChild(message);
+    }
+    loadImg.style.display = 'none';
+    preview.style.display = 'block';
+    img_label.style.display = 'block';
+  }
+
+</script>
 <body>
 <%
   Admin admin = (Admin) session.getAttribute("admin");
@@ -50,95 +95,116 @@
     <% assert admin != null; %>
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-    <%--    <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png" style="height: 79px; margin-left: 57px; position: absolute;">--%>
-    <%--    <div style="margin-left: 151px">--%>
-    <%--        <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">--%>
-    <%--            <h1 class="display-5 m-0 text-primary">LIFELONG<span class="text-secondary">LEARNING</span></h1>--%>
-    <%--        </a>--%>
-    <%--    </div>--%>
-    <div style="margin: 0 0 5% 0">
-    <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">
-    <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png"
-    style="height: 79px; margin-left: 57px; position: absolute;">
-    </a>
-    </div>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-    <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
-    <div class="navbar-nav ms-auto py-0">
-    <a href="${pageContext.request.contextPath}/" class="nav-item nav-link active">หน้าหลัก</a>
-    <a href="#" class="nav-item nav-link">เกี่ยวกับคณะ</a>
-    <%--            <div class="nav-item dropdown">--%>
-    <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
-    <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link">หลักสูตรการอบรม</a>
-    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link">รายการร้องขอ</a>
-    <%--                <div class="dropdown-menu m-0">--%>
-    <%--                    <a href="#" class="dropdown-item">Reskill/Upskill</a>--%>
-    <%--                    <a href="#" class="dropdown-item">อบรมระยะสั้น</a>--%>
-
-    <%--                </div>--%>
-    <%--            </div>--%>
-    <a href="#" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
-    <a href="#" class="nav-item nav-link">เกี่ยวกับเรา</a>
-    <a href="#" class="nav-item nav-link">Lecturer</a>
-    <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link">ออกจากระบบ</a>
-
-    <%--            <a href="${pageContext.request.contextPath}/login" class="nav-item nav-link">เข้าสู่ระบบ</a>--%>
-    </div>
-    </div>
+      <div style="margin: 0 0 5% 0">
+        <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">
+          <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png"
+               style="height: 79px; margin-left: 57px; position: absolute;">
+        </a>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
+        <div class="navbar-nav ms-auto py-0">
+          <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 18px">หน้าหลัก</a>
+          <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
+          <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรการอบรม</a>
+          <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link active" style="font-size: 18px">รายการร้องขอ</a>
+          <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
+          <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับเรา</a>
+          <a href="#" class="nav-item nav-link" style="font-size: 18px">อาจารย์ผู้รับผิดชอบหลักสูตร</a>
+          <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
+        </div>
+      </div>
     </nav>
     <!-- Navbar End -->
-<div id="header">
-  <h1>${title}</h1>
-</div>
 <div class="container">
   <div id="container">
     <c:if test="${activities != null}">
-    <i>กรอกข้อมูลในฟอร์ม. เครื.องหมายดอกจัน(*) หมายถึงห้ามว่าง555555555555555555555555555555</i>
-    <br><br>
-    <form onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/lecturer/${lec_id}/${activities.ac_id}/update_course_add_activity" method="POST" enctype="multipart/form-data">
-      <table>
-        <colgroup>
-          <col style="width: 160px;">
-          <col style="width: auto;">
-        </colgroup>
-        <tbody>
-        <tr>
-          <td><label>ชื่อข่าว:</label></td>
-          <td><input name="ac_name" type="text" id="ac_name" value="${activities.name}"/></td>
-        </tr>
-        <tr>
-          <td><label>หลักสูตร:</label></td>
-          <td><input class="txt_input" name="ac_course" type="text" id="ac_course" value="${activities.requestOpenCourse.course.name}" disabled/></td>
-        </tr>
-        <tr>
-          <td><label>รายละเอียด:</label></td>
-          <td><textarea name="ac_detail" id="ac_detail">${activities.detail}</textarea></td>
-        </tr>
-        <tr>
-          <td><label>รูปภาพ:</label></td>
-          <td><b>เพิ่มรูปภาพใหม่</b><br>
-            <input name="ac_img" type="file" id="ac_img" value="${activities.img}" multiple/>
-            <c:if test="${not empty activities.img}">
-              <c:set var="imgNames" value="${activities.img}" /><br>
-              <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
-                <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}" />
-                <div style="display: inline-block">
-                  <img src="${pageContext.request.contextPath}/assets/img/activity/private/${activities.ac_id}/${listImg}" width="70px">
+    <form id="signUpForm" onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/lecturer/${lec_id}/${activities.ac_id}/update_course_add_activity" method="POST" enctype="multipart/form-data">
+      <!-- step one -->
+      <div class="step">
+        <h3>แก้ไขข่าวสารประจำหลักสูตร</h3>
+        <hr>
+        <table style="width: 100%">
+          <tr>
+            <td>
+              <label>ชื่อข่าวสาร</label>
+              <div class="mb-3">
+                <div class="course-totalHours-container">
+                  <input name="ac_name" id="ac_name" type="text" autocomplete="off" oninput="this.className = ''" class="flex-td" value="${activities.name}"/>
                 </div>
-              </c:forEach>
-            </c:if>
-          </td>
-        </tr>
-        <tr>
-          <td><input type="button" onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${activities.requestOpenCourse.request_id}/list_course_activity_news'; return false;" value="ย้อนกลับ"></td>
-          <td><input type="submit" value="บันทึก" class="save"/>
-            <%--                        <input type="button" value="ยกเลิก"onclick="window.location.href='list'; return false;"class="cancel-button"/>--%>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>หลักสูตร</label>
+              <div class="mb-3">
+                <div class="course-totalHours-container">
+                  <input name="ac_course" id="ac_course" type="text" autocomplete="off" oninput="this.className = ''" class="flex-td" value="${activities.requestOpenCourse.course.name}" disabled/>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="mb-3">
+                <div class="form-floating">
+                  <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px">${activities.detail}</textarea>
+                  <label for="ac_detail">รายละเอียด</label>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>รูปภาพ</label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="mb-3">
+                <div class="form-floating">
+                    <%--                      <input class="txt_input" name="ac_img" type="file" id="ac_img" multiple onchange="loadExistingImages()"/>--%>
+                  <input class="txt_input" name="ac_img" type="file" id="ac_img" accept="image/*" multiple onchange="previewImages()"/>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div id="loadImg">
+                <c:if test="${not empty activities.img}">
+                  <c:set var="imgNames" value="${activities.img}" />
+                  <c:set var="imgArray" value="${fn:split(imgNames, ',')}" />
+
+                  <c:forEach var="listImg" items="${imgArray}" varStatus="loop">
+                    <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}" />
+                    <c:if test="${loop.index < 3}">
+                      <div style="display: inline-block">
+                        <img src="${pageContext.request.contextPath}/assets/img/activity/public/${activities.ac_id}/${listImg}" width="200px">
+                      </div>
+                    </c:if>
+                  </c:forEach>
+
+                  <c:if test="${fn:length(imgArray) > 3}">
+                    <label>และรูปภาพอีก ${fn:length(imgArray) - 3} รูป</label>
+                  </c:if>
+                </c:if>
+              </div>
+              <div id="imagePreview" style="display: none"></div>
+              <label id="img_label" style="display: none"></label>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div style="width: 100%" align="center" class="flex-container">
+        <input type="button" value="ย้อนกลับ"
+               onclick="window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course'; return false;"
+               style="width: 47%" class="flex-container"/>
+        <input type="submit" value="บันทึก" class="button-5" style="width: 47%"/>
+      </div>
     </form>
     </c:if>
     <c:if test="${activities == null}">
@@ -157,6 +223,12 @@
 </c:choose>
 </body>
 <script>
+  var currentTab = 0; // Current tab is set to be the first tab (0)
+  showTab(currentTab); // Display the current tab
+  function showTab(n) {
+    var x = document.getElementsByClassName("step");
+    x[n].style.display = "block";
+  }
   function confirmAction() {
     var result = confirm("คุณแน่ใจหรือไม่ว่าต้องกาแก้ไขข่าวสารนี้?");
     if (result) {

@@ -136,7 +136,38 @@
 
 <body>
 <!-- Navbar -->
-<jsp:include page="/WEB-INF/view/layouts/check_nav.jsp"/>
+<%
+    Admin admin = (Admin) session.getAttribute("admin");
+    Member member = (Member) session.getAttribute("member");
+    Lecturer lecturer = (Lecturer) session.getAttribute("lecturer");
+
+    String flag = "";
+    if (admin != null) {
+        flag = "admin";
+    } else if (lecturer != null) {
+        flag = "lecturer";
+    } else if (member != null) {
+        flag = "member";
+    } else {
+        flag = "null";
+    }
+%>
+
+<c:set var="flag" value="<%= flag %>"/>
+<c:choose>
+    <c:when test="${flag.equals('admin')}">
+        <jsp:include page="/WEB-INF/view/admin/nav_admin.jsp"/>
+    </c:when>
+    <c:when test="${flag.equals('lecturer')}">
+        <jsp:include page="/WEB-INF/view/lecturer/nav_lecturer.jsp"/>
+    </c:when>
+    <c:when test="${flag.equals('member')}">
+        <jsp:include page="/WEB-INF/view/member/nav_member.jsp"/>
+    </c:when>
+    <c:otherwise>
+        <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
+    </c:otherwise>
+</c:choose>
 
 <%--<input type="button" value="ร้องขอ"onclick="window.location.href='${pageContext.request.contextPath}/course/add_course'; return false;"class="add-button"/>--%>
 <%--<input type="button" value="ข่าวสาร"onclick="window.location.href='${pageContext.request.contextPath}/activity/public/add_activity'; return false;"class="add-button"/>--%>
@@ -305,9 +336,7 @@
                             <div class="block col-lg-4 col-md-6 wow zoomIn" style="transition: 0.5s"
                                  data-name=${course.name}>
                                 <div class="col-lg-4 col-md-6 wow zoomIn" style="cursor: pointer" data-wow-delay="0.3s">
-                                    <div class="bg-light border-bottom border-5 border-primary rounded"
-                                         style="width: 400px; height: 625px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
-                                        <a href="${pageContext.request.contextPath}/${course.course_id}">
+                                    <div class="bg-light border-bottom border-5 border-primary rounded" style="width: 400px; height: 625px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
                                             <div class="p-5">
                                                 <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}" style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
                                                 <div>

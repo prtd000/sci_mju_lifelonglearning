@@ -13,7 +13,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Certificate</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+<%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>--%>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-html2canvas@latest/dist/jspdf-html2canvas.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=TH+Sarabun+New&display=swap">
@@ -68,10 +72,10 @@
             transition: 0.5s;
         }
         .signature{
-            height: 74px;
+            height: 65px;
             position: absolute;
-            top: 66%;
-            left: 40.5%;
+            top: 67%;
+            left: 40%;
             transform: translate(-50%, -50%);
         }
         .name-assistant{
@@ -130,7 +134,7 @@
     <br>
     <div id="content">
         <!-- นี่คือเนื้อหาที่คุณต้องการแปลงเป็น PDF -->
-        <img src="${pageContext.request.contextPath}/assets/img/course_img/Certificate_Model.png" style="height: 520px" alt="certificate">
+        <img src="${pageContext.request.contextPath}/assets/img/course_img/Certificate_Model_2.png" style="height: 520px" alt="certificate">
         <p class="mem-name">${register.member.firstName} &nbsp; ${register.member.lastName}</p>
         <p class="course_name">${register.requestOpenCourse.course.name}</p>
         <img class="signature" src="${pageContext.request.contextPath}/assets/img/request_open_course/signature/${register.requestOpenCourse.signature}"  alt="signature"/>
@@ -145,13 +149,10 @@
     <script>
         document.getElementById('downloadButton').addEventListener('click', function () {
             // แปลงรูปภาพเป็น Canvas
-            var contentElement = document.getElementById('content');
-            contentElement.style.marginTop = '-15px';
-
             html2canvas(document.getElementById('content')).then(function (canvas) {
                 // นี่คือความกว้างและความสูงของ Canvas
-                var canvasWidth = canvas.width - 845; //บีบ width ให้แคบ
-                var canvasHeight = canvas.height - 28; //
+                var canvasWidth = canvas.width - 1230; //บีบ width ให้แคบ
+                var canvasHeight = canvas.height - 158//
 
                 // สร้าง PDF โดยให้หน้ากระดาษ PDF มีขนาดแนวนอน (landscape)
                 var pdf = new jsPDF({
@@ -167,9 +168,6 @@
 
                 // บันทึก PDF หรือเปิดในหน้าต่างใหม่
                 pdf.save('Certificate.pdf');
-
-                contentElement.style.marginTop = '0';
-
             });
         });
     </script>

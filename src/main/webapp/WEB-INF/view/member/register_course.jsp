@@ -225,6 +225,43 @@
         <hr>
         <!---Sub_Detail-->
         <table class="detail" style="color: black;">
+            <c:if test="${req != null}">
+                <tr>
+                    <td>ช่วงวันรับสมัคร</td>
+                    <td>
+                        <fmt:formatDate value="${req.startRegister}" pattern="dd/MM/yyyy" var="startRegister"/>
+                        <fmt:formatDate value="${req.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate"/>
+                            ${startRegister} - ${endStudyDate}
+                    </td>
+                </tr>
+                <tr>
+                    <td>วันประกาศผล</td>
+                    <td>
+                        <fmt:formatDate value="${req.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult"/>
+                            ${applicationResult}
+                    </td>
+                </tr>
+                <tr>
+                    <td>ช่วงวันชำระค่าสมัคร</td>
+                    <td>
+                        <fmt:formatDate value="${req.applicationResult}" pattern="dd/MM/yyyy" var="startPayment"/>
+                        <fmt:formatDate value="${endPayment}" pattern="dd/MM/yyyy" var="endPayment"/>
+                            ${startPayment} - ${endPayment}
+                    </td>
+                </tr>
+                <tr>
+                    <td>ระยะเวลาในการเรียน</td>
+                    <td>
+                        <fmt:formatDate value="${req.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate"/>
+                        <fmt:formatDate value="${req.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate"/>
+                            ${startStudyDate} - ${endStudyDate}
+                    </td>
+                </tr>
+                <tr>
+                    <td>จำนวนรับสมัคร</td>
+                    <td>${req.quantity}</td>
+                </tr>
+            </c:if>
             <tr>
                 <td>ประเภทหลักสูตร</td>
                 <td>${course.course_type}</td>
@@ -255,40 +292,48 @@
                 <td>เป้าหมายกลุ่มอาชีพ</td>
                 <td>${course.targetOccupation}</td>
             </tr>
-            <tr>
-                <td>ค่าธรรมเนียม</td>
-                <td>${course.fee} บาท</td>
-            </tr>
 
-            <c:choose>
-                <c:when test="${req.type_learn.equals('เรียนออนไลน์')}">
-                    <tr>
-                        <td>ลิ้ง Mooc</td>
-                        <td><a href="${pageContext.request.contextPath}/${req.linkMooc}">${req.linkMooc}</a></td>
-                    </tr>
-                </c:when>
-                <c:when test="${req.type_learn.equals('เรียนในสถานศึกษา')}">
-                    <tr>
-                        <td>สถานที่เรียน</td>
-                        <td>${req.location}</td>
-                    </tr>
-                </c:when>
-                <c:when test="${req.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
-                    <tr>
-                        <td>ลิ้ง Mooc</td>
-                        <td><a href="${pageContext.request.contextPath}/${req.linkMooc}">${req.linkMooc}</a></td>
-                    </tr>
-                    <tr>
-                        <td>สถานที่เรียน</td>
-                        <td>${req.location}</td>
-                    </tr>
-                </c:when>
-            </c:choose>
+
+            <c:if test="${req != null}" >
+                <tr>
+                    <td>รูปแบบการเรียน</td>
+                    <td>${req.type_learn}</td>
+                </tr>
+
+                <c:choose>
+                    <c:when test="${req.type_learn.equals('เรียนออนไลน์')}">
+                        <tr>
+                            <td>ลิ้ง Mooc</td>
+                            <td><a href="${pageContext.request.contextPath}/${req.linkMooc}">${req.linkMooc}</a></td>
+                        </tr>
+                    </c:when>
+                    <c:when test="${req.type_learn.equals('เรียนในสถานศึกษา')}">
+                        <tr>
+                            <td>สถานที่เรียน</td>
+                            <td>${req.location}</td>
+                        </tr>
+                    </c:when>
+                    <c:when test="${req.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
+                        <tr>
+                            <td>ลิ้ง Mooc</td>
+                            <td><a href="${pageContext.request.contextPath}/${req.linkMooc}">${req.linkMooc}</a></td>
+                        </tr>
+                        <tr>
+                            <td>สถานที่เรียน</td>
+                            <td>${req.location}</td>
+                        </tr>
+                    </c:when>
+                </c:choose>
+            </c:if>
 
             <tr>
                 <td class="t1">เนื้อหาของหลักสูตร</td>
                 <td class="t2"><a href="${pageContext.request.contextPath}/assets/file/${course.file}" download>เอกสารประกอบการเรียน.pdf</a>
                 </td>
+            </tr>
+            <tr>
+                <td>ค่าธรรมเนียม</td>
+                <td>${course.fee} บาท</td>
             </tr>
             <tr>
                 <td></td>

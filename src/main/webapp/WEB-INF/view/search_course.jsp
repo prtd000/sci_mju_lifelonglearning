@@ -311,6 +311,7 @@
                                             </div>
                                             <p style="font-weight: bold; color: dodgerblue">${course.course_type}</p>
                                             <table class="icon">
+                                                <c:set var="notFoundCourse" value="false" />
                                                 <c:set var="notFoundTypeLearn" value="false" />
                                                 <c:forEach var="list" items="${list_req}">
                                                     <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนในสถานศึกษา')}">
@@ -318,6 +319,7 @@
                                                             <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
                                                             <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
                                                         </tr>
+                                                        <c:set var="notFoundCourse" value="true" />
                                                         <c:set var="notFoundTypeLearn" value="true" />
                                                     </c:if>
                                                     <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนออนไลน์')}">
@@ -325,6 +327,7 @@
                                                             <td><img src="${pageContext.request.contextPath}/assets/img/online.png" style="height: 25px;"></td>
                                                             <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
                                                         </tr>
+                                                        <c:set var="notFoundCourse" value="true" />
                                                         <c:set var="notFoundTypeLearn" value="true" />
                                                     </c:if>
                                                     <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
@@ -332,8 +335,14 @@
                                                             <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
                                                             <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
                                                         </tr>
+                                                        <c:set var="notFoundCourse" value="true" />
                                                         <c:set var="notFoundTypeLearn" value="true" />
                                                     </c:if>
+
+                                                    <c:if test="${list.course.course_id eq course.course_id && list.requestStatus.equals('กำลังดำเนินการ')}">
+                                                        <c:set var="notFoundCourse" value="false" />
+                                                    </c:if>
+
                                                 </c:forEach>
                                                 <c:if test="${!notFoundTypeLearn}">
                                                     <tr>
@@ -366,6 +375,10 @@
                                                                 </c:when>
                                                             </c:choose>
                                                         </c:forEach>
+
+                                                        <c:if test="${!notFoundCourse}">
+                                                            <p style="font-family: 'Mitr', sans-serif; font-size: 18px; font-weight: 500;">ยังไม่เปิด</p>
+                                                        </c:if>
                                                     </td>
                                                 </tr>
                                             </table>

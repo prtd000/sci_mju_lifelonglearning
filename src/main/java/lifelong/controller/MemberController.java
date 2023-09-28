@@ -55,10 +55,27 @@ public class MemberController {
         boolean registered = false;
 
         Course course = courseService.getCourseDetail(courseid);
-        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpCourseByCourseId(courseid);
-        model.addAttribute("req", requestOpenCourse);
         model.addAttribute("course", course);
         model.addAttribute("activity", activityService.getViewCourseActivityNews(request_id));
+
+        try{
+            RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpCourseByCourseId(courseid);
+            if(requestOpenCourse != null){
+                model.addAttribute("req", requestOpenCourse);
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(requestOpenCourse.getStartStudyDate());
+
+                // ลบ 1 วัน
+                calendar.add(Calendar.DAY_OF_MONTH, -1);
+
+                // อัปเดตค่าใน payEnd
+                Date endPayment = calendar.getTime();
+                model.addAttribute("endPayment", endPayment);
+            }
+        }catch (Exception e){
+
+        }
 
         for (Register r : registerService.getRegister(mem_id)) {
             if (r.getRequestOpenCourse().getRequest_id() == request_id) {

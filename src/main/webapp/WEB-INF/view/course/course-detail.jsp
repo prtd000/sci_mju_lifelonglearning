@@ -1,8 +1,12 @@
 <%@ page import="lifelong.model.Admin" %>
 <%@ page import="lifelong.model.Member" %>
 <%@ page import="lifelong.model.Lecturer" %>
+<%@ page import="java.util.Calendar" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />--%>
@@ -14,7 +18,8 @@
     <%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
     <%--    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">--%>
     <link href="${pageContext.request.contextPath}/assets/css/course_detail.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200&family=Prompt:wght@200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200&family=Prompt:wght@200&display=swap"
+          rel="stylesheet">
 
     <%--    Google Font--%>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,7 +35,7 @@
             filter: brightness(0.7);
         }
 
-        .header_1{
+        .header_1 {
             font-family: 'Archivo', sans-serif;
             position: absolute;
             font-size: 60px;
@@ -41,7 +46,7 @@
             color: white;
         }
 
-        .header_2{
+        .header_2 {
             font-family: 'Archivo', sans-serif;
             position: absolute;
             font-size: 33px;
@@ -53,7 +58,7 @@
             color: white;
         }
 
-        .bt_register{
+        .bt_register {
             position: absolute;
             top: 47%;
             left: 20%;
@@ -66,7 +71,8 @@
             font-weight: 700;
             transition: 0.5s;
         }
-        .bt_register:hover{
+
+        .bt_register:hover {
             color: white;
             background-color: rgba(255, 255, 255, 0);
             transition: 0.5s;
@@ -104,13 +110,15 @@
             color: black;
         }
 
-        table[class='detail'] tr td:first-child{
+        table[class='detail'] tr td:first-child {
             width: 155px;
         }
-        table[class='detail'] tr td{
+
+        table[class='detail'] tr td {
             font-weight: bold;
         }
-        tr{
+
+        tr {
             height: 50px;
         }
     </style>
@@ -155,7 +163,14 @@
 <img src="${pageContext.request.contextPath}/assets/img/banner3.png" class="banner" alt="banner"/>
 <p class="header_1">LIFELONG EDUCATION</p>
 <p class="header_2">MAEJO UNIVERSITY</p>
-<button class="bt_register" href="${pageContext.request.contextPath}/register_member">สมัครเลย!</button>
+<c:choose>
+    <c:when test="${flag ne 'member'}">
+        <a href="${pageContext.request.contextPath}/register_member"><button class="bt_register" >สมัครเลย!</button></a>
+    </c:when>
+</c:choose>
+
+
+
 
 
 <div class="block_position">
@@ -165,7 +180,8 @@
     <p class="major_name">${course_detail.major.name}</p>
     <br>
     <!--Image--->
-    <img src="${pageContext.request.contextPath}/assets/img/course_img/${course_detail.img}" alt="course_image" class="img">
+    <img src="${pageContext.request.contextPath}/assets/img/course_img/${course_detail.img}" alt="course_image"
+         class="img">
     <br><br><br>
     <!--Detail-->
     <div>
@@ -174,6 +190,44 @@
         <hr>
         <!---Sub_Detail-->
         <table class="detail" style="color: black;">
+            <c:if test="${req != null}">
+                <tr>
+                    <td>ช่วงวันรับสมัคร</td>
+                    <td>
+                        <fmt:formatDate value="${req.startRegister}" pattern="dd/MM/yyyy" var="startRegister"/>
+                        <fmt:formatDate value="${req.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate"/>
+                            ${startRegister} - ${endStudyDate}
+                    </td>
+                </tr>
+                <tr>
+                    <td>วันประกาศผล</td>
+                    <td>
+                        <fmt:formatDate value="${req.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult"/>
+                            ${applicationResult}
+                    </td>
+                </tr>
+                <tr>
+                    <td>ช่วงวันชำระค่าสมัคร</td>
+                    <td>
+                        <fmt:formatDate value="${req.applicationResult}" pattern="dd/MM/yyyy" var="startPayment"/>
+                        <fmt:formatDate value="${endPayment}" pattern="dd/MM/yyyy" var="endPayment"/>
+
+                            ${startPayment} - ${endPayment}
+                    </td>
+                </tr>
+                <tr>
+                    <td>ระยะเวลาในการเรียน</td>
+                    <td>
+                        <fmt:formatDate value="${req.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate"/>
+                        <fmt:formatDate value="${req.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate"/>
+                            ${startStudyDate} - ${endStudyDate}
+                    </td>
+                </tr>
+                <tr>
+                    <td>จำนวนรับสมัคร</td>
+                    <td>${req.quantity}</td>
+                </tr>
+            </c:if>
             <tr>
                 <td>ประเภทหลักสูตร</td>
                 <td>${course_detail.course_type}</td>
@@ -204,10 +258,58 @@
                 <td>เป้าหมายกลุ่มอาชีพ</td>
                 <td>${course_detail.targetOccupation}</td>
             </tr>
+
+            <c:if test="${req != null}">
+                <tr>
+                    <td>รูปแบบการเรียน</td>
+                    <td>${req.type_learn}</td>
+                </tr>
+
+                <c:choose>
+                    <c:when test="${req.type_learn.equals('เรียนออนไลน์')}">
+                        <tr>
+                            <td>ลิ้ง Mooc</td>
+                            <td><a href="${pageContext.request.contextPath}/${req.linkMooc}">${req.linkMooc}</a></td>
+                        </tr>
+                    </c:when>
+                    <c:when test="${req.type_learn.equals('เรียนในสถานศึกษา')}">
+                        <tr>
+                            <td>สถานที่เรียน</td>
+                            <td>${req.location}</td>
+                        </tr>
+                    </c:when>
+                    <c:when test="${req.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
+                        <tr>
+                            <td>ลิ้ง Mooc</td>
+                            <td><a href="${pageContext.request.contextPath}/${req.linkMooc}">${req.linkMooc}</a></td>
+                        </tr>
+                        <tr>
+                            <td>สถานที่เรียน</td>
+                            <td>${req.location}</td>
+                        </tr>
+                    </c:when>
+                </c:choose>
+            </c:if>
+
             <tr>
                 <td>ค่าธรรมเนียม</td>
                 <td>${course_detail.fee} บาท</td>
             </tr>
+
+
+            <c:choose>
+                <c:when test="${flag ne 'member'}">
+                    <tr>
+                        <td></td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/register_member">
+                                <button class="btn btn-success">สมัครเลย!</button>
+                            </a>
+                        </td>
+                    </tr>
+                </c:when>
+            </c:choose>
+
         </table>
         <%--        <div class="swiper-container">--%>
         <%--            <div class="swiper-wrapper">--%>

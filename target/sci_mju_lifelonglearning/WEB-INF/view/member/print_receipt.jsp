@@ -26,7 +26,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <%--    jspdf--%>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+    <%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>--%>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-html2canvas@latest/dist/jspdf-html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
             integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/"
             crossorigin="anonymous"></script>
@@ -253,14 +256,11 @@
 
 <script>
     document.getElementById('downloadButton').addEventListener('click', function () {
-        const pdfContent = document.getElementById("pdfContent");
-        pdfContent.style.marginTop = '-20px';
-
         // สร้าง Canvas ที่มีขนาดเท่ากับเนื้อหา
         html2canvas(pdfContent).then(function (canvas) {
             // หาขนาดของ Canvas ที่สร้าง
-            const canvasWidth = canvas.width - 100;
-            const canvasHeight = canvas.height - 20;
+            const canvasWidth = canvas.width - 260;
+            const canvasHeight = canvas.height - 210;
 
             // สร้างเอกสาร PDF ด้วยขนาด Canvas
             var doc = new jsPDF({
@@ -271,11 +271,10 @@
             });
 
             // เพิ่มรูปภาพจาก Canvas ลงใน PDF
-            doc.addImage(canvas.toDataURL('image/jpg',1), 'JPG', 30, 30);
+            doc.addImage(canvas.toDataURL('image/PNG',1), 'PNG', 20, 0, 430, 370);
 
             // บันทึกเอกสาร PDF
             doc.save('Receipt.pdf');
-            pdfContent.style.marginTop = '0';
         });
     });
 

@@ -73,6 +73,27 @@ public class WebHomeController {
     public String viewCourseDetail(@PathVariable("id") String id, Model model) {
         Course course = courseService.getCourseDetail(id);
         model.addAttribute("course_detail", course);
+
+        try{
+            RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpCourseByCourseId(id);
+            if(requestOpenCourse != null){
+                model.addAttribute("req", requestOpenCourse);
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(requestOpenCourse.getStartStudyDate());
+
+                // ลบ 1 วัน
+                calendar.add(Calendar.DAY_OF_MONTH, -1);
+
+                // อัปเดตค่าใน payEnd
+                Date endPayment = calendar.getTime();
+                model.addAttribute("endPayment", endPayment);
+            }
+        }catch (Exception e){
+
+        }
+
+
         return "course/course-detail";
     }
 //

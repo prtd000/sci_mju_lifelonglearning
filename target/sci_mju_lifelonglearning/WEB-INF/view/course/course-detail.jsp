@@ -154,7 +154,36 @@
         <jsp:include page="/WEB-INF/view/member/nav_member.jsp"/>
     </c:when>
     <c:otherwise>
-        <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
+            <div style="margin: 0 0 5% 0">
+                <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">
+                    <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png"
+                         style="height: 79px; margin-left: 57px; position: absolute;">
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
+                <div class="navbar-nav ms-auto py-0">
+                    <a href="${pageContext.request.contextPath}/" class="nav-item nav-link " style="font-size: 16px">หน้าหลัก</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 16px">เกี่ยวกับคณะ</a>
+                    <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link active" style="font-size: 16px">หลักสูตรการอบรม</a>
+                    <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 16px">ข่าวสารและกิจกรรม</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 16px">เกี่ยวกับเรา</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle nav-item" data-bs-toggle="dropdown" style="font-size: 16px">เข้าสู่ระบบ</a>
+                        <div class="dropdown-menu m-0">
+                            <a href="${pageContext.request.contextPath}/loginMember" class="dropdown-item" style="font-size: 16px">สำหรับสมาชิก</a>
+                            <a href="${pageContext.request.contextPath}/loginLecturer" class="dropdown-item" style="font-size: 16px">สำหรับบุคลากร</a>
+                            <a href="${pageContext.request.contextPath}/loginAdmin" class="dropdown-item" style="font-size: 16px">สำหรับผู้ดูแลระบบ</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar End -->
     </c:otherwise>
 </c:choose>
 

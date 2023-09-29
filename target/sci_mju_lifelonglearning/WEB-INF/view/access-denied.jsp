@@ -6,9 +6,11 @@
   <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">
 </head>
 <body>
-<h1>Access Denied</h1>
-<hr>
 <div class="container">
+  <center>
+    <h1>Access Denied</h1>
+  </center>
+  <hr>
   <h2 style="text-align: center;">คุณไม่ได้รับอนุญาตให้เข้าถึงหน้าเว็บนี</h2>
   <div style="text-align:center">
     <a href="${pageContext.request.contextPath}/">กลับไปหน้าแรก</a>

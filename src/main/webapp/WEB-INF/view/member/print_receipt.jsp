@@ -9,6 +9,7 @@
 <%@ page import="lifelong.model.Member" %>
 <%@ page import="lifelong.model.Lecturer" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -47,122 +48,18 @@
             border: 0;
         }
 
-        table {
+        .blog-receipt {
             color: black;
-        }
-
-        td {
-            vertical-align: center;
-        }
-
-        .txt_address{
-            position: absolute;
-            font-size: 17px;
             font-weight: bold;
-            color: black;
-            top: 43%;
-            left: 42%;
-            transform: translate(-50%, -50%);
-        }
-        .name_txt {
             position: absolute;
-            font-size: 25px;
-            font-weight: bold;
-            color: black;
-            top: 54%;
-            left: 34.5%;
-            transform: translate(-50%, -50%);
-        }
-        .txt_banking{
-            position: absolute;
-            font-size: 19px;
-            font-weight: bold;
-            color: black;
-            top: 60%;
-            left: 34.4%;
-            transform: translate(-50%, -50%);
-        }
-        .txt_date{
-            position: absolute;
-            font-size: 19px;
-            font-weight: bold;
-            color: black;
-            top: 66%;
-            left: 34.5%;
-            transform: translate(-50%, -50%);
-        }
-        .txt_header{
-            font-family: 'Mitr', sans-serif;
-            position: absolute;
-            font-size: 31px;
-            font-weight: bold;
-            color: black;
-            top: 60%;
-            left: 62.2%;
-            transform: translate(-50%, -50%);
-        }
-        .txt_header_name{
-            position: absolute;
-            font-size: 19px;
-            font-weight: bold;
-            color: black;
-            top: 74%;
-            left: 32%;
-            transform: translate(-50%, -50%);
-        }
-        .txt_header_price{
-            position: absolute;
-            font-size: 19px;
-            font-weight: bold;
-            color: black;
-            top: 74%;
-            left: 61%;
-            transform: translate(-50%, -50%);
-        }
-        .txt_list_name{
-            position: absolute;
-            font-size: 18px;
-            font-weight: bold;
-            color: black;
-            top: 79%;
-            left: 40.8%;
-            transform: translate(-50%, -50%);
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            width: 328px;
-        }
-        .txt_price{
-            position: absolute;
-            font-size: 18px;
-            font-weight: bold;
-            color: black;
-            top: 79%;
-            left: 63%;
-            transform: translate(-50%, -50%);
-        }
-        .total_txt {
-            position: absolute;
-            font-size: 26px;
-            font-weight: bold;
-            color: black;
-            top: 89%;
-            left: 34.5%;
-            transform: translate(-50%, -50%);
-        }
-        .total_txt_price {
-            position: absolute;
-            font-size: 26px;
-            font-weight: bold;
-            color: black;
-            top: 89%;
-            left: 64.5%;
+            top: 57%;
+            left: 50%;
             transform: translate(-50%, -50%);
         }
     </style>
 </head>
 <body>
-<!-- Navbar -->
+<!-- Navbar Start -->
 <%
     Admin admin = (Admin) session.getAttribute("admin");
     Member member = (Member) session.getAttribute("member");
@@ -182,71 +79,97 @@
 
 <c:set var="flag" value="<%= flag %>"/>
 <c:choose>
-    <c:when test="${flag.equals('admin')}">
-        <jsp:include page="/WEB-INF/view/admin/nav_admin.jsp"/>
-    </c:when>
-    <c:when test="${flag.equals('lecturer')}">
-        <jsp:include page="/WEB-INF/view/lecturer/nav_lecturer.jsp"/>
-    </c:when>
     <c:when test="${flag.equals('member')}">
-        <jsp:include page="/WEB-INF/view/member/nav_member.jsp"/>
+        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
+                <%--    <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png" style="height: 79px; margin-left: 57px; position: absolute;">--%>
+                <%--    <div style="margin-left: 151px">--%>
+                <%--        <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">--%>
+                <%--            <h1 class="display-5 m-0 text-primary">LIFELONG<span class="text-secondary">LEARNING</span></h1>--%>
+                <%--        </a>--%>
+                <%--    </div>--%>
+            <div style="margin: 0 0 5% 0">
+                <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">
+                    <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png"
+                         style="height: 79px; margin-left: 57px; position: absolute;">
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
+                <div class="navbar-nav ms-auto py-0">
+                    <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>
+                        <%--            <div class="nav-item dropdown">--%>
+                        <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
+                    <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link " style="font-size: 17px">หลักสูตรการอบรม</a>
+                        <%--                <div class="dropdown-menu m-0">--%>
+                        <%--                    <a href="#" class="dropdown-item">Reskill/Upskill</a>--%>
+                        <%--                    <a href="#" class="dropdown-item">อบรมระยะสั้น</a>--%>
+                        <%--                </div>--%>
+                        <%--            </div>--%>
+                    <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/listcourse" class="nav-item nav-link active" style="font-size: 17px">หลักสูตรของฉัน</a>
+                    <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>
+                    <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/edit_profile" class="nav-item nav-link" style="font-size: 17px">ข้อมูลส่วนตัว</a>
+                    <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 17px">ออกจากระบบ</a>
+                </div>
+            </div>
+        </nav>
     </c:when>
-    <c:otherwise>
-        <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
-    </c:otherwise>
 </c:choose>
+<!-- Navbar End -->
+
 <center>
     <br>
     <button id="downloadButton" style="cursor: pointer;" class="btn btn-secondary">ดาวน์โหลด PDF</button>
     <br><br>
 
-    <div id="pdfContent" style="width: 700px">
-        <table style="width: 605px;">
-            <tr style="vertical-align: bottom;">
-                <td style="width: 500px;">
-                    <p class="txt_address">
-                        คณะวิทยาศาสตร์ มหาวิทยาลัยแม่โจ้ <br>
-                        63 หมู่ 4 ต.หนองหาร อ.สันทราย จ.เชียงใหม่ 50290
-                    </p>
+    <div id="pdfContent" style="width: 700px; height: 500px">
+        <table class="blog-receipt">
+            <tr>
+                <td style="width: 500px;vertical-align: bottom;">
+                    คณะวิทยาศาสตร์ มหาวิทยาลัยแม่โจ้ <br>
+                    63 หมู่ 4 ต.หนองหาร อ.สันทราย จ.เชียงใหม่ 50290
                 </td>
                 <td>
                     <img src="${pageContext.request.contextPath}/assets/img/icon_mju_science.png"
-                         style="height: 112px; margin-left: -76px;">
+                         style="height: 112px;">
                 </td>
+            </tr>
+            <tr style="height: 30px;">
+                <td colspan="2"><hr></td>
+            </tr>
+            <tr>
+                <td colspan="2"><p>${receipt.invoice.register.member.firstName} &nbsp; ${receipt.invoice.register.member.lastName}</p></td>
+            </tr>
+            <tr>
+                <td>ธนาคาร ${receipt.banking}</td>
+                <td><p style="font-size: 29px;">ใบเสร็จ</p></td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <hr style="">
+                    <fmt:formatDate value="${receipt.pay_date}" pattern="dd/MM/yyyy" var="pay_date"/>
+                    ${pay_date}
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <p class="name_txt">${receipt.invoice.register.member.firstName}
-                        &nbsp; ${receipt.invoice.register.member.lastName}</p>
-                    <p class="txt_banking">ธนาคาร ${receipt.banking}</p>
-                    <p id="formattedDatePayment" class="txt_date">${receipt.pay_date}</p>
-                </td>
-                <td><p class="txt_header">ใบเสร็จ</p></td>
-            </tr>
-            <tr style="height: 150px;">
+            <tr style="height: 30px">
                 <td colspan="2"></td>
             </tr>
             <tr>
-                <th><p class="txt_header_name">รายการ</p></th>
-                <th><p class="txt_header_price">ราคา</p></th>
+                <td>รายการ</td>
+                <td>ราคา</td>
             </tr>
             <tr>
-                <td><p class="txt_list_name">${receipt.invoice.register.requestOpenCourse.course.name}</p></td>
-                <td><p class="txt_price">${receipt.invoice.register.requestOpenCourse.course.fee} บาท</p></td>
+                <td>${receipt.invoice.register.requestOpenCourse.course.name}</td>
+                <td>${receipt.invoice.register.requestOpenCourse.course.fee}</td>
             </tr>
-            <tr style="height: 164px;">
-                <td colspan="2">
-                    <hr style="">
-                </td>
+            <tr style="height: 30px">
+                <td colspan="2"><hr></td>
             </tr>
             <tr>
-                <td><p class="total_txt">รวมทั้งหมด</p></td>
-                <td><p class="total_txt_price">${receipt.invoice.register.requestOpenCourse.course.fee} บาท</p></td>
+                <td><p style="font-size: 22px;">รวมทั้งหมด</p></td>
+                <td><p style="font-size: 22px">${receipt.invoice.register.requestOpenCourse.course.fee}</p></td>
             </tr>
         </table>
     </div>
@@ -257,10 +180,10 @@
 <script>
     document.getElementById('downloadButton').addEventListener('click', function () {
         // สร้าง Canvas ที่มีขนาดเท่ากับเนื้อหา
-        html2canvas(pdfContent).then(function (canvas) {
+        html2canvas(document.getElementById('pdfContent')).then(function (canvas) {
             // หาขนาดของ Canvas ที่สร้าง
             const canvasWidth = canvas.width - 260;
-            const canvasHeight = canvas.height - 210;
+            const canvasHeight = canvas.height - 150;
 
             // สร้างเอกสาร PDF ด้วยขนาด Canvas
             var doc = new jsPDF({
@@ -271,7 +194,7 @@
             });
 
             // เพิ่มรูปภาพจาก Canvas ลงใน PDF
-            doc.addImage(canvas.toDataURL('image/PNG',1), 'PNG', 20, 0, 430, 370);
+            doc.addImage(canvas.toDataURL('image/PNG',1), 'PNG', 20, 25, 420, 310);
 
             // บันทึกเอกสาร PDF
             doc.save('Receipt.pdf');

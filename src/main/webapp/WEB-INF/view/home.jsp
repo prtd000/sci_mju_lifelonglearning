@@ -11,7 +11,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Science MJU Life Long Learning</title>
+    <title>Science MJU LifeLong Learning</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -162,10 +162,76 @@
         <jsp:include page="/WEB-INF/view/lecturer/nav_lecturer.jsp"/>
     </c:when>
     <c:when test="${flag.equals('member')}">
-        <jsp:include page="/WEB-INF/view/member/nav_member.jsp"/>
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
+                <%--    <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png" style="height: 79px; margin-left: 57px; position: absolute;">--%>
+                <%--    <div style="margin-left: 151px">--%>
+                <%--        <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">--%>
+                <%--            <h1 class="display-5 m-0 text-primary">LIFELONG<span class="text-secondary">LEARNING</span></h1>--%>
+                <%--        </a>--%>
+                <%--    </div>--%>
+            <div style="margin: 0 0 5% 0">
+                <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">
+                    <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png"
+                         style="height: 79px; margin-left: 57px; position: absolute;">
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
+                <div class="navbar-nav ms-auto py-0">
+                    <a href="${pageContext.request.contextPath}/" class="nav-item nav-link active" style="font-size: 17px">หน้าหลัก</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>
+                        <%--            <div class="nav-item dropdown">--%>
+                        <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
+                    <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 17px">หลักสูตรการอบรม</a>
+                        <%--                <div class="dropdown-menu m-0">--%>
+                        <%--                    <a href="#" class="dropdown-item">Reskill/Upskill</a>--%>
+                        <%--                    <a href="#" class="dropdown-item">อบรมระยะสั้น</a>--%>
+                        <%--                </div>--%>
+                        <%--            </div>--%>
+                    <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/listcourse" class="nav-item nav-link" style="font-size: 17px">หลักสูตรของฉัน</a>
+                    <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>
+                    <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/edit_profile" class="nav-item nav-link" style="font-size: 17px">ข้อมูลส่วนตัว</a>
+                    <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 17px">ออกจากระบบ</a>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar End -->
     </c:when>
     <c:otherwise>
-        <jsp:include page="/WEB-INF/view/layouts/nav.jsp"/>
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
+            <div style="margin: 0 0 5% 0">
+                <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">
+                    <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png"
+                         style="height: 79px; margin-left: 57px; position: absolute;">
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" style="margin-right: 43px;">
+                <div class="navbar-nav ms-auto py-0">
+                    <a href="${pageContext.request.contextPath}/" class="nav-item nav-link active" style="font-size: 17px">หน้าหลัก</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>
+                    <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 17px">หลักสูตรการอบรม</a>
+                    <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle nav-item" data-bs-toggle="dropdown" style="font-size: 17px">เข้าสู่ระบบ</a>
+                        <div class="dropdown-menu m-0">
+                            <a href="${pageContext.request.contextPath}/loginMember" class="dropdown-item" style="font-size: 17px">สำหรับสมาชิก</a>
+                            <a href="${pageContext.request.contextPath}/loginLecturer" class="dropdown-item" style="font-size: 17px">สำหรับบุคลากร</a>
+                            <a href="${pageContext.request.contextPath}/loginAdmin" class="dropdown-item" style="font-size: 17px">สำหรับผู้ดูแลระบบ</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar End -->
     </c:otherwise>
 </c:choose>
 
@@ -337,6 +403,7 @@
                                  data-name=${course.name}>
                                 <div class="col-lg-4 col-md-6 wow zoomIn" style="cursor: pointer" data-wow-delay="0.3s">
                                     <div class="bg-light border-bottom border-5 border-primary rounded" style="width: 400px; height: 625px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
+                                        <a href="${pageContext.request.contextPath}/${course.course_id}">
                                             <div class="p-5">
                                                 <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}" style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
                                                 <div>
@@ -417,7 +484,7 @@
             <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;">
                 <div class="position-relative h-100">
                     <img class="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.3s"
-                         src="${pageContext.request.contextPath}/assets/img/SURAWIWAT-01031.jpg"
+                         src="${pageContext.request.contextPath}/assets/img/fb_004.jpg"
                          style="object-fit: cover; box-shadow: -2px 2px 6px 2px #7c7c7c;">
                 </div>
             </div>

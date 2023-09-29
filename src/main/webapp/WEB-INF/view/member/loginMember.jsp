@@ -4,7 +4,7 @@
 
 <html>
 <head>
-    <title>${title}</title>
+    <title>Login</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200&family=Prompt:wght@200&display=swap" rel="stylesheet">
@@ -52,8 +52,36 @@
 </head>
 <body>
 
-<!-- Navbar -->
-<jsp:include page="/WEB-INF/view/layouts/check_nav.jsp"/>
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
+    <div style="margin: 0 0 5% 0">
+        <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">
+            <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png"
+                 style="height: 79px; margin-left: 57px; position: absolute;">
+        </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" style="margin-right: 43px;">
+        <div class="navbar-nav ms-auto py-0">
+            <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
+            <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>
+            <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 17px">หลักสูตรการอบรม</a>
+            <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
+            <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle nav-item active" data-bs-toggle="dropdown" style="font-size: 17px">เข้าสู่ระบบ</a>
+                <div class="dropdown-menu m-0">
+                    <a href="${pageContext.request.contextPath}/loginMember" class="dropdown-item" style="font-size: 17px">สำหรับสมาชิก</a>
+                    <a href="${pageContext.request.contextPath}/loginLecturer" class="dropdown-item" style="font-size: 17px">สำหรับบุคลากร</a>
+                    <a href="${pageContext.request.contextPath}/loginAdmin" class="dropdown-item" style="font-size: 17px">สำหรับผู้ดูแลระบบ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- Navbar End -->
 
 <center>
     <br><br><br>

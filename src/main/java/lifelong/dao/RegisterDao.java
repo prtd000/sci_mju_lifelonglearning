@@ -25,6 +25,7 @@ public interface RegisterDao {
     List<Receipt> getReceipt();
 
     List<Register> getRegisterByRequestIdAndPayStatus(long roc_Id);
+    List<Register> getRegisterByRequestIdAndPayStatusAndApprove(long roc_Id);
 
     Register getRegisterByRegisterId(long register_Id);
 

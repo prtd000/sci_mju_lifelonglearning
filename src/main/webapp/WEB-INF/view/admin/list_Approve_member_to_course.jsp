@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="lifelong.model.*" %>
 <%--
   Created by IntelliJ IDEA.
@@ -14,6 +15,7 @@
     <%--    <link href="${pageContext.request.contextPath}/assets/css/list_open_course_style.css" rel="stylesheet">--%>
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/list_all_course.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/admin/list_approve_member.css" rel="stylesheet">
     <style>
         h1{
             font-family: 'Prompt', sans-serif;
@@ -72,65 +74,125 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="${pageContext.request.contextPath}/" class="nav-item nav-link">หน้าหลัก</a>
-                    <a href="#" class="nav-item nav-link">เกี่ยวกับคณะ</a>
+                    <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 18px">หน้าหลัก</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
                         <%--            <div class="nav-item dropdown">--%>
                         <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
-                    <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active">หลักสูตรทั้งหมด</a>
-                    <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
-                    <a href="#" class="nav-item nav-link">Admin</a>
-                    <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link">ออกจากระบบ</a>
+                    <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active" style="font-size: 18px">หลักสูตรทั้งหมด</a>
+                    <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 18px">ผู้ดูแลระบบ</a>
+                    <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
 
                         <%--            <a href="${pageContext.request.contextPath}/login" class="nav-item nav-link">เข้าสู่ระบบ</a>--%>
                 </div>
             </div>
         </nav>
-        <div align="center" class="main_container">
-            <br>
-            <br>
-            <!-- Navbar End -->
-            <h2>${request_name.course.name}</h2>
-            <h3>รายชื่อผู้สมัคร</h3>
-                <%--<a href="${pageContext.request.contextPath}/course/add_course"><button>เพิ่มหลักสูตร</button></a>--%>
-            <table class="table table-striped table-hover" style="width: 70%">
-                <tr style="color: black">
-                    <td class="td_id_card">รหัสบัตรประชาชน</td>
-                    <td class="td_name">ชื่อ - นามสกุล</td>
-                    <td class="td_name">วันเวลาในการชำระเงิน</td>
-                    <td class="td_name">เบอร์โทรศัพท์</td>
-                    <td class="td_name"></td>
-                </tr>
+        <br>
+        <br>
+        <div align="center" style="width: 100%">
+            <div align="left" style="width: 85%">
+<%--                <h2>${request_name.course.name}</h2>--%>
+                <div align="center" class="main_container">
+                    <div class="course_div">
+                        <div style="padding: 20px 20px 0px 20px" align="left">
+                            <b><label style="font-size: 20px">${request_name.course.name}</label></b>
+                            <label>${request_name.course.major.name}</label>
+                            <hr>
+                        </div>
+                        <div style="padding: 0px 20px 20px 20px" align="left">
+                            <b><label>วันเปิดรับสมัคร</label></b>
+                            <div class="mb-3">
+                                <div class="flex-container">
+                                    <fmt:formatDate value="${request_name.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
+                                    <fmt:formatDate value="${request_name.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
+                                    <label>${startRegister} - ${endRegister}</label>
+                                </div>
+                            </div>
+                            <b><label>วันประกาศผลการสมัคร</label></b>
+                            <div class="mb-3">
+                                <div class="flex-container">
+                                    <fmt:formatDate value="${request_name.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
+                                    <label>${applicationResult}</label>
+                                </div>
+                            </div>
+                            <b><label>ระยะเวลาการเรียน</label></b>
+                            <div class="mb-3">
+                                <div class="flex-container">
+                                    <fmt:formatDate value="${request_name.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                    <fmt:formatDate value="${request_name.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
+                                    <label>${startStudyDate} - ${endStudyDate}</label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="flex-container">
+                                    <label>จำนวนรับสมัคร ${request_name.numberOfAllRegistrations} / ${request_name.quantity} คน</label>
+                                </div>
+                            </div>
+                            <b><label>รูปแบบการสอน</label></b>
+                            <div class="mb-3">
+                                <div class="flex-container">
+                                    <label>${request_name.type_teach}</label>
+                                </div>
+                            </div>
+                            <b><label>รูปแบบการสอน</label></b>
+                            <div class="mb-3">
+                                <div class="flex-container">
+                                    <label>${request_name.type_learn}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 100%; align-self: flex-start;" align="left">
+                        <div style="display: flex; width: 100%" >
+                            <div align="left" style="width: 50%"><h3>รายชื่อผู้สมัคร</h3></div>
+                            <div align="right" style="width: 50%"><h4>${request_name.numberOfAllRegistrations} / ${request_name.quantity}</h4></div>
+                        </div>
+                        <hr>
+                        <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
+                            <tr style="color: black">
+                                <td style="width: 20%">รหัสบัตรประชาชน</td>
+                                <td style="width: 20%">ชื่อ - นามสกุล</td>
+                                <td style="width: 20%" align="center">วันเวลาในการชำระเงิน</td>
+                                <td style="width: 20%" align="center">เบอร์โทรศัพท์</td>
+                                <td style="width: 20%" align="center"></td>
+                            </tr>
 
-                <c:forEach var="registers" items="${register_detail}">
-                    <tr style="color: black">
-                        <td><p>${registers.member.idcard}</p></td>
-                        <td><p>${registers.member.firstName} ${registers.member.lastName}</p></td>
-                        <td align="center">
-                            <c:forEach var="receipts" items="${receipt}">
-                                <c:if test="${registers.invoice.invoice_id == receipts.invoice.invoice_id}">
-                                    <p>${receipts.pay_time} ${receipts.pay_date}</p>
-                                </c:if>
+                            <c:forEach var="registers" items="${register_detail}">
+                                <tr style="color: black">
+                                    <td><p>${registers.member.idcard}</p></td>
+                                    <td><p>${registers.member.firstName} ${registers.member.lastName}</p></td>
+                                    <td align="center">
+                                        <c:forEach var="receipts" items="${receipt}">
+                                            <c:if test="${registers.invoice.invoice_id == receipts.invoice.invoice_id}">
+                                                <p>${receipts.pay_time} ${receipts.pay_date}</p>
+                                            </c:if>
+                                        </c:forEach>
+                                    </td>
+                                    <td align="center">${registers.member.tel}</td>
+                                    <c:if test="${registers.invoice.approve_status == 'ผ่าน'}">
+                                        <td align="center" style="color: green">ผ่าน</td>
+                                    </c:if>
+                                    <c:if test="${registers.invoice.approve_status == 'ไม่ผ่าน'}">
+                                        <td align="center" style="color: red">ไม่ผ่าน</td>
+                                    </c:if>
+                                    <c:if test="${registers.invoice.approve_status == 'รอดำเนินการ'}">
+                                        <c:if test="${registers.invoice.pay_status == true}">
+                                            <td align="center">
+                                                <a href="${pageContext.request.contextPath}/course/${request_name.request_id}/view_payment_detail/${registers.invoice.invoice_id}">
+                                                    <button class="button-48" role="button"><span class="text">ดูข้อมูลการชำระเงิน</span></button>
+                                                </a>
+                                            </td>
+                                        </c:if>
+                                        <c:if test="${registers.invoice.pay_status == false}">
+                                            <td align="center" style="color: orange">ยังไม่ได้ชำระเงิน</td>
+                                        </c:if>
+                                    </c:if>
+                                </tr>
                             </c:forEach>
-                        </td>
-                        <td align="center">${registers.member.tel}</td>
-                        <c:if test="${registers.invoice.approve_status == 'ผ่าน'}">
-                            <td align="center" style="color: green">ผ่าน</td>
-                        </c:if>
-                        <c:if test="${registers.invoice.approve_status == 'ไม่ผ่าน'}">
-                            <td align="center" style="color: red">ไม่ผ่าน</td>
-                        </c:if>
-                        <c:if test="${registers.invoice.approve_status == 'รอดำเนินการ'}">
-                            <c:if test="${registers.invoice.pay_status == true}">
-                                <td align="center"><input type="button" value="ดูข้อมูลการชำระเงิน"
-                                                          onclick="window.location.href='${pageContext.request.contextPath}/course/${request_name.request_id}/view_payment_detail/${registers.invoice.invoice_id}'; return false;"/></td>
-                            </c:if>
-                            <c:if test="${registers.invoice.pay_status == false}">
-                                <td align="center" style="color: orange">ยังไม่ได้ชำระเงิน</td>
-                            </c:if>
-                        </c:if>
-                    </tr>
-                </c:forEach>
-            </table>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </c:when>
     <c:when test="${flag.equals('null')}">

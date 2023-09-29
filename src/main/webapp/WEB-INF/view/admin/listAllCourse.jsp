@@ -46,37 +46,37 @@
 <c:choose>
     <c:when test="${flag.equals('admin')}">
 <% assert admin != null; %>
-<nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-    <%--    <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png" style="height: 79px; margin-left: 57px; position: absolute;">--%>
-    <%--    <div style="margin-left: 151px">--%>
-    <%--        <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">--%>
-    <%--            <h1 class="display-5 m-0 text-primary">LIFELONG<span class="text-secondary">LEARNING</span></h1>--%>
-    <%--        </a>--%>
-    <%--    </div>--%>
-    <div style="margin: 0 0 5% 0">
-        <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">
-            <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png"
-                 style="height: 79px; margin-left: 57px; position: absolute;">
-        </a>
-    </div>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
-        <div class="navbar-nav ms-auto py-0">
-            <a href="${pageContext.request.contextPath}/" class="nav-item nav-link">หน้าหลัก</a>
-            <a href="#" class="nav-item nav-link">เกี่ยวกับคณะ</a>
-            <%--            <div class="nav-item dropdown">--%>
-            <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
-            <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active">หลักสูตรทั้งหมด</a>
-            <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
-            <a href="#" class="nav-item nav-link">Admin</a>
-            <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link">ออกจากระบบ</a>
+        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
+                <%--    <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png" style="height: 79px; margin-left: 57px; position: absolute;">--%>
+                <%--    <div style="margin-left: 151px">--%>
+                <%--        <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">--%>
+                <%--            <h1 class="display-5 m-0 text-primary">LIFELONG<span class="text-secondary">LEARNING</span></h1>--%>
+                <%--        </a>--%>
+                <%--    </div>--%>
+            <div style="margin: 0 0 5% 0">
+                <a href="${pageContext.request.contextPath}/" class="navbar-brand ms-lg-5">
+                    <img src="${pageContext.request.contextPath}/assets/img/logo_navbar.png"
+                         style="height: 79px; margin-left: 57px; position: absolute;">
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
+                <div class="navbar-nav ms-auto py-0">
+                    <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 18px">หน้าหลัก</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
+                        <%--            <div class="nav-item dropdown">--%>
+                        <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
+                    <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active" style="font-size: 18px">หลักสูตรทั้งหมด</a>
+                    <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 18px">ผู้ดูแลระบบ</a>
+                    <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
 
-            <%--            <a href="${pageContext.request.contextPath}/login" class="nav-item nav-link">เข้าสู่ระบบ</a>--%>
-        </div>
-    </div>
-</nav>
+                        <%--            <a href="${pageContext.request.contextPath}/login" class="nav-item nav-link">เข้าสู่ระบบ</a>--%>
+                </div>
+            </div>
+        </nav>
 <!-- Navbar End -->
         <div align="center" class="main_container">
             <br>
@@ -84,17 +84,15 @@
             <h1>${title}</h1>
             <table class="container">
                 <tr align="center">
-                        <%--            <td class="lec_detail" align="left">--%>
-                        <%--                <div class="list_course_detail">--%>
-                        <%--                    <h1>รายการการร้องขอ</h1>--%>
-                        <%--                </div>--%>
-                        <%--            </td>--%>
                     <td class="list_course" align="center">
                         <div class="list_course_detail" align="center">
-                                <%--                    <h1 align="left">รายการการร้องขอ</h1>--%>
-                            <div class="hr_line"></div>
-                            <button id="FClick" class="tablinks" onclick="openList(event, 'course')">หลักสูตร</button>
-                            <button class="tablinks" onclick="openList(event, 'list_request')">รายการร้องขอ</button>
+                            <div class="select_type" align="center">
+                                <input type="radio" class="tablinks" name="options-base" onclick="openList(event, 'course')" id="FClick" autocomplete="off" checked>
+                                <label class="btn" for="FClick">หลักสูตร</label>
+
+                                <input type="radio" class="tablinks" name="options-base" onclick="openList(event, 'list_request')" id="option6" autocomplete="off">
+                                <label class="btn" for="option6">รายการร้องขอ</label>
+                            </div>
                         </div>
                             <%--DIV แรก--%>
                         <div id="course" class="tabcontent" align="left">
@@ -104,7 +102,9 @@
                             <table style="width: 100%;">
                                 <tr>
                                     <td align="left" style="width: 50%"><h5><b>หลักสูตรที่กำลังเปิดสอน</b></h5></td>
-                                    <td align="right" style="width: 50%"><a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course"><button>เพิ่มหลักสูตร</button></a></td>
+                                    <td align="right" style="width: 50%"><a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course">
+                                        <button type="button" class="btn btn-outline-success">เพิ่มหลักสูตร</button>
+                                    </a></td>
                                 </tr>
                             </table>
                             <table class="table table-striped table-hover">
@@ -125,7 +125,9 @@
                                                         <td align="center">
                                                             <p>${startStudyDate} - ${endStudyDate}</p><br>
                                                         </td>
-                                                        <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course"><button>${request.numberOfAllRegistrations}/${request.quantity}</button></a></td>
+                                                        <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course">
+                                                            <button class="button-35" role="button">${request.numberOfAllRegistrations}/${request.quantity}</button>
+                                                        </a></td>
                                                     </c:if>
                                                 </c:forEach>
                                         </tr>
@@ -148,7 +150,11 @@
                                             <td><p>${course.name}</p></td>
                                             <td align="center"><p>${course.course_type}</p></td>
 <%--                                            <td align="center"><a><button>ดูรายชื่อ</button></a></td>--%>
-                                            <td align="center"><a href="${pageContext.request.contextPath}/course/${course.course_id}/edit_course"><button>แก้ไข</button></a></td>
+                                            <td align="center">
+                                                <a href="${pageContext.request.contextPath}/course/${course.course_id}/edit_course">
+                                                    <button type="button" class="btn btn-outline-warning">แก้ไข</button>
+                                                </a>
+                                            </td>
                                         </tr>
                                     </c:if>
                                 </c:forEach>
@@ -183,8 +189,9 @@
                                             <td align="center"><p>${request_course.type_learn}</p></td>
                                             <td align="center"><p>${request_course.lecturer.firstName} ${request_course.lecturer.lastName}</p></td>
                                             <td align="center">
-                                                <input type="button" value="ดูรายละเอียด"
-                                                       onclick="window.location.href='${pageContext.request.contextPath}/course/${admin_id}/view_request_open_course/${request_course.request_id}'; return false;"/>
+                                                <a href="${pageContext.request.contextPath}/course/${admin_id}/view_request_open_course/${request_course.request_id}">
+                                                    <button class="button-35" role="button">รายละเอียด</button>
+                                                </a>
                                             </td>
                                         </tr>
                                     </c:if>

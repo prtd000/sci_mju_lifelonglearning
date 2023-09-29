@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="lifelong.model.*" %>
 <%--
   Created by IntelliJ IDEA.
@@ -63,46 +64,58 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="${pageContext.request.contextPath}/" class="nav-item nav-link">หน้าหลัก</a>
-                    <a href="#" class="nav-item nav-link">เกี่ยวกับคณะ</a>
+                    <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 18px">หน้าหลัก</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
                         <%--            <div class="nav-item dropdown">--%>
                         <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
-                    <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link">หลักสูตรทั้งหมด</a>
-                    <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link active">ข่าวสารและกิจกรรม</a>
-                    <a href="#" class="nav-item nav-link">Admin</a>
-                    <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link">ออกจากระบบ</a>
+                    <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรทั้งหมด</a>
+                    <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link active" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 18px">ผู้ดูแลระบบ</a>
+                    <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
 
                         <%--            <a href="${pageContext.request.contextPath}/login" class="nav-item nav-link">เข้าสู่ระบบ</a>--%>
                 </div>
             </div>
         </nav>
         <!-- Navbar End -->
-        <div align="center" class="main_container">
-            <div id="Activity_News" class="tabcontent">
-                <h3>ข่าวสารและกิจกรรม</h3>
-                <input type="button" value="ข่าวสาร"onclick="window.location.href='${pageContext.request.contextPath}/course/public/add_activity'; return false;"class="add-button"/>
-                <table class="table table-striped table-hover">
-                    <tr style="color: black">
-                        <td class="td_request">รายการข่าว</td>
-                        <td class="td_edit" align="center">วันที่ออกข่าว</td>
-                        <td class="td_cancel" align="center"></td>
-                        <td class="td_cancel" align="center"></td>
-                    </tr>
-                    <c:forEach var="list" items="${list_activities}">
-                        <tr>
-                            <td>${list.name}</td>
-                            <td>${list.date}</td>
-                            <td>
-                                <a href="${pageContext.request.contextPath}/course/public/${list.ac_id}/edit_page"><button>แก้ไข</button></a>
-                            </td>
-                            <td>
-                                <input type="button" value="ยกเลิก"
-                                       onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/${list.ac_id}/delete'; return false; }"
-                                       class="cancel-button"/>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </table>
+        <div align="center" style="width: 100%; margin-top: 30px">
+            <div class="tabcontent" align="left" style="width: 60%">
+                <div style="display: flex; width: 100%" >
+                    <div align="left" style="width: 50%"><h3>ข่าวสารและกิจกรรม</h3></div>
+                    <div align="right" style="width: 50%">
+                        <a href="${pageContext.request.contextPath}/course/public/add_activity"><button type="button" class="btn btn-outline-success">เพิ่มข่าวสารทั่วไป</button></a>
+                    </div>
+                </div>
+                <hr>
+                <div align="center" class="main_container">
+                    <div id="Activity_News" class="tabcontent">
+                        <table class="table table-striped table-hover">
+                            <tr style="color: black">
+                                <td style="width: 50%">รายการข่าว</td>
+                                <td style="width: 30%" align="center">วันที่ออกข่าว</td>
+                                <td style="width: 10%" align="center"></td>
+                                <td style="width: 10%" align="center"></td>
+                            </tr>
+                            <c:forEach var="list" items="${list_activities}">
+                                <tr>
+                                    <td>${list.name}</td>
+                                    <fmt:formatDate value="${list.date}" pattern="dd/MM/yyyy" var="date" />
+                                    <td align="center">${date}</td>
+                                    <td align="center">
+                                        <a href="${pageContext.request.contextPath}/course/public/${list.ac_id}/edit_page">
+                                            <button type="button" class="btn btn-outline-warning">แก้ไข</button>
+                                        </a>
+                                    </td>
+                                    <td align="center">
+                                        <input type="button" value="ลบข่าวสาร"
+                                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/${list.ac_id}/delete'; return false; }"
+                                               class="btn btn-outline-danger"/>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </c:when>

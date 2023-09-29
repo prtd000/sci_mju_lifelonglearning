@@ -515,7 +515,5 @@
             moocRow.style.display = "none";
         }
     }
-
-
 </script>
 </html>

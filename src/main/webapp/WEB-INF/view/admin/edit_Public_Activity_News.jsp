@@ -117,14 +117,14 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
         <div class="navbar-nav ms-auto py-0">
-          <a href="${pageContext.request.contextPath}/" class="nav-item nav-link">หน้าหลัก</a>
-          <a href="#" class="nav-item nav-link">เกี่ยวกับคณะ</a>
+          <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 18px">หน้าหลัก</a>
+          <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
             <%--            <div class="nav-item dropdown">--%>
             <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
-          <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link">หลักสูตรทั้งหมด</a>
-          <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link active">ข่าวสารและกิจกรรม</a>
-          <a href="#" class="nav-item nav-link">Admin</a>
-          <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link">ออกจากระบบ</a>
+          <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรทั้งหมด</a>
+          <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link active" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
+          <a href="#" class="nav-item nav-link" style="font-size: 18px">ผู้ดูแลระบบ</a>
+          <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
 
             <%--            <a href="${pageContext.request.contextPath}/login" class="nav-item nav-link">เข้าสู่ระบบ</a>--%>
         </div>
@@ -176,7 +176,7 @@
               </tr>
               <tr>
                 <td>
-                  <div id="loadImg">
+                  <div id="loadImg" style="display: flex">
                     <c:if test="${not empty activities.img}">
                       <c:set var="imgNames" value="${activities.img}" />
                       <c:set var="imgArray" value="${fn:split(imgNames, ',')}" />
@@ -185,16 +185,16 @@
                         <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}" />
                         <c:if test="${loop.index < 3}">
                           <div style="display: inline-block">
-                            <img src="${pageContext.request.contextPath}/assets/img/activity/public/${activities.ac_id}/${listImg}" width="200px">
+                            <img src="${pageContext.request.contextPath}/assets/img/activity/public/${activities.ac_id}/${listImg}" width="180px">
                           </div>
                         </c:if>
                       </c:forEach>
 
-                      <c:if test="${fn:length(imgArray) > 3}">
-                        <label>และรูปภาพอีก ${fn:length(imgArray) - 3} รูป</label>
-                      </c:if>
                     </c:if>
                   </div>
+                  <c:if test="${fn:length(imgArray) > 3}">
+                    <label>และรูปภาพอีก ${fn:length(imgArray) - 3} รูป</label>
+                  </c:if>
                   <div id="imagePreview" style="display: none"></div>
                   <label id="img_label" style="display: none"></label>
                 </td>

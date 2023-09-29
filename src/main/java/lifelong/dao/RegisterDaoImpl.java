@@ -59,6 +59,19 @@ public class RegisterDaoImpl implements RegisterDao {
     }
 
     @Override
+    public List<Register> getRegisterByRequestIdAndPayStatusAndApprove(long roc_Id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Register> query = session.createQuery("from Register r where r.requestOpenCourse.id =: roc_Id AND" +
+                " r.invoice.pay_status = : pay_status and " +
+                "r.invoice.approve_status =: approve_status", Register.class);
+        query.setParameter("roc_Id",roc_Id);
+        query.setParameter("pay_status",true);
+        query.setParameter("approve_status","ผ่าน");
+        List<Register> registers = query.getResultList();
+        return registers;
+    }
+
+    @Override
     public Register getRegisterByRegisterId(long register_Id) {
         Session session = sessionFactory.getCurrentSession();
         Query<Register> query = session.createQuery("FROM Register r WHERE r.register_id =: regisId", Register.class);

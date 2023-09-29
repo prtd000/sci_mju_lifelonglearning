@@ -3,10 +3,19 @@ package lifelong.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lifelong.model.*;
 import lifelong.service.*;
+import org.apache.commons.compress.utils.IOUtils;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -15,8 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import utils.ImgPath;
 
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -306,22 +315,60 @@ public class LecturerController {
     //**********************List Members*********************//
     @GetMapping("/{lecturer_id}/{request_id}/list_member_to_approve")
     public String getListMembers(@PathVariable("lecturer_id") String lecturer_id,@PathVariable("request_id") long request_id , Model model) {
-        List<Register> register = registerService.getRegisterByRequestIdAndPayStatus(request_id);
+        List<Register> register = registerService.getRegisterByRequestIdAndPayStatusAndApprove(request_id);
         model.addAttribute("title","TEST");
         model.addAttribute("registers",register);
         model.addAttribute("lecturer_id",lecturer_id);
+        model.addAttribute("request_name",requestOpCourseService.getRequestOpenCourseDetail(request_id));
         return "lecturer/list_member_approve_course";
     }
     //***********************************************************//
 
     //**************************getPrintListMember() IReport*******************//
-    //*********************************************************************//
-    //*********************************************************************//
-    //*********************************************************************//
-    //*********************************************************************//
-    //*********************************************************************//
-    //*********************************************************************//
-    //*********************************************************************//
+    @GetMapping("/{request_id}/downloadExcel")
+    public void downloadExcel(HttpServletResponse response, @PathVariable long request_id) throws IOException {
+        // ดึงข้อมูลจาก Service หรือ Repository
+        List<Register> register = registerService.getRegisterByRequestIdAndPayStatusAndApprove(request_id);
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(request_id);
+
+        // โหลดไฟล์ Excel โครงที่มีอยู่แล้ว
+        FileInputStream inputStream = new FileInputStream(ImgPath.pathExcel + "/register_data.xlsx");
+//        Workbook workbook = new XSSFWorkbook(inputStream);
+        Workbook workbook = new XSSFWorkbook(inputStream);
+        inputStream.close();
+        // สร้าง Workbook Excel
+        Sheet sheet = workbook.getSheet("Sheet1");
+        int rowNum = 8;
+        int i = 1;
+        // สร้าง DataFormat สำหรับรูปแบบวันที่ "dd/MM/yyyy"
+        DataFormat dateFormat = workbook.createDataFormat();
+        CellStyle dateCellStyle = workbook.createCellStyle();
+        dateCellStyle.setDataFormat(dateFormat.getFormat("dd/MM/yyyy"));
+
+        Row rowTitle = sheet.createRow(4);
+        rowTitle.createCell(1).setCellValue(requestOpenCourse.getCourse().getName());
+        for (Register reg : register) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(1).setCellValue(i++);
+            row.createCell(2).setCellValue(reg.getMember().getIdcard());
+            row.createCell(3).setCellValue(reg.getMember().getFirstName() +"  "+ reg.getMember().getLastName());
+            row.createCell(4).setCellValue(reg.getMember().getTel());
+            row.createCell(5).setCellValue(reg.getRegister_date());
+            row.getCell(5).setCellStyle(dateCellStyle);
+            // เพิ่มคอลัมน์อื่น ๆ ตามที่ต้องการ
+        }
+
+        String fileName = requestOpenCourse.getRequest_id()+"_"+requestOpenCourse.getCourse().getCourse_id();
+
+        // ตั้งค่า Response Header
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename="+fileName+".xlsx");
+
+        // ส่งไฟล์ Excel กลับไปยังผู้ใช้
+        workbook.write(response.getOutputStream());
+        workbook.close();
+    }
+
     //*********************************************************************//
 
     //******************Edit Study Result*****************//
@@ -434,6 +481,7 @@ public class LecturerController {
     @GetMapping("/{roc_id}/list_course_activity_news")
     public String getListCourseActivityNews(Model model, @PathVariable("roc_id") long roc_id) {
         model.addAttribute("list_activity",activityService.getActivityDetailByCourseId(roc_id));
+        model.addAttribute("request_name",requestOpCourseService.getRequestOpenCourseDetail(roc_id));
         return "lecturer/list_course_activity";
     }
     //*********************************************************************************************//

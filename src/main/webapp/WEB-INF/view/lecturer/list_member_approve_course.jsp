@@ -2,16 +2,50 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="lifelong.model.*" %>
+<%@ page import="java.util.List" %>
 <html>
 <head>
     <title>${title}</title>
     <link href="${pageContext.request.contextPath}/assets/css/list_open_course_style.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/admin/list_approve_member.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/lecturer/list_member.css" rel="stylesheet">
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
     <style>
         h1{
             font-family: 'Prompt', sans-serif;
             font-weight: 700 !important;
+        }
+        .btn-next-back {
+            background-color: #aa4d13;
+            border: 1px solid #aa4d13;
+            border-radius: 4px;
+            box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
+            box-sizing: border-box;
+            color: #fff;
+            cursor: pointer;
+            font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            outline: none;
+            outline: 0;
+            padding: 10px 25px;
+            text-align: center;
+            transform: translateY(0);
+            transition: transform 150ms, box-shadow 150ms;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+        .btn-next-back:hover {
+            box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
+            transform: translateY(-2px);
+        }
+
+        @media (min-width: 768px) {
+            .btn-next-back {
+                padding: 10px 30px;
+            }
         }
     </style>
 </head>
@@ -72,63 +106,168 @@
             </div>
         </nav>
         <!-- Navbar End -->
-<div align="center">
-    <h1>${title}</h1>
-    <h3>รายชื่อผู้ที่ผ่านการสมัคร</h3>
-        <table class="table table-striped table-hover">
-        <tr style="color: black">
-            <td class="td_request">รหัสบัตรประชาชน</td>
-            <td class="td_edit">ชื่อ - นามสกุล</td>
-            <td class="td_cancel" align="center">สถานะการอบรม</td>
-            <td class="td_cancel" align="center"></td>
-            <td class="td_cancel" align="center"></td>
-        </tr>
-        <c:forEach var="list" items="${registers}">
-            <form action="${pageContext.request.contextPath}/lecturer/${request_id}/update_Status_Member_Result/${list.register_id}" method="POST" onsubmit="return confirmAction();">
-                <tr>
-                <c:if test="${list.invoice.approve_status == 'ผ่าน'}">
-                    <td>${list.member.idcard}</td>
-                    <td>${list.member.firstName} ${list.member.lastName}</td>
-                    <td align="center">
-                        <c:set var="color" value="orange"></c:set>
-                        <c:if test="${list.study_result == 'ผ่าน'}">
-                            <c:set var="color" value="green"></c:set>
-                        </c:if>
-                        <c:if test="${list.study_result == 'ไม่ผ่าน'}">
-                            <c:set var="color" value="red"></c:set>
-                        </c:if>
-                        <p style="color: ${color}">${list.study_result}</p>
-                    </td align="center">
-                        <%--                <td>--%>
-                        <%--                    ${list.invoice.pay_status}--%>
-                        <%--                </td>--%>
-                    <c:choose>
-                        <c:when test="${list.study_result == 'ผ่าน'}">
-                            <td align="center">
-                                <input type="submit" name="studyResult" value="ไม่ผ่านหลักสูตร"/>
-                            </td>
-                            <td align="center">
-                                <input type="submit" name="studyResult" value="ผ่านหลักสูตร" style="display: none;"/>
-                            </td>
-                        </c:when>
-                        <c:otherwise>
-                            <td align="center">
-                                <input type="submit" name="studyResult" value="ผ่านหลักสูตร"/>
-                            </td>
-                            <td align="center">
-                                <input type="submit" name="studyResult" value="ไม่ผ่านหลักสูตร" style="display: none;"/>
-                            </td>
-                        </c:otherwise>
-                    </c:choose>
-                </tr>
-                </c:if>
-            </form>
-        </c:forEach>
-    </table>
-    <input type="button" value="ย้อนกลับ"
-           onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/list_request_open_course'; return false;"
-           class="cancel-button"/>
-</div>
+        <%-- หน้าที่คุณต้องการแสดงและรายการต่อหน้า --%>
+        <div align="center" style="width: 100%; margin-top: 20px">
+            <div align="left" style="width: 85%">
+                    <%--                <h2>${request_name.course.name}</h2>--%>
+                <div align="center" class="main_container">
+                    <div class="course_div">
+                        <div style="padding: 20px 20px 0px 20px" align="left">
+                            <b><label style="font-size: 20px">${request_name.course.name}</label></b>
+                            <label>${request_name.course.major.name}</label>
+                            <hr>
+                        </div>
+                        <div style="padding: 0px 20px 20px 20px" align="left">
+                            <b><label>วันเปิดรับสมัคร</label></b>
+                            <div class="mb-3">
+                                <div class="flex-container">
+                                    <fmt:formatDate value="${request_name.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
+                                    <fmt:formatDate value="${request_name.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
+                                    <label>${startRegister} - ${endRegister}</label>
+                                </div>
+                            </div>
+                            <b><label>วันประกาศผลการสมัคร</label></b>
+                            <div class="mb-3">
+                                <div class="flex-container">
+                                    <fmt:formatDate value="${request_name.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
+                                    <label>${applicationResult}</label>
+                                </div>
+                            </div>
+                            <b><label>ระยะเวลาการเรียน</label></b>
+                            <div class="mb-3">
+                                <div class="flex-container">
+                                    <fmt:formatDate value="${request_name.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                    <fmt:formatDate value="${request_name.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
+                                    <label>${startStudyDate} - ${endStudyDate}</label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="flex-container">
+                                    <label>จำนวนรับสมัคร ${request_name.numberOfAllRegistrations} / ${request_name.quantity} คน</label>
+                                </div>
+                            </div>
+                            <b><label>รูปแบบการสอน</label></b>
+                            <div class="mb-3">
+                                <div class="flex-container">
+                                    <label>${request_name.type_teach}</label>
+                                </div>
+                            </div>
+                            <b><label>รูปแบบการสอน</label></b>
+                            <div class="mb-3">
+                                <div class="flex-container">
+                                    <label>${request_name.type_learn}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 100%; align-self: flex-start;" align="left">
+                        <div style="display: flex; width: 100%" >
+                            <div align="left" style="width: 50%"><h3>รายชื่อผู้ที่ผ่านการสมัคร</h3></div>
+                            <div align="right" style="width: 50%">
+                                <h3>${request_name.numberOfApprovedRegistrations} / ${request_name.quantity}</h3>
+                            </div>
+                        </div>
+                        <hr>
+                        <div style="display: flex; width: 100%" >
+                            <div align="left" style="width: 50%"></div>
+                            <div align="right" style="width: 50%">
+                                <input type="button" value="Export"
+                                       onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_id}/downloadExcel'; return false;"
+                                       class="btn btn-outline-primary"/>
+                            </div>
+                        </div>
+                        <table id="paginationNumbers" class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
+                            <tr style="color: black">
+                                <td style="width: 5%"></td>
+                                <td style="width: 20%">รหัสบัตรประชาชน</td>
+                                <td style="width: 35%" align="center">ชื่อ - นามสกุล</td>
+                                <td style="width: 20%" align="center">สถานะการอบรม</td>
+                                <td style="width: 10%" align="center"></td>
+                                <td style="width: 10%" align="center"></td>
+                            </tr>
+                            <%
+                                List<Register> registers = (List<Register>) request.getAttribute("registers");
+                            %>
+                            <%
+                                int page1 = (request.getParameter("page") != null) ? Integer.parseInt(request.getParameter("page")) : 1;
+                                int perPage = 6;  // จำนวนรายการต่อหน้า
+                                int totalPages = (int) Math.ceil((double) registers.size() / perPage);
+                            %>
+                            <%
+                                int startIndex = (page1 - 1) * perPage;
+                                int endIndex = Math.min(startIndex + perPage, registers.size());
+                            %>
+<%--                            <c:forEach var="list" items="${registers}">--%>
+                            <c:set var="perPage" value="6" />
+                            <c:set var="page1" value="${(param.page != null) ? param.page : 1}" />
+                            <c:set var="startIndex" value="${(page1 - 1) * perPage}" scope="page" />
+                            <c:set var="endIndex" value="${startIndex + perPage}" scope="page" />
+                            <c:forEach items="${registers}" var="list" begin="${startIndex}" end="${endIndex - 1}" varStatus="loop">
+                                <form action="${pageContext.request.contextPath}/lecturer/${request_id}/update_Status_Member_Result/${list.register_id}" method="POST" onsubmit="return confirmAction();">
+                                    <tr>
+<%--                                        <c:set var="count" value="${startIndex + 1}"/>--%>
+                                        <td align="center">${loop.index + 1}</td>
+                                        <td>${list.member.idcard}</td>
+                                        <td align="center">${list.member.firstName} ${list.member.lastName}</td>
+                                        <td align="center">
+                                            <c:set var="color" value="orange"></c:set>
+                                            <c:if test="${list.study_result == 'ผ่าน'}">
+                                                <c:set var="color" value="green"></c:set>
+                                            </c:if>
+                                            <c:if test="${list.study_result == 'ไม่ผ่าน'}">
+                                                <c:set var="color" value="red"></c:set>
+                                            </c:if>
+                                            <p style="color: ${color}">${list.study_result}</p>
+                                        </td align="center">
+                                            <%--                <td>--%>
+                                            <%--                    ${list.invoice.pay_status}--%>
+                                            <%--                </td>--%>
+                                        <c:choose>
+                                            <c:when test="${list.study_result == 'ผ่าน'}">
+                                                <td align="center">
+                                                    <input type="submit" name="studyResult" class="btn btn-danger" value="ไม่ผ่านหลักสูตร"/>
+                                                </td>
+                                                <td align="center">
+                                                    <input type="submit" name="studyResult" value="ผ่านหลักสูตร" class="btn btn-success" style="display: none;"/>
+                                                </td>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <td align="center">
+                                                    <input type="submit" name="studyResult" class="btn btn-success" value="ผ่านหลักสูตร"/>
+                                                </td>
+                                                <td align="center">
+                                                    <input type="submit" name="studyResult" value="ไม่ผ่านหลักสูตร" class="btn btn-danger" style="display: none;"/>
+                                                </td>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </tr>
+                                </form>
+                            </c:forEach>
+                        </table>
+                        <div style="display: flex; width: 100%" >
+                            <div align="left" style="width: 50%">
+                                <% if (page1 > 1) { %>
+                                <a href="?page=<%= page1 - 1 %>">
+                                    <i style="color: #ff8d4e;" class="fa fa-chevron-circle-left fa-2x" aria-hidden="true"></i>
+                                    <label style="color: #ff8d4e; font-size: 18px">ก่อนหน้า</label>
+                                </a>
+                                <% } %>
+                            </div>
+                            <div align="right" style="width: 50%">
+                                <% if (page1 < totalPages) { %>
+                                <a href="?page=<%= page1 + 1 %>">
+                                    <label style="color: #ff8d4e; font-size: 18px; margin-right: 10px">ต่อไป</label><i style="color: #ff8d4e;" class="fa fa-chevron-circle-right fa-2x" aria-hidden="true"></i>
+                                </a>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="button" value="ย้อนกลับ"
+               onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/list_request_open_course'; return false;"
+               class="cancel-button"/>
     </c:when>
     <c:when test="${flag.equals('null')}">
         <h1>กรุณา Log in ใหม่</h1>
@@ -139,7 +278,6 @@
     </c:otherwise>
 </c:choose>
 </body>
-
 <script>
     window.addEventListener('DOMContentLoaded', (event) => {
         var button = document.getElementById('FClick');
@@ -160,6 +298,12 @@
     }
 </script>
 <script>
+    $(document).ready(function () {
+        //Pagination numbers
+        $('#paginationNumbers').DataTable({
+            "pagingType": "numbers"
+        });
+    });
     function confirmAction() {
         var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการดำเนินการขั้นตอนต่อไปนี้?");
         if (result) {

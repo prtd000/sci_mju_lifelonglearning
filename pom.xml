@@ -200,6 +200,18 @@
       <version>2.12.5</version> <!-- หรือเวอร์ชันล่าสุด -->
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>5.0.0</version> <!-- เวอร์ชันล่าสุด -->
+    </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <version>5.0.0</version> <!-- เวอร์ชันล่าสุด -->
+    </dependency>
+
+
   </dependencies>
 
   <build>

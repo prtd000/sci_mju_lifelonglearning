@@ -4,9 +4,10 @@
 <%@ page import="lifelong.model.*" %>
 <html>
 <head>
-    <title>${title}</title>
+    <title>title</title>
     <link href="${pageContext.request.contextPath}/assets/css/list_open_course_style.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/admin/list_approve_member.css" rel="stylesheet">
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
     <style>
         h1{
@@ -72,44 +73,100 @@
             </div>
         </nav>
         <!-- Navbar End -->
-<div align="center">
-    <div style="width: 70%">
-        <h3>ข่าวสารประจำหลักสูตร</h3>
-            <%--<a href="${pageContext.request.contextPath}/course/add_course"><button>เพิ่มหลักสูตร</button></a>--%>
-        <center>
-            <input type="button" value="เพิ่มข่าวสาร"
-                   onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${roc_id}/add_course_activity'; return false;"
-            />
-            <table class="table table-striped table-hover">
-                <tr style="color: black">
-                    <td class="td_request">ชื่อข่าว</td>
-                    <td class="td_edit" align="center">วันที่เผยแพร่</td>
-                    <td class="td_cancel" align="center">ประเภท</td>
-                    <td class="td_edit" align="center"></td>
-                    <td class="td_cancel" align="center"></td>
-                </tr>
-                <c:forEach var="list" items="${list_activity}">
-                    <tr>
-                        <td>${list.name}</td>
-                        <td>${list.date}</td>
-                        <td>${list.type}</td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/private/${list.ac_id}/edit_course_activity_page/${list.requestOpenCourse.request_id}"><button>แก้ไข</button></a>
-                        </td>
-                        <td>
-                            <input type="button" value="ยกเลิก"
-                                   onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${list.ac_id}/delete'; return false; }"
-                                   class="cancel-button"/>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </table>
-        </center>
-        <input type="button" value="ย้อนกลับ"
-               onclick="window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course'; return false;"
-               class="cancel-button"/>
-    </div>
-</div>
+        <div align="center" style="width: 100%; margin-top: 20px">
+            <div align="left" style="width: 85%">
+                    <%--                <h2>${request_name.course.name}</h2>--%>
+                <div align="center" class="main_container">
+                    <div class="course_div">
+                        <div style="padding: 20px 20px 0px 20px" align="left">
+                            <b><label style="font-size: 20px">${request_name.course.name}</label></b>
+                            <label>${request_name.course.major.name}</label>
+                            <hr>
+                        </div>
+                        <div style="padding: 0px 20px 20px 20px" align="left">
+                            <b><label>วันเปิดรับสมัคร</label></b>
+                            <div class="mb-3">
+                                <div class="flex-container">
+                                    <fmt:formatDate value="${request_name.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
+                                    <fmt:formatDate value="${request_name.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
+                                    <label>${startRegister} - ${endRegister}</label>
+                                </div>
+                            </div>
+                            <b><label>วันประกาศผลการสมัคร</label></b>
+                            <div class="mb-3">
+                                <div class="flex-container">
+                                    <fmt:formatDate value="${request_name.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
+                                    <label>${applicationResult}</label>
+                                </div>
+                            </div>
+                            <b><label>ระยะเวลาการเรียน</label></b>
+                            <div class="mb-3">
+                                <div class="flex-container">
+                                    <fmt:formatDate value="${request_name.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                    <fmt:formatDate value="${request_name.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
+                                    <label>${startStudyDate} - ${endStudyDate}</label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="flex-container">
+                                    <label>จำนวนรับสมัคร ${request_name.numberOfAllRegistrations} / ${request_name.quantity} คน</label>
+                                </div>
+                            </div>
+                            <b><label>รูปแบบการสอน</label></b>
+                            <div class="mb-3">
+                                <div class="flex-container">
+                                    <label>${request_name.type_teach}</label>
+                                </div>
+                            </div>
+                            <b><label>รูปแบบการสอน</label></b>
+                            <div class="mb-3">
+                                <div class="flex-container">
+                                    <label>${request_name.type_learn}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 100%; align-self: flex-start;" align="left">
+                        <div style="display: flex; width: 100%" >
+                            <div align="left" style="width: 50%"><h3>ข่าวสารประจำหลักสูตร</h3></div>
+                            <div align="right" style="width: 50%">
+                                <input type="button" value="ร้องขอเปิดหลักสูตร" class="btn btn-outline-success"
+                                       onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${roc_id}/add_course_activity'; return false;"
+                                />
+                            </div>
+                        </div>
+                        <hr>
+                        <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
+                            <tr style="color: black">
+                                <td style="width: 35%">รายการข่าวสาร และกิจกรรม</td>
+                                <td style="width: 20%" align="center">วันที่เผยแพร่</td>
+                                <td style="width: 25%" align="center">ประเภท</td>
+                                <td style="width: 10%" align="center"></td>
+                                <td style="width: 10%" align="center"></td>
+                            </tr>
+                            <c:forEach var="list" items="${list_activity}">
+                                <tr>
+                                    <td>${list.name}</td>
+                                    <fmt:formatDate value="${list.date}" pattern="dd/MM/yyyy" var="date" />
+                                    <td align="center">${date}</td>
+                                    <td align="center">${list.type}</td>
+                                    <td align="center">
+                                        <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/private/${list.ac_id}/edit_course_activity_page/${list.requestOpenCourse.request_id}">
+                                            <button type="button" class="btn btn-outline-warning">แก้ไข</button>
+                                        </a>
+                                    </td>
+                                    <td align="center">
+                                        <input type="button" value="ยกเลิก"
+                                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${list.ac_id}/delete'; return false; }"
+                                               class="btn btn-outline-danger"/>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </c:when>
     <c:when test="${flag.equals('null')}">
         <h1>กรุณา Log in ใหม่</h1>

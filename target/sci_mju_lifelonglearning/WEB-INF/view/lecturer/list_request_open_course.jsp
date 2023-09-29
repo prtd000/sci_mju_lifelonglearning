@@ -6,10 +6,11 @@
 <html>
 <head>
     <title>${title}</title>
-<%--    <link href="${pageContext.request.contextPath}/assets/css/list_open_course_style.css" rel="stylesheet">--%>
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/assets/css/lecturer/list_request_open_course.css" rel="stylesheet">
+<%--    <link href="${pageContext.request.contextPath}/assets/css/lecturer/list_request_open_course.css" rel="stylesheet">--%>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
+    <link href="${pageContext.request.contextPath}/assets/css/lecturer/list_request_open_course.css" rel="stylesheet">
+<%--    <link href="${pageContext.request.contextPath}/assets/css/list_open_course_style.css" rel="stylesheet">--%>
 </head>
 <body>
 <%
@@ -69,22 +70,38 @@
         </nav>
         <!-- Navbar End -->
 
-<div align="center">
-    <h1>${title}</h1>
+<div align="center" style="margin-top: 20px">
+    <h1>${title}การร้องขอ</h1>
     <table class="container">
         <tr align="center">
             <td class="list_course" align="center">
                 <div class="list_course_detail" align="center">
-                    <h1 align="left">รายการการร้องขอ</h1>
-                    <div class="hr_line"></div>
-                    <button id="FClick" class="tablinks" onclick="openList(event, 'course')">หลักสูตร</button>
-                    <button class="tablinks" onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/add_roc'; return false;"class="add-button">ร้องขอ</button>
-                    <button class="tablinks" onclick="openList(event, 'list_request')">รายการร้องขอ</button>
+
+                        <div class="select_type" align="center">
+                            <input type="radio" class="tablinks" name="options-base" onclick="openList(event, 'course')" id="FClick" autocomplete="off" checked>
+                            <label class="btn" for="FClick">หลักสูตรของฉัน</label>
+
+                            <input type="radio" class="tablinks" name="options-base" onclick="openList(event, 'list_request')" id="option6" autocomplete="off">
+                            <label class="btn" for="option6">รายการร้องขอ</label>
+                        </div>
+
+<%--                    <button id="FClick" class="tablinks" onclick="openList(event, 'course')">หลักสูตร</button>--%>
+<%--                    <button class="tablinks" onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/add_roc'; return false;">ร้องขอ</button>--%>
+<%--                    <button class="tablinks" onclick="openList(event, 'list_request')">รายการร้องขอ</button>--%>
 
                 </div>
 
                 <div id="course" class="tabcontent">
-                    <table class="table table-striped table-hover">
+                    <table style="width: 100%; margin-top: 15px; margin-bottom: -10px">
+                        <tr>
+                            <td align="left" style="width: 50%"><h4><b>หลักสูตรของฉัน</b></h4></td>
+                            <td align="right" style="width: 50%">
+                                <button class="btn btn-outline-success" onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/add_roc'; return false;">ร้องขอเปิดหลักสูตร</button>
+                            </td>
+                        </tr>
+                    </table>
+                    <hr>
+                    <table class="table table-striped table-hover" style="font-size: 15px">
                         <tr style="color: black">
                             <td class="td_request">รายละเอียดหลักสูตร</td>
                             <td class="td_learn" align="center">ระยะเวลาเรียน</td>
@@ -105,15 +122,15 @@
                                         <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/view_sample_certificate">ดูตัวอย่าง</a>
                                     </td>
                                     <td align="center">
-                                        <input type="button" value="${request_course.numberOfApprovedRegistrations}/${request_course.quantity}"
-                                               onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve'; return false;"
-                                        />
+                                        <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
+                                            <button class="button-5" role="button">${request_course.numberOfApprovedRegistrations}/${request_course.quantity}</button>
+                                        </a>
                                     </td>
                                     <td align="center">
-                                        <input type="button" value="เพิ่มข่าวสาร"
+                                        <input type="button" value="เพิ่มข่าวสาร" class="activity-btn"
                                                onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_course.request_id}/add_course_activity'; return false;"
                                         />
-                                        <input type="button" value="รายการข่าวสาร"
+                                        <input type="button" value="รายการข่าวสาร" class="list-activity-btn"
                                                onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_course.request_id}/list_course_activity_news'; return false;"
                                         />
                                     </td>
@@ -126,7 +143,7 @@
                                         <c:if test="${currentDate1 < request_course.applicationResult && request_course.numberOfAllRegistrations == 0}">
                                             <input type="button" value="ยกเลิก"
                                                    onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบหลักสูตรนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/cancel_request_open_course'; return false; }"
-                                                   class="cancel-button"/>
+                                                   class="btn btn-outline-danger"/>
                                         </c:if>
                                     </td>
                                 </tr>
@@ -141,8 +158,11 @@
                 </div>
 
                 <div id="list_request" class="tabcontent">
-                    <h4>หลักสูตรที่ร้องขอ</h4>
-                    <table class="table table-striped table-hover">
+                    <div align="left" style="width: 100%; margin-top: 15px;">
+                        <h4><b>หลักสูตรที่ร้องขอ</b></h4>
+                    </div>
+                    <hr>
+                    <table class="table table-striped table-hover" style="font-size: 15px">
                         <tr style="color: black">
                             <td class="td_request">รายละเอียดการร้องขอ</td>
                             <td class="td_roc" align="center">วันที่ร้องขอ</td>
@@ -166,18 +186,27 @@
                                     <td align="center"><p>${request_course.type_learn}</p></td>
                                     <td align="center"><p>${request_course.lecturer.firstName} ${request_course.lecturer.lastName}</p></td>
                                     <td align="center">
-                                        <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/update_page">แก้ไข</a>
-                                        <input type="button" value="ยกเลิก"
+                                        <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/update_page">
+                                            <button type="button" class="btn btn-outline-warning" style="font-size: 12px">
+                                                <i style="color: #ff8d4e;" class="fa fa-edit" aria-hidden="true"></i> แก้ไข
+                                            </button>
+                                        </a>
+                                        <input type="button" value="ยกเลิก" style="font-size: 12px"
                                                onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/delete_request_open_course'; return false; }"
-                                               class="cancel-button"/>
+                                               class="btn btn-outline-danger"/>
                                     </td>
                                 </tr>
                             </c:if>
                         </c:forEach>
                     </table>
 
-                    <h4>หลักสูตรที่ไม่ผ่านการร้องขอ</h4>
-                    <table class="table table-striped table-hover">
+                    <br>
+                    <br>
+                    <div align="left" style="width: 100%; margin-top: 15px;">
+                        <h4><b>หลักสูตรที่ไม่ผ่านการร้องขอ</b></h4>
+                    </div>
+                    <hr>
+                    <table class="table table-striped table-hover" style="font-size: 15px">
                         <tr style="color: black">
                             <td class="td_request">รายละเอียดการร้องขอ</td>
                             <td class="td_roc" align="center">วันที่ร้องขอ</td>
@@ -198,10 +227,14 @@
                                     <td align="center"><p>${request_course.type_learn}</p></td>
                                     <td align="center"><p style="color: red">ไม่ผ่าน</p></td>
                                     <td align="center">
-                                        <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/update_page">แก้ไข</a>
-                                        <input type="button" value="ยกเลิก"
+                                        <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/update_page">
+                                            <button type="button" class="btn btn-outline-warning" style="font-size: 12px">
+                                                <i style="color: #ff8d4e;" class="fa fa-edit" aria-hidden="true"></i> แก้ไข
+                                            </button>
+                                        </a>
+                                        <input type="button" value="ยกเลิก" style="font-size: 12px"
                                                onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/delete_request_open_course'; return false; }"
-                                               class="cancel-button"/>
+                                               class="btn btn-outline-danger"/>
                                     </td>
                                 </tr>
                             </c:if>

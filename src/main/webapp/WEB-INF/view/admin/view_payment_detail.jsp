@@ -16,6 +16,8 @@
     <%--    <link href="${pageContext.request.contextPath}/assets/css/list_open_course_style.css" rel="stylesheet">--%>
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/list_all_course.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/admin/list_approve_member.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/admin/style_addcourse.css" rel="stylesheet">
     <style>
         h1{
             font-family: 'Prompt', sans-serif;
@@ -25,7 +27,7 @@
         /*    display: inline-block;*/
         /*}*/
         .main_container{
-            width: 70%;
+            width: 60%;
         }
     </style>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
@@ -80,14 +82,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="${pageContext.request.contextPath}/" class="nav-item nav-link">หน้าหลัก</a>
-                    <a href="#" class="nav-item nav-link">เกี่ยวกับคณะ</a>
+                    <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 18px">หน้าหลัก</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
                         <%--            <div class="nav-item dropdown">--%>
                         <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
-                    <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active">หลักสูตรทั้งหมด</a>
-                    <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link">ข่าวสารและกิจกรรม</a>
-                    <a href="#" class="nav-item nav-link">Admin</a>
-                    <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link">ออกจากระบบ</a>
+                    <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active" style="font-size: 18px">หลักสูตรทั้งหมด</a>
+                    <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 18px">ผู้ดูแลระบบ</a>
+                    <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
 
                         <%--            <a href="${pageContext.request.contextPath}/login" class="nav-item nav-link">เข้าสู่ระบบ</a>--%>
                 </div>
@@ -95,72 +97,76 @@
         </nav>
         <!-- Navbar End -->
         <div align="center">
-            <div class="main_container">
-                <br>
-                <h5><b>ตรวจสอบการชำระเงิน</b></h5>
-                <c:if test="${payment != null}">
-                    <form id="approval-form" action="${pageContext.request.contextPath}/course/${request_id}/<%=admin.getUsername()%>/view_payment_detail/${payment.invoice.invoice_id}/approve" method="POST" onsubmit="return confirmAction();">
-                        <h4>${payment.invoice.register.requestOpenCourse.course.name}</h4>
-                        <p>${payment.invoice.register.requestOpenCourse.course.major.name}</p>
-                        <hr>
-                        <div align="center">
-                            <div class="pay_detail" style="margin-top: 0">
-                                <table>
-                                    <tr>
-                                        <td><h5>หลักฐานการชำระเงิน</h5></td>
-                                        <td></td>
-                                        <td rowspan="10"><img src="${pageContext.request.contextPath}/assets/img/slip/${payment.slip}" height="400px" style="margin-left: 20px"></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><hr></td>
-                                    </tr>
-                                    <tr>
-                                        <td>${payment.invoice.register.member.idcard}</td>
-                                        <td>${payment.invoice.register.member.firstName} ${payment.invoice.register.member.lastName}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>ยอดชำระเงินทั้งหมด </td>
-                                        <td>${payment.invoice.register.requestOpenCourse.course.fee}0 บาท</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><hr></td>
-                                    </tr>
-                                    <tr>
-                                        <td>วันที่โอนตามหลักฐานการชำระเงิน</td>
-                                        <td><b>${payment.pay_date}</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td>เวลาที่โอนตามหลักฐานการชำระเงิน</td>
-                                        <td><b>${payment.pay_time}</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td>โอนจากธนาคาร</td>
-                                        <td><b>${payment.banking}</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td>จำนวนเงินที่ถูกโอน (ฺ฿)</td>
-                                        <td><b>${payment.invoice.register.requestOpenCourse.course.fee}0 บาท</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td>เงินโอนจากบัญชีธนาคารเลขที่ (4 หลักสุดท้าย)</td>
-                                        <td><b>${payment.last_four_digits}</b></td>
-                                    </tr>
-                                </table>
+            <div class="main_container" style="margin-top: 10px;">
+                <div class="course_div" style="width: 100%">
+                    <br>
+                    <c:if test="${payment != null}">
+                        <form id="approval-form" style="width: 90%" action="${pageContext.request.contextPath}/course/${request_id}/<%=admin.getUsername()%>/view_payment_detail/${payment.invoice.invoice_id}/approve" method="POST" onsubmit="return confirmAction();">
+                            <div align="left">
+                                <h5><b>ตรวจสอบการชำระเงิน</b></h5>
+                                <h4>${payment.invoice.register.requestOpenCourse.course.name}</h4>
+                                <p>${payment.invoice.register.requestOpenCourse.course.major.name}</p>
                                 <hr>
                             </div>
-                        </div>
-                        <input type="submit" name="approveResult" value="ยืนยันการสมัคร"/>
-                        <input type="submit" name="approveResult" value="ยกเลิกการสมัคร"/>
+                            <div align="center">
+                                <div class="pay_detail" style="margin-top: 0">
+                                    <table>
+                                        <tr>
+                                            <td><h5>หลักฐานการชำระเงิน</h5></td>
+                                            <td></td>
+                                            <td rowspan="10"><img src="${pageContext.request.contextPath}/assets/img/slip/${payment.slip}" height="350px" style="margin-left: 20px"></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"><hr></td>
+                                        </tr>
+                                        <tr>
+                                            <td>${payment.invoice.register.member.idcard}</td>
+                                            <td>${payment.invoice.register.member.firstName} ${payment.invoice.register.member.lastName}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>ยอดชำระเงินทั้งหมด </td>
+                                            <td>${payment.invoice.register.requestOpenCourse.course.fee}0 บาท</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"><hr></td>
+                                        </tr>
+                                        <tr>
+                                            <td>วันที่โอนตามหลักฐานการชำระเงิน</td>
+                                            <td><b>${payment.pay_date}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>เวลาที่โอนตามหลักฐานการชำระเงิน</td>
+                                            <td><b>${payment.pay_time}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>โอนจากธนาคาร</td>
+                                            <td><b>${payment.banking}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>จำนวนเงินที่ถูกโอน (ฺ฿)</td>
+                                            <td><b>${payment.invoice.register.requestOpenCourse.course.fee}0 บาท</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>เงินโอนจากบัญชีธนาคารเลขที่ (4 หลักสุดท้าย)</td>
+                                            <td><b>${payment.last_four_digits}</b></td>
+                                        </tr>
+                                    </table>
+                                    <hr>
+                                </div>
+                            </div>
+                            <input type="submit" name="approveResult" value="ยกเลิกการสมัคร" class="cancel-button" style="width: 47%"/>
+                            <input type="submit" name="approveResult" value="ยืนยันการสมัคร" class="button-5" style="width: 47%"/>
 
-                    </form>
-                </c:if>
+                        </form>
+                    </c:if>
+                </div>
                 <c:if test="${payment == null}">
                     <h1>ยังไม่มีการชำระเงิน</h1>
                 </c:if>
             </div>
         </div>
-        <td align="center"><input type="button" value="ย้อนกลับ"
-                                  onclick="window.location.href='${pageContext.request.contextPath}/course/${request_id}/list_member_to_course'; return false;"/></td>
+<%--        <td align="center"><input type="button" value="ย้อนกลับ"--%>
+<%--                                  onclick="window.location.href='${pageContext.request.contextPath}/course/${request_id}/list_member_to_course'; return false;"/></td>--%>
     </c:when>
     <c:when test="${flag.equals('null')}">
         <h1>กรุณา Log in ใหม่</h1>

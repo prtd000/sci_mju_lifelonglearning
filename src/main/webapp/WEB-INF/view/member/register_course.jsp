@@ -361,7 +361,10 @@
             </tr>
             <tr>
                 <td>ค่าธรรมเนียม</td>
-                <td>${course.fee} บาท</td>
+                <td>
+                    <c:set var="course_fee" value="${course.fee}" />
+                    <fmt:formatNumber value="${course_fee}" type="number" /> บาท
+                </td>
             </tr>
             <tr>
                 <td></td>

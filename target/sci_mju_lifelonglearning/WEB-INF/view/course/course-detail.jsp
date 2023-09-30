@@ -322,7 +322,10 @@
 
             <tr>
                 <td>ค่าธรรมเนียม</td>
-                <td>${course_detail.fee} บาท</td>
+                <td>
+                    <c:set var="course_fee" value="${course_detail.fee}" />
+                    <fmt:formatNumber value="${course_fee}" type="number" /> บาท
+                </td>
             </tr>
 
 
@@ -340,29 +343,6 @@
             </c:choose>
 
         </table>
-        <%--        <div class="swiper-container">--%>
-        <%--            <div class="swiper-wrapper">--%>
-        <%--                <c:forEach var="list" items="${list_activities}">--%>
-        <%--                    <c:set var="imgNames" value="${list.imgNamesJson}" />--%>
-        <%--                    <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">--%>
-        <%--                        <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}" />--%>
-
-        <%--                        <div class="swiper-slide">--%>
-        <%--                            <label>รูปภาพ :--%>
-        <%--                                <img src="${pageContext.request.contextPath}/assets/img/addImg/${listImg}" alt="course_image" class="c_img" style="width: 20%">--%>
-        <%--                                <br>IMG : ${listImg}--%>
-        <%--                            </label><br>--%>
-        <%--                        </div>--%>
-        <%--                    </c:forEach>--%>
-        <%--                    <label>รายละเอียด : ${list.detail}</label><br>--%>
-        <%--                </c:forEach>--%>
-        <%--            </div>--%>
-        <%--            <div class="swiper-button-next"></div>--%>
-        <%--            <div class="swiper-button-prev"></div>--%>
-        <%--        </div>--%>
-        <%--    </div>--%>
-        <!--Course News--->
-
     </div>
 </div>
 <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>

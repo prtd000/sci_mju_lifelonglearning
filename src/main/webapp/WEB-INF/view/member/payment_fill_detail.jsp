@@ -1,7 +1,10 @@
 <%@ page import="lifelong.model.Admin" %>
 <%@ page import="lifelong.model.Member" %>
 <%@ page import="lifelong.model.Lecturer" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%--
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%--
+
   Created by IntelliJ IDEA.
   User: asus
   Date: 9/8/2566
@@ -201,7 +204,10 @@
     <table>
         <tr>
             <td style="width: 255px;">ยอดรวมชำระเงินทั้งหมด</td>
-            <td style="width: 150px;">${payment.register.requestOpenCourse.course.fee} บาท</td>
+            <td style="width: 150px;">
+                <c:set var="course_fee" value="${payment.register.requestOpenCourse.course.fee}" />
+                <fmt:formatNumber value="${course_fee}" type="number" /> บาท
+            </td>
         </tr>
     </table>
     <br>

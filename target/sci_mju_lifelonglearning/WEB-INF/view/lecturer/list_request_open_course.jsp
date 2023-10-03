@@ -123,16 +123,22 @@
                                     </td>
                                     <td align="center">
                                         <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
-                                            <button class="button-5" role="button">${request_course.numberOfApprovedRegistrations}/${request_course.quantity}</button>
+                                            <button class="button-5" role="button" style="font-size: 12px">
+                                                <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.numberOfApprovedRegistrations}/${request_course.quantity}
+                                            </button>
                                         </a>
                                     </td>
                                     <td align="center">
-                                        <input type="button" value="เพิ่มข่าวสาร" class="activity-btn"
-                                               onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_course.request_id}/add_course_activity'; return false;"
-                                        />
-                                        <input type="button" value="รายการข่าวสาร" class="list-activity-btn"
-                                               onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_course.request_id}/list_course_activity_news'; return false;"
-                                        />
+                                        <button type="button" style="font-size: 12px"
+                                                onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_course.request_id}/add_course_activity'; return false;"
+                                                class="activity-btn">
+                                            <i class='fas fa-plus-circle' style='color: #ffffff; margin-right: 5px'></i> เพิ่มข่าวสาร
+                                        </button>
+                                        <button type="button" style="font-size: 12px"
+                                                onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_course.request_id}/list_course_activity_news'; return false;"
+                                                class="list-activity-btn">
+                                            <i class='fa fa-list' style='color: #0077ff; margin-right: 5px'></i> รายการข่าวสาร
+                                        </button>
                                     </td>
                                     <td align="center">
                                         <!-- เช็คว่าวันที่ applicationResult เลยหรือไม่ -->
@@ -141,9 +147,7 @@
                                         %>
                                         <c:set var="currentDate1" value="<%=currentDate%>"/>
                                         <c:if test="${currentDate1 < request_course.applicationResult && request_course.numberOfAllRegistrations == 0}">
-                                            <input type="button" value="ยกเลิก"
-                                                   onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบหลักสูตรนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/cancel_request_open_course'; return false; }"
-                                                   class="btn btn-outline-danger"/>
+                                            <i class='fas fa-trash' style='color: red;font-size: 25px; margin-top: 5px' onclick="if((confirm('คุณแน่ใจหรือว่าต้องการยกเลิกหลักสูตรนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/cancel_request_open_course'; return false; }"></i>
                                         </c:if>
                                     </td>
                                 </tr>
@@ -164,13 +168,13 @@
                     <hr>
                     <table class="table table-striped table-hover" style="font-size: 15px">
                         <tr style="color: black">
-                            <td class="td_request">รายละเอียดการร้องขอ</td>
-                            <td class="td_roc" align="center">วันที่ร้องขอ</td>
-                            <td class="td_learn" align="center">ระยะเวลาเรียน</td>
-                            <td class="td_qty" align="center">จำนวน</td>
-                            <td class="td_type" align="center">ประเภท</td>
-                            <td class="td_lec" align="center">อาจารย์</td>
-                            <td class="td_cancel" align="center"></td>
+                            <td style="width: 25%">รายละเอียดการร้องขอ</td>
+                            <td style="width: 12%" align="center">วันที่ร้องขอ</td>
+                            <td style="width: 18%" align="center">ระยะเวลาเรียน</td>
+                            <td style="width: 8%" align="center">จำนวน</td>
+                            <td style="width: 10%" align="center">ประเภท</td>
+                            <td style="width: 12%" align="center">อาจารย์</td>
+                            <td style="width: 14%" align="center"></td>
                         </tr>
 
                         <c:forEach var="request_course" items="${requests_open_course}">
@@ -191,9 +195,14 @@
                                                 <i style="color: #ff8d4e;" class="fa fa-edit" aria-hidden="true"></i> แก้ไข
                                             </button>
                                         </a>
-                                        <input type="button" value="ยกเลิก" style="font-size: 12px"
-                                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/delete_request_open_course'; return false; }"
-                                               class="btn btn-outline-danger"/>
+<%--                                        <input type="button" style="font-size: 12px"--%>
+<%--                                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/delete_request_open_course'; return false; }"--%>
+<%--                                               class="btn btn-outline-danger"/>--%>
+                                        <button type="button" style="font-size: 12px"
+                                                onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/delete_request_open_course'; return false; }"
+                                                class="btn btn-outline-danger">
+                                            <i class='fas fa-trash' style='color: red'></i> ยกเลิก
+                                        </button>
                                     </td>
                                 </tr>
                             </c:if>
@@ -232,9 +241,11 @@
                                                 <i style="color: #ff8d4e;" class="fa fa-edit" aria-hidden="true"></i> แก้ไข
                                             </button>
                                         </a>
-                                        <input type="button" value="ยกเลิก" style="font-size: 12px"
-                                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/delete_request_open_course'; return false; }"
-                                               class="btn btn-outline-danger"/>
+                                        <button type="button" style="font-size: 12px"
+                                                onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/delete_request_open_course'; return false; }"
+                                                class="btn btn-outline-danger">
+                                            <i class='fas fa-trash' style='color: red'></i> ยกเลิก
+                                        </button>
                                     </td>
                                 </tr>
                             </c:if>

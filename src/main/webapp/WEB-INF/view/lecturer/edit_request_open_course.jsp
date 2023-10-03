@@ -17,6 +17,28 @@
             var displayPreview = document.getElementById('displayPreview');
             var fileInput = document.getElementById('fileInput');
 
+            var file = input.files[0];
+
+            if (!file) {
+                alert("กรุณาเลือกรูปภาพ");
+                return;
+            }
+
+            var allowedExtensions = /(\.png)$/i;
+            var maxFileSize = 5 * 1024 * 1024; // 2MB
+
+            if (!allowedExtensions.exec(file.name)) {
+                alert("รูปภาพต้องเป็นไฟล์นามสกุล png เท่านั้น");
+                input.value = "";
+                return;
+            }
+
+            if (file.size > maxFileSize) {
+                alert("ขนาดไฟล์รูปภาพต้องไม่เกิน 5MB");
+                input.value = "";
+                return;
+            }
+
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
 
@@ -137,6 +159,7 @@
                                         <div class="course-totalHours-container">
                                             <input name="startRegister" type="date" id="startRegister" class="datepicker" value="${request_open_course.startRegister}"/>
                                         </div>
+                                        <label id="invalidStartRegister" style="color: red; font-size: 12px"></label>
                                     </div>
                                 </td>
                                 <td>
@@ -145,6 +168,7 @@
                                         <div class="course-fee-container">
                                             <input name="endRegister" type="date" id="endRegister" class="datepicker" value="${request_open_course.endRegister}"/>
                                         </div>
+                                        <label id="invalidEndRegister" style="color: red; font-size: 12px"></label>
                                     </div>
                                 </td>
                             </tr>
@@ -156,6 +180,7 @@
                                             <input name="quantity" id="quantity" type="number" autocomplete="off" oninput="this.className = ''" class="flex-td" value="${request_open_course.quantity}"/>
                                             <label class="l1"> คน</label>
                                         </div>
+                                        <label id="invalidQuantity" style="color: red; font-size: 12px"></label>
                                     </div>
                                 </td>
                                 <td>
@@ -164,6 +189,7 @@
                                         <div class="course-totalHours-container">
                                             <input name="applicationResult" type="date" id="applicationResult" class="datepicker" value="${request_open_course.applicationResult}"/>
                                         </div>
+                                        <label id="invalidApplicationResult" style="color: red; font-size: 12px"></label>
                                     </div>
                                 </td>
                             </tr>
@@ -181,6 +207,7 @@
                                         <div class="flex-container">
                                             <input name="startStudyDate" type="date" id="startStudyDate" class="datepicker" value="${request_open_course.startStudyDate}"/>
                                         </div>
+                                        <label id="invalidStartStudyDate" style="color: red; font-size: 12px"></label>
                                     </div>
                                 </td>
                                 <td>
@@ -189,6 +216,7 @@
                                         <div class="flex-container">
                                             <input name="endStudyDate" type="date" id="endStudyDate" class="datepicker" value="${request_open_course.endStudyDate}"/>
                                         </div>
+                                        <label id="invalidEndStudyDate" style="color: red; font-size: 12px"></label>
                                     </div>
                                 </td>
                                 <td>
@@ -197,6 +225,7 @@
                                         <div class="flex-container">
                                             <input name="studyTime" id="studyTime" autocomplete="off" placeholder="08.00o. - 16.00น." oninput="this.className = ''" value="${request_open_course.studyTime}"/>
                                         </div>
+                                        <label id="invalidStudyTime" style="color: red; font-size: 12px"></label>
                                     </div>
                                 </td>
                             </tr>
@@ -212,6 +241,7 @@
                                         <option value="แบบที่ 2 แยกกลุ่มเรียนโดยเฉพาะ" ${request_open_course.type_teach == 'แบบที่ 2 แยกกลุ่มเรียนโดยเฉพาะ'?'selected':''}>แบบที่ 2 แยกกลุ่มเรียนโดยเฉพาะ</option>
                                         <option value="จัดการเรียนการสอนร่วมกับทั้งแบบที่ 1 และแบบที่ 2" ${request_open_course.type_teach == 'จัดการเรียนการสอนร่วมกับทั้งแบบที่ 1 และแบบที่ 2'?'selected':''}>จัดการเรียนการสอนร่วมกับทั้งแบบที่ 1 และ แบบที่ 2</option>
                                     </select>
+                                    <label id="invalidTypeTeach" style="color: red; font-size: 12px"></label>
                                 </td>
                                 <td>
                                     <label>ประเภทการเรียน:</label>
@@ -221,6 +251,7 @@
                                         <option value="เรียนในสถานศึกษา" ${request_open_course.type_learn == 'เรียนในสถานศึกษา' ? 'selected' : ''}>เรียนในสถานศึกษา</option>
                                         <option value="เรียนทั้งออนไลน์และในสถานศึกษา" ${request_open_course.type_learn == 'เรียนทั้งออนไลน์และในสถานศึกษา' ? 'selected' : ''}>เรียนทั้งออนไลน์และในสถานศึกษา</option>
                                     </select>
+                                    <label id="invalidTypeLearn" style="color: red; font-size: 12px"></label>
                                 </td>
                                     <%--                                </td>--%>
                             </tr>
@@ -231,6 +262,7 @@
                                             <textarea class="form-control" placeholder="" id="floatingTextarea2" name="location" style="height: 100px">${request_open_course.location}</textarea>
                                             <label for="floatingTextarea2">สถานที่</label>
                                         </div>
+                                        <label id="invalidLocation" style="color: red; font-size: 12px"></label>
                                     </div>
                                 </td>
                             </tr>
@@ -241,6 +273,7 @@
                                         <label>link mooc (สำหรับเรียนออนไลน์):</label>
                                         <input name="link_mooc" id="link_mooc" autocomplete="off" placeholder="link http://...." value="${request_open_course.linkMooc}"/>
                                     </div>
+                                    <label id="invalidLinkMooc" style="color: red; font-size: 12px"></label>
                                 </td>
                             </tr>
 
@@ -515,5 +548,272 @@
             moocRow.style.display = "none";
         }
     }
+</script>
+<script>
+    function validateCourseSelect() {
+        var course_id = document.getElementById('course_id').value;
+
+        if (course_id === "") {
+            alert("กรุณาเลือกหลักสูตร");
+            return false;
+        }
+
+        return true;
+    }
+    function validateEndRegister() {
+        var startRegisterValue = document.getElementById('startRegister').value; // ค่าวันเปิดรับสมัคร
+        var endRegisterValue = document.getElementById('endRegister').value; // ค่าวันปิดรับสมัคร
+
+        // แปลงค่าวันที่เป็นวัตถุ Date
+        var startDate = new Date(startRegisterValue);
+        var endDate = new Date(endRegisterValue);
+
+        // ตรวจสอบว่าค่าวันปิดรับสมัครมากกว่าค่าวันเปิดรับสมัคร
+        if (endDate <= startDate) {
+            document.getElementById("invalidEndRegister").innerHTML = "วันปิดรับสมัครต้องเป็นวันที่มากกว่าวันเปิดรับสมัคร";
+            return false;
+        }else {
+            document.getElementById("invalidEndRegister").innerHTML = "";
+        }
+
+        // ตรวจสอบว่าค่าวันปิดรับสมัครไม่เป็นค่าว่าง
+        if (endRegisterValue.trim() === "") {
+            alert("กรุณาเลือกวันปิดรับสมัคร");
+            return false;
+        }
+
+        return true;
+    }
+    function validateQTY() {
+        var quantity = document.getElementById('quantity').value;
+
+        var check = /^[0-9]+$/;
+        if (quantity === "") {
+            document.getElementById("invalidQuantity").innerHTML = "กรุณากรอกจำนวนที่เปิดรับ";
+            return false;
+        }else if (!check.test(quantity)){
+            document.getElementById("invalidQuantity").innerHTML = "ต้องเป็นตัวเลขเท่านั้น";
+            return false;
+        }else if (parseInt(quantity) < 1 || parseInt(quantity) > 9999){
+            document.getElementById("invalidQuantity").innerHTML = "ต้องอยู่ในช่วง 1 - 9999 เท่านั้น";
+            return false;
+        }else {
+            document.getElementById("invalidQuantity").innerHTML = "";
+        }
+
+        return true;
+    }
+    function validateApplicationResult() {
+        var applicationResult = document.getElementById('applicationResult').value;
+        var endRegisterValue = document.getElementById('endRegister').value;
+
+        // แปลงค่าวันที่เป็นวัตถุ Date
+        var application = new Date(applicationResult);
+        var endDate = new Date(endRegisterValue);
+
+        // ตรวจสอบว่าค่าวันปิดรับสมัครมากกว่าค่าวันเปิดรับสมัคร
+        if (application <= endDate) {
+            document.getElementById("invalidApplicationResult").innerHTML = "วันประกาศผลต้องเป็นวันที่มากกว่าวันปิดรับสมัคร";
+            return false;
+        }else {
+            document.getElementById("invalidApplicationResult").innerHTML = "";
+        }
+
+        // ตรวจสอบว่าค่าวันปิดรับสมัครไม่เป็นค่าว่าง
+        if (applicationResult.trim() === "") {
+            alert("กรุณาเลือกวันประกาศผล");
+            return false;
+        }
+
+        return true;
+    }
+    function validateStartStudyDate() {
+        var startStudyDate = document.getElementById("startStudyDate").value;
+        var applicationResult = document.getElementById('applicationResult').value;
+
+        // แปลงค่าวันที่เป็นวัตถุ Date
+        var application = new Date(applicationResult);
+        var startStudy = new Date(startStudyDate);
+
+        // ตรวจสอบว่าค่าวันปิดรับสมัครมากกว่าค่าวันเปิดรับสมัคร
+        if (startStudy <= application) {
+            document.getElementById("invalidStartStudyDate").innerHTML = "วันเริ่มเรียนต้องเป็นวันที่มากกว่าวันประกาศผล";
+            return false;
+        }else {
+            document.getElementById("invalidStartStudyDate").innerHTML = "";
+        }
+
+        if (startStudyDate.trim() === "") {
+            alert("กรุณาเลือกวันเริ่มเรียน");
+            return false;
+        }
+
+        return true;
+    }
+    function validateEndStudyDate() {
+        var startStudyDate = document.getElementById("startStudyDate").value;
+        var endStudyDate = document.getElementById("endStudyDate").value;
+
+        // แปลงค่าวันที่เป็นวัตถุ Date
+        var endStudy = new Date(endStudyDate);
+        var startStudy = new Date(startStudyDate);
+
+        // ตรวจสอบว่าค่าวันปิดรับสมัครมากกว่าค่าวันเปิดรับสมัคร
+        if (endStudy <= startStudy) {
+            document.getElementById("invalidEndStudyDate").innerHTML = "วันสิ้นสุดการเรียนต้องเป็นวันที่มากกว่าวันเริ่มเรียน";
+            return false;
+        }else {
+            document.getElementById("invalidEndStudyDate").innerHTML = "";
+        }
+
+        if (endStudyDate.trim() === "") {
+            alert("กรุณาเลือกวันสิ้นสุดการเรียน");
+            return false;
+        }
+
+        return true;
+    }
+    function validateStudyTime() {
+        var studyTime = document.getElementById("studyTime").value;
+
+        var regExStudyTime = /^[ก-์A-Za-z0-9]{2,225}$/;
+
+        if (studyTime.trim() === "") {
+            document.getElementById("invalidStudyTime").innerHTML = "กรุณากรอกเวลาเรียน";
+            return false;
+        }
+        // else if (!regExStudyTime.test(studyTime)){
+        //     document.getElementById("invalidStudyTime").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+        //     return false;
+        // }
+        else {
+            document.getElementById("invalidStudyTime").innerHTML = "";
+        }
+
+        return true;
+    }
+    function validateTypeTeach() {
+        const type_teach = document.getElementById("type_teach").value;
+
+        if (type_teach === "") {
+            document.getElementById("invalidTypeTeach").innerHTML = "กรุณาเลือกรูปแบบการสอน";
+            return false;
+        }else {
+            document.getElementById("invalidTypeTeach").innerHTML = "";
+        }
+
+        return true;
+    }
+    function validateTypeLearn() {
+        var typeLearnSelect = document.getElementById("type_learn").value;
+
+        if (typeLearnSelect === "") {
+            document.getElementById("invalidTypeLearn").innerHTML = "กรุณาเลือกประเภทการเรียน";
+            return false;
+        }else {
+            document.getElementById("invalidTypeLearn").innerHTML = "";
+        }
+
+        return true;
+    }
+    function validateLinkMooc() {
+        var linkMooc = document.getElementById('link_mooc').value;
+        var regExName = /^[ก-์A-Za-z0-9]{2,225}$/;
+        // ตรวจสอบข้อมูลเกี่ยวกับ link mooc (สำหรับเรียนออนไลน์)
+        if (document.getElementById("type_learn").value === "เรียนออนไลน์" && linkMooc.trim() === "") {
+            document.getElementById("invalidLinkMooc").innerHTML = "กรุณากรอก link mooc";
+            return false;
+        }else if (document.getElementById("type_learn").value === "เรียนออนไลน์" && !regExName.test(linkMooc)){
+            document.getElementById("invalidLinkMooc").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+            return false;
+        } else {
+            document.getElementById("invalidLinkMooc").innerHTML = "";
+        }
+
+        // เพิ่มเงื่อนไขการตรวจสอบอื่น ๆ ตามความต้องการ
+
+        return true;
+    }
+
+    function validateLocation() {
+        var location = document.getElementById('floatingTextarea2').value;
+        var regExName = /^[ก-์A-Za-z0-9]{2,225}$/;
+        // ตรวจสอบข้อมูลเกี่ยวกับสถานที่ (สำหรับเรียนในสถานศึกษา)
+        if (document.getElementById("type_learn").value === "เรียนในสถานศึกษา" && location.trim() === "") {
+            document.getElementById("invalidLocation").innerHTML = "กรุณากรอกสถานที่";
+            return false;
+        }else if (document.getElementById("type_learn").value === "เรียนในสถานศึกษา" && !regExName.test(location)){
+            document.getElementById("invalidLocation").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+            return false;
+        } else {
+            document.getElementById("invalidLocation").innerHTML = "";
+        }
+
+        // เพิ่มเงื่อนไขการตรวจสอบอื่น ๆ ตามความต้องการ
+
+        return true;
+    }
+    function validateLocationAndLinkMooc() {
+        var linkMooc = document.getElementById('link_mooc').value;
+        var location = document.getElementById('floatingTextarea2').value;
+        var regExName = /^[ก-์A-Za-z0-9]{2,225}$/;
+
+        // ตรวจสอบข้อมูลเกี่ยวกับสถานที่ (สำหรับเรียนในสถานศึกษา)
+        if (document.getElementById("type_learn").value === "เรียนทั้งออนไลน์และในสถานศึกษา" && location.trim() === "") {
+            document.getElementById("invalidLocation").innerHTML = "กรุณากรอกสถานที่";
+            return false;
+        }else if (document.getElementById("type_learn").value === "เรียนทั้งออนไลน์และในสถานศึกษา" && !regExName.test(location)){
+            document.getElementById("invalidLocation").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+            return false;
+        } else {
+            document.getElementById("invalidLocation").innerHTML = "";
+        }
+        if (document.getElementById("type_learn").value === "เรียนทั้งออนไลน์และในสถานศึกษา" && linkMooc.trim() === "") {
+            document.getElementById("invalidLinkMooc").innerHTML = "กรุณากรอก link mooc";
+            return false;
+        }else if (document.getElementById("type_learn").value === "เรียนทั้งออนไลน์และในสถานศึกษา" && !regExName.test(linkMooc)){
+            document.getElementById("invalidLinkMooc").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+            return false;
+        } else {
+            document.getElementById("invalidLinkMooc").innerHTML = "";
+        }
+
+
+
+        // เพิ่มเงื่อนไขการตรวจสอบอื่น ๆ ตามความต้องการ
+
+        return true;
+    }
+    // function validateSignature() {
+    //     var fileInput = document.getElementById("fileInput");
+    //
+    //     if (fileInput.files.length === 0) {
+    //         alert("กรุณาเลือกลายเซ็น");
+    //         return false;
+    //     }
+    //
+    //     return true;
+    // }
+
+    function validateForm() {
+        if (currentTab === 0) {
+            // ตรวจสอบข้อมูลใน Step 1
+            if (!validateCourseSelect() || !validateEndRegister() || !validateQTY() || !validateApplicationResult()) {
+                return false;
+            }
+        }
+        if (currentTab === 1) {
+            // ตรวจสอบข้อมูลใน Step 2
+            if (!validateStartStudyDate() || !validateEndStudyDate()
+                || !validateStudyTime() || !validateTypeTeach()
+                || !validateTypeLearn() || !validateLinkMooc()
+                || !validateLocation() || !validateLocationAndLinkMooc()){
+                return false;
+            }
+        }
+        // เพิ่มเงื่อนไขการตรวจสอบข้อมูลในขั้นตอนอื่น ๆ ตามต้องการ
+        return true;
+    }
+
 </script>
 </html>

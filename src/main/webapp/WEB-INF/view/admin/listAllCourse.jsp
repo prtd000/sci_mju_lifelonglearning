@@ -62,20 +62,19 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
-                <div class="navbar-nav ms-auto py-0">
-                    <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 18px">หน้าหลัก</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
-                        <%--            <div class="nav-item dropdown">--%>
-                        <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
-                    <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active" style="font-size: 18px">หลักสูตรทั้งหมด</a>
-                    <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 18px">ผู้ดูแลระบบ</a>
-                    <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
-
-                        <%--            <a href="${pageContext.request.contextPath}/login" class="nav-item nav-link">เข้าสู่ระบบ</a>--%>
-                </div>
-            </div>
+                    <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
+                        <div class="navbar-nav ms-auto py-0">
+                            <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
+                            <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
+                            <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course" class="nav-item nav-link" style="font-size: 17px">เพิ่มหลักสูตร</a>
+                            <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active" style="font-size: 17px">หลักสูตรทั้งหมด</a>
+                            <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 17px">รายการร้องขอ</a>
+                            <a href="${pageContext.request.contextPath}/course/public/add_activity" class="nav-item nav-link" style="font-size: 17px">เพิ่มข่าวสารทั่วไป</a>
+                            <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
+                            <a href="#" class="nav-item nav-link" style="font-size: 17px">ผู้ดูแลระบบ</a>
+                            <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 17px">ออกจากระบบ</a>
+                        </div>
+                    </div>
         </nav>
 <!-- Navbar End -->
         <div align="center" class="main_container">
@@ -85,15 +84,6 @@
             <table class="container">
                 <tr align="center">
                     <td class="list_course" align="center">
-                        <div class="list_course_detail" align="center">
-                            <div class="select_type" align="center">
-                                <input type="radio" class="tablinks" name="options-base" onclick="openList(event, 'course')" id="FClick" autocomplete="off" checked>
-                                <label class="btn" for="FClick">หลักสูตร</label>
-
-                                <input type="radio" class="tablinks" name="options-base" onclick="openList(event, 'list_request')" id="option6" autocomplete="off">
-                                <label class="btn" for="option6">รายการร้องขอ</label>
-                            </div>
-                        </div>
                             <%--DIV แรก--%>
                         <div id="course" class="tabcontent" align="left">
                             <h3><b>หลักสูตรทั้งหมด</b></h3>
@@ -102,9 +92,7 @@
                             <table style="width: 100%;">
                                 <tr>
                                     <td align="left" style="width: 50%"><h5><b>หลักสูตรที่กำลังเปิดสอน</b></h5></td>
-                                    <td align="right" style="width: 50%"><a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course">
-                                        <button type="button" class="btn btn-outline-success">เพิ่มหลักสูตร</button>
-                                    </a></td>
+                                    <td align="right" style="width: 50%"></td>
                                 </tr>
                             </table>
                             <table class="table table-striped table-hover">
@@ -160,49 +148,8 @@
                                 </c:forEach>
                             </table>
                         </div>
-                            <%--DIV ที่ 2--%>
-                        <div id="list_request" class="tabcontent" align="left">
-                            <h3>รายการร้องขอ</h3>
-                            <hr>
-                            <br>
-                            <table class="table table-striped table-hover">
-                                <tr style="color: black">
-                                    <td class="td_request">รายละเอียดการร้องขอ</td>
-                                    <td class="td_roc" align="center">วันที่ร้องขอ</td>
-                                    <td class="td_learn" align="center">ระยะเวลาเรียน</td>
-                                    <td class="td_qty" align="center">จำนวน</td>
-                                    <td class="td_type" align="center">ประเภท</td>
-                                    <td class="td_lec" align="center">อาจารย์</td>
-                                    <td class="td_cancel" align="center"></td>
-                                </tr>
-
-                                <c:forEach var="request_course" items="${requests_open_course}">
-                                    <c:if test="${request_course.requestStatus == 'รอดำเนินการ'}">
-                                        <fmt:formatDate value="${request_course.requestDate}" pattern="dd/MM/yyyy" var="formattedDate" />
-                                        <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
-                                        <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                        <tr style="color: black">
-                                            <td><p>${request_course.course.name}</p></td>
-                                            <td align="center">${formattedDate}</td>
-                                            <td align="center"><p>${startStudyDate} ถึง ${endStudyDate}</p></td>
-                                            <td align="center"><p>${request_course.quantity}</p></td>
-                                            <td align="center"><p>${request_course.type_learn}</p></td>
-                                            <td align="center"><p>${request_course.lecturer.firstName} ${request_course.lecturer.lastName}</p></td>
-                                            <td align="center">
-                                                <a href="${pageContext.request.contextPath}/course/${admin_id}/view_request_open_course/${request_course.request_id}">
-                                                    <button class="button-35" role="button">รายละเอียด</button>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </c:if>
-                                </c:forEach>
-                            </table>
-                        </div>
-                            <%--DIV ที่ 3--%>
-
                     </td>
                 </tr>
-
             </table>
             <br>
             <br>
@@ -225,24 +172,4 @@
 <br>
 <br>
 </body>
-
-<script>
-    window.addEventListener('DOMContentLoaded', (event) => {
-        var button = document.getElementById('FClick');
-        button.click()
-    });
-    function openList(evt, list_name) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        document.getElementById(list_name).style.display = "block";
-        evt.currentTarget.className += " active";
-    }
-</script>
 </html>

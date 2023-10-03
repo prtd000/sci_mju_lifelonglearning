@@ -111,7 +111,7 @@
             <div align="left" style="width: 85%">
                     <%--                <h2>${request_name.course.name}</h2>--%>
                 <div align="center" class="main_container">
-                    <div class="course_div">
+                    <div class="course_div" style="align-self: flex-start;">
                         <div style="padding: 20px 20px 0px 20px" align="left">
                             <b><label style="font-size: 20px">${request_name.course.name}</label></b>
                             <label>${request_name.course.major.name}</label>

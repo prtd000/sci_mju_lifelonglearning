@@ -45,13 +45,25 @@ public class WebHomeController {
         List<RequestOpenCourse> requestOpenCourses = requestOpCourseService.getRequestOpenCourses();
         List<Course> courses = courseService.getCourses();
         List<Register> registers = registerService.getListRegister();
+        Date currentDate = new Date(); // วันปัจจุบัน
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        calendar.add(Calendar.WEEK_OF_YEAR, -1); // ลบ 1 สัปดาห์
+
+        Date oneWeekAgo = calendar.getTime();
 
         // ตรวจสอบและอัพเดต requestStatus สำหรับทุก RequestOpenCourse
         for (RequestOpenCourse requestOpenCourse : requestOpenCourses) {
             requestOpenCourse.checkEndDate();
             requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
             System.out.println("RequestStatus : " + requestOpenCourse.getRequestStatus());
-        }
+
+            // เพิ่มเงื่อนไขในการลบแถว
+            if (Objects.equals(requestOpenCourse.getRequestStatus(), "ไม่ผ่าน") && requestOpenCourse.getRequestDate().before(oneWeekAgo)) {
+                // ลบอ็อบเจกต์ RequestOpenCourse จากฐานข้อมูล
+                requestOpCourseService.checkDeleteRequestOpenCourse(requestOpenCourse.getRequest_id());
+                System.out.println("ลบสำเร็จ"+requestOpenCourse.getRequest_id());
+            }        }
         model.addAttribute("list_req",requestOpenCourses);
         model.addAttribute("courses", courses);
         return "home";

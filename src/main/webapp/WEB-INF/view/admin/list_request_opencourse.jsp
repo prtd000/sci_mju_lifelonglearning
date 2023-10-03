@@ -67,8 +67,8 @@
                             <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
                             <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
                             <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course" class="nav-item nav-link" style="font-size: 17px">เพิ่มหลักสูตร</a>
-                            <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active" style="font-size: 17px">หลักสูตรทั้งหมด</a>
-                            <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 17px">รายการร้องขอ</a>
+                            <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link" style="font-size: 17px">หลักสูตรทั้งหมด</a>
+                            <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_request_open_course" class="nav-item nav-link active" style="font-size: 17px">รายการร้องขอ</a>
                             <a href="${pageContext.request.contextPath}/course/public/add_activity" class="nav-item nav-link" style="font-size: 17px">เพิ่มข่าวสารทั่วไป</a>
                             <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
                             <a href="#" class="nav-item nav-link" style="font-size: 17px">ผู้ดูแลระบบ</a>
@@ -84,63 +84,37 @@
             <table class="container">
                 <tr align="center">
                     <td class="list_course" align="center">
-                            <%--DIV แรก--%>
-                        <div id="course" class="tabcontent" align="left">
-                            <h3><b>หลักสูตรทั้งหมด</b></h3>
+                            <%--DIV ที่ 2--%>
+                        <div id="list_request" class="tabcontent" align="left">
+                            <h3>รายการร้องขอ</h3>
                             <hr>
                             <br>
-                            <table style="width: 100%;">
-                                <tr>
-                                    <td align="left" style="width: 50%"><h5><b>หลักสูตรที่กำลังเปิดสอน</b></h5></td>
-                                    <td align="right" style="width: 50%"></td>
-                                </tr>
-                            </table>
                             <table class="table table-striped table-hover">
                                 <tr style="color: black">
-                                    <td class="td_ap_course_name">ชื่อหลักสูตร</td>
-                                    <td class="td_status" align="center">ระยะเวลาในการเรียน</td>
-                                    <td class="td_list_member" align="center">รายชื่อผู้สมัคร</td>
+                                    <td class="td_request">รายละเอียดการร้องขอ</td>
+                                    <td class="td_roc" align="center">วันที่ร้องขอ</td>
+                                    <td class="td_learn" align="center">ระยะเวลาเรียน</td>
+                                    <td class="td_qty" align="center">จำนวน</td>
+                                    <td class="td_type" align="center">ประเภท</td>
+                                    <td class="td_lec" align="center">อาจารย์</td>
+                                    <td class="td_cancel" align="center"></td>
                                 </tr>
 
-                                <c:forEach var="course" items="${courses}">
-                                    <c:if test="${course.status == 'เปิดสอน'}">
+                                <c:forEach var="request_course" items="${requests_open_course}">
+                                    <c:if test="${request_course.requestStatus == 'รอดำเนินการ'}">
+                                        <fmt:formatDate value="${request_course.requestDate}" pattern="dd/MM/yyyy" var="formattedDate" />
+                                        <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                        <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
                                         <tr style="color: black">
-                                            <td><p>${course.name}</p></td>
-                                                <c:forEach var="request" items="${requests_open_course}">
-                                                    <fmt:formatDate value="${request.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
-                                                    <fmt:formatDate value="${request.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                                    <c:if test="${course.course_id == request.course.course_id && request.requestStatus == 'ผ่าน'}">
-                                                        <td align="center">
-                                                            <p>${startStudyDate} - ${endStudyDate}</p><br>
-                                                        </td>
-                                                        <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course">
-                                                            <button class="button-35" role="button">${request.numberOfAllRegistrations}/${request.quantity}</button>
-                                                        </a></td>
-                                                    </c:if>
-                                                </c:forEach>
-                                        </tr>
-                                    </c:if>
-                                </c:forEach>
-                            </table>
-                            <br>
-                            <h5><b>หลักสูตรที่ยังไม่เปิดสอน</b></h5>
-                            <table class="table table-striped table-hover">
-                                <tr style="color: black">
-                                    <td class="td_course_name">ชื่อหลักสูตร</td>
-                                    <td class="td_type_learn"></td>
-<%--                                    <td class="td_list_member"></td>--%>
-                                    <td class="td_detail"></td>
-                                </tr>
-
-                                <c:forEach var="course" items="${courses}">
-                                    <c:if test="${course.status == 'ยังไม่เปิดสอน'}">
-                                        <tr style="color: black">
-                                            <td><p>${course.name}</p></td>
-                                            <td align="center"><p>${course.course_type}</p></td>
-<%--                                            <td align="center"><a><button>ดูรายชื่อ</button></a></td>--%>
+                                            <td><p>${request_course.course.name}</p></td>
+                                            <td align="center">${formattedDate}</td>
+                                            <td align="center"><p>${startStudyDate} ถึง ${endStudyDate}</p></td>
+                                            <td align="center"><p>${request_course.quantity}</p></td>
+                                            <td align="center"><p>${request_course.type_learn}</p></td>
+                                            <td align="center"><p>${request_course.lecturer.firstName} ${request_course.lecturer.lastName}</p></td>
                                             <td align="center">
-                                                <a href="${pageContext.request.contextPath}/course/${course.course_id}/edit_course">
-                                                    <button type="button" class="btn btn-outline-warning">แก้ไข</button>
+                                                <a href="${pageContext.request.contextPath}/course/${admin_id}/view_request_open_course/${request_course.request_id}">
+                                                    <button class="button-35" role="button">รายละเอียด</button>
                                                 </a>
                                             </td>
                                         </tr>
@@ -148,8 +122,11 @@
                                 </c:forEach>
                             </table>
                         </div>
+                            <%--DIV ที่ 3--%>
+
                     </td>
                 </tr>
+
             </table>
             <br>
             <br>

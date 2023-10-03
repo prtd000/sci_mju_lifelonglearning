@@ -201,7 +201,7 @@
       </div>
       <div style="width: 100%" align="center" class="flex-container">
         <input type="button" value="ย้อนกลับ"
-               onclick="window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course'; return false;"
+               onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_id}/list_course_activity_news'; return false;"
                style="width: 47%" class="flex-container"/>
         <input type="submit" value="บันทึก" class="button-5" style="width: 47%"/>
       </div>

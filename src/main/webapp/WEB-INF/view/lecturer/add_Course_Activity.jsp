@@ -36,8 +36,8 @@
       reader.onload = function (e) {
         var img = document.createElement('img');
         img.src = e.target.result;
-        img.style.maxWidth = '200px'; // ตั้งความกว้างสูงสุดของรูปภาพ
-        img.style.maxHeight = '200px'; // ตั้งความสูงสูงสุดของรูปภาพ
+        img.style.maxWidth = '180px'; // ตั้งความกว้างสูงสุดของรูปภาพ
+        // img.style.maxHeight = '200px'; // ตั้งความสูงสูงสุดของรูปภาพ
         preview.appendChild(img); // เพิ่มรูปภาพลงในตัวแสดงรูปภาพตัวอย่าง
       };
 
@@ -125,6 +125,7 @@
                   <div class="course-totalHours-container">
                     <input name="ac_name" id="ac_name" type="text" autocomplete="off" oninput="this.className = ''" class="flex-td"/>
                   </div>
+                  <label id="invalidAcName" style="color: red; font-size: 12px"></label>
                 </div>
               </td>
             </tr>
@@ -145,6 +146,7 @@
                     <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px"></textarea>
                     <label for="ac_detail">รายละเอียด</label>
                   </div>
+                  <label id="invalidAcDetail" style="color: red; font-size: 12px"></label>
                 </div>
               </td>
             </tr>
@@ -197,12 +199,85 @@
     var x = document.getElementsByClassName("step");
     x[n].style.display = "block";
   }
+
+  function validateAcName() {
+    var acName = document.getElementById('ac_name').value;
+    var regex = /^[ก-์A-Za-z0-9 ().]+$/; // รูปแบบที่อนุญาต
+    var minLength = 2;
+    var maxLength = 50;
+
+    if (acName.trim() === "") {
+      document.getElementById("invalidAcName").innerHTML = "กรุณากรอกชื่อหัวข้อข่าวสารและกิจกรรม";
+      return false;
+    }else if (acName.length < minLength || acName.length > maxLength) {
+      document.getElementById("invalidAcName").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องมีความยาวระหว่าง 2 ถึง 50 ตัวอักษร";
+      return false;
+    }else if (!regex.test(acName)) {
+      document.getElementById("invalidAcName").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข";
+      return false;
+    }else {
+      document.getElementById("invalidAcName").innerHTML = "";
+    }
+
+    return true;
+  }
+  function validateAcDetail() {
+    var acDetail = document.getElementById('ac_detail').value;
+    var regex = /^[ก-์A-Za-z0-9 ().]+$/; // รูปแบบที่อนุญาต
+    var minLength = 2;
+    var maxLength = 225;
+
+    if (acDetail.trim() === "") {
+      document.getElementById("invalidAcDetail").innerHTML = "กรุณากรอกรายละเอียด";
+      return false;
+    }else if (acDetail.length < minLength || acDetail.length > maxLength) {
+      document.getElementById("invalidAcDetail").innerHTML = "รายละเอียดต้องมีความยาวระหว่าง 2 ถึง 225 ตัวอักษร";
+      return false;
+    }else if (!regex.test(acDetail)) {
+      document.getElementById("invalidAcDetail").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข";
+      return false;
+    }else {
+      document.getElementById("invalidAcDetail").innerHTML = "";
+    }
+
+    return true;
+  }
+
+  function validateAcImg() {
+    var acImgInput = document.getElementById('ac_img');
+    var acImg = acImgInput.files[0];
+    var allowedExtensions = /(\.png|\.jpeg|\.jpg)$/i; // นามสกุลไฟล์ที่อนุญาต
+    var maxFileSize = 10 * 1024 * 1024; // ขนาดไฟล์สูงสุด (10MB)
+
+    if (!acImg) {
+      alert("กรุณาเลือกไฟล์รูปภาพ");
+      return false;
+    }
+
+    if (!allowedExtensions.exec(acImg.name)) {
+      alert("รูปภาพต้องเป็นไฟล์นามสกุล png, jpeg, หรือ jpg เท่านั้น");
+      return false;
+    }
+
+    if (acImg.size > maxFileSize) {
+      alert("ขนาดไฟล์รูปภาพต้องไม่เกิน 10MB");
+      return false;
+    }
+
+    return true;
+  }
+
   function confirmAction() {
-    var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการเพิ่มข่าวสารนี้?");
-    if (result) {
-      return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
+    if (validateAcName() && validateAcDetail() && validateAcImg()) {
+      var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการเพิ่มข่าวสารนี้?");
+      if (result) {
+        return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
+      } else {
+        return false; // ถ้าผู้ใช้กด Cancel ให้ยกเลิกการส่งฟอร์ม
+      }
     } else {
-      return false; // ถ้าผู้ใช้กด Cancel ให้ยกเลิกการส่งฟอร์ม
+      // ถ้าข้อมูลไม่ถูกต้อง ให้ยกเลิกการส่งฟอร์ม
+      return false;
     }
   }
 </script>

@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -182,7 +183,7 @@ public class CourseController {
         RequestOpenCourse existingRequestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
         if (existingRequestOpenCourse != null) {
             existingRequestOpenCourse.setRequestStatus("ผ่าน");
-
+            Date requestDate = new Date();
             int round = requestOpCourseService.getRequestCourseRoundMaxId(existingRequestOpenCourse.getCourse().getCourse_id());
             existingRequestOpenCourse.setRound(++round);
             requestOpCourseService.updateRequestOpenCourse(existingRequestOpenCourse);
@@ -192,6 +193,7 @@ public class CourseController {
             for (RequestOpenCourse requestOpenCourse : requestOpenCourses) {
                 // แก้ไขสถานะ Request Open Course อื่นๆ
                 requestOpenCourse.setRequestStatus("ไม่ผ่าน");
+                requestOpenCourse.setRequestDate(requestDate);
                 requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
             }
             //แก้ไขตาราง Course
@@ -226,11 +228,20 @@ public class CourseController {
     public String getListAllCourse(Model model ,@PathVariable("admin_id") String admin_id) {
         model.addAttribute("title", "รายการ" + title);
         model.addAttribute("courses", courseService.getCourses());
-//        model.addAttribute("courses", courseService.getCoursesAndRequests());
         model.addAttribute("requests_open_course", requestOpCourseService.getRequestOpenCourses());
         model.addAttribute("list_activities", activityService.getPublicActivity());
         model.addAttribute("admin_id",admin_id);
         return "admin/listAllCourse";
+    }
+
+    @GetMapping("/{admin_id}/list_request_open_course")
+    public String getListRequestOpenCourse(Model model ,@PathVariable("admin_id") String admin_id) {
+        model.addAttribute("title", "รายการ" + title);
+        model.addAttribute("courses", courseService.getCourses());
+        model.addAttribute("requests_open_course", requestOpCourseService.getRequestOpenCourses());
+        model.addAttribute("list_activities", activityService.getPublicActivity());
+        model.addAttribute("admin_id",admin_id);
+        return "admin/list_request_opencourse";
     }
     //**********************************************//
 

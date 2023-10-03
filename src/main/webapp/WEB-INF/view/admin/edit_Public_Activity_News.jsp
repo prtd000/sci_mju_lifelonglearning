@@ -115,20 +115,19 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
-        <div class="navbar-nav ms-auto py-0">
-          <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 18px">หน้าหลัก</a>
-          <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
-            <%--            <div class="nav-item dropdown">--%>
-            <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
-          <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรทั้งหมด</a>
-          <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link active" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
-          <a href="#" class="nav-item nav-link" style="font-size: 18px">ผู้ดูแลระบบ</a>
-          <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
-
-            <%--            <a href="${pageContext.request.contextPath}/login" class="nav-item nav-link">เข้าสู่ระบบ</a>--%>
-        </div>
-      </div>
+          <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
+            <div class="navbar-nav ms-auto py-0">
+              <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
+              <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
+              <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course" class="nav-item nav-link" style="font-size: 17px">เพิ่มหลักสูตร</a>
+              <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link" style="font-size: 17px">หลักสูตรทั้งหมด</a>
+              <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 17px">รายการร้องขอ</a>
+              <a href="${pageContext.request.contextPath}/course/public/add_activity" class="nav-item nav-link" style="font-size: 17px">เพิ่มข่าวสารทั่วไป</a>
+              <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link active" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
+              <a href="#" class="nav-item nav-link" style="font-size: 17px">ผู้ดูแลระบบ</a>
+              <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 17px">ออกจากระบบ</a>
+            </div>
+          </div>
     </nav>
     <!-- Navbar End -->
     <div class="container">
@@ -147,6 +146,7 @@
                     <div class="course-totalHours-container">
                       <input name="ac_name" id="ac_name" type="text" autocomplete="off" oninput="this.className = ''" class="flex-td" value="${activities.name}"/>
                     </div>
+                    <label id="invalidAcName" style="color: red; font-size: 12px"></label>
                   </div>
                 </td>
               </tr>
@@ -157,6 +157,7 @@
                       <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px">${activities.detail}</textarea>
                       <label for="ac_detail">รายละเอียด</label>
                     </div>
+                    <label id="invalidAcDetail" style="color: red; font-size: 12px"></label>
                   </div>
                 </td>
               </tr>
@@ -229,12 +230,84 @@
     var x = document.getElementsByClassName("step");
     x[n].style.display = "block";
   }
+  function validateAcName() {
+    var acName = document.getElementById('ac_name').value;
+    var regex = /^[ก-์A-Za-z0-9 ().]+$/; // รูปแบบที่อนุญาต
+    var minLength = 2;
+    var maxLength = 50;
+
+    if (acName.trim() === "") {
+      document.getElementById("invalidAcName").innerHTML = "กรุณากรอกชื่อหัวข้อข่าวสารและกิจกรรม";
+      return false;
+    }else if (acName.length < minLength || acName.length > maxLength) {
+      document.getElementById("invalidAcName").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องมีความยาวระหว่าง 2 ถึง 50 ตัวอักษร";
+      return false;
+    }else if (!regex.test(acName)) {
+      document.getElementById("invalidAcName").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข";
+      return false;
+    }else {
+      document.getElementById("invalidAcName").innerHTML = "";
+    }
+
+    return true;
+  }
+  function validateAcDetail() {
+    var acDetail = document.getElementById('ac_detail').value;
+    var regex = /^[ก-์A-Za-z0-9 ().]+$/; // รูปแบบที่อนุญาต
+    var minLength = 2;
+    var maxLength = 225;
+
+    if (acDetail.trim() === "") {
+      document.getElementById("invalidAcDetail").innerHTML = "กรุณากรอกรายละเอียด";
+      return false;
+    }else if (acDetail.length < minLength || acDetail.length > maxLength) {
+      document.getElementById("invalidAcDetail").innerHTML = "รายละเอียดต้องมีความยาวระหว่าง 2 ถึง 225 ตัวอักษร";
+      return false;
+    }else if (!regex.test(acDetail)) {
+      document.getElementById("invalidAcDetail").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข";
+      return false;
+    }else {
+      document.getElementById("invalidAcDetail").innerHTML = "";
+    }
+
+    return true;
+  }
+
+  // function validateAcImg() {
+  //   var acImgInput = document.getElementById('ac_img');
+  //   var acImg = acImgInput.files[0];
+  //   var allowedExtensions = /(\.png|\.jpeg|\.jpg)$/i; // นามสกุลไฟล์ที่อนุญาต
+  //   var maxFileSize = 2 * 1024 * 1024; // ขนาดไฟล์สูงสุด (2MB)
+  //
+  //   if (!acImg) {
+  //     alert("กรุณาเลือกไฟล์รูปภาพ");
+  //     return false;
+  //   }
+  //
+  //   if (!allowedExtensions.exec(acImg.name)) {
+  //     alert("รูปภาพต้องเป็นไฟล์นามสกุล png, jpeg, หรือ jpg เท่านั้น");
+  //     return false;
+  //   }
+  //
+  //   if (acImg.size > maxFileSize) {
+  //     alert("ขนาดไฟล์รูปภาพต้องไม่เกิน 2MB");
+  //     return false;
+  //   }
+  //
+  //   return true;
+  // }
+
   function confirmAction() {
-    var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการเพิ่มข่าวสารนี้?");
-    if (result) {
-      return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
+    if (validateAcName() && validateAcDetail()) {
+      var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการแก้ไขข่าวสารนี้?");
+      if (result) {
+        return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
+      } else {
+        return false; // ถ้าผู้ใช้กด Cancel ให้ยกเลิกการส่งฟอร์ม
+      }
     } else {
-      return false; // ถ้าผู้ใช้กด Cancel ให้ยกเลิกการส่งฟอร์ม
+      // ถ้าข้อมูลไม่ถูกต้อง ให้ยกเลิกการส่งฟอร์ม
+      return false;
     }
   }
 </script>

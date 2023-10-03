@@ -18,26 +18,47 @@
             var displayPreview = document.getElementById('displayPreview');
             var fileInput = document.getElementById('fileInput');
 
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
+            var file = input.files[0];
 
-                reader.onload = function (e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
+            if (file) {
+                var allowedExtensions = /(\.png|\.jpg|\.jpeg)$/i;
+                var maxFileSize = 2 * 1024 * 1024; // 2MB
 
-                    displayPreview.src = e.target.result;
-                    displayPreview.style.display = 'block';
-                };
+                if (!allowedExtensions.exec(file.name)) {
+                    alert("รูปภาพต้องเป็นไฟล์นามสกุล png, jpg, หรือ jpeg เท่านั้น");
+                    input.value = "";
+                    return;
+                }
 
-                reader.readAsDataURL(input.files[0]);
+                if (file.size > maxFileSize) {
+                    alert("ขนาดไฟล์รูปภาพต้องไม่เกิน 2MB");
+                    input.value = "";
+                    return;
+                }
+
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+
+                        displayPreview.src = e.target.result;
+                        displayPreview.style.display = 'block';
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
             } else {
-                preview.src = '';
-                preview.style.display = 'none';
+                // ไม่มีไฟล์รูปภาพที่เลือก
+                alert("กรุณาเลือกรูปภาพ");
+                input.value = "";
 
-                displayPreview.src = '';
+                // เพิ่มการซ่อนรูปภาพที่แสดงอยู่แล้ว (ถ้ามี)
                 displayPreview.style.display = 'none';
             }
         }
+
     </script>
 </head>
 <body>
@@ -88,20 +109,19 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
-                <div class="navbar-nav ms-auto py-0">
-                    <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 18px">หน้าหลัก</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
-                        <%--            <div class="nav-item dropdown">--%>
-                        <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
-                    <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active" style="font-size: 18px">หลักสูตรทั้งหมด</a>
-                    <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 18px">ผู้ดูแลระบบ</a>
-                    <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
-
-                        <%--            <a href="${pageContext.request.contextPath}/login" class="nav-item nav-link">เข้าสู่ระบบ</a>--%>
-                </div>
-            </div>
+                    <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
+                        <div class="navbar-nav ms-auto py-0">
+                            <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
+                            <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
+                            <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course" class="nav-item nav-link" style="font-size: 17px">เพิ่มหลักสูตร</a>
+                            <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active" style="font-size: 17px">หลักสูตรทั้งหมด</a>
+                            <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 17px">รายการร้องขอ</a>
+                            <a href="${pageContext.request.contextPath}/course/public/add_activity" class="nav-item nav-link" style="font-size: 17px">เพิ่มข่าวสารทั่วไป</a>
+                            <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
+                            <a href="#" class="nav-item nav-link" style="font-size: 17px">ผู้ดูแลระบบ</a>
+                            <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 17px">ออกจากระบบ</a>
+                        </div>
+                    </div>
         </nav>
         <!-- Navbar End -->
         <div class="container">
@@ -134,12 +154,12 @@
                                     <label>ชื่อหลักสูตร</label>
                                     <div class="mb-3">
                                         <input name="course_name" type="text" id="course_name" placeholder="ชื่อหลักสูตร" value="${course.name}" oninput="this.className = ''"/>
-                                            <%--                        <input type="password" placeholder="Password" oninput="this.className = ''" name="password">--%>
+                                        <label id="invalidCourseName" style="color: red; font-size: 12px"></label>
                                     </div>
                                     <label>ชื่อเกียรติบัตร</label>
                                     <div class="mb-3">
                                         <input name="certificateName" type="text" id="certificateName" placeholder="ชื่อเกียรติบัตร" value="${course.certificateName}" oninput="this.className = ''"/>
-                                            <%--                        <input type="password" placeholder="Password" oninput="this.className = ''" name="password">--%>
+                                        <label id="invalidCertificateName" style="color: red; font-size: 12px"></label>
                                     </div>
                                     <label>สาขา:</label>
                                     <select name="major_id" id="major_id" class="form-select" oninput="this.className = ''">
@@ -156,16 +176,6 @@
                                         </c:forEach>
                                     </select>
                                 </td>
-<%--                                <td style="width: 40%; vertical-align: top;">--%>
-<%--                                    <label>รูปหลักสูตร</label>--%>
-<%--                                    <div class="mb-3" align="center">--%>
-<%--                                        <input name="course_img" type="file" id="fileInput" accept="image/*" onchange="previewImage(this)" class="form-control"/>--%>
-<%--                                        <c:if test="${not empty course.file}">--%>
-<%--                                            <input type="hidden" name="original_img" value="${course.img}" />--%>
-<%--                                            <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}" id="preview" alt="Image Preview" style=" height: 170px; margin-top: 10px; border-radius: 10px">--%>
-<%--                                        </c:if>--%>
-<%--                                    </div>--%>
-<%--                                </td>--%>
                                 <td style="width: 40%; vertical-align: top;">
                                     <label>รูปหลักสูตร</label>
                                     <div class="mb-3" align="center">
@@ -184,6 +194,7 @@
                                             <textarea class="form-control" placeholder="" id="floatingTextarea2" name="course_principle" style="height: 100px">${course.principle}</textarea>
                                             <label for="floatingTextarea2">หลักการและเหตุผล</label>
                                         </div>
+                                        <label id="invalidCoursePrinciple" style="color: red; font-size: 12px"></label>
                                     </div>
                                 </td>
                             </tr>
@@ -220,6 +231,7 @@
                                             <input name="course_totalHours" type="number" id="course_totalHours" class="course_totalHours" placeholder="ระยะเวลาในการเรียน" value="${course.totalHours}" oninput="this.className = ''">
                                             <label class="l1"> ชั่วโมง</label>
                                         </div>
+                                        <label id="invalidCourseTotalHours" style="color: red; font-size: 12px"></label>
                                     </div>
                                 </td>
                                 <td>
@@ -229,6 +241,7 @@
                                             <input name="course_fee" type="number" id="course_fee" class="course_fee" placeholder="ค่าธรรมเนียม" value="${course.fee}" oninput="this.className = ''">
                                             <label class="l1"> บาท</label>
                                         </div>
+                                        <label id="invalidCourseFee" style="color: red; font-size: 12px"></label>
                                     </div>
                                 </td>
                                 <td>
@@ -251,6 +264,7 @@
                                             <textarea class="form-control" placeholder="" id="floatingTextarea3" name="course_targetOccupation" style="height: 100px">${course.targetOccupation}</textarea>
                                             <label for="floatingTextarea3">เป้าหมายกลุ่มอาชีพ</label>
                                         </div>
+                                        <label id="invalidCourseTargetOccupation" style="color: red; font-size: 12px"></label>
                                     </div>
                                 </td>
                             </tr>
@@ -286,7 +300,8 @@
                     <!-- start previous / next buttons -->
                     <div class="form-footer d-flex">
                         <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-                        <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                        <button type="button" id="nextBtn" onclick="validateStep1()">Next</button>
+                        <button style="display: none" type="button" id="nextBtn2" onclick="validateStep2()">Next</button>
                     </div>
                     <!-- end previous / next buttons -->
                 </form>
@@ -391,31 +406,147 @@
         }
         if (n == (x.length - 1)) {
             document.getElementById("nextBtn").innerHTML = "Submit";
+            document.getElementById("nextBtn2").innerHTML = "Submit";
         } else {
             document.getElementById("nextBtn").innerHTML = "Next";
+            document.getElementById("nextBtn2").innerHTML = "Next";
         }
         //... and run a function that will display the correct step indicator:
         fixStepIndicator(n)
     }
+    function validateStep1() {
+        // เรียกใช้เมื่อผู้ใช้คลิก Next ในขั้นตอน 1
 
-    // function nextPrev(n) {
-    //     // This function will figure out which tab to display
-    //     var x = document.getElementsByClassName("step");
-    //     // Exit the function if any field in the current tab is invalid:
-    //     if (n == 1 && !validateForm()) return false;
-    //     // Hide the current tab:
-    //     x[currentTab].style.display = "none";
-    //     // Increase or decrease the current tab by 1:
-    //     currentTab = currentTab + n;
-    //     // if you have reached the end of the form...
-    //     if (currentTab >= x.length) {
-    //         // ... the form gets submitted:
-    //         document.getElementById("signUpForm").submit();
-    //         return false;
-    //     }
-    //     // Otherwise, display the correct tab:
-    //     showTab(currentTab);
-    // }
+        // รับค่าจากฟอร์ม
+        var courseType = document.getElementById("course_type").value;
+        var courseName = document.getElementById("course_name").value;
+        var certificateName = document.getElementById("certificateName").value;
+        var major = document.getElementById("major_id").value;
+        var coursePrinciple = document.getElementById("floatingTextarea2").value;
+        var fileInput = document.getElementById("fileInput");
+
+        var regExName = /^[ก-์A-Za-z0-9]{2,225}$/;
+
+        if (courseType === "") {
+            alert("กรุณาเลือกประเภทหลักสูตร");
+            return false;
+        }
+        // ตรวจสอบว่าข้อมูลถูกต้องหรือไม่
+        if (courseName === "") {
+            document.getElementById("invalidCourseName").innerHTML = "กรุณากรอกชื่อหลักสูตร";
+            return false;
+        }else if (!regExName.test(courseName)){
+            document.getElementById("invalidCourseName").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+            return false;
+        }else {
+            document.getElementById("invalidCourseName").innerHTML = "";
+        }
+        if (certificateName === "") {
+            document.getElementById("invalidCertificateName").innerHTML = "กรุณากรอกชื่อเกียรติบัตร";
+            return false;
+        }else if (!regExName.test(certificateName)){
+            document.getElementById("invalidCertificateName").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+            return false;
+        }else {
+            document.getElementById("invalidCertificateName").innerHTML = "";
+        }
+        if (coursePrinciple === "") {
+            document.getElementById("invalidCoursePrinciple").innerHTML = "กรุณากรอกหลักการและเหตุผล";
+            return false;
+        }else if (!regExName.test(coursePrinciple)){
+            document.getElementById("invalidCoursePrinciple").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+            return false;
+        }else {
+            document.getElementById("invalidCoursePrinciple").innerHTML = "";
+        }
+        if (major === "") {
+            alert("กรุณาเลือกสาขา");
+            return false;
+        }
+
+        // ถ้าข้อมูลถูกต้อง ให้เรียกฟังก์ชัน nextPrev(1) เพื่อย้ายไปยังขั้นตอนถัดไป
+        var x = document.getElementById("nextBtn")
+        var y = document.getElementById("nextBtn2")
+        x.style.display = "none";
+        y.style.display = "block";
+        nextPrev(1);
+        return true;
+    }
+    function validateStep2() {
+        // เรียกใช้เมื่อผู้ใช้คลิก Next ในขั้นตอน 2
+
+        // รับค่าจากฟอร์มขั้นตอนที่ 2
+        var objectives = document.querySelectorAll("input[name='course_objectives[]']");
+        var totalHours = document.getElementById("course_totalHours").value;
+        var fee = document.getElementById("course_fee").value;
+        var courseFileInput = document.getElementById("course_file");
+        var courseFile = document.getElementById("course_file").value;
+        var targetOccupation = document.getElementById("floatingTextarea3").value;
+
+        // ตรวจสอบว่าค่าประกอบด้วยภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร
+        var regExName = /^[ก-์A-Za-z0-9]{2,225}$/;
+
+        // ตรวจสอบว่าค่าประกอบด้วยตัวเลขเท่านั้นและไม่มีช่องว่าง
+        var regNumber = /^[0-9]+$/;
+
+        // ตรวจสอบว่าข้อมูลถูกต้องหรือไม่
+        for (var i = 0; i < objectives.length; i++) {
+            if (objectives[i].value === "") {
+                alert("กรุณากรอกวัตถุประสงค์ทั้งหมด");
+                return false;
+            }else if (!regExName.test(objectives[i].value)){
+                alert("วัตถุประสงค์ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร");
+                return false;
+            }
+        }
+
+        if (totalHours === "") {
+            document.getElementById("invalidCourseTotalHours").innerHTML = "กรุณากรอกระยะเวลาในการเรียน";
+            return false;
+        }else if (!regNumber.test(totalHours)){
+            document.getElementById("invalidCourseTotalHours").innerHTML = "ต้องเป็นตัวเลข ต้องไม่มีช่องว่างระหว่างตัวเลข";
+            return false;
+        }else {
+            document.getElementById("invalidCourseTotalHours").innerHTML = "";
+        }
+
+        if (fee === "") {
+            document.getElementById("invalidCourseFee").innerHTML = "กรุณากรอกค่าธรรมเนียม";
+            return false;
+        }else if (!regNumber.test(fee)){
+            document.getElementById("invalidCourseFee").innerHTML = "ต้องเป็นตัวเลข ต้องไม่มีช่องว่างระหว่างตัวเลข";
+            return false;
+        }else {
+            document.getElementById("invalidCourseFee").innerHTML = "";
+        }
+
+        if (targetOccupation === "") {
+            document.getElementById("invalidCourseTargetOccupation").innerHTML = "กรุณากรอกกลุ่มเป้าหมายอาชีพ";
+            return false;
+        }else if (!regExName.test(targetOccupation)){
+            document.getElementById("invalidCourseTargetOccupation").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+            return false;
+        }else {
+            document.getElementById("invalidCourseTargetOccupation").innerHTML = "";
+        }
+
+        // ตรวจสอบว่าผู้ใช้เลือกไฟล์เนื้อหาหลักสูตรหรือไม่
+        // if (courseFile === "") {
+        //     alert("กรุณาเลือกไฟล์เนื้อหาหลักสูตร");
+        //     return false;
+        // }
+        // ตรวจสอบนามสกุลของไฟล์
+        // var allowedExtensions = /(\.pdf)$/i;
+        // if (!allowedExtensions.exec(courseFile)) {
+        //     alert('เอกสารหลักสูตรต้องเป็นไฟล์ PDF เท่านั้น');
+        //     courseFileInput.focus();
+        //     return false;
+        // }
+
+        // ถ้าข้อมูลถูกต้อง ให้เรียกฟังก์ชัน nextPrev(1) เพื่อย้ายไปยังขั้นตอนถัดไป
+        nextPrev(1);
+        return true;
+    }
     function nextPrev(n) {
         // This function will figure out which tab to display
         var x = document.getElementsByClassName("step");
@@ -440,27 +571,7 @@
         }
     }
 
-    // function validateForm() {
-    //     // This function deals with validation of the form fields
-    //     var x, y, i, valid = true;
-    //     x = document.getElementsByClassName("step");
-    //     y = x[currentTab].getElementsByTagName("input");
-    //     // A loop that checks every input field in the current tab:
-    //     for (i = 0; i < y.length; i++) {
-    //         // If a field is empty...
-    //         if (y[i].value == "") {
-    //             // add an "invalid" class to the field:
-    //             y[i].className += " invalid";
-    //             // and set the current valid status to false
-    //             valid = false;
-    //         }
-    //     }
-    //     // If the valid status is true, mark the step as finished and valid:
-    //     if (valid) {
-    //         document.getElementsByClassName("stepIndicator")[currentTab].className += " finish";
-    //     }
-    //     return valid; // return the valid status
-    // }
+
     function validateForm() {
         // This function deals with validation of the form fields
         var x, y, i, valid = true;

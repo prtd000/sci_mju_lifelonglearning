@@ -77,7 +77,7 @@
             <div align="left" style="width: 85%">
                     <%--                <h2>${request_name.course.name}</h2>--%>
                 <div align="center" class="main_container">
-                    <div class="course_div">
+                    <div class="course_div" style="align-self: flex-start;">
                         <div style="padding: 20px 20px 0px 20px" align="left">
                             <b><label style="font-size: 20px">${request_name.course.name}</label></b>
                             <label>${request_name.course.major.name}</label>
@@ -130,7 +130,7 @@
                         <div style="display: flex; width: 100%" >
                             <div align="left" style="width: 50%"><h3>ข่าวสารประจำหลักสูตร</h3></div>
                             <div align="right" style="width: 50%">
-                                <input type="button" value="ร้องขอเปิดหลักสูตร" class="btn btn-outline-success"
+                                <input type="button" value="เพิ่มข่าวสารประจำหลักสูตร" class="btn btn-outline-success"
                                        onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${roc_id}/add_course_activity'; return false;"
                                 />
                             </div>

@@ -62,7 +62,7 @@ public class LoginController {
 
         if (lecturer != null) {
             session.setAttribute("lecturer", lecturer);
-            session.setMaxInactiveInterval(60 * 5);
+            session.setMaxInactiveInterval(60 * 30);
             return "redirect:/";
         } else {
             return "redirect:/access-denied";
@@ -77,7 +77,7 @@ public class LoginController {
 
         if (admin != null) {
             session.setAttribute("admin", admin);
-            session.setMaxInactiveInterval(60 * 5);
+            session.setMaxInactiveInterval(60 * 60);
             return "redirect:/";
         }else {
             return "redirect:/access-denied";

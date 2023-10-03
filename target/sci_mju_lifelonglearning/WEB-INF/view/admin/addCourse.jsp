@@ -11,11 +11,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
     <link href="${pageContext.request.contextPath}/assets/css/admin/style_addcourse.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/assets/js/admin/addcourse.js"></script>
     <script>
         function previewImage(input) {
             var preview = document.getElementById('preview');
             var displayPreview = document.getElementById('displayPreview');
             var fileInput = document.getElementById('fileInput');
+
+            var file = input.files[0];
+
+            if (!file) {
+                alert("กรุณาเลือกรูปภาพ");
+                return;
+            }
+
+            var allowedExtensions = /(\.png|\.jpg|\.jpeg)$/i;
+            var maxFileSize = 2 * 1024 * 1024; // 2MB
+
+            if (!allowedExtensions.exec(file.name)) {
+                alert("รูปภาพต้องเป็นไฟล์นามสกุล png, jpg, หรือ jpeg เท่านั้น");
+                input.value = "";
+                return;
+            }
+
+            if (file.size > maxFileSize) {
+                alert("ขนาดไฟล์รูปภาพต้องไม่เกิน 2MB");
+                input.value = "";
+                return;
+            }
 
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -37,6 +60,7 @@
                 displayPreview.style.display = 'none';
             }
         }
+
     </script>
 </head>
 <body>
@@ -87,180 +111,184 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
-                <div class="navbar-nav ms-auto py-0">
-                    <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 18px">หน้าหลัก</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
-                        <%--            <div class="nav-item dropdown">--%>
-                        <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
-                    <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active" style="font-size: 18px">หลักสูตรทั้งหมด</a>
-                    <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 18px">ผู้ดูแลระบบ</a>
-                    <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
-
-                        <%--            <a href="${pageContext.request.contextPath}/login" class="nav-item nav-link">เข้าสู่ระบบ</a>--%>
-                </div>
-            </div>
+                    <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
+                        <div class="navbar-nav ms-auto py-0">
+                            <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
+                            <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
+                            <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course" class="nav-item nav-link active" style="font-size: 17px">เพิ่มหลักสูตร</a>
+                            <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link" style="font-size: 17px">หลักสูตรทั้งหมด</a>
+                            <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 17px">รายการร้องขอ</a>
+                            <a href="${pageContext.request.contextPath}/course/public/add_activity" class="nav-item nav-link" style="font-size: 17px">เพิ่มข่าวสารทั่วไป</a>
+                            <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
+                            <a href="#" class="nav-item nav-link" style="font-size: 17px">ผู้ดูแลระบบ</a>
+                            <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 17px">ออกจากระบบ</a>
+                        </div>
+                    </div>
         </nav>
         <!-- Navbar End -->
-        <div class="container">
-            <div id="container">
-                <form id="signUpForm" action="${pageContext.request.contextPath}/course/${admin_id}/save" method="POST" enctype="multipart/form-data" onsubmit="return confirmAction();">
-                    <h3>เพิ่มหลักสูตรใหม่</h3>
-                    <hr>
-                    <!-- start step indicators -->
-                    <div class="form-header d-flex mb-4">
-                        <span class="stepIndicator">Account Setup</span>
-                        <span class="stepIndicator">Social Profiles</span>
-                        <span class="stepIndicator">Personal Details</span>
-                    </div>
-                    <!-- end step indicators -->
+        <div>
+            <div class="container">
+                <div id="container">
+                    <form id="signUpForm" name="frm" action="${pageContext.request.contextPath}/course/${admin_id}/save" method="POST" enctype="multipart/form-data" onsubmit="return confirmAction();">
+                        <h3>เพิ่มหลักสูตรใหม่</h3>
+                        <hr>
+                        <!-- start step indicators -->
+                        <div class="form-header d-flex mb-4">
+                            <span class="stepIndicator">ชื่อหลักสูตร</span>
+                            <span class="stepIndicator">เนื้อหาหลักสูตร</span>
+                            <span class="stepIndicator">ยืนยันหลักสูตร</span>
+                        </div>
+                        <!-- end step indicators -->
 
-                    <!-- step one -->
-                    <div class="step" style="display: inline-block">
-                        <p class="text-center mb-4">Create your account</p>
-                        <table style="width: 100%; border: 1px">
-                            <tr>
-                                <td style="width: 60%">
-                                    <label>ประเภทหลักสูตร</label>
-                                    <div class="mb-3">
-                                        <select name="course_type" id="course_type" class="form-select" oninput="this.className = ''">
-                                            <option value="" label="--กรุณาเลือกหลักสูตร--"></option>
-                                            <option value="หลักสูตรอบรมระยะสั้น" label="หลักสูตรอบรมระยะสั้น"></option>
-                                            <option value="Non-Degree" label="Non-Degree"></option>
-                                        </select>
-                                    </div>
-                                    <label>ชื่อหลักสูตร</label>
-                                    <div class="mb-3">
-                                        <input name="course_name" type="text" id="course_name" placeholder="ชื่อหลักสูตร" oninput="this.className = ''"/>
-                                            <%--                        <input type="password" placeholder="Password" oninput="this.className = ''" name="password">--%>
-                                    </div>
-                                    <label>ชื่อเกียรติบัตร</label>
-                                    <div class="mb-3">
-                                        <input name="certificateName" type="text" id="certificateName" placeholder="ชื่อเกียรติบัตร" oninput="this.className = ''"/>
-                                            <%--                        <input type="password" placeholder="Password" oninput="this.className = ''" name="password">--%>
-                                    </div>
-                                    <label>สาขา:</label>
-                                    <select name="major_id" id="major_id" class="form-select" oninput="this.className = ''">
-                                        <option value="" label="--กรุณาเลือกสาขา--"></option>
-                                        <c:forEach items="${majors}" var="major">
-                                            <option value="${major.major_id}">${major.name}</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                                <td style="width: 40%; vertical-align: top;">
-                                    <label>รูปหลักสูตร</label>
-                                    <div class="mb-3" align="center">
-                                        <input name="course_img" type="file" id="fileInput" accept="image/*" onchange="previewImage(this)" class="form-control"/>
-                                        <img id="preview" src="" alt="Image Preview" style="display: none; height: 170px; margin-top: 10px; border-radius: 10px">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <div class="mb-3">
-                                        <div class="form-floating">
-                                            <textarea class="form-control" placeholder="" id="floatingTextarea2" name="course_principle" style="height: 100px"></textarea>
-                                            <label for="floatingTextarea2">หลักการและเหตุผล</label>
+                        <!-- step one -->
+                        <div class="step" style="display: inline-block">
+                            <table style="width: 100%; border: 1px">
+                                <tr>
+                                    <td style="width: 60%">
+                                        <label>ประเภทหลักสูตร</label>
+                                        <div class="mb-3">
+                                            <select name="course_type" id="course_type" class="form-select" oninput="this.className = ''">
+                                                <option value="" label="--กรุณาเลือกหลักสูตร--"></option>
+                                                <option value="หลักสูตรอบรมระยะสั้น" label="หลักสูตรอบรมระยะสั้น"></option>
+                                                <option value="Non-Degree" label="Non-Degree"></option>
+                                            </select>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                                        <label>ชื่อหลักสูตร</label>
+                                        <div class="mb-3">
+                                            <input name="course_name" type="text" id="course_name" placeholder="ชื่อหลักสูตร" oninput="this.className = ''"/>
+                                            <label id="invalidCourseName" style="color: red; font-size: 12px"></label>
+                                        </div>
+                                        <label>ชื่อเกียรติบัตร</label>
+                                        <div class="mb-3">
+                                            <input name="certificateName" type="text" id="certificateName" placeholder="ชื่อเกียรติบัตร" oninput="this.className = ''"/>
+                                            <label id="invalidCertificateName" style="color: red; font-size: 12px"></label>
+                                        </div>
+                                        <label>สาขา:</label>
+                                        <select name="major_id" id="major_id" class="form-select" oninput="this.className = ''">
+                                            <option value="" label="--กรุณาเลือกสาขา--"></option>
+                                            <c:forEach items="${majors}" var="major">
+                                                <option value="${major.major_id}">${major.name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </td>
+                                    <td style="width: 40%; vertical-align: top;">
+                                        <label>รูปหลักสูตร</label>
+                                        <div class="mb-3" align="center">
+                                            <input name="course_img" type="file" id="fileInput" accept="image/*" onchange="previewImage(this)" class="form-control"/>
+                                            <img id="preview" src="" alt="Image Preview" style="display: none; height: 170px; margin-top: 10px; border-radius: 10px">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="mb-3">
+                                            <div class="form-floating">
+                                                <textarea class="form-control" placeholder="" id="floatingTextarea2" name="course_principle" style="height: 100px"></textarea>
+                                                <label for="floatingTextarea2">หลักการและเหตุผล</label>
+                                            </div>
+                                            <label id="invalidCoursePrinciple" style="color: red; font-size: 12px"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
 
-                    <!-- step two -->
-                    <div class="step">
-                        <p class="text-center mb-4">Your presence on the social network</p>
-                        <table style="width: 100%">
-                            <tr>
-                                <td colspan="3">
-                                    <label>วัตถุประสงค์</label>
-                                    <div class="mb-3">
-                                        <div id="objectives-container">
-                                            <div class="objective-container">
-                                                <input name="course_objectives[]" type="text" id="course_object" oninput="this.className = ''" class="objective"/>
-                                                <button type="button" onclick="removeObjective(this)" class="btn btn-danger">ลบ</button>
+                        <!-- step two -->
+                        <div class="step">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td colspan="3">
+                                        <label>วัตถุประสงค์</label>
+                                        <div class="mb-3">
+                                            <div id="objectives-container">
+                                                <div class="objective-container">
+                                                    <input name="course_objectives[]" type="text" id="course_object" oninput="this.className = ''" class="objective"/>
+                                                    <button type="button" onclick="removeObjective(this)" class="btn btn-danger">ลบ</button>
+                                                </div>
+                                            </div>
+                                            <button type="button" onclick="addObjective()">เพิ่มวัตถุประสงค์</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>ระยะเวลาในการเรียน</label>
+                                        <div class="mb-3">
+                                            <div class="course-totalHours-container">
+                                                <input name="course_totalHours" type="number" id="course_totalHours" class="course_totalHours" placeholder="ระยะเวลาในการเรียน" oninput="this.className = ''">
+                                                <label class="l1"> ชั่วโมง</label>
+                                            </div>
+                                            <label id="invalidCourseTotalHours" style="color: red; font-size: 12px"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <label>ค่าธรรมเนียม</label>
+                                        <div class="mb-3">
+                                            <div class="course-fee-container">
+                                                <input name="course_fee" type="number" id="course_fee" class="course_fee" placeholder="ค่าธรรมเนียม" oninput="this.className = ''">
+                                                <label class="l1"> บาท</label>
+                                            </div>
+                                            <label id="invalidCourseFee" style="color: red; font-size: 12px"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <label>ไฟล์เนื้อหาหลักสูตร</label>
+                                        <div class="mb-3">
+                                            <div class="course-totalHours-container">
+                                                <input name="course_file" type="file" id="course_file" accept="file/*" class="form-control"/>
                                             </div>
                                         </div>
-                                        <button type="button" onclick="addObjective()">เพิ่มวัตถุประสงค์</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>ระยะเวลาในการเรียน</label>
-                                    <div class="mb-3">
-                                        <div class="course-totalHours-container">
-                                            <input name="course_totalHours" type="number" id="course_totalHours" class="course_totalHours" placeholder="ระยะเวลาในการเรียน" oninput="this.className = ''">
-                                            <label class="l1"> ชั่วโมง</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="mb-3">
+                                            <div class="form-floating">
+                                                <textarea class="form-control" placeholder="" id="floatingTextarea3" name="course_targetOccupation" style="height: 100px"></textarea>
+                                                <label for="floatingTextarea3">เป้าหมายกลุ่มอาชีพ</label>
+                                            </div>
+                                            <label id="invalidCourseTargetOccupation" style="color: red; font-size: 12px"></label>
                                         </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <label>ค่าธรรมเนียม</label>
-                                    <div class="mb-3">
-                                        <div class="course-fee-container">
-                                            <input name="course_fee" type="number" id="course_fee" class="course_fee" placeholder="ค่าธรรมเนียม" oninput="this.className = ''">
-                                            <label class="l1"> บาท</label>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <label>ไฟล์เนื้อหาหลักสูตร</label>
-                                    <div class="mb-3">
-                                        <div class="course-totalHours-container">
-                                            <input name="course_file" type="file" id="course_file" accept="file/*" class="form-control"/>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="3">
-                                    <div class="mb-3">
-                                        <div class="form-floating">
-                                            <textarea class="form-control" placeholder="" id="floatingTextarea3" name="course_targetOccupation" style="height: 100px"></textarea>
-                                            <label for="floatingTextarea3">เป้าหมายกลุ่มอาชีพ</label>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-
-                    <!-- step three -->
-                    <div class="step">
-                        <h2 class="text-center mb-4">รายละเอียดหลักสูตร</h2>
-
-                        <div>
-                            <h3>ข้อมูลจาก Step 1</h3>
-                            <p>ประเภทหลักสูตร: <span id="displayCourseType"></span></p>
-                            <p>ชื่อหลักสูตร: <span id="displayCourseName"></span></p>
-                            <p>ชื่อเกียรติบัตร: <span id="displayCertificateName"></span></p>
-                            <p>สาขาวิชา: <span id="displayMajor"></span></p>
-                            <p>หลักการและเหตุผล: <span id="displayCoursePrinciple"></span> </p>
-                            <img id="displayPreview" src="" alt="Image Preview" style="display: none; height: 170px; margin-top: 10px; border-radius: 10px">
-                            <!-- เพิ่มข้อมูลอื่น ๆ ที่คุณต้องการแสดงจาก Step 1 -->
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
 
-                        <div>
-                            <h3>ข้อมูลจาก Step 2</h3>
-                            <p>วัตถุประสงค์: <span id="displayObjectives"></span></p>
-                            <p>ระยะเวลาในการเรียน: <span id="displayTotalHours"></span> ชั่วโมง</p>
-                            <p>ค่าธรรมเนียม: <span id="displayFee"></span> บาท</p>
-                            <p>ไฟล์เนื้อหาหลักสูตร: <span id="displayCourseFile"></span></p>
-                            <p>เป้าหมายกลุ่มอาชีพ: <span id="displayTargetOccupation"></span></p>
-                            <!-- เพิ่มข้อมูลอื่น ๆ ที่คุณต้องการแสดงจาก Step 2 -->
-                        </div>
-                    </div>
+                        <!-- step three -->
+                        <div class="step">
+                            <h2 class="text-center mb-4">รายละเอียดหลักสูตร</h2>
 
-                    <!-- start previous / next buttons -->
-                    <div class="form-footer d-flex">
-                        <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-                        <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
-                    </div>
-                    <!-- end previous / next buttons -->
-                </form>
+                            <div>
+                                <h3>ข้อมูลจาก Step 1</h3>
+                                <p>ประเภทหลักสูตร: <span id="displayCourseType"></span></p>
+                                <p>ชื่อหลักสูตร: <span id="displayCourseName"></span></p>
+                                <p>ชื่อเกียรติบัตร: <span id="displayCertificateName"></span></p>
+                                <p>สาขาวิชา: <span id="displayMajor"></span></p>
+                                <p>หลักการและเหตุผล: <span id="displayCoursePrinciple"></span> </p>
+                                <img id="displayPreview" src="" alt="Image Preview" style="display: none; height: 170px; margin-top: 10px; border-radius: 10px">
+                                <!-- เพิ่มข้อมูลอื่น ๆ ที่คุณต้องการแสดงจาก Step 1 -->
+                            </div>
+
+                            <div>
+                                <h3>ข้อมูลจาก Step 2</h3>
+                                <p>วัตถุประสงค์: <span id="displayObjectives"></span></p>
+                                <p>ระยะเวลาในการเรียน: <span id="displayTotalHours"></span> ชั่วโมง</p>
+                                <p>ค่าธรรมเนียม: <span id="displayFee"></span> บาท</p>
+                                <p>ไฟล์เนื้อหาหลักสูตร: <span id="displayCourseFile"></span></p>
+                                <p>เป้าหมายกลุ่มอาชีพ: <span id="displayTargetOccupation"></span></p>
+                                <!-- เพิ่มข้อมูลอื่น ๆ ที่คุณต้องการแสดงจาก Step 2 -->
+                            </div>
+                        </div>
+
+                        <!-- start previous / next buttons -->
+                        <div class="form-footer d-flex">
+                            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                            <button type="button" id="nextBtn" onclick="validateStep1()">Next</button>
+                            <button style="display: none" type="button" id="nextBtn2" onclick="validateStep2()">Next</button>
+                        </div>
+                        <!-- end previous / next buttons -->
+                    </form>
+                </div>
             </div>
         </div>
     </c:when>
@@ -313,7 +341,7 @@
     }
 
     // เรียกใช้ฟังก์ชันเมื่อคลิก Next ใน Step 2
-    document.getElementById("nextBtn").addEventListener("click", displayDataInStep3);
+    document.getElementById("nextBtn2").addEventListener("click", displayDataInStep3);
 </script>
 <%------------- bootstrap ----------------%>
 <script>
@@ -332,11 +360,154 @@
         }
         if (n == (x.length - 1)) {
             document.getElementById("nextBtn").innerHTML = "Submit";
+            document.getElementById("nextBtn2").innerHTML = "Submit";
         } else {
             document.getElementById("nextBtn").innerHTML = "Next";
+            document.getElementById("nextBtn2").innerHTML = "Next";
         }
         //... and run a function that will display the correct step indicator:
         fixStepIndicator(n)
+    }
+
+    function validateStep1() {
+        // เรียกใช้เมื่อผู้ใช้คลิก Next ในขั้นตอน 1
+
+        // รับค่าจากฟอร์ม
+        var courseType = document.getElementById("course_type").value;
+        var courseName = document.getElementById("course_name").value;
+        var certificateName = document.getElementById("certificateName").value;
+        var major = document.getElementById("major_id").value;
+        var coursePrinciple = document.getElementById("floatingTextarea2").value;
+        var fileInput = document.getElementById("fileInput");
+
+        var regExName = /^[ก-์A-Za-z0-9]{2,225}$/;
+
+        if (courseType === "") {
+            alert("กรุณาเลือกประเภทหลักสูตร");
+            return false;
+        }
+        // ตรวจสอบว่าข้อมูลถูกต้องหรือไม่
+            if (courseName === "") {
+                document.getElementById("invalidCourseName").innerHTML = "กรุณากรอกชื่อหลักสูตร";
+                return false;
+            }
+            else if (!regExName.test(courseName)){
+                document.getElementById("invalidCourseName").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+                return false;
+            }
+            else {
+                document.getElementById("invalidCourseName").innerHTML = "";
+            }
+            if (certificateName === "") {
+                document.getElementById("invalidCertificateName").innerHTML = "กรุณากรอกชื่อเกียรติบัตร";
+                return false;
+            }else if (!regExName.test(certificateName)){
+                document.getElementById("invalidCertificateName").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+                return false;
+            }else {
+                document.getElementById("invalidCertificateName").innerHTML = "";
+            }
+            if (coursePrinciple === "") {
+                document.getElementById("invalidCoursePrinciple").innerHTML = "กรุณากรอกหลักการและเหตุผล";
+                return false;
+            }else if (!regExName.test(coursePrinciple)){
+                document.getElementById("invalidCoursePrinciple").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+                return false;
+            }else {
+                document.getElementById("invalidCoursePrinciple").innerHTML = "";
+            }
+        if (major === "") {
+            alert("กรุณาเลือกสาขา");
+            return false;
+        }
+        if (fileInput.files.length === 0) {
+            alert("กรุณาเลือกรูปภาพหลักสูตร");
+            return false;
+        }
+
+        // ถ้าข้อมูลถูกต้อง ให้เรียกฟังก์ชัน nextPrev(1) เพื่อย้ายไปยังขั้นตอนถัดไป
+        var x = document.getElementById("nextBtn")
+        var y = document.getElementById("nextBtn2")
+        x.style.display = "none";
+        y.style.display = "block";
+        nextPrev(1);
+        return true;
+    }
+
+    function validateStep2() {
+        // เรียกใช้เมื่อผู้ใช้คลิก Next ในขั้นตอน 2
+
+        // รับค่าจากฟอร์มขั้นตอนที่ 2
+        var objectives = document.querySelectorAll("input[name='course_objectives[]']");
+        var totalHours = document.getElementById("course_totalHours").value;
+        var fee = document.getElementById("course_fee").value;
+        var courseFileInput = document.getElementById("course_file");
+        var courseFile = document.getElementById("course_file").value;
+        var targetOccupation = document.getElementById("floatingTextarea3").value;
+
+        // ตรวจสอบว่าค่าประกอบด้วยภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร
+        var regExName = /^[ก-์A-Za-z0-9]{2,225}$/;
+
+        // ตรวจสอบว่าค่าประกอบด้วยตัวเลขเท่านั้นและไม่มีช่องว่าง
+        var regNumber = /^[0-9]+$/;
+
+        // ตรวจสอบว่าข้อมูลถูกต้องหรือไม่
+        for (var i = 0; i < objectives.length; i++) {
+            if (objectives[i].value === "") {
+                alert("กรุณากรอกวัตถุประสงค์ทั้งหมด");
+                return false;
+            }else if (!regExName.test(objectives[i].value)){
+                alert("วัตถุประสงค์ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร");
+                return false;
+            }
+        }
+
+            if (totalHours === "") {
+                document.getElementById("invalidCourseTotalHours").innerHTML = "กรุณากรอกระยะเวลาในการเรียน";
+                return false;
+            }else if (!regNumber.test(totalHours)){
+                document.getElementById("invalidCourseTotalHours").innerHTML = "ต้องเป็นตัวเลข ต้องไม่มีช่องว่างระหว่างตัวเลข";
+                return false;
+            }else {
+                document.getElementById("invalidCourseTotalHours").innerHTML = "";
+            }
+
+            if (fee === "") {
+                document.getElementById("invalidCourseFee").innerHTML = "กรุณากรอกค่าธรรมเนียม";
+                return false;
+            }else if (!regNumber.test(fee)){
+                document.getElementById("invalidCourseFee").innerHTML = "ต้องเป็นตัวเลข ต้องไม่มีช่องว่างระหว่างตัวเลข";
+                return false;
+            }else {
+                document.getElementById("invalidCourseFee").innerHTML = "";
+            }
+
+            if (targetOccupation === "") {
+                document.getElementById("invalidCourseTargetOccupation").innerHTML = "กรุณากรอกกลุ่มเป้าหมายอาชีพ";
+                return false;
+            }else if (!regExName.test(targetOccupation)){
+                document.getElementById("invalidCourseTargetOccupation").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+                return false;
+            }else {
+                document.getElementById("invalidCourseTargetOccupation").innerHTML = "";
+            }
+
+        // ตรวจสอบว่าผู้ใช้เลือกไฟล์เนื้อหาหลักสูตรหรือไม่
+        if (courseFile === "") {
+            alert("กรุณาเลือกไฟล์เนื้อหาหลักสูตร");
+            return false;
+        }
+        // ตรวจสอบนามสกุลของไฟล์
+        var allowedExtensions = /(\.pdf)$/i;
+        if (!allowedExtensions.exec(courseFile)) {
+            alert('เอกสารหลักสูตรต้องเป็นไฟล์ PDF เท่านั้น');
+            courseFileInput.focus();
+            return false;
+        }
+
+        // ถ้าข้อมูลถูกต้อง ให้เรียกฟังก์ชัน nextPrev(1) เพื่อย้ายไปยังขั้นตอนถัดไป
+        nextPrev(1);
+        return true;
     }
 
     function nextPrev(n) {

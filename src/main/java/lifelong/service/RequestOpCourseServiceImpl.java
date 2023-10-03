@@ -62,6 +62,12 @@ public class RequestOpCourseServiceImpl implements RequestOpCourseService {
 
     @Override
     @Transactional
+    public void checkDeleteRequestOpenCourse(long id) {
+        requestOpCourseDao.checkDeleteRequestOpenCourse(id);
+    }
+
+    @Override
+    @Transactional
     public List<Major> getMajor() {
         return requestOpCourseDao.getMajors();
     }

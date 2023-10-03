@@ -19,6 +19,7 @@ public interface RequestOpCourseDao {
 
     void saveRequestOpenCourse (RequestOpenCourse requestOpenCourse);
     void deleteRequestOpenCourse(long id,String lec_id);
+    void checkDeleteRequestOpenCourse(long id);
     RequestOpenCourse updateRequestOpenCourse (RequestOpenCourse requestOpenCourse) ;
 
     List<Major> getMajors();

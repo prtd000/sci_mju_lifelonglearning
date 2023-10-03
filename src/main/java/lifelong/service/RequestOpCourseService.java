@@ -16,6 +16,7 @@ public interface RequestOpCourseService {
     RequestOpenCourse getRequestOpenCourseDetail(long requestId);
     RequestOpenCourse getRequestOpenCourseDetailToUpdate(long roc_id,String lec_id);
     void deleteRequestOpenCourse(long requestId,String lec_id);
+    void checkDeleteRequestOpenCourse(long id);
     List<Major> getMajor();
     void doRequestOpenCourseDetail(RequestOpenCourse requestOpenCourse);
     void updateRequestOpenCourse(RequestOpenCourse requestOpenCourse);

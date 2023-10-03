@@ -105,6 +105,7 @@
         </nav>
         <!-- Navbar End -->
         <div style="width: 100%;" align="center">
+            <form onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_id}/update_signature" method="POST" enctype="multipart/form-data">
             <table style="width: 70%">
                 <tr>
                     <td style="width: 50%">
@@ -183,27 +184,29 @@
                         </div>
                     </td>
                     <td style="width: 25%">
-                        <div id="menuForm" class="flex-container">
-                            <div class="step">
-                                <h4>อัพโหลดเกียรติบัตร</h4>
-                                <hr>
-                                <div class="mb-3" align="center">
-                                    <div class="form-floating">
-                                        <input name="signature" type="file" id="fileInput" accept="image/*" onchange="previewImage(this)" class="form-control"/>
+                            <div id="menuForm" class="flex-container">
+                                <div class="step">
+                                    <h4>อัพโหลดเกียรติบัตร</h4>
+                                    <hr>
+                                    <div class="mb-3" align="center">
+                                        <div class="form-floating">
+                                            <input name="signature" type="file" id="fileInput" accept="image/*" onchange="previewImage(this)" class="form-control"/>
+                                        </div>
+                                        <div class="mb-3">
+                                                <%--                                        <c:if test="${not empty request.signature}">--%>
+                                                <%--                                            <input type="hidden" name="original_signature" value="${request.signature}" />--%>
+                                                <%--                                            <img src="${pageContext.request.contextPath}/assets/img/request_open_course/signature/${request.signature}" id="preview" alt="Image Preview" style="height: 40px; margin-left: 10px; border-radius: 10px">--%>
+                                                <%--                                        </c:if>--%>
+                                            <img id="displayPreview" src="" alt="Image Preview" style="height: 70px; margin-top: 10px; border-radius: 10px;">
+                                        </div>
                                     </div>
-                                    <div class="mb-3">
-<%--                                        <c:if test="${not empty request.signature}">--%>
-<%--                                            <input type="hidden" name="original_signature" value="${request.signature}" />--%>
-<%--                                            <img src="${pageContext.request.contextPath}/assets/img/request_open_course/signature/${request.signature}" id="preview" alt="Image Preview" style="height: 40px; margin-left: 10px; border-radius: 10px">--%>
-<%--                                        </c:if>--%>
-                                        <img id="displayPreview" src="" alt="Image Preview" style="height: 70px; margin-top: 10px; border-radius: 10px;">
-                                    </div>
+                                    <input type="submit" value="อัพโหลด">
                                 </div>
                             </div>
-                        </div>
                     </td>
                 </tr>
             </table>
+            </form>
         </div>
         <%--      <div style="width: 100%" align="center" class="flex-container">--%>
         <%--        --%>
@@ -231,7 +234,7 @@
         x[n].style.display = "block";
     }
     function confirmAction() {
-        var result = confirm("คุณแน่ใจหรือไม่ว่าต้องกาแก้ไขข่าวสารนี้?");
+        var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการแก้ไขลายเซ็น?");
         if (result) {
             return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
         } else {

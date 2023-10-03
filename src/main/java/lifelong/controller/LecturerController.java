@@ -402,13 +402,47 @@ public class LecturerController {
     //*********************************************************************//
 
     //***********************Upload Signature******************************//
-    //*********************************************************************//
-    //*********************************************************************//
-    //*********************************************************************//
-    //*********************************************************************//
-    //*********************************************************************//
-    //*********************************************************************//
-    //*********************************************************************//
+    @PostMapping (path="/{lec_id}/{req_id}/update_signature")
+    public String doUpdateSignature(@PathVariable("lec_id") String lec_id,
+                                    @PathVariable("req_id") String req_id,
+                                    @RequestParam(value = "original_signature", required = false) String original_signature,
+                                    @RequestParam("signature") MultipartFile signature,
+                                    @RequestParam Map<String, String> allReqParams) throws ParseException {
+        // ดึงข้อมูล PDF ที่ต้องการแก้ไขจากฐานข้อมูล
+        long existingRequestId = Long.parseLong(req_id);
+        RequestOpenCourse existingRequest = requestOpCourseService.getRequestOpenCourseDetailToUpdate(existingRequestId,lec_id);
+        try {
+//            AddImg pdfToUpdate = courseService.getPdfById(pdfId);
+            // กำหนด path ที่จะบันทึกไฟล์
+            String uploadPathSIG = ImgPath.pathImg + "/request_open_course/signature/";
+//            String uploadPath = ImgPath.pathImg + "/course_pdf/pdf/";
+            // ถ้ามีการอัพโหลดไฟล์ใหม่
+            if (!signature.isEmpty()) {
+                // ลบไฟล์ PDF เดิม (ถ้ามี)
+                Path path1 = Paths.get(uploadPathSIG, original_signature);
+                if (original_signature != null) {
+                    if (Files.exists(path1)) {
+                        Files.delete(path1);
+                    }
+                }
+
+                // บันทึกไฟล์ใหม่
+                Files.write(path1, signature.getBytes());
+
+                // อัพเดตข้อมูลในฐานข้อมูล
+                assert existingRequest != null;
+                existingRequest.setSignature(original_signature);
+                requestOpCourseService.updateRequestOpenCourse(existingRequest);
+            } else {
+                // ไม่มีการอัพโหลดไฟล์ใหม่ แต่อาจมีการอัพเดตข้อมูลอื่น ๆ ที่ต้องการทำในกรณีนี้
+                requestOpCourseService.updateRequestOpenCourse(existingRequest);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        String lec_id = existingRequest.getLecturer().getUsername();
+        return "redirect:/lecturer/"+lec_id+"/"+req_id+"/view_sample_certificate";
+    }
     //*********************************************************************//
 
     //*********************Add Course Activity News*********************************//

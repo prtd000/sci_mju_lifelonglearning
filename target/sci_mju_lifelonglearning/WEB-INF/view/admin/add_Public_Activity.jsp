@@ -125,74 +125,72 @@
           </div>
     </nav>
     <!-- Navbar End -->
-    <div>
-      <div class="container">
-        <div id="container">
+    <div class="container">
+      <div id="container">
 
-          <form id="signUpForm" onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/save_public_add_activity" method="POST" enctype="multipart/form-data">
-            <!-- step one -->
-            <div class="step">
-              <h3>เพิ่มข่าวสารทั่วไป</h3>
-              <hr>
-              <table style="width: 100%">
-                <tr>
-                  <td>
-                    <label>ชื่อข่าวสาร</label>
-                    <div class="mb-3">
-                      <div class="course-totalHours-container">
-                        <input name="ac_name" id="ac_name" type="text" autocomplete="off" oninput="this.className = ''" class="flex-td"/>
-                      </div>
-                      <label id="invalidAcName" style="color: red; font-size: 12px"></label>
+        <form id="signUpForm" onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/save_public_add_activity" method="POST" enctype="multipart/form-data">
+          <!-- step one -->
+          <div class="step">
+            <h3>เพิ่มข่าวสารทั่วไป</h3>
+            <hr>
+            <table style="width: 100%">
+              <tr>
+                <td>
+                  <label>ชื่อข่าวสาร</label>
+                  <div class="mb-3">
+                    <div class="course-totalHours-container">
+                      <input name="ac_name" id="ac_name" type="text" autocomplete="off" oninput="this.className = ''" class="flex-td"/>
                     </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="mb-3">
-                      <div class="form-floating">
-                        <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px"></textarea>
-                        <label for="ac_detail">รายละเอียด</label>
-                      </div>
-                      <label id="invalidAcDetail" style="color: red; font-size: 12px"></label>
+                    <label id="invalidAcName" style="color: red; font-size: 12px"></label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="mb-3">
+                    <div class="form-floating">
+                      <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px"></textarea>
+                      <label for="ac_detail">รายละเอียด</label>
                     </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>รูปภาพ</label>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="mb-3">
-                      <div class="form-floating">
-                        <input class="txt_input" name="ac_img" type="file" id="ac_img" accept="image/*" multiple onchange="previewImages()"/>
-                      </div>
+                    <label id="invalidAcDetail" style="color: red; font-size: 12px"></label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label>รูปภาพ</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="mb-3">
+                    <div class="form-floating">
+                      <input class="txt_input" name="ac_img" type="file" id="ac_img" accept="image/*" multiple onchange="previewImages()"/>
                     </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div id="imagePreview"></div>
-                    <label id="img_label"></label>
-                  </td>
-                </tr>
-              </table>
-              <h1>Rich Text Editor</h1>
-              <div id="editor"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div id="imagePreview"></div>
+                  <label id="img_label"></label>
+                </td>
+              </tr>
+            </table>
+            <h1>Rich Text Editor</h1>
+            <div id="editor"></div>
 
-              <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-            </div>
-            <!-- start previous / next buttons -->
-            <div style="width: 100%" align="center" class="flex-container">
-              <input type="button" value="ย้อนกลับ"
-                     onclick="window.location.href='${pageContext.request.contextPath}/course/public/list_activity'; return false;"
-                     style="width: 47%" class="flex-container"/>
-              <input type="submit" value="บันทึก" class="button-5" style="width: 47%"/>
-            </div>
-            <!-- end previous / next buttons -->
-          </form>
-        </div>
+            <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+          </div>
+          <!-- start previous / next buttons -->
+          <div style="width: 100%" align="center" class="flex-container">
+            <input type="button" value="ย้อนกลับ"
+                   onclick="window.location.href='${pageContext.request.contextPath}/course/public/list_activity'; return false;"
+                   style="width: 47%" class="flex-container"/>
+            <input type="submit" value="บันทึก" class="button-5" style="width: 47%"/>
+          </div>
+          <!-- end previous / next buttons -->
+        </form>
       </div>
     </div>
   </c:when>

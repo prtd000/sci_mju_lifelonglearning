@@ -1,7 +1,6 @@
 package lifelong.service;
 
 import lifelong.dao.CourseDao;
-import lifelong.model.AddImg;
 import lifelong.model.Course;
 import lifelong.model.Major;
 import lifelong.model.RequestOpenCourse;
@@ -49,24 +48,6 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     @Transactional
-    public List<AddImg> getAddImg() {
-        return courseDao.getAddImg();
-    }
-
-    @Override
-    @Transactional
-    public AddImg getPdfById(long id) {
-        return courseDao.getPdfById(id);
-    }
-
-    @Override
-    @Transactional
-    public void updatePDF(AddImg addImg) {
-        courseDao.updatePDF(addImg);
-    }
-
-    @Override
-    @Transactional
     public Course getCourseDetail(String courseId) {
         return courseDao.getCourseDetail(courseId);
     }
@@ -100,12 +81,6 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     @Transactional
-    public void doAddImg(AddImg addImg) {
-        courseDao.doAddImg(addImg);
-    }
-
-    @Override
-    @Transactional
     public void doAddMajor(Major major) {
         courseDao.doAddMajor(major);
     }
@@ -114,12 +89,6 @@ public class CourseServiceImpl implements CourseService{
     @Transactional
     public void updateCourse(Course course) {
         courseDao.updateCourse(course);
-    }
-
-    @Override
-    @Transactional
-    public int getLatestFileCount() {
-        return courseDao.getLatestFileCount();
     }
 
     @Override

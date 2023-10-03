@@ -126,169 +126,167 @@
                     </div>
         </nav>
         <!-- Navbar End -->
-        <div>
-            <div class="container">
-                <div id="container">
-                    <form id="signUpForm" name="frm" action="${pageContext.request.contextPath}/course/${admin_id}/save" method="POST" enctype="multipart/form-data" onsubmit="return confirmAction();">
-                        <h3>เพิ่มหลักสูตรใหม่</h3>
-                        <hr>
-                        <!-- start step indicators -->
-                        <div class="form-header d-flex mb-4">
-                            <span class="stepIndicator">ชื่อหลักสูตร</span>
-                            <span class="stepIndicator">เนื้อหาหลักสูตร</span>
-                            <span class="stepIndicator">ยืนยันหลักสูตร</span>
-                        </div>
-                        <!-- end step indicators -->
+        <div class="container">
+            <div id="container">
+                <form id="signUpForm" name="frm" action="${pageContext.request.contextPath}/course/${admin_id}/save" method="POST" enctype="multipart/form-data" onsubmit="return confirmAction();">
+                    <h3>เพิ่มหลักสูตรใหม่</h3>
+                    <hr>
+                    <!-- start step indicators -->
+                    <div class="form-header d-flex mb-4">
+                        <span class="stepIndicator">ชื่อหลักสูตร</span>
+                        <span class="stepIndicator">เนื้อหาหลักสูตร</span>
+                        <span class="stepIndicator">ยืนยันหลักสูตร</span>
+                    </div>
+                    <!-- end step indicators -->
 
-                        <!-- step one -->
-                        <div class="step" style="display: inline-block">
-                            <table style="width: 100%; border: 1px">
-                                <tr>
-                                    <td style="width: 60%">
-                                        <label>ประเภทหลักสูตร</label>
-                                        <div class="mb-3">
-                                            <select name="course_type" id="course_type" class="form-select" oninput="this.className = ''">
-                                                <option value="" label="--กรุณาเลือกหลักสูตร--"></option>
-                                                <option value="หลักสูตรอบรมระยะสั้น" label="หลักสูตรอบรมระยะสั้น"></option>
-                                                <option value="Non-Degree" label="Non-Degree"></option>
-                                            </select>
-                                        </div>
-                                        <label>ชื่อหลักสูตร</label>
-                                        <div class="mb-3">
-                                            <input name="course_name" type="text" id="course_name" placeholder="ชื่อหลักสูตร" oninput="this.className = ''"/>
-                                            <label id="invalidCourseName" style="color: red; font-size: 12px"></label>
-                                        </div>
-                                        <label>ชื่อเกียรติบัตร</label>
-                                        <div class="mb-3">
-                                            <input name="certificateName" type="text" id="certificateName" placeholder="ชื่อเกียรติบัตร" oninput="this.className = ''"/>
-                                            <label id="invalidCertificateName" style="color: red; font-size: 12px"></label>
-                                        </div>
-                                        <label>สาขา:</label>
-                                        <select name="major_id" id="major_id" class="form-select" oninput="this.className = ''">
-                                            <option value="" label="--กรุณาเลือกสาขา--"></option>
-                                            <c:forEach items="${majors}" var="major">
-                                                <option value="${major.major_id}">${major.name}</option>
-                                            </c:forEach>
+                    <!-- step one -->
+                    <div class="step" style="display: inline-block">
+                        <table style="width: 100%; border: 1px">
+                            <tr>
+                                <td style="width: 60%">
+                                    <label>ประเภทหลักสูตร</label>
+                                    <div class="mb-3">
+                                        <select name="course_type" id="course_type" class="form-select" oninput="this.className = ''">
+                                            <option value="" label="--กรุณาเลือกหลักสูตร--"></option>
+                                            <option value="หลักสูตรอบรมระยะสั้น" label="หลักสูตรอบรมระยะสั้น"></option>
+                                            <option value="Non-Degree" label="Non-Degree"></option>
                                         </select>
-                                    </td>
-                                    <td style="width: 40%; vertical-align: top;">
-                                        <label>รูปหลักสูตร</label>
-                                        <div class="mb-3" align="center">
-                                            <input name="course_img" type="file" id="fileInput" accept="image/*" onchange="previewImage(this)" class="form-control"/>
-                                            <img id="preview" src="" alt="Image Preview" style="display: none; height: 170px; margin-top: 10px; border-radius: 10px">
+                                    </div>
+                                    <label>ชื่อหลักสูตร</label>
+                                    <div class="mb-3">
+                                        <input name="course_name" type="text" id="course_name" placeholder="ชื่อหลักสูตร" oninput="this.className = ''"/>
+                                        <label id="invalidCourseName" style="color: red; font-size: 12px"></label>
+                                    </div>
+                                    <label>ชื่อเกียรติบัตร</label>
+                                    <div class="mb-3">
+                                        <input name="certificateName" type="text" id="certificateName" placeholder="ชื่อเกียรติบัตร" oninput="this.className = ''"/>
+                                        <label id="invalidCertificateName" style="color: red; font-size: 12px"></label>
+                                    </div>
+                                    <label>สาขา:</label>
+                                    <select name="major_id" id="major_id" class="form-select" oninput="this.className = ''">
+                                        <option value="" label="--กรุณาเลือกสาขา--"></option>
+                                        <c:forEach items="${majors}" var="major">
+                                            <option value="${major.major_id}">${major.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                                <td style="width: 40%; vertical-align: top;">
+                                    <label>รูปหลักสูตร</label>
+                                    <div class="mb-3" align="center">
+                                        <input name="course_img" type="file" id="fileInput" accept="image/*" onchange="previewImage(this)" class="form-control"/>
+                                        <img id="preview" src="" alt="Image Preview" style="display: none; height: 170px; margin-top: 10px; border-radius: 10px">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" placeholder="" id="floatingTextarea2" name="course_principle" style="height: 100px"></textarea>
+                                            <label for="floatingTextarea2">หลักการและเหตุผล</label>
                                         </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <div class="mb-3">
-                                            <div class="form-floating">
-                                                <textarea class="form-control" placeholder="" id="floatingTextarea2" name="course_principle" style="height: 100px"></textarea>
-                                                <label for="floatingTextarea2">หลักการและเหตุผล</label>
+                                        <label id="invalidCoursePrinciple" style="color: red; font-size: 12px"></label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- step two -->
+                    <div class="step">
+                        <table style="width: 100%">
+                            <tr>
+                                <td colspan="3">
+                                    <label>วัตถุประสงค์</label>
+                                    <div class="mb-3">
+                                        <div id="objectives-container">
+                                            <div class="objective-container">
+                                                <input name="course_objectives[]" type="text" id="course_object" oninput="this.className = ''" class="objective"/>
+                                                <button type="button" onclick="removeObjective(this)" class="btn btn-danger">ลบ</button>
                                             </div>
-                                            <label id="invalidCoursePrinciple" style="color: red; font-size: 12px"></label>
                                         </div>
-                                    </td>
-                                </tr>
-                            </table>
+                                        <button type="button" onclick="addObjective()">เพิ่มวัตถุประสงค์</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>ระยะเวลาในการเรียน</label>
+                                    <div class="mb-3">
+                                        <div class="course-totalHours-container">
+                                            <input name="course_totalHours" type="number" id="course_totalHours" class="course_totalHours" placeholder="ระยะเวลาในการเรียน" oninput="this.className = ''">
+                                            <label class="l1"> ชั่วโมง</label>
+                                        </div>
+                                        <label id="invalidCourseTotalHours" style="color: red; font-size: 12px"></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <label>ค่าธรรมเนียม</label>
+                                    <div class="mb-3">
+                                        <div class="course-fee-container">
+                                            <input name="course_fee" type="number" id="course_fee" class="course_fee" placeholder="ค่าธรรมเนียม" oninput="this.className = ''">
+                                            <label class="l1"> บาท</label>
+                                        </div>
+                                        <label id="invalidCourseFee" style="color: red; font-size: 12px"></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <label>ไฟล์เนื้อหาหลักสูตร</label>
+                                    <div class="mb-3">
+                                        <div class="course-totalHours-container">
+                                            <input name="course_file" type="file" id="course_file" accept="file/*" class="form-control"/>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" placeholder="" id="floatingTextarea3" name="course_targetOccupation" style="height: 100px"></textarea>
+                                            <label for="floatingTextarea3">เป้าหมายกลุ่มอาชีพ</label>
+                                        </div>
+                                        <label id="invalidCourseTargetOccupation" style="color: red; font-size: 12px"></label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- step three -->
+                    <div class="step">
+                        <h2 class="text-center mb-4">รายละเอียดหลักสูตร</h2>
+
+                        <div>
+                            <h3>ข้อมูลจาก Step 1</h3>
+                            <p>ประเภทหลักสูตร: <span id="displayCourseType"></span></p>
+                            <p>ชื่อหลักสูตร: <span id="displayCourseName"></span></p>
+                            <p>ชื่อเกียรติบัตร: <span id="displayCertificateName"></span></p>
+                            <p>สาขาวิชา: <span id="displayMajor"></span></p>
+                            <p>หลักการและเหตุผล: <span id="displayCoursePrinciple"></span> </p>
+                            <img id="displayPreview" src="" alt="Image Preview" style="display: none; height: 170px; margin-top: 10px; border-radius: 10px">
+                            <!-- เพิ่มข้อมูลอื่น ๆ ที่คุณต้องการแสดงจาก Step 1 -->
                         </div>
 
-                        <!-- step two -->
-                        <div class="step">
-                            <table style="width: 100%">
-                                <tr>
-                                    <td colspan="3">
-                                        <label>วัตถุประสงค์</label>
-                                        <div class="mb-3">
-                                            <div id="objectives-container">
-                                                <div class="objective-container">
-                                                    <input name="course_objectives[]" type="text" id="course_object" oninput="this.className = ''" class="objective"/>
-                                                    <button type="button" onclick="removeObjective(this)" class="btn btn-danger">ลบ</button>
-                                                </div>
-                                            </div>
-                                            <button type="button" onclick="addObjective()">เพิ่มวัตถุประสงค์</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label>ระยะเวลาในการเรียน</label>
-                                        <div class="mb-3">
-                                            <div class="course-totalHours-container">
-                                                <input name="course_totalHours" type="number" id="course_totalHours" class="course_totalHours" placeholder="ระยะเวลาในการเรียน" oninput="this.className = ''">
-                                                <label class="l1"> ชั่วโมง</label>
-                                            </div>
-                                            <label id="invalidCourseTotalHours" style="color: red; font-size: 12px"></label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <label>ค่าธรรมเนียม</label>
-                                        <div class="mb-3">
-                                            <div class="course-fee-container">
-                                                <input name="course_fee" type="number" id="course_fee" class="course_fee" placeholder="ค่าธรรมเนียม" oninput="this.className = ''">
-                                                <label class="l1"> บาท</label>
-                                            </div>
-                                            <label id="invalidCourseFee" style="color: red; font-size: 12px"></label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <label>ไฟล์เนื้อหาหลักสูตร</label>
-                                        <div class="mb-3">
-                                            <div class="course-totalHours-container">
-                                                <input name="course_file" type="file" id="course_file" accept="file/*" class="form-control"/>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">
-                                        <div class="mb-3">
-                                            <div class="form-floating">
-                                                <textarea class="form-control" placeholder="" id="floatingTextarea3" name="course_targetOccupation" style="height: 100px"></textarea>
-                                                <label for="floatingTextarea3">เป้าหมายกลุ่มอาชีพ</label>
-                                            </div>
-                                            <label id="invalidCourseTargetOccupation" style="color: red; font-size: 12px"></label>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
+                        <div>
+                            <h3>ข้อมูลจาก Step 2</h3>
+                            <p>วัตถุประสงค์: <span id="displayObjectives"></span></p>
+                            <p>ระยะเวลาในการเรียน: <span id="displayTotalHours"></span> ชั่วโมง</p>
+                            <p>ค่าธรรมเนียม: <span id="displayFee"></span> บาท</p>
+                            <p>ไฟล์เนื้อหาหลักสูตร: <span id="displayCourseFile"></span></p>
+                            <p>เป้าหมายกลุ่มอาชีพ: <span id="displayTargetOccupation"></span></p>
+                            <!-- เพิ่มข้อมูลอื่น ๆ ที่คุณต้องการแสดงจาก Step 2 -->
                         </div>
+                    </div>
 
-                        <!-- step three -->
-                        <div class="step">
-                            <h2 class="text-center mb-4">รายละเอียดหลักสูตร</h2>
-
-                            <div>
-                                <h3>ข้อมูลจาก Step 1</h3>
-                                <p>ประเภทหลักสูตร: <span id="displayCourseType"></span></p>
-                                <p>ชื่อหลักสูตร: <span id="displayCourseName"></span></p>
-                                <p>ชื่อเกียรติบัตร: <span id="displayCertificateName"></span></p>
-                                <p>สาขาวิชา: <span id="displayMajor"></span></p>
-                                <p>หลักการและเหตุผล: <span id="displayCoursePrinciple"></span> </p>
-                                <img id="displayPreview" src="" alt="Image Preview" style="display: none; height: 170px; margin-top: 10px; border-radius: 10px">
-                                <!-- เพิ่มข้อมูลอื่น ๆ ที่คุณต้องการแสดงจาก Step 1 -->
-                            </div>
-
-                            <div>
-                                <h3>ข้อมูลจาก Step 2</h3>
-                                <p>วัตถุประสงค์: <span id="displayObjectives"></span></p>
-                                <p>ระยะเวลาในการเรียน: <span id="displayTotalHours"></span> ชั่วโมง</p>
-                                <p>ค่าธรรมเนียม: <span id="displayFee"></span> บาท</p>
-                                <p>ไฟล์เนื้อหาหลักสูตร: <span id="displayCourseFile"></span></p>
-                                <p>เป้าหมายกลุ่มอาชีพ: <span id="displayTargetOccupation"></span></p>
-                                <!-- เพิ่มข้อมูลอื่น ๆ ที่คุณต้องการแสดงจาก Step 2 -->
-                            </div>
-                        </div>
-
-                        <!-- start previous / next buttons -->
-                        <div class="form-footer d-flex">
-                            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-                            <button type="button" id="nextBtn" onclick="validateStep1()">Next</button>
-                            <button style="display: none" type="button" id="nextBtn2" onclick="validateStep2()">Next</button>
-                        </div>
-                        <!-- end previous / next buttons -->
-                    </form>
-                </div>
+                    <!-- start previous / next buttons -->
+                    <div class="form-footer d-flex">
+                        <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                        <button type="button" id="nextBtn" onclick="validateStep1()">Next</button>
+                        <button style="display: none" type="button" id="nextBtn2" onclick="validateStep2()">Next</button>
+                    </div>
+                    <!-- end previous / next buttons -->
+                </form>
             </div>
         </div>
     </c:when>

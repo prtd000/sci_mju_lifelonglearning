@@ -1,6 +1,5 @@
 package lifelong.dao;
 
-import lifelong.model.AddImg;
 import lifelong.model.Course;
 import lifelong.model.Major;
 import lifelong.model.RequestOpenCourse;
@@ -17,20 +16,14 @@ public interface CourseDao {
     List<RequestOpenCourse> getListRequestOpCourse();
 
     List<RequestOpenCourse> getAllListRequestCourse();
-    List<AddImg> getAddImg();
-
-    AddImg getPdfById(long id);
-    AddImg updatePDF (AddImg addImg) ;
 
     Course getCourseDetail(String id);
 
-    int getLatestFileCount();
     Course getCourseById(String course_id);
     String[] getCourseDetailObject(String id);
     List<Course> getCoursesByName (String courseName);
     void doAddCourse(Course course);
     void doAddMajor(Major major);
-    void doAddImg(AddImg addImg);
     Course updateCourse (Course course) ;
     int getCourseMaxId(String course_type);
 

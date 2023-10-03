@@ -11,9 +11,7 @@ public interface CourseService {
         List<RequestOpenCourse> getListRequestOpCourse();
 
         List<RequestOpenCourse> getAllListRequestCourse();
-        List<AddImg> getAddImg();
-        AddImg getPdfById(long id);
-        void updatePDF(AddImg addImg);
+
         Course getCourseDetail(String courseId);
         Course getCourseById(String course_id);
 
@@ -21,12 +19,12 @@ public interface CourseService {
         String[] getCourseDetailObject(String courseId);
         void doAddCourse(Course course);
 
-        void doAddImg(AddImg addImg);
+
 
         public void doAddMajor(Major major);
         void updateCourse(Course course);
 
-        int getLatestFileCount();
+
         int getImgCourseMaxId(String course_type);
 
         int getCoursePDFMaxId();

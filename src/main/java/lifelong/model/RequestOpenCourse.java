@@ -18,6 +18,7 @@ public class RequestOpenCourse {
     @Column(length = 10)
     private int round;
 
+    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private Date requestDate;
     @Temporal(TemporalType.DATE)
@@ -27,6 +28,14 @@ public class RequestOpenCourse {
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private Date endRegister;
+
+    @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
+    private Date startPayment;
+
+    @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
+    private Date endPayment;
 
     @Column(nullable = false,length = 5)
     private int quantity;
@@ -102,11 +111,13 @@ public class RequestOpenCourse {
     public RequestOpenCourse() {
     }
 
-    public RequestOpenCourse(int round, Date requestDate, Date startRegister, Date endRegister, int quantity, Date startStudyDate, Date endStudyDate, String studyTime, String type_learn, String type_teach, Date applicationResult, String requestStatus, String signature, Course course, Lecturer lecturer) {
+    public RequestOpenCourse(int round, Date requestDate, Date startRegister, Date endRegister, Date startPayment, Date endPayment, int quantity, Date startStudyDate, Date endStudyDate, String studyTime, String type_learn, String type_teach, Date applicationResult, String location, String linkMooc, String requestStatus, String signature, Course course, Lecturer lecturer) {
         this.round = round;
         this.requestDate = requestDate;
         this.startRegister = startRegister;
         this.endRegister = endRegister;
+        this.startPayment = startPayment;
+        this.endPayment = endPayment;
         this.quantity = quantity;
         this.startStudyDate = startStudyDate;
         this.endStudyDate = endStudyDate;
@@ -114,6 +125,8 @@ public class RequestOpenCourse {
         this.type_learn = type_learn;
         this.type_teach = type_teach;
         this.applicationResult = applicationResult;
+        this.location = location;
+        this.linkMooc = linkMooc;
         this.requestStatus = requestStatus;
         this.signature = signature;
         this.course = course;
@@ -284,5 +297,20 @@ public class RequestOpenCourse {
         this.round = round;
     }
 
+    public Date getStartPayment() {
+        return startPayment;
+    }
+
+    public void setStartPayment(Date startPayment) {
+        this.startPayment = startPayment;
+    }
+
+    public Date getEndPayment() {
+        return endPayment;
+    }
+
+    public void setEndPayment(Date endPayment) {
+        this.endPayment = endPayment;
+    }
 }
 

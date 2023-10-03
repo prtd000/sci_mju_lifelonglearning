@@ -10,7 +10,7 @@ import java.util.Set;
 public class Member {
 
     @Id
-    @Column(name = "mem_username",length = 10)
+    @Column(name = "mem_username",length = 20)
     private String username;
 
     @Column(name = "mem_password",nullable = false,length = 225)

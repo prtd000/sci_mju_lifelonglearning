@@ -1,6 +1,5 @@
 package lifelong.dao;
 
-import lifelong.model.AddImg;
 import lifelong.model.Course;
 import lifelong.model.Major;
 import lifelong.model.RequestOpenCourse;
@@ -59,27 +58,6 @@ public class CourseDaoImpl implements CourseDao {
         return query.getResultList();
     }
 
-    @Override
-    public List<AddImg> getAddImg() {
-        Session session = sessionFactory.getCurrentSession();
-        Query<AddImg> query = session.createQuery("from AddImg ",AddImg.class);
-        List<AddImg> addImgs = query.getResultList();
-        return addImgs;
-    }
-
-    @Override
-    public AddImg getPdfById(long id) {
-        Session session = sessionFactory.getCurrentSession();
-        AddImg addImg = session.get(AddImg.class, id);
-        return addImg;
-    }
-
-    @Override
-    public AddImg updatePDF(AddImg addImg) {
-        Session session = sessionFactory.getCurrentSession();
-        session.saveOrUpdate(addImg);
-        return addImg;
-    }
 
     @Override
     public Course getCourseDetail(String id) {
@@ -87,16 +65,6 @@ public class CourseDaoImpl implements CourseDao {
         Course course = session.get(Course.class, id);
         return course;
     }
-
-    @Override
-    public int getLatestFileCount() {
-        Session session = sessionFactory.getCurrentSession();
-        Query<Long> query = session.createQuery("SELECT MAX(id) FROM AddImg", Long.class);
-        Long result = query.uniqueResult();
-        return result != null ? result.intValue() : 0; // ถ้าไม่พบข้อมูลให้ส่งค่า 0 แทน
-    }
-
-
 
     @Override
     public Course getCourseById(String course_id) {
@@ -138,11 +106,6 @@ public class CourseDaoImpl implements CourseDao {
         session.saveOrUpdate(major);
     }
 
-    @Override
-    public void doAddImg(AddImg addImg) {
-        Session session = sessionFactory.getCurrentSession();
-        session.saveOrUpdate(addImg);
-    }
 
 //    @Override
 //    public Course getCourse(String courseId) {

@@ -10,7 +10,8 @@ import java.util.Date;
 public class Receipt {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //Auto Increment
+    //@GeneratedValue(strategy = GenerationType.IDENTITY) //Auto Increment
+    @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     @Column(length = 10)
     private long receipt_id;

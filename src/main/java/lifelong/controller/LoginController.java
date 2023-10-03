@@ -29,7 +29,7 @@ public class LoginController {
 
         if (member != null) {
             session.setAttribute("member", member);
-            session.setMaxInactiveInterval(60 * 5);
+//            session.setMaxInactiveInterval(60 * 5);
             return "redirect:/";
         } else {
             model.addAttribute("loginFailed", true);

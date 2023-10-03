@@ -234,38 +234,44 @@
         <!-- Navbar End -->
     </c:otherwise>
 </c:choose>
-
-<%--<input type="button" value="ร้องขอ"onclick="window.location.href='${pageContext.request.contextPath}/course/add_course'; return false;"class="add-button"/>--%>
-<%--<input type="button" value="ข่าวสาร"onclick="window.location.href='${pageContext.request.contextPath}/activity/public/add_activity'; return false;"class="add-button"/>--%>
-<%--<input type="button" value="list ข่าวสาร"onclick="window.location.href='${pageContext.request.contextPath}/activity/public/list_activity'; return false;"class="add-button"/>--%>
 <!-- Carousel Start -->
 <div class="container-fluid p-0 mb-5">
     <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#header-carousel" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#header-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
             <button type="button" data-bs-target="#header-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
             <button type="button" data-bs-target="#header-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="w-100" src="${pageContext.request.contextPath}/assets/img/banner3.png" alt="Image">
+                <img class="w-100" style="object-fit: cover" src="${pageContext.request.contextPath}/assets/img/banner3.png" alt="Image">
                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                     <div class="p-3" style="max-width: 900px;">
                         <h1 class="display-1 text-white mb-md-4 animated zoomIn">LIFELONG LEARNING</h1>
-                        <a href="" class="btn btn_readmore py-md-3 px-md-5 me-3 animated slideInLeft">เพิ่มเติม</a>
-                        <a href="" class="btn btn_contactus py-md-3 px-md-5 animated slideInRight">ติดต่อเรา</a>
+                        <a href="${pageContext.request.contextPath}/search_course" class="btn btn_readmore py-md-3 px-md-5 me-3 animated slideInLeft">เพิ่มเติม</a>
+                        <a href="${pageContext.request.contextPath}/view_activity" class="btn btn_contactus py-md-3 px-md-5 animated slideInRight">ข่าวสาร</a>
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
                 <img class="w-100" src="${pageContext.request.contextPath}/assets/img/banner1.jpg" alt="Image"
-                     style="height: 886px;">
+                     style="object-fit: cover">
                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                     <div class="p-3" style="max-width: 900px;">
                         <h1 class="display-1 text-white mb-md-4 animated zoomIn">SCIENCE MAEJO UNIVERSITY</h1>
-                        <a href="" class="btn btn_readmore py-md-3 px-md-5 me-3 animated slideInLeft">เพิ่มเติม</a>
-                        <a href="" class="btn btn_contactus py-md-3 px-md-5 animated slideInRight">ติดต่อเรา</a>
+                        <a href="${pageContext.request.contextPath}/search_course" class="btn btn_readmore py-md-3 px-md-5 me-3 animated slideInLeft">เพิ่มเติม</a>
+                        <a href="${pageContext.request.contextPath}/view_activity" class="btn btn_contactus py-md-3 px-md-5 animated slideInRight">ข่าวสาร</a>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="w-100" src="${pageContext.request.contextPath}/assets/img/fb_004.jpg" alt="Image"
+                     style="object-fit: cover; height: 734px;">
+                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                    <div class="p-3" style="max-width: 900px;">
+                        <h1 class="display-1 text-white mb-md-4 animated zoomIn">SCIENCE MAEJO UNIVERSITY</h1>
+                        <a href="${pageContext.request.contextPath}/search_course" class="btn btn_readmore py-md-3 px-md-5 me-3 animated slideInLeft">เพิ่มเติม</a>
+                        <a href="${pageContext.request.contextPath}/view_activity" class="btn btn_contactus py-md-3 px-md-5 animated slideInRight">ข่าวสาร</a>
                     </div>
                 </div>
             </div>
@@ -413,26 +419,36 @@
                                                 <p style="font-weight: bold; color: dodgerblue">${course.major.name}</p>
 
                                                 <table class="icon">
+                                                    <c:set var="notFoundTypeLearn" value="false" />
                                                     <c:forEach var="list" items="${list_req}">
                                                         <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนในสถานศึกษา')}">
                                                             <tr>
                                                                 <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
                                                                 <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
                                                             </tr>
+                                                            <c:set var="notFoundTypeLearn" value="true" />
                                                         </c:if>
                                                         <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนออนไลน์')}">
                                                             <tr>
                                                                 <td><img src="${pageContext.request.contextPath}/assets/img/online.png" style="height: 25px;"></td>
                                                                 <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
                                                             </tr>
+                                                            <c:set var="notFoundTypeLearn" value="true" />
                                                         </c:if>
                                                         <c:if test="${list.course.course_id eq course.course_id && list.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
                                                             <tr>
                                                                 <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
                                                                 <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
                                                             </tr>
+                                                            <c:set var="notFoundTypeLearn" value="true" />
                                                         </c:if>
                                                     </c:forEach>
+                                                    <c:if test="${!notFoundTypeLearn}">
+                                                        <tr>
+                                                            <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
+                                                            <td><p style="color: #5b5b5b; font-weight: bold">-</p></td>
+                                                        </tr>
+                                                    </c:if>
                                                     <tr>
                                                         <td><img src="${pageContext.request.contextPath}/assets/img/money.png" style="height: 25px;"></td>
                                                         <td><b><p style="color: #12b100;">ราคา <fmt:formatNumber value="${courseFee}"/>.00 บาท</p></b></td>
@@ -484,8 +500,8 @@
             <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;">
                 <div class="position-relative h-100">
                     <img class="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.3s"
-                         src="${pageContext.request.contextPath}/assets/img/fb_004.jpg"
-                         style="object-fit: cover; box-shadow: -2px 2px 6px 2px #7c7c7c;">
+                         src="${pageContext.request.contextPath}/assets/img/fb_002.jpg"
+                         style="object-fit: cover; box-shadow: -2px 2px 6px 2px #7c7c7c;transform: scaleX(-1); object-position: -83px;">
                 </div>
             </div>
             <div class="col-lg-7">

@@ -56,6 +56,14 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+
+        .receipt_c_name{
+            width: 440px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
     </style>
 </head>
 <body>
@@ -161,7 +169,7 @@
                 <td>ราคา</td>
             </tr>
             <tr>
-                <td>${receipt.invoice.register.requestOpenCourse.course.name}</td>
+                <td><p class="receipt_c_name">${receipt.invoice.register.requestOpenCourse.course.name}</p></td>
                 <td>${receipt.invoice.register.requestOpenCourse.course.fee}</td>
             </tr>
             <tr style="height: 30px">

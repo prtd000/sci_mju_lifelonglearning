@@ -194,7 +194,7 @@
                                         <td style="text-align: center;">
                                             <a href="${pageContext.request.contextPath}/member/${invoices.member.username}/update_payment_fill_detail/${invoices.invoice.invoice_id}"><button class="btn btn-outline-danger">แก้ไขการชำระเงิน</button></a>
                                         </td>
-                                        <td style="text-align: center;"><p style="color: red; font-weight: bold;">กรุณาอัพโหลดหลักฐานการชำระเงินใหม่</p></td>
+                                        <td style="text-align: center;"><p style="color: red; font-weight: bold; text-align: center;">กรุณาอัพโหลดหลักฐานการชำระเงินใหม่</p></td>
                                     </c:otherwise>
                                 </c:choose>
                             </c:if>
@@ -237,7 +237,7 @@
                             </td>
                             <td>
                                 <c:if test="${currentDate.isAfter(endDate)}">
-                                    <p style="color: black; font-weight: bold">เลยกำหนดชำระเงิน</p>
+                                    <p style="color: black; font-weight: bold; text-align: center;">เลยกำหนดชำระเงิน</p>
                                 </c:if>
                             </td>
 

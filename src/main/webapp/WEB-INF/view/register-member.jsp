@@ -269,6 +269,7 @@
 
             if (birthday.getTime() > birthday2.getTime()) {
                 alert("อายุของผู้สมัครสมาชิกจะต้องมีอายุ 16 ปีขึ้นไป !!");
+                frm.birthday.value = "";
                 return false;
             }else if (frm.birthday.value === "") {
                 alert("กรุณากรอกวันเกิดปีเกิด");

@@ -20,7 +20,7 @@ public class Register {
     @Column(nullable = false)
     private Date register_date;
 
-    @Column(nullable = false)
+    @Column(length = 20 , nullable = false)
     private String study_result;
 
     @ManyToOne(cascade = CascadeType.ALL)

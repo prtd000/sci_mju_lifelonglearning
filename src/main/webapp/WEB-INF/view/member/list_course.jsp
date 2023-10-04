@@ -94,10 +94,14 @@
     <c:set var="username" value="<%= member.getUsername() %>" />
     <br>
 
+<%--    Button Switch--%>
     <button id="FClick" class="tablinks btn btn-success" onclick="openList(event, 'listCourse')">หลักสูตร</button>
     <button class="tablinks btn btn-danger" onclick="openList(event, 'listInvoice')">ที่ต้องชำระเงิน</button>
+    <button class="tablinks btn btn-dark" onclick="openList(event, 'listHistory')">ประวัติการทำรายการ</button>
     <br><br>
 
+
+<%--    List Register--%>
     <div class="tabcontent" id="listCourse">
         <table class="table table-hover" style="width: 1200px;">
             <tr>
@@ -144,21 +148,20 @@
                                 </c:when>
                             </c:choose>
                         </c:when>
-                        <c:otherwise>
-
-                        </c:otherwise>
                     </c:choose>
                 </tr>
             </c:forEach>
         </table>
     </div>
 
+<%--    List Invoice--%>
     <div class="tabcontent" id="listInvoice">
         <table class="table table-hover" style="width: 1260px;">
             <tr>
                 <th style="text-align: left;">รายการ</th>
                 <th style="width: 130px;">เริ่มชำระเงิน</th>
                 <th style="width: 130px;">สิ้นสุดชำระเงิน</th>
+                <th style="width: 130px;">วันประกาศผล</th>
                 <th style="width: 160px;">สถานะ</th>
                 <th style="width: 170px;">หมายเหตุ</th>
             </tr>
@@ -168,8 +171,11 @@
                         <td style="width: 550px;">${invoices.requestOpenCourse.course.name}</td>
                         <fmt:formatDate value="${invoices.invoice.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
                         <fmt:formatDate value="${invoices.invoice.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
+                        <fmt:formatDate value="${invoices.requestOpenCourse.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
                         <td style="text-align: center;"><p>${startPayment}</p></td>
                         <td style="text-align: center;"><p>${endPayment}</p></td>
+                        <td style="text-align: center;"><p>${applicationResult}</p></td>
+
                     </c:if>
 
                     <c:choose>
@@ -252,6 +258,50 @@
             </c:forEach>
         </table>
     </div>
+
+<%--    List History--%>
+    <div class="tabcontent" id="listHistory">
+        <table class="table table-hover" style="width: 1200px;">
+            <tr>
+                <th style="text-align: left;">รายการ</th>
+                <th style="width: 130px;">วันที่ชำระเงิน</th>
+                <th style="width: 130px;">จำนวน</th>
+                <th style="width: 130px;">สถานะ</th>
+                <th style="width: 130px;">หมายเหตุ</th>
+            </tr>
+
+            <c:forEach var="his" items="${receipt}">
+                <tr>
+                    <c:choose>
+                        <c:when test="${his.invoice.pay_status == true}">
+                            <c:choose>
+                                <c:when test="${his.invoice.approve_status.equals('ผ่าน')}">
+                                    <td>${his.invoice.register.requestOpenCourse.course.name}</td>
+                                    <fmt:formatDate value="${his.pay_date}" pattern="dd/MM/yyyy" var="datePayment" />
+                                    <td style="text-align: center;"><p>${datePayment}</p></td>
+
+                                    <c:set var="course_fee" value="${his.invoice.register.requestOpenCourse.course.fee}" />
+                                    <td style="text-align: center;"><fmt:formatNumber value="${course_fee}" type="number" /></td>
+
+                                    <c:choose>
+                                        <c:when test="${his.invoice.pay_status == true && his.invoice.approve_status.equals('ผ่าน')}">
+                                            <td style="width: 200px; text-align: center; color: green; font-weight: bold;">ชำระแล้ว</td>
+                                            <td style="text-align: center">
+                                                <a href="${pageContext.request.contextPath}/member/${his.invoice.register.member.username}/receipt/${his.invoice.invoice_id}">
+                                                    <button style="text-align: center;" class="btn btn-outline-success">ใบเสร็จ</button>
+                                                </a>
+                                            </td>
+                                        </c:when>
+                                    </c:choose>
+                                </c:when>
+                            </c:choose>
+                        </c:when>
+                    </c:choose>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
+
 </center>
 </body>
 

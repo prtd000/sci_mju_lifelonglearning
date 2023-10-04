@@ -205,6 +205,13 @@
     </c:forEach>
 </div>
 
+<center>
+    <br>
+    <a href="${pageContext.request.contextPath}/" style="font-weight: bold;">กลับหน้าแรก</a>
+</center>
+
+
+
 <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>
 </body>
 </html>

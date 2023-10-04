@@ -189,6 +189,24 @@
     <p>${payment.register.requestOpenCourse.course.major.name}</p>
     <hr>
 
+    <table>
+        <tr>
+            <td style="width: 255px;">เริ่มชำระเงิน</td>
+            <td style="width: 150px;">
+                <fmt:formatDate value="${payment.startPayment}" pattern="dd/MM/yyyy" var="startPayment"/>
+                ${startPayment}
+            </td>
+        </tr>
+        <tr>
+            <td>สิ้นสุดการชำระเงิน</td>
+            <td>
+                <fmt:formatDate value="${payment.endPayment}" pattern="dd/MM/yyyy" var="endPayment"/>
+                ${endPayment}
+            </td>
+        </tr>
+    </table>
+    <hr>
+
     <h4>โอนไปยัง</h4>
     <table>
         <tr>

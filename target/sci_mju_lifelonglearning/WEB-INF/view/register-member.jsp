@@ -7,6 +7,7 @@
 --%>
 <%@ page import="java.util.List" %>
 <%@ page import="lifelong.model.*" %>
+<%@ page import="java.util.Date" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -403,6 +404,7 @@
                                 <label>วันเดือนปีเกิด</label>
                                 <div class="mb-3">
                                     <input name="birthday" id="datePicker" type="date" oninput="this.className = ''"/>
+<%--                                    <input name="birthday" id="datePicker" type="date" max="${sixteen}" oninput="this.className = ''"/>--%>
                                 </div>
                             </td>
                         </tr>
@@ -569,14 +571,30 @@
 
     /***** can't do not select date future ********/
 
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     const dateInput = document.getElementById("datePicker");
+    //
+    //     // Get today's date
+    //     const today = new Date().toISOString().split("T")[0];
+    //
+    //     // Set the max attribute to today's date
+    //     dateInput.setAttribute("max", today);
+    // });
+
     document.addEventListener("DOMContentLoaded", function() {
         const dateInput = document.getElementById("datePicker");
 
         // Get today's date
-        const today = new Date().toISOString().split("T")[0];
+        const today = new Date();
 
-        // Set the max attribute to today's date
-        dateInput.setAttribute("max", today);
+        // Calculate the date 16 years ago from today
+        const sixteenYearsAgo = new Date(today.getFullYear() - 16, today.getMonth(), today.getDate());
+
+        // Format the date as "YYYY-MM-DD"
+        const formattedDate = sixteenYearsAgo.toISOString().split("T")[0];
+
+        // Set the min attribute to 16 years ago from today
+        dateInput.setAttribute("max", formattedDate);
     });
 
     /******** Format Date to dd/mm/yyyy **************/

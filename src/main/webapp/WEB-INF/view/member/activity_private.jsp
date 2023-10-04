@@ -135,6 +135,11 @@
     <p class="ac_detail">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${ac_detail.detail}</p>
 </div>
 
+<center>
+    <br>
+    <a href="${pageContext.request.contextPath}/" style="font-weight: bold;">กลับหน้าแรก</a>
+</center>
+
 <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>
 
 </body>

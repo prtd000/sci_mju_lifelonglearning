@@ -45,6 +45,14 @@ public class PaymentDaoImpl implements PaymentDao{
     }
 
     @Override
+    public List<Receipt> getReceiptByMemberId(String memId) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Receipt> query = session.createQuery("from Receipt r where r.invoice.register.member.username =: Id ", Receipt.class);
+        query.setParameter("Id",memId);
+        return query.getResultList();
+    }
+
+    @Override
     public Receipt getReceiptById(long receipt_id) {
         Session session = sessionFactory.getCurrentSession();
         Query<Receipt> query = session.createQuery("FROM Receipt r where r.id =: Id  ", Receipt.class);

@@ -30,7 +30,7 @@
         .mem-name{
             position: absolute;
             font-weight: bold;
-            font-size: 48px;
+            font-size: 35px;
             color: black;
             top: 45%;
             left: 50%;
@@ -39,7 +39,7 @@
         .course_name{
             position: absolute;
             font-weight: bold;
-            font-size: 33px;
+            font-size: 25px;
             color: black;
             top: 58%;
             left: 50%;
@@ -164,7 +164,7 @@
         <!-- นี่คือเนื้อหาที่คุณต้องการแปลงเป็น PDF -->
         <img src="${pageContext.request.contextPath}/assets/img/course_img/Certificate_Model_2.png" style="height: 520px" alt="certificate">
         <p class="mem-name">${register.member.firstName} &nbsp; ${register.member.lastName}</p>
-        <p class="course_name">${register.requestOpenCourse.course.name}</p>
+        <p class="course_name">${register.requestOpenCourse.course.certificateName}</p>
         <img class="signature" src="${pageContext.request.contextPath}/assets/img/request_open_course/signature/${register.requestOpenCourse.signature}"  alt="signature"/>
         <p class="lec-name">${register.requestOpenCourse.lecturer.position} &nbsp; ${register.requestOpenCourse.lecturer.firstName} &nbsp; ${register.requestOpenCourse.lecturer.lastName}</p>
         <p class="sig-assistant">ผศ.ดร.ฐปน ชื่นบาล</p>

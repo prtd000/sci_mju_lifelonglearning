@@ -14,6 +14,8 @@ public interface PaymentDao {
 
     List<Invoice> getListInvoiceByMemberId (String memId);
 
+    List<Receipt> getReceiptByMemberId(String memId);
+
     Receipt getReceiptById(long receipt_id);
 
     Receipt getReceiptByInvoiceId(long invoice_id);

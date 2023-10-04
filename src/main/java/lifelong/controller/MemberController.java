@@ -85,7 +85,7 @@ public class MemberController {
         /*****Insert Register*****/
         Register register = new Register();
         register.setRegister_date(new Date());
-        register.setStudy_result("กำลังเรียน");
+        register.setStudy_result("ยังไม่ได้ชำระเงิน");
         register.setRequestOpenCourse(requestOpCourseService.getRequestOpenCourseDetail(requestid));
         register.setMember(memberService.getMemberById(memid));
         registerService.saveRegister(register);
@@ -128,13 +128,18 @@ public class MemberController {
         model.addAttribute("list_invoice", memberService.getListInvoice());
         model.addAttribute("mem_username", memberService.getMemberById(memId));
         model.addAttribute("register", registerService.getRegister(memId));
+        model.addAttribute("receipt" , paymentService.getReceiptByMemberId(memId));
+
+
+        Calendar calendar = Calendar.getInstance();
+
 
         List<Invoice> invoices = paymentService.getListInvoiceByMemberId(memId);
         for (Invoice list : invoices) {
-            if (!list.getPay_status() && currentDate.after(list.getEndPayment())) {
-                System.out.println("pay status : " + list.getPay_status());
-                System.out.println("End Payment : " + list.getEndPayment());
-                System.out.println("Current : " + currentDate);
+            calendar.setTime(list.getEndPayment());
+            calendar.add(Calendar.DAY_OF_MONTH, + 1);
+
+            if (!list.getPay_status() && currentDate.after(calendar.getTime())) {
                 list.setApprove_status("เลยกำหนดชำระเงิน");
                 registerService.doInvoice(list);
             }

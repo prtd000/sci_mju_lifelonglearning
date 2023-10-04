@@ -60,19 +60,8 @@ public class MemberController {
 
         try{
             RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpCourseByCourseId(courseid);
-            if(requestOpenCourse != null){
-                model.addAttribute("req", requestOpenCourse);
+            model.addAttribute("req", requestOpenCourse);
 
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(requestOpenCourse.getStartStudyDate());
-
-                // ลบ 1 วัน
-                calendar.add(Calendar.DAY_OF_MONTH, -1);
-
-                // อัปเดตค่าใน payEnd
-                Date endPayment = calendar.getTime();
-                model.addAttribute("endPayment", endPayment);
-            }
         }catch (Exception e){
 
         }
@@ -112,18 +101,14 @@ public class MemberController {
         /*****Insert Invoice*****/
         Invoice invoice = new Invoice();
         invoice.setPay_status(false);
-        Date payStart = requestOpCourseService.getRequestOpenCourseDetail(requestid).getApplicationResult();
-        Date payEnd = requestOpCourseService.getRequestOpenCourseDetail(requestid).getStartStudyDate();
-
-        // แปลงเป็น Calendar
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(payEnd);
+        Date payStart = requestOpCourseService.getRequestOpenCourseDetail(requestid).getStartPayment();
+        Date payEnd = requestOpCourseService.getRequestOpenCourseDetail(requestid).getEndPayment();
 
         // ลบ 1 วัน
-        calendar.add(Calendar.DAY_OF_MONTH, -1);
-
-        // อัปเดตค่าใน payEnd
-        payEnd = calendar.getTime();
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(payEnd);
+//        calendar.add(Calendar.DAY_OF_MONTH, -1);
+//        payEnd = calendar.getTime();
 
         invoice.setStartPayment(payStart);
         invoice.setEndPayment(payEnd);
@@ -147,6 +132,9 @@ public class MemberController {
         List<Invoice> invoices = paymentService.getListInvoiceByMemberId(memId);
         for (Invoice list : invoices) {
             if (!list.getPay_status() && currentDate.after(list.getEndPayment())) {
+                System.out.println("pay status : " + list.getPay_status());
+                System.out.println("End Payment : " + list.getEndPayment());
+                System.out.println("Current : " + currentDate);
                 list.setApprove_status("เลยกำหนดชำระเงิน");
                 registerService.doInvoice(list);
             }

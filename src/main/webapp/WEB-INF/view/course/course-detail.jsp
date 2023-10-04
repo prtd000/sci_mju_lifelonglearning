@@ -224,8 +224,17 @@
                     <td>ช่วงวันรับสมัคร</td>
                     <td>
                         <fmt:formatDate value="${req.startRegister}" pattern="dd/MM/yyyy" var="startRegister"/>
-                        <fmt:formatDate value="${req.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate"/>
-                            ${startRegister} - ${endStudyDate}
+                        <fmt:formatDate value="${req.endRegister}" pattern="dd/MM/yyyy" var="endRegister"/>
+                            ${startRegister} - ${endRegister}
+                    </td>
+                </tr>
+                <tr>
+                    <td>ช่วงวันชำระค่าสมัคร</td>
+                    <td>
+                        <fmt:formatDate value="${req.startPayment}" pattern="dd/MM/yyyy" var="startPayment"/>
+                        <fmt:formatDate value="${req.endPayment}" pattern="dd/MM/yyyy" var="endPayment"/>
+
+                            ${startPayment} - ${endPayment}
                     </td>
                 </tr>
                 <tr>
@@ -233,15 +242,6 @@
                     <td>
                         <fmt:formatDate value="${req.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult"/>
                             ${applicationResult}
-                    </td>
-                </tr>
-                <tr>
-                    <td>ช่วงวันชำระค่าสมัคร</td>
-                    <td>
-                        <fmt:formatDate value="${req.applicationResult}" pattern="dd/MM/yyyy" var="startPayment"/>
-                        <fmt:formatDate value="${endPayment}" pattern="dd/MM/yyyy" var="endPayment"/>
-
-                            ${startPayment} - ${endPayment}
                     </td>
                 </tr>
                 <tr>

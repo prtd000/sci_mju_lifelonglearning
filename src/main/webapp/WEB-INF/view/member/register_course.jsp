@@ -287,7 +287,20 @@
                 </tr>
                 <tr>
                     <td>จำนวนรับสมัคร</td>
-                    <td>${req.quantity}</td>
+                    <td>
+                        <c:set var="stt_remaining" value="true" />
+                        <c:set var="remaining" value="${req.quantity - amount}"/>
+                        <c:choose>
+                            <c:when test="${amount == req.quantity}">
+                                <p style="color: green; font-weight: bold; margin-top: 13px;">เต็มแล้ว</p>
+                                <c:set var="stt_remaining" value="false" />
+                            </c:when>
+                            <c:otherwise>
+                                ${req.quantity} (คงเหลือ ${amount} ที่นั่ง)
+                                <c:set var="stt_remaining" value="true" />
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
                 </tr>
             </c:if>
             <tr>
@@ -370,11 +383,23 @@
                 <td></td>
                 <td>
                     <%--    Now--%>
-                    <c:if test="${registered == true}">
-                        <button class="btn btn-danger" disabled>ลงทะเบียนแล้ว</button>
+                    <c:set var="stt_btn" value="true" />
+                    <c:if test="${stt_remaining == true}">
+                        <c:if test="${registered == true}">
+                            <button class="btn btn-danger" disabled>ลงทะเบียนแล้ว</button>
+                        </c:if>
+                        <c:if test="${registered == false}">
+                            <button class="btn btn-success" onclick="if((confirm('ยืนยันการลงทะเบียน'))){ window.location.href='${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${course.course_id}/${req.request_id}/register';return false; }">สมัคร</button>
+                        </c:if>
                     </c:if>
-                    <c:if test="${registered == false}">
-                        <button class="btn btn-success" onclick="if((confirm('ยืนยันการลงทะเบียน'))){ window.location.href='${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${course.course_id}/${req.request_id}/register';return false; }">สมัคร</button>
+
+                    <c:if test="${stt_remaining == false && registered == true}" >
+                        <button class="btn btn-danger" disabled>ลงทะเบียนแล้ว</button>
+                        <c:set var="stt_btn" value="false" />
+                    </c:if>
+
+                    <c:if test="${stt_remaining == false && stt_btn == true}" >
+                        <button class="btn btn-danger" disabled >เต็มแล้ว</button>
                     </c:if>
                 </td>
             </tr>
@@ -382,65 +407,50 @@
     </div>
     <br><br><br>
 <%--    Course News--%>
-    <c:choose>
-        <c:when test="${activity.size() == 0}">
-            <h1 style="display: none">ข่าวสารประจำหลักสูตร</h1>
-        </c:when>
-        <c:otherwise>
-            <h1 style="display: block">ข่าวสารประจำหลักสูตร</h1>
-            <hr>
-            <br>
-        </c:otherwise>
-    </c:choose>
 
-    <c:forEach var="list" items="${activity}">
-        <a href="${pageContext.request.contextPath}/member/private_activity/${list.ac_id}">
-            <div class="block_news_big" style="float: left">
-                <div class="block_news">
-                    <c:set var="looped" value="false"/>
-                    <c:set var="imgNames" value="${list.img}"/>
-                    <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
-                        <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}"/>
-                        <c:if test="${!looped}">
-                            <td><img src="${pageContext.request.contextPath}/assets/img/activity/private/${list.ac_id}/${listImg}" alt="News_img" class="news_img"></td>
-                            <c:set var="looped" value="true"/>
-                        </c:if>
-                    </c:forEach>
+    <c:if test="${registerMember.study_result.equals('กำลังเรียน') || registerMember.study_result.equals('ผ่าน')}">
+        <c:choose>
+            <c:when test="${activity.size() == 0}">
+                <h1 style="display: none">ข่าวสารประจำหลักสูตร</h1>
+            </c:when>
+            <c:otherwise>
+                <h1 style="display: block">ข่าวสารประจำหลักสูตร</h1>
+                <hr>
+                <br>
+            </c:otherwise>
+        </c:choose>
 
-                    <div class="news_content">
-                        <p class="header_news">${list.name}</p>
-                        <fmt:formatDate value="${list.date}" pattern="dd/MM/yyyy" var="activity_date" />
-                        <c:set var="format_date" value="${fn:substring(activity_date, 0, 10)}"/>
-                        <p style="color: black;">${format_date}</p>
-                        <div class="block_detail_news">
-                            <p class="detail_news">${list.detail}</p>
+        <c:forEach var="list" items="${activity}">
+            <a href="${pageContext.request.contextPath}/member/private_activity/${list.ac_id}">
+                <div class="block_news_big" style="float: left">
+                    <div class="block_news">
+                        <c:set var="looped" value="false"/>
+                        <c:set var="imgNames" value="${list.img}"/>
+                        <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
+                            <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}"/>
+                            <c:if test="${!looped}">
+                                <td><img src="${pageContext.request.contextPath}/assets/img/activity/private/${list.ac_id}/${listImg}" alt="News_img" class="news_img"></td>
+                                <c:set var="looped" value="true"/>
+                            </c:if>
+                        </c:forEach>
+
+                        <div class="news_content">
+                            <p class="header_news">${list.name}</p>
+                            <fmt:formatDate value="${list.date}" pattern="dd/MM/yyyy" var="activity_date" />
+                            <c:set var="format_date" value="${fn:substring(activity_date, 0, 10)}"/>
+                            <p style="color: black;">${format_date}</p>
+                            <div class="block_detail_news">
+                                <p class="detail_news">${list.detail}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </a>
-    </c:forEach>
+            </a>
+        </c:forEach>
+    </c:if>
 </div>
 
 
 <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>
-<%--<script>--%>
-<%--    /******** Format Date to dd/mm/yyyy **************/--%>
-
-<%--    function formatDateElement(elementId) {--%>
-<%--        var text = document.getElementById(elementId).textContent;--%>
-<%--        var date = new Date(text);--%>
-
-<%--        var day = date.getDate();--%>
-<%--        var month = date.getMonth() + 1; // เพิ่ม 1 เนื่องจากเดือนเริ่มต้นจาก 0--%>
-<%--        var year = date.getFullYear();--%>
-
-<%--        return 'วันที่ : ' + day + '/' + month + '/' + year;--%>
-<%--    }--%>
-
-<%--    var formattedNews_date = formatDateElement("news_date");--%>
-<%--    document.getElementById("news_date").textContent = formattedNews_date;--%>
-<%--</script>--%>
 </body>
-
 </html>

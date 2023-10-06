@@ -88,6 +88,7 @@ public class WebHomeController {
     public String viewCourseDetail(@PathVariable("id") String id, Model model) {
         Course course = courseService.getCourseById(id);
         model.addAttribute("course_detail", course);
+        model.addAttribute("amount" , registerService.getAmountRegisteredByCourseId(id).size());
 
         try{
             RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpCourseByCourseId(id);

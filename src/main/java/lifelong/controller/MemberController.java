@@ -57,10 +57,12 @@ public class MemberController {
         Course course = courseService.getCourseDetail(courseid);
         model.addAttribute("course", course);
         model.addAttribute("activity", activityService.getViewCourseActivityNews(request_id));
+        model.addAttribute("amount" , registerService.getAmountRegisteredByCourseId(courseid).size());
+        System.out.println("Size Amount : " + registerService.getAmountRegisteredByCourseId(courseid).size());
 
         try{
-            RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpCourseByCourseId(courseid);
-            model.addAttribute("req", requestOpenCourse);
+            model.addAttribute("req", requestOpCourseService.getRequestOpCourseByCourseId(courseid));
+            model.addAttribute("registerMember" ,registerService.checkMemberRegisteredPass(mem_id,request_id));
 
         }catch (Exception e){
 

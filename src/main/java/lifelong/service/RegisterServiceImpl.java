@@ -36,6 +36,18 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     @Transactional
+    public Register checkMemberRegisteredPass(String memId, long reqId) {
+        return registerDao.checkMemberRegisteredPass(memId,reqId);
+    }
+
+    @Override
+    @Transactional
+    public List<Register> getAmountRegisteredByCourseId(String courseId) {
+        return registerDao.getAmountRegisteredByCourseId(courseId);
+    }
+
+    @Override
+    @Transactional
     public List<Receipt> getReceipt() {
         return registerDao.getReceipt();
     }

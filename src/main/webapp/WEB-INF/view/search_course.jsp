@@ -313,24 +313,35 @@
                                                                             </td>
                                                                             <c:if test="${invoices.pay_status == true && invoices.approve_status.equals('ผ่าน')}">
                                                                                 <td style="width: 305px;">
-                                                                                    <p style="color: red; font-family: 'Mitr', sans-serif; font-size: 18px; font-weight: 100;">ลงทะเบียนแล้ว</p>
+                                                                                    <p style="color: green; font-family: 'Mitr', sans-serif; font-size: 18px; font-weight: 100;">ลงทะเบียนแล้ว</p>
                                                                                 </td>
                                                                                 <c:set var="status" value="false"/>
                                                                             </c:if>
 
                                                                             <c:if test="${invoices.pay_status == true && invoices.approve_status.equals('ไม่ผ่าน')}">
+                                                                                <td style="width: 360px;">
+                                                                                    <p style="color: red; font-family: 'Mitr', sans-serif; font-size: 18px; font-weight: 100;">ชำระเงินไม่สำเร็จ</p>
+                                                                                </td>
+                                                                                <c:set var="status" value="false"/>
+                                                                            </c:if>
+
+                                                                            <c:if test="${invoices.pay_status == false && invoices.approve_status.equals('รอดำเนินการ')}">
+                                                                                <td style="width: 181px;">
+                                                                                    <p style="color: #e8b904; font-family: 'Mitr', sans-serif; font-size: 18px; font-weight: 100;">รอชำระเงิน</p>
+                                                                                </td>
+                                                                                <c:set var="status" value="false"/>
+                                                                            </c:if>
+
+
+                                                                            <c:if test="${invoices.pay_status == true && invoices.approve_status.equals('รอดำเนินการ')}">
                                                                                 <td style="width: 305px;">
                                                                                     <p style="color: #e8b904; font-family: 'Mitr', sans-serif; font-size: 18px; font-weight: 100;">รอดำเนินการ</p>
                                                                                 </td>
                                                                                 <c:set var="status" value="false"/>
                                                                             </c:if>
 
-                                                                            <c:if test="${invoices.pay_status == false || (invoices.pay_status == true && invoices.approve_status.equals('รอดำเนินการ'))}">
-                                                                                <td style="width: 305px;">
-                                                                                    <p style="color: #e8b904; font-family: 'Mitr', sans-serif; font-size: 18px; font-weight: 100;">รอดำเนินการ</p>
-                                                                                </td>
-                                                                                <c:set var="status" value="false"/>
-                                                                            </c:if>
+
+
                                                                             <c:set var="notFoundCourse" value="false" />
                                                                         </c:when>
                                                                     </c:choose>

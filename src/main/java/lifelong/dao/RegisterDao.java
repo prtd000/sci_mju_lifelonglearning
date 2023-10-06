@@ -10,6 +10,10 @@ public interface RegisterDao {
 
     List<Register> getRegister(String memId);
 
+    Register checkMemberRegisteredPass(String memId, long reqId);
+
+    List<Register> getAmountRegisteredByCourseId(String courseId);
+
     void saveRegister(Register register);
 
     void deleteRegister(long id);

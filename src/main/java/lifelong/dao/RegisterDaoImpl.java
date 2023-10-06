@@ -32,6 +32,23 @@ public class RegisterDaoImpl implements RegisterDao {
     }
 
     @Override
+    public Register checkMemberRegisteredPass(String memId, long reqId) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Register> query = session.createQuery("from Register r where r.member.username =: mId and r.requestOpenCourse.request_id =: rId" ,Register.class);
+        query.setParameter("mId" , memId);
+        query.setParameter("rId" , reqId);
+        return query.getSingleResult();
+    }
+
+    @Override
+    public List<Register> getAmountRegisteredByCourseId(String courseId) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Register> query = session.createQuery("from Register r where r.requestOpenCourse.course.course_id =: cId",Register.class);
+        query.setParameter("cId", courseId);
+        return query.getResultList();
+    }
+
+    @Override
     public List<Register> getRegisterByRequestId(long roc_Id) {
         Session session = sessionFactory.getCurrentSession();
         Query<Register> query = session.createQuery("from Register r where r.requestOpenCourse.id =: Id ", Register.class);

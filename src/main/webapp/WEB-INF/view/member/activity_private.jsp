@@ -19,24 +19,26 @@
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
     <style>
         .blog_private {
-            width: 840px;
-            margin-left: 346px;
-            margin-top: 68px;
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-top: 3%;
+            border-radius: 5px;
+            padding: 30px;
             box-shadow: 0px 0px 10px 2px #d2d1d1;
-            padding: 44px;
-            border-radius: 6px;
         }
 
         .header_news {
             font-size: 30px;
             color: black;
             font-weight: bold;
+            margin-left: 11px;
         }
 
         .txt_date {
             color: black;
             font-size: 17px;
             margin-bottom: 28px;
+            margin-left: 11px;
         }
 
         .img_activity {
@@ -44,14 +46,15 @@
             width: 366px;
             object-fit: cover;
             border-radius: 5px;
-            margin-right: 5px;
-            margin-bottom: 10px;
+            margin-left: 11px;
+            margin-bottom: 15px;
         }
 
         .ac_detail{
             margin-top: 20px;
             color: black;
             text-align: justify;
+            margin-left: 11px;
         }
 
     </style>

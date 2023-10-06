@@ -28,7 +28,7 @@ public class ActivityDaoImpl implements ActivityDao{
     @Override
     public List<Activity> getPublicActivity() {
         Session session = sessionFactory.getCurrentSession();
-        Query<Activity> query = session.createQuery("from Activity a where a.type =:acType",Activity.class);
+        Query<Activity> query = session.createQuery("from Activity a where a.type =:acType ORDER BY a.date DESC",Activity.class);
         query.setParameter("acType", "ข่าวสารทั่วไป");
         List<Activity> activities = query.getResultList();
         return activities;
@@ -37,7 +37,7 @@ public class ActivityDaoImpl implements ActivityDao{
     @Override
     public List<Activity> getViewCourseActivityNews(long req_id) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Activity> query = session.createQuery("FROM Activity a WHERE a.type =: acType AND a.requestOpenCourse.request_id =: reqId AND a.date >= :threeMonthsAgo", Activity.class);
+        Query<Activity> query = session.createQuery("FROM Activity a WHERE a.type =: acType AND a.requestOpenCourse.request_id =: reqId AND a.date >= :threeMonthsAgo ORDER BY a.date DESC", Activity.class);
         query.setParameter("acType", "ข่าวสารประจำหลักสูตร");
         query.setParameter("reqId", req_id);
 

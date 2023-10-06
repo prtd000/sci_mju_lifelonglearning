@@ -13,6 +13,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
 
 <html>
 <head>
@@ -23,12 +25,14 @@
 
     <style>
         .activity_public_position{
-            margin-left: 350px;
+            margin-left: 5%;
+            margin-right: 5%;
         }
 
         .blog_header_page {
             box-shadow: 0px 0px 10px 2px #d2d1d1;
-            width: 845px;
+            margin-left: 5%;
+            margin-right: 5%;
             text-align: center;
             padding: 16px;
             border-radius: 5px;
@@ -42,7 +46,8 @@
         }
 
         .blog_news {
-            width: 845px;
+            margin-left: 5%;
+            margin-right: 5%;
             border-radius: 5px;
             padding: 30px;
             box-shadow: 0px 0px 10px 2px #d2d1d1;
@@ -50,14 +55,17 @@
         }
 
         .header_news {
-            font-size: 26px;
+            font-size: 31px;
             font-weight: bold;
             color: black;
+            text-align: left;
+            margin-left: 11px;
         }
 
         .date_news {
-            font-size: 17px;
             color: black;
+            text-align: left;
+            margin-left: 11px;
         }
 
         .img_activity {
@@ -65,10 +73,16 @@
             width: 365px;
             object-fit: cover;
             border-radius: 5px;
-            margin-right: 10px;
+            margin-left: 10px;
             margin-bottom: 20px;
         }
 
+        .news_details{
+            color: black;
+            text-align: justify;
+            width: 745px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -172,45 +186,44 @@
     </c:otherwise>
 </c:choose>
 <!-- Navbar End -->
-<div class="activity_public_position">
-    <br>
-    <div class="blog_header_page">
-        <p class="header">ข่าวสารและกิจกรรม</p>
-    </div>
-    <br>
 
-    <c:forEach var="list" items="${list_activities}">
-        <div class="blog_news">
-            <div>
-
-                <p class="header_news">${list.name}</p>
-
-                <fmt:formatDate value="${list.date}" pattern="dd/MM/yyyy" var="activity_date"/>
-                <c:set var="format_date" value="${fn:substring(activity_date, 0, 10)}"/>
-
-                <p style="color: black;">วันที่ : ${format_date}</p>
-
-
-                <c:set var="imgNames" value="${list.img}"/>
-                <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
-                    <c:set var="listImg"
-                           value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}"/>
-                    <td>
-                        <img src="${pageContext.request.contextPath}/assets/img/activity/public/${list.ac_id}/${listImg}" alt="News_img" class="img_activity">
-                    </td>
-                </c:forEach>
-                <p style="color: black; text-align: justify;width: 745px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${list.detail}</p>
-            </div>
+    <div class="activity_public_position">
+        <br>
+        <div class="blog_header_page">
+            <p class="header">ข่าวสารและกิจกรรม</p>
         </div>
-    </c:forEach>
-</div>
+        <br>
+
+        <c:forEach var="list" items="${list_activities}">
+            <div class="blog_news">
+                <div>
+
+                    <p class="header_news">${list.name}</p>
+
+                    <fmt:formatDate value="${list.date}" pattern="dd/MM/yyyy" var="activity_date"/>
+                    <c:set var="format_date" value="${fn:substring(activity_date, 0, 10)}"/>
+
+                    <p class="date_news">วันที่ : ${format_date}</p>
+
+
+                    <c:set var="imgNames" value="${list.img}"/>
+                    <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
+                        <c:set var="listImg"
+                               value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}"/>
+                        <td>
+                            <img src="${pageContext.request.contextPath}/assets/img/activity/public/${list.ac_id}/${listImg}" alt="News_img" class="img_activity">
+                        </td>
+                    </c:forEach>
+                    <p class="news_details">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${list.detail}</p>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
 
 <center>
     <br>
     <a href="${pageContext.request.contextPath}/" style="font-weight: bold;">กลับหน้าแรก</a>
 </center>
-
-
 
 <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>
 </body>

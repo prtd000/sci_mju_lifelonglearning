@@ -254,7 +254,20 @@
                 </tr>
                 <tr>
                     <td>จำนวนรับสมัคร</td>
-                    <td>${req.quantity}</td>
+                    <td>
+                        <c:set var="stt_remaining" value="true" />
+                        <c:set var="remaining" value="${req.quantity - amount}"/>
+                        <c:choose>
+                            <c:when test="${amount == req.quantity}">
+                                <p style="color: green; font-weight: bold; margin-top: 13px;">เต็มแล้ว</p>
+                                <c:set var="stt_remaining" value="false" />
+                            </c:when>
+                            <c:otherwise>
+                                ${req.quantity} (คงเหลือ ${amount} ที่นั่ง)
+                                <c:set var="stt_remaining" value="true" />
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
                 </tr>
             </c:if>
             <tr>
@@ -328,19 +341,22 @@
                 </td>
             </tr>
 
-
             <c:choose>
                 <c:when test="${flag ne 'member'}">
-                    <tr>
-                        <td></td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/register_member">
-                                <button class="btn btn-success">สมัครเลย!</button>
-                            </a>
-                        </td>
-                    </tr>
+                    <c:if test="${stt_remaining == true}">
+                        <tr>
+                            <td></td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/register_member">
+                                    <button class="btn btn-success">สมัครเลย!</button>
+                                </a>
+                            </td>
+                        </tr>
+                    </c:if>
                 </c:when>
             </c:choose>
+
+
 
         </table>
     </div>

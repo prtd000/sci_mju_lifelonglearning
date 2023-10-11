@@ -45,16 +45,16 @@ public class Register {
         this.member = member;
         this.requestOpenCourse = requestOpenCourse;
     }
-    public void checkDateStudyResult() {
-        Date currentDate = new Date(); // วันปัจจุบัน
-
-        if(Objects.equals(invoice.getApprove_status(), "ผ่าน")){
-            if (currentDate.after(requestOpenCourse.getEndStudyDate()) && Objects.equals(study_result, "กำลังเรียน")) {
-                this.study_result = "ไม่ผ่าน";
-//                this.course.setStatus("ยังไม่เปิดสอน");
-            }
-        }
-    }
+//    public void checkDateStudyResult() {
+//        Date currentDate = new Date(); // วันปัจจุบัน
+//
+//        if(Objects.equals(invoice.getApprove_status(), "ผ่าน")){
+//            if (currentDate.after(requestOpenCourse.getEndStudyDate()) && Objects.equals(study_result, "กำลังเรียน")) {
+//                this.study_result = "ไม่ผ่าน";
+////                this.course.setStatus("ยังไม่เปิดสอน");
+//            }
+//        }
+//    }
 
     public long getRegister_id() {
         return register_id;

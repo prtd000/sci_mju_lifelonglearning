@@ -14,6 +14,7 @@ import utils.ImgPath;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,6 +22,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("member")
@@ -52,7 +54,19 @@ public class PaymentController {
 
         /*********Convert Slip**********/
         try {
-            receipt.setReceipt_id(0);
+            // Format ReceiptId
+            String invoiceToReceiptId = "Receipt " + invoiceId;
+
+            // ใช้ hashCode() และ Math.abs() เพื่อทำให้ค่าเป็นบวกเสมอ
+            long hashCode = Math.abs(invoiceToReceiptId.hashCode());
+
+            // นำ hashCode มาเป็นรหัส 10 หลัก (หรือตามที่คุณต้องการ)
+            String receiptCodeString = String.format("%010d", hashCode);
+
+            // แปลงเป็น long
+            long receiptCode = Long.parseLong(receiptCodeString);
+
+            receipt.setReceipt_id(receiptCode);
             receipt.setPay_date(dateFormat.parse(params.get("receipt_paydate")));
             receipt.setPay_time(params.get("receipt_paytime"));
             receipt.setBanking(params.get("receipt_banking"));

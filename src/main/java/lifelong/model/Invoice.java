@@ -16,11 +16,9 @@ public class Invoice {
     private long invoice_id;
 
     @Temporal(TemporalType.DATE)
-    @Column(nullable = false)
     private Date startPayment;
 
     @Temporal(TemporalType.DATE)
-    @Column(nullable = false)
     private Date endPayment;
 
     @Column(nullable = false,length = 100)

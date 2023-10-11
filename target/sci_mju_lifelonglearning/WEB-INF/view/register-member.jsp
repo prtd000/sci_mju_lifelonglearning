@@ -18,10 +18,11 @@
 <html>
 <head>
     <title>Register Member</title>
-    <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200&family=Prompt:wght@200&display=swap" rel="stylesheet">
@@ -206,33 +207,39 @@
             var idCard = /^[0-9]{13}|[\d]{1}[-|\s][\d]{4}[-|\s][\d]{5}[-|\s][\d]{2}[-|\s][\d]{1}$/;
 
             if(frm.idcard.value === ""){
-                alert("กรอกเลขบัตรประชาชน");
+                document.getElementById("invalidIdCard").innerHTML = "กรอกเลขบัตรประชาชน";
                 return false;
             }else if (!frm.idcard.value.match(idCard)) {
-                alert("กรอกเลขบัตรประชาชนให้ถูกต้อง");
+                document.getElementById("invalidIdCard").innerHTML = "กรอกเลขบัตรประชาชนให้ถูกต้อง";
                 frm.idcard.value = "";
                 return false;
+            }else {
+                document.getElementById("invalidIdCard").innerHTML = "";
             }
 
             //---------FirstName----------
             var name = /^[ก-์A-Za-z]+$/
             if (frm.firstName.value === ""){
-                alert("กรุณากรอกชื่อจริง");
+                document.getElementById("invalidFirstname").innerHTML = "กรุณากรอกชื่อจริง";
                 return false;
             } else if (!frm.firstName.value.match(name)) {
-                alert("ชื่อจริงต้องเป็นภาษาไทยหรืออังกฤษเท่านั้น (ห้ามกรอกเป็นตัวเลข หรือ อักขระต่างๆ !!)");
+                document.getElementById("invalidFirstname").innerHTML = "ชื่อจริงต้องเป็นภาษาไทยหรืออังกฤษเท่านั้น (ห้ามกรอกเป็นตัวเลข หรือ อักขระต่างๆ !!)";
                 frm.firstName.value = "";
                 return false;
+            }else{
+                document.getElementById("invalidFirstname").innerHTML = "";
             }
 
             //-----------Last Name-------------
             if (frm.lastName.value === ""){
-                alert("กรุณากรอกนามสกุล");
+                document.getElementById("invalidLastName").innerHTML = "กรุณากรอกนามสกุล";
                 return false;
             }else if (!frm.lastName.value.match(name)) {
-                alert("นามสกุลเป็นภาษาไทยหรืออังกฤษเท่านั้น (ห้ามกรอกเป็นตัวเลข หรือ อักขระต่างๆ !!)");
+                document.getElementById("invalidLastName").innerHTML = "นามสกุลเป็นภาษาไทยหรืออังกฤษเท่านั้น (ห้ามกรอกเป็นตัวเลข หรือ อักขระต่างๆ !!)";
                 frm.lastName.value = "";
                 return false;
+            }else{
+                document.getElementById("invalidLastName").innerHTML = "";
             }
 
             //------------Gender-------------
@@ -245,71 +252,111 @@
                 }
             }
             if (!gendernull) {
-                alert("กรุณาเลือกเพศ");
+                document.getElementById("invalidGender").innerHTML = "กรุณาเลือกเพศ";
                 return false;
+            }else {
+                document.getElementById("invalidGender").innerHTML = "";
             }
 
             //------------Email---------------
             var Email = /^.+@.+\..{2,3}$/;
             if (frm.email.value === ""){
-                alert("กรุณากรอกอีเมล");
+                document.getElementById("invalidEmail").innerHTML = "กรุณากรอกอีเมล";
                 return false;
             } else if (!frm.email.value.match(Email)) {
-                alert("กรอกอีเมล์ให้ถูกต้อง");
+                document.getElementById("invalidEmail").innerHTML = "กรอกอีเมล์ให้ถูกต้อง";
                 frm.email.value = "";
                 return false;
+            }else {
+                document.getElementById("invalidEmail").innerHTML = "";
             }
 
             //------------------Birth Day----------------
-            var birthday = new Date(document.getElementById('datePicker').value.split("/")[2] - 543 + "-"
-                + document.getElementById('datePicker').value.split("/")[1] + "-"
-                + document.getElementById('datePicker').value.split("/")[0]);
-
-            var birthday2 = new Date();
-            birthday2.setFullYear(new Date().getFullYear() - 16);
-
-            if (birthday.getTime() > birthday2.getTime()) {
-                alert("อายุของผู้สมัครสมาชิกจะต้องมีอายุ 16 ปีขึ้นไป !!");
-                frm.birthday.value = "";
-                return false;
-            }else if (frm.birthday.value === "") {
-                alert("กรุณากรอกวันเกิดปีเกิด");
-                frm.birthday.value = "";
-                return false;
-            }
-
-            //------------Tel---------------
-            var tel = /^[0-9]{3}[-][0-9]{3}[-][0-9]{4}|[\d]{7,10}$/
-            if (!frm.tel.value.match(tel)) {
-                alert("กรอกเบอร์โทรศัพท์มือถือให้ถูกต้อง (ตัวอย่าง 06x-xxx-xxxx)");
-                frm.tel.value = "";
-                return false;
-            }
-
-            //------------Education--------------
-            if (frm.education.value === "กรุณาเลือกระดับการศึกษา") {
-                alert("กรุณาเลือกระดับการศึกษา");
-                return false;
-            }
-
-            //Check Username
-            var username = /^[A-Za-z0-9(_)]{4,10}$/;
-            if (!frm.username.value.match(username)) {
-                alert("กรุณากรอกบัญชีผู้ใช้เป็นภาษาอังกฤษและตัวเลข (อย่างน้อย 4 - 10 ตัว)");
-                frm.username.value = "";
-                return false;
-            }
-
-            //Check Password
-            var password = /^[0-9]{4,8}$/;
-            if (!frm.password.value.match(password)) {
-                alert("รหัสผ่านต้องเป็นตัวเลข (อย่างน้อย 4 - 8 ตัว)");
-                frm.password.value = "";
-                frm.confirmPassword.value = "";
-                return false;
-            }
-
+            // var birthday = new Date(document.getElementById('datePicker').value.split("/")[2] - 543 + "-"
+            //     + document.getElementById('datePicker').value.split("/")[1] + "-"
+            //     + document.getElementById('datePicker').value.split("/")[0]);
+            //
+            // var birthday2 = new Date();
+            // birthday2.setFullYear(new Date().getFullYear() - 16);
+            //
+            // if (birthday.getTime() > birthday2.getTime()) {
+            //     alert("อายุของผู้สมัครสมาชิกจะต้องมีอายุ 16 ปีขึ้นไป !!");
+            //     frm.birthday.value = "";
+            //     return false;
+            // }
+            //
+            // //------------Tel---------------
+            // var tel = /^[0-9]{3}[-][0-9]{3}[-][0-9]{4}|[\d]{7,10}$/
+            // if (!frm.tel.value.match(tel)) {
+            //     alert("กรอกเบอร์โทรศัพท์มือถือให้ถูกต้อง (ตัวอย่าง 06x-xxx-xxxx)");
+            //     frm.tel.value = "";
+            //     return false;
+            // }
+            //
+            // //------------Education--------------
+            // if (frm.education.value === "กรุณาเลือกระดับการศึกษา") {
+            //     alert("กรุณาเลือกระดับการศึกษา");
+            //     return false;
+            // }
+            //
+            // //Check Username
+            // var username = /^[A-Za-z0-9(_)]{4,10}$/;
+            // if (!frm.username.value.match(username)) {
+            //     alert("กรุณากรอกบัญชีผู้ใช้เป็นภาษาอังกฤษและตัวเลข (อย่างน้อย 4 - 10 ตัว)");
+            //     frm.username.value = "";
+            //     return false;
+            // }
+            //
+            // //Check Password
+            // var password = /^[0-9]{4,8}$/;
+            // if (!frm.password.value.match(password)) {
+            //     alert("รหัสผ่านต้องเป็นตัวเลข (อย่างน้อย 4 - 8 ตัว)");
+            //     frm.password.value = "";
+            //     frm.confirmPassword.value = "";
+            //     return false;
+            // }
         }
+        /************* Step 2 ***************************/
+        function checkTel(tel) {
+            var exTel = /^[0-9]{3}[-][0-9]{3}[-][0-9]{4}|[\d]{7,10}$/
+            if (!tel.match(exTel)){
+                document.getElementById("invalidTel").innerHTML = "กรอกเบอร์โทรศัพท์มือถือให้ถูกต้อง (ตัวอย่าง 06x-xxx-xxxx)";
+                return false;
+            } else {
+                document.getElementById("invalidTel").innerHTML = "";
+            }
+        }
+
+        function checkEducation(edu) {
+            if (edu === "กรุณาเลือกระดับการศึกษา"){
+                document.getElementById("invalidEducation").innerHTML = "กรุณาเลือกระดับการศึกษา";
+                return false;
+            } else {
+                document.getElementById("invalidEducation").innerHTML = "";
+            }
+        }
+
+        function checkUsername(user) {
+            var username = /^[A-Za-z0-9(_)]{4,10}$/;
+            if (!user.value.match(username)){
+                document.getElementById("invalidUsername").innerHTML = "กรุณากรอกบัญชีผู้ใช้เป็นภาษาอังกฤษและตัวเลข (อย่างน้อย 4 - 10 ตัว)";
+                return false;
+            } else {
+                document.getElementById("invalidUsername").innerHTML = "";
+            }
+        }
+
+        function checkPassword(pass) {
+            var password = /^[A-Za-z0-9(_)]{4,10}$/;
+            if (!pass.value.match(password)){
+                document.getElementById("invalidPassword").innerHTML = "รหัสผ่านต้องเป็นตัวเลข (อย่างน้อย 4 - 8 ตัว)";
+                return false;
+            } else {
+                document.getElementById("invalidPassword").innerHTML = "";
+            }
+        }
+
+
     </script>
 </head>
 <body>
@@ -365,15 +412,18 @@
                             <td style="width: 60%">
                                 <label>บัตรประชาชน</label>
                                 <div class="mb-3">
-                                    <input name="idcard" id="idcard" type="text" class="input_idcard" oninput="this.className = ''"/>
+                                    <input name="idcard" id="idcard" type="text" class="input_idcard" maxlength="13" oninput="this.className = ''"/>
+                                    <label id="invalidIdCard" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <label>ชื่อจริง</label>
                                 <div class="mb-3">
                                     <input name="firstName" id="firstName" type="text" oninput="this.className = ''"/>
+                                    <label id="invalidFirstname" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <label>นามสกุล</label>
                                 <div class="mb-3">
                                     <input name="lastName" id="lastName" type="text" oninput="this.className = ''"/>
+                                    <label id="invalidLastName" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <label>เพศ</label>
                                 <div class="mb-3">
@@ -384,11 +434,17 @@
                                             <td style="width: 35px;"><input type="radio" name="gender" value="หญิง"></td>
                                             <td><label>หญิง</label></td>
                                         </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <label id="invalidGender" style="color: red; font-size: 12px"></label>
+                                            </td>
+                                        </tr>
                                     </table>
                                 </div>
                                 <label>อีเมล</label>
                                 <div class="mb-3">
                                     <input name="email" id="email" type="text" oninput="this.className = ''"/>
+                                    <label id="invalidEmail" style="color: red; font-size: 12px"></label>
                                 </div>
                             </td>
                         </tr>
@@ -401,10 +457,10 @@
                     <table style="width: 100%">
                         <tr>
                             <td>
-                                <label>วันเดือนปีเกิด</label>
+                                <label>วันเดือนปีเกิด (ผู้สมัครจะต้องมีอายุ 16 ปีขึ้นไป)</label>
                                 <div class="mb-3">
                                     <input name="birthday" id="datePicker" type="date" oninput="this.className = ''"/>
-<%--                                    <input name="birthday" id="datePicker" type="date" max="${sixteen}" oninput="this.className = ''"/>--%>
+                                    <label id="invalidBirthday" style="color: red; font-size: 12px"></label>
                                 </div>
                             </td>
                         </tr>
@@ -412,7 +468,8 @@
                             <td>
                                 <label>เบอร์โทร</label>
                                 <div class="mb-3">
-                                    <input name="tel" id="tel" type="text" oninput="this.className = ''"/>
+                                    <input name="tel" id="tel" type="text" maxlength="15" oninput="checkTel(this.value)"/>
+                                    <label id="invalidTel" style="color: red; font-size: 12px"></label>
                                 </div>
                             </td>
                         </tr>
@@ -420,7 +477,7 @@
                             <td>
                                 <label>การศึกษา</label>
                                 <div class="mb-3">
-                                    <select id="education" name="education" class="form-select" oninput="this.className = ''">
+                                    <select id="education" name="education" class="form-select" oninput="checkEducation(this.value)">
                                         <option value="กรุณาเลือกระดับการศึกษา" selected>กรุณาเลือกระดับการศึกษา</option>
                                         <option value="ระดับมัธยมศึกษา">ระดับมัธยมศึกษา</option>
                                         <option value="ระดับอาชีวศึกษา">ระดับอาชีวศึกษา</option>
@@ -430,14 +487,16 @@
                                         <option value="ปริญญาเอก">ปริญญาเอก</option>
                                     </select>
                                 </div>
+                                <label id="invalidEducation" style="color: red; font-size: 12px"></label>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <label>บัญชีผู้ใช้งาน</label>
                                 <div class="mb-3">
-                                    <input type="text" name="username" id="username" placeholder="Username" oninput="this.className = ''"/>
+                                    <input type="text" name="username" id="username" placeholder="บัญชีผู้ใช้เป็นภาษาอังกฤษและตัวเลข (อย่างน้อย 4 - 10 ตัว)" maxlength="10" oninput="checkUsername(this.value)"/>
                                     <a id="link" href="#">ตรวจสอบ</a> &nbsp; <label id="status"></label>
+                                    <label id="invalidUsername" style="color: red; font-size: 12px"></label>
                                 </div>
                             </td>
                         </tr>
@@ -445,7 +504,8 @@
                             <td>
                                 <label>รหัสผ่าน</label>
                                 <div class="mb-3">
-                                    <input name="password" id="password" type="password" placeholder="Password" oninput="this.className = ''"/>
+                                    <input name="password" id="password" type="password" placeholder="รหัสผ่านต้องเป็นตัวเลข (อย่างน้อย 4 - 8 ตัว)" maxlength="8" oninput="checkPassword(this.value)"/>
+                                    <label id="invalidPassword" style="color: red; font-size: 12px"></label>
                                 </div>
                             </td>
                         </tr>

@@ -12,6 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -57,14 +61,14 @@ public class MemberController {
         Course course = courseService.getCourseDetail(courseid);
         model.addAttribute("course", course);
         model.addAttribute("activity", activityService.getViewCourseActivityNews(request_id));
-        model.addAttribute("amount" , registerService.getAmountRegisteredByCourseId(courseid).size());
+        model.addAttribute("amount", registerService.getAmountRegisteredByCourseId(courseid).size());
         System.out.println("Size Amount : " + registerService.getAmountRegisteredByCourseId(courseid).size());
 
-        try{
+        try {
             model.addAttribute("req", requestOpCourseService.getRequestOpCourseByCourseId(courseid));
-            model.addAttribute("registerMember" ,registerService.checkMemberRegisteredPass(mem_id,request_id));
+            model.addAttribute("registerMember", registerService.checkMemberRegisteredPass(mem_id, request_id));
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -85,11 +89,25 @@ public class MemberController {
         Session session = sessionFactory.getCurrentSession();
 
         /*****Insert Register*****/
+//        Register register = new Register();
+//        register.setRegister_date(new Date());
+//        register.setStudy_result("ยังไม่ได้ชำระเงิน");
+//        register.setRequestOpenCourse(requestOpCourseService.getRequestOpenCourseDetail(requestid));
+//        register.setMember(memberService.getMemberById(memid));
+//        registerService.saveRegister(register);
+
         Register register = new Register();
         register.setRegister_date(new Date());
-        register.setStudy_result("ยังไม่ได้ชำระเงิน");
-        register.setRequestOpenCourse(requestOpCourseService.getRequestOpenCourseDetail(requestid));
         register.setMember(memberService.getMemberById(memid));
+
+        RequestOpenCourse req = requestOpCourseService.getRequestOpenCourseDetail(requestid);
+        if (req.getCourse().getFee() == 0){
+            register.setStudy_result("กำลังเรียน");
+        }else {
+            register.setStudy_result("ยังไม่ได้ชำระเงิน");
+        }
+        register.setRequestOpenCourse(req);
+
         registerService.saveRegister(register);
 
         /*****GetLastLow for Insert To Invoice Table After RegisterCourse ********/
@@ -100,25 +118,32 @@ public class MemberController {
         RequestOpenCourse requestOpenCourse = registerService.getLastRow().getRequestOpenCourse();
         Register register1 = new Register(register_id, register_date, study_result, member, requestOpenCourse);
 
-        /*****Insert Invoice*****/
+
+        /*****Set value Invoice*****/
         Invoice invoice = new Invoice();
-        invoice.setPay_status(false);
-        Date payStart = requestOpCourseService.getRequestOpenCourseDetail(requestid).getStartPayment();
-        Date payEnd = requestOpCourseService.getRequestOpenCourseDetail(requestid).getEndPayment();
 
-        // ลบ 1 วัน
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(payEnd);
-//        calendar.add(Calendar.DAY_OF_MONTH, -1);
-//        payEnd = calendar.getTime();
+        if (requestOpenCourse.getCourse().getFee() == 0) {
+            invoice.setEndPayment(null);
+            invoice.setPay_status(true);
+            invoice.setStartPayment(null);
+            invoice.setRegister(register1);
+            invoice.setApprove_status("ผ่าน");
+        } else {
+            Date payStart = requestOpCourseService.getRequestOpenCourseDetail(requestid).getStartPayment();
+            Date payEnd = requestOpCourseService.getRequestOpenCourseDetail(requestid).getEndPayment();
 
-        invoice.setStartPayment(payStart);
-        invoice.setEndPayment(payEnd);
-        invoice.setRegister(register1);
-        invoice.setApprove_status("รอดำเนินการ");
+            invoice.setStartPayment(payStart);
+            invoice.setEndPayment(payEnd);
+            invoice.setPay_status(false);
+            invoice.setRegister(register1);
+            invoice.setApprove_status("รอดำเนินการ");
+        }
+
         Invoice invoice1 = (Invoice) session.merge(invoice);
 
+        /*****Insert Invoice*****/
         registerService.doInvoice(invoice1);
+
         return "redirect:/member/" + memid + "/listcourse";
     }
 
@@ -130,22 +155,33 @@ public class MemberController {
         model.addAttribute("list_invoice", memberService.getListInvoice());
         model.addAttribute("mem_username", memberService.getMemberById(memId));
         model.addAttribute("register", registerService.getRegister(memId));
-        model.addAttribute("receipt" , paymentService.getReceiptByMemberId(memId));
+        model.addAttribute("receipt", paymentService.getReceiptByMemberId(memId));
 
 
         Calendar calendar = Calendar.getInstance();
-
-
         List<Invoice> invoices = paymentService.getListInvoiceByMemberId(memId);
         for (Invoice list : invoices) {
-            calendar.setTime(list.getEndPayment());
-            calendar.add(Calendar.DAY_OF_MONTH, + 1);
+            if (list.getEndPayment() != null){
+                calendar.setTime(list.getEndPayment());
+                calendar.add(Calendar.DAY_OF_MONTH, +1);
+            }
 
             if (!list.getPay_status() && currentDate.after(calendar.getTime())) {
                 list.setApprove_status("เลยกำหนดชำระเงิน");
                 registerService.doInvoice(list);
             }
         }
+
+        List<Register> registers = registerService.getRegister(memId);
+        for (Register register : registers){
+            if (Objects.equals(register.getStudy_result(), "กำลังเรียน") && currentDate.after(register.getRequestOpenCourse().getEndStudyDate())){
+                register.setStudy_result("ไม่ผ่าน");
+                registerService.updateRegister(register);
+            }
+        }
+
+
+
         return "/member/list_course";
     }
 
@@ -206,8 +242,14 @@ public class MemberController {
 
     @GetMapping("private_activity/{ac_id}")
     public String activityDetail(@PathVariable("ac_id") String acId, Model model) {
-        model.addAttribute("ac_detail" , activityService.getActivityDetail(acId));
+        model.addAttribute("ac_detail", activityService.getActivityDetail(acId));
         return "/member/activity_private";
+    }
+
+    @GetMapping("/{memid}/mapMoocLink/{req_id}")
+    public String mapMooc(@PathVariable("memid") String memId, @PathVariable("req_id") long reqId){
+        System.out.println("Link Mooc : " + requestOpCourseService.getRequestOpenCourseDetail(reqId).getLinkMooc());
+        return "home";
     }
 
 

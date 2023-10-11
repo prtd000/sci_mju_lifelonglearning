@@ -147,7 +147,7 @@ public class WebHomeController {
     }
 
     @PostMapping("/register_member/save")
-    public String saveMember(@RequestParam Map<String, String> addParams) throws ParseException {
+    public String saveMember(@RequestParam Map<String, String> addParams, HttpSession session) throws ParseException {
 
         /******Change*******/
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -173,6 +173,8 @@ public class WebHomeController {
 
         Member member = new Member(username,encrypted,idcard,firstName,lastName,gender,new_birthday,email,tel,education);
         memberService.doRegisterMember(member);
+
+        session.setAttribute("member", member);
 
         return "redirect:/";
     }

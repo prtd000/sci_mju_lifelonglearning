@@ -8,6 +8,7 @@
 <%@ page import="lifelong.model.Admin" %>
 <%@ page import="lifelong.model.Member" %>
 <%@ page import="lifelong.model.Lecturer" %>
+<%@ page import="java.time.LocalDate" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -52,14 +53,13 @@
             color: black;
             font-weight: bold;
             position: absolute;
-            top: 57%;
+            top: 61%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
 
         .receipt_c_name{
             width: 440px;
-            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
@@ -133,7 +133,7 @@
     <button id="downloadButton" style="cursor: pointer;" class="btn btn-secondary">ดาวน์โหลด PDF</button>
     <br><br>
 
-    <div id="pdfContent" style="width: 700px; height: 500px">
+    <div id="pdfContent" style="width: 700px; height: 550px">
         <table class="blog-receipt">
             <tr>
                 <td style="width: 500px;vertical-align: bottom;">
@@ -148,18 +148,23 @@
             <tr style="height: 30px;">
                 <td colspan="2"><hr></td>
             </tr>
-            <tr>
-                <td colspan="2"><p>${receipt.invoice.register.member.firstName} &nbsp; ${receipt.invoice.register.member.lastName}</p></td>
-            </tr>
-            <tr>
-                <td>ธนาคาร ${receipt.banking}</td>
-                <td><p style="font-size: 29px;">ใบเสร็จ</p></td>
+            <tr style="height: 60px">
+                <td colspan="2">
+                    เลขที่ใบเสร็จ ${receipt.receipt_id}
+                </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <fmt:formatDate value="${receipt.pay_date}" pattern="dd/MM/yyyy" var="pay_date"/>
-                    ${pay_date}
+                    <fmt:formatDate value="<%=new java.util.Date()%>" pattern="dd/MM/yyyy" var="currentDate" />
+                    ออกเมื่อวันที่ ${currentDate}
                 </td>
+            </tr>
+            <tr style="height: 30px">
+                <td>${receipt.invoice.register.member.firstName} &nbsp; ${receipt.invoice.register.member.lastName}</td>
+                <td><p style="font-size: 29px;">ใบเสร็จ</p></td>
+            </tr>
+            <tr>
+                <td colspan="2">ธนาคาร ${receipt.banking}</td>
             </tr>
             <tr style="height: 30px">
                 <td colspan="2"></td>
@@ -191,7 +196,7 @@
         html2canvas(document.getElementById('pdfContent')).then(function (canvas) {
             // หาขนาดของ Canvas ที่สร้าง
             const canvasWidth = canvas.width - 260;
-            const canvasHeight = canvas.height - 150;
+            const canvasHeight = canvas.height - 195;
 
             // สร้างเอกสาร PDF ด้วยขนาด Canvas
             var doc = new jsPDF({
@@ -202,7 +207,7 @@
             });
 
             // เพิ่มรูปภาพจาก Canvas ลงใน PDF
-            doc.addImage(canvas.toDataURL('image/PNG',1), 'PNG', 20, 25, 420, 310);
+            doc.addImage(canvas.toDataURL('image/PNG',1), 'PNG', 20, 25, 420, 330);
 
             // บันทึกเอกสาร PDF
             doc.save('Receipt.pdf');

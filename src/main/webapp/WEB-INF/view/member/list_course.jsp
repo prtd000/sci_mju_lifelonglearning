@@ -109,7 +109,7 @@
                 <th style="width: 130px;">เริ่มเรียน</th>
                 <th style="width: 130px;">สิ้นสุดการเรียน</th>
                 <th style="width: 130px;">สถานะ</th>
-                <th style="width: 130px;">เกียรติบัตร</th>
+                <th style="width: 130px;"></th>
             </tr>
             <c:forEach var="invoice" items="${register}">
                 <tr>
@@ -134,14 +134,27 @@
                                         </c:when>
 
                                         <c:when test="${invoice.study_result.equals('กำลังเรียน')}">
-                                            <td style="width: 200px; text-align: center; color: #ee8e18; font-weight: bold;">${invoice.study_result}</td>
-                                            <td></td>
+                                            <c:set var="current" value="<%=LocalDate.now()%>"/>
+                                            <c:set var="startStudyDate" value="${invoice.requestOpenCourse.startStudyDate.toLocalDate()}"/>
+                                            <c:set var="endStudyDate" value="${invoice.requestOpenCourse.endStudyDate.toLocalDate()}"/>
+
+                                            <c:if test="${current.isBefore(startStudyDate)}">
+                                                <td><p style="color: black; font-weight: bold; text-align: center;">เร็วๆนี้</p></td>
+                                                <td></td>
+                                            </c:if>
+
+                                            <c:if test="${current.equals(startStudyDate) || current.equals(endStudyDate) || (current.isAfter(startStudyDate) && current.isBefore(endStudyDate))}">
+                                                <td style="width: 200px; text-align: center; color: #ee8e18; font-weight: bold;">${invoice.study_result}</td>
+                                                <td>
+                                                    <a href="${invoice.requestOpenCourse.linkMooc}">
+                                                        <button type="button" class="btn btn-outline-success">เข้าเรียน</button>
+                                                    </a>
+                                                </td>
+                                            </c:if>
                                         </c:when>
 
                                         <c:when test="${invoice.study_result.equals('ไม่ผ่าน')}">
-                                            <td style="width: 200px; text-align: center; color: red; font-weight: bold;">
-                                                ${invoice.study_result}
-                                            </td>
+                                            <td style="width: 200px; text-align: center; color: #000000; font-weight: bold;">สิ้นสุดการเรียน</td>
                                             <td></td>
                                         </c:when>
                                     </c:choose>
@@ -273,7 +286,7 @@
             <c:forEach var="his" items="${receipt}">
                 <tr>
                     <c:choose>
-                        <c:when test="${his.invoice.pay_status == true}">
+                        <c:when test="${his.invoice.pay_status == true && (his.invoice.register.requestOpenCourse.requestStatus.equals('ผ่าน') || his.invoice.register.requestOpenCourse.requestStatus.equals('เสร็จสิ้น'))}">
                             <c:choose>
                                 <c:when test="${his.invoice.approve_status.equals('ผ่าน')}">
                                     <td>${his.invoice.register.requestOpenCourse.course.name}</td>

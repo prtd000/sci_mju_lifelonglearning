@@ -11,57 +11,49 @@
 <html>
 <head>
     <title>Upload Image</title>
+    <style>
+        #editor {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .toolbar {
+            background-color: #f2f2f2;
+            padding: 5px;
+        }
+        .toolbar button {
+            margin: 5px;
+            padding: 3px 10px;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-<%--<form action="${pageContext.request.contextPath}/course/add_Test_ListImg" method="post" enctype="multipart/form-data">--%>
-<%--    <input type="file" name="imageFile" multiple>--%>
-<%--    <input type="submit" value="Upload Image">--%>
-<%--</form>--%>
-<h1>Pagination Example</h1>
-
-<%-- ข้อมูลทั้งหมดที่คุณต้องการแสดง --%>
-<%
-    List<Integer> allData = new ArrayList<>();
-    for (int i = 1; i <= 100; i++) {
-        allData.add(i);
-    }
-%>
-
-<%-- หน้าที่คุณต้องการแสดงและรายการต่อหน้า --%>
-<%
-    int page1 = (request.getParameter("page") != null) ? Integer.parseInt(request.getParameter("page")) : 1;
-    int perPage = 10;  // จำนวนรายการต่อหน้า
-    int totalPages = (int) Math.ceil((double) allData.size() / perPage);
-%>
-
-<%-- คำนวณดัชนีเริ่มต้นและดัชนีสิ้นสุดของข้อมูลในหน้านี้ --%>
-<%
-    int startIndex = (page1 - 1) * perPage;
-    int endIndex = Math.min(startIndex + perPage, allData.size());
-%>
-
-<%-- ดึงข้อมูลจากดัชนีเริ่มต้นถึงดัชนีสิ้นสุด --%>
-<%
-    List<Integer> paginatedData = allData.subList(startIndex, endIndex);
-%>
-
-<%-- แสดงข้อมูลที่ได้ --%>
-<ul>
-    <% for (Integer item : paginatedData) { %>
-    <li><%= item %></li>
-    <% } %>
-</ul>
-
-<%-- สร้างลิงก์หรือปุ่มเพื่อให้ผู้ใช้สามารถเปลี่ยนหน้า --%>
-<div>
-    <% if (page1 > 1) { %>
-    <a href="?page=<%= page1 - 1 %>">ก่อนหน้า</a>
-    <% } %>
-
-    <% if (page1 < totalPages) { %>
-    <a href="?page=<%= page1 + 1 %>">ถัดไป</a>
-    <% } %>
+<div class="toolbar">
+    <button onclick="boldText()">Bold</button>
+    <button onclick="italicText()">Italic</button>
+    <button onclick="underlineText()">Underline</button>
 </div>
+<div id="editor" contenteditable="true">
+    <!-- เริ่มเพิ่มเนื้อหาของ Text Editor ที่นี่ -->
+</div>
+<!-- เพิ่มปุ่มหรือเมนูเพื่อควบคุม Text Editor ตามต้องการ -->
+<script>
+    function boldText() {
+        document.execCommand('bold', false, null);
+    }
+
+    function italicText() {
+        document.execCommand('italic', false, null);
+    }
+
+    function underlineText() {
+        document.execCommand('underline', false, null);
+    }
+</script>
 </body>
+
 </html>
 

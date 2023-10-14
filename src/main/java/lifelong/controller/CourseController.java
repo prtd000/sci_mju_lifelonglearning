@@ -49,8 +49,9 @@ public class CourseController {
         model.addAttribute("title", "เพิ่ม" + title);
         model.addAttribute("majors", majorService.getMajors());
         model.addAttribute("add_course", new Course());
+        model.addAttribute("course",courseService.getCourses());
         model.addAttribute("admin_id",admin_id);
-        return "admin/addCourse";
+        return "admin/add_Course_Detail";
     }
 
     @PostMapping(path = "/{admin_id}/save")
@@ -61,7 +62,7 @@ public class CourseController {
                               @PathVariable("admin_id") String admin_id) throws ParseException {
         String course_name = allReqParams.get("course_name");
         String certificateName = allReqParams.get("certificateName");
-        String course_principle = allReqParams.get("course_principle");
+        String course_principle = allReqParams.get("coursePrinciple");
 //        String course_object = allReqParams.get("course_object");
         String course_object = "";
         for (String objective : courseObjectives) {
@@ -71,6 +72,9 @@ public class CourseController {
         }
         int course_totalHours = Integer.parseInt(allReqParams.get("course_totalHours"));
         String course_targetOccupation = allReqParams.get("course_targetOccupation");
+        if (Objects.equals(course_targetOccupation, "")){
+            course_targetOccupation = "-";
+        }
         double course_fee = Double.parseDouble(allReqParams.get("course_fee"));
         String course_status = "ยังไม่เปิดสอน";
 
@@ -82,7 +86,7 @@ public class CourseController {
 
             // เพิ่ม รูปภาพ
             // กำหนด path ที่จะบันทึกไฟล์
-            String uploadPathIMG = ImgPath.pathImg + "/course_img/";
+            String uploadPathIMG = ImgPath.pathUploads + "/course_img/";
             // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
             Path directoryPathIMG = Paths.get(uploadPathIMG);
             Files.createDirectories(directoryPathIMG);
@@ -113,7 +117,7 @@ public class CourseController {
 
 //            // เพิ่ม PDF
 //            // กำหนด path ที่จะบันทึกไฟล์
-            String uploadPathPDF = ImgPath.pathImg + "/course_pdf/";
+            String uploadPathPDF = ImgPath.pathUploads + "/course_pdf/";
             // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
             Path directoryPathPDF = Paths.get(uploadPathPDF);
             Files.createDirectories(directoryPathPDF);
@@ -286,8 +290,8 @@ public class CourseController {
 
             try {
                 // กำหนด path ที่จะบันทึกไฟล์
-                String imgPath = ImgPath.pathImg + "/course_img/";
-                String pdfPath = ImgPath.pathImg + "/course_pdf/";
+                String imgPath = ImgPath.pathUploads + "/course_img/";
+                String pdfPath = ImgPath.pathUploads + "/course_pdf/";
                 // ถ้ามีการอัพโหลดไฟล์ใหม่
                 Path pathIMG = Paths.get(imgPath, original_img);
                 Path pathPDF = Paths.get(pdfPath,original_file);
@@ -427,6 +431,7 @@ public class CourseController {
     @PostMapping(path = "/{admin_id}/save_public_add_activity")
     public String addActivityNews(@PathVariable("admin_id") String admin_id,
                                   @RequestParam Map<String, String> allReqParams,
+                                  @RequestParam("ac_detail") String acDetail,
                                   @RequestParam("ac_img") MultipartFile[] ac_img) throws ParseException {
         try {
             List<String> newFileNames = new ArrayList<>();
@@ -442,7 +447,7 @@ public class CourseController {
             int count = 1;
             for (MultipartFile img : ac_img) {
                 String folderName = String.format("AP%03d", latestId+1);
-                String uploadPath = ImgPath.pathImg + "/activity/public/"+folderName+"/";
+                String uploadPath = ImgPath.pathUploads + "/activity/public/"+folderName+"/";
                 Path directoryPath = Paths.get(uploadPath);
                 Files.createDirectories(directoryPath);
 
@@ -527,7 +532,7 @@ public class CourseController {
                 // ลบข้อมูลในฐานข้อมูลก่อน
                 existingImgNames.clear();
                 // ลบข้อมูลเดิมก่อน
-                String deletePath = ImgPath.pathImg + "/activity/public/"+existingActivity.getAc_id()+"/";
+                String deletePath = ImgPath.pathUploads + "/activity/public/"+existingActivity.getAc_id()+"/";
 //            String deletePath = ImgPath.pathImg + "/activity/public/public_activity"+maxNumericId+"/";
                 Path deletedirectoryPath = Paths.get(deletePath);
 
@@ -546,7 +551,7 @@ public class CourseController {
                 // เพิ่มข้อมูลใหม่
                 int count = 1;
                 for (MultipartFile img : imgs) {
-                    String uploadPath = ImgPath.pathImg + "/activity/public/"+existingActivity.getAc_id()+"/";
+                    String uploadPath = ImgPath.pathUploads + "/activity/public/"+existingActivity.getAc_id()+"/";
                     Path directoryPath = Paths.get(uploadPath);
                     Files.createDirectories(directoryPath);
 
@@ -591,7 +596,7 @@ public class CourseController {
 //        int maxNumericId = Integer.parseInt(activity_id);
 ////        System.out.println(maxNumericId);
         // ลบข้อมูลเดิมก่อน
-        String deletePath = ImgPath.pathImg + "/activity/public/"+activity.getAc_id()+"/";
+        String deletePath = ImgPath.pathUploads + "/activity/public/"+activity.getAc_id()+"/";
         Path deletedirectoryPath = Paths.get(deletePath);
 
 
@@ -660,8 +665,17 @@ public class CourseController {
 
 
 
-    @GetMapping("/show_test")
-    public String showTest(Model model) {
+//    @GetMapping("/show_test")
+//    public String showTest(Model model) {
+//        model.addAttribute("title", "เพิ่ม" + title);
+//        model.addAttribute("majors", majorService.getMajors());
+//        model.addAttribute("add_course", new Course());
+//        model.addAttribute("course",courseService.getCourses());
+//        return "admin/add_Course_Detail"; // ชื่อหน้าแก้ไขของคุณ
+//    }
+
+    @GetMapping("/test")
+    public String Test(Model model) {
 
         return "test"; // ชื่อหน้าแก้ไขของคุณ
     }

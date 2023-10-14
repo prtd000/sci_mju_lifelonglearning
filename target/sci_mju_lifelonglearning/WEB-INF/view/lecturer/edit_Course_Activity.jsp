@@ -18,7 +18,9 @@
   <!-- google font -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
-  <link href="${pageContext.request.contextPath}/assets/css/admin/style_addcourse.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/assets/css/admin/addPublicActivity.css" rel="stylesheet">
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 </head>
 <script>
   function previewImages() {
@@ -150,10 +152,11 @@
           <tr>
             <td>
               <div class="mb-3">
-                <div class="form-floating">
-                  <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px">${activities.detail}</textarea>
-                  <label for="ac_detail">รายละเอียด</label>
+                <div class="form-floating" style="height: 500px">
+                  <div id="editor" style="">${activities.detail}</div>
+                  <textarea style="display: none;" id="ac_detail" name="ac_detail"></textarea>
                 </div>
+                <label id="invalidAcDetail" style="color: red; font-size: 12px"></label>
               </div>
             </td>
           </tr>
@@ -183,7 +186,7 @@
                     <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}" />
                     <c:if test="${loop.index < 3}">
                       <div style="display: inline-block">
-                        <img src="${pageContext.request.contextPath}/assets/img/activity/public/${activities.ac_id}/${listImg}" width="200px">
+                        <img src="${pageContext.request.contextPath}/uploads/activity/private/${activities.ac_id}/${listImg}" style="width: 180px">
                       </div>
                     </c:if>
                   </c:forEach>
@@ -230,12 +233,34 @@
     x[n].style.display = "block";
   }
   function confirmAction() {
-    var result = confirm("คุณแน่ใจหรือไม่ว่าต้องกาแก้ไขข่าวสารนี้?");
-    if (result) {
-      return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
+    updateAcDetailField(); // อัปเดตข้อมูลจาก Rich Text Editor
+    if (validateAcName() && validateAcImg()) {
+      var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการเพิ่มข่าวสารนี้?");
+      if (result) {
+        return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
+      } else {
+        return false; // ถ้าผู้ใช้กด Cancel ให้ยกเลิกการส่งฟอร์ม
+      }
     } else {
-      return false; // ถ้าผู้ใช้กด Cancel ให้ยกเลิกการส่งฟอร์ม
+      // ถ้าข้อมูลไม่ถูกต้อง ให้ยกเลิกการส่งฟอร์ม
+      return false;
     }
+  }
+</script>
+<%--ส่งRich Test Editer--%>
+<script>
+  // สร้าง Rich Text Editor และกำหนดเนื้อหาเริ่มต้น
+  var quill = new Quill('#editor', {
+    theme: 'snow',
+    placeholder: 'กรอกเนื้อหาของคุณที่นี่...', // ข้อความที่จะแสดงในตอนเริ่มต้น
+    // เนื้อหาเริ่มต้น (HTML หรือ plain text)
+    // ตัวอย่างเช่น: '<p>เนื้อหาเริ่มต้น</p>'
+  });
+  // กำหนดเนื้อหาเริ่มต้น
+  // quill.clipboard.dangerouslyPasteHTML('BEST');
+  function updateAcDetailField() {
+    var acDetail = quill.getText();
+    document.getElementById('ac_detail').value = acDetail;
   }
 </script>
 </html>

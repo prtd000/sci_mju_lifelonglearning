@@ -13,6 +13,8 @@ public interface RequestOpCourseDao {
     List<RequestOpenCourse> getRequestOpenCoursesByLecturerId(String lec_id);
 
     List<RequestOpenCourse> getRequestOpenCoursesByLecturerIdAndStatus(String lec_id);
+
+    List<RequestOpenCourse> getRequestOpenCoursesToCheckDateStudy(String lec_id);
     RequestOpenCourse getRequestOpenCourseDetail(long id);
     List<RequestOpenCourse> checkRequestOpenCourseByCourseIdToUnApprove(String course_id);
     RequestOpenCourse getRequestOpenCourseDetailToUpdate(long roc_id,String lec_id);

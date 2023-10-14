@@ -48,7 +48,10 @@ public class RequestOpenCourse {
     @Column(nullable = false)
     private Date endStudyDate;
 
-    @Column(nullable = false,length = 20)
+    @Column(nullable = false,length = 225)
+    private String studyDay;
+
+    @Column(nullable = false,length = 50)
     private String studyTime;
 
     @Column(nullable = false, length = 100)
@@ -111,7 +114,7 @@ public class RequestOpenCourse {
     public RequestOpenCourse() {
     }
 
-    public RequestOpenCourse(int round, Date requestDate, Date startRegister, Date endRegister, Date startPayment, Date endPayment, int quantity, Date startStudyDate, Date endStudyDate, String studyTime, String type_learn, String type_teach, Date applicationResult, String location, String linkMooc, String requestStatus, String signature, Course course, Lecturer lecturer) {
+    public RequestOpenCourse(int round, Date requestDate, Date startRegister, Date endRegister, Date startPayment, Date endPayment, int quantity, Date startStudyDate, Date endStudyDate, String studyDay, String studyTime, String type_learn, String type_teach, Date applicationResult, String requestStatus, Course course, Lecturer lecturer) {
         this.round = round;
         this.requestDate = requestDate;
         this.startRegister = startRegister;
@@ -121,14 +124,12 @@ public class RequestOpenCourse {
         this.quantity = quantity;
         this.startStudyDate = startStudyDate;
         this.endStudyDate = endStudyDate;
+        this.studyDay = studyDay;
         this.studyTime = studyTime;
         this.type_learn = type_learn;
         this.type_teach = type_teach;
         this.applicationResult = applicationResult;
-        this.location = location;
-        this.linkMooc = linkMooc;
         this.requestStatus = requestStatus;
-        this.signature = signature;
         this.course = course;
         this.lecturer = lecturer;
     }
@@ -311,6 +312,22 @@ public class RequestOpenCourse {
 
     public void setEndPayment(Date endPayment) {
         this.endPayment = endPayment;
+    }
+
+    public String getStudyDay() {
+        return studyDay;
+    }
+
+    public void setStudyDay(String studyDay) {
+        this.studyDay = studyDay;
+    }
+
+    public List<Register> getRegisterList() {
+        return registerList;
+    }
+
+    public void setRegisterList(List<Register> registerList) {
+        this.registerList = registerList;
     }
 }
 

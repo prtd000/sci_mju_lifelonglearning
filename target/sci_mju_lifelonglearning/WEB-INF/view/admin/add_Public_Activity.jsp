@@ -18,8 +18,10 @@
   <!-- google font -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
-  <link href="${pageContext.request.contextPath}/assets/css/admin/style_addcourse.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/assets/css/admin/addPublicActivity.css" rel="stylesheet">
   <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
 </head>
 <style>
   .txt_input {
@@ -128,7 +130,7 @@
     <div class="container">
       <div id="container">
 
-        <form id="signUpForm" onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/save_public_add_activity" method="POST" enctype="multipart/form-data">
+        <form style="width: 90%;" id="signUpForm" onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/save_public_add_activity" method="POST" enctype="multipart/form-data">
           <!-- step one -->
           <div class="step">
             <h3>เพิ่มข่าวสารทั่วไป</h3>
@@ -136,10 +138,9 @@
             <table style="width: 100%">
               <tr>
                 <td>
-                  <label>ชื่อข่าวสาร</label>
                   <div class="mb-3">
                     <div class="course-totalHours-container">
-                      <input name="ac_name" id="ac_name" type="text" autocomplete="off" oninput="this.className = ''" class="flex-td"/>
+                      <input name="ac_name" id="ac_name" placeholder="ชื่อข่าวสาร" type="text" autocomplete="off" oninput="this.className = ''" class="flex-td"/>
                     </div>
                     <label id="invalidAcName" style="color: red; font-size: 12px"></label>
                   </div>
@@ -148,9 +149,11 @@
               <tr>
                 <td>
                   <div class="mb-3">
-                    <div class="form-floating">
-                      <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px"></textarea>
-                      <label for="ac_detail">รายละเอียด</label>
+                    <div class="form-floating" style="height: 500px">
+<%--                      <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px"></textarea>--%>
+<%--                      <label for="ac_detail">รายละเอียด</label>--%>
+                            <div id="editor" style=""></div>
+                            <textarea style="display: none;" id="ac_detail" name="ac_detail"></textarea>
                     </div>
                     <label id="invalidAcDetail" style="color: red; font-size: 12px"></label>
                   </div>
@@ -158,6 +161,8 @@
               </tr>
               <tr>
                 <td>
+                  <br>
+                  <br>
                   <label>รูปภาพ</label>
                 </td>
               </tr>
@@ -177,10 +182,6 @@
                 </td>
               </tr>
             </table>
-            <h1>Rich Text Editor</h1>
-            <div id="editor"></div>
-
-            <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
           </div>
           <!-- start previous / next buttons -->
           <div style="width: 100%" align="center" class="flex-container">
@@ -213,18 +214,18 @@
 
   function validateAcName() {
     var acName = document.getElementById('ac_name').value;
-    var regex = /^[ก-์A-Za-z0-9 ().]+$/; // รูปแบบที่อนุญาต
+    // var regex = /^[ก-์A-Za-z0-9 ().]+$/; // รูปแบบที่อนุญาต
     var minLength = 2;
-    var maxLength = 50;
+    var maxLength = 255;
 
     if (acName.trim() === "") {
       document.getElementById("invalidAcName").innerHTML = "กรุณากรอกชื่อหัวข้อข่าวสารและกิจกรรม";
+      alert("กรุณากรอกชื่อหัวข้อข่าวสารและกิจกรรม");
       return false;
     }else if (acName.length < minLength || acName.length > maxLength) {
-      document.getElementById("invalidAcName").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องมีความยาวระหว่าง 2 ถึง 50 ตัวอักษร";
-      return false;
-    }else if (!regex.test(acName)) {
-      document.getElementById("invalidAcName").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข";
+      document.getElementById("invalidAcName").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องมีความยาวระหว่าง 2 ถึง 255 ตัวอักษร";
+      document.getElementById("invalidAcName").focus();
+      alert("ชื่อหัวข้อข่าวสารและกิจกรรมต้องมีความยาวระหว่าง 2 ถึง 255 ตัวอักษร");
       return false;
     }else {
       document.getElementById("invalidAcName").innerHTML = "";
@@ -232,27 +233,27 @@
 
     return true;
   }
-  function validateAcDetail() {
-    var acDetail = document.getElementById('ac_detail').value;
-    var regex = /^[ก-์A-Za-z0-9 ().]+$/; // รูปแบบที่อนุญาต
-    var minLength = 2;
-    var maxLength = 225;
-
-    if (acDetail.trim() === "") {
-      document.getElementById("invalidAcDetail").innerHTML = "กรุณากรอกรายละเอียด";
-      return false;
-    }else if (acDetail.length < minLength || acDetail.length > maxLength) {
-      document.getElementById("invalidAcDetail").innerHTML = "รายละเอียดต้องมีความยาวระหว่าง 2 ถึง 225 ตัวอักษร";
-      return false;
-    }else if (!regex.test(acDetail)) {
-      document.getElementById("invalidAcDetail").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข";
-      return false;
-    }else {
-      document.getElementById("invalidAcDetail").innerHTML = "";
-    }
-
-    return true;
-  }
+  // function validateAcDetail() {
+  //   var acDetail = document.getElementById('ac_detail').value;
+  //   var regex = /^[ก-์A-Za-z0-9 ().]+$/; // รูปแบบที่อนุญาต
+  //   var minLength = 2;
+  //   var maxLength = 225;
+  //
+  //   if (acDetail.trim() === "") {
+  //     document.getElementById("invalidAcDetail").innerHTML = "กรุณากรอกรายละเอียด";
+  //     return false;
+  //   }else if (acDetail.length < minLength || acDetail.length > maxLength) {
+  //     document.getElementById("invalidAcDetail").innerHTML = "รายละเอียดต้องมีความยาวระหว่าง 2 ถึง 225 ตัวอักษร";
+  //     return false;
+  //   }else if (!regex.test(acDetail)) {
+  //     document.getElementById("invalidAcDetail").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข";
+  //     return false;
+  //   }else {
+  //     document.getElementById("invalidAcDetail").innerHTML = "";
+  //   }
+  //
+  //   return true;
+  // }
 
   function validateAcImg() {
     var acImgInput = document.getElementById('ac_img');
@@ -279,7 +280,8 @@
   }
 
   function confirmAction() {
-    if (validateAcName() && validateAcDetail() && validateAcImg()) {
+    updateAcDetailField(); // อัปเดตข้อมูลจาก Rich Text Editor
+    if (validateAcName() && validateAcImg()) {
       var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการเพิ่มข่าวสารนี้?");
       if (result) {
         return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
@@ -291,10 +293,21 @@
       return false;
     }
   }
+
 </script>
+<%--ส่งRich Test Editer--%>
 <script>
   var quill = new Quill('#editor', {
-    theme: 'snow' // เลือก theme ให้เป็น "snow" หรือเลือกตามที่คุณต้องการ
+    theme: 'snow',
+    placeholder: 'กรอกเนื้อหาของคุณที่นี่...', // ข้อความที่จะแสดงในตอนเริ่มต้น
+    // เนื้อหาเริ่มต้น (HTML หรือ plain text)
+    // ตัวอย่างเช่น: '<p>เนื้อหาเริ่มต้น</p>'
   });
+
+  // ให้ข้อมูลจาก Rich Text Editor เขียนลงในฟิลด์ 'ac_detail' ในฟอร์ม
+  function updateAcDetailField() {
+    var acDetail = quill.getText();
+    document.getElementById('ac_detail').value = acDetail;
+  }
 </script>
 </html>

@@ -63,89 +63,87 @@ public class LecturerController {
         return "";
     }
     //******************Request Open Course*************************//
-    @GetMapping("/{lecturer_id}/add_roc")
-    public String getCourseRequest(@PathVariable("lecturer_id") String lecturer_id,Model model) {
-        model.addAttribute("title", "ร้องขอเปิด" + title);
-        model.addAttribute("lecturer",requestOpCourseService.getLecturerDetail(lecturer_id));
-        model.addAttribute("courses", courseService.getCoursesByCourseStatus());
-        model.addAttribute("request_select",requestOpCourseService.getRequestOpenCoursesByLecturerIdAndStatus(lecturer_id));
-        model.addAttribute("request_open_course", new RequestOpenCourse());
-        return "lecturer/add_request_open_course_new";
-    }
-//    @PostMapping (path="/{id}/save")
-//    public String doRequestOpenCourseDetail(@PathVariable("id") String lec_id,
-//                                            @RequestParam Map<String, String> allReqParams,
-//                                            @RequestParam("signature") MultipartFile signature) throws ParseException {
-////        ตรงนี้
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // เปลี่ยนรูปแบบวันที่ให้ตรงกับ HTML
-//        int round = 0;
-//        Date requestDate = new Date();
-//        Date startRegisterDate = dateFormat.parse(allReqParams.get("startRegister"));
-//        Date endRegisterDate = dateFormat.parse(allReqParams.get("endRegister"));
-//        int quantity = Integer.parseInt(allReqParams.get("quantity"));
-//        Date startStudyDate = dateFormat.parse(allReqParams.get("startStudyDate"));
-//        Date endStudyDate = dateFormat.parse(allReqParams.get("endStudyDate"));
-//        String studyTime = allReqParams.get("studyTime");
-//        Date applicationResultDate = dateFormat.parse(allReqParams.get("applicationResult"));
-//        String type_learn = allReqParams.get("type_learn");
-//        String type_teach = allReqParams.get("type_teach");
-//        String location = allReqParams.get("location");
-//        String link_mooc = allReqParams.get("link_mooc");
-//        String requestStatusBool = "รอดำเนินการ";
-////        String signature = allReqParams.get("signature");
-//        Course course = courseService.getCourseById(allReqParams.get("course_id"));
-////        String lecturer_username = allReqParams.get("lecturer_username");
-//        Lecturer lecturer = lecturerService.getLecturerById(lec_id);
-//
-//        try {
-//
-//            // เพิ่ม รูปภาพ
-//            // กำหนด path ที่จะบันทึกไฟล์
-//            String uploadPathIMG = ImgPath.pathImg + "/request_open_course/signature/";
-//
-////            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
-////            // รูปภาพ
-////            Path directoryPathIMG = Paths.get(uploadPathIMG);
-////            Files.createDirectories(directoryPathIMG);
-////
-////            // ดึงนามสกุลไฟล์จากชื่อไฟล์
-////            // รูปภาพ
-////            String originalImgFileName = img.getOriginalFilename();
-////            String fileImgExtension = getFileExtension(originalImgFileName);
-////
-//            int maxIdImgFile = requestOpCourseService.getSignatureCourseMaxId(); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
-//
-//            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
-//            Path directoryPath = Paths.get(uploadPathIMG);
-//            Files.createDirectories(directoryPath);
-//
-//            String imgOriginalFileName = signature.getOriginalFilename();
-//            String imgFileExtension = getFileExtension(imgOriginalFileName);
-//            String signature_img = "";
-//            // สร้างรหัสไฟล์ใหม่ในรูปแบบ "SIG0001", ...
-//            signature_img = String.format("SIG%04d%s", ++maxIdImgFile, imgFileExtension);
-//            Path imgFilePath = Paths.get(uploadPathIMG, signature_img);
-//            Files.write(imgFilePath, signature.getBytes());
-//
-//            // บันทึก path ไปยังฐานข้อมูล
-//            RequestOpenCourse requestOpenCourse_toAdd;
-//            if (Objects.equals(type_learn, "เรียนในสถานศึกษา")){
-//                requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate, startRegisterDate, endRegisterDate, quantity, startStudyDate, endStudyDate, studyTime, type_learn, type_teach, applicationResultDate, requestStatusBool, signature_img, course, lecturer);
-//                requestOpenCourse_toAdd.setLocation(location);
-//            } else if (Objects.equals(type_learn, "เรียนออนไลน์")) {
-//                requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate, startRegisterDate, endRegisterDate, quantity, startStudyDate, endStudyDate, studyTime, type_learn, type_teach, applicationResultDate, requestStatusBool, signature_img, course, lecturer);
-//                requestOpenCourse_toAdd.setLinkMooc(link_mooc);
-//            }else {
-//                requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate, startRegisterDate, endRegisterDate, quantity, startStudyDate, endStudyDate, studyTime, type_learn, type_teach, applicationResultDate, requestStatusBool, signature_img, course, lecturer);
-//                requestOpenCourse_toAdd.setLocation(location);
-//                requestOpenCourse_toAdd.setLinkMooc(link_mooc);
-//            }
-//            requestOpCourseService.saveRequestOpenCourse(requestOpenCourse_toAdd);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return "redirect:/lecturer/"+ lec_id +"/list_request_open_course";
+//    @GetMapping("/{lecturer_id}/add_roc")
+//    public String getCourseRequest(@PathVariable("lecturer_id") String lecturer_id,Model model) {
+//        Lecturer lecturer = lecturerService.getLecturerById(lecturer_id);
+//        model.addAttribute("title", "ร้องขอเปิด" + title);
+//        model.addAttribute("lecturer",lecturer);
+//        model.addAttribute("courses", courseService.getCoursesByCourseStatus(lecturer.getMajor().getName()));
+//        model.addAttribute("request_select",requestOpCourseService.getRequestOpenCoursesByLecturerIdAndStatus(lecturer_id));
+//        model.addAttribute("request_open_course", new RequestOpenCourse());
+//        return "lecturer/add_request_open_course_new";
 //    }
+        @GetMapping("/{lecturer_id}/show_test")
+    public String showTestLec(@PathVariable("lecturer_id") String lecturer_id,Model model) {
+            Lecturer lecturer = lecturerService.getLecturerById(lecturer_id);
+            List<Course> course_type_C = courseService.getCoursesByCourseStatusAndType(lecturer.getMajor().getName(),"หลักสูตรอบรมระยะสั้น");
+            List<Course> course_type_N = courseService.getCoursesByCourseStatusAndType(lecturer.getMajor().getName(),"Non-Degree");
+            List<RequestOpenCourse> requestOpenCourses = requestOpCourseService.getRequestOpenCoursesToCheckDateStudy(lecturer.getUsername());
+            model.addAttribute("title", "ร้องขอเปิด" + title);
+            model.addAttribute("lecturer",lecturer);
+            model.addAttribute("courses", courseService.getCoursesByCourseStatus(lecturer.getMajor().getName()));
+            model.addAttribute("course_type_C", course_type_C);
+            model.addAttribute("course_type_N", course_type_N);
+            model.addAttribute("request_select",requestOpCourseService.getRequestOpenCoursesByLecturerIdAndStatus(lecturer_id));
+            model.addAttribute("request_open_course", new RequestOpenCourse());
+            model.addAttribute("request_open_check_date",requestOpCourseService.getRequestOpenCoursesToCheckDateStudy(lecturer.getUsername()));
+            System.out.println(requestOpenCourses.size());
+            return "lecturer/request_open_course"; // ชื่อหน้าแก้ไขของคุณ
+    }
+    @Transactional
+    @PostMapping (path="/{id}/save")
+    public String doRequestOpenCourseDetail(@PathVariable("id") String lec_id,
+                                            @RequestParam Map<String, String> allReqParams) throws ParseException {
+//        ตรงนี้
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // เปลี่ยนรูปแบบวันที่ให้ตรงกับ HTML
+        int round = 0;
+        Date requestDate = new Date();
+        Date startRegisterDate = dateFormat.parse(allReqParams.get("startRegister"));
+        Date endRegisterDate = dateFormat.parse(allReqParams.get("endRegister"));
+        Date startPaymentDate = dateFormat.parse(allReqParams.get("startPayment"));
+        Date endPaymentDate = dateFormat.parse(allReqParams.get("endPayment"));
+        int quantity = Integer.parseInt(allReqParams.get("quantity"));
+        Date startStudyDate = dateFormat.parse(allReqParams.get("startStudyDate"));
+        Date endStudyDate = dateFormat.parse(allReqParams.get("endStudyDate"));
+        String studyDay = allReqParams.get("display_for_submit");
+
+        String startStudyTime = allReqParams.get("start_study_time");
+        String endStudyTime = allReqParams.get("end_study_time");
+        String studyTime = startStudyTime +","+ endStudyTime;
+        String type_learn = allReqParams.get("type_learn");
+        String type_teach = allReqParams.get("type_teach");
+        Date applicationResultDate = dateFormat.parse(allReqParams.get("applicationResult"));
+        String requestStatus = "รอดำเนินการ";
+        Course course = courseService.getCourseById(allReqParams.get("course_id"));
+        Lecturer lecturer = lecturerService.getLecturerById(lec_id);
+
+        String location = allReqParams.get("location");
+        String link_mooc = allReqParams.get("link_mooc");
+            // บันทึก path ไปยังฐานข้อมูล
+            RequestOpenCourse requestOpenCourse_toAdd;
+            if (Objects.equals(type_learn, "เรียนในสถานศึกษา")){
+                requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate,startRegisterDate,endRegisterDate,startPaymentDate,
+                        endPaymentDate,quantity,startStudyDate,endStudyDate,studyDay,studyTime,type_learn,type_teach,applicationResultDate,
+                        requestStatus,course,lecturer);
+                requestOpenCourse_toAdd.setLocation(location);
+            } else if (Objects.equals(type_learn, "เรียนออนไลน์")) {
+                requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate,startRegisterDate,endRegisterDate,startPaymentDate,
+                        endPaymentDate,quantity,startStudyDate,endStudyDate,studyDay,studyTime,type_learn,type_teach,applicationResultDate,
+                        requestStatus,course,lecturer);
+                requestOpenCourse_toAdd.setLinkMooc(link_mooc);
+            }else {
+                requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate,startRegisterDate,endRegisterDate,startPaymentDate,
+                        endPaymentDate,quantity,startStudyDate,endStudyDate,studyDay,studyTime,type_learn,type_teach,applicationResultDate,
+                        requestStatus,course,lecturer);
+                requestOpenCourse_toAdd.setLocation(location);
+                requestOpenCourse_toAdd.setLinkMooc(link_mooc);
+            }
+//            requestOpCourseService.saveRequestOpenCourse(requestOpenCourse_toAdd);
+            Session session = sessionFactory.getCurrentSession();
+            RequestOpenCourse mergedRequestOpenCourse = (RequestOpenCourse) session.merge(requestOpenCourse_toAdd);
+            requestOpCourseService.saveRequestOpenCourse(mergedRequestOpenCourse);
+        return "redirect:/lecturer/"+ lec_id +"/list_request_open_course";
+    }
     //********************************************************//
 
     //************************* List Request Course & List Approved Course***************************//
@@ -209,7 +207,7 @@ public class LecturerController {
         try {
 //            AddImg pdfToUpdate = courseService.getPdfById(pdfId);
             // กำหนด path ที่จะบันทึกไฟล์
-            String uploadPathSIG = ImgPath.pathImg + "/request_open_course/signature/";
+            String uploadPathSIG = ImgPath.pathUploads + "/request_open_course/signature/";
 //            String uploadPath = ImgPath.pathImg + "/course_pdf/pdf/";
             // ถ้ามีการอัพโหลดไฟล์ใหม่
             if (!signature.isEmpty()) {
@@ -266,14 +264,14 @@ public class LecturerController {
             RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
             String signature = requestOpenCourse.getSignature();
             // ลบข้อมูลเดิมก่อน
-            String deletePath = ImgPath.pathImg + "/request_open_course/signature/";
+            String deletePath = ImgPath.pathUploads + "/request_open_course/signature/";
             Path deletedirectoryPath = Paths.get(deletePath,signature);
             Files.delete(deletedirectoryPath);
             // ลบข้อมูลกิจกรรมที่เกี่ยวข้อง
             List<Activity> activities = activityService.getActivityDetailByCourseId(roc_id);
             for (Activity activity : activities) {
                 // ลบข้อมูลที่เกี่ยวข้องกับกิจกรรม (เช่น ไฟล์แนบ)
-                String deleteImgActivityPath = ImgPath.pathImg + "/activity/private/"+activity.getAc_id()+"/";
+                String deleteImgActivityPath = ImgPath.pathUploads + "/activity/private/"+activity.getAc_id()+"/";
                 Path deletedirectoryImgActivityPath = Paths.get(deleteImgActivityPath);
                 if (Files.isDirectory(deletedirectoryImgActivityPath)) {
                     // ลบไดเร็กทอรีและเนื้อหาภายใน
@@ -414,7 +412,7 @@ public class LecturerController {
         try {
 //            AddImg pdfToUpdate = courseService.getPdfById(pdfId);
             // กำหนด path ที่จะบันทึกไฟล์
-            String uploadPathSIG = ImgPath.pathImg + "/request_open_course/signature/";
+            String uploadPathSIG = ImgPath.pathUploads + "/request_open_course/signature/";
 //            String uploadPath = ImgPath.pathImg + "/course_pdf/pdf/";
             // ถ้ามีการอัพโหลดไฟล์ใหม่
             if (!signature.isEmpty()) {
@@ -475,7 +473,7 @@ public class LecturerController {
             int count = 1;
             for (MultipartFile img : ac_img) {
                 String folderName = String.format("AC%03d", latestId+1);
-                String uploadPath = ImgPath.pathImg + "/activity/private/"+folderName+"/";
+                String uploadPath = ImgPath.pathUploads + "/activity/private/"+folderName+"/";
                 Path directoryPath = Paths.get(uploadPath);
                 Files.createDirectories(directoryPath);
 
@@ -568,7 +566,7 @@ public class LecturerController {
                 // ลบข้อมูลในฐานข้อมูลก่อน
                 existingImgNames.clear();
                 // ลบข้อมูลเดิมก่อน
-                String deletePath = ImgPath.pathImg + "/activity/private/"+existingActivity.getAc_id()+"/";
+                String deletePath = ImgPath.pathUploads + "/activity/private/"+existingActivity.getAc_id()+"/";
 //            String deletePath = ImgPath.pathImg + "/activity/public/public_activity"+maxNumericId+"/";
                 Path deletedirectoryPath = Paths.get(deletePath);
 
@@ -587,7 +585,7 @@ public class LecturerController {
                 // เพิ่มข้อมูลใหม่
                 int count = 1;
                 for (MultipartFile img : imgs) {
-                    String uploadPath = ImgPath.pathImg + "/activity/private/"+existingActivity.getAc_id()+"/";
+                    String uploadPath = ImgPath.pathUploads + "/activity/private/"+existingActivity.getAc_id()+"/";
                     Path directoryPath = Paths.get(uploadPath);
                     Files.createDirectories(directoryPath);
 
@@ -626,7 +624,7 @@ public class LecturerController {
     @GetMapping("/{lec_id}/{id}/delete")
     public String doDeleteCourseActivityNews(@PathVariable("lec_id") String lec_id,@PathVariable("id") String id) throws IOException {
         Activity activity = activityService.getActivityDetail(id);
-        String deletePath = ImgPath.pathImg + "/activity/private/"+activity.getAc_id()+"/";
+        String deletePath = ImgPath.pathUploads + "/activity/private/"+activity.getAc_id()+"/";
         Path deletedirectoryPath = Paths.get(deletePath);
         if (Files.isDirectory(deletedirectoryPath)) {
             // ลบไดเร็กทอรีและเนื้อหาภายใน

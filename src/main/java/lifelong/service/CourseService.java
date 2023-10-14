@@ -6,7 +6,9 @@ import java.util.List;
 public interface CourseService {
         List<Course> getCourses();
 //        List<Object[]> getCoursesAndRequests();
-        List<Course> getCoursesByCourseStatus();
+        List<Course> getCoursesByCourseStatus(String major);
+
+        List<Course> getCoursesByCourseStatusAndType(String major,String type);
 
         List<RequestOpenCourse> getListRequestOpCourse();
 

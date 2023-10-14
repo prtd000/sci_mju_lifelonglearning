@@ -1,6 +1,7 @@
 <%@ page import="lifelong.model.Member" %>
 <%@ page import="lifelong.model.Admin" %>
-<%@ page import="lifelong.model.Lecturer" %><%--
+<%@ page import="lifelong.model.Lecturer" %>
+<%@ page import="utils.ImgPath" %><%--
   Created by IntelliJ IDEA.
   User: DELL
   Date: 5/30/2023
@@ -19,7 +20,9 @@
   <!-- google font -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
-  <link href="${pageContext.request.contextPath}/assets/css/admin/style_addcourse.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/assets/css/admin/addPublicActivity.css" rel="stylesheet">
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 </head>
 <style>
   .txt_input {
@@ -133,7 +136,7 @@
     <div class="container">
       <div id="container">
 
-        <form id="signUpForm" onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/${activities.ac_id}/update_public_add_activity" method="POST" enctype="multipart/form-data">
+        <form style="width: 90%;" id="signUpForm" onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/${activities.ac_id}/update_public_add_activity" method="POST" enctype="multipart/form-data">
           <!-- step one -->
           <div class="step">
             <h3>แก้ไขข่าวสารทั่วไป</h3>
@@ -153,9 +156,11 @@
               <tr>
                 <td>
                   <div class="mb-3">
-                    <div class="form-floating">
-                      <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px">${activities.detail}</textarea>
-                      <label for="ac_detail">รายละเอียด</label>
+                    <div class="form-floating" style="height: 500px">
+<%--                      <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px">${activities.detail}</textarea>--%>
+<%--                      <label for="ac_detail">รายละเอียด</label>--%>
+                          <div id="editor" style="">${activities.detail}</div>
+                          <textarea style="display: none;" id="ac_detail" name="ac_detail"></textarea>
                     </div>
                     <label id="invalidAcDetail" style="color: red; font-size: 12px"></label>
                   </div>
@@ -186,7 +191,7 @@
                         <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}" />
                         <c:if test="${loop.index < 3}">
                           <div style="display: inline-block">
-                            <img src="${pageContext.request.contextPath}/assets/img/activity/public/${activities.ac_id}/${listImg}" width="180px">
+                            <img src="${pageContext.request.contextPath}/uploads/activity/public/${activities.ac_id}/${listImg}" style="width: 180px">
                           </div>
                         </c:if>
                       </c:forEach>
@@ -234,16 +239,15 @@
     var acName = document.getElementById('ac_name').value;
     var regex = /^[ก-์A-Za-z0-9 ().]+$/; // รูปแบบที่อนุญาต
     var minLength = 2;
-    var maxLength = 50;
+    var maxLength = 255;
 
     if (acName.trim() === "") {
       document.getElementById("invalidAcName").innerHTML = "กรุณากรอกชื่อหัวข้อข่าวสารและกิจกรรม";
+      alert("กรุณากรอกชื่อหัวข้อข่าวสารและกิจกรรม");
       return false;
     }else if (acName.length < minLength || acName.length > maxLength) {
-      document.getElementById("invalidAcName").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องมีความยาวระหว่าง 2 ถึง 50 ตัวอักษร";
-      return false;
-    }else if (!regex.test(acName)) {
-      document.getElementById("invalidAcName").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข";
+      document.getElementById("invalidAcName").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องมีความยาวระหว่าง 2 ถึง 255 ตัวอักษร";
+      alert("ชื่อหัวข้อข่าวสารและกิจกรรมต้องมีความยาวระหว่าง 2 ถึง 255 ตัวอักษร");
       return false;
     }else {
       document.getElementById("invalidAcName").innerHTML = "";
@@ -251,27 +255,27 @@
 
     return true;
   }
-  function validateAcDetail() {
-    var acDetail = document.getElementById('ac_detail').value;
-    var regex = /^[ก-์A-Za-z0-9 ().]+$/; // รูปแบบที่อนุญาต
-    var minLength = 2;
-    var maxLength = 225;
-
-    if (acDetail.trim() === "") {
-      document.getElementById("invalidAcDetail").innerHTML = "กรุณากรอกรายละเอียด";
-      return false;
-    }else if (acDetail.length < minLength || acDetail.length > maxLength) {
-      document.getElementById("invalidAcDetail").innerHTML = "รายละเอียดต้องมีความยาวระหว่าง 2 ถึง 225 ตัวอักษร";
-      return false;
-    }else if (!regex.test(acDetail)) {
-      document.getElementById("invalidAcDetail").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข";
-      return false;
-    }else {
-      document.getElementById("invalidAcDetail").innerHTML = "";
-    }
-
-    return true;
-  }
+  // function validateAcDetail() {
+  //   var acDetail = document.getElementById('ac_detail').value;
+  //   var regex = /^[ก-์A-Za-z0-9 ().]+$/; // รูปแบบที่อนุญาต
+  //   var minLength = 2;
+  //   var maxLength = 225;
+  //
+  //   if (acDetail.trim() === "") {
+  //     document.getElementById("invalidAcDetail").innerHTML = "กรุณากรอกรายละเอียด";
+  //     return false;
+  //   }else if (acDetail.length < minLength || acDetail.length > maxLength) {
+  //     document.getElementById("invalidAcDetail").innerHTML = "รายละเอียดต้องมีความยาวระหว่าง 2 ถึง 225 ตัวอักษร";
+  //     return false;
+  //   }else if (!regex.test(acDetail)) {
+  //     document.getElementById("invalidAcDetail").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข";
+  //     return false;
+  //   }else {
+  //     document.getElementById("invalidAcDetail").innerHTML = "";
+  //   }
+  //
+  //   return true;
+  // }
 
   // function validateAcImg() {
   //   var acImgInput = document.getElementById('ac_img');
@@ -298,8 +302,9 @@
   // }
 
   function confirmAction() {
-    if (validateAcName() && validateAcDetail()) {
-      var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการแก้ไขข่าวสารนี้?");
+    updateAcDetailField(); // อัปเดตข้อมูลจาก Rich Text Editor
+    if (validateAcName() && validateAcImg()) {
+      var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการเพิ่มข่าวสารนี้?");
       if (result) {
         return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
       } else {
@@ -309,6 +314,22 @@
       // ถ้าข้อมูลไม่ถูกต้อง ให้ยกเลิกการส่งฟอร์ม
       return false;
     }
+  }
+</script>
+<%--ส่งRich Test Editer--%>
+<script>
+  // สร้าง Rich Text Editor และกำหนดเนื้อหาเริ่มต้น
+  var quill = new Quill('#editor', {
+    theme: 'snow',
+    placeholder: 'กรอกเนื้อหาของคุณที่นี่...', // ข้อความที่จะแสดงในตอนเริ่มต้น
+    // เนื้อหาเริ่มต้น (HTML หรือ plain text)
+    // ตัวอย่างเช่น: '<p>เนื้อหาเริ่มต้น</p>'
+  });
+  // กำหนดเนื้อหาเริ่มต้น
+  // quill.clipboard.dangerouslyPasteHTML('BEST');
+  function updateAcDetailField() {
+    var acDetail = quill.getText();
+    document.getElementById('ac_detail').value = acDetail;
   }
 </script>
 </html>

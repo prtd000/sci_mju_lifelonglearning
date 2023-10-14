@@ -10,8 +10,10 @@
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
-    <link href="${pageContext.request.contextPath}/assets/css/admin/style_addcourse.css" rel="stylesheet">
-    <script src="${pageContext.request.contextPath}/assets/js/admin/addcourse.js"></script>
+    <link href="${pageContext.request.contextPath}/assets/css/admin/addcourse.css" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <script>
         function previewImage(input) {
             var preview = document.getElementById('preview');
@@ -60,7 +62,6 @@
                 displayPreview.style.display = 'none';
             }
         }
-
     </script>
 </head>
 <body>
@@ -143,7 +144,7 @@
                     <div class="step" style="display: inline-block">
                         <table style="width: 100%; border: 1px">
                             <tr>
-                                <td style="width: 60%">
+                                <td style="width: 70%">
                                     <label>ประเภทหลักสูตร</label>
                                     <div class="mb-3">
                                         <select name="course_type" id="course_type" class="form-select" oninput="this.className = ''">
@@ -155,6 +156,7 @@
                                     <label>ชื่อหลักสูตร</label>
                                     <div class="mb-3">
                                         <input name="course_name" type="text" id="course_name" placeholder="ชื่อหลักสูตร" oninput="this.className = ''"/>
+                                        <a id="link" href="#">ตรวจสอบ</a> &nbsp; <label id="status"></label>
                                         <label id="invalidCourseName" style="color: red; font-size: 12px"></label>
                                     </div>
                                     <label>ชื่อเกียรติบัตร</label>
@@ -170,20 +172,23 @@
                                         </c:forEach>
                                     </select>
                                 </td>
-                                <td style="width: 40%; vertical-align: top;">
+                                <td style="width: 30%; vertical-align: top;">
                                     <label>รูปหลักสูตร</label>
                                     <div class="mb-3" align="center">
                                         <input name="course_img" type="file" id="fileInput" accept="image/*" onchange="previewImage(this)" class="form-control"/>
-                                        <img id="preview" src="" alt="Image Preview" style="display: none; height: 170px; margin-top: 10px; border-radius: 10px">
+                                        <img id="preview" src="" alt="Image Preview" style="display: none; height: 300px; margin-top: 10px; border-radius: 10px">
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2">
                                     <div class="mb-3">
-                                        <div class="form-floating">
-                                            <textarea class="form-control" placeholder="" id="floatingTextarea2" name="course_principle" style="height: 100px"></textarea>
-                                            <label for="floatingTextarea2">หลักการและเหตุผล</label>
+                                        <label>หลักการและเหตุผล</label>
+                                        <div class="form-floating" style="height: 500px">
+<%--                                            <textarea class="form-control" placeholder="" id="floatingTextarea2" name="course_principle" style="height: 100px"></textarea>--%>
+<%--                                            <label for="floatingTextarea2">หลักการและเหตุผล</label>--%>
+                                                <div id="editor" style=""></div>
+                                                <textarea style="display: none;" class="form-control" id="floatingTextarea2" name="course_principle"></textarea>
                                         </div>
                                         <label id="invalidCoursePrinciple" style="color: red; font-size: 12px"></label>
                                     </div>
@@ -375,45 +380,64 @@
         var courseName = document.getElementById("course_name").value;
         var certificateName = document.getElementById("certificateName").value;
         var major = document.getElementById("major_id").value;
-        var coursePrinciple = document.getElementById("floatingTextarea2").value;
+        // var coursePrinciple = document.getElementById("floatingTextarea2").value;
         var fileInput = document.getElementById("fileInput");
 
-        var regExName = /^[ก-์A-Za-z0-9]{2,225}$/;
+        var minLength = 2;
+        var maxLength = 255;
 
         if (courseType === "") {
             alert("กรุณาเลือกประเภทหลักสูตร");
             return false;
         }
         // ตรวจสอบว่าข้อมูลถูกต้องหรือไม่
+        var stt = document.getElementById("status");
+        var courseElement = document.getElementById("status").innerHTML;
+        document.getElementById("link").click();
             if (courseName === "") {
                 document.getElementById("invalidCourseName").innerHTML = "กรุณากรอกชื่อหลักสูตร";
                 return false;
             }
-            else if (!regExName.test(courseName)){
-                document.getElementById("invalidCourseName").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+            // else if (!regExName.test(courseName)){
+            //     document.getElementById("invalidCourseName").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+            //     return false;
+            // }
+            else if (courseName.length < minLength || courseName.length > maxLength){
+                document.getElementById("invalidCourseName").innerHTML = "ต้องมีจำนวน 2-225 ตัวอักษร";
+                stt.innerHTML = "";
+                return false;
+            }
+            else if (courseElement === "" || courseElement === "มีหลักสูตรนี้ในระบบแล้ว"){
+                alert("กรุณาตรวจสอบชื่อหลักสูตรก่อน");
                 return false;
             }
             else {
                 document.getElementById("invalidCourseName").innerHTML = "";
             }
+
+
             if (certificateName === "") {
                 document.getElementById("invalidCertificateName").innerHTML = "กรุณากรอกชื่อเกียรติบัตร";
                 return false;
-            }else if (!regExName.test(certificateName)){
-                document.getElementById("invalidCertificateName").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
-                return false;
-            }else {
+            }
+            // else if (!regExName.test(certificateName)){
+            //     document.getElementById("invalidCertificateName").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+            //     return false;
+            // }
+            else {
                 document.getElementById("invalidCertificateName").innerHTML = "";
             }
-            if (coursePrinciple === "") {
-                document.getElementById("invalidCoursePrinciple").innerHTML = "กรุณากรอกหลักการและเหตุผล";
-                return false;
-            }else if (!regExName.test(coursePrinciple)){
-                document.getElementById("invalidCoursePrinciple").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
-                return false;
-            }else {
-                document.getElementById("invalidCoursePrinciple").innerHTML = "";
-            }
+            // if (coursePrinciple === "") {
+            //     document.getElementById("invalidCoursePrinciple").innerHTML = "กรุณากรอกหลักการและเหตุผล";
+            //     return false;
+            // }
+            // else if (!regExName.test(coursePrinciple)){
+            //     document.getElementById("invalidCoursePrinciple").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+            //     return false;
+            // }
+            // else {
+            //     document.getElementById("invalidCoursePrinciple").innerHTML = "";
+            // }
         if (major === "") {
             alert("กรุณาเลือกสาขา");
             return false;
@@ -428,6 +452,7 @@
         var y = document.getElementById("nextBtn2")
         x.style.display = "none";
         y.style.display = "block";
+
         nextPrev(1);
         return true;
     }
@@ -454,10 +479,11 @@
             if (objectives[i].value === "") {
                 alert("กรุณากรอกวัตถุประสงค์ทั้งหมด");
                 return false;
-            }else if (!regExName.test(objectives[i].value)){
-                alert("วัตถุประสงค์ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร");
-                return false;
             }
+            // else if (!regExName.test(objectives[i].value)){
+            //     alert("วัตถุประสงค์ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร");
+            //     return false;
+            // }
         }
 
             if (totalHours === "") {
@@ -483,10 +509,12 @@
             if (targetOccupation === "") {
                 document.getElementById("invalidCourseTargetOccupation").innerHTML = "กรุณากรอกกลุ่มเป้าหมายอาชีพ";
                 return false;
-            }else if (!regExName.test(targetOccupation)){
-                document.getElementById("invalidCourseTargetOccupation").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
-                return false;
-            }else {
+            }
+            // else if (!regExName.test(targetOccupation)){
+            //     document.getElementById("invalidCourseTargetOccupation").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+            //     return false;
+            // }
+            else {
                 document.getElementById("invalidCourseTargetOccupation").innerHTML = "";
             }
 
@@ -613,5 +641,52 @@
 
         updateRemoveButtons();
     }
+</script>
+
+<script>
+    /************ Check Course ******************/
+
+    document.getElementById('link').addEventListener('click', function (event) {
+        event.preventDefault(); // ป้องกันการนำทางเมื่อคลิกลิงก์
+
+        const stt = document.getElementById("status");
+        const courseElement = document.getElementById("course_name").value;
+        let courseFound = false;
+
+        <c:forEach var="c" items="${course}">
+            if ("${c.name}".trim() === courseElement.trim()) {
+                stt.innerHTML = "มีหลักสูตรนี้ในระบบแล้ว";
+                stt.style.color = "red"
+                document.getElementById("invalidCourseName").innerHTML = "";
+                courseFound = true;
+            }
+        </c:forEach>
+
+        if (!courseFound) {
+            if(courseElement === ""){
+                document.getElementById("invalidCourseName").innerHTML = "กรุณากรอกชื่อหลักสูตรก่อน";
+                stt.innerHTML = "";
+            }else {
+                stt.innerHTML = "สามารถใช้งานได้";
+                stt.style.color = "green";
+                document.getElementById("invalidCourseName").innerHTML = "";
+            }
+        }
+    });
+</script>
+<%--ส่งRich Test Editer--%>
+<script>
+    var quill = new Quill('#editor', {
+        theme: 'snow',
+        placeholder: 'กรอกเนื้อหาของคุณที่นี่...', // ข้อความที่จะแสดงในตอนเริ่มต้น
+        // เนื้อหาเริ่มต้น (HTML หรือ plain text)
+        // ตัวอย่างเช่น: '<p>เนื้อหาเริ่มต้น</p>'
+    });
+
+    // ให้ข้อมูลจาก Rich Text Editor เขียนลงในฟิลด์ 'ac_detail' ในฟอร์ม
+    // function setCoursePrinciple() {
+    //     var course_principle = quill.getText();
+    //     document.getElementById('floatingTextarea2').value = course_principle;
+    // }
 </script>
 </html>

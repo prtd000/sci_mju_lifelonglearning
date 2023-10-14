@@ -435,28 +435,34 @@
         if (courseName === "") {
             document.getElementById("invalidCourseName").innerHTML = "กรุณากรอกชื่อหลักสูตร";
             return false;
-        }else if (!regExName.test(courseName)){
-            document.getElementById("invalidCourseName").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
-            return false;
-        }else {
+        }
+        // else if (!regExName.test(courseName)){
+        //     document.getElementById("invalidCourseName").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+        //     return false;
+        // }
+        else {
             document.getElementById("invalidCourseName").innerHTML = "";
         }
         if (certificateName === "") {
             document.getElementById("invalidCertificateName").innerHTML = "กรุณากรอกชื่อเกียรติบัตร";
             return false;
-        }else if (!regExName.test(certificateName)){
-            document.getElementById("invalidCertificateName").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
-            return false;
-        }else {
+        }
+        // else if (!regExName.test(certificateName)){
+        //     document.getElementById("invalidCertificateName").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+        //     return false;
+        // }
+        else {
             document.getElementById("invalidCertificateName").innerHTML = "";
         }
         if (coursePrinciple === "") {
             document.getElementById("invalidCoursePrinciple").innerHTML = "กรุณากรอกหลักการและเหตุผล";
             return false;
-        }else if (!regExName.test(coursePrinciple)){
-            document.getElementById("invalidCoursePrinciple").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
-            return false;
-        }else {
+        }
+        // else if (!regExName.test(coursePrinciple)){
+        //     document.getElementById("invalidCoursePrinciple").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+        //     return false;
+        // }
+        else {
             document.getElementById("invalidCoursePrinciple").innerHTML = "";
         }
         if (major === "") {
@@ -494,10 +500,11 @@
             if (objectives[i].value === "") {
                 alert("กรุณากรอกวัตถุประสงค์ทั้งหมด");
                 return false;
-            }else if (!regExName.test(objectives[i].value)){
-                alert("วัตถุประสงค์ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร");
-                return false;
             }
+            // else if (!regExName.test(objectives[i].value)){
+            //     alert("วัตถุประสงค์ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร");
+            //     return false;
+            // }
         }
 
         if (totalHours === "") {
@@ -523,10 +530,12 @@
         if (targetOccupation === "") {
             document.getElementById("invalidCourseTargetOccupation").innerHTML = "กรุณากรอกกลุ่มเป้าหมายอาชีพ";
             return false;
-        }else if (!regExName.test(targetOccupation)){
-            document.getElementById("invalidCourseTargetOccupation").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
-            return false;
-        }else {
+        }
+        // else if (!regExName.test(targetOccupation)){
+        //     document.getElementById("invalidCourseTargetOccupation").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+        //     return false;
+        // }
+        else {
             document.getElementById("invalidCourseTargetOccupation").innerHTML = "";
         }
 

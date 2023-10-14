@@ -121,6 +121,7 @@ public class RequestOpCourseServiceImpl implements RequestOpCourseService {
     }
 
     @Override
+    @Transactional
     public List<Register> getRegistersByRocId(long request_id) {
         return requestOpCourseDao.getRegistersByRocId(request_id);
     }
@@ -130,6 +131,13 @@ public class RequestOpCourseServiceImpl implements RequestOpCourseService {
     public List<RequestOpenCourse> getRequestOpenCoursesByLecturerId(String lec_Id) {
         return requestOpCourseDao.getRequestOpenCoursesByLecturerId(lec_Id);
     }
+
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> getRequestOpenCoursesToCheckDateStudy(String lec_id) {
+        return requestOpCourseDao.getRequestOpenCoursesToCheckDateStudy(lec_id);
+    }
+
     public String generateLatestId (long id) {
         String result = String.valueOf(id);
         while (result.length() != 3) {

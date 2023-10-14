@@ -66,10 +66,10 @@
     <div class="collapse navbar-collapse" style="margin-right: 43px;">
         <div class="navbar-nav ms-auto py-0">
             <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
-            <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>
+<%--            <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>--%>
             <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 17px">หลักสูตรการอบรม</a>
             <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
-            <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>
+<%--            <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>--%>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle nav-item active" data-bs-toggle="dropdown" style="font-size: 17px">เข้าสู่ระบบ</a>
                 <div class="dropdown-menu m-0">

@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Favicon -->
-<link href="${pageContext.request.contextPath}/assets/img/favicon.ico" rel="icon">
+<link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon.png">
+
 
 <!-- Google Web Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -26,6 +26,9 @@
             color: black;
             text-align: center;
         }
+        tr td p{
+            color: black;
+        }
     </style>
 </head>
 <body>
@@ -70,7 +73,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>
+<%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>--%>
                         <%--            <div class="nav-item dropdown">--%>
                         <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
                     <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link " style="font-size: 17px">หลักสูตรการอบรม</a>
@@ -81,7 +84,7 @@
                         <%--            </div>--%>
                     <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/listcourse" class="nav-item nav-link active" style="font-size: 17px">หลักสูตรของฉัน</a>
                     <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>
+<%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>--%>
                     <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/edit_profile" class="nav-item nav-link" style="font-size: 17px">ข้อมูลส่วนตัว</a>
                     <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 17px">ออกจากระบบ</a>
                 </div>
@@ -117,7 +120,7 @@
                         <c:when test="${invoice.invoice.pay_status == true}">
                             <c:choose>
                                 <c:when test="${invoice.invoice.approve_status.equals('ผ่าน')}">
-                                    <td>${invoice.requestOpenCourse.course.name}</td>
+                                    <td><p>${invoice.requestOpenCourse.course.name}</p></td>
                                     <fmt:formatDate value="${invoice.requestOpenCourse.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
                                     <fmt:formatDate value="${invoice.requestOpenCourse.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
                                     <td style="text-align: center;"><p>${startStudyDate}</p></td>
@@ -174,21 +177,20 @@
                 <th style="text-align: left;">รายการ</th>
                 <th style="width: 130px;">เริ่มชำระเงิน</th>
                 <th style="width: 130px;">สิ้นสุดชำระเงิน</th>
-                <th style="width: 130px;">วันประกาศผล</th>
-                <th style="width: 160px;">สถานะ</th>
+                <th style="width: 130px;">ผลการสมัคร</th>
+                <th style="width: 160px;">สถานะการชำระเงิน</th>
                 <th style="width: 170px;">หมายเหตุ</th>
             </tr>
             <c:forEach var="invoices" items="${register}">
                 <tr>
                     <c:if test="${invoices.invoice.approve_status ne 'ผ่าน'}">
-                        <td style="width: 550px;">${invoices.requestOpenCourse.course.name}</td>
+                        <td style="width: 550px;"><p>${invoices.requestOpenCourse.course.name}</p></td>
                         <fmt:formatDate value="${invoices.invoice.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
                         <fmt:formatDate value="${invoices.invoice.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
                         <fmt:formatDate value="${invoices.requestOpenCourse.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
                         <td style="text-align: center;"><p>${startPayment}</p></td>
                         <td style="text-align: center;"><p>${endPayment}</p></td>
                         <td style="text-align: center;"><p>${applicationResult}</p></td>
-
                     </c:if>
 
                     <c:choose>
@@ -289,12 +291,12 @@
                         <c:when test="${his.invoice.pay_status == true && (his.invoice.register.requestOpenCourse.requestStatus.equals('ผ่าน') || his.invoice.register.requestOpenCourse.requestStatus.equals('เสร็จสิ้น'))}">
                             <c:choose>
                                 <c:when test="${his.invoice.approve_status.equals('ผ่าน')}">
-                                    <td>${his.invoice.register.requestOpenCourse.course.name}</td>
+                                    <td><p>${his.invoice.register.requestOpenCourse.course.name}</p></td>
                                     <fmt:formatDate value="${his.pay_date}" pattern="dd/MM/yyyy" var="datePayment" />
                                     <td style="text-align: center;"><p>${datePayment}</p></td>
 
                                     <c:set var="course_fee" value="${his.invoice.register.requestOpenCourse.course.fee}" />
-                                    <td style="text-align: center;"><fmt:formatNumber value="${course_fee}" type="number" /></td>
+                                    <td style="text-align: center; color: black;"><fmt:formatNumber value="${course_fee}" type="number" /></td>
 
                                     <c:choose>
                                         <c:when test="${his.invoice.pay_status == true && his.invoice.approve_status.equals('ผ่าน')}">

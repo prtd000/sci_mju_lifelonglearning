@@ -183,7 +183,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="${pageContext.request.contextPath}/" class="nav-item nav-link active" style="font-size: 17px">หน้าหลัก</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>
+<%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>--%>
                         <%--            <div class="nav-item dropdown">--%>
                         <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
                     <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 17px">หลักสูตรการอบรม</a>
@@ -194,7 +194,7 @@
                         <%--            </div>--%>
                     <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/listcourse" class="nav-item nav-link" style="font-size: 17px">หลักสูตรของฉัน</a>
                     <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>
+<%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>--%>
                     <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/edit_profile" class="nav-item nav-link" style="font-size: 17px">ข้อมูลส่วนตัว</a>
                     <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 17px">ออกจากระบบ</a>
                 </div>
@@ -217,10 +217,10 @@
             <div class="collapse navbar-collapse" style="margin-right: 43px;">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="${pageContext.request.contextPath}/" class="nav-item nav-link active" style="font-size: 17px">หน้าหลัก</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>
+<%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>--%>
                     <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 17px">หลักสูตรการอบรม</a>
                     <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>
+<%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>--%>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle nav-item" data-bs-toggle="dropdown" style="font-size: 17px">เข้าสู่ระบบ</a>
                         <div class="dropdown-menu m-0">
@@ -336,26 +336,26 @@
                                                             <fmt:formatDate value="${list.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
                                                             <fmt:formatDate value="${list.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
 
-                                                            <td colspan="2" style="width: 300px; color: black; font-weight: bold;">รับสมัครวันที่ ${startRegister} - ${endRegister}</td>
+                                                            <td colspan="2" style="width: 300px; color: black; font-weight: bold;">เริ่มลงทะเบียน ${startRegister} - ${endRegister}</td>
                                                         </tr>
                                                         <c:if test="${list.type_learn.equals('เรียนในสถานศึกษา')}">
                                                             <tr>
                                                                 <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
-                                                                <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
+                                                                <td><p style="color: #000000; font-weight: bold">${list.type_learn}</p></td>
                                                             </tr>
                                                             <c:set var="notFoundTypeLearn" value="true" />
                                                         </c:if>
                                                         <c:if test="${list.type_learn.equals('เรียนออนไลน์')}">
                                                             <tr>
                                                                 <td><img src="${pageContext.request.contextPath}/assets/img/online.png" style="height: 25px;"></td>
-                                                                <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
+                                                                <td><p style="color: #000000; font-weight: bold">${list.type_learn}</p></td>
                                                             </tr>
                                                             <c:set var="notFoundTypeLearn" value="true" />
                                                         </c:if>
                                                         <c:if test="${list.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
                                                             <tr>
                                                                 <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
-                                                                <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
+                                                                <td><p style="color: #000000; font-weight: bold">${list.type_learn}</p></td>
                                                             </tr>
                                                             <c:set var="notFoundTypeLearn" value="true" />
                                                         </c:if>
@@ -364,7 +364,7 @@
                                                 <c:if test="${!notFoundTypeLearn}">
                                                     <tr>
                                                         <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
-                                                        <td><p style="color: #5b5b5b; font-weight: bold">ยังไม่เปิด</p></td>
+                                                        <td><p style="color: #000000; font-weight: bold">ยังไม่เปิด</p></td>
                                                     </tr>
                                                 </c:if>
                                                 <tr>
@@ -444,26 +444,26 @@
                                                                 <fmt:formatDate value="${list.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
                                                                 <fmt:formatDate value="${list.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
 
-                                                                <td colspan="2" style="width: 300px; color: black; font-weight: bold;">รับสมัครวันที่ ${startRegister} - ${endRegister}</td>
+                                                                <td colspan="2" style="width: 300px; color: black; font-weight: bold;">เริ่มลงทะเบียน ${startRegister} - ${endRegister}</td>
                                                             </tr>
                                                             <c:if test="${list.type_learn.equals('เรียนในสถานศึกษา')}">
                                                                 <tr>
                                                                     <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
-                                                                    <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
+                                                                    <td><p style="color: #000000; font-weight: bold">${list.type_learn}</p></td>
                                                                 </tr>
                                                                 <c:set var="notFoundTypeLearn" value="true" />
                                                             </c:if>
                                                             <c:if test="${list.type_learn.equals('เรียนออนไลน์')}">
                                                                 <tr>
                                                                     <td><img src="${pageContext.request.contextPath}/assets/img/online.png" style="height: 25px;"></td>
-                                                                    <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
+                                                                    <td><p style="color: #000000; font-weight: bold">${list.type_learn}</p></td>
                                                                 </tr>
                                                                 <c:set var="notFoundTypeLearn" value="true" />
                                                             </c:if>
                                                             <c:if test="${list.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
                                                                 <tr>
                                                                     <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
-                                                                    <td><p style="color: #5b5b5b; font-weight: bold">${list.type_learn}</p></td>
+                                                                    <td><p style="color: #000000; font-weight: bold">${list.type_learn}</p></td>
                                                                 </tr>
                                                                 <c:set var="notFoundTypeLearn" value="true" />
                                                             </c:if>
@@ -472,7 +472,7 @@
                                                     <c:if test="${!notFoundTypeLearn}">
                                                         <tr>
                                                             <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
-                                                            <td><p style="color: #5b5b5b; font-weight: bold">ยังไม่เปิด</p></td>
+                                                            <td><p style="color: #000000; font-weight: bold">ยังไม่เปิด</p></td>
                                                         </tr>
                                                     </c:if>
                                                     <tr>

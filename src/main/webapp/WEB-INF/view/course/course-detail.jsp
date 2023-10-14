@@ -3,6 +3,7 @@
 <%@ page import="lifelong.model.Lecturer" %>
 <%@ page import="java.util.Calendar" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.time.LocalDate" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -310,8 +311,8 @@
                 <c:choose>
                     <c:when test="${req.type_learn.equals('เรียนออนไลน์')}">
                         <tr>
-                            <td>ลิ้ง Mooc</td>
-                            <td><a href="${pageContext.request.contextPath}/${req.linkMooc}">${req.linkMooc}</a></td>
+                            <td>Link Mooc</td>
+                            <td><a href="${req.linkMooc}">${req.linkMooc}</a></td>
                         </tr>
                     </c:when>
                     <c:when test="${req.type_learn.equals('เรียนในสถานศึกษา')}">
@@ -322,8 +323,8 @@
                     </c:when>
                     <c:when test="${req.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
                         <tr>
-                            <td>ลิ้ง Mooc</td>
-                            <td><a href="${pageContext.request.contextPath}/${req.linkMooc}">${req.linkMooc}</a></td>
+                            <td>Link Mooc</td>
+                            <td><a href="${req.linkMooc}">${req.linkMooc}</a></td>
                         </tr>
                         <tr>
                             <td>สถานที่เรียน</td>
@@ -335,23 +336,43 @@
 
             <tr>
                 <td>ค่าธรรมเนียม</td>
-                <td>
-                    <c:set var="course_fee" value="${course_detail.fee}" />
-                    <fmt:formatNumber value="${course_fee}" type="number" /> บาท
+                <td style="color: #12b100;">
+                    <c:choose>
+                        <c:when test="${course_detail.fee == 0}">
+                            ไม่มีค่าธรรมเนียม
+                        </c:when>
+                        <c:when test="${course_detail.fee != 0}">
+                            ราคา <fmt:formatNumber value="${course_detail.fee}"/> บาท
+                        </c:when>
+                    </c:choose>
                 </td>
             </tr>
 
             <c:choose>
                 <c:when test="${flag ne 'member'}">
                     <c:if test="${stt_remaining == true}">
-                        <tr>
-                            <td></td>
-                            <td>
-                                <a href="${pageContext.request.contextPath}/register_member">
-                                    <button class="btn btn-success">สมัครเลย!</button>
-                                </a>
-                            </td>
-                        </tr>
+                        <c:set var="current" value="<%=LocalDate.now()%>"/>
+                        <c:set var="theLastRegister" value="${req.endRegister.toLocalDate()}"/>
+                        <c:choose>
+                            <c:when test="${current.isAfter(theLastRegister)}">
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <button class="btn btn-secondary" disabled style="color: #ffffff;">ปิดรับสมัครแล้ว</button>
+                                    </td>
+                                </tr>
+                            </c:when>
+                            <c:otherwise>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <a href="${pageContext.request.contextPath}/register_member">
+                                            <button class="btn btn-success">สมัครเลย!</button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </c:otherwise>
+                        </c:choose>
                     </c:if>
                 </c:when>
             </c:choose>

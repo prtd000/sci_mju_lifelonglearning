@@ -3,6 +3,7 @@
 <%@ page import="lifelong.model.Admin" %>
 <%@ page import="lifelong.model.Member" %>
 <%@ page import="lifelong.model.Lecturer" %>
+<%@ page import="java.time.LocalDate" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -209,7 +210,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>
+<%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>--%>
                         <%--            <div class="nav-item dropdown">--%>
                         <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
                     <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link active" style="font-size: 17px">หลักสูตรการอบรม</a>
@@ -220,7 +221,7 @@
                         <%--            </div>--%>
                     <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/listcourse" class="nav-item nav-link" style="font-size: 17px">หลักสูตรของฉัน</a>
                     <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>
+<%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>--%>
                     <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/edit_profile" class="nav-item nav-link" style="font-size: 17px">ข้อมูลส่วนตัว</a>
                     <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 17px">ออกจากระบบ</a>
                 </div>
@@ -344,8 +345,8 @@
                 <c:choose>
                     <c:when test="${req.type_learn.equals('เรียนออนไลน์')}">
                         <tr>
-                            <td>ลิ้ง Mooc</td>
-                            <td><a href="${pageContext.request.contextPath}/${req.linkMooc}">${req.linkMooc}</a></td>
+                            <td>Link Mooc</td>
+                            <td><a href="${req.linkMooc}">${req.linkMooc}</a></td>
                         </tr>
                     </c:when>
                     <c:when test="${req.type_learn.equals('เรียนในสถานศึกษา')}">
@@ -356,8 +357,8 @@
                     </c:when>
                     <c:when test="${req.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
                         <tr>
-                            <td>ลิ้ง Mooc</td>
-                            <td><a href="${pageContext.request.contextPath}/${req.linkMooc}">${req.linkMooc}</a></td>
+                            <td>Link Mooc</td>
+                            <td><a href="${req.linkMooc}">${req.linkMooc}</a></td>
                         </tr>
                         <tr>
                             <td>สถานที่เรียน</td>
@@ -374,9 +375,15 @@
             </tr>
             <tr>
                 <td>ค่าธรรมเนียม</td>
-                <td>
-                    <c:set var="course_fee" value="${course.fee}" />
-                    <fmt:formatNumber value="${course_fee}" type="number" /> บาท
+                <td style="color: #12b100;">
+                    <c:choose>
+                        <c:when test="${course.fee == 0}">
+                            ไม่มีค่าธรรมเนียม
+                        </c:when>
+                        <c:when test="${course.fee != 0}">
+                           ราคา <fmt:formatNumber value="${course.fee}"/> บาท
+                        </c:when>
+                    </c:choose>
                 </td>
             </tr>
             <tr>
@@ -389,7 +396,16 @@
                             <button class="btn btn-danger" disabled>ลงทะเบียนแล้ว</button>
                         </c:if>
                         <c:if test="${registered == false}">
-                            <button class="btn btn-success" onclick="if((confirm('ยืนยันการลงทะเบียน'))){ window.location.href='${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${course.course_id}/${req.request_id}/register';return false; }">สมัคร</button>
+                            <c:set var="current" value="<%=LocalDate.now()%>"/>
+                            <c:set var="theLastRegister" value="${req.endRegister.toLocalDate()}"/>
+                            <c:choose>
+                                <c:when test="${current.isAfter(theLastRegister)}">
+                                    <button class="btn btn-secondary" disabled style="color: #ffffff;">ปิดรับสมัครแล้ว</button>
+                                </c:when>
+                                <c:otherwise>
+                                    <button class="btn btn-success" onclick="if((confirm('ยืนยันการลงทะเบียน'))){ window.location.href='${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${course.course_id}/${req.request_id}/register';return false; }">สมัครเลย !</button>
+                                </c:otherwise>
+                            </c:choose>
                         </c:if>
                     </c:if>
 

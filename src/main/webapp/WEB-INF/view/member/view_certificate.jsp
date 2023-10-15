@@ -162,10 +162,10 @@
     <br>
     <div id="content">
         <!-- นี่คือเนื้อหาที่คุณต้องการแปลงเป็น PDF -->
-        <img src="${pageContext.request.contextPath}/assets/img/course_img/Certificate_Model_2.png" style="height: 520px" alt="certificate">
+        <img src="${pageContext.request.contextPath}/assets/img/Certificate_Model.png" style="height: 520px" alt="certificate">
         <p class="mem-name">${register.member.firstName} &nbsp; ${register.member.lastName}</p>
         <p class="course_name">${register.requestOpenCourse.course.certificateName}</p>
-        <img class="signature" src="${pageContext.request.contextPath}/assets/img/request_open_course/signature/${register.requestOpenCourse.signature}"  alt="signature"/>
+        <img class="signature" src="${pageContext.request.contextPath}/uploads/request_open_course/signature/${register.requestOpenCourse.signature}"  alt="signature"/>
         <p class="lec-name">${register.requestOpenCourse.lecturer.position} &nbsp; ${register.requestOpenCourse.lecturer.firstName} &nbsp; ${register.requestOpenCourse.lecturer.lastName}</p>
         <p class="sig-assistant">ผศ.ดร.ฐปน ชื่นบาล</p>
         <p class="name-assistant">ผู้ช่วยศาสตราจารย์ ดร.ฐปน ชื่นบาล</p>

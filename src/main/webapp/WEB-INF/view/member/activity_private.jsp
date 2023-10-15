@@ -131,7 +131,7 @@
     <c:set var="imgNames" value="${ac_detail.img}"/>
     <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
         <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}"/>
-            <img src="${pageContext.request.contextPath}/assets/img/activity/private/${ac_detail.ac_id}/${listImg}" alt="News_img" class="img_activity">
+            <img src="${pageContext.request.contextPath}/uploads/activity/private/${ac_detail.ac_id}/${listImg}" alt="News_img" class="img_activity">
         </c:forEach>
 
 

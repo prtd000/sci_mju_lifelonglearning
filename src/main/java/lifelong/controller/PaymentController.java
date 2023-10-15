@@ -88,9 +88,7 @@ public class PaymentController {
             String originalFileName = slip_payment.getOriginalFilename();
             String fileExtension = getFileExtension(originalFileName);
 
-            int latestFileCount = paymentService.getLatestFileCount();
-
-            String newFileName = String.format("SLIP_%04d%s", ++latestFileCount, fileExtension);
+            String newFileName = String.format("SLIP_%04d%s", receiptCode, fileExtension);
 
             Path imgFilePath = Paths.get(slipPath, newFileName);
             Files.write(imgFilePath, slip_payment.getBytes());
@@ -127,7 +125,12 @@ public class PaymentController {
     }
 
     @PostMapping("/{memid}/update_payment_fill_detail/{invoice_id}/update")
-    public String updateMakePayment(@PathVariable("memid") String memId, Model model, @PathVariable("invoice_id") long invoiceId, @RequestParam Map<String, String> params, @RequestParam("slip") MultipartFile file, HttpSession session) throws ParseException {
+    public String updateMakePayment(@PathVariable("memid") String memId, Model model,
+                                    @PathVariable("invoice_id") long invoiceId,
+                                    @RequestParam Map<String, String> params,
+                                    @RequestParam(value = "original_slip", required = false) String original_slip,
+                                    @RequestParam("slip") MultipartFile slip_payment,
+                                    HttpSession session) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Receipt receipt = paymentService.getReceiptByInvoiceId(invoiceId);
@@ -141,32 +144,19 @@ public class PaymentController {
                 receipt.setLast_four_digits(Integer.parseInt(params.get("last_four_digits")));
 
 
+                /**************** Image *******************/
+                String slipPath = ImgPath.pathUploads + "/make_payment/slip/";
 
-                // กำหนด path ที่จะบันทึกไฟล์
-                String uploadPath = ImgPath.pathImg + "/slip/";
+                Path path1 = Paths.get(slipPath, original_slip);
+                if (original_slip != null) {
+                    if (Files.exists(path1)) {
+                        Files.delete(path1);
+                    }
+                }
 
-                // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
-                Path directoryPath = Paths.get(uploadPath);
-                Files.createDirectories(directoryPath);
+                Files.write(path1, slip_payment.getBytes());
 
-                // ดึงนามสกุลไฟล์จากชื่อไฟล์
-                String originalFileName = file.getOriginalFilename();
-                String fileExtension = getFileExtension(originalFileName);
-
-
-                int latestFileCount = paymentService.getLatestFileCount(); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
-
-                // สร้างรหัสไฟล์ใหม่ในรูปแบบ "IMG_0001", "IMG_0002", ...
-                String newFileName = String.format("SLIP_%04d%s", ++latestFileCount, fileExtension);
-
-                // บันทึกไฟล์ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
-                // บันทึกไฟล์ PDF ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
-                Path filePath = Paths.get(uploadPath, newFileName);
-                Files.write(filePath, file.getBytes());
-
-                // บันทึกเส้นทางไฟล์ในฐานข้อมูล
-                receipt.setSlip(newFileName);
-
+                receipt.setSlip(original_slip);
                 paymentService.saveReceipt(receipt);
             } catch (IOException e) {
                 e.printStackTrace();

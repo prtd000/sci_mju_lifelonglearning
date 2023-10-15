@@ -202,6 +202,7 @@
             <tr style="height: 350px;">
                 <td style="width: 315px">
                     <label for="fileInput" class="file-label" style="margin-left: 120px;">Choose a file</label>
+                    <input type="hidden" name="original_slip" value="${receipt.slip}" />
                     <input type="file" id="fileInput" accept="image/*" name="slip" class="file-input" value="${receipt.slip}" onchange="previewImage(this)">
                 </td>
                 <td style="width: 315px">

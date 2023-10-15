@@ -253,7 +253,7 @@
                             <c:choose>
                                 <c:when test="${flag.equals('member')}">
                                     <div class="p-5">
-                                        <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}"
+                                        <img src="${pageContext.request.contextPath}/uploads/course_img/${course.img}"
                                              style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
                                         <br><br>
                                         <b><p class="item text_ellipsis course_name">${course.name}</p></b>
@@ -349,6 +349,13 @@
                                                                                 <c:set var="status" value="false"/>
                                                                             </c:if>
 
+                                                                            <c:if test="${invoices.pay_status == false && invoices.approve_status.equals('เลยกำหนดชำระเงิน')}">
+                                                                                <td style="width: 500px;">
+                                                                                    <p style="color: #ff1c1c; font-family: 'Mitr', sans-serif; font-size: 18px; font-weight: 100;">เลยกำหนดชำระเงิน</p>
+                                                                                </td>
+                                                                                <c:set var="status" value="false"/>
+                                                                            </c:if>
+
                                                                             <c:if test="${invoices.pay_status == true && invoices.approve_status.equals('รอดำเนินการ')}">
                                                                                 <td style="width: 305px;">
                                                                                     <p style="color: #e8b904; font-family: 'Mitr', sans-serif; font-size: 18px; font-weight: 100;">รอดำเนินการ</p>
@@ -375,6 +382,9 @@
                                                             </c:when>
                                                         </c:choose>
                                                     </c:forEach>
+
+
+
                                                     <c:if test="${notFoundCourse}">
                                                         <!-- เมื่อไม่พบ course_id ใน listRequest -->
                                                         <td style="width: 250px; vertical-align: top;">
@@ -394,7 +404,7 @@
                                 <c:otherwise>
                                     <a href="${pageContext.request.contextPath}/${course.course_id}">
                                         <div class="p-5">
-                                            <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}"
+                                            <img src="${pageContext.request.contextPath}/uploads/course_img/${course.img}"
                                                  style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
                                             <div>
                                                 <br>
@@ -478,7 +488,7 @@
                                                                     <p style="color: green; font-weight: 500; font-family: 'Mitr', sans-serif; font-size: 22px;text-align: right;">เปิด</p>
                                                                 </c:when>
                                                                 <c:when test="${listReq.course.course_id.equals(course.course_id) && listReq.requestStatus.equals('รอดำเนินการ')}">
-                                                                    <p style="color: #e24c07; font-weight: 100; font-family: 'Mitr', sans-serif; font-size: 22px; text-align: right;">เร็วๆนี้</p>
+                                                                    <p style="color: #e24c07; font-weight: 100; font-family: 'Mitr', sans-serif; font-size: 20px; text-align: right;">เร็วๆนี้</p>
                                                                 </c:when>
                                                             </c:choose>
                                                         </c:forEach>

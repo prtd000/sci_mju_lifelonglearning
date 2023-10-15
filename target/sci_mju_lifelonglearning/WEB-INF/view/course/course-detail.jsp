@@ -210,7 +210,7 @@
     <p class="major_name">${course_detail.major.name}</p>
     <br>
     <!--Image--->
-    <img src="${pageContext.request.contextPath}/assets/img/course_img/${course_detail.img}" alt="course_image"
+    <img src="${pageContext.request.contextPath}/uploads/course_img/${course_detail.img}" alt="course_image"
          class="img">
     <br><br><br>
     <!--Detail-->
@@ -254,6 +254,10 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>วันที่เรียน</td>
+                    <td>${req.studyDay} ( เวลา : ${fn:replace(req.studyTime,',',' - ')} )</td>
+                </tr>
+                <tr>
                     <td>จำนวนรับสมัคร</td>
                     <td>
                         <c:set var="stt_remaining" value="true" />
@@ -264,7 +268,7 @@
                                 <c:set var="stt_remaining" value="false" />
                             </c:when>
                             <c:otherwise>
-                                ${req.quantity} (คงเหลือ ${amount} ที่นั่ง)
+                                ${req.quantity} (คงเหลือ ${remaining} ที่นั่ง)
                                 <c:set var="stt_remaining" value="true" />
                             </c:otherwise>
                         </c:choose>
@@ -352,8 +356,17 @@
                 <c:when test="${flag ne 'member'}">
                     <c:if test="${stt_remaining == true}">
                         <c:set var="current" value="<%=LocalDate.now()%>"/>
+                        <c:set var="theStartRegister" value="${req.startRegister.toLocalDate()}"/>
                         <c:set var="theLastRegister" value="${req.endRegister.toLocalDate()}"/>
                         <c:choose>
+                            <c:when test="${current.isBefore(theStartRegister)}">
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <button class="btn btn-secondary" disabled style="color: #ffffff;background-color: #434343;border: none;">ยังไม่เปิดรับลงทะเบียน</button>
+                                    </td>
+                                </tr>
+                            </c:when>
                             <c:when test="${current.isAfter(theLastRegister)}">
                                 <tr>
                                     <td></td>

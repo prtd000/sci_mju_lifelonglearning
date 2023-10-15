@@ -245,7 +245,7 @@
     <p class="major_name">${course.major.name}</p>
     <br>
     <!--Image--->
-    <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}" alt="course_image" class="img">
+    <img src="${pageContext.request.contextPath}/uploads/course_img/${course.img}" alt="course_image" class="img">
     <br><br><br>
     <!--Detail-->
     <div>
@@ -287,6 +287,10 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>วันที่เรียน</td>
+                    <td>${req.studyDay} ( เวลา : ${fn:replace(req.studyTime,',',' - ')} )</td>
+                </tr>
+                <tr>
                     <td>จำนวนรับสมัคร</td>
                     <td>
                         <c:set var="stt_remaining" value="true" />
@@ -297,7 +301,7 @@
                                 <c:set var="stt_remaining" value="false" />
                             </c:when>
                             <c:otherwise>
-                                ${req.quantity} (คงเหลือ ${amount} ที่นั่ง)
+                                ${req.quantity} (คงเหลือ ${remaining} ที่นั่ง)
                                 <c:set var="stt_remaining" value="true" />
                             </c:otherwise>
                         </c:choose>
@@ -370,7 +374,7 @@
 
             <tr>
                 <td class="t1">เนื้อหาของหลักสูตร</td>
-                <td class="t2"><a href="${pageContext.request.contextPath}/assets/file/${course.file}" download>เอกสารประกอบการเรียน.pdf</a>
+                <td class="t2"><a href="${pageContext.request.contextPath}/uploads/course_pdf/${course.file}" download>เอกสารประกอบการเรียน.pdf</a>
                 </td>
             </tr>
             <tr>
@@ -397,8 +401,12 @@
                         </c:if>
                         <c:if test="${registered == false}">
                             <c:set var="current" value="<%=LocalDate.now()%>"/>
+                            <c:set var="theStartRegister" value="${req.startRegister.toLocalDate()}"/>
                             <c:set var="theLastRegister" value="${req.endRegister.toLocalDate()}"/>
                             <c:choose>
+                                <c:when test="${current.isBefore(theStartRegister)}">
+                                    <button class="btn btn-secondary" disabled style="color: #ffffff;background-color: #434343;border: none;">ยังไม่เปิดรับลงทะเบียน</button>
+                                </c:when>
                                 <c:when test="${current.isAfter(theLastRegister)}">
                                     <button class="btn btn-secondary" disabled style="color: #ffffff;">ปิดรับสมัครแล้ว</button>
                                 </c:when>
@@ -445,7 +453,7 @@
                         <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
                             <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}"/>
                             <c:if test="${!looped}">
-                                <td><img src="${pageContext.request.contextPath}/assets/img/activity/private/${list.ac_id}/${listImg}" alt="News_img" class="news_img"></td>
+                                <td><img src="${pageContext.request.contextPath}/uploads/activity/private/${list.ac_id}/${listImg}" alt="News_img" class="news_img"></td>
                                 <c:set var="looped" value="true"/>
                             </c:if>
                         </c:forEach>

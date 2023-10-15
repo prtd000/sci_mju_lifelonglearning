@@ -321,7 +321,7 @@
                                          style="width: 400px; height: 625px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
                                         <a href="${pageContext.request.contextPath}/${course.course_id}">
                                         <div class="p-5">
-                                            <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}" style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
+                                            <img src="${pageContext.request.contextPath}/uploads/course_img/${course.img}" style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
                                             <div>
                                                 <br>
                                                 <b><p class="item text_ellipsis course_name">${course.name}</p></b>
@@ -429,7 +429,7 @@
                                     <div class="bg-light border-bottom border-5 border-primary rounded" style="width: 400px; height: 625px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
                                         <a href="${pageContext.request.contextPath}/${course.course_id}">
                                             <div class="p-5">
-                                                <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}" style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
+                                                <img src="${pageContext.request.contextPath}/uploads/course_img/${course.img}" style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
                                                 <div>
                                                     <br>
                                                     <b><p class="item text_ellipsis course_name">${course.name}</p></b>

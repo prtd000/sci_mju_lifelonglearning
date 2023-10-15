@@ -252,8 +252,8 @@
                                     <label>ประเภทหลักสูตร</label>
                                     <select class="form-select" name="course_type" id="course_type" aria-label="Default select example">
                                         <option value="">--กรุณาเลือกหลักสูตร--</option>
-                                        <option value="หลักสูตรอบรมระยะสั้น">หลักสูตรอบรมระยะสั้น</option>
-                                        <option value="Non-Degree">Non-Degree</option>
+                                        <option value="หลักสูตรอบรมระยะสั้น" label="หลักสูตรอบรมระยะสั้น" ${course.course_type == 'หลักสูตรอบรมระยะสั้น' ? 'selected' : ''}></option>
+                                        <option value="Non-Degree" label="Non-Degree" ${course.course_type == 'Non-Degree' ? 'selected' : ''}></option>
                                     </select>
                                     <label id="invalidCourseType" style="color: red; font-size: 12px"></label>
                                 </div>
@@ -262,7 +262,14 @@
                                     <select name="major_id" id="major_id" class="form-select">
                                         <option value="" >--กรุณาเลือกสาขา--</option>
                                         <c:forEach items="${majors}" var="major">
-                                            <option value="${major.major_id}">${major.name}</option>
+                                            <c:choose>
+                                                <c:when test="${major.major_id eq course.major.major_id}">
+                                                    <option value="${major.major_id}" selected>${major.name}</option>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <option value="${major.major_id}">${major.name}</option>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </c:forEach>
                                     </select>
                                     <label id="invalidMajor" style="color: red; font-size: 12px"></label>
@@ -270,13 +277,13 @@
                             </div>
                             <label>ชื่อหลักสูตร</label>
                             <div class="mb-3">
-                                <input name="course_name" type="text" id="course_name" placeholder="ชื่อหลักสูตร" oninput="this.className = ''"/>
+                                <input name="course_name" type="text" id="course_name" placeholder="ชื่อหลักสูตร" value="${course.name}" oninput="this.className = ''"/>
                                 <a id="link" href="#">ตรวจสอบ</a> &nbsp; <label id="status"></label>
                                 <label id="invalidCourseName" style="color: red; font-size: 12px"></label>
                             </div>
                             <label>ชื่อเกียรติบัตร</label>
                             <div class="mb-3">
-                                <input name="certificateName" type="text" id="certificateName" placeholder="ชื่อเกียรติบัตร" oninput="this.className = ''"/>
+                                <input name="certificateName" type="text" id="certificateName" placeholder="ชื่อเกียรติบัตร" value="${course.certificateName}" oninput="this.className = ''"/>
                                 <label id="invalidCertificateName" style="color: red; font-size: 12px"></label>
                             </div>
                             <label>รูปหลักสูตร</label>
@@ -287,7 +294,10 @@
                         </td>
                         <td style="width: 30%; vertical-align: top;">
                             <div class="mb-3" align="center">
-                                <img id="preview" src="" alt="Image Preview" style="display: none; height: 300px; margin-top: 10px; border-radius: 10px">
+                                <c:if test="${not empty course.file}">
+                                    <input type="hidden" name="original_img" value="${course.img}" />
+                                    <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}" id="preview" alt="Image Preview" style="display: none; height: 300px; margin-top: 10px; border-radius: 10px">
+                                </c:if>
                             </div>
                         </td>
                     </tr>
@@ -302,6 +312,7 @@
                                 </div>
                                 <div id="editor" contenteditable="true" name="course_principle">
                                     <!-- เริ่มเพิ่มเนื้อหาของ Text Editor ที่นี่ -->
+                                        ${course.principle}
                                 </div>
                             </div>
                             <label id="invalidPrinciple" style="color: red; font-size: 12px"></label>
@@ -311,13 +322,17 @@
             </div>
             <div class="tab">
                 <label>วัตถุประสงค์</label>
+                <c:set var="object" value="${course.object}"></c:set>
+                <c:set var="parts" value="${fn:split(object, '$%')}"/>
                 <div>
                     <div class="mb-3">
                         <div id="objectives-container">
-                            <div class="objective-container">
-                                <input name="course_objectives[]" type="text" id="course_object" oninput="this.className = ''" class="objective"/>
-                                <button type="button" onclick="removeObjective(this)" class="btn btn-danger">ลบ</button>
-                            </div>
+                            <c:forEach items="${parts}" var="part">
+                                <div class="objective-container">
+                                    <input type="text" name="course_objectives[]" class="objective" id="course_object" value="${part}" oninput="this.className = ''"/>
+                                    <button type="button" onclick="removeObjective(this)" class="btn btn-danger">ลบ</button>
+                                </div>
+                            </c:forEach>
                         </div>
                         <button type="button" onclick="addObjective()">เพิ่มวัตถุประสงค์</button>
                     </div>
@@ -334,7 +349,7 @@
                             <td><label>มีค่าธรรมเนียม</label></td>
                             <td id="fee" style="display: none; margin-left: 10px;">
                                 <div class="input-group mb-3" style="display: -webkit-box;">
-                                    <input value="0" style="width: 325px;" name="course_fee" type="number" class="form-control" id="course_fee" placeholder="ค่าธรรมเนียม" aria-describedby="basic-addon2">
+                                    <input value="${course.fee}" style="width: 325px;" name="course_fee" type="number" class="form-control" id="course_fee" placeholder="ค่าธรรมเนียม" aria-describedby="basic-addon2">
                                     <span class="input-group-text" id="basic-addon1">บาท</span>
                                 </div>
                                 <label id="invalidCourseFee" style="color: red; font-size: 12px"></label>
@@ -348,7 +363,7 @@
                     <div style="width: 50%">
                         <label>ระยะเวลาในการเรียน</label>
                             <div class="input-group mb-3" style="display: -webkit-box;">
-                                <input style="width: 600px;" name="course_totalHours" type="number" class="form-control" id="course_totalHours" oninput="this.className = ''" placeholder="ระยะเวลาในการเรียน" aria-describedby="basic-addon2">
+                                <input style="width: 600px;" name="course_totalHours" type="number" class="form-control" id="course_totalHours" value="${course.totalHours}" oninput="this.className = ''" placeholder="ระยะเวลาในการเรียน" aria-describedby="basic-addon2">
                                 <span class="input-group-text" id="basic-addon2">ชั่วโมง</span>
                             </div>
                             <label id="invalidCourseTotalHours" style="color: red; font-size: 12px"></label>
@@ -358,6 +373,10 @@
                         <div class="mb-3">
                             <div class="course-totalHours-container">
                                 <input name="course_file" type="file" id="course_file" accept="file/*" onchange="checkFile(this)" class="form-control"/>
+                                <c:if test="${not empty course.file}">
+                                    <input type="hidden" name="original_file" value="${course.file}" />
+                                    <a href="${course.file}" target="_blank">${course.file}</a>
+                                </c:if>
                             </div>
                             <label id="invalidCourseFile" style="color: red; font-size: 12px"></label>
                         </div>
@@ -365,7 +384,7 @@
                 </div>
                 <div class="mb-3">
                     <div class="form-floating">
-                        <textarea class="form-control" placeholder="" id="floatingTextarea3" name="course_targetOccupation" style="height: 100px"></textarea>
+                        <textarea class="form-control" placeholder="" id="floatingTextarea3" name="course_targetOccupation" style="height: 100px">${course.targetOccupation}</textarea>
                         <label for="floatingTextarea3">เป้าหมายกลุ่มอาชีพ</label>
                     </div>
                     <label id="invalidCourseTargetOccupation" style="color: red; font-size: 12px"></label>

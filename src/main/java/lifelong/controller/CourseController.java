@@ -91,51 +91,13 @@ public class CourseController {
             Path directoryPathIMG = Paths.get(uploadPathIMG);
             Files.createDirectories(directoryPathIMG);
 
-//            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
-//            // รูปภาพ
-//            Path directoryPathIMG = Paths.get(uploadPathIMG);
-//            Files.createDirectories(directoryPathIMG);
-//
-//            // ดึงนามสกุลไฟล์จากชื่อไฟล์
-//            // รูปภาพ
-//            String originalImgFileName = img.getOriginalFilename();
-//            String fileImgExtension = getFileExtension(originalImgFileName);
-//
             int maxIdImgFile = courseService.getImgCourseMaxId(course_type); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
-//
-//            String course_img = "";
-//            if (Objects.equals(course_type, "หลักสูตรอบรมระยะสั้น")){
-//                // สร้างรหัสไฟล์ใหม่ในรูปแบบ "C_IMG0001", "C_IMG0002", ...
-//                course_img = String.format("C_IMG%04d%s", ++latestFileCount, fileImgExtension);
-//            }else {
-//                // สร้างรหัสไฟล์ใหม่ในรูปแบบ "N_IMG0001", "N_IMG0002", ...
-//                course_img = String.format("N_IMG%04d%s", ++latestFileCount, fileImgExtension);
-//            }
-//            // บันทึกไฟล์ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
-//            Path imgPath = Paths.get(uploadPathIMG, course_img);
-//            Files.write(imgPath, img.getBytes());
-
 //            // เพิ่ม PDF
 //            // กำหนด path ที่จะบันทึกไฟล์
             String uploadPathPDF = ImgPath.pathUploads + "/course_pdf/";
             // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
             Path directoryPathPDF = Paths.get(uploadPathPDF);
             Files.createDirectories(directoryPathPDF);
-//
-//            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
-//            Path directoryPathPDF = Paths.get(uploadPathPDF);
-//            Files.createDirectories(directoryPathPDF);
-//
-//            // ดึงนามสกุลไฟล์จากชื่อไฟล์
-//            // PDF
-//            String originalPdfFileName = pdf.getOriginalFilename();
-//            String filePdfExtension = getFileExtension(originalPdfFileName);
-//
-//            String course_pdf = String.format("PDF_%04d%s", ++latestFileCount, filePdfExtension);
-//
-//            // บันทึกไฟล์ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
-//            Path pdfPath = Paths.get(uploadPathPDF, course_pdf);
-//            Files.write(pdfPath, pdf.getBytes());
 
             // บันทึกไฟล์รูปภาพ
             String imgOriginalFileName = img.getOriginalFilename();
@@ -250,15 +212,23 @@ public class CourseController {
     //**********************************************//
 
     //**************Edit Course*******************//
+//    @GetMapping("/{id}/edit_course")
+//    public String getCourse(@PathVariable("id") String id, Model model) {
+//        Course course = courseService.getCourseById(id);
+//        model.addAttribute("title", "แก้ไข" + title);
+//        model.addAttribute("majors", majorService.getMajors());
+//        model.addAttribute("course", course);
+//        return "admin/edit_Course";
+//    }
+
     @GetMapping("/{id}/edit_course")
     public String getCourse(@PathVariable("id") String id, Model model) {
         Course course = courseService.getCourseById(id);
         model.addAttribute("title", "แก้ไข" + title);
         model.addAttribute("majors", majorService.getMajors());
         model.addAttribute("course", course);
-        return "admin/edit_Course";
+        return "admin/edit_Course_Detail";
     }
-
     @PostMapping(path = "/{admin_id}/{id}/update_edit_course")
     public String doEditCourse(@PathVariable("admin_id") String admin_id,
                                @PathVariable("id") String course_id,

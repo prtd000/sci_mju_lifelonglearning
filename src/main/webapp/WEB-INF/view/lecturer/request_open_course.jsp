@@ -938,10 +938,19 @@
         // Increase or decrease the current tab by 1:
         currentTab = currentTab + n;
         // if you have reached the end of the form...
+        // if (currentTab >= x.length) {
+        //     // ... the form gets submitted:
+        //     document.getElementById("regForm").submit();
+        //     return false;
+        // }
         if (currentTab >= x.length) {
-            // ... the form gets submitted:
-            document.getElementById("regForm").submit();
-            return false;
+            var confirmed = confirmAction();
+            if (confirmed) {
+                document.getElementById("regForm").submit();
+                return false;
+            } else {
+                currentTab = currentTab - 1; // ย้อนกลับไปที่ขั้นตอนก่อนหน้า
+            }
         }
         console.log("currentTab : "+currentTab);
         // Otherwise, display the correct tab:

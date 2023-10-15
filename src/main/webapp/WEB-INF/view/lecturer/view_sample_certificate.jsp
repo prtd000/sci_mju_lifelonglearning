@@ -23,7 +23,6 @@
 <script>
     function previewImage(input) {
         var preview = document.getElementById('preview');
-        var displayPreview = document.getElementById('displayPreview');
         var fileInput = document.getElementById('fileInput');
 
         if (input.files && input.files[0]) {
@@ -33,17 +32,12 @@
                 preview.src = e.target.result;
                 preview.style.display = 'block';
 
-                displayPreview.src = e.target.result;
-                displayPreview.style.display = 'block';
             };
 
             reader.readAsDataURL(input.files[0]);
         } else {
             preview.src = '';
             preview.style.display = 'none';
-
-            displayPreview.src = '';
-            displayPreview.style.display = 'none';
         }
     }
 </script>
@@ -109,11 +103,11 @@
                 <tr>
                     <td style="width: 50%">
                         <div id="signUpForm" class="flex-container">
-                            <div class="step">
+                            <div>
                                 <h3>ตัวอย่างเกียรติบัตร</h3>
                                 <hr>
                                 <div style="position: relative;">
-                                    <img src="${pageContext.request.contextPath}/assets/img/course_img/Certificate_Model.png" style="width: 100%" alt="certificate">
+                                    <img src="${pageContext.request.contextPath}/uploads/course_img/Certificate_Model_2.png" style="width: 100%" alt="certificate">
                                     <table style="position: absolute; top: 0; left: 0; width: 100%; height: 100%">
                                         <tr>
                                             <td style="width: 17%"><p class="label-cer"></p></td>
@@ -146,10 +140,15 @@
                                         <tr>
                                             <td></td>
                                             <td align="center">
-                                                <c:if test="${not empty request.signature}">
-                                                    <input type="hidden" name="original_signature" value="${request.signature}" />
-                                                    <img src="${pageContext.request.contextPath}/assets/img/request_open_course/signature/${request.signature}" id="preview" alt="Image Preview" style="height: 40px; margin-left: 10px; border-radius: 10px">
-                                                </c:if>
+                                                <input type="hidden" name="original_signature" value="${request.signature}" />
+                                                <c:choose>
+                                                    <c:when test="${empty not request.signature}">
+                                                        <img src="${pageContext.request.contextPath}/uploads/request_open_course/signature/${request.signature}" id="preview" alt="Image Preview" style="height: 40px; margin-left: 10px; border-radius: 10px">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <img id="preview" alt="Image Preview" style="height: 40px; margin-left: 10px; border-radius: 10px">
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </td>
                                             <td></td>
                                             <td align="center">
@@ -184,19 +183,12 @@
                     </td>
                     <td style="width: 25%">
                             <div id="menuForm" class="flex-container">
-                                <div class="step">
+                                <div>
                                     <h4>อัพโหลดเกียรติบัตร</h4>
                                     <hr>
                                     <div class="mb-3" align="center">
                                         <div class="form-floating">
                                             <input name="signature" type="file" id="fileInput" accept="image/*" onchange="previewImage(this)" class="form-control"/>
-                                        </div>
-                                        <div class="mb-3">
-                                                <%--                                        <c:if test="${not empty request.signature}">--%>
-                                                <%--                                            <input type="hidden" name="original_signature" value="${request.signature}" />--%>
-                                                <%--                                            <img src="${pageContext.request.contextPath}/assets/img/request_open_course/signature/${request.signature}" id="preview" alt="Image Preview" style="height: 40px; margin-left: 10px; border-radius: 10px">--%>
-                                                <%--                                        </c:if>--%>
-                                            <img id="displayPreview" src="" alt="Image Preview" style="height: 70px; margin-top: 10px; border-radius: 10px;">
                                         </div>
                                     </div>
                                     <input type="submit" value="อัพโหลด">
@@ -222,15 +214,10 @@
 </c:choose>
 </body>
 <script>
-    const course_img = document.getElementById("preview").src; // เพิ่มบรรทัดนี้
-    document.getElementById("displayPreview").src = course_img; // เพิ่มบรรทัดนี้
+    const course_img = document.getElementById("preview").src;
     var currentTab = 0; // Current tab is set to be the first tab (0)
     for (currentTab ; currentTab < 2 ; currentTab++){
         showTab(currentTab); // Display the current tab
-    }
-    function showTab(n) {
-        var x = document.getElementsByClassName("step");
-        x[n].style.display = "block";
     }
     function confirmAction() {
         var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการแก้ไขลายเซ็น?");

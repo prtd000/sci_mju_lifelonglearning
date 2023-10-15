@@ -441,27 +441,56 @@ public class LecturerController {
         long existingRequestId = Long.parseLong(req_id);
         RequestOpenCourse existingRequest = requestOpCourseService.getRequestOpenCourseDetailToUpdate(existingRequestId,lec_id);
         try {
-//            AddImg pdfToUpdate = courseService.getPdfById(pdfId);
-            // กำหนด path ที่จะบันทึกไฟล์
-            String uploadPathSIG = ImgPath.pathUploads + "/request_open_course/signature/";
-//            String uploadPath = ImgPath.pathImg + "/course_pdf/pdf/";
             // ถ้ามีการอัพโหลดไฟล์ใหม่
             if (!signature.isEmpty()) {
-                // ลบไฟล์ PDF เดิม (ถ้ามี)
-                Path path1 = Paths.get(uploadPathSIG, original_signature);
-                if (original_signature != null) {
-                    if (Files.exists(path1)) {
-                        Files.delete(path1);
-                    }
+                String uploadPathSIG = ImgPath.pathUploads + "/request_open_course/signature/";
+                if(original_signature == null){
+                    // กำหนด path ที่จะบันทึกไฟล์
+                    // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
+                    Path directoryPathSIG = Paths.get(uploadPathSIG);
+                    Files.createDirectories(directoryPathSIG);
+
+//                    String originalImgFileName = signature.getOriginalFilename();
+//                    String fileImgExtension = getFileExtension(originalImgFileName);
+
+                    String imgOriginalFileName = signature.getOriginalFilename();
+                    String imgFileExtension = getFileExtension(imgOriginalFileName);
+                    String signature_img = "";
+                    int maxIdImgFile = requestOpCourseService.getSignatureCourseMaxId(); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
+                    // สร้างรหัสไฟล์ใหม่ในรูปแบบ "SIG0001", ...
+                    signature_img = String.format("SIG%04d%s", ++maxIdImgFile, imgFileExtension);
+                    Path imgFilePath = Paths.get(uploadPathSIG, signature_img);
+                    Files.write(imgFilePath, signature.getBytes());
+                    existingRequest.setSignature(signature_img);
+                    requestOpCourseService.updateRequestOpenCourse(existingRequest);
                 }
+                    // ผู้ใช้ต้องการแก้ไขรูปภาพเท่านั้น
+                    // ดำเนินการอัพโหลดรูปภาพใหม่
+                    // ลบรูปเดิม (ถ้ามี)
+                    else {
+                    // กำหนด path ที่จะบันทึกไฟล์
+                    // ถ้ามีการอัพโหลดไฟล์ใหม่
+                        if (!signature.isEmpty()) {
+                            // ลบไฟล์ PDF เดิม (ถ้ามี)
+                            Path path1 = Paths.get(uploadPathSIG, original_signature);
+                            if (original_signature != null) {
+                                if (Files.exists(path1)) {
+                                    Files.delete(path1);
+                                }
+                            }
 
-                // บันทึกไฟล์ใหม่
-                Files.write(path1, signature.getBytes());
+                            // บันทึกไฟล์ใหม่
+                            Files.write(path1, signature.getBytes());
 
-                // อัพเดตข้อมูลในฐานข้อมูล
-                assert existingRequest != null;
-                existingRequest.setSignature(original_signature);
-                requestOpCourseService.updateRequestOpenCourse(existingRequest);
+                            // อัพเดตข้อมูลในฐานข้อมูล
+                            assert existingRequest != null;
+                            existingRequest.setSignature(original_signature);
+                            requestOpCourseService.updateRequestOpenCourse(existingRequest);
+                        } else {
+                            // ไม่มีการอัพโหลดไฟล์ใหม่ แต่อาจมีการอัพเดตข้อมูลอื่น ๆ ที่ต้องการทำในกรณีนี้
+                            requestOpCourseService.updateRequestOpenCourse(existingRequest);
+                        }
+                    }
             } else {
                 // ไม่มีการอัพโหลดไฟล์ใหม่ แต่อาจมีการอัพเดตข้อมูลอื่น ๆ ที่ต้องการทำในกรณีนี้
                 requestOpCourseService.updateRequestOpenCourse(existingRequest);

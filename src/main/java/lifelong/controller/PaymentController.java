@@ -41,7 +41,11 @@ public class PaymentController {
     }
 
     @PostMapping("/{memid}/payment_fill_detail/{invoice_id}/save")
-    public String saveMakePayment(@PathVariable("memid") String memId, @PathVariable("invoice_id") long invoiceId, @RequestParam Map<String, String> params, @RequestParam("slip") MultipartFile file, HttpSession session) throws ParseException {
+    public String saveMakePayment(@PathVariable("memid") String memId,
+                                  @PathVariable("invoice_id") long invoiceId,
+                                  @RequestParam Map<String, String> params,
+                                  @RequestParam("slip") MultipartFile slip_payment,
+                                  HttpSession session) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Invoice invoice = paymentService.getInvoiceById(invoiceId);
@@ -74,29 +78,23 @@ public class PaymentController {
             receipt.setInvoice(paymentService.getInvoiceById(invoiceId));
 
 
-            // กำหนด path ที่จะบันทึกไฟล์
-            String uploadPath = ImgPath.pathImg + "/slip/";
+            /**************** Image *******************/
+            String slipPath = ImgPath.pathUploads + "/make_payment/slip/";
 
-            // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
-            Path directoryPath = Paths.get(uploadPath);
-            Files.createDirectories(directoryPath);
+            /*** กำหนดเส้นทางสำหรับการบันทึกไฟล์รูปภาพ ***/
+            Path directoryPathIMG = Paths.get(slipPath);
+            Files.createDirectories(directoryPathIMG);
 
-            // ดึงนามสกุลไฟล์จากชื่อไฟล์
-            String originalFileName = file.getOriginalFilename();
+            String originalFileName = slip_payment.getOriginalFilename();
             String fileExtension = getFileExtension(originalFileName);
 
+            int latestFileCount = paymentService.getLatestFileCount();
 
-            int latestFileCount = paymentService.getLatestFileCount(); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
-
-            // สร้างรหัสไฟล์ใหม่ในรูปแบบ "IMG_0001", "IMG_0002", ...
             String newFileName = String.format("SLIP_%04d%s", ++latestFileCount, fileExtension);
 
-            // บันทึกไฟล์ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
-            // บันทึกไฟล์ PDF ลงในโฟลเดอร์ที่ใช้เพื่อแสดงผลในเว็บ
-            Path filePath = Paths.get(uploadPath, newFileName);
-            Files.write(filePath, file.getBytes());
+            Path imgFilePath = Paths.get(slipPath, newFileName);
+            Files.write(imgFilePath, slip_payment.getBytes());
 
-            // บันทึกเส้นทางไฟล์ในฐานข้อมูล
             receipt.setSlip(newFileName);
             paymentService.saveReceipt(receipt);
         } catch (IOException e) {

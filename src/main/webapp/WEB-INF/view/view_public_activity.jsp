@@ -211,7 +211,7 @@
                         <c:set var="listImg"
                                value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}"/>
                         <td>
-                            <img src="${pageContext.request.contextPath}/assets/img/activity/public/${list.ac_id}/${listImg}" alt="News_img" class="img_activity">
+                            <img src="${pageContext.request.contextPath}/uploads/activity/public/${list.ac_id}/${listImg}" alt="News_img" class="img_activity">
                         </td>
                     </c:forEach>
                     <p class="news_details">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${list.detail}</p>

@@ -14,11 +14,15 @@
 <head>
     <title>Course Detail</title>
     <%--    bootstrap--%>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
 
     <%--    Google Font--%>
-    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200&family=Prompt:wght@200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200&family=Prompt:wght@200&display=swap"
+          rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -33,7 +37,7 @@
             filter: brightness(0.7);
         }
 
-        .header_1{
+        .header_1 {
             font-family: 'Archivo', sans-serif;
             position: absolute;
             font-size: 60px;
@@ -44,7 +48,7 @@
             color: white;
         }
 
-        .header_2{
+        .header_2 {
             font-family: 'Archivo', sans-serif;
             position: absolute;
             font-size: 33px;
@@ -56,7 +60,7 @@
             color: white;
         }
 
-        .bt_register{
+        .bt_register {
             position: absolute;
             top: 47%;
             left: 24%;
@@ -69,7 +73,8 @@
             font-weight: 700;
             transition: 0.5s;
         }
-        .bt_register:hover{
+
+        .bt_register:hover {
             color: white;
             background-color: rgba(255, 255, 255, 0);
             transition: 0.5s;
@@ -107,36 +112,40 @@
             color: black;
         }
 
-        table[class='detail'] tr td:first-child{
+        table[class='detail'] tr td:first-child {
             width: 155px;
         }
-        table[class='detail'] tr td{
+
+        table[class='detail'] tr td {
             font-weight: bold;
         }
-        tr{
+
+        tr {
             height: 50px;
         }
 
 
         /**************** Activity *****************/
-        .block_news{
+        .block_news {
             box-shadow: 0px 0px 10px 2px #bebcbc;
             border-radius: 14px;
             width: 350px;
             height: 510px;
             margin-right: 30px;
         }
-        .news_img{
+
+        .news_img {
             height: 250px;
             width: 350px;
             object-fit: cover;
             border-radius: 14px 14px 0px 0px;
         }
-        .news_content{
+
+        .news_content {
             padding: 21px 25px 2px 25px;
         }
 
-        .header_news{
+        .header_news {
             color: black;
             font-weight: bold;
             font-size: 28px;
@@ -161,7 +170,7 @@
             padding-left: 5px; /* ระยะห่างระหว่าง ellipsis และข้อความ */
         }
 
-        .detail_news{
+        .detail_news {
             color: black;
             font-size: 15px;
         }
@@ -210,20 +219,25 @@
             <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
-<%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>--%>
+                        <%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>--%>
                         <%--            <div class="nav-item dropdown">--%>
                         <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
-                    <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link active" style="font-size: 17px">หลักสูตรการอบรม</a>
+                    <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link active"
+                       style="font-size: 17px">หลักสูตรการอบรม</a>
                         <%--                <div class="dropdown-menu m-0">--%>
                         <%--                    <a href="#" class="dropdown-item">Reskill/Upskill</a>--%>
                         <%--                    <a href="#" class="dropdown-item">อบรมระยะสั้น</a>--%>
                         <%--                </div>--%>
                         <%--            </div>--%>
-                    <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/listcourse" class="nav-item nav-link" style="font-size: 17px">หลักสูตรของฉัน</a>
-                    <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
-<%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>--%>
-                    <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/edit_profile" class="nav-item nav-link" style="font-size: 17px">ข้อมูลส่วนตัว</a>
-                    <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 17px">ออกจากระบบ</a>
+                    <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/listcourse"
+                       class="nav-item nav-link" style="font-size: 17px">หลักสูตรของฉัน</a>
+                    <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link"
+                       style="font-size: 17px">ข่าวสารและกิจกรรม</a>
+                        <%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>--%>
+                    <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/edit_profile"
+                       class="nav-item nav-link" style="font-size: 17px">ข้อมูลส่วนตัว</a>
+                    <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link"
+                       style="font-size: 17px">ออกจากระบบ</a>
                 </div>
             </div>
         </nav>
@@ -293,16 +307,16 @@
                 <tr>
                     <td>จำนวนรับสมัคร</td>
                     <td>
-                        <c:set var="stt_remaining" value="true" />
+                        <c:set var="stt_remaining" value="true"/>
                         <c:set var="remaining" value="${req.quantity - amount}"/>
                         <c:choose>
                             <c:when test="${amount == req.quantity}">
                                 <p style="color: green; font-weight: bold; margin-top: 13px;">เต็มแล้ว</p>
-                                <c:set var="stt_remaining" value="false" />
+                                <c:set var="stt_remaining" value="false"/>
                             </c:when>
                             <c:otherwise>
                                 ${req.quantity} (คงเหลือ ${remaining} ที่นั่ง)
-                                <c:set var="stt_remaining" value="true" />
+                                <c:set var="stt_remaining" value="true"/>
                             </c:otherwise>
                         </c:choose>
                     </td>
@@ -340,7 +354,7 @@
             </tr>
 
 
-            <c:if test="${req != null}" >
+            <c:if test="${req != null}">
                 <tr>
                     <td>รูปแบบการเรียน</td>
                     <td>${req.type_learn}</td>
@@ -385,7 +399,7 @@
                             ไม่มีค่าธรรมเนียม
                         </c:when>
                         <c:when test="${course.fee != 0}">
-                           ราคา <fmt:formatNumber value="${course.fee}"/> บาท
+                            ราคา <fmt:formatNumber value="${course.fee}"/> บาท
                         </c:when>
                     </c:choose>
                 </td>
@@ -394,7 +408,7 @@
                 <td></td>
                 <td>
                     <%--    Now--%>
-                    <c:set var="stt_btn" value="true" />
+                    <c:set var="stt_btn" value="true"/>
                     <c:if test="${stt_remaining == true}">
                         <c:if test="${registered == true}">
                             <button class="btn btn-danger" disabled>ลงทะเบียนแล้ว</button>
@@ -405,32 +419,41 @@
                             <c:set var="theLastRegister" value="${req.endRegister.toLocalDate()}"/>
                             <c:choose>
                                 <c:when test="${current.isBefore(theStartRegister)}">
-                                    <button class="btn btn-secondary" disabled style="color: #ffffff;background-color: #434343;border: none;">ยังไม่เปิดรับลงทะเบียน</button>
+                                    <button class="btn btn-secondary" disabled
+                                            style="color: #ffffff;background-color: #434343;border: none;">
+                                        ยังไม่เปิดรับลงทะเบียน
+                                    </button>
                                 </c:when>
                                 <c:when test="${current.isAfter(theLastRegister)}">
-                                    <button class="btn btn-secondary" disabled style="color: #ffffff;">ปิดรับสมัครแล้ว</button>
+                                    <button class="btn btn-secondary" disabled style="color: #ffffff;">ปิดรับสมัครแล้ว
+                                    </button>
                                 </c:when>
                                 <c:otherwise>
-                                    <button class="btn btn-success" onclick="if((confirm('ยืนยันการลงทะเบียน'))){ window.location.href='${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${course.course_id}/${req.request_id}/register';return false; }">สมัครเลย !</button>
+                                    <%--                                    <button class="btn btn-success" id="btnRegister" onclick="if((confirm('ยืนยันการลงทะเบียน'))){ window.location.href='${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${course.course_id}/${req.request_id}/register';return false; }">สมัครเลย !</button>--%>
+                                    <button class="btn btn-success" id="btnRegister">สมัครเลย !</button>
+                                    <br><br>
+                                    <label id="messageAlertLengthDate" style="color: #ff0000;"></label>
+                                    <br>
+                                    <label id="messageAskAgain" style="color: #03a200;"></label>
                                 </c:otherwise>
                             </c:choose>
                         </c:if>
                     </c:if>
 
-                    <c:if test="${stt_remaining == false && registered == true}" >
+                    <c:if test="${stt_remaining == false && registered == true}">
                         <button class="btn btn-danger" disabled>ลงทะเบียนแล้ว</button>
-                        <c:set var="stt_btn" value="false" />
+                        <c:set var="stt_btn" value="false"/>
                     </c:if>
 
-                    <c:if test="${stt_remaining == false && stt_btn == true}" >
-                        <button class="btn btn-danger" disabled >เต็มแล้ว</button>
+                    <c:if test="${stt_remaining == false && stt_btn == true}">
+                        <button class="btn btn-danger" disabled>เต็มแล้ว</button>
                     </c:if>
                 </td>
             </tr>
         </table>
     </div>
     <br><br><br>
-<%--    Course News--%>
+    <%--    Course News--%>
 
     <c:if test="${registerMember.study_result.equals('กำลังเรียน') || registerMember.study_result.equals('ผ่าน')}">
         <c:choose>
@@ -451,16 +474,19 @@
                         <c:set var="looped" value="false"/>
                         <c:set var="imgNames" value="${list.img}"/>
                         <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
-                            <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}"/>
+                            <c:set var="listImg"
+                                   value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}"/>
                             <c:if test="${!looped}">
-                                <td><img src="${pageContext.request.contextPath}/uploads/activity/private/${list.ac_id}/${listImg}" alt="News_img" class="news_img"></td>
+                                <td><img
+                                        src="${pageContext.request.contextPath}/uploads/activity/private/${list.ac_id}/${listImg}"
+                                        alt="News_img" class="news_img"></td>
                                 <c:set var="looped" value="true"/>
                             </c:if>
                         </c:forEach>
 
                         <div class="news_content">
                             <p class="header_news">${list.name}</p>
-                            <fmt:formatDate value="${list.date}" pattern="dd/MM/yyyy" var="activity_date" />
+                            <fmt:formatDate value="${list.date}" pattern="dd/MM/yyyy" var="activity_date"/>
                             <c:set var="format_date" value="${fn:substring(activity_date, 0, 10)}"/>
                             <p style="color: black;">${format_date}</p>
                             <div class="block_detail_news">
@@ -473,7 +499,68 @@
         </c:forEach>
     </c:if>
 </div>
+<script>
+    // เพิ่มการฟังก์ชันเมื่อปุ่มถูกคลิก
+    document.getElementById('btnRegister').addEventListener('click', function () {
+        /********************* Backup ****************************/
+        <%--var messageAlertLengthDate = document.getElementById('messageAlertLengthDate');--%>
+        <%--let isAvailable = false;--%>
+        <%--var messageAskAgain = document.getElementById('messageAskAgain');--%>
+        <%--<c:forEach var="register" items="${list_register}" >--%>
+        <%--    var startStudy = '${req.startStudyDate}'--%>
+        <%--    var endStudy = '${req.endStudyDate}'--%>
+        <%--        if (new Date(startStudy) > new Date('${register.requestOpenCourse.startStudyDate}') && new Date(endStudy) < new Date('${register.requestOpenCourse.endStudyDate}')) {--%>
+        <%--            messageAlertLengthDate.innerHTML = "*หมายเหตุ* คุณมีเรียนหลักสูตร " + `${register.requestOpenCourse.course.name}` + " <br>ซึ่งเป็นช่วงเวลาเรียนเดียวกับหลักสูตรนี้";--%>
+        <%--            messageAskAgain.innerHTML = "หากคุณต้องการลงทะเบียนหลักสูตรนี้ กรุณากดลงทะเบียนใหม่อีกครั้ง"--%>
+        <%--            console.log("I'm the first")--%>
+        <%--            isAvailable = true--%>
+        <%--        }--%>
+        <%--</c:forEach>--%>
 
+        <%--if (isAvailable === true){--%>
+        <%--    console.log("I'm second")--%>
+        <%--    if((confirm('ยืนยันการลงทะเบียน'))){--%>
+        <%--        window.location.href='${pageContext.request.contextPath}/member/' +`<%= member.getUsername() %>`+ '/register_course/'+ `${course.course_id}` +'/'+ `${req.request_id}` + '/register';--%>
+        <%--        return false;--%>
+        <%--    }--%>
+        <%--}else {--%>
+        <%--    console.log("I'm here the last")--%>
+        <%--    if((confirm('ยืนยันการลงทะเบียน'))){--%>
+        <%--        window.location.href='${pageContext.request.contextPath}/member/' +`<%= member.getUsername() %>`+ '/register_course/'+ `${course.course_id}` +'/'+ `${req.request_id}` + '/register';--%>
+        <%--        return false;--%>
+        <%--    }--%>
+        <%--}--%>
+        /********************* Backup ****************************/
+        var messageAlertLengthDate = document.getElementById('messageAlertLengthDate');
+        let isAvailable = false;
+        <c:forEach var="register" items="${list_register}" >
+            var startStudy = '${req.startStudyDate}'
+            var endStudy = '${req.endStudyDate}'
+            if (new Date(startStudy) > new Date('${register.requestOpenCourse.startStudyDate}') && new Date(endStudy) < new Date('${register.requestOpenCourse.endStudyDate}')) {
+                messageAlertLengthDate.innerHTML = "*หมายเหตุ* คุณมีเรียนหลักสูตร " + `${register.requestOpenCourse.course.name}` + " ซึ่งเป็นช่วงเวลาเรียนเดียวกับหลักสูตรนี้";
+                isAvailable = true;
+            }else if (new Date(startStudy) < new Date('${register.requestOpenCourse.startStudyDate}') && (new Date(endStudy) > new Date('${register.requestOpenCourse.startStudyDate}') && new Date(endStudy) < new Date('${register.requestOpenCourse.endStudyDate}'))) {
+                messageAlertLengthDate.innerHTML = "*หมายเหตุ* คุณมีเรียนหลักสูตร " + `${register.requestOpenCourse.course.name}` + " ซึ่งเป็นช่วงเวลาเรียนเดียวกับหลักสูตรนี้";
+                isAvailable = true;
+            }else if ((new Date(startStudy) > new Date('${register.requestOpenCourse.startStudyDate}') && new Date(startStudy) < new Date('${register.requestOpenCourse.endStudyDate}')) && new Date(endStudy) > new Date('${register.requestOpenCourse.endStudyDate}')) {
+                messageAlertLengthDate.innerHTML = "*หมายเหตุ* คุณมีเรียนหลักสูตร " + `${register.requestOpenCourse.course.name}` + " ซึ่งเป็นช่วงเวลาเรียนเดียวกับหลักสูตรนี้";
+                isAvailable = true;
+            }else if (startStudy === '${register.requestOpenCourse.startStudyDate}' && endStudy === '${register.requestOpenCourse.endStudyDate}'){
+                messageAlertLengthDate.innerHTML = "*หมายเหตุ* คุณมีเรียนหลักสูตร " + `${register.requestOpenCourse.course.name}` + " ซึ่งเป็นช่วงเวลาเรียนเดียวกับหลักสูตรนี้";
+                isAvailable = true;
+            }else if (startStudy === '${register.requestOpenCourse.endStudyDate}' || endStudy === '${register.requestOpenCourse.startStudyDate}'){
+                messageAlertLengthDate.innerHTML = "*หมายเหตุ* คุณมีเรียนหลักสูตร " + `${register.requestOpenCourse.course.name}` + " ซึ่งเป็นช่วงเวลาเรียนเดียวกับหลักสูตรนี้";
+                isAvailable = true;
+            }
+        </c:forEach>
+        if (isAvailable === false){
+            if ((confirm('ยืนยันการลงทะเบียน'))) {
+                window.location.href = '${pageContext.request.contextPath}/member/' + `${memId}` + '/register_course/' + `${course.course_id}` + '/' + `${req.request_id}` + '/register';
+                return false;
+            }
+        }
+    });
+</script>
 
 <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>
 </body>

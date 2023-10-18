@@ -9,72 +9,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1f988c8c-8432-4649-a620-5b531a6a17f3" name="Changes" comment="image path">
+    <list default="true" id="1f988c8c-8432-4649-a620-5b531a6a17f3" name="Changes" comment="Re Path , ListCourse : ApplicationResult , CourseDetail Date Study">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/controller/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/controller/PaymentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/course/course-detail.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/course/course-detail.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/controller/MemberController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/home.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/member/activity_private.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/member/activity_private.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/member/list_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/member/list_course.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/member/register_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/member/register_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/member/update_payment_fill_detail.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/member/update_payment_fill_detail.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/member/view_certificate.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/member/view_certificate.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/search_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/search_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_img/C_IMG0001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_img/Certificate_Model.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_img/Certificate_Model_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/assets/img/Certificate_Model.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_img/N_IMG0001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_img/N_IMG0002.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_img/N_IMG0003.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_img/N_IMG0004.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_img/N_IMG0005.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_img/N_IMG0006.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_img/N_IMG0007.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_img/N_IMG0008.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_img/course.psd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/PDF_0001.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/PDF_0002.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/PDF_0003.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/PDF_0004.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/PDF_0005.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/PDF_0007.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/PDF_0008.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/PDF_0009.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/pdf/PDF_0003.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/pdf/PDF_0004.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/img/course_pdf/pdf/PDF_0005.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/controller/PaymentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/controller/PaymentController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/PaymentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/PaymentController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/course/course-detail.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/course/course-detail.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/controller/CourseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/controller/CourseController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/controller/MemberController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/controller/MemberController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/CourseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/CourseController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/MemberController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/MemberController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/home.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/member/list_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/member/list_course.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/member/register_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/member/register_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/member/update_payment_fill_detail.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/member/update_payment_fill_detail.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/member/view_certificate.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/member/view_certificate.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/search_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/search_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_img/C_IMG0001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_img/Certificate_Model.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_img/N_IMG0001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_img/N_IMG0002.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_img/N_IMG0003.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_img/N_IMG0004.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_img/N_IMG0005.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_img/N_IMG0006.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_img/N_IMG0007.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_img/N_IMG0008.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_img/course.psd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_pdf/PDF_0001.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_pdf/PDF_0002.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_pdf/PDF_0003.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_pdf/PDF_0004.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_pdf/PDF_0005.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_pdf/PDF_0007.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_pdf/PDF_0008.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_pdf/PDF_0009.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_pdf/pdf/PDF_0003.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_pdf/pdf/PDF_0004.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/assets/img/course_pdf/pdf/PDF_0005.pdf" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,6 +81,9 @@
         <option name="useMavenConfig" value="true" />
       </MavenGeneralSettings>
     </option>
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
   <component name="ProjectId" id="2U3ZcyraVQQPxUiwLI5iE2PXuvK" />
   <component name="ProjectLevelVcsManager">
@@ -357,7 +309,11 @@
       <workItem from="1697305061870" duration="13174000" />
       <workItem from="1697350323308" duration="1360000" />
       <workItem from="1697354243892" duration="526000" />
-      <workItem from="1697354873353" duration="10574000" />
+      <workItem from="1697354873353" duration="10653000" />
+      <workItem from="1697453911307" duration="10204000" />
+      <workItem from="1697467906488" duration="3374000" />
+      <workItem from="1697523800820" duration="12302000" />
+      <workItem from="1697595441078" duration="855000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <created>1692351063976</created>
@@ -646,7 +602,14 @@
       <option name="project" value="LOCAL" />
       <updated>1697268833160</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="Re Path , ListCourse : ApplicationResult , CourseDetail Date Study">
+      <created>1697365593731</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1697365593731</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -686,7 +649,8 @@
     <MESSAGE value="update file" />
     <MESSAGE value="update Activity , Register ," />
     <MESSAGE value="add course and add RequestOpenCourse" />
-    <option name="LAST_COMMIT_MESSAGE" value="add course and add RequestOpenCourse" />
+    <MESSAGE value="Re Path , ListCourse : ApplicationResult , CourseDetail Date Study" />
+    <option name="LAST_COMMIT_MESSAGE" value="Re Path , ListCourse : ApplicationResult , CourseDetail Date Study" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

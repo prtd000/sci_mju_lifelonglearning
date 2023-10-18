@@ -62,7 +62,8 @@ public class MemberController {
         model.addAttribute("course", course);
         model.addAttribute("activity", activityService.getViewCourseActivityNews(request_id));
         model.addAttribute("amount", registerService.getAmountRegisteredByCourseId(courseid).size());
-        System.out.println("Size Amount : " + registerService.getAmountRegisteredByCourseId(courseid).size());
+        model.addAttribute("list_register" , registerService.getRegister(mem_id));
+        model.addAttribute("memId" ,mem_id);
 
         try {
             model.addAttribute("req", requestOpCourseService.getRequestOpCourseByCourseId(courseid));
@@ -89,13 +90,6 @@ public class MemberController {
         Session session = sessionFactory.getCurrentSession();
 
         /*****Insert Register*****/
-//        Register register = new Register();
-//        register.setRegister_date(new Date());
-//        register.setStudy_result("ยังไม่ได้ชำระเงิน");
-//        register.setRequestOpenCourse(requestOpCourseService.getRequestOpenCourseDetail(requestid));
-//        register.setMember(memberService.getMemberById(memid));
-//        registerService.saveRegister(register);
-
         Register register = new Register();
         register.setRegister_date(new Date());
         register.setMember(memberService.getMemberById(memid));

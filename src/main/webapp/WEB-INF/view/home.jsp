@@ -331,7 +331,7 @@
                                             <table class="icon">
                                                 <c:set var="notFoundTypeLearn" value="false" />
                                                 <c:forEach var="list" items="${list_req}">
-                                                    <c:if test="${list.course.course_id eq course.course_id}" >
+                                                    <c:if test="${list.course.course_id eq course.course_id && (list.requestStatus.equals('รอดำเนินการ') || list.requestStatus.equals('ผ่าน'))}" >
                                                         <tr style="height: 40px">
                                                             <fmt:formatDate value="${list.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
                                                             <fmt:formatDate value="${list.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
@@ -439,7 +439,7 @@
                                                 <table class="icon">
                                                     <c:set var="notFoundTypeLearn" value="false" />
                                                     <c:forEach var="list" items="${list_req}">
-                                                        <c:if test="${list.course.course_id eq course.course_id}" >
+                                                        <c:if test="${list.course.course_id eq course.course_id && (list.requestStatus.equals('รอดำเนินการ') || list.requestStatus.equals('ผ่าน'))}" >
                                                             <tr style="height: 40px">
                                                                 <fmt:formatDate value="${list.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
                                                                 <fmt:formatDate value="${list.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />

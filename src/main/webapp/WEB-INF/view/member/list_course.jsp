@@ -251,55 +251,66 @@
 
                         </c:when>
                         <c:otherwise>
-                            <td style="width: 100px; text-align: center;">
-                                <!---Start check date--->
-                                <c:set var="startpay" value="${invoices.invoice.startPayment}"/>
-                                <c:set var="s_year" value="${fn:substring(startpay, 0, 4)}"/>
-                                <c:set var="s_month" value="${fn:substring(startpay, 5, 7)}"/>
-                                <c:set var="s_day" value="${fn:substring(startpay, 8, 10)}"/>
+                            <c:choose>
+                                <c:when test="${invoices.requestOpenCourse.requestStatus.equals('ถูกยกเลิก')}">
+                                    <td>
+                                        <p style="color: red; font-weight: bold;">หลักสูตรนี้ได้ถูกยกเลิกการเรียน</p>
+                                    </td>
+                                    <td></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td style="width: 100px; text-align: center;">
+                                        <!---Start check date--->
+                                        <c:set var="startpay" value="${invoices.invoice.startPayment}"/>
+                                        <c:set var="s_year" value="${fn:substring(startpay, 0, 4)}"/>
+                                        <c:set var="s_month" value="${fn:substring(startpay, 5, 7)}"/>
+                                        <c:set var="s_day" value="${fn:substring(startpay, 8, 10)}"/>
 
-                                <c:set var="endpay" value="${invoices.invoice.endPayment}"/>
-                                <c:set var="e_year" value="${fn:substring(endpay, 0, 4)}"/>
-                                <c:set var="e_month" value="${fn:substring(endpay, 5, 7)}"/>
-                                <c:set var="e_day" value="${fn:substring(endpay, 8, 10)}"/>
+                                        <c:set var="endpay" value="${invoices.invoice.endPayment}"/>
+                                        <c:set var="e_year" value="${fn:substring(endpay, 0, 4)}"/>
+                                        <c:set var="e_month" value="${fn:substring(endpay, 5, 7)}"/>
+                                        <c:set var="e_day" value="${fn:substring(endpay, 8, 10)}"/>
 
-                                <c:set var="currentDate" value="<%=LocalDate.now()%>"/>
-                                <c:set var="startDate" value="${LocalDate.of(s_year, s_month, s_day)}"/>
-                                <c:set var="endDate" value="${LocalDate.of(e_year, e_month, e_day)}"/>
+                                        <c:set var="currentDate" value="<%=LocalDate.now()%>"/>
+                                        <c:set var="startDate" value="${LocalDate.of(s_year, s_month, s_day)}"/>
+                                        <c:set var="endDate" value="${LocalDate.of(e_year, e_month, e_day)}"/>
 
 
-                                <c:if test="${currentDate.isBefore(startDate)}">
-                                    <p style="color: black; font-weight: bold;">เร็วๆนี้</p>
-                                </c:if>
+                                        <c:if test="${currentDate.isBefore(startDate)}">
 
-                                <c:if test="${currentDate.isAfter(endDate)}">
-                                    <p style="color: red; font-weight: bold">การลงทะเบียนถูกยกเลิก</p>
-                                </c:if>
+                                            <p style="color: black; font-weight: bold;">เร็วๆนี้</p>
+                                        </c:if>
 
-                                <c:if test="${currentDate.equals(startDate) || currentDate.equals(endDate)}">
-                                    <a href="${pageContext.request.contextPath}/member/${username}/payment_fill_detail/${invoices.invoice.invoice_id}">
-                                        <button class="btn btn-outline-dark">ชำระเงิน</button>
-                                    </a>
-                                </c:if>
+                                        <c:if test="${currentDate.isAfter(endDate)}">
+                                            <p style="color: red; font-weight: bold">การลงทะเบียนถูกยกเลิก</p>
+                                        </c:if>
 
-                                <c:if test="${currentDate.isAfter(startDate) && currentDate.isBefore(endDate)}">
-                                    <a href="${pageContext.request.contextPath}/member/${username}/payment_fill_detail/${invoices.invoice.invoice_id}">
-                                        <button class="btn btn-outline-dark">ชำระเงิน</button>
-                                    </a>
-                                </c:if>
-                                <!---End check date--->
-                            </td>
-                            <td>
-                                <c:if test="${currentDate.isAfter(endDate)}">
-                                    <p style="color: black; font-weight: bold; text-align: center;">เลยกำหนดชำระเงิน</p>
-                                </c:if>
-                            </td>
+                                        <c:if test="${currentDate.equals(startDate) || currentDate.equals(endDate)}">
+                                            <a href="${pageContext.request.contextPath}/member/${username}/payment_fill_detail/${invoices.invoice.invoice_id}">
+                                                <button class="btn btn-outline-dark">ชำระเงิน</button>
+                                            </a>
+                                        </c:if>
 
-                            <%--                            <c:if test="${currentDate.isAfter(endDate)}">--%>
-                            <%--                                <td style="text-align: center;">--%>
-                            <%--                                    <input type="button" value="ลงทะเบียนใหม่" onclick="if((confirm('ยืนยันการลงทะเบียนใหม่อีกครั้ง?'))){ window.location.href='${pageContext.request.contextPath}/member/${invoices.member.username}/${invoices.register_id}/delete';return false; }"/>--%>
-                            <%--                                </td>--%>
-                            <%--                            </c:if>--%>
+                                        <c:if test="${currentDate.isAfter(startDate) && currentDate.isBefore(endDate)}">
+                                            <a href="${pageContext.request.contextPath}/member/${username}/payment_fill_detail/${invoices.invoice.invoice_id}">
+                                                <button class="btn btn-outline-dark">ชำระเงิน</button>
+                                            </a>
+                                        </c:if>
+                                    </td>
+                                    <!---End check date--->
+                                    <td>
+                                        <c:if test="${currentDate.isAfter(endDate)}">
+                                            <p style="color: black; font-weight: bold; text-align: center;">เลยกำหนดชำระเงิน</p>
+                                        </c:if>
+                                    </td>
+
+                                    <%--                            <c:if test="${currentDate.isAfter(endDate)}">--%>
+                                    <%--                                <td style="text-align: center;">--%>
+                                    <%--                                    <input type="button" value="ลงทะเบียนใหม่" onclick="if((confirm('ยืนยันการลงทะเบียนใหม่อีกครั้ง?'))){ window.location.href='${pageContext.request.contextPath}/member/${invoices.member.username}/${invoices.register_id}/delete';return false; }"/>--%>
+                                    <%--                                </td>--%>
+                                    <%--                            </c:if>--%>
+                                </c:otherwise>
+                            </c:choose>
                         </c:otherwise>
                     </c:choose>
                 </tr>

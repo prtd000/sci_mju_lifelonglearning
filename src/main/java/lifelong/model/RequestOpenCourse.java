@@ -101,7 +101,18 @@ public class RequestOpenCourse {
     public int getNumberOfAllRegistrations() {
         int count = 0;
         for (Register register : registerList) {
-            count++;
+            if (!Objects.equals(register.getInvoice().getApprove_status(), "ไม่ผ่าน")){
+                count++;
+            }
+        }
+        return count;
+    }
+    public int getNumberOfAllRegistrationsToPass() {
+        int count = 0;
+        for (Register register : registerList) {
+            if (Objects.equals(register.getInvoice().getApprove_status(), "ผ่าน")){
+                count++;
+            }
         }
         return count;
     }

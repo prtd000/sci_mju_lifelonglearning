@@ -52,6 +52,14 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
+    public List<Course> getCourseByStatus(String status) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Course> query = session.createQuery("from Course where status =: c_status",Course.class);
+        query.setParameter("c_status", status);
+        return query.getResultList();
+    }
+
+    @Override
     public List<RequestOpenCourse> getListRequestOpCourse() {
         Session session = sessionFactory.getCurrentSession();
         String stt_pass = "ผ่าน";

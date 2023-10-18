@@ -66,6 +66,12 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     @Transactional
+    public List<Register> getRegisterByRequestIdAndApprove(long roc_Id) {
+        return registerDao.getRegisterByRequestIdAndApprove(roc_Id);
+    }
+
+    @Override
+    @Transactional
     public Register getRegisterByRegisterId(long register_Id) {
         return registerDao.getRegisterByRegisterId(register_Id);
     }

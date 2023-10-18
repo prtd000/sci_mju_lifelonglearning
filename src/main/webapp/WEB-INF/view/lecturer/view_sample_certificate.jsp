@@ -90,7 +90,7 @@
                     <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรการอบรม</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/add_roc" class="nav-item nav-link" style="font-size: 18px">ร้องขอหลักสูตร</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 18px">รายการร้องขอ</a>
-                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link active" style="font-size: 18px">หลักสูตรของฉัน</a>
+                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_approve_request_open_course" class="nav-item nav-link active" style="font-size: 18px">หลักสูตรของฉัน</a>
                     <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
                     <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
                 </div>
@@ -142,11 +142,11 @@
                                             <td align="center">
                                                 <input type="hidden" name="original_signature" value="${request.signature}" />
                                                 <c:choose>
-                                                    <c:when test="${empty not request.signature}">
+                                                    <c:when test="${request.signature != ''}">
                                                         <img src="${pageContext.request.contextPath}/uploads/request_open_course/signature/${request.signature}" id="preview" alt="Image Preview" style="height: 40px; margin-left: 10px; border-radius: 10px">
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <img id="preview" alt="Image Preview" style="height: 40px; margin-left: 10px; border-radius: 10px">
+                                                        <img src="${pageContext.request.contextPath}/uploads/course_img/gallery.png" id="preview" alt="Image Preview" style="height: 40px; margin-left: 10px; border-radius: 10px">
                                                     </c:otherwise>
                                                 </c:choose>
                                             </td>

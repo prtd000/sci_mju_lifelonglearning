@@ -372,167 +372,176 @@
         fixStepIndicator(n)
     }
 
-    function validateStep1() {
-        // เรียกใช้เมื่อผู้ใช้คลิก Next ในขั้นตอน 1
-
-        // รับค่าจากฟอร์ม
-        var courseType = document.getElementById("course_type").value;
-        var courseName = document.getElementById("course_name").value;
-        var certificateName = document.getElementById("certificateName").value;
-        var major = document.getElementById("major_id").value;
-        // var coursePrinciple = document.getElementById("floatingTextarea2").value;
-        var fileInput = document.getElementById("fileInput");
-
-        var minLength = 2;
-        var maxLength = 255;
-
-        if (courseType === "") {
-            alert("กรุณาเลือกประเภทหลักสูตร");
+    function checkScriptPage1(){
+        //------------course_type--------------
+        if (document.getElementById("course_type").value === "") {
+            // alert("กรุณาเลือกประเภทหลักสูตร");
+            document.getElementById("invalidCourseType").innerHTML = "กรุณาเลือกประเภทหลักสูตร";
+            document.getElementById("course_type").focus();
             return false;
+        }else {
+            document.getElementById("invalidCourseType").innerHTML = "";
         }
-        // ตรวจสอบว่าข้อมูลถูกต้องหรือไม่
+        //------------major--------------
+        if (document.getElementById("major_id").value === "") {
+            // alert("กรุณาเลือกสาขา");
+            document.getElementById("invalidMajor").innerHTML = "กรุณาเลือกสาขา";
+            document.getElementById("major_id").focus();
+            return false;
+        }else {
+            document.getElementById("invalidMajor").innerHTML = "";
+        }
+        //-------------course_name-------------
+        var regCName = /^[A-Za-z0-9ก-๙() ]{2,225}$/;
         var stt = document.getElementById("status");
         var courseElement = document.getElementById("status").innerHTML;
+        var courseName = document.getElementById("course_name").value;
+
         document.getElementById("link").click();
-            if (courseName === "") {
-                document.getElementById("invalidCourseName").innerHTML = "กรุณากรอกชื่อหลักสูตร";
-                return false;
-            }
-            // else if (!regExName.test(courseName)){
-            //     document.getElementById("invalidCourseName").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
-            //     return false;
-            // }
-            else if (courseName.length < minLength || courseName.length > maxLength){
-                document.getElementById("invalidCourseName").innerHTML = "ต้องมีจำนวน 2-225 ตัวอักษร";
-                stt.innerHTML = "";
-                return false;
-            }
-            else if (courseElement === "" || courseElement === "มีหลักสูตรนี้ในระบบแล้ว"){
-                alert("กรุณาตรวจสอบชื่อหลักสูตรก่อน");
-                return false;
-            }
-            else {
-                document.getElementById("invalidCourseName").innerHTML = "";
-            }
-
-
-            if (certificateName === "") {
-                document.getElementById("invalidCertificateName").innerHTML = "กรุณากรอกชื่อเกียรติบัตร";
-                return false;
-            }
-            // else if (!regExName.test(certificateName)){
-            //     document.getElementById("invalidCertificateName").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
-            //     return false;
-            // }
-            else {
-                document.getElementById("invalidCertificateName").innerHTML = "";
-            }
-            // if (coursePrinciple === "") {
-            //     document.getElementById("invalidCoursePrinciple").innerHTML = "กรุณากรอกหลักการและเหตุผล";
-            //     return false;
-            // }
-            // else if (!regExName.test(coursePrinciple)){
-            //     document.getElementById("invalidCoursePrinciple").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
-            //     return false;
-            // }
-            // else {
-            //     document.getElementById("invalidCoursePrinciple").innerHTML = "";
-            // }
-        if (major === "") {
-            alert("กรุณาเลือกสาขา");
+        if(document.getElementById("course_name").value === ""){
+            // alert("กรุณากรอกชื่อหลักสูตร");
+            stt.innerHTML = "";
+            document.getElementById("invalidCourseName").innerHTML = "กรุณากรอกชื่อหลักสูตร";
+            document.getElementById("course_name").focus();
+            return false;
+        }else if (courseName.length < 2 || courseName.length > 225) {
+            // alert("ตัองเป็นภาษาไทย อังกฤษหรือตัวเลขเท่านั้น");
+            stt.innerHTML = "";
+            document.getElementById("invalidCourseName").innerHTML = "ตัองเป็นภาษาไทย อังกฤษหรือตัวเลขเท่านั้น และต้องมีจำนวน 2-225 ตัวอักษร";
+            document.getElementById("course_name").focus();
+            document.getElementById("course_name").value = "";
             return false;
         }
-        if (fileInput.files.length === 0) {
-            alert("กรุณาเลือกรูปภาพหลักสูตร");
+        else if (courseElement === "" || courseElement === "มีหลักสูตรนี้ในระบบแล้ว"){
+            document.getElementById("course_name").focus();
+            alert("กรุณาตรวจสอบชื่อหลักสูตรก่อน");
             return false;
+        }else {
+            document.getElementById("invalidCourseName").innerHTML = "";
         }
 
-        // ถ้าข้อมูลถูกต้อง ให้เรียกฟังก์ชัน nextPrev(1) เพื่อย้ายไปยังขั้นตอนถัดไป
-        var x = document.getElementById("nextBtn")
-        var y = document.getElementById("nextBtn2")
-        x.style.display = "none";
-        y.style.display = "block";
+        //---------certificateName----------
+        var regCerName = /^[A-Za-z0-9ก-๙() ]{2,225}$/;
 
-        nextPrev(1);
+        var certificateName = document.getElementById("certificateName").value;
+        if (document.getElementById("certificateName").value === ""){
+            // alert("กรุณากรอกชื่อเกียรติบัตร");
+            document.getElementById("invalidCertificateName").innerHTML = "กรุณากรอกชื่อเกียรติบัตร";
+            document.getElementById("certificateName").focus();
+            return false;
+        } else if (certificateName.length < 2 || certificateName.length > 225) {
+            // alert("ตัองเป็นภาษาไทย อังกฤษหรือตัวเลขเท่านั้น");
+            document.getElementById("invalidCertificateName").innerHTML = "ตัองเป็นภาษาไทย อังกฤษหรือตัวเลขเท่านั้น และต้องมีจำนวน 2-225 ตัวอักษร";
+            document.getElementById("certificateName").focus();
+            document.getElementById("certificateName").value = "";
+            return false;
+        }else {
+            document.getElementById("invalidCertificateName").innerHTML = "";
+        }
+        //--------------course_principle--------------------
+        var editorContent = document.getElementById("editor").textContent;
+        if (editorContent.trim() === "") {
+            document.getElementById("invalidPrinciple").innerHTML = "กรุณากรอกหลักการและเหตุผล";
+            document.getElementById("editor").focus();
+            return false;
+        }else {
+            document.getElementById("invalidPrinciple").innerHTML = "";
+        }
+
+        checkScriptPage1IMG();
+
         return true;
+
+    }
+    function checkScriptPage1IMG(){
+        if (document.getElementById("fileInput").files.length === 0) {
+            // alert("กรุณาเลือกรูปภาพหลักสูตร");
+            document.getElementById("invalidImg").innerHTML = "กรุณาเลือกรูปภาพหลักสูตร";
+            document.getElementById("fileInput").focus();
+            return false;
+        }
     }
 
-    function validateStep2() {
-        // เรียกใช้เมื่อผู้ใช้คลิก Next ในขั้นตอน 2
-
-        // รับค่าจากฟอร์มขั้นตอนที่ 2
+    function checkScriptPage2(){
+        //---------------objectives--------------------
+        // var regExName = /^[ก-์A-Za-z0-9 ]{2,225}$/;
         var objectives = document.querySelectorAll("input[name='course_objectives[]']");
-        var totalHours = document.getElementById("course_totalHours").value;
-        var fee = document.getElementById("course_fee").value;
-        var courseFileInput = document.getElementById("course_file");
-        var courseFile = document.getElementById("course_file").value;
-        var targetOccupation = document.getElementById("floatingTextarea3").value;
-
-        // ตรวจสอบว่าค่าประกอบด้วยภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร
-        var regExName = /^[ก-์A-Za-z0-9]{2,225}$/;
-
-        // ตรวจสอบว่าค่าประกอบด้วยตัวเลขเท่านั้นและไม่มีช่องว่าง
-        var regNumber = /^[0-9]+$/;
-
-        // ตรวจสอบว่าข้อมูลถูกต้องหรือไม่
         for (var i = 0; i < objectives.length; i++) {
+            var object = objectives[i].value;
             if (objectives[i].value === "") {
-                alert("กรุณากรอกวัตถุประสงค์ทั้งหมด");
+                document.getElementById("invalidObjective").innerHTML = "กรุณากรอกวัตถุประสงค์ทั้งหมด";
+                objectives[i].focus();
+                return false;
+            }else if (object.length < 2 || object.length > 225){
+                document.getElementById("invalidObjective").innerHTML = "วัตถุประสงค์ต้องมีจำนวน 2-225 ตัวอักษร";
+                objectives[i].focus();
                 return false;
             }
-            // else if (!regExName.test(objectives[i].value)){
-            //     alert("วัตถุประสงค์ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร");
-            //     return false;
-            // }
+            else {
+                document.getElementById("invalidObjective").innerHTML = "";
+            }
         }
 
-            if (totalHours === "") {
-                document.getElementById("invalidCourseTotalHours").innerHTML = "กรุณากรอกระยะเวลาในการเรียน";
-                return false;
-            }else if (!regNumber.test(totalHours)){
-                document.getElementById("invalidCourseTotalHours").innerHTML = "ต้องเป็นตัวเลข ต้องไม่มีช่องว่างระหว่างตัวเลข";
-                return false;
-            }else {
-                document.getElementById("invalidCourseTotalHours").innerHTML = "";
+        //------------FeeType-------------
+        var FeeTypecheck = document.getElementsByName('CFee');
+        var FeeTypenull = false;
+        for (var i = 0; i < FeeTypecheck.length; i++) {
+            if (FeeTypecheck[i].checked) {
+                FeeTypenull = true;
+                break;
             }
+        }
+        if (!FeeTypenull) {
+            alert("กรุณาเลือกประเภทค่าธรรมเนียม");
+            return false;
+        }
 
-            if (fee === "") {
-                document.getElementById("invalidCourseFee").innerHTML = "กรุณากรอกค่าธรรมเนียม";
+        var feeRadio = document.querySelector('input[name="CFee"][value="มีค่าธรรมเนียม"]');
+        if (feeRadio.checked) {
+            var fee = document.getElementById("course_fee").value; // อ่านค่า fee ภายในฟังก์ชันที่ถูกเรียกในระหว่างการเปลี่ยนแปลง
+            if (parseInt(fee) < 1 || parseInt(fee) > 999999) {
+                document.getElementById("invalidCourseFee").innerHTML = "ต้องมีค่าระหว่าง 1 - 999,999 บาท";
+                document.getElementById("course_fee").focus();
                 return false;
-            }else if (!regNumber.test(fee)){
-                document.getElementById("invalidCourseFee").innerHTML = "ต้องเป็นตัวเลข ต้องไม่มีช่องว่างระหว่างตัวเลข";
-                return false;
-            }else {
+            } else {
                 document.getElementById("invalidCourseFee").innerHTML = "";
             }
-
-            if (targetOccupation === "") {
-                document.getElementById("invalidCourseTargetOccupation").innerHTML = "กรุณากรอกกลุ่มเป้าหมายอาชีพ";
-                return false;
-            }
-            // else if (!regExName.test(targetOccupation)){
-            //     document.getElementById("invalidCourseTargetOccupation").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
-            //     return false;
-            // }
-            else {
-                document.getElementById("invalidCourseTargetOccupation").innerHTML = "";
-            }
-
-        // ตรวจสอบว่าผู้ใช้เลือกไฟล์เนื้อหาหลักสูตรหรือไม่
-        if (courseFile === "") {
-            alert("กรุณาเลือกไฟล์เนื้อหาหลักสูตร");
-            return false;
-        }
-        // ตรวจสอบนามสกุลของไฟล์
-        var allowedExtensions = /(\.pdf)$/i;
-        if (!allowedExtensions.exec(courseFile)) {
-            alert('เอกสารหลักสูตรต้องเป็นไฟล์ PDF เท่านั้น');
-            courseFileInput.focus();
-            return false;
         }
 
-        // ถ้าข้อมูลถูกต้อง ให้เรียกฟังก์ชัน nextPrev(1) เพื่อย้ายไปยังขั้นตอนถัดไป
-        nextPrev(1);
+
+        //---------CourseTotalHours----------
+        if (document.getElementById("course_totalHours").value === ""){
+            // alert("กรุณากรอกชื่อเกียรติบัตร");
+            document.getElementById("invalidCourseTotalHours").innerHTML = "กรุณากรอกระยะเวลาในการเรียน";
+            document.getElementById("course_totalHours").focus();
+            return false;
+        } else if(parseInt(document.getElementById("course_totalHours").value) < 1 || parseInt(document.getElementById("course_totalHours").value) > 999999){
+            // alert("ตัองเป็นภาษาไทย อังกฤษหรือตัวเลขเท่านั้น");
+            document.getElementById("invalidCourseTotalHours").innerHTML = "ต้องมีค่าระหว่าง 1 - 999,999 บาท";
+            document.getElementById("course_totalHours").focus();
+            document.getElementById("course_totalHours").value = "";
+            return false;
+        }else {
+            document.getElementById("invalidCourseTotalHours").innerHTML = "";
+        }
+
+        // //---------Target Occupation----------
+        // var targetOccupation = document.getElementById("floatingTextarea3").value;
+        // var regExTargetOccupation = /^[ก-์A-Za-z0-9 ,]{2,225}$/;
+        // if (targetOccupation === "") {
+        //     document.getElementById("invalidCourseTargetOccupation").innerHTML = "กรุณากรอกกลุ่มเป้าหมายอาชีพ";
+        //     document.getElementById("floatingTextarea3").focus();
+        //     return false;
+        // }else if (!regExTargetOccupation.test(targetOccupation)){
+        //     document.getElementById("invalidCourseTargetOccupation").innerHTML = "ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+        //     document.getElementById("floatingTextarea3").focus();
+        //     return false;
+        // } else {
+        //     document.getElementById("invalidCourseTargetOccupation").innerHTML = "";
+        // }
+
+        checkScriptPage2FILE();
+
         return true;
     }
 

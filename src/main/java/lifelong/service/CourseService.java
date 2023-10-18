@@ -21,7 +21,7 @@ public interface CourseService {
         String[] getCourseDetailObject(String courseId);
         void doAddCourse(Course course);
 
-
+        List<Course> getCourseByStatus(String status);
 
         public void doAddMajor(Major major);
         void updateCourse(Course course);

@@ -61,7 +61,7 @@
                     <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรการอบรม</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/add_roc" class="nav-item nav-link" style="font-size: 18px">ร้องขอหลักสูตร</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link active" style="font-size: 18px">รายการร้องขอ</a>
-                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรของฉัน</a>
+                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_approve_request_open_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรของฉัน</a>
                     <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
                     <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
                 </div>
@@ -74,182 +74,116 @@
     <table class="container">
         <tr align="center">
             <td class="list_course" align="center">
-                <div class="list_course_detail" align="center">
-
-                        <div class="select_type" align="center">
-                            <input type="radio" class="tablinks" name="options-base" onclick="openList(event, 'course')" id="FClick" autocomplete="off" checked>
-                            <label class="btn" for="FClick">หลักสูตรของฉัน</label>
-
-                            <input type="radio" class="tablinks" name="options-base" onclick="openList(event, 'list_request')" id="option6" autocomplete="off">
-                            <label class="btn" for="option6">รายการร้องขอ</label>
-                        </div>
-
-<%--                    <button id="FClick" class="tablinks" onclick="openList(event, 'course')">หลักสูตร</button>--%>
-<%--                    <button class="tablinks" onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/add_roc'; return false;">ร้องขอ</button>--%>
-<%--                    <button class="tablinks" onclick="openList(event, 'list_request')">รายการร้องขอ</button>--%>
-
-                </div>
-
-                <div id="course" class="tabcontent">
-                    <table style="width: 100%; margin-top: 15px; margin-bottom: -10px">
+                <div id="list_request" class="tabcontent">
+                    <table style="width: 100%;">
                         <tr>
-                            <td align="left" style="width: 50%"><h4><b>หลักสูตรของฉัน</b></h4></td>
-                            <td align="right" style="width: 50%">
-
+                            <td align="left" style="width: 50%">
+                                <h4><b id="tag_line">หลักสูตรที่ร้องขอ</b></h4>
+                            </td>
+                            <td align="right" style="width: 30%">
+                                <select id="select_type" class="form-select" aria-label="Default select example" onchange="checkSelection()">
+                                    <option value="หลักสูตรที่ร้องขอ" selected>หลักสูตรที่ร้องขอ</option>
+                                    <option value="หลักสูตรที่ไม่ผ่านการร้องขอ">หลักสูตรที่ไม่ผ่านการร้องขอ</option>
+                                </select>
                             </td>
                         </tr>
                     </table>
                     <hr>
-                    <table class="table table-striped table-hover" style="font-size: 15px">
-                        <tr style="color: black">
-                            <td class="td_request">รายละเอียดหลักสูตร</td>
-                            <td class="td_learn" align="center">ระยะเวลาเรียน</td>
-                            <td class="td_certificate" align="center">ตัวอย่างเกียรติบัตร</td>
-                            <td class="td_cancel" align="center">ผู้สมัคร</td>
-                            <td class="td_edit" align="center">ข่าวสาร</td>
-                            <td class="td_edit" align="center"></td>
-                        </tr>
+                    <div id="pass_approve">
+                        <table class="table table-striped table-hover" style="font-size: 15px">
+                            <tr style="color: black">
+                                <td style="width: 25%">รายละเอียดการร้องขอ</td>
+                                <td style="width: 14%" align="center">ระยะเวลาลงทะเบียน</td>
+                                <td style="width: 14%" align="center">ระยะเวลาชำระเงิน</td>
+                                <td style="width: 5%" align="center">วันประกาศผล</td>
+                                <td style="width: 14%" align="center">ระยะเวลาเรียน</td>
+                                <td style="width: 8%" align="center">ประเภท</td>
+                                <td style="width: 12%" align="center"></td>
+                            </tr>
 
-                        <c:forEach var="request_course" items="${requests_open_course}">
-                            <c:if test="${request_course.requestStatus == 'ผ่าน'}">
-                                <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
-                                <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                <tr style="color: black">
-                                    <td><p>${request_course.course.name}</p></td>
-                                    <td align="center"><p>${startStudyDate} ถึง ${endStudyDate}</p></td>
-                                    <td align="center">
-                                        <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/view_sample_certificate">ดูตัวอย่าง</a>
-                                    </td>
-                                    <td align="center">
-                                        <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
-                                            <button class="button-5" role="button" style="font-size: 12px">
-                                                <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.numberOfApprovedRegistrations}/${request_course.quantity}
+                            <c:forEach var="request_course" items="${requests_open_course}">
+                                <c:if test="${request_course.requestStatus == 'รอดำเนินการ'}">
+                                    <fmt:formatDate value="${request_course.requestDate}" pattern="dd/MM/yyyy" var="formattedDate" />
+                                    <fmt:formatDate value="${request_course.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
+                                    <fmt:formatDate value="${request_course.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
+                                    <fmt:formatDate value="${request_course.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
+                                    <fmt:formatDate value="${request_course.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
+                                    <fmt:formatDate value="${request_course.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
+                                    <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                    <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
+                                    <tr style="color: black">
+                                        <td><p>${request_course.course.name}</p></td>
+                                        <td align="center"><p>${startRegister} - ${endRegister}</p></td>
+                                        <c:choose>
+                                            <c:when test="${request_course.course.fee == 0}">
+                                                <td align="center"><p>ไม่มีค่าธรรมเนียม(ฟรี)</p></td>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <td align="center"><p>${startPayment} - ${endPayment}</p></td>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <td align="center"><p>${applicationResult}</p></td>
+                                        <td align="center"><p>${startStudyDate} - ${endStudyDate}</p></td>
+                                        <td align="center">${request_course.course.course_type}</td>
+                                        <td align="center">
+                                            <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/update_page">
+                                                <button type="button" class="btn btn-outline-warning" style="font-size: 12px">
+                                                    <i style="color: #ff8d4e;" class="fa fa-edit" aria-hidden="true"></i> แก้ไข
+                                                </button>
+                                            </a>
+                                                <%--                                        <input type="button" style="font-size: 12px"--%>
+                                                <%--                                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/delete_request_open_course'; return false; }"--%>
+                                                <%--                                               class="btn btn-outline-danger"/>--%>
+                                            <button type="button" style="font-size: 12px"
+                                                    onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/delete_request_open_course'; return false; }"
+                                                    class="btn btn-outline-danger">
+                                                <i class='fas fa-trash' style='color: red'></i> ยกเลิก
                                             </button>
-                                        </a>
-                                    </td>
-                                    <td align="center">
-                                        <button type="button" style="font-size: 12px"
-                                                onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_course.request_id}/add_course_activity'; return false;"
-                                                class="activity-btn">
-                                            <i class='fas fa-plus-circle' style='color: #ffffff; margin-right: 5px'></i> เพิ่มข่าวสาร
-                                        </button>
-                                        <button type="button" style="font-size: 12px"
-                                                onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_course.request_id}/list_course_activity_news'; return false;"
-                                                class="list-activity-btn">
-                                            <i class='fa fa-list' style='color: #0077ff; margin-right: 5px'></i> รายการข่าวสาร
-                                        </button>
-                                    </td>
-                                    <td align="center">
-                                        <!-- เช็คว่าวันที่ applicationResult เลยหรือไม่ -->
-                                        <%
-                                            Date currentDate = new Date(); // วันปัจจุบัน
-                                        %>
-                                        <c:set var="currentDate1" value="<%=currentDate%>"/>
-                                        <c:if test="${currentDate1 < request_course.applicationResult && request_course.numberOfAllRegistrations == 0}">
-                                            <i class='fas fa-trash' style='color: red;font-size: 25px; margin-top: 5px' onclick="if((confirm('คุณแน่ใจหรือว่าต้องการยกเลิกหลักสูตรนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/cancel_request_open_course'; return false; }"></i>
-                                        </c:if>
-                                    </td>
-                                </tr>
-                            </c:if>
-                        </c:forEach>
-                    </table>
-                </div>
-
-                <div id="request" class="tabcontent">
-                    <h3>Paris</h3>
-                    <p>Paris is the capital of France.</p>
-                </div>
-
-                <div id="list_request" class="tabcontent">
-                    <div align="left" style="width: 100%; margin-top: 15px;">
-                        <h4><b>หลักสูตรที่ร้องขอ</b></h4>
+                                        </td>
+                                    </tr>
+                                </c:if>
+                            </c:forEach>
+                        </table>
                     </div>
-                    <hr>
-                    <table class="table table-striped table-hover" style="font-size: 15px">
-                        <tr style="color: black">
-                            <td style="width: 25%">รายละเอียดการร้องขอ</td>
-                            <td style="width: 12%" align="center">วันที่ร้องขอ</td>
-                            <td style="width: 18%" align="center">ระยะเวลาเรียน</td>
-                            <td style="width: 8%" align="center">จำนวน</td>
-                            <td style="width: 10%" align="center">ประเภท</td>
-                            <td style="width: 12%" align="center">อาจารย์</td>
-                            <td style="width: 14%" align="center"></td>
-                        </tr>
 
-                        <c:forEach var="request_course" items="${requests_open_course}">
-                            <c:if test="${request_course.requestStatus == 'รอดำเนินการ'}">
-                                <fmt:formatDate value="${request_course.requestDate}" pattern="dd/MM/yyyy" var="formattedDate" />
-                                <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
-                                <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                <tr style="color: black">
-                                    <td><p>${request_course.course.name}</p></td>
-                                    <td align="center">${formattedDate}</td>
-                                    <td align="center"><p>${startStudyDate} ถึง ${endStudyDate}</p></td>
-                                    <td align="center"><p>${request_course.quantity}</p></td>
-                                    <td align="center"><p>${request_course.type_learn}</p></td>
-                                    <td align="center"><p>${request_course.lecturer.firstName} ${request_course.lecturer.lastName}</p></td>
-                                    <td align="center">
-                                        <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/update_page">
-                                            <button type="button" class="btn btn-outline-warning" style="font-size: 12px">
-                                                <i style="color: #ff8d4e;" class="fa fa-edit" aria-hidden="true"></i> แก้ไข
+                    <div id="false_approve">
+                        <table class="table table-striped table-hover" style="font-size: 15px">
+                            <tr style="color: black">
+                                <td class="td_request">รายละเอียดการร้องขอ</td>
+                                <td class="td_roc" align="center">วันที่ร้องขอ</td>
+                                <td class="td_learn" align="center">ระยะเวลาเรียน</td>
+                                <td class="td_qty" align="center">จำนวน</td>
+                                <td class="td_type" align="center">ประเภท</td>
+                                <td class="td_lec" align="center">สถานะ</td>
+                                <td class="td_cancel" align="center"></td>
+                            </tr>
+
+                            <c:forEach var="request_course" items="${requests_open_course}">
+                                <c:if test="${request_course.requestStatus == 'ไม่ผ่าน'}">
+                                    <tr style="color: black">
+                                        <td><p>${request_course.course.name}</p></td>
+                                        <td align="center">${formattedDate}</td>
+                                        <td align="center"><p>${startStudyDate} ถึง ${endStudyDate}</p></td>
+                                        <td align="center"><p>${request_course.quantity}</p></td>
+                                        <td align="center"><p>${request_course.type_learn}</p></td>
+                                        <td align="center"><p style="color: red">ไม่ผ่าน</p></td>
+                                        <td align="center">
+                                            <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/update_page">
+                                                <button type="button" class="btn btn-outline-warning" style="font-size: 12px">
+                                                    <i style="color: #ff8d4e;" class="fa fa-edit" aria-hidden="true"></i> แก้ไข
+                                                </button>
+                                            </a>
+                                            <button type="button" style="font-size: 12px"
+                                                    onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/delete_request_open_course'; return false; }"
+                                                    class="btn btn-outline-danger">
+                                                <i class='fas fa-trash' style='color: red'></i> ยกเลิก
                                             </button>
-                                        </a>
-<%--                                        <input type="button" style="font-size: 12px"--%>
-<%--                                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/delete_request_open_course'; return false; }"--%>
-<%--                                               class="btn btn-outline-danger"/>--%>
-                                        <button type="button" style="font-size: 12px"
-                                                onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/delete_request_open_course'; return false; }"
-                                                class="btn btn-outline-danger">
-                                            <i class='fas fa-trash' style='color: red'></i> ยกเลิก
-                                        </button>
-                                    </td>
-                                </tr>
-                            </c:if>
-                        </c:forEach>
-                    </table>
-
-                    <br>
-                    <br>
-                    <div align="left" style="width: 100%; margin-top: 15px;">
-                        <h4><b>หลักสูตรที่ไม่ผ่านการร้องขอ</b></h4>
+                                        </td>
+                                    </tr>
+                                </c:if>
+                            </c:forEach>
+                        </table>
                     </div>
-                    <hr>
-                    <table class="table table-striped table-hover" style="font-size: 15px">
-                        <tr style="color: black">
-                            <td class="td_request">รายละเอียดการร้องขอ</td>
-                            <td class="td_roc" align="center">วันที่ร้องขอ</td>
-                            <td class="td_learn" align="center">ระยะเวลาเรียน</td>
-                            <td class="td_qty" align="center">จำนวน</td>
-                            <td class="td_type" align="center">ประเภท</td>
-                            <td class="td_lec" align="center">สถานะ</td>
-                            <td class="td_cancel" align="center"></td>
-                        </tr>
-
-                        <c:forEach var="request_course" items="${requests_open_course}">
-                            <c:if test="${request_course.requestStatus == 'ไม่ผ่าน'}">
-                                <tr style="color: black">
-                                    <td><p>${request_course.course.name}</p></td>
-                                    <td align="center">${formattedDate}</td>
-                                    <td align="center"><p>${startStudyDate} ถึง ${endStudyDate}</p></td>
-                                    <td align="center"><p>${request_course.quantity}</p></td>
-                                    <td align="center"><p>${request_course.type_learn}</p></td>
-                                    <td align="center"><p style="color: red">ไม่ผ่าน</p></td>
-                                    <td align="center">
-                                        <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/update_page">
-                                            <button type="button" class="btn btn-outline-warning" style="font-size: 12px">
-                                                <i style="color: #ff8d4e;" class="fa fa-edit" aria-hidden="true"></i> แก้ไข
-                                            </button>
-                                        </a>
-                                        <button type="button" style="font-size: 12px"
-                                                onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบการร้องขอนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/delete_request_open_course'; return false; }"
-                                                class="btn btn-outline-danger">
-                                            <i class='fas fa-trash' style='color: red'></i> ยกเลิก
-                                        </button>
-                                    </td>
-                                </tr>
-                            </c:if>
-                        </c:forEach>
-                    </table>
                 </div>
 
             </td>
@@ -268,34 +202,21 @@
     </c:otherwise>
 </c:choose>
 </body>
-
 <script>
-    window.addEventListener('DOMContentLoaded', (event) => {
-        var button = document.getElementById('FClick');
-        button.click()
-    });
-    function openList(evt, list_name) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
+    function checkSelection() {
+        var selectElement = document.getElementById("select_type");
+        var selectedValue = selectElement.value;
+
+        if (selectedValue === "หลักสูตรที่ร้องขอ") {
+            document.getElementById("tag_line").textContent = "หลักสูตรที่ร้องขอ"
+            document.getElementById("pass_approve").style.display = "block";
+            document.getElementById("false_approve").style.display = "none";
+        } else if (selectedValue === "หลักสูตรที่ไม่ผ่านการร้องขอ") {
+            document.getElementById("tag_line").textContent = "หลักสูตรที่ไม่ผ่านการร้องขอ"
+            document.getElementById("pass_approve").style.display = "none";
+            document.getElementById("false_approve").style.display = "block";
         }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        document.getElementById(list_name).style.display = "block";
-        evt.currentTarget.className += " active";
     }
+    window.addEventListener('load',checkSelection);
 </script>
-<%-- เรียกใช้คำสั่ง Java เพื่อตรวจสอบว่ามีพารามิเตอร์ "error" หรือไม่ --%>
-<% String errorParam = request.getParameter("error"); %>
-
-<%-- ตรวจสอบว่ามีพารามิเตอร์ "error" และมีค่าเป็น "true" หรือไม่ --%>
-<% if (errorParam != null && errorParam.equals("true")) { %>
-<script>
-    // แสดง alert ใน JavaScript
-    alert("ไม่สามารถลบข้อมูลได้ เพราะมีผู้ที่สมัครหลักสูตรนี้อยู่");
-</script>
-<% } %>
 </html>

@@ -87,6 +87,12 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     @Transactional
+    public List<Course> getCourseByStatus(String status) {
+        return courseDao.getCourseByStatus(status);
+    }
+
+    @Override
+    @Transactional
     public void doAddMajor(Major major) {
         courseDao.doAddMajor(major);
     }

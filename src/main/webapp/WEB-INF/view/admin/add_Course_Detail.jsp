@@ -408,7 +408,7 @@
             </div>
             <div style="overflow:auto;">
                 <div style="float:right; margin-top: 60px;">
-                    <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                    <button type="button" id="prevBtn" onclick="nextPrev(-1)">ย้อนกลับ</button>
                     <button type="button" id="nextBtn" onclick="nextPrev(1)">ต่อไป</button>
                 </div>
             </div>
@@ -486,9 +486,9 @@
             document.getElementById("prevBtn").style.display = "inline";
         }
         if (n == (x.length - 1)) {
-            document.getElementById("nextBtn").innerHTML = "Submit";
+            document.getElementById("nextBtn").innerHTML = "ยืนยัน";
         } else {
-            document.getElementById("nextBtn").innerHTML = "Next";
+            document.getElementById("nextBtn").innerHTML = "ต่อไป";
         }
         //... and run a function that will display the correct step indicator:
         fixStepIndicator(n)

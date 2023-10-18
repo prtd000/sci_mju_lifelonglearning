@@ -9,6 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <title>Title</title>
@@ -27,45 +28,41 @@
 
             var file = input.files[0];
 
-            if (!file) {
-                alert("กรุณาเลือกรูปภาพ");
-                return;
-            }
+            if (file) {
+                var allowedExtensions = /(\.png|\.jpg|\.jpeg)$/i;
+                var maxFileSize = 2 * 1024 * 1024; // 2MB
 
-            var allowedExtensions = /(\.png|\.jpg|\.jpeg)$/i;
-            var maxFileSize = 2 * 1024 * 1024; // 2MB
+                if (!allowedExtensions.exec(file.name)) {
+                    alert("รูปภาพต้องเป็นไฟล์นามสกุล png, jpg, หรือ jpeg เท่านั้น");
+                    input.value = "";
+                    return;
+                }
 
-            if (!allowedExtensions.exec(file.name)) {
-                alert("รูปภาพต้องเป็นไฟล์นามสกุล png, jpg, หรือ jpeg เท่านั้น");
-                input.value = "";
-                return;
-            }else {
-                document.getElementById("invalidImg").innerHTML = "";
-            }
+                if (file.size > maxFileSize) {
+                    alert("ขนาดไฟล์รูปภาพต้องไม่เกิน 2MB");
+                    input.value = "";
+                    return;
+                }
 
-            if (file.size > maxFileSize) {
-                alert("ขนาดไฟล์รูปภาพต้องไม่เกิน 2MB");
-                input.value = "";
-                return;
-            }
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
 
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
+                    reader.onload = function (e) {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
 
-                reader.onload = function (e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
+                        displayPreview.src = e.target.result;
+                        displayPreview.style.display = 'block';
+                    };
 
-                    displayPreview.src = e.target.result;
-                    displayPreview.style.display = 'block';
-                };
-
-                reader.readAsDataURL(input.files[0]);
+                    reader.readAsDataURL(input.files[0]);
+                }
             } else {
-                preview.src = '';
-                preview.style.display = 'none';
+                // ไม่มีไฟล์รูปภาพที่เลือก
+                alert("กรุณาเลือกรูปภาพ");
+                input.value = "";
 
-                displayPreview.src = '';
+                // เพิ่มการซ่อนรูปภาพที่แสดงอยู่แล้ว (ถ้ามี)
                 displayPreview.style.display = 'none';
             }
         }
@@ -228,8 +225,8 @@
                 <div class="navbar-nav ms-auto py-0">
                     <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
                     <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
-                    <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course" class="nav-item nav-link active" style="font-size: 17px">เพิ่มหลักสูตร</a>
-                    <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link" style="font-size: 17px">หลักสูตรทั้งหมด</a>
+                    <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course" class="nav-item nav-link" style="font-size: 17px">เพิ่มหลักสูตร</a>
+                    <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active" style="font-size: 17px">หลักสูตรทั้งหมด</a>
                     <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 17px">รายการร้องขอ</a>
                     <a href="${pageContext.request.contextPath}/course/public/add_activity" class="nav-item nav-link" style="font-size: 17px">เพิ่มข่าวสารทั่วไป</a>
                     <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
@@ -239,8 +236,8 @@
             </div>
         </nav>
         <!-- Navbar End -->
-        <form id="regForm" action="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/save" method="POST" enctype="multipart/form-data" onsubmit="return confirmAction();" name="frm" style="width: 95%; margin-top: 15px;">
-            <h1 style="text-align-last: start;">เพิ่มหลักสูตรใหม่</h1>
+        <form id="regForm" action="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/${course_by_id.course_id}/update_edit_course" method="POST" enctype="multipart/form-data" onsubmit="return confirmAction();" name="frm" style="width: 95%; margin-top: 15px;">
+            <h1 style="text-align-last: start;">แก้ไขหลักสูตร</h1>
             <hr>
             <!-- One "tab" for each step in the form: -->
             <div class="tab">
@@ -252,8 +249,8 @@
                                     <label>ประเภทหลักสูตร</label>
                                     <select class="form-select" name="course_type" id="course_type" aria-label="Default select example">
                                         <option value="">--กรุณาเลือกหลักสูตร--</option>
-                                        <option value="หลักสูตรอบรมระยะสั้น" label="หลักสูตรอบรมระยะสั้น" ${course.course_type == 'หลักสูตรอบรมระยะสั้น' ? 'selected' : ''}></option>
-                                        <option value="Non-Degree" label="Non-Degree" ${course.course_type == 'Non-Degree' ? 'selected' : ''}></option>
+                                        <option value="หลักสูตรอบรมระยะสั้น" label="หลักสูตรอบรมระยะสั้น" ${course_by_id.course_type == 'หลักสูตรอบรมระยะสั้น' ? 'selected' : ''}></option>
+                                        <option value="Non-Degree" label="Non-Degree" ${course_by_id.course_type == 'Non-Degree' ? 'selected' : ''}></option>
                                     </select>
                                     <label id="invalidCourseType" style="color: red; font-size: 12px"></label>
                                 </div>
@@ -263,7 +260,7 @@
                                         <option value="" >--กรุณาเลือกสาขา--</option>
                                         <c:forEach items="${majors}" var="major">
                                             <c:choose>
-                                                <c:when test="${major.major_id eq course.major.major_id}">
+                                                <c:when test="${major.major_id eq course_by_id.major.major_id}">
                                                     <option value="${major.major_id}" selected>${major.name}</option>
                                                 </c:when>
                                                 <c:otherwise>
@@ -277,13 +274,13 @@
                             </div>
                             <label>ชื่อหลักสูตร</label>
                             <div class="mb-3">
-                                <input name="course_name" type="text" id="course_name" placeholder="ชื่อหลักสูตร" value="${course.name}" oninput="this.className = ''"/>
+                                <input name="course_name" type="text" id="course_name" placeholder="ชื่อหลักสูตร" value="${course_by_id.name}" oninput="this.className = ''"/>
                                 <a id="link" href="#">ตรวจสอบ</a> &nbsp; <label id="status"></label>
                                 <label id="invalidCourseName" style="color: red; font-size: 12px"></label>
                             </div>
                             <label>ชื่อเกียรติบัตร</label>
                             <div class="mb-3">
-                                <input name="certificateName" type="text" id="certificateName" placeholder="ชื่อเกียรติบัตร" value="${course.certificateName}" oninput="this.className = ''"/>
+                                <input name="certificateName" type="text" id="certificateName" placeholder="ชื่อเกียรติบัตร" value="${course_by_id.certificateName}" oninput="this.className = ''"/>
                                 <label id="invalidCertificateName" style="color: red; font-size: 12px"></label>
                             </div>
                             <label>รูปหลักสูตร</label>
@@ -294,9 +291,10 @@
                         </td>
                         <td style="width: 30%; vertical-align: top;">
                             <div class="mb-3" align="center">
-                                <c:if test="${not empty course.file}">
-                                    <input type="hidden" name="original_img" value="${course.img}" />
-                                    <img src="${pageContext.request.contextPath}/assets/img/course_img/${course.img}" id="preview" alt="Image Preview" style="display: none; height: 300px; margin-top: 10px; border-radius: 10px">
+<%--                                <img id="preview" src="" alt="Image Preview" style="display: none; height: 300px; margin-top: 10px; border-radius: 10px">--%>
+                                <c:if test="${not empty course_by_id.file}">
+                                    <input type="hidden" name="original_img" value="${course_by_id.img}" />
+                                    <img src="${pageContext.request.contextPath}/uploads/course_img/${course_by_id.img}" id="preview" alt="Image Preview" style="height: 300px; margin-top: 10px; border-radius: 10px">
                                 </c:if>
                             </div>
                         </td>
@@ -312,7 +310,7 @@
                                 </div>
                                 <div id="editor" contenteditable="true" name="course_principle">
                                     <!-- เริ่มเพิ่มเนื้อหาของ Text Editor ที่นี่ -->
-                                        ${course.principle}
+                                    ${course_by_id.principle}
                                 </div>
                             </div>
                             <label id="invalidPrinciple" style="color: red; font-size: 12px"></label>
@@ -321,9 +319,9 @@
                 </table>
             </div>
             <div class="tab">
-                <label>วัตถุประสงค์</label>
-                <c:set var="object" value="${course.object}"></c:set>
+                <c:set var="object" value="${course_by_id.object}"></c:set>
                 <c:set var="parts" value="${fn:split(object, '$%')}"/>
+                <label>วัตถุประสงค์</label>
                 <div>
                     <div class="mb-3">
                         <div id="objectives-container">
@@ -343,13 +341,23 @@
                 <div class="mb-3">
                     <table>
                         <tr style="vertical-align: text-top;">
-                            <td style="width: 35px;"><input type="radio" name="CFee" value="ไม่มีค่าธรรมเนียม"></td>
-                            <td><label>ไม่มีค่าธรรมเนียม</label></td>
-                            <td style="width: 35px;"><input type="radio" name="CFee" value="มีค่าธรรมเนียม"></td>
-                            <td><label>มีค่าธรรมเนียม</label></td>
+                            <c:choose>
+                                <c:when test="${course_by_id.fee != 0}">
+                                    <td style="width: 35px;"><input type="radio" name="CFee" value="ไม่มีค่าธรรมเนียม"></td>
+                                    <td><label>ไม่มีค่าธรรมเนียม</label></td>
+                                    <td style="width: 35px;"><input type="radio" name="CFee" value="มีค่าธรรมเนียม" checked></td>
+                                    <td><label>มีค่าธรรมเนียม</label></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td style="width: 35px;"><input type="radio" name="CFee" value="ไม่มีค่าธรรมเนียม" checked></td>
+                                    <td><label>ไม่มีค่าธรรมเนียม</label></td>
+                                    <td style="width: 35px;"><input type="radio" name="CFee" value="มีค่าธรรมเนียม"></td>
+                                    <td><label>มีค่าธรรมเนียม</label></td>
+                                </c:otherwise>
+                            </c:choose>
                             <td id="fee" style="display: none; margin-left: 10px;">
                                 <div class="input-group mb-3" style="display: -webkit-box;">
-                                    <input value="${course.fee}" style="width: 325px;" name="course_fee" type="number" class="form-control" id="course_fee" placeholder="ค่าธรรมเนียม" aria-describedby="basic-addon2">
+                                    <input value="${course_by_id.fee}" style="width: 325px;" name="course_fee" type="number" class="form-control" id="course_fee" placeholder="ค่าธรรมเนียม" aria-describedby="basic-addon2">
                                     <span class="input-group-text" id="basic-addon1">บาท</span>
                                 </div>
                                 <label id="invalidCourseFee" style="color: red; font-size: 12px"></label>
@@ -363,7 +371,7 @@
                     <div style="width: 50%">
                         <label>ระยะเวลาในการเรียน</label>
                             <div class="input-group mb-3" style="display: -webkit-box;">
-                                <input style="width: 600px;" name="course_totalHours" type="number" class="form-control" id="course_totalHours" value="${course.totalHours}" oninput="this.className = ''" placeholder="ระยะเวลาในการเรียน" aria-describedby="basic-addon2">
+                                <input style="width: 600px;" name="course_totalHours" type="number" class="form-control" value="${course_by_id.totalHours}" id="course_totalHours" oninput="this.className = ''" placeholder="ระยะเวลาในการเรียน" aria-describedby="basic-addon2">
                                 <span class="input-group-text" id="basic-addon2">ชั่วโมง</span>
                             </div>
                             <label id="invalidCourseTotalHours" style="color: red; font-size: 12px"></label>
@@ -371,11 +379,11 @@
                     <div style="width: 50%">
                         <label>ไฟล์เนื้อหาหลักสูตร</label>
                         <div class="mb-3">
-                            <div class="course-totalHours-container">
-                                <input name="course_file" type="file" id="course_file" accept="file/*" onchange="checkFile(this)" class="form-control"/>
-                                <c:if test="${not empty course.file}">
-                                    <input type="hidden" name="original_file" value="${course.file}" />
-                                    <a href="${course.file}" target="_blank">${course.file}</a>
+                            <div class="course-totalHours-container" style="display: flex; align-items: baseline;">
+                                <input name="course_file" type="file" id="course_file" style="width: 70%;" accept="file/*" onchange="checkFile(this)" class="form-control"/>
+                                <c:if test="${not empty course_by_id.file}">
+                                    <input type="hidden" name="original_file" value="${course_by_id.file}" />
+                                    <a style="margin-left: 20px;" href="${pageContext.request.contextPath}/uploads/course_pdf/${course_by_id.file}" target="_blank" download="${course_by_id.file}">ดูไฟล์เดิม</a>
                                 </c:if>
                             </div>
                             <label id="invalidCourseFile" style="color: red; font-size: 12px"></label>
@@ -384,7 +392,9 @@
                 </div>
                 <div class="mb-3">
                     <div class="form-floating">
-                        <textarea class="form-control" placeholder="" id="floatingTextarea3" name="course_targetOccupation" style="height: 100px">${course.targetOccupation}</textarea>
+                        <textarea class="form-control" placeholder="" id="floatingTextarea3" name="course_targetOccupation" style="height: 100px">
+                            ${course_by_id.targetOccupation}
+                        </textarea>
                         <label for="floatingTextarea3">เป้าหมายกลุ่มอาชีพ</label>
                     </div>
                     <label id="invalidCourseTargetOccupation" style="color: red; font-size: 12px"></label>
@@ -421,13 +431,13 @@
 <%--                        ไฟล์หลักสูตร : <span id="displayCourseFile"></span>--%>
                     </div>
                     <div style="width: 30%; writing-mode: vertical-rl;">
-                        <img id="displayPreview" src="" alt="Image Preview" style="display: none; width: 400px; margin-top: 10px; border-radius: 10px">
+                        <img id="displayPreview" src="${pageContext.request.contextPath}/uploads/course_img/${course_by_id.img}" alt="Image Preview" style="width: 400px; margin-top: 10px; border-radius: 10px">
                     </div>
                 </div>
             </div>
             <div style="overflow:auto;">
                 <div style="float:right; margin-top: 60px;">
-                    <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                    <button type="button" id="prevBtn" onclick="nextPrev(-1)">ย้อนกลับ</button>
                     <button type="button" id="nextBtn" onclick="nextPrev(1)">ต่อไป</button>
                 </div>
             </div>
@@ -483,7 +493,7 @@
 </script>
 <script>
     function confirmAction() {
-        var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการเพิ่มหลักสูตรนี้?");
+        var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการแก้ไขหลักสูตรนี้?");
         if (result) {
             return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
         } else {
@@ -505,9 +515,9 @@
             document.getElementById("prevBtn").style.display = "inline";
         }
         if (n == (x.length - 1)) {
-            document.getElementById("nextBtn").innerHTML = "Submit";
+            document.getElementById("nextBtn").innerHTML = "ยืนยัน";
         } else {
-            document.getElementById("nextBtn").innerHTML = "Next";
+            document.getElementById("nextBtn").innerHTML = "ต่อไป";
         }
         //... and run a function that will display the correct step indicator:
         fixStepIndicator(n)
@@ -551,11 +561,11 @@
         y = x[currentTab].getElementsByTagName("input");
         // A loop that checks every input field in the current tab:
         for (i = 0; i < y.length; i++) {
-            // If a field is empty...checkScriptPage1()
-            if (y[i].value == "") {
-                // add an "invalid" class to the field:
+            // If a field is empty and not the file input field...
+            if (y[i].value === "" && y[i].type !== "file") {
+                // Add an "invalid" class to the field:
                 y[i].className += " invalid";
-                // and set the current valid status to false
+                // And set the current valid status to false
                 valid = false;
             }
         }
@@ -609,13 +619,15 @@
         const courseElement = document.getElementById("course_name").value;
         let courseFound = false;
 
-        <c:forEach var="c" items="${course}">
-        if ("${c.name}".trim() === courseElement.trim()) {
-            stt.innerHTML = "มีหลักสูตรนี้ในระบบแล้ว";
-            stt.style.color = "red"
-            document.getElementById("invalidCourseName").innerHTML = "";
-            courseFound = true;
-        }
+        <c:forEach var="c" items="${courses}">
+        <c:if test="${c.course_id != course_by_id.course_id}">
+            if ("${c.name}".trim() === courseElement.trim()) {
+                stt.innerHTML = "มีหลักสูตรนี้ในระบบแล้ว";
+                stt.style.color = "red"
+                document.getElementById("invalidCourseName").innerHTML = "";
+                courseFound = true;
+            }
+        </c:if>
         </c:forEach>
 
         if (!courseFound) {
@@ -680,6 +692,7 @@
         var regCName = /^[A-Za-z0-9ก-๙() ]{2,225}$/;
         var stt = document.getElementById("status");
         var courseElement = document.getElementById("status").innerHTML;
+        var courseName = document.getElementById("course_name").value;
 
         document.getElementById("link").click();
         if(document.getElementById("course_name").value === ""){
@@ -688,7 +701,7 @@
             document.getElementById("invalidCourseName").innerHTML = "กรุณากรอกชื่อหลักสูตร";
             document.getElementById("course_name").focus();
             return false;
-        }else if (!document.getElementById("course_name").value.match(regCName)) {
+        }else if (courseName.length < 2 || courseName.length > 225) {
             // alert("ตัองเป็นภาษาไทย อังกฤษหรือตัวเลขเท่านั้น");
             stt.innerHTML = "";
             document.getElementById("invalidCourseName").innerHTML = "ตัองเป็นภาษาไทย อังกฤษหรือตัวเลขเท่านั้น และต้องมีจำนวน 2-225 ตัวอักษร";
@@ -706,12 +719,14 @@
 
         //---------certificateName----------
         var regCerName = /^[A-Za-z0-9ก-๙() ]{2,225}$/;
+
+        var certificateName = document.getElementById("certificateName").value;
         if (document.getElementById("certificateName").value === ""){
             // alert("กรุณากรอกชื่อเกียรติบัตร");
             document.getElementById("invalidCertificateName").innerHTML = "กรุณากรอกชื่อเกียรติบัตร";
             document.getElementById("certificateName").focus();
             return false;
-        } else if (!document.getElementById("certificateName").value.match(regCerName)) {
+        } else if (certificateName.length < 2 || certificateName.length > 225) {
             // alert("ตัองเป็นภาษาไทย อังกฤษหรือตัวเลขเท่านั้น");
             document.getElementById("invalidCertificateName").innerHTML = "ตัองเป็นภาษาไทย อังกฤษหรือตัวเลขเท่านั้น และต้องมีจำนวน 2-225 ตัวอักษร";
             document.getElementById("certificateName").focus();
@@ -746,15 +761,16 @@
 
     function checkScriptPage2(){
         //---------------objectives--------------------
-        var regExName = /^[ก-์A-Za-z0-9 ]{2,225}$/;
+        // var regExName = /^[ก-์A-Za-z0-9 ]{2,225}$/;
         var objectives = document.querySelectorAll("input[name='course_objectives[]']");
         for (var i = 0; i < objectives.length; i++) {
+            var object = objectives[i].value;
             if (objectives[i].value === "") {
                 document.getElementById("invalidObjective").innerHTML = "กรุณากรอกวัตถุประสงค์ทั้งหมด";
                 objectives[i].focus();
                 return false;
-            }else if (!regExName.test(objectives[i].value)){
-                document.getElementById("invalidObjective").innerHTML = "วัตถุประสงค์ต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข และมีจำนวน 2-225 ตัวอักษร";
+            }else if (object.length < 2 || object.length > 225){
+                document.getElementById("invalidObjective").innerHTML = "วัตถุประสงค์ต้องมีจำนวน 2-225 ตัวอักษร";
                 objectives[i].focus();
                 return false;
             }
@@ -821,24 +837,24 @@
         //     document.getElementById("invalidCourseTargetOccupation").innerHTML = "";
         // }
 
-        checkScriptPage2FILE();
+        // checkScriptPage2FILE();
 
         return true;
     }
-    function checkScriptPage2FILE(){
-        //----------------Course File----------------------
-        // ตรวจสอบว่าผู้ใช้เลือกไฟล์เนื้อหาหลักสูตรหรือไม่
-        var courseFile = document.getElementById("course_file").value;
-        if (courseFile === "") {
-            document.getElementById("invalidCourseFile").innerHTML = "กรุณาเลือกไฟล์เนื้อหาหลักสูตร";
-            document.getElementById("course_file").focus();
-            return false;
-        }else if (!courseFile === ""){
-
-        } else {
-            document.getElementById("invalidCourseFile").innerHTML = "";
-        }
-    }
+    // function checkScriptPage2FILE(){
+    //     //----------------Course File----------------------
+    //     // ตรวจสอบว่าผู้ใช้เลือกไฟล์เนื้อหาหลักสูตรหรือไม่
+    //     var courseFile = document.getElementById("course_file").value;
+    //     if (courseFile === "") {
+    //         document.getElementById("invalidCourseFile").innerHTML = "กรุณาเลือกไฟล์เนื้อหาหลักสูตร";
+    //         document.getElementById("course_file").focus();
+    //         return false;
+    //     }else if (!courseFile === ""){
+    //
+    //     } else {
+    //         document.getElementById("invalidCourseFile").innerHTML = "";
+    //     }
+    // }
 
     function display(){
         const courseType = document.getElementById("course_type").value;
@@ -935,6 +951,20 @@
         updateRemoveButtons();
     }
 
+    // function updateRemoveButtons() {
+    //     var containers = document.getElementsByClassName('objective-container');
+    //     var removeButtons = document.querySelectorAll('.objective-container button.btn-danger');
+    //
+    //     if (containers.length === 1) {
+    //         for (var i = 0; i < removeButtons.length; i++) {
+    //             removeButtons[i].style.display = 'none';
+    //         }
+    //     } else {
+    //         for (var i = 0; i < removeButtons.length; i++) {
+    //             removeButtons[i].style.display = 'block';
+    //         }
+    //     }
+    // }
     function updateRemoveButtons() {
         var containers = document.getElementsByClassName('objective-container');
         var removeButtons = document.querySelectorAll('.objective-container button.btn-danger');
@@ -949,6 +979,7 @@
             }
         }
     }
+
 
     function removeObjective(button) {
         var container = document.getElementById('objectives-container');
@@ -983,5 +1014,17 @@
             document.getElementById("fee").style.display = "block";
         }
     });
+</script>
+<script>
+    function checkCourseFee() {
+        if (noFeeRadio.checked) {
+            // ซ่อนส่วนที่มี id เป็น "fee"
+            document.getElementById("fee").style.display = "none";
+            document.getElementById("course_fee").value = "0";
+        }else {
+            document.getElementById("fee").style.display = "block";
+        }
+    }
+    window.addEventListener('load',checkCourseFee);
 </script>
 </html>

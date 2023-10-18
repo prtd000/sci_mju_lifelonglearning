@@ -60,7 +60,7 @@ h1{
     line-height: 1;
     margin: 0;
     outline: none;
-    padding: 0.6rem 2rem;
+    padding: 10px 10px 10px 10px;
     text-align: center;
     text-decoration: none;
     transition: box-shadow .2s,-webkit-box-shadow .2s;

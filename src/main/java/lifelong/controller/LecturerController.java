@@ -154,6 +154,7 @@ public class LecturerController {
                     requestOpenCourse_toAdd.setEndPayment(endPaymentDate);
                 }
             }
+            requestOpenCourse_toAdd.setSignature("");
 //            requestOpCourseService.saveRequestOpenCourse(requestOpenCourse_toAdd);
             Session session = sessionFactory.getCurrentSession();
             RequestOpenCourse mergedRequestOpenCourse = (RequestOpenCourse) session.merge(requestOpenCourse_toAdd);
@@ -170,6 +171,15 @@ public class LecturerController {
         model.addAttribute("lecturer_id", lecturer_id);
         model.addAttribute("requests_open_course", requestOpenCourse);
         return "lecturer/list_request_open_course";
+    }
+
+    @GetMapping("/{lecturer_id}/list_approve_request_open_course")
+    public String getListApprovedCourseDetail(@PathVariable("lecturer_id") String lecturer_id,Model model) {
+        List<RequestOpenCourse> requestOpenCourse = requestOpCourseService.getRequestOpenCoursesByLecturerId(lecturer_id);
+        model.addAttribute("title", "รายการ");
+        model.addAttribute("lecturer_id", lecturer_id);
+        model.addAttribute("requests_open_course", requestOpenCourse);
+        return "lecturer/list_approve_request_open_course";
     }
     //**********************************************************************//
 
@@ -272,73 +282,40 @@ public class LecturerController {
     //***************************Cancel Course Detail***********************************//
     @GetMapping("/{lec_id}/{roc_id}/cancel_request_open_course")
     public String doCancelCourseDetail(@PathVariable("lec_id")String lec_id,@PathVariable("roc_id") long roc_id) throws IOException {
+        //ถ้ายกเลิกหลักสูตรจะทำยังไงกับคนสมัคร
         List<Register> registers = requestOpCourseService.checkRegisterToDelete(roc_id);
-        if (registers.size() == 0){
+//        if (registers.size() == 0){
             RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
+            //Course course = courseService.getCourseById(requestOpenCourse.getCourse().getCourse_id());
             requestOpenCourse.setRequestStatus("ถูกยกเลิก");
+            requestOpenCourse.getCourse().setStatus("ยังไม่เปิดสอน");
             requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
-            //แก้ไขตาราง Course
-            Course course = courseService.getCourseById(requestOpenCourse.getCourse().getCourse_id());
-            course.setStatus("ยังไม่เปิดสอน");
-            courseService.updateCourse(course);
-        }else {
-            // ส่งพารามิเตอร์ "error" ใน URL เพื่อระบุว่าเกิดข้อผิดพลาด
-            return "redirect:/lecturer/" + lec_id + "/list_request_open_course?error=true";
-        }
-
-        return "redirect:/lecturer/"+ lec_id +"/list_request_open_course";
+//        }else {
+//            // ส่งพารามิเตอร์ "error" ใน URL เพื่อระบุว่าเกิดข้อผิดพลาด
+//            return "redirect:/lecturer/" + lec_id + "/list_request_open_course?error=true";
+//        }
+        return "redirect:/lecturer/"+ lec_id +"/list_approve_request_open_course";
     }
     @GetMapping("/{lec_id}/{roc_id}/delete_request_open_course")
     public String doDeleteCourseDetail(@PathVariable("lec_id")String lec_id,@PathVariable("roc_id") long roc_id) throws IOException {
-        List<Register> registers = requestOpCourseService.checkRegisterToDelete(roc_id);
-        if (registers.size() == 0){
-            RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
-            String signature = requestOpenCourse.getSignature();
-            // ลบข้อมูลเดิมก่อน
-            String deletePath = ImgPath.pathUploads + "/request_open_course/signature/";
-            Path deletedirectoryPath = Paths.get(deletePath,signature);
-            Files.delete(deletedirectoryPath);
-            // ลบข้อมูลกิจกรรมที่เกี่ยวข้อง
-            List<Activity> activities = activityService.getActivityDetailByCourseId(roc_id);
-            for (Activity activity : activities) {
-                // ลบข้อมูลที่เกี่ยวข้องกับกิจกรรม (เช่น ไฟล์แนบ)
-                String deleteImgActivityPath = ImgPath.pathUploads + "/activity/private/"+activity.getAc_id()+"/";
-                Path deletedirectoryImgActivityPath = Paths.get(deleteImgActivityPath);
-                if (Files.isDirectory(deletedirectoryImgActivityPath)) {
-                    // ลบไดเร็กทอรีและเนื้อหาภายใน
-                    Files.walk(deletedirectoryImgActivityPath)
-                            .sorted(Comparator.reverseOrder())
-                            .map(Path::toFile)
-                            .forEach(File::delete);
-                } else {
-                    // ลบไฟล์
-                    Files.delete(deletedirectoryImgActivityPath);
-                }
-                // ลบข้อมูลกิจกรรม
-                activityService.deleteActivity(activity.getAc_id());
-            }
-            requestOpCourseService.deleteRequestOpenCourse(roc_id,lec_id);
-            //แก้ไขตาราง Course
-            Course course = courseService.getCourseById(requestOpenCourse.getCourse().getCourse_id());
-            course.setStatus("ยังไม่เปิดสอน");
-            courseService.updateCourse(course);
-        }else {
-            // ส่งพารามิเตอร์ "error" ใน URL เพื่อระบุว่าเกิดข้อผิดพลาด
-            return "redirect:/lecturer/" + lec_id + "/list_request_open_course?error=true";
-        }
-
-        return "redirect:/lecturer/"+ lec_id +"/list_request_open_course";
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
+        requestOpCourseService.deleteRequestOpenCourse(roc_id,lec_id);
+        //แก้ไขตาราง Course
+        Course course = courseService.getCourseById(requestOpenCourse.getCourse().getCourse_id());
+        course.setStatus("ยังไม่เปิดสอน");
+        courseService.updateCourse(course);
+        return "redirect:/lecturer/"+ lec_id +"/list_approve_request_open_course";
     }
     //**********************************************************************************//
 
     //*************************List Approved Course ต้องเพิ่ม หรือป่าว***************************//
-    @GetMapping("/{lecturer_id}/list_Approved_request_open_course")
-    public String getListApprovedCourseDetail(@PathVariable("lecturer_id") String lecturer_id,Model model) {
-        model.addAttribute("title", "รายการ");
-        model.addAttribute("lecturer_id", lecturer_id);
-        model.addAttribute("requests_open_course", requestOpCourseService.getRequestOpenCoursesByLecturerId(lecturer_id));
-        return null;
-    }
+//    @GetMapping("/{lecturer_id}/list_Approved_request_open_course")
+//    public String getListApprovedCourseDetail(@PathVariable("lecturer_id") String lecturer_id,Model model) {
+//        model.addAttribute("title", "รายการ");
+//        model.addAttribute("lecturer_id", lecturer_id);
+//        model.addAttribute("requests_open_course", requestOpCourseService.getRequestOpenCoursesByLecturerId(lecturer_id));
+//        return null;
+//    }
     //**********************************************************************//
 
     //**********************List Members*********************//
@@ -346,6 +323,10 @@ public class LecturerController {
     public String getListMembers(@PathVariable("lecturer_id") String lecturer_id,@PathVariable("request_id") long request_id , Model model) {
         List<Register> register = registerService.getRegisterByRequestIdAndPayStatusAndApprove(request_id);
         model.addAttribute("title","TEST");
+        Date currentDate = new Date();
+        List<Receipt> list_receipt = registerService.getReceipt();
+        model.addAttribute("receipt",list_receipt);
+        model.addAttribute("currentDate",currentDate);
         model.addAttribute("registers",register);
         model.addAttribute("lecturer_id",lecturer_id);
         model.addAttribute("request_name",requestOpCourseService.getRequestOpenCourseDetail(request_id));
@@ -357,11 +338,11 @@ public class LecturerController {
     @GetMapping("/{request_id}/downloadExcel")
     public void downloadExcel(HttpServletResponse response, @PathVariable long request_id) throws IOException {
         // ดึงข้อมูลจาก Service หรือ Repository
-        List<Register> register = registerService.getRegisterByRequestIdAndPayStatusAndApprove(request_id);
+        List<Register> register = registerService.getRegisterByRequestIdAndApprove(request_id);
         RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(request_id);
 
         // โหลดไฟล์ Excel โครงที่มีอยู่แล้ว
-        FileInputStream inputStream = new FileInputStream(ImgPath.pathExcel + "/register_data.xlsx");
+        FileInputStream inputStream = new FileInputStream(ImgPath.pathUploads + "/excel/register_data.xlsx");
 //        Workbook workbook = new XSSFWorkbook(inputStream);
         Workbook workbook = new XSSFWorkbook(inputStream);
         inputStream.close();

@@ -2,6 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="lifelong.model.*" %>
 <%--
   Created by IntelliJ IDEA.
@@ -139,133 +140,121 @@
                 <form id="signUpForm" action="${pageContext.request.contextPath}/course/${admin_id}/view_request_open_course/${ROC_detail.request_id}/approve" method="POST">
                     <!-- step one -->
                     <div class="step">
-                        <div class="mb-3">
-                            <label>รายละเอียดคำร้องขอ</label>
-                            <div class="course-totalHours-container">
-                                <h4>${ROC_detail.course.name}</h4>
+                        <div class="mb-3" style="display:flex;">
+                            <div align="left" style="width: 50%">
+                                <label>รายละเอียดคำร้องขอ</label>
+                                <div class="course-totalHours-container">
+                                    <h4>${ROC_detail.course.name}</h4>
+                                </div>
+                                <label>${ROC_detail.course.major.name}</label>
                             </div>
-                            <label>${ROC_detail.course.major.name}</label>
+                            <div align="right" style="width: 50%;align-self: flex-end;">
+                                <fmt:formatDate value="${ROC_detail.requestDate}" pattern="dd/MM/yyyy" var="requestDate" />
+                                <label>วันที่ร้องขอ : ${requestDate}</label>
+                                <h4>${ROC_detail.lecturer.position} ${ROC_detail.lecturer.firstName} ${ROC_detail.lecturer.lastName}</h4>
+                            </div>
                         </div>
                         <hr>
-                        <table style="width: 100%">
-                            <tr>
-                                <td colspan="2">
-                                    <b><label>วันที่ร้องขอ</label></b>
-                                    <div class="mb-3">
-                                        <div class="flex-container">
-                                            <fmt:formatDate value="${ROC_detail.requestDate}" pattern="dd/MM/yyyy" var="requestDate" />
-                                            <label>${requestDate}</label>
-                                        </div>
+                        <div style="display:flex; width: 100%">
+                            <div style="width: 35%">
+                                <div>
+                                    <label>${ROC_detail.course.course_type}</label>
+                                </div>
+                                <div style="display: flex">
+                                    <div style="width: 50%;">
+                                        <c:choose>
+                                            <c:when test="${ROC_detail.course.fee != 0}">
+                                                <label>ค่าธรรมเนียม ${ROC_detail.course.fee} บาท</label>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <label>ไม่มีค่าธรรมเนียม</label>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
-                                </td>
-                                <td>
-                                    <b><label>อาจารย์ผู้ร้องขอ</label></b>
-                                    <div class="mb-3">
-                                        <div class="flex-container">
-                                            <label>${ROC_detail.lecturer.position} ${ROC_detail.lecturer.firstName} ${ROC_detail.lecturer.lastName}</label>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <b><label>วันเปิดรับสมัคร</label></b>
-                                    <div class="mb-3">
-                                        <div class="flex-container">
+                                    <div>ชั่วโมงเรียน : ${ROC_detail.course.totalHours} ชั่วโมง</div>
+                                </div>
+                                <hr>
+                                <div style="border-radius: 20px;" align="center">
+                                    <img src="${pageContext.request.contextPath}/uploads/course_img/${ROC_detail.course.img}" width="320px" style="border-radius: 10px; margin-bottom: 30px">
+                                </div>
+                            </div>
+                            <div style="width: 65%; margin-left: 20px">
+                                <table style="width: 100%; font-size: 18px">
+                                    <tr>
+                                        <td>
                                             <fmt:formatDate value="${ROC_detail.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
                                             <fmt:formatDate value="${ROC_detail.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
-                                            <label>${startRegister} - ${endRegister}</label>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <b><label>จำนวนรับสมัคร</label></b>
-                                    <div class="mb-3">
-                                        <div class="flex-container">
-                                            <label>${ROC_detail.quantity} คน</label>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b><label>วันประกาศผลการสมัคร</label></b>
-                                    <div class="mb-3">
-                                        <div class="flex-container">
+                                            <label>วันเปิดรับสมัคร : </label> <label>${startRegister} - ${endRegister}</label>
+                                        </td>
+                                        <td>
+                                            <label>จำนวนรับสมัคร : </label><label>${ROC_detail.quantity} คน</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>วันชำระเงิน : </label>
+                                            <c:choose>
+                                                <c:when test="${ROC_detail.course.fee != 0}">
+                                                    <fmt:formatDate value="${ROC_detail.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
+                                                    <fmt:formatDate value="${ROC_detail.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
+                                                    <label>${startPayment} - ${endPayment}</label>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <label>ไม่มีการชำระเงิน(ฟรี)</label>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td>
                                             <fmt:formatDate value="${ROC_detail.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
-                                            <label>${applicationResult}</label>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td colspan="2">
-                                    <b><label>ระยะเวลาการเรียน</label></b>
-                                    <div class="mb-3">
-                                        <div class="flex-container">
+                                            <label>วันประกาศผลการสมัคร : </label><label>${applicationResult}</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <hr>
                                             <fmt:formatDate value="${ROC_detail.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
                                             <fmt:formatDate value="${ROC_detail.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                            <label>${startStudyDate} - ${endStudyDate}</label>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="3">
-                                    <b><label>เวลาในการเรียน</label></b>
-                                    <div class="mb-3">
-                                        <div class="flex-container">
-                                            <label>${ROC_detail.studyTime}</label>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b><label>รูปแบบการสอน</label></b>
-                                    <div class="mb-3">
-                                        <div class="flex-container">
-                                            <label>${ROC_detail.type_teach}</label>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td colspan="2">
-                                    <b><label>รูปแบบการสอน</label></b>
-                                    <div class="mb-3">
-                                        <div class="flex-container">
-                                            <label>${ROC_detail.type_learn}</label>
+                                            <c:set var="studyTime" value="${ROC_detail.studyTime}"/>
+                                            <c:set var="parts" value="${fn:split(studyTime, ', ')}"/>
+                                            <label>ระยะเวลาการเรียน : </label><label>${startStudyDate} - ${endStudyDate}</label>
+                                            <label>เรียนทุกวัน ${ROC_detail.studyDay}</label><br>
+                                            <label>เวลา : ${parts[0]} : ${parts[1]} น.</label>
+                                            <hr>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <label>รูปแบบการสอน : </label><label>${ROC_detail.type_teach}</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <label>รูปแบบการเรียน : </label><label>${ROC_detail.type_learn}</label>
                                             <input type="hidden" name="type_learn" id="type_learn" value="${ROC_detail.type_learn}" />
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr id="locationRow"  style="display: none;">
-                                <td colspan="3">
-                                    <b><label>สถานที่เรียน</label></b>
-                                    <div class="mb-3">
-                                        <div class="flex-container">
-                                            <label>${ROC_detail.location}</label>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr id="moocRow" style="display: none;">
-                                <td colspan="3">
-                                    <b><label>Link Mooc</label></b>
-                                    <div class="mb-3">
-                                        <div class="flex-container">
-                                            <label>${ROC_detail.linkMooc}</label>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
+                                        </td>
+                                    </tr>
+                                    <tr id="locationRow"  style="display: none;">
+                                        <td colspan="2">
+                                            <label>สถานที่เรียน : </label><label>${ROC_detail.location}</label>
+                                        </td>
+                                    </tr>
+                                    <tr id="moocRow" style="display: none;">
+                                        <td colspan="2">
+                                            <label>Link Mooc : </label><label>${ROC_detail.linkMooc}</label>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <hr>
+                                <!-- start previous / next buttons -->
+                                <div style="width: 100%" align="center" class="flex-container">
+                                    <input type="button" name="statusResult" value="ยกเลิกคำร้องขอ"
+                                           onclick="cancelRequest();" style="width: 47%" class="cancel-button"/>
+                                    <input type="button" name="statusResult" value="ยืนยันคำร้องขอ" onclick="confirmSubmit();" class="button-5" style="width: 47%"/>
+                                </div>
+                                <!-- end previous / next buttons -->
+                            </div>
+                        </div>
                     </div>
-                    <!-- start previous / next buttons -->
-                    <div style="width: 100%" align="center" class="flex-container">
-                        <input type="button" name="statusResult" value="ยกเลิกคำร้องขอ"
-                               onclick="cancelRequest();" style="width: 47%" class="cancel-button"/>
-                        <input type="button" name="statusResult" value="ยืนยันคำร้องขอ" onclick="confirmSubmit();" class="button-5" style="width: 47%"/>
-                    </div>
-                    <!-- end previous / next buttons -->
                 </form>
             </div>
         </div>

@@ -164,7 +164,7 @@ public class CourseController {
             }
             //แก้ไขตาราง Course
             Course course = courseService.getCourseById(existingRequestOpenCourse.getCourse().getCourse_id());
-            course.setStatus("เปิดสอน");
+            course.setStatus("ลงทะเบียน");
             courseService.updateCourse(course);
         }
         return "redirect:/course/"+admin_id+"/list_all_course";
@@ -192,11 +192,17 @@ public class CourseController {
     //**********List All Course************//
     @GetMapping("/{admin_id}/list_all_course")
     public String getListAllCourse(Model model ,@PathVariable("admin_id") String admin_id) {
+        Date currentDate = new Date();
         model.addAttribute("title", "รายการ" + title);
         model.addAttribute("courses", courseService.getCourses());
+        model.addAttribute("courses_by_register_date",courseService.getCourseByStatus("ลงทะเบียน"));
+        model.addAttribute("courses_by_payment_date",courseService.getCourseByStatus("ชำระเงิน"));
+        model.addAttribute("courses_by_study_date",courseService.getCourseByStatus("เปิดสอน"));
+        model.addAttribute("courses_by_not_study",courseService.getCourseByStatus("ยังไม่เปิดสอน"));
         model.addAttribute("requests_open_course", requestOpCourseService.getRequestOpenCourses());
         model.addAttribute("list_activities", activityService.getPublicActivity());
         model.addAttribute("admin_id",admin_id);
+        model.addAttribute("currentDate",currentDate);
         return "admin/listAllCourse";
     }
 
@@ -226,7 +232,9 @@ public class CourseController {
         Course course = courseService.getCourseById(id);
         model.addAttribute("title", "แก้ไข" + title);
         model.addAttribute("majors", majorService.getMajors());
-        model.addAttribute("course", course);
+        model.addAttribute("course_by_id", course);
+        model.addAttribute("add_course", new Course());
+        model.addAttribute("courses",courseService.getCourses());
         return "admin/edit_Course_Detail";
     }
     @PostMapping(path = "/{admin_id}/{id}/update_edit_course")
@@ -243,7 +251,7 @@ public class CourseController {
             existingCourse.setName(allReqParams.get("course_name"));
             existingCourse.setCertificateName(allReqParams.get("certificateName"));
 //            existingCourse.setImg(allReqParams.get("course_img"));
-            existingCourse.setPrinciple(allReqParams.get("course_principle"));
+            existingCourse.setPrinciple(allReqParams.get("coursePrinciple"));
             String course_object = "";
             for (String objective : courseObjectives) {
                 System.out.println("วัตถุประสงค์: " + objective);
@@ -342,10 +350,12 @@ public class CourseController {
         List<Register> register = registerService.getRegisterByRequestId(roc_id);
         RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
         List<Receipt> list_receipt = registerService.getReceipt();
+        Date currentDate = new Date();
         model.addAttribute("title", "แก้ไข" + title);
         model.addAttribute("register_detail", register);
         model.addAttribute("receipt",list_receipt);
         model.addAttribute("request_name", requestOpenCourse);
+        model.addAttribute("currentDate",currentDate);
         return "admin/list_Approve_member_to_course";
     }
 
@@ -380,6 +390,7 @@ public class CourseController {
         // ตรวจสอบค่า approveResult และดำเนินการตามที่คุณต้องการ
         if ("ยืนยันการสมัคร".equals(approveResult)) {
             invoice.setApprove_status("ผ่าน");
+            invoice.getRegister().setStudy_result("กำลังเรียน");
         } else if ("ยกเลิกการสมัคร".equals(approveResult)) {
             invoice.setApprove_status("ไม่ผ่าน");
         }

@@ -56,15 +56,44 @@ public class WebHomeController {
         // ตรวจสอบและอัพเดต requestStatus สำหรับทุก RequestOpenCourse
         for (RequestOpenCourse requestOpenCourse : requestOpenCourses) {
             requestOpenCourse.checkEndDate();
-            requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
             System.out.println("RequestStatus : " + requestOpenCourse.getRequestStatus());
+
+            if (Objects.equals(requestOpenCourse.getRequestStatus(), "ผ่าน")){
+                if (currentDate.getTime() > requestOpenCourse.getEndRegister().getTime() && requestOpenCourse.getRegisterList().size() == 0){
+                    requestOpenCourse.getCourse().setStatus("ยังไม่เปิดสอน");
+                    requestOpenCourse.setRequestStatus("ถูกยกเลิก");
+                }
+                if (requestOpenCourse.getCourse().getFee() == 0){
+                    if (currentDate.getTime() > requestOpenCourse.getEndRegister().getTime() && currentDate.getTime() < requestOpenCourse.getApplicationResult().getTime()){
+                        requestOpenCourse.getCourse().setStatus("ชำระเงิน");
+                    }else if (currentDate.getTime() >= requestOpenCourse.getApplicationResult().getTime()){
+                        requestOpenCourse.getCourse().setStatus("เปิดสอน");
+                    } else if (currentDate.getTime() > requestOpenCourse.getEndStudyDate().getTime()) {
+                        requestOpenCourse.getCourse().setStatus("ยังไม่เปิดสอน");
+                        requestOpenCourse.setRequestStatus("เสร็จสิ้น");
+                    }
+                }else if (currentDate.getTime() > requestOpenCourse.getEndRegister().getTime() && currentDate.getTime() <= requestOpenCourse.getEndPayment().getTime()) {
+                    requestOpenCourse.getCourse().setStatus("ชำระเงิน");
+                }else if (currentDate.getTime() >= requestOpenCourse.getApplicationResult().getTime()){
+                    requestOpenCourse.getCourse().setStatus("เปิดสอน");
+                }else if (currentDate.getTime() > requestOpenCourse.getEndStudyDate().getTime()) {
+                    requestOpenCourse.getCourse().setStatus("ยังไม่เปิดสอน");
+                    requestOpenCourse.setRequestStatus("เสร็จสิ้น");
+                }
+            }
 
             // เพิ่มเงื่อนไขในการลบแถว
             if (Objects.equals(requestOpenCourse.getRequestStatus(), "ไม่ผ่าน") && requestOpenCourse.getRequestDate().before(oneWeekAgo)) {
                 // ลบอ็อบเจกต์ RequestOpenCourse จากฐานข้อมูล
                 requestOpCourseService.checkDeleteRequestOpenCourse(requestOpenCourse.getRequest_id());
                 System.out.println("ลบสำเร็จ"+requestOpenCourse.getRequest_id());
-            }        }
+            }
+//            if (requestOpenCourse.getEndRegister().toInstant().isBefore(currentDate.toInstant()) && requestOpenCourse.getQuantity() == 0) {
+//                requestOpenCourse.setRequestStatus("ถูกยกเลิก");
+//            }
+            requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
+
+        }
         model.addAttribute("list_req",requestOpenCourses);
         model.addAttribute("courses", courses);
 

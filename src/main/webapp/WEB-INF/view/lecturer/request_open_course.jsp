@@ -235,7 +235,7 @@
                     <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรการอบรม</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/add_roc" class="nav-item nav-link active" style="font-size: 18px">ร้องขอหลักสูตร</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 18px">รายการร้องขอ</a>
-                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรของฉัน</a>
+                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_approve_request_open_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรของฉัน</a>
                     <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
                     <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
                 </div>
@@ -558,9 +558,10 @@
                                     <div id="locationRow" style="display: none;">
                                         <br>
                                         <div class="form-floating">
-                                            <textarea class="form-control" placeholder="" id="floatingTextarea2" name="location" style="height: 100px"></textarea>
-                                            <label for="floatingTextarea2">สถานที่</label>
+                                            <textarea class="form-control" id="floatingTextarea2" name="location" style="height: 100px" placeholder=""></textarea>
+                                            <label for="floatingTextarea2">สถานที่ (ระบุ ตึก ห้อง และชั้นที่เรียน หรือรายละเอียดต่างๆ)</label>
                                         </div>
+
                                         <label id="invalidLocation" style="color: red; font-size: 12px"></label>
                                     </div>
                                 </div>
@@ -676,14 +677,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="width: 100%">
+                            <div style="width: 100%" id="link_type">
                                 <label>LinkMooc</label>
                                 <div style="width: 100%; display: flex">
                                     <p id="link_mooc_display">ลิงค์</p>
                                 </div>
                             </div>
-                            <div style="width: 100%">
-                                <label>Location</label>
+                            <div style="width: 100%" id="location_type">
+                                <label>สถานที่เรียน</label>
                                 <div style="width: 100%; display: flex">
                                     <p id="location_display">สถานที่</p>
                                 </div>
@@ -695,7 +696,7 @@
             </div>
             <div style="overflow:auto;">
                 <div style="float:right; display: flex;">
-                    <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                    <button type="button" id="prevBtn" onclick="nextPrev(-1)">ย้อนกลับ</button>
                     <button type="button" id="nextBtn" onclick="nextPrev(1)">ต่อไป</button>
                     <button type="submit" id="submitBtn" style="display: none">ยืนยัน</button>
                 </div>
@@ -891,7 +892,7 @@
 </script>
 <script>
     function confirmAction() {
-        var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการเพิ่มหลักสูตรนี้?");
+        var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการเพิ่มคำร้องขอนี้?");
         if (result) {
             return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
         } else {
@@ -913,11 +914,11 @@
             document.getElementById("prevBtn").style.display = "inline";
         }
         if (n == (x.length - 1)) {
-            document.getElementById("nextBtn").innerHTML = "Submit";
+            document.getElementById("nextBtn").innerHTML = "ยืนยัน";
             // document.getElementById("nextBtn").style.display = "none";
             // document.getElementById("submitBtn").style.display = "block";
         } else {
-            document.getElementById("nextBtn").innerHTML = "Next";
+            document.getElementById("nextBtn").innerHTML = "ต่อไป";
             // document.getElementById("nextBtn").style.display = "block";
             // document.getElementById("submitBtn").style.display = "none";
         }
@@ -1047,6 +1048,16 @@
         document.getElementById("end_study_time_display").textContent = end_study_time;
         document.getElementById("type_teach_display").textContent = type_teach;
         document.getElementById("type_learn_display").textContent = type_learn;
+        if (type_learn === "เรียนในสถานศึกษา"){
+            document.getElementById("location_type").style.display = "block";
+            document.getElementById("link_type").style.display = "none";
+        }else if (type_learn === "เรียนออนไลน์"){
+            document.getElementById("location_type").style.display = "none";
+            document.getElementById("link_type").style.display = "block";
+        }else {
+            document.getElementById("location_type").style.display = "block";
+            document.getElementById("link_type").style.display = "block";
+        }
         document.getElementById("link_mooc_display").textContent = link_mooc;
         document.getElementById("location_display").textContent = location;
     }
@@ -2001,8 +2012,12 @@
 
     var endStudyDateFromDatabase = '${request_open_check_date[0].endStudyDate}'; // ตัวอย่างการดึงค่าวันสิ้นสุดการเรียนจาก request_open_check_date
     function checkEndDate(inputEndDate) {
-        <c:forEach var="roc" items="${request_open_check_date}">
         var inputStartDate = startStudyDateElement.value;
+        var endStudyDate = new Date(inputEndDate);
+        var timeDiff = Math.abs(endStudyDate - new Date(inputStartDate));
+        var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        var totalWeek = document.getElementById("time_difference_study_course").textContent;
+        <c:forEach var="roc" items="${request_open_check_date}">
         var startStudy = '${roc.startStudyDate}'
         var endStudy = '${roc.endStudyDate}';
         if (new Date(inputEndDate) >= new Date(startStudy) && new Date(inputEndDate) <= new Date(endStudy)) {
@@ -2013,23 +2028,20 @@
         } else if (endStudyDateElement.value !==""){
             document.getElementById('invalidEndStudyDate').textContent = "";
         }
-        var endStudyDate = new Date(inputEndDate);
 
         if (startStudyDateElement.value !=="" && endStudyDateElement.value !==""){
-            var timeDiff = Math.abs(endStudyDate - new Date(inputStartDate));
-            var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-            var totalWeek = document.getElementById("time_difference_study_course").textContent;
             if(new Date(inputStartDate) <=  new Date(startStudy) &&  new Date(startStudy) <= new Date(inputEndDate)){
                 document.getElementById('invalid_StudyDate').textContent = "ไม่สามารถเลือกช่างเวลาเรียนนี้ได้!! เนื่องจากในช่วงเวลานี้คุณมีการสอนอยู่";
                 return;
-            }else if (daysDiff < (parseInt(totalWeek)*7)){
-                document.getElementById('invalid_StudyDate').textContent = "ควรมีการเรียนการสอนอย่างน้อย " + totalWeek + " สัปดาห์";
-                return;
-            }else {
-                document.getElementById('invalid_StudyDate').textContent = "";
             }
         }
         </c:forEach>
+        if (daysDiff < (parseInt(totalWeek)*7)){
+            document.getElementById('invalid_StudyDate').textContent = "ควรมีการเรียนการสอนอย่างน้อย " + totalWeek + " สัปดาห์";
+            return;
+        }else {
+            document.getElementById('invalid_StudyDate').textContent = "";
+        }
     }
 </script>
 </html>

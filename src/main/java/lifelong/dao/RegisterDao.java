@@ -31,6 +31,8 @@ public interface RegisterDao {
     List<Register> getRegisterByRequestIdAndPayStatus(long roc_Id);
     List<Register> getRegisterByRequestIdAndPayStatusAndApprove(long roc_Id);
 
+    List<Register> getRegisterByRequestIdAndApprove(long roc_Id);
+
     Register getRegisterByRegisterId(long register_Id);
 
     Register updateRegister (Register register) ;

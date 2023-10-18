@@ -65,7 +65,7 @@
                     <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรการอบรม</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/add_roc" class="nav-item nav-link" style="font-size: 18px">ร้องขอหลักสูตร</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 18px">รายการร้องขอ</a>
-                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link active" style="font-size: 18px">หลักสูตรของฉัน</a>
+                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_approve_request_open_course" class="nav-item nav-link active" style="font-size: 18px">หลักสูตรของฉัน</a>
                     <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
                     <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
                 </div>
@@ -129,9 +129,6 @@
                         <div style="display: flex; width: 100%" >
                             <div align="left" style="width: 50%"><h3>ข่าวสารประจำหลักสูตร</h3></div>
                             <div align="right" style="width: 50%">
-                                <input type="button" value="เพิ่มข่าวสารประจำหลักสูตร" class="btn btn-outline-success"
-                                       onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${roc_id}/add_course_activity'; return false;"
-                                />
                             </div>
                         </div>
                         <hr>

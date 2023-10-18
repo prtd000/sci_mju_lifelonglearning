@@ -78,7 +78,7 @@
         </nav>
         <!-- Navbar End -->
         <div align="center" style="width: 100%; margin-top: 30px">
-            <div class="tabcontent" align="left" style="width: 60%">
+            <div class="tabcontent" align="left" style="width: 90%">
                 <div style="display: flex; width: 100%" >
                     <div align="left" style="width: 50%"><h3>ข่าวสารและกิจกรรม</h3></div>
                     <div align="right" style="width: 50%"></div>
@@ -89,24 +89,27 @@
                         <table class="table table-striped table-hover">
                             <tr style="color: black">
                                 <td style="width: 50%">รายการข่าว</td>
-                                <td style="width: 30%" align="center">วันที่ออกข่าว</td>
+                                <td style="width: 15%" align="center">วันที่ออกข่าว</td>
+                                <td style="width: 15%" align="center">ประเภทข่าวสาร</td>
                                 <td style="width: 10%" align="center"></td>
                                 <td style="width: 10%" align="center"></td>
                             </tr>
                             <c:forEach var="list" items="${list_activities}">
                                 <tr>
                                     <td>${list.name}</td>
-                                    <fmt:formatDate value="${list.date}" pattern="dd/MM/yyyy" var="date" />
+                                    <fmt:formatDate value="${list.date}" pattern="dd/MM/yyyy HH:mm:ss" var="date" />
                                     <td align="center">${date}</td>
+                                    <td align="center">${list.type}</td>
                                     <td align="center">
                                         <a href="${pageContext.request.contextPath}/course/public/${list.ac_id}/edit_page">
-                                            <button type="button" class="btn btn-outline-warning">แก้ไข</button>
+                                            <button type="button" class="btn btn-outline-warning">
+                                                <i class='fa fa-edit'></i>แก้ไข</button>
                                         </a>
                                     </td>
                                     <td align="center">
-                                        <input type="button" value="ลบข่าวสาร"
-                                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/${list.ac_id}/delete'; return false; }"
-                                               class="btn btn-outline-danger"/>
+                                        <button type="button" class="btn btn-outline-danger" onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/${list.ac_id}/delete'; return false; }">
+                                            <i class="fas fa-window-close fa-lg"></i> ลบข่าวสาร
+                                        </button>
                                     </td>
                                 </tr>
                             </c:forEach>

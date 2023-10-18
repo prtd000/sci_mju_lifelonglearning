@@ -113,7 +113,7 @@
                                         <tr>
                                             <td><h5>หลักฐานการชำระเงิน</h5></td>
                                             <td></td>
-                                            <td rowspan="10"><img src="${pageContext.request.contextPath}/assets/img/slip/${payment.slip}" height="350px" style="margin-left: 20px"></td>
+                                            <td rowspan="10"><img src="${pageContext.request.contextPath}/uploads/make_payment/slip/${payment.slip}" height="350px" style="margin-left: 20px"></td>
                                         </tr>
                                         <tr>
                                             <td colspan="2"><hr></td>

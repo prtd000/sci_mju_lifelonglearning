@@ -60,6 +60,7 @@ public class CourseController {
                               @RequestParam("course_file") MultipartFile pdf,
                               @RequestParam("course_objectives[]") String[] courseObjectives,
                               @PathVariable("admin_id") String admin_id) throws ParseException {
+        Date currentDate = new Date();
         String course_name = allReqParams.get("course_name");
         String certificateName = allReqParams.get("certificateName");
         String course_principle = allReqParams.get("coursePrinciple");
@@ -132,7 +133,7 @@ public class CourseController {
             Files.write(pdfFilePath, pdf.getBytes());
 
             // บันทึก path ไปยังฐานข้อมูล
-            Course course_add = new Course(course_name, certificateName, course_img, course_principle, course_object, course_totalHours,
+            Course course_add = new Course(currentDate,course_name, certificateName, course_img, course_principle, course_object, course_totalHours,
                     course_targetOccupation, course_fee, course_pdf, course_status, course_type, major,contact);
             courseService.doAddCourse(course_add);
         } catch (IOException e) {

@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -55,6 +56,10 @@ public class Course {
     @Column(name = "contact")
     private String contact;
 
+    @Temporal(TemporalType.DATE)
+    @Column(name = "action_date")
+    private Date action_date;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "major_id",nullable = false)
     private Major major;
@@ -70,7 +75,8 @@ public class Course {
     public Course() {
     }
 
-    public Course(String name, String certificateName, String img, String principle, String object, int totalHours, String targetOccupation, double fee, String file, String status, String course_type, Major major,String contact) {
+    public Course(Date action_date,String name, String certificateName, String img, String principle, String object, int totalHours, String targetOccupation, double fee, String file, String status, String course_type, Major major,String contact) {
+        this.action_date = action_date;
         this.name = name;
         this.certificateName = certificateName;
         this.img = img;
@@ -212,5 +218,13 @@ public class Course {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    public Date getAction_date() {
+        return action_date;
+    }
+
+    public void setAction_date(Date action_date) {
+        this.action_date = action_date;
     }
 }

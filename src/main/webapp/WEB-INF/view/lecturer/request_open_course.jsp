@@ -517,13 +517,11 @@
                         </td>
 
                         <td>
-                            <div class="checkbox-wrapper-31">
-                                <input type="checkbox" id="chk_mo" autocomplete="off" onchange="updateDisplay()"/>
-                                <svg viewBox="0 0 35.6 35.6">
-                                    <circle class="background" cx="17.8" cy="17.8" r="17.8"></circle>
-                                    <circle class="stroke" cx="17.8" cy="17.8" r="14.37"></circle>
-                                    <polyline class="check" points="11.78 18.12 15.55 22.23 25.17 12.87"></polyline>
-                                </svg>
+                            <div class="checkbox-wrapper-24">
+                                <input type="checkbox" id="check-24" name="check" value="" />
+                                <label for="check-24">
+                                    <span><!-- This span is needed to create the "checkbox" element --></span>Checkbox
+                                </label>
                             </div>
                         </td>
                     </tr>

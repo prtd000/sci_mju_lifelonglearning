@@ -48,10 +48,7 @@ public class RequestOpenCourse {
     @Column(nullable = false)
     private Date endStudyDate;
 
-    @Column(nullable = false,length = 225)
-    private String studyDay;
-
-    @Column(nullable = false,length = 50)
+    @Column(nullable = false)
     private String studyTime;
 
     @Column(nullable = false, length = 100)
@@ -125,7 +122,7 @@ public class RequestOpenCourse {
     public RequestOpenCourse() {
     }
 
-    public RequestOpenCourse(int round, Date requestDate, Date startRegister, Date endRegister, int quantity, Date startStudyDate, Date endStudyDate, String studyDay, String studyTime, String type_learn, String type_teach, Date applicationResult, String requestStatus, Course course, Lecturer lecturer) {
+    public RequestOpenCourse(int round, Date requestDate, Date startRegister, Date endRegister, int quantity, Date startStudyDate, Date endStudyDate, String studyTime, String type_learn, String type_teach, Date applicationResult, String requestStatus, Course course, Lecturer lecturer) {
         this.round = round;
         this.requestDate = requestDate;
         this.startRegister = startRegister;
@@ -133,7 +130,6 @@ public class RequestOpenCourse {
         this.quantity = quantity;
         this.startStudyDate = startStudyDate;
         this.endStudyDate = endStudyDate;
-        this.studyDay = studyDay;
         this.studyTime = studyTime;
         this.type_learn = type_learn;
         this.type_teach = type_teach;
@@ -321,14 +317,6 @@ public class RequestOpenCourse {
 
     public void setEndPayment(Date endPayment) {
         this.endPayment = endPayment;
-    }
-
-    public String getStudyDay() {
-        return studyDay;
-    }
-
-    public void setStudyDay(String studyDay) {
-        this.studyDay = studyDay;
     }
 
     public List<Register> getRegisterList() {

@@ -127,7 +127,7 @@ public class LecturerController {
         RequestOpenCourse requestOpenCourse_toAdd;
             if (Objects.equals(type_learn, "เรียนในสถานศึกษา")){
                 requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate,startRegisterDate,endRegisterDate,
-                        quantity,startStudyDate,endStudyDate,studyDay,studyTime,type_learn,type_teach,applicationResultDate,
+                        quantity,startStudyDate,endStudyDate,studyTime,type_learn,type_teach,applicationResultDate,
                         requestStatus,course,lecturer);
                 requestOpenCourse_toAdd.setLocation(location);
                 if (course.getFee() != 0){
@@ -136,7 +136,7 @@ public class LecturerController {
                 }
             } else if (Objects.equals(type_learn, "เรียนออนไลน์")) {
                 requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate,startRegisterDate,endRegisterDate,
-                        quantity,startStudyDate,endStudyDate,studyDay,studyTime,type_learn,type_teach,applicationResultDate,
+                        quantity,startStudyDate,endStudyDate,studyTime,type_learn,type_teach,applicationResultDate,
                         requestStatus,course,lecturer);
                 requestOpenCourse_toAdd.setLinkMooc(link_mooc);
                 if (course.getFee() != 0){
@@ -145,7 +145,7 @@ public class LecturerController {
                 }
             }else {
                 requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate,startRegisterDate,endRegisterDate,
-                        quantity,startStudyDate,endStudyDate,studyDay,studyTime,type_learn,type_teach,applicationResultDate,
+                        quantity,startStudyDate,endStudyDate,studyTime,type_learn,type_teach,applicationResultDate,
                         requestStatus,course,lecturer);
                 requestOpenCourse_toAdd.setLocation(location);
                 requestOpenCourse_toAdd.setLinkMooc(link_mooc);
@@ -238,7 +238,7 @@ public class LecturerController {
             existingRequest.setQuantity(Integer.parseInt(allReqParams.get("quantity")));
             existingRequest.setStartStudyDate(dateFormat.parse(allReqParams.get("startStudyDate")));
             existingRequest.setEndStudyDate(dateFormat.parse(allReqParams.get("endStudyDate")));
-            existingRequest.setStudyDay(allReqParams.get("display_for_submit"));
+//            existingRequest.setStudyDay(allReqParams.get("display_for_submit"));
 
             String startStudyTime = allReqParams.get("start_study_time");
             String endStudyTime = allReqParams.get("end_study_time");

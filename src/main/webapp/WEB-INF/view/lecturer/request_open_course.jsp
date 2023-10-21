@@ -121,7 +121,7 @@
         input {
             padding: 10px;
             width: 100%;
-            font-size: 17px;
+            font-size: 12px;
             font-family: Raleway;
             border: 1px solid #aaaaaa;
         }
@@ -192,63 +192,98 @@
         }
     </style>
     <style>
-        .checkbox-wrapper-31:hover .check {
-            stroke-dashoffset: 0;
-        }
-
-        .checkbox-wrapper-31 {
-            position: relative;
-            display: inline-block;
-            width: 30px;
-        }
-        .checkbox-wrapper-31 .background {
-            fill: #ccc;
-            transition: ease all 0.6s;
-            -webkit-transition: ease all 0.6s;
-        }
-        .checkbox-wrapper-31 .stroke {
-            fill: none;
-            stroke: #fff;
-            stroke-miterlimit: 10;
-            stroke-width: 2px;
-            stroke-dashoffset: 100;
-            stroke-dasharray: 100;
-            transition: ease all 0.6s;
-            -webkit-transition: ease all 0.6s;
-        }
-        .checkbox-wrapper-31 .check {
-            fill: none;
-            stroke: #fff;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-width: 2px;
-            stroke-dashoffset: 22;
-            stroke-dasharray: 22;
-            transition: ease all 0.6s;
-            -webkit-transition: ease all 0.6s;
-        }
-        .checkbox-wrapper-31 input[type=checkbox] {
-            position: absolute;
+        .checkbox-wrapper-24 .checkbox {
+            display: table-cell;
             width: 100%;
             height: 100%;
-            left: 0;
-            top: 0;
-            margin: 0;
-            opacity: 0;
-            -appearance: none;
-            -webkit-appearance: none;
+            vertical-align: middle;
+            text-align: center;
         }
-        .checkbox-wrapper-31 input[type=checkbox]:hover {
+
+        .checkbox-wrapper-24 label {
+            display: inline-block;
+            color: #333;
             cursor: pointer;
+            /*position: relative;*/
         }
-        .checkbox-wrapper-31 input[type=checkbox]:checked + svg .background {
-            fill: #6cbe45;
+        .checkbox-wrapper-24 label span {
+            display: inline-block;
+            /*position: relative;*/
+            background-color: transparent;
+            width: 25px;
+            height: 25px;
+            transform-origin: center;
+            border: 2px solid #333;
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-right: 10px;
+            transition: background-color 150ms 200ms, transform 350ms cubic-bezier(0.78, -1.22, 0.17, 1.89);
         }
-        .checkbox-wrapper-31 input[type=checkbox]:checked + svg .stroke {
-            stroke-dashoffset: 0;
+        .checkbox-wrapper-24 label span:before {
+            content: "";
+            width: 0px;
+            height: 2px;
+            border-radius: 2px;
+            background: #333;
+            /*position: absolute;*/
+            transform: rotate(45deg);
+            top: 13px;
+            left: 9px;
+            transition: width 50ms ease 50ms;
+            transform-origin: 0% 0%;
         }
-        .checkbox-wrapper-31 input[type=checkbox]:checked + svg .check {
-            stroke-dashoffset: 0;
+        .checkbox-wrapper-24 label span:after {
+            content: "";
+            width: 0;
+            height: 2px;
+            border-radius: 2px;
+            background: #333;
+            /*position: absolute;*/
+            transform: rotate(305deg);
+            top: 16px;
+            left: 10px;
+            transition: width 50ms ease;
+            transform-origin: 0% 0%;
+        }
+        .checkbox-wrapper-24 label:hover span:before {
+            width: 5px;
+            transition: width 100ms ease;
+        }
+        .checkbox-wrapper-24 label:hover span:after {
+            width: 10px;
+            transition: width 150ms ease 100ms;
+        }
+
+        .checkbox-wrapper-24 input[type=checkbox] {
+            display: none;
+        }
+        .checkbox-wrapper-24 input[type=checkbox]:checked + label span {
+            background-color: #333;
+            transform: scale(1.25);
+        }
+        .checkbox-wrapper-24 input[type=checkbox]:checked + label span:after {
+            width: 10px;
+            background: #fff;
+            transition: width 150ms ease 100ms;
+        }
+        .checkbox-wrapper-24 input[type=checkbox]:checked + label span:before {
+            width: 5px;
+            background: #fff;
+            transition: width 150ms ease 100ms;
+        }
+        .checkbox-wrapper-24 input[type=checkbox]:checked + label:hover span {
+            background-color: #333;
+            transform: scale(1.25);
+        }
+        .checkbox-wrapper-24 input[type=checkbox]:checked + label:hover span:after {
+            width: 10px;
+            background: #fff;
+            transition: width 150ms ease 100ms;
+        }
+        .checkbox-wrapper-24 input[type=checkbox]:checked + label:hover span:before {
+            width: 5px;
+            background: #fff;
+            transition: width 150ms ease 100ms;
         }
     </style>
 </head>
@@ -309,7 +344,7 @@
         </nav>
         <!-- Navbar End -->
         <!-- Navbar End -->
-        <form id="regForm" action="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/save" method="POST" onsubmit="return confirmAction();" name="frm" style="font-family: 'Prompt', sans-serif;width: 95%; margin-top: 15px;">
+        <form id="regForm" action="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/save" method="POST" onsubmit="return confirmAction();" name="frm" style="font-family: 'Prompt', sans-serif;width: 95%; margin-top: 15px;font-size: 12px">
             <h1 style="text-align-last: start;">ร้องขอหลักสูตร</h1>
             <hr>
             <!-- One "tab" for each step in the form: -->
@@ -492,36 +527,109 @@
                         <td style="width: 60%; vertical-align: top; height: 1px;">
                             <h5><b>วันในการเรียน</b><b style="color: red; font-size: 24px">*</b></h5>
                             <hr>
-                            <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group" style="width: 100%" align="center">
-<%--                                <input type="checkbox" class="btn-check" id="chk_mo" autocomplete="off" onchange="updateDisplay()">--%>
-<%--                                <label class="btn btn-outline-primary" for="chk_mo">วันจันทร์</label>--%>
+                            <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group" style="width: 100%; display: flex; text-align: -webkit-left;" align="center">
+                                <div style="width: 50%; margin-right: 15px">
 
-                                <input type="checkbox" class="btn-check" id="chk_tu" autocomplete="off" onchange="updateDisplay()">
-                                <label class="btn btn-outline-primary" for="chk_tu">วันอังคาร</label>
+                                    <div style="display:flex;">
+                                        <div style="width: 30%;">
+                                            <input type="checkbox" class="btn-check" id="chk_mo" autocomplete="off" onchange="updateDisplay()">
+                                            <label class="btn btn-outline-primary" for="chk_mo" style="width: 95%;">วันจันทร์</label>
+                                        </div>
+                                        <div class="input-group" style="width:70%;">
+                                            <span class="input-group-text">เวลาเรียน</span>
+                                            <input type="time" class="form-control" id="start_chk_mo" name="mo_start_study_time" onchange="calculateTime('chk_mo')" disabled/>
+                                            <input type="time" class="form-control" id="end_chk_mo" name="mo_end_study_time" onchange="calculateTime('chk_mo')" disabled/>
+                                        </div>
+                                    </div>
+                                    <label id="invalid_chk_mo" style="color: red; font-size: 12px"></label>
+                                    <br>
 
-                                <input type="checkbox" class="btn-check" id="chk_we" autocomplete="off" onchange="updateDisplay()">
-                                <label class="btn btn-outline-primary" for="chk_we">วันพุธ</label>
+                                    <div style="display:flex;">
+                                        <div style="width: 30%;">
+                                            <input type="checkbox" class="btn-check" id="chk_tu" autocomplete="off" onchange="updateDisplay()">
+                                            <label class="btn btn-outline-primary" for="chk_tu" style="width: 95%;">วันอังคาร</label>
+                                        </div>
+                                        <div class="input-group" style="width:70%;">
+                                            <span class="input-group-text">เวลาเรียน</span>
+                                            <input class="form-control" type="time" id="start_chk_tu" name="tu_start_study_time" onchange="calculateTime('chk_tu')" disabled/>
+                                            <input class="form-control" type="time" id="end_chk_tu" name="tu_end_study_time" onchange="calculateTime('chk_tu')" disabled/>
+                                        </div>
+                                    </div>
+                                    <label id="invalid_chk_tu" style="color: red; font-size: 12px"></label>
+                                    <br>
 
-                                <input type="checkbox" class="btn-check" id="chk_th" autocomplete="off" onchange="updateDisplay()">
-                                <label class="btn btn-outline-primary" for="chk_th">วันพฤหัสบดี</label>
+                                    <div style="display:flex;">
+                                        <div style="width: 30%;">
+                                            <input type="checkbox" class="btn-check" id="chk_we" autocomplete="off" onchange="updateDisplay()">
+                                            <label class="btn btn-outline-primary" for="chk_we" style="width: 95%;">วันพุธ</label>
+                                        </div>
+                                        <div class="input-group" style="width:70%;">
+                                            <span class="input-group-text">เวลาเรียน</span>
+                                            <input class="form-control" type="time" id="start_chk_we" name="we_start_study_time" onchange="calculateTime('chk_we')" disabled/>
+                                            <input class="form-control" type="time" id="end_chk_we" name="we_end_study_time" onchange="calculateTime('chk_we')" disabled/>
+                                        </div>
+                                    </div>
+                                    <label id="invalid_chk_we" style="color: red; font-size: 12px"></label>
+                                    <br>
 
-                                <input type="checkbox" class="btn-check" id="chk_fr" autocomplete="off" onchange="updateDisplay()">
-                                <label class="btn btn-outline-primary" for="chk_fr">วันศุกร์</label>
+                                    <div style="display:flex;">
+                                        <div style="width: 30%;">
+                                            <input type="checkbox" class="btn-check" id="chk_th" autocomplete="off" onchange="updateDisplay()">
+                                            <label class="btn btn-outline-primary" for="chk_th" style="width: 95%;">วันพฤหัสบดี</label>
+                                        </div>
+                                        <div class="input-group" style="width:70%;">
+                                            <span class="input-group-text">เวลาเรียน</span>
+                                            <input class="form-control" type="time" id="start_chk_th" name="th_start_study_time" onchange="calculateTime('chk_th')" disabled/>
+                                            <input class="form-control" type="time" id="end_chk_th" name="th_end_study_time" onchange="calculateTime('chk_th')" disabled/>
+                                        </div>
+                                    </div>
+                                    <label id="invalid_chk_th" style="color: red; font-size: 12px"></label>
+                                    <br>
+                                </div>
+                                <div style="width: 50%;">
 
-                                <input type="checkbox" class="btn-check" id="chk_sa" autocomplete="off" onchange="updateDisplay()">
-                                <label class="btn btn-outline-primary" for="chk_sa">วันเสาร์</label>
+                                    <div style="display:flex;">
+                                        <div style="width: 30%;">
+                                            <input type="checkbox" class="btn-check" id="chk_fr" autocomplete="off" onchange="updateDisplay()">
+                                            <label class="btn btn-outline-primary" for="chk_fr" style="width: 95%;">วันศุกร์</label>
+                                        </div>
+                                        <div class="input-group" style="width:70%;">
+                                            <span class="input-group-text">เวลาเรียน</span>
+                                            <input class="form-control" type="time" id="start_chk_fr" name="fr_start_study_time" onchange="calculateTime('chk_fr')" disabled/>
+                                            <input class="form-control" type="time" id="end_chk_fr" name="fr_end_study_time" onchange="calculateTime('chk_fr')" disabled/>
+                                        </div>
+                                    </div>
+                                    <label id="invalid_chk_fr" style="color: red; font-size: 12px"></label>
+                                    <br>
 
-                                <input type="checkbox" class="btn-check" id="chk_su" autocomplete="off" onchange="updateDisplay()">
-                                <label class="btn btn-outline-primary" for="chk_su">วันอาทิตย์</label>
-                            </div>
-                        </td>
+                                    <div style="display:flex;">
+                                        <div style="width: 30%;">
+                                            <input type="checkbox" class="btn-check" id="chk_sa" autocomplete="off" onchange="updateDisplay()">
+                                            <label class="btn btn-outline-primary" for="chk_sa" style="width: 95%;">วันเสาร์</label>
+                                        </div>
+                                        <div class="input-group" style="width:70%;">
+                                            <span class="input-group-text">เวลาเรียน</span>
+                                            <input class="form-control" type="time" id="start_chk_sa" name="sa_start_study_time" onchange="calculateTime('chk_sa')" disabled/>
+                                            <input class="form-control" type="time" id="end_chk_sa" name="sa_end_study_time" onchange="calculateTime('chk_sa')" disabled/>
+                                        </div>
+                                    </div>
+                                    <label id="invalid_chk_sa" style="color: red; font-size: 12px"></label>
+                                    <br>
 
-                        <td>
-                            <div class="checkbox-wrapper-24">
-                                <input type="checkbox" id="check-24" name="check" value="" />
-                                <label for="check-24">
-                                    <span><!-- This span is needed to create the "checkbox" element --></span>Checkbox
-                                </label>
+                                    <div style="display:flex;">
+                                        <div style="width: 30%;">
+                                            <input type="checkbox" class="btn-check" id="chk_su" autocomplete="off" onchange="updateDisplay()">
+                                            <label class="btn btn-outline-primary" for="chk_su" style="width: 95%;">วันอาทิตย์</label>
+                                        </div>
+                                        <div class="input-group" style="width:70%;">
+                                            <span class="input-group-text">เวลาเรียน</span>
+                                            <input class="form-control" type="time" id="start_chk_su" name="su_start_study_time" onchange="calculateTime('chk_su')" disabled/>
+                                            <input class="form-control" type="time" id="end_chk_su" name="su_end_study_time" onchange="calculateTime('chk_su')" disabled/>
+                                        </div>
+                                    </div>
+                                    <label id="invalid_chk_su" style="color: red; font-size: 12px"></label>
+                                    <br>
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -530,17 +638,7 @@
                             <br>
                             <h5><b>เวลาในการเรียน</b><b style="color: red; font-size: 24px">*</b></h5>
                             <hr>
-                            <div class="mb-3" style="width: 100%; display: flex">
-                                <div style="width: 25%;">
-                                    <b><label for="start_study_time">เริ่มเวลา </label></b>
-                                    <input type="time" id="start_study_time" name="start_study_time" onchange="calculateTimeDifference()"/>
-                                    <label id="invalid_start_study_time" style="color: red; font-size: 12px"></label>
-                                </div>
-                                <div style="width: 25%;">
-                                    <b><label for="end_study_time"> ถึงเวลา </label></b>
-                                    <input type="time" id="end_study_time" name="end_study_time" onchange="calculateTimeDifference()"/>
-                                    <label id="invalid_end_study_time" style="color: red; font-size: 12px"></label>
-                                </div>
+                            <div class="mb-3" style="width: 100%;">
                                 <div id="cal_study" style="display: none; margin-left: 20px; width: 50%">
                                     <p id="display"></p>
                                     <label style="display: flex;">
@@ -876,13 +974,96 @@
     }
 </script>
 <script>
+    // ดึง Checkbox elements
+    const checkboxes = document.querySelectorAll('.btn-check');
+    // เพิ่ม event listener ในทุก Checkbox
+    checkboxes.forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            // ดึง ID ของ Checkbox
+            const id = checkbox.id;
+
+            // ดึง input elements ที่เกี่ยวข้อง
+            const startInput = document.getElementById('start_' + id);
+            const endInput = document.getElementById('end_' + id);
+
+            // ตรวจสอบสถานะของ Checkbox
+            if (checkbox.checked) {
+                // เปิดใช้งาน input elements เมื่อ Checkbox เลือก
+                startInput.disabled = false;
+                endInput.disabled = false;
+            } else {
+                // ปิดใช้งาน input elements เมื่อ Checkbox ไม่ถูกเลือก
+                startInput.disabled = true;
+                endInput.disabled = true;
+            }
+        });
+    });
+</script>
+<script>
+    function calculateTime(id) {
+        // ดึงค่าจาก input elements
+        var courseHour = document.getElementById("display_Course_Total_hours_tap2").textContent;
+        var selectedCountElement = document.getElementById("selectedCount").textContent;
+        const startTimeInput = document.getElementById('start_' + id).value;
+        const endTimeInput = document.getElementById('end_' + id).value;
+
+        // แปลงค่าเวลาเป็นวินาที
+        var startTime = new Date("1970-01-01T" + startTimeInput + "Z");
+        var endTime = new Date("1970-01-01T" + endTimeInput + "Z");
+
+        // คำนวณความต่างของเวลา
+        var timeDifference = endTime - startTime;
+        var timeDifferenceByWeek = timeDifference * parseInt(selectedCountElement);
+        // แปลงผลลัพธ์เป็นชั่วโมงและนาที
+        var hours = Math.floor(timeDifference / 3600000);
+        var minutes = Math.floor((timeDifference % 3600000) / 60000);
+
+        var hoursByWeek = Math.floor(timeDifferenceByWeek / 3600000);
+        var minutesByWeek = Math.floor((timeDifferenceByWeek % 3600000) / 60000);
+
+        var avgStudyByCourse = parseInt(courseHour);
+        var quotient = Math.floor((avgStudyByCourse*60) / ((hoursByWeek*60)+minutesByWeek));// หารเอาส่วน
+        var remainder = (avgStudyByCourse*60) - (quotient * (hoursByWeek*60)); // หารเอาเศษ
+        if(remainder !== 0){
+            quotient++;
+        }
+
+        // if(startTimeInput !== "" && endTimeInput !== "" && selectedCountElement !== "0"){
+            // แสดงผลลัพธ์
+            // document.getElementById("cal_study").style.display = "block";
+            var resultElement = document.getElementById("invalid_"+id);
+            resultElement.textContent = hours + " ชั่วโมง " + minutes + " นาที";
+
+            // var resultElement2 = document.getElementById("time_difference_by_week");
+            // resultElement2.textContent = hoursByWeek + " ชั่วโมง " + minutesByWeek + " นาที";
+            //
+            // var resultElement3 = document.getElementById("time_difference_study_course");
+            // resultElement3.textContent = quotient;
+
+        // }
+
+        // document.getElementById("startStudyDate").value = "";
+        // document.getElementById("endStudyDate").value = "";
+        // document.getElementById('invalid_StudyDate').textContent = "";
+        // document.getElementById('invalidEndStudyDate').textContent = "";
+        // document.getElementById('invalidStartStudyDate').textContent = "";
+        //
+        // // ตรวจสอบว่า end time มากกว่า start time
+        // if (startTimeInput >= endTimeInput && currentTab !== 0) {
+        //     if (endTimeInput !== "" && startTimeInput !== ""){
+        //         alert("กรุณาเลือกเวลาสิ้นสุดที่มากกว่าเริ่มเรียน");
+        //         document.getElementById("end_study_time").value = "";
+        //         document.getElementById("cal_study").style.display = "none";
+        //         return;
+        //     }
+        // }
+    }
     // document.getElementById("display_time").style.display = "none";
     function calculateTimeDifference() {
         // ดึงค่าจาก input elements
         var startTimeInput = document.getElementById("start_study_time").value;
         var endTimeInput = document.getElementById("end_study_time").value;
         var selectedCountElement = document.getElementById("selectedCount").textContent;
-        var courseHour = document.getElementById("display_Course_Total_hours_tap2").textContent;
 
         document.getElementById("startStudyDate").value = "";
         document.getElementById("endStudyDate").value = "";
@@ -1042,21 +1223,21 @@
         x = document.getElementsByClassName("tab");
         y = x[currentTab].getElementsByTagName("input");
         // A loop that checks every input field in the current tab:
-        for (i = 0; i < y.length; i++) {
-            // If a field is empty...checkScriptPage1()
-            if (y[i].value == "") {
-                // add an "invalid" class to the field:
-                y[i].className += " invalid";
-                // and set the current valid status to false
-                valid = false;
-            }
-        }
+        // for (i = 0; i < y.length; i++) {
+        //     // If a field is empty...checkScriptPage1()
+        //     if (y[i].value == "") {
+        //         // add an "invalid" class to the field:
+        //         y[i].className += " invalid";
+        //         // and set the current valid status to false
+        //         valid = false;
+        //     }
+        // }
         if (currentTab === 0) {
             // ตรวจสอบข้อมูลใน Step 2
             if (!checkScriptPage1()){
                 return false;
             }
-            calculateTimeDifference();
+            // calculateTimeDifference();
         }
         else if(currentTab === 1){
             if (!checkScriptPage2()){
@@ -1297,11 +1478,11 @@
         //-----------startPayment-----------------
         var startPaymentValue = document.getElementById('startPayment').value;
         var Course_Fee = document.getElementById('display_Course_Fee_tap2').textContent;
-        if (startPaymentValue.trim() === "") {
-            document.getElementById("invalidStartPayment").innerHTML = "กรุณาเลือกวันเริ่มชำระเงิน";
-            return false;
-        }else if (Course_Fee !== "ไม่มีค่าธรรมเนียม"){
-            if (new Date(startPaymentValue) < new Date(currentDate) || new Date(startPaymentValue) <= new Date(startRegisterValue)){
+        if (Course_Fee !== "ไม่มีค่าธรรมเนียม"){
+            if (startPaymentValue.trim() === "") {
+                document.getElementById("invalidStartPayment").innerHTML = "กรุณาเลือกวันเริ่มชำระเงิน";
+                return false;
+            }else if (new Date(startPaymentValue) < new Date(currentDate) || new Date(startPaymentValue) <= new Date(startRegisterValue)){
                 document.getElementById("invalidStartPayment").innerHTML = "กรุณาเลือกวันให้มากกว่าวันปัจจุบัน และให้มากกว่าวันเปิดรับสมัคร";
                 return false;
             }else {
@@ -1315,11 +1496,11 @@
         var endPayment = document.getElementById('endPayment').value;
         // var Course_Fee = document.getElementById('display_Course_Fee_tap2').textContent;
 
-        if (endPayment.trim() === "") {
-            document.getElementById("invalidEndPayment").innerHTML = "กรุณาเลือกวันสิ้นสุดการชำระเงิน";
-            return false;
-        } else if (Course_Fee !== "ไม่มีค่าธรรมเนียม"){
-            if (new Date(endPayment) < new Date(currentDate) || new Date(endPayment) < new Date(startPaymentValue) || new Date(endPayment) < new Date(endRegisterValue)){
+         if (Course_Fee !== "ไม่มีค่าธรรมเนียม"){
+             if (endPayment.trim() === "") {
+                 document.getElementById("invalidEndPayment").innerHTML = "กรุณาเลือกวันสิ้นสุดการชำระเงิน";
+                 return false;
+             } else if (new Date(endPayment) < new Date(currentDate) || new Date(endPayment) < new Date(startPaymentValue) || new Date(endPayment) < new Date(endRegisterValue)){
                 document.getElementById("invalidEndPayment").innerHTML = "กรุณาเลือกวันให้มากกว่าวันปัจจุบัน วันสิ้นสุดการสมัคร และวันเริ่มชำระเงิน";
                 return false;
             }else {

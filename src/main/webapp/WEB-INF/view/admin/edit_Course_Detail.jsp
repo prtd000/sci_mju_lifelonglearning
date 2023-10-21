@@ -865,13 +865,17 @@
             document.getElementById("course_name").focus();
             document.getElementById("course_name").value = "";
             return false;
+        } else {
+            document.getElementById("invalidCourseName").innerHTML = "";
         }
-        else if (courseElement === "" || courseElement === "มีหลักสูตรนี้ในระบบแล้ว"){
+
+        if (courseElement === "" || courseElement === "มีหลักสูตรนี้ในระบบแล้ว" || courseElement === "สามารถใช้งานได้"){
+            document.getElementById("link").click();
+        }
+        if(courseElement === "" || courseElement === "มีหลักสูตรนี้ในระบบแล้ว"){
             document.getElementById("course_name").focus();
             alert("กรุณาตรวจสอบชื่อหลักสูตรก่อน");
             return false;
-        }else {
-            document.getElementById("invalidCourseName").innerHTML = "";
         }
 
         //---------certificateName----------

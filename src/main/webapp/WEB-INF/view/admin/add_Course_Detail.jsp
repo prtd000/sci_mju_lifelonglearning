@@ -329,7 +329,7 @@
                                 <button type="button" style="font-size: 12px" onclick="removeObjective(this)" class="btn btn-danger">ลบ</button>
                             </div>
                         </div>
-                        <button type="button" onclick="addObjective()" style="font-family: 'Prompt', sans-serif; font-size: 12px; border-radius: 10px">เพิ่มวัตถุประสงค์</button>
+                        <button type="button" style="font-family: 'Prompt', sans-serif;  font-size: 12px; border-radius: 10px" onclick="addObjective()">เพิ่มวัตถุประสงค์</button>
                     </div>
                     <label id="invalidObjective" style="color: red; font-size: 12px"></label>
                 </div>
@@ -780,7 +780,6 @@
         var courseElement = document.getElementById("status").innerHTML;
         var courseName = document.getElementById("course_name").value;
 
-        document.getElementById("link").click();
         if(document.getElementById("course_name").value === ""){
             // alert("กรุณากรอกชื่อหลักสูตร");
             stt.innerHTML = "";
@@ -794,13 +793,17 @@
             document.getElementById("course_name").focus();
             document.getElementById("course_name").value = "";
             return false;
+        } else {
+            document.getElementById("invalidCourseName").innerHTML = "";
         }
-        else if (courseElement === "" || courseElement === "มีหลักสูตรนี้ในระบบแล้ว"){
+
+        if (courseElement === "" || courseElement === "มีหลักสูตรนี้ในระบบแล้ว" || courseElement === "สามารถใช้งานได้"){
+            document.getElementById("link").click();
+        }
+        if(courseElement === "" || courseElement === "มีหลักสูตรนี้ในระบบแล้ว"){
             document.getElementById("course_name").focus();
             alert("กรุณาตรวจสอบชื่อหลักสูตรก่อน");
             return false;
-        }else {
-            document.getElementById("invalidCourseName").innerHTML = "";
         }
 
         //---------certificateName----------

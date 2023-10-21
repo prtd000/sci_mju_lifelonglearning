@@ -121,9 +121,9 @@
         .course_name{
             font-family: 'Mitr', sans-serif;
             color: #e24c07;
-            font-size: 20px;
+            font-size: 94%;
             font-weight: 500;
-            height: 63px;
+            height: 45px;
         }
 
         table[class='icon'] tr td:first-child{
@@ -297,7 +297,7 @@
     <div class="container">
         <div class="text-center mx-auto mb-5" style="max-width: 600px;">
             <h5 class="text-primary text-uppercase" style="letter-spacing: 5px;">คอร์สแนะนำ</h5>
-            <h1 class="display-5 mb-0">หลักสูตร Non-Degree</h1>
+            <h1 class="display-5 mb-0" style="font-size: 210%;">หลักสูตร Non-Degree</h1>
         </div>
         <!-------Search-------->
         <%--    <form action="search.jsp" method="get">--%>
@@ -313,20 +313,20 @@
                 <% DecimalFormat f = new DecimalFormat("#,###"); %>
                 <%-- <c:set var="majorName" value="<%= type%>"/> --%>
                 <fmt:parseNumber var="courseFee" type="number" value="${course.fee}"/>
-                <c:if test="${course.course_type == 'Non-Degree'}">
-                    <c:if test="${non_num < 6}">
-                            <div class="block col-lg-4 col-md-6 wow zoomIn" style="transition: 0.5s" data-name=${course.name}>
-                                <div class="col-lg-4 col-md-6 wow zoomIn" style="cursor: pointer" data-wow-delay="0.3s">
+                <c:if test="${course.course_type == 'Non-Degree' && course.status ne 'ถูกยกเลิก'}">
+                    <c:if test="${non_num < 8}">
+                            <div class="block col-lg-3 col-md-6 wow zoomIn" style="transition: 0.5s" data-name=${course.name}>
+                                <div class="col-lg-3 col-md-6 wow zoomIn" style="cursor: pointer" data-wow-delay="0.3s">
                                     <div class="bg-light border-bottom border-5 border-primary rounded"
-                                         style="width: 400px; height: 625px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
+                                         style="width: 310px; height: 555px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
                                         <a href="${pageContext.request.contextPath}/${course.course_id}">
-                                        <div class="p-5">
-                                            <img src="${pageContext.request.contextPath}/uploads/course_img/${course.img}" style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
+                                        <div class="p-4">
+                                            <img src="${pageContext.request.contextPath}/uploads/course_img/${course.img}" style="height: 310px;margin-top: -24px;margin-left: -24px;">
                                             <div>
                                                 <br>
                                                 <b><p class="item text_ellipsis course_name">${course.name}</p></b>
                                             </div>
-                                            <p style="font-size: 16px; font-weight: bold; color: dodgerblue">${course.major.name}</p>
+                                            <p style="font-size: 85%; font-weight: bold; color: dodgerblue">${course.major.name}</p>
 
                                             <table class="icon">
                                                 <c:set var="notFoundTypeLearn" value="false" />
@@ -336,26 +336,26 @@
                                                             <fmt:formatDate value="${list.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
                                                             <fmt:formatDate value="${list.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
 
-                                                            <td colspan="2" style="width: 300px; color: black; font-weight: bold;">เริ่มลงทะเบียน ${startRegister} - ${endRegister}</td>
+                                                            <td colspan="2" style="width: 310px; color: black; font-weight: bold; font-size: 85%;">เริ่มลงทะเบียน ${startRegister} - ${endRegister}</td>
                                                         </tr>
                                                         <c:if test="${list.type_learn.equals('เรียนในสถานศึกษา')}">
                                                             <tr>
                                                                 <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
-                                                                <td><p style="color: #000000; font-weight: bold">${list.type_learn}</p></td>
+                                                                <td><p style="color: #000000; font-weight: bold; font-size: 85%;">${list.type_learn}</p></td>
                                                             </tr>
                                                             <c:set var="notFoundTypeLearn" value="true" />
                                                         </c:if>
                                                         <c:if test="${list.type_learn.equals('เรียนออนไลน์')}">
                                                             <tr>
-                                                                <td><img src="${pageContext.request.contextPath}/assets/img/online.png" style="height: 25px;"></td>
-                                                                <td><p style="color: #000000; font-weight: bold">${list.type_learn}</p></td>
+                                                                <td><img src="${pageContext.request.contextPath}/assets/img/online.png" style="height: 20px;"></td>
+                                                                <td><p style="color: #000000; font-weight: bold; font-size: 85%;">${list.type_learn}</p></td>
                                                             </tr>
                                                             <c:set var="notFoundTypeLearn" value="true" />
                                                         </c:if>
                                                         <c:if test="${list.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
                                                             <tr>
-                                                                <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
-                                                                <td><p style="color: #000000; font-weight: bold">${list.type_learn}</p></td>
+                                                                <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 20px;"></td>
+                                                                <td><p style="color: #000000; font-weight: bold; font-size: 85%;">${list.type_learn}</p></td>
                                                             </tr>
                                                             <c:set var="notFoundTypeLearn" value="true" />
                                                         </c:if>
@@ -363,19 +363,19 @@
                                                 </c:forEach>
                                                 <c:if test="${!notFoundTypeLearn}">
                                                     <tr>
-                                                        <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
-                                                        <td><p style="color: #000000; font-weight: bold">ยังไม่เปิด</p></td>
+                                                        <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 20px;"></td>
+                                                        <td><p style="color: #000000; font-weight: bold; font-size: 85%;">ยังไม่เปิด</p></td>
                                                     </tr>
                                                 </c:if>
                                                 <tr>
-                                                    <td><img src="${pageContext.request.contextPath}/assets/img/money.png" style="height: 25px;"></td>
+                                                    <td><img src="${pageContext.request.contextPath}/assets/img/money.png" style="height: 20px;"></td>
                                                     <td>
                                                         <c:choose>
                                                             <c:when test="${courseFee == 0}">
-                                                                <b><p style="color: #12b100;">ฟรี</p></b>
+                                                                <b><p style="color: #12b100;font-size: 95%">ฟรี</p></b>
                                                             </c:when>
                                                             <c:when test="${courseFee != 0}">
-                                                                <b><p style="color: #12b100;">ราคา <fmt:formatNumber value="${courseFee}"/> บาท</p></b>
+                                                                <b><p style="color: #12b100;font-size: 95%">ราคา <fmt:formatNumber value="${courseFee}"/> บาท</p></b>
                                                             </c:when>
                                                         </c:choose>
                                                     </td>
@@ -405,7 +405,7 @@
     <div class="container">
         <div class="text-center mx-auto mb-5" style="max-width: 600px;">
             <h5 class="text-primary text-uppercase" style="letter-spacing: 5px;">คอร์สแนะนำ</h5>
-            <h1 class="display-5 mb-0">หลักสูตรอบรมระยะสั้น</h1>
+            <h1 class="display-5 mb-0" style="font-size: 210%;">หลักสูตรอบรมระยะสั้น</h1>
         </div>
         <!-------Search-------->
         <%--    <form action="search.jsp" method="get">--%>
@@ -421,20 +421,21 @@
                 <% DecimalFormat f = new DecimalFormat("#,###"); %>
                 <%-- <c:set var="majorName" value="<%= type%>"/> --%>
                 <fmt:parseNumber var="courseFee" type="number" value="${course.fee}"/>
-                <c:if test="${course.course_type == 'หลักสูตรอบรมระยะสั้น'}">
-                    <c:if test="${non_num < 6}">
-                            <div class="block col-lg-4 col-md-6 wow zoomIn" style="transition: 0.5s"
+                <c:if test="${course.course_type == 'หลักสูตรอบรมระยะสั้น' && course.status ne 'ถูกยกเลิก'}">
+                    <c:if test="${non_num < 8}">
+                            <div class="block col-lg-3 col-md-6 wow zoomIn" style="transition: 0.5s"
                                  data-name=${course.name}>
-                                <div class="col-lg-4 col-md-6 wow zoomIn" style="cursor: pointer" data-wow-delay="0.3s">
-                                    <div class="bg-light border-bottom border-5 border-primary rounded" style="width: 400px; height: 625px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
+                                <div class="col-lg-3 col-md-6 wow zoomIn" style="cursor: pointer" data-wow-delay="0.3s">
+                                    <div class="bg-light border-bottom border-5 border-primary rounded"
+                                         style="width: 310px; height: 555px; box-shadow: 2px -2px 6px 1px #9c9c9c;">
                                         <a href="${pageContext.request.contextPath}/${course.course_id}">
-                                            <div class="p-5">
-                                                <img src="${pageContext.request.contextPath}/uploads/course_img/${course.img}" style="width: 400px;height: 350px;margin-top: -48px;margin-left: -48px;">
+                                            <div class="p-4">
+                                                <img src="${pageContext.request.contextPath}/uploads/course_img/${course.img}" style="height: 310px;margin-top: -24px;margin-left: -24px;">
                                                 <div>
                                                     <br>
                                                     <b><p class="item text_ellipsis course_name">${course.name}</p></b>
                                                 </div>
-                                                <p style="font-weight: bold; color: dodgerblue">${course.major.name}</p>
+                                                <p style="font-size: 85%; font-weight: bold; color: dodgerblue">${course.major.name}</p>
 
                                                 <table class="icon">
                                                     <c:set var="notFoundTypeLearn" value="false" />
@@ -444,26 +445,26 @@
                                                                 <fmt:formatDate value="${list.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
                                                                 <fmt:formatDate value="${list.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
 
-                                                                <td colspan="2" style="width: 300px; color: black; font-weight: bold;">เริ่มลงทะเบียน ${startRegister} - ${endRegister}</td>
+                                                                <td colspan="2" style="width: 310px; color: black; font-weight: bold; font-size: 85%">เริ่มลงทะเบียน ${startRegister} - ${endRegister}</td>
                                                             </tr>
                                                             <c:if test="${list.type_learn.equals('เรียนในสถานศึกษา')}">
                                                                 <tr>
-                                                                    <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
-                                                                    <td><p style="color: #000000; font-weight: bold">${list.type_learn}</p></td>
+                                                                    <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 20px;"></td>
+                                                                    <td><p style="color: #000000; font-weight: bold; font-size: 85%">${list.type_learn}</p></td>
                                                                 </tr>
                                                                 <c:set var="notFoundTypeLearn" value="true" />
                                                             </c:if>
                                                             <c:if test="${list.type_learn.equals('เรียนออนไลน์')}">
                                                                 <tr>
-                                                                    <td><img src="${pageContext.request.contextPath}/assets/img/online.png" style="height: 25px;"></td>
-                                                                    <td><p style="color: #000000; font-weight: bold">${list.type_learn}</p></td>
+                                                                    <td><img src="${pageContext.request.contextPath}/assets/img/online.png" style="height: 20px;"></td>
+                                                                    <td><p style="color: #000000; font-weight: bold; font-size: 85%">${list.type_learn}</p></td>
                                                                 </tr>
                                                                 <c:set var="notFoundTypeLearn" value="true" />
                                                             </c:if>
                                                             <c:if test="${list.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
                                                                 <tr>
-                                                                    <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
-                                                                    <td><p style="color: #000000; font-weight: bold">${list.type_learn}</p></td>
+                                                                    <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 20px;"></td>
+                                                                    <td><p style="color: #000000; font-weight: bold; font-size: 85%">${list.type_learn}</p></td>
                                                                 </tr>
                                                                 <c:set var="notFoundTypeLearn" value="true" />
                                                             </c:if>
@@ -471,19 +472,19 @@
                                                     </c:forEach>
                                                     <c:if test="${!notFoundTypeLearn}">
                                                         <tr>
-                                                            <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 25px;"></td>
-                                                            <td><p style="color: #000000; font-weight: bold">ยังไม่เปิด</p></td>
+                                                            <td><img src="${pageContext.request.contextPath}/assets/img/onsite.png" style="height: 20px;"></td>
+                                                            <td><p style="color: #000000; font-weight: bold; font-size: 85%">ยังไม่เปิด</p></td>
                                                         </tr>
                                                     </c:if>
                                                     <tr>
-                                                        <td><img src="${pageContext.request.contextPath}/assets/img/money.png" style="height: 25px;"></td>
+                                                        <td><img src="${pageContext.request.contextPath}/assets/img/money.png" style="height: 20px;"></td>
                                                         <td>
                                                             <c:choose>
                                                                 <c:when test="${courseFee == 0}">
-                                                                    <b><p style="color: #12b100;">ฟรี</p></b>
+                                                                    <b><p style="color: #12b100;font-size: 95%">ฟรี</p></b>
                                                                 </c:when>
                                                                 <c:when test="${courseFee != 0}">
-                                                                    <b><p style="color: #12b100;">ราคา <fmt:formatNumber value="${courseFee}"/> บาท</p></b>
+                                                                    <b><p style="color: #12b100;font-size: 95%">ราคา <fmt:formatNumber value="${courseFee}"/> บาท</p></b>
                                                                 </c:when>
                                                             </c:choose>
                                                         </td>
@@ -521,7 +522,7 @@
                     <h1 class="display-5 text-white">MJU Lifelong Education</h1>
                 </div>
                 <p class="text-white mb-4">ให้การเรียนรู้เป็นเรื่องใกล้ตัวคุณ</p>
-                <a href="" class="btn btn-primary py-md-3 px-md-5 me-3">เรียนรู้เพิ่มเติม</a>
+                <a href="${pageContext.request.contextPath}/search_course" class="btn btn-primary py-md-3 px-md-5 me-3">เรียนรู้เพิ่มเติม</a>
             </div>
         </div>
     </div>

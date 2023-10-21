@@ -26,7 +26,7 @@
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
     <style>
         table tr th {
-            font-size: 19px;
+            font-size: 110%;
             color: black;
             text-align: center;
         }
@@ -108,29 +108,28 @@
     <br>
 
     <%--    Button Switch--%>
-    <button id="FClick" class="tablinks btn btn-success" onclick="openList(event, 'listCourse')">หลักสูตร</button>
-    <button class="tablinks btn btn-danger" onclick="openList(event, 'listInvoice')">ที่ต้องชำระเงิน</button>
-    <button class="tablinks btn btn-dark" onclick="openList(event, 'listHistory')">ประวัติการทำรายการ</button>
+    <button id="FClick" class="tablinks btn btn-success" style="width: 12%;" onclick="openList(event, 'listCourse')">หลักสูตร</button>
+    <button class="tablinks btn btn-danger" style="width: 12%;" onclick="openList(event, 'listInvoice')">การชำระเงิน</button>
+    <button class="tablinks btn btn-dark" style="width: 12%;" onclick="openList(event, 'listHistory')">ประวัติการทำรายการ</button>
     <br><br>
 
 
     <%--    List Register--%>
     <div class="tabcontent" id="listCourse">
-        <table class="table table-hover" style="width: 1200px;">
+        <table class="table table-striped table-hover" style="width: 1200px;">
             <tr>
                 <th style="text-align: left;">รายการ</th>
                 <th style="width: 130px;">เริ่มเรียน</th>
                 <th style="width: 130px;">สิ้นสุดการเรียน</th>
-                <th style="width: 130px;">วันที่เรียน</th>
-                <th style="width: 130px;">เวลา</th>
-                <th style="width: 130px;">สถานะ</th>
+                <th style="width: 200px;">วันที่เรียน</th>
+                <th style="width: 110px;">สถานะ</th>
                 <th style="width: 130px;"></th>
             </tr>
             <c:set var="current_register" value="<%= new Date()%>"/>
             <c:forEach var="invoice" items="${register}">
                 <tr>
                     <c:choose>
-                        <c:when test="${invoice.invoice.pay_status == true && (current_register.equals(invoice.requestOpenCourse.applicationResult) || current_register.after(invoice.requestOpenCourse.applicationResult))}">
+                        <c:when test="${invoice.requestOpenCourse.course.fee == 0 || invoice.invoice.pay_status == true && (current_register.equals(invoice.requestOpenCourse.applicationResult) || current_register.after(invoice.requestOpenCourse.applicationResult))}">
                             <c:choose>
                                 <c:when test="${invoice.invoice.approve_status.equals('ผ่าน')}">
                                     <td><p>${invoice.requestOpenCourse.course.name}</p></td>
@@ -138,11 +137,15 @@
                                     <fmt:formatDate value="${invoice.requestOpenCourse.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate"/>
                                     <td style="text-align: center;"><p>${startStudyDate}</p></td>
                                     <td style="text-align: center;"><p>${endStudyDate}</p></td>
-                                    <td style="text-align: center;"><p>${invoice.requestOpenCourse.studyDay}</p></td>
                                     <td style="text-align: center;">
-                                        <p>${fn:replace(invoice.requestOpenCourse.studyTime,',',' - ')}</p></td>
-
-
+                                        <c:set var="delimiter" value="$%"/>
+                                        <c:set var="subText" value="${fn:split(invoice.requestOpenCourse.studyTime, delimiter)}"/>
+                                        <c:forEach var="ogText" items="${subText}" >
+                                            <c:set var="replaceSlash" value="${fn:replace(ogText, '/', ' ')}"/>
+                                            <c:set var="newText" value="${fn:replace(replaceSlash, ',', ' - ')}"/>
+                                            <p>${newText}</p>
+                                        </c:forEach>
+                                    </td>
                                     <c:choose>
                                         <c:when test="${invoice.study_result.equals('ผ่าน')}">
                                             <td style="width: 200px; text-align: center; color: green; font-weight: bold;">${invoice.study_result}</td>
@@ -196,7 +199,7 @@
 
     <%--    List Invoice--%>
     <div class="tabcontent" id="listInvoice">
-        <table class="table table-hover" style="width: 1260px;">
+        <table class="table table-striped table-hover" style="width: 1260px;">
             <tr>
                 <th style="text-align: left;">รายการ</th>
                 <th style="width: 130px;">เริ่มชำระเงิน</th>
@@ -206,8 +209,10 @@
                 <th style="width: 170px;">หมายเหตุ</th>
             </tr>
             <c:forEach var="invoices" items="${register}">
+                <c:set var="currentInvoice" value="<%=LocalDate.now()%>"/>
                 <tr>
                     <c:if test="${invoices.invoice.approve_status ne 'ผ่าน'}">
+
                         <td style="width: 550px;"><p>${invoices.requestOpenCourse.course.name}</p></td>
                         <fmt:formatDate value="${invoices.invoice.startPayment}" pattern="dd/MM/yyyy" var="startPayment"/>
                         <fmt:formatDate value="${invoices.invoice.endPayment}" pattern="dd/MM/yyyy" var="endPayment"/>
@@ -314,13 +319,14 @@
                         </c:otherwise>
                     </c:choose>
                 </tr>
+
             </c:forEach>
         </table>
     </div>
 
     <%--    List History--%>
     <div class="tabcontent" id="listHistory">
-        <table class="table table-hover" style="width: 1200px;">
+        <table class="table table-striped table-hover" style="width: 1200px;">
             <tr>
                 <th style="text-align: left;">รายการ</th>
                 <th style="width: 130px;">วันที่ชำระเงิน</th>

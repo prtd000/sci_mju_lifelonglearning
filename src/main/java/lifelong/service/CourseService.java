@@ -8,6 +8,9 @@ public interface CourseService {
 //        List<Object[]> getCoursesAndRequests();
         List<Course> getCoursesByCourseStatus(String major);
 
+
+        List<Course> getListCoursesOrderByDate();
+
         List<Course> getCoursesByCourseStatusAndType(String major,String type);
 
         List<RequestOpenCourse> getListRequestOpCourse();

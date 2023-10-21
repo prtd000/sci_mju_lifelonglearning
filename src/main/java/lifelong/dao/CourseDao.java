@@ -13,6 +13,8 @@ public interface CourseDao {
 
     List<Course> getCoursesByCourseStatus(String major);
 
+    List<Course> getListCoursesOrderByDate();
+
     List<Course> getCoursesByCourseStatusAndType(String major, String type);
 
     List<Course> getCourseByStatus(String status);

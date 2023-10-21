@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import utils.ImgPath;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -21,6 +22,8 @@ import java.nio.file.Paths;
 import java.security.InvalidAlgorithmParameterException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
@@ -58,19 +61,22 @@ public class PaymentController {
 
         /*********Convert Slip**********/
         try {
-            // Format ReceiptId
-            String invoiceToReceiptId = "Receipt " + invoiceId;
+//            // Format ReceiptId
+//            String invoiceToReceiptId = "Receipt " + invoiceId;
+//
+//            // ใช้ hashCode() และ Math.abs() เพื่อทำให้ค่าเป็นบวกเสมอ
+//            long hashCode = Math.abs(invoiceToReceiptId.hashCode());
+//
+//            // นำ hashCode มาเป็นรหัส 10 หลัก (หรือตามที่คุณต้องการ)
+//            String receiptCodeString = String.format("%010d", hashCode);
+//
+//            // แปลงเป็น long
+//            long receiptCode = Long.parseLong(receiptCodeString);
 
-            // ใช้ hashCode() และ Math.abs() เพื่อทำให้ค่าเป็นบวกเสมอ
-            long hashCode = Math.abs(invoiceToReceiptId.hashCode());
+            String yearString = String.valueOf(LocalDate.now().getYear());
+            String receiptCode = yearString + String.format("%06d", invoiceId);
 
-            // นำ hashCode มาเป็นรหัส 10 หลัก (หรือตามที่คุณต้องการ)
-            String receiptCodeString = String.format("%010d", hashCode);
-
-            // แปลงเป็น long
-            long receiptCode = Long.parseLong(receiptCodeString);
-
-            receipt.setReceipt_id(receiptCode);
+            receipt.setReceipt_id(Long.parseLong(receiptCode));
             receipt.setPay_date(dateFormat.parse(params.get("receipt_paydate")));
             receipt.setPay_time(params.get("receipt_paytime"));
             receipt.setBanking(params.get("receipt_banking"));
@@ -85,10 +91,13 @@ public class PaymentController {
             Path directoryPathIMG = Paths.get(slipPath);
             Files.createDirectories(directoryPathIMG);
 
+            /*** ดึงชื่อรูปจากไฟล์ที่อัพโหลดเข้ามา ***/
             String originalFileName = slip_payment.getOriginalFilename();
+
+            /*** ดึงนามสกุลรูปภาพ ***/
             String fileExtension = getFileExtension(originalFileName);
 
-            String newFileName = String.format("SLIP_%04d%s", receiptCode, fileExtension);
+            String newFileName = String.format("SLIP_%s%s", receiptCode, fileExtension);
 
             Path imgFilePath = Paths.get(slipPath, newFileName);
             Files.write(imgFilePath, slip_payment.getBytes());
@@ -99,23 +108,17 @@ public class PaymentController {
             e.printStackTrace();
         }
 
-        session.setAttribute("updateSuccess",true);
+        session.setAttribute("updateSuccess", true);
         return "redirect:/member/" + memId + "/listcourse/";
     }
 
     @GetMapping("/{memid}/receipt/{invoice_id}")
     public String printReceipt(@PathVariable("memid") String memId, @PathVariable("invoice_id") long invoiceId, Model model) {
-        model.addAttribute("receipt",paymentService.getReceiptByInvoiceId(invoiceId));
+        model.addAttribute("receipt", paymentService.getReceiptByInvoiceId(invoiceId));
         return "member/print_receipt";
     }
 
-    private String getFileExtension(String fileName) {
-        int dotIndex = fileName.lastIndexOf('.');
-        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
-            return fileName.substring(dotIndex);
-        }
-        return "";
-    }
+
 
     @GetMapping("/{memid}/update_payment_fill_detail/{invoice_id}")
     public String updateMakePaymentDetail(@PathVariable("memid") String memId, @PathVariable("invoice_id") long invoiceId, Model model) {
@@ -135,7 +138,7 @@ public class PaymentController {
 
         Receipt receipt = paymentService.getReceiptByInvoiceId(invoiceId);
 
-        if (receipt != null){
+        if (receipt != null) {
             /*********Convert Slip**********/
             try {
                 receipt.setPay_date(dateFormat.parse(params.get("receipt_paydate")));
@@ -167,10 +170,53 @@ public class PaymentController {
         invoice.setApprove_status("รอดำเนินการ");
         paymentService.updateInvoice(invoice);
 
-        session.setAttribute("update","success");
+        session.setAttribute("update", "success");
 
         return "redirect:/member/" + memId + "/listcourse";
     }
+
+    /********* Get นามสกุลไฟล์รูปภาพ **********/
+    private String getFileExtension(String fileName) {
+        int dotIndex = fileName.lastIndexOf('.');
+        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
+            return fileName.substring(dotIndex);
+        }
+        return "";
+    }
+
+
+
+//    @PostMapping("/upload_file/save")
+//    public String saveMakePayment(@RequestParam("slip") MultipartFile slip_payment, HttpServletRequest request) throws IOException {
+//        String fileName = request.getParameter("name");
+//
+//        /**************** Image *******************/
+//        String slipPath = "C:/uploads/make_payment/slip/";
+//
+//        /*** กำหนดเส้นทางสำหรับการบันทึกไฟล์รูปภาพ ***/
+//        Path directoryPathIMG = Paths.get(slipPath);
+//        Files.createDirectories(directoryPathIMG);
+//
+//        /*** ดึงชื่อรูปจากไฟล์ที่อัพโหลดเข้ามา ***/
+//        String originalFileName = slip_payment.getOriginalFilename();
+//
+//        /*** ดึงนามสกุลรูปภาพ ***/
+//        String fileExtension = getFileExtension(originalFileName);
+//
+//        /******* File name *******/
+//
+//        String newFileName = String.format("SLIP_%s%s", fileName, fileExtension);
+//
+//        /******* แปลงข้อมูลไฟล์รูปให้เป็น Path ก่อนลง Directory *******/
+//        Path imgFilePath = Paths.get(slipPath, newFileName);
+//
+//        /******* Save File to Directory *******/
+//        Files.write(imgFilePath, slip_payment.getBytes());
+//
+//        return "redirect:/";
+//    }
+
+
 
 
 

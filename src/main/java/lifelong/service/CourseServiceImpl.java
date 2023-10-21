@@ -36,6 +36,12 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     @Transactional
+    public List<Course> getListCoursesOrderByDate() {
+        return courseDao.getListCoursesOrderByDate();
+    }
+
+    @Override
+    @Transactional
     public List<Course> getCoursesByCourseStatusAndType(String major, String type) {
         return courseDao.getCoursesByCourseStatusAndType(major,type);
     }

@@ -42,6 +42,13 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
+    public List<Course> getListCoursesOrderByDate() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Course> query = session.createQuery("FROM Course c ORDER BY c.action_date DESC",Course.class);
+        return query.getResultList();
+    }
+
+    @Override
     public List<Course> getCoursesByCourseStatusAndType(String major, String type) {
         Session session = sessionFactory.getCurrentSession();
         Query<Course> query = session.createQuery("from Course where status =: c_status and major.name =: major and course_type =: type",Course.class);

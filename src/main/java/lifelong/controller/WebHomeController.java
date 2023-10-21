@@ -44,7 +44,7 @@ public class WebHomeController {
     @GetMapping("/")
     public String listCourse(Model model) {
         List<RequestOpenCourse> requestOpenCourses = requestOpCourseService.getRequestOpenCourses();
-        List<Course> courses = courseService.getCourses();
+        List<Course> courses = courseService.getListCoursesOrderByDate();
         List<Register> registers = registerService.getListRegister();
         Date currentDate = new Date(); // วันปัจจุบัน
         Calendar calendar = Calendar.getInstance();
@@ -107,7 +107,7 @@ public class WebHomeController {
         model.addAttribute("listRequest",courseService.getAllListRequestCourse());
         model.addAttribute("listRegister", registerService.getListRegister());
         model.addAttribute("list_invoice",memberService.getListInvoice());
-        model.addAttribute("courses", courseService.getCourses());
+        model.addAttribute("courses", courseService.getListCoursesOrderByDate());
         model.addAttribute("majors",majorService.getMajors());
         model.addAttribute("list_req",requestOpCourseService.getRequestOpenCourses());
 

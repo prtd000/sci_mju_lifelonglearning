@@ -136,9 +136,11 @@
     <div id="pdfContent" style="width: 700px; height: 550px">
         <table class="blog-receipt">
             <tr>
-                <td style="width: 500px;vertical-align: bottom;">
+                <td style="width: 443px;vertical-align: bottom;">
+<%--                    <p style="font-size: 29px;">ใบเสร็จ</p>--%>
                     คณะวิทยาศาสตร์ มหาวิทยาลัยแม่โจ้ <br>
-                    63 หมู่ 4 ต.หนองหาร อ.สันทราย จ.เชียงใหม่ 50290
+                    63 หมู่ 4 ต.หนองหาร อ.สันทราย จ.เชียงใหม่ 50290 <br>
+                    โทรศัพท์: 053-873150, โทรสาร: 053-873171
                 </td>
                 <td>
                     <img src="${pageContext.request.contextPath}/assets/img/icon_mju_science.png"
@@ -148,23 +150,35 @@
             <tr style="height: 30px;">
                 <td colspan="2"><hr></td>
             </tr>
-            <tr style="height: 60px">
-                <td colspan="2">
+            <tr>
+                <td>ชื่อ - สกุล ${receipt.invoice.register.member.firstName} &nbsp; ${receipt.invoice.register.member.lastName}</td>
+                <td>
                     เลขที่ใบเสร็จ ${receipt.receipt_id}
                 </td>
             </tr>
-            <tr>
-                <td colspan="2">
+            <tr style="height: 30px">
+                <td>ธนาคาร ${receipt.banking}</td>
+                <td>
                     <fmt:formatDate value="<%=new java.util.Date()%>" pattern="dd/MM/yyyy" var="currentDate" />
-                    ออกเมื่อวันที่ ${currentDate}
+                    วันที่พิมพ์ &nbsp;&nbsp;${currentDate}
                 </td>
             </tr>
-            <tr style="height: 30px">
-                <td>${receipt.invoice.register.member.firstName} &nbsp; ${receipt.invoice.register.member.lastName}</td>
-                <td><p style="font-size: 29px;">ใบเสร็จ</p></td>
+            <tr>
+                <td colspan="2">
+                    <fmt:formatDate value="${receipt.pay_date}" pattern="dd/MM/yyyy" var="payDate" />
+                    ชำระเมื่อวันที่ ${payDate}
+                </td>
+
             </tr>
             <tr>
-                <td colspan="2">ธนาคาร ${receipt.banking}</td>
+                <td colspan="2">
+                    เบอร์โทร ${receipt.invoice.register.member.tel}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    อีเมล ${receipt.invoice.register.member.email}
+                </td>
             </tr>
             <tr style="height: 30px">
                 <td colspan="2"></td>
@@ -175,14 +189,14 @@
             </tr>
             <tr>
                 <td><p class="receipt_c_name">${receipt.invoice.register.requestOpenCourse.course.name}</p></td>
-                <td>${receipt.invoice.register.requestOpenCourse.course.fee}</td>
+                <td><fmt:formatNumber value="${receipt.invoice.register.requestOpenCourse.course.fee}" type="number"/> </td>
             </tr>
             <tr style="height: 30px">
                 <td colspan="2"><hr></td>
             </tr>
             <tr>
                 <td><p style="font-size: 22px;">รวมทั้งหมด</p></td>
-                <td><p style="font-size: 22px">${receipt.invoice.register.requestOpenCourse.course.fee}</p></td>
+                <td><p style="font-size: 22px"><fmt:formatNumber value="${receipt.invoice.register.requestOpenCourse.course.fee}" type="number"/></p></td>
             </tr>
         </table>
     </div>

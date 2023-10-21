@@ -42,9 +42,8 @@
             position: absolute;
             font-size: 60px;
             font-weight: 900;
-            top: 30%;
-            left: 49%;
-            transform: translate(-50%, -50%);
+            top: 24%;
+            left: 10%;
             color: white;
         }
 
@@ -53,75 +52,81 @@
             position: absolute;
             font-size: 33px;
             font-weight: 700;
-            top: 39%;
-            left: 35.5%;
+            top: 35%;
+            left: 10%;
             letter-spacing: 1px;
-            transform: translate(-50%, -50%);
             color: white;
         }
 
-        .bt_register {
-            position: absolute;
-            top: 47%;
-            left: 24%;
-            width: 177px;
-            height: 49px;
-            transform: translate(37%, -50%);
-            border: 2px solid white;
-            border-radius: 4px;
-            color: black;
-            font-weight: 700;
-            transition: 0.5s;
-        }
-
-        .bt_register:hover {
-            color: white;
-            background-color: rgba(255, 255, 255, 0);
-            transition: 0.5s;
-        }
 
         .block_position {
-            margin-left: 370px;
-            margin-top: 54px;
-            width: 830px;
-            display: inline-block;
+            margin-left: 10%;
+            margin-top: 5%;
         }
 
         .c_name {
             color: black;
-            width: 860px;
-            font-size: 42px;
+            width: 85%;
+            font-size: 35px;
             font-weight: bold;
         }
 
-        .major_name {
-            color: black;
-            font-size: 20px;
+        .block_c_type{
+            height: 7%;
+            background-color: white;
+            border-radius: 21px;
+            box-shadow: 0px 0px 10px 2px #dedddd;
+            padding: 12px 0px 0px 19px;
+        }
+
+        .course_type {
+            color: #f37509;
+            font-weight: bold;
+            font-size: 100%;
         }
 
         .img {
-            height: 770px;
-            width: 832px;
+            height: 414px;
+            margin-left: 5%;
             border-radius: 15px;
             box-shadow: 0px 0px 10px 2px #b8b6b6;
         }
 
         .c_principle {
-            width: 833px;
+            width: 220%;
             text-align: justify;
             color: black;
+            font-size: 90%;
         }
 
         table[class='detail'] tr td:first-child {
-            width: 155px;
+            vertical-align: middle;
+            width: 20%;
+            font-size: 90%;
         }
 
         table[class='detail'] tr td {
+            vertical-align: middle;
             font-weight: bold;
+            font-size: 90%;
         }
 
         tr {
             height: 50px;
+        }
+
+        .block_contactor{
+            background-color: #ffffff;
+            padding: 20px 0px 30px 0px;
+            width: 65%;
+            margin-left: 5%;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 2px #dedddd;
+        }
+        .contact{
+            color: black;
+            margin-left: 33px;
+            margin-top: 25px;
         }
 
 
@@ -174,6 +179,8 @@
             color: black;
             font-size: 15px;
         }
+
+
 
     </style>
 </head>
@@ -255,203 +262,250 @@
 <div class="block_position">
     <p class="c_name">${course.name}</p>
 
-    <!--Major name--->
-    <p class="major_name">${course.major.name}</p>
+    <!--Course_Type--->
+    <c:if test="${course.course_type.equals('Non-Degree')}" >
+        <div class="block_c_type" style="width: 10%">
+            <p class="course_type">${course.course_type}</p>
+        </div>
+    </c:if>
+    <c:if test="${course.course_type.equals('หลักสูตรอบรมระยะสั้น')}" >
+        <div class="block_c_type" style="width: 13%">
+            <p class="course_type">${course.course_type}</p>
+        </div>
+    </c:if>
     <br>
-    <!--Image--->
-    <img src="${pageContext.request.contextPath}/uploads/course_img/${course.img}" alt="course_image" class="img">
-    <br><br><br>
-    <!--Detail-->
-    <div>
-        <h1 style="font-size: 30px;">รายละเอียดหลักสูตร</h1>
-        <p class="c_principle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${course.principle}</p>
-        <hr>
-        <!---Sub_Detail-->
-        <table class="detail" style="color: black;">
-            <c:if test="${req != null}">
-                <tr>
-                    <td>ช่วงวันรับสมัคร</td>
-                    <td>
-                        <fmt:formatDate value="${req.startRegister}" pattern="dd/MM/yyyy" var="startRegister"/>
-                        <fmt:formatDate value="${req.endRegister}" pattern="dd/MM/yyyy" var="endRegister"/>
-                            ${startRegister} - ${endRegister}
-                    </td>
-                </tr>
-                <tr>
-                    <td>ช่วงวันชำระค่าสมัคร</td>
-                    <td>
-                        <fmt:formatDate value="${req.startPayment}" pattern="dd/MM/yyyy" var="startPayment"/>
-                        <fmt:formatDate value="${req.endPayment}" pattern="dd/MM/yyyy" var="endPayment"/>
-                            ${startPayment} - ${endPayment}
-                    </td>
-                </tr>
-                <tr>
-                    <td>วันประกาศผล</td>
-                    <td>
-                        <fmt:formatDate value="${req.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult"/>
-                            ${applicationResult}
-                    </td>
-                </tr>
-                <tr>
-                    <td>ระยะเวลาในการเรียน</td>
-                    <td>
-                        <fmt:formatDate value="${req.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate"/>
-                        <fmt:formatDate value="${req.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate"/>
-                            ${startStudyDate} - ${endStudyDate}
-                    </td>
-                </tr>
-                <tr>
-                    <td>วันที่เรียน</td>
-                    <td>${req.studyDay} ( เวลา : ${fn:replace(req.studyTime,',',' - ')} )</td>
-                </tr>
-                <tr>
-                    <td>จำนวนรับสมัคร</td>
-                    <td>
-                        <c:set var="stt_remaining" value="true"/>
-                        <c:set var="remaining" value="${req.quantity - amount}"/>
-                        <c:choose>
-                            <c:when test="${amount == req.quantity}">
-                                <p style="color: green; font-weight: bold; margin-top: 13px;">เต็มแล้ว</p>
-                                <c:set var="stt_remaining" value="false"/>
-                            </c:when>
-                            <c:otherwise>
-                                ${req.quantity} (คงเหลือ ${remaining} ที่นั่ง)
-                                <c:set var="stt_remaining" value="true"/>
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                </tr>
-            </c:if>
-            <tr>
-                <td>ประเภทหลักสูตร</td>
-                <td>${course.course_type}</td>
-            </tr>
-            <tr>
-                <td>หมวดสาขาวิชา</td>
-                <td>${course.major.name}</td>
-            </tr>
-            <tr>
-                <td>ชื่อเกียรติบัตร</td>
-                <td>${course.certificateName}</td>
-            </tr>
-            <tr>
-                <c:set var="count" value="0"/>
-                <td>วัตถุประสงค์</td>
-                <td>
-                    <c:forEach items="${parts}" var="part">
-                        <c:set var="count" value="${count+1}"/>
-                        ${count} ) <c:out value="${part}"/><br/>
-                    </c:forEach>
-                </td>
-            </tr>
-            <tr>
-                <td>ระยะเวลาเรียน</td>
-                <td>${course.totalHours} ชั่วโมง</td>
-            </tr>
-            <tr>
-                <td>เป้าหมายกลุ่มอาชีพ</td>
-                <td>${course.targetOccupation}</td>
-            </tr>
 
-
-            <c:if test="${req != null}">
-                <tr>
-                    <td>รูปแบบการเรียน</td>
-                    <td>${req.type_learn}</td>
-                </tr>
-
-                <c:choose>
-                    <c:when test="${req.type_learn.equals('เรียนออนไลน์')}">
-                        <tr>
-                            <td>Link Mooc</td>
-                            <td><a href="${req.linkMooc}">${req.linkMooc}</a></td>
-                        </tr>
-                    </c:when>
-                    <c:when test="${req.type_learn.equals('เรียนในสถานศึกษา')}">
-                        <tr>
-                            <td>สถานที่เรียน</td>
-                            <td>${req.location}</td>
-                        </tr>
-                    </c:when>
-                    <c:when test="${req.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
-                        <tr>
-                            <td>Link Mooc</td>
-                            <td><a href="${req.linkMooc}">${req.linkMooc}</a></td>
-                        </tr>
-                        <tr>
-                            <td>สถานที่เรียน</td>
-                            <td>${req.location}</td>
-                        </tr>
-                    </c:when>
-                </c:choose>
-            </c:if>
-
-            <tr>
-                <td class="t1">เนื้อหาของหลักสูตร</td>
-                <td class="t2"><a href="${pageContext.request.contextPath}/uploads/course_pdf/${course.file}" download>เอกสารประกอบการเรียน.pdf</a>
-                </td>
-            </tr>
-            <tr>
-                <td>ค่าธรรมเนียม</td>
-                <td style="color: #12b100;">
-                    <c:choose>
-                        <c:when test="${course.fee == 0}">
-                            ไม่มีค่าธรรมเนียม
-                        </c:when>
-                        <c:when test="${course.fee != 0}">
-                            ราคา <fmt:formatNumber value="${course.fee}"/> บาท
-                        </c:when>
-                    </c:choose>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <%--    Now--%>
-                    <c:set var="stt_btn" value="true"/>
-                    <c:if test="${stt_remaining == true}">
-                        <c:if test="${registered == true}">
-                            <button class="btn btn-danger" disabled>ลงทะเบียนแล้ว</button>
+    <table>
+        <tr>
+            <td style="width: 53%; vertical-align: top;">
+                <!--Detail-->
+                <div style="width: 45%;">
+                    <h1 style="font-size: 150%;">รายละเอียดหลักสูตร</h1>
+                    <p class="c_principle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${course.principle}</p>
+                    <hr style="width: 220%;">
+                    <!---Sub_Detail-->
+                    <table class="detail" style="color: black; width: 210%">
+                        <c:if test="${req != null}">
+                            <tr>
+                                <td>ช่วงวันรับสมัคร</td>
+                                <td>
+                                    <fmt:formatDate value="${req.startRegister}" pattern="dd/MM/yyyy" var="startRegister"/>
+                                    <fmt:formatDate value="${req.endRegister}" pattern="dd/MM/yyyy" var="endRegister"/>
+                                        ${startRegister} - ${endRegister}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ช่วงวันชำระค่าสมัคร</td>
+                                <td>
+                                    <fmt:formatDate value="${req.startPayment}" pattern="dd/MM/yyyy" var="startPayment"/>
+                                    <fmt:formatDate value="${req.endPayment}" pattern="dd/MM/yyyy" var="endPayment"/>
+                                        ${startPayment} - ${endPayment}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>วันประกาศผล</td>
+                                <td>
+                                    <fmt:formatDate value="${req.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult"/>
+                                        ${applicationResult}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ระยะเวลาในการเรียน</td>
+                                <td>
+                                    <fmt:formatDate value="${req.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate"/>
+                                    <fmt:formatDate value="${req.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate"/>
+                                        ${startStudyDate} - ${endStudyDate}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>วันที่เรียน</td>
+                                <td>
+                                    <c:set var="delimiter" value="$%"/>
+                                    <c:set var="subText" value="${fn:split(req.studyTime, delimiter)}"/>
+                                    <c:forEach var="ogText" items="${subText}" >
+                                        <c:set var="replaceSlash" value="${fn:replace(ogText, '/', ' เวลา ')}"/>
+                                        <c:set var="newText" value="${fn:replace(replaceSlash, ',', ' ถึง ')}"/>
+                                        ${newText} <br>
+                                    </c:forEach>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>จำนวนรับสมัคร</td>
+                                <td>
+                                    <c:set var="stt_remaining" value="true"/>
+                                    <c:set var="remaining" value="${req.quantity - amount}"/>
+                                    <c:choose>
+                                        <c:when test="${amount == req.quantity}">
+                                            <p style="color: #ea0000; font-weight: bold; margin-top: 13px;">เต็มแล้ว</p>
+                                            <c:set var="stt_remaining" value="false"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${req.quantity} (คงเหลือ ${remaining} ที่นั่ง)
+                                            <c:set var="stt_remaining" value="true"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                            </tr>
                         </c:if>
-                        <c:if test="${registered == false}">
-                            <c:set var="current" value="<%=LocalDate.now()%>"/>
-                            <c:set var="theStartRegister" value="${req.startRegister.toLocalDate()}"/>
-                            <c:set var="theLastRegister" value="${req.endRegister.toLocalDate()}"/>
+                        <tr>
+                            <td>ประเภทหลักสูตร</td>
+                            <td>${course.course_type}</td>
+                        </tr>
+                        <tr>
+                            <td>หมวดสาขาวิชา</td>
+                            <td>${course.major.name}</td>
+                        </tr>
+                        <tr>
+                            <td>ชื่อเกียรติบัตร</td>
+                            <td>${course.certificateName}</td>
+                        </tr>
+                        <tr>
+                            <c:set var="count" value="0"/>
+                            <td>วัตถุประสงค์</td>
+                            <td>
+                                <c:forEach items="${parts}" var="part">
+                                    <c:set var="count" value="${count+1}"/>
+                                    ${count} ) <c:out value="${part}"/><br/>
+                                </c:forEach>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ระยะเวลาเรียน</td>
+                            <td>${course.totalHours} ชั่วโมง</td>
+                        </tr>
+                        <tr>
+                            <td>เป้าหมายกลุ่มอาชีพ</td>
+                            <td>${course.targetOccupation}</td>
+                        </tr>
+
+
+                        <c:if test="${req != null}">
+                            <tr>
+                                <td>รูปแบบการเรียน</td>
+                                <td>${req.type_learn}</td>
+                            </tr>
+
                             <c:choose>
-                                <c:when test="${current.isBefore(theStartRegister)}">
-                                    <button class="btn btn-secondary" disabled
-                                            style="color: #ffffff;background-color: #434343;border: none;">
-                                        ยังไม่เปิดรับลงทะเบียน
-                                    </button>
+                                <c:when test="${req.type_learn.equals('เรียนออนไลน์')}">
+                                    <tr>
+                                        <td>Link Mooc</td>
+                                        <td><a href="${req.linkMooc}">${req.linkMooc}</a></td>
+                                    </tr>
                                 </c:when>
-                                <c:when test="${current.isAfter(theLastRegister)}">
-                                    <button class="btn btn-secondary" disabled style="color: #ffffff;">ปิดรับสมัครแล้ว
-                                    </button>
+                                <c:when test="${req.type_learn.equals('เรียนในสถานศึกษา')}">
+                                    <tr>
+                                        <td>สถานที่เรียน</td>
+                                        <td>${req.location}</td>
+                                    </tr>
                                 </c:when>
-                                <c:otherwise>
-                                    <%--                                    <button class="btn btn-success" id="btnRegister" onclick="if((confirm('ยืนยันการลงทะเบียน'))){ window.location.href='${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${course.course_id}/${req.request_id}/register';return false; }">สมัครเลย !</button>--%>
-                                    <button class="btn btn-success" id="btnRegister">สมัครเลย !</button>
-                                    <br><br>
-                                    <label id="messageAlertLengthDate" style="color: #ff0000;"></label>
-                                    <br>
-                                    <label id="messageAskAgain" style="color: #03a200;"></label>
-                                </c:otherwise>
+                                <c:when test="${req.type_learn.equals('เรียนทั้งออนไลน์และในสถานศึกษา')}">
+                                    <tr>
+                                        <td>Link Mooc</td>
+                                        <td><a href="${req.linkMooc}">${req.linkMooc}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>สถานที่เรียน</td>
+                                        <td>${req.location}</td>
+                                    </tr>
+                                </c:when>
                             </c:choose>
                         </c:if>
-                    </c:if>
 
-                    <c:if test="${stt_remaining == false && registered == true}">
-                        <button class="btn btn-danger" disabled>ลงทะเบียนแล้ว</button>
-                        <c:set var="stt_btn" value="false"/>
-                    </c:if>
+                        <tr>
+                            <td class="t1">เนื้อหาของหลักสูตร</td>
+                            <td class="t2"><a href="${pageContext.request.contextPath}/uploads/course_pdf/${course.file}" download>เอกสารประกอบการเรียน.pdf</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ค่าธรรมเนียม</td>
+                            <td style="color: #12b100;">
+                                <c:choose>
+                                    <c:when test="${course.fee == 0}">
+                                        ไม่มีค่าธรรมเนียม
+                                    </c:when>
+                                    <c:when test="${course.fee != 0}">
+                                        ราคา <fmt:formatNumber value="${course.fee}"/> บาท
+                                    </c:when>
+                                </c:choose>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <%--    Now--%>
+                                <c:set var="stt_btn" value="true"/>
+                                <c:if test="${stt_remaining == true}">
+                                    <c:if test="${registered == true}">
+                                        <button class="btn btn-danger" disabled>ลงทะเบียนแล้ว</button>
+                                    </c:if>
+                                    <c:if test="${registered == false}">
+                                        <c:set var="current" value="<%=LocalDate.now()%>"/>
+                                        <c:set var="theStartRegister" value="${req.startRegister.toLocalDate()}"/>
+                                        <c:set var="theLastRegister" value="${req.endRegister.toLocalDate()}"/>
+                                        <c:choose>
+                                            <c:when test="${current.isBefore(theStartRegister)}">
+                                                <button class="btn btn-secondary" disabled
+                                                        style="color: #ffffff;background-color: #434343;border: none;">
+                                                    ยังไม่เปิดรับลงทะเบียน
+                                                </button>
+                                            </c:when>
+                                            <c:when test="${current.isAfter(theLastRegister)}">
+                                                <button class="btn btn-secondary" disabled style="color: #ffffff;">ปิดรับสมัครแล้ว
+                                                </button>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <%--                                    <button class="btn btn-success" id="btnRegister" onclick="if((confirm('ยืนยันการลงทะเบียน'))){ window.location.href='${pageContext.request.contextPath}/member/<%=member.getUsername()%>/register_course/${course.course_id}/${req.request_id}/register';return false; }">สมัครเลย !</button>--%>
+                                                <button class="btn btn-success" id="btnRegister">สมัครเลย !</button>
+                                                <br><br>
+                                                <label id="messageAlertLengthDate" style="color: #ff0000;"></label>
+                                                <br>
+                                                <label id="messageAskAgain" style="color: #03a200;"></label>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:if>
+                                </c:if>
 
-                    <c:if test="${stt_remaining == false && stt_btn == true}">
-                        <button class="btn btn-danger" disabled>เต็มแล้ว</button>
-                    </c:if>
-                </td>
-            </tr>
-        </table>
-    </div>
+                                <c:if test="${stt_remaining == false && registered == true}">
+                                    <button class="btn btn-danger" disabled>ลงทะเบียนแล้ว</button>
+                                    <c:set var="stt_btn" value="false"/>
+                                </c:if>
+
+                                <c:if test="${stt_remaining == false && stt_btn == true}">
+                                    <button class="btn btn-danger" disabled>เต็มแล้ว</button>
+                                </c:if>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td style="vertical-align: top;">
+                <!--Image--->
+                <img src="${pageContext.request.contextPath}/uploads/course_img/${course.img}" alt="course_image" class="img">
+                <br><br><br>
+                <div class="block_contactor">
+                    <table class="contact">
+                        <tr>
+                            <td>
+                                <%-- Declare a variable --%>
+                                <c:set var="delimiter" value="$%" />
+
+                                <%-- Use the variable in fn:split --%>
+                                <c:set var="contact" value="${fn:split(course.contact, delimiter)}" />
+                                <p style="font-weight: bold; font-size: 120%;">ติดต่อสอบถามเจ้าหน้าที่</p>
+                                <p style="font-weight: bold;">${contact[0]} ${contact[1]} ${contact[2]}</p>
+                                <p>${contact[3]}</p> <br>
+                                <p style="font-weight: bold; font-size: 120%;">ช่องทางในการติดต่อสอบถาม</p>
+                                <p>อีเมล ${contact[5]}</p>
+                                <p>เบอร์โทรศัพท์ ${contact[4]}</p>
+                                <a href="https://www.facebook.com/sciencemjupage">${contact[6]}</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+
     <br><br><br>
     <%--    Course News--%>
 
@@ -501,58 +555,49 @@
 </div>
 <script>
     // เพิ่มการฟังก์ชันเมื่อปุ่มถูกคลิก
+    let n = 1;
     document.getElementById('btnRegister').addEventListener('click', function () {
-        /********************* Backup ****************************/
-        <%--var messageAlertLengthDate = document.getElementById('messageAlertLengthDate');--%>
-        <%--let isAvailable = false;--%>
-        <%--var messageAskAgain = document.getElementById('messageAskAgain');--%>
-        <%--<c:forEach var="register" items="${list_register}" >--%>
-        <%--    var startStudy = '${req.startStudyDate}'--%>
-        <%--    var endStudy = '${req.endStudyDate}'--%>
-        <%--        if (new Date(startStudy) > new Date('${register.requestOpenCourse.startStudyDate}') && new Date(endStudy) < new Date('${register.requestOpenCourse.endStudyDate}')) {--%>
-        <%--            messageAlertLengthDate.innerHTML = "*หมายเหตุ* คุณมีเรียนหลักสูตร " + `${register.requestOpenCourse.course.name}` + " <br>ซึ่งเป็นช่วงเวลาเรียนเดียวกับหลักสูตรนี้";--%>
-        <%--            messageAskAgain.innerHTML = "หากคุณต้องการลงทะเบียนหลักสูตรนี้ กรุณากดลงทะเบียนใหม่อีกครั้ง"--%>
-        <%--            console.log("I'm the first")--%>
-        <%--            isAvailable = true--%>
-        <%--        }--%>
-        <%--</c:forEach>--%>
 
-        <%--if (isAvailable === true){--%>
-        <%--    console.log("I'm second")--%>
-        <%--    if((confirm('ยืนยันการลงทะเบียน'))){--%>
-        <%--        window.location.href='${pageContext.request.contextPath}/member/' +`<%= member.getUsername() %>`+ '/register_course/'+ `${course.course_id}` +'/'+ `${req.request_id}` + '/register';--%>
-        <%--        return false;--%>
-        <%--    }--%>
-        <%--}else {--%>
-        <%--    console.log("I'm here the last")--%>
-        <%--    if((confirm('ยืนยันการลงทะเบียน'))){--%>
-        <%--        window.location.href='${pageContext.request.contextPath}/member/' +`<%= member.getUsername() %>`+ '/register_course/'+ `${course.course_id}` +'/'+ `${req.request_id}` + '/register';--%>
-        <%--        return false;--%>
-        <%--    }--%>
-        <%--}--%>
         /********************* Backup ****************************/
         var messageAlertLengthDate = document.getElementById('messageAlertLengthDate');
+        var messageAskAgain = document.getElementById('messageAskAgain');
         let isAvailable = false;
         <c:forEach var="register" items="${list_register}" >
             var startStudy = '${req.startStudyDate}'
             var endStudy = '${req.endStudyDate}'
             if (new Date(startStudy) > new Date('${register.requestOpenCourse.startStudyDate}') && new Date(endStudy) < new Date('${register.requestOpenCourse.endStudyDate}')) {
-                messageAlertLengthDate.innerHTML = "*หมายเหตุ* คุณมีเรียนหลักสูตร " + `${register.requestOpenCourse.course.name}` + " ซึ่งเป็นช่วงเวลาเรียนเดียวกับหลักสูตรนี้";
+                messageAlertLengthDate.innerHTML = "*หมายเหตุ* คุณมีเรียนหลักสูตร " + `${register.requestOpenCourse.course.name}` + " ซึ่งอยู่ช่วงเวลาเรียนเดียวกับหลักสูตรนี้";
+                messageAskAgain.innerHTML = 'หากต้องการเรียน ให้กดลงทะเบียนใหม่อีกครั้ง';
                 isAvailable = true;
+                n++;
             }else if (new Date(startStudy) < new Date('${register.requestOpenCourse.startStudyDate}') && (new Date(endStudy) > new Date('${register.requestOpenCourse.startStudyDate}') && new Date(endStudy) < new Date('${register.requestOpenCourse.endStudyDate}'))) {
-                messageAlertLengthDate.innerHTML = "*หมายเหตุ* คุณมีเรียนหลักสูตร " + `${register.requestOpenCourse.course.name}` + " ซึ่งเป็นช่วงเวลาเรียนเดียวกับหลักสูตรนี้";
+                messageAlertLengthDate.innerHTML = "*หมายเหตุ* คุณมีเรียนหลักสูตร " + `${register.requestOpenCourse.course.name}` + " ซึ่งอยู่ช่วงเวลาเรียนเดียวกับหลักสูตรนี้";
+                messageAskAgain.innerHTML = 'หากต้องการเรียน ให้กดลงทะเบียนใหม่อีกครั้ง';
                 isAvailable = true;
+                n++;
             }else if ((new Date(startStudy) > new Date('${register.requestOpenCourse.startStudyDate}') && new Date(startStudy) < new Date('${register.requestOpenCourse.endStudyDate}')) && new Date(endStudy) > new Date('${register.requestOpenCourse.endStudyDate}')) {
-                messageAlertLengthDate.innerHTML = "*หมายเหตุ* คุณมีเรียนหลักสูตร " + `${register.requestOpenCourse.course.name}` + " ซึ่งเป็นช่วงเวลาเรียนเดียวกับหลักสูตรนี้";
+                messageAlertLengthDate.innerHTML = "*หมายเหตุ* คุณมีเรียนหลักสูตร " + `${register.requestOpenCourse.course.name}` + " ซึ่งอยู่ช่วงเวลาเรียนเดียวกับหลักสูตรนี้";
+                messageAskAgain.innerHTML = 'หากต้องการเรียน ให้กดลงทะเบียนใหม่อีกครั้ง';
                 isAvailable = true;
+                n++;
             }else if (startStudy === '${register.requestOpenCourse.startStudyDate}' && endStudy === '${register.requestOpenCourse.endStudyDate}'){
-                messageAlertLengthDate.innerHTML = "*หมายเหตุ* คุณมีเรียนหลักสูตร " + `${register.requestOpenCourse.course.name}` + " ซึ่งเป็นช่วงเวลาเรียนเดียวกับหลักสูตรนี้";
+                messageAlertLengthDate.innerHTML = "*หมายเหตุ* คุณมีเรียนหลักสูตร " + `${register.requestOpenCourse.course.name}` + " ซึ่งอยู่ช่วงเวลาเรียนเดียวกับหลักสูตรนี้";
+                messageAskAgain.innerHTML = 'หากต้องการเรียน ให้กดลงทะเบียนใหม่อีกครั้ง';
                 isAvailable = true;
+                n++;
             }else if (startStudy === '${register.requestOpenCourse.endStudyDate}' || endStudy === '${register.requestOpenCourse.startStudyDate}'){
-                messageAlertLengthDate.innerHTML = "*หมายเหตุ* คุณมีเรียนหลักสูตร " + `${register.requestOpenCourse.course.name}` + " ซึ่งเป็นช่วงเวลาเรียนเดียวกับหลักสูตรนี้";
+                messageAlertLengthDate.innerHTML = "*หมายเหตุ* คุณมีเรียนหลักสูตร " + `${register.requestOpenCourse.course.name}` + " ซึ่งอยู่ช่วงเวลาเรียนเดียวกับหลักสูตรนี้";
+                messageAskAgain.innerHTML = 'หากต้องการเรียน ให้กดลงทะเบียนใหม่อีกครั้ง';
                 isAvailable = true;
+                n++;
             }
         </c:forEach>
+        if (n === 3) {
+            if (confirm('ยืนยันการลงทะเบียน')) {
+                window.location.href = '${pageContext.request.contextPath}/member/' + `${memId}` + '/register_course/' + `${course.course_id}` + '/' + `${req.request_id}` + '/register';
+                return false;
+            }
+        }
         if (isAvailable === false){
             if ((confirm('ยืนยันการลงทะเบียน'))) {
                 window.location.href = '${pageContext.request.contextPath}/member/' + `${memId}` + '/register_course/' + `${course.course_id}` + '/' + `${req.request_id}` + '/register';

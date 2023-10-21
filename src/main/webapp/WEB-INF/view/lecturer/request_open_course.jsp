@@ -13,7 +13,7 @@
 <%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>ร้องขอหลักสูตร</title>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -75,6 +75,9 @@
     </script>
     <!--Internal CSS start-->
     <style>
+        body{
+            font-family: 'Prompt', sans-serif;
+        }
         #editor {
             width: 100%;
             height: 500px;
@@ -184,6 +187,69 @@
             margin-left: 15px;
             margin-right: 20px;
         }
+        input{
+            font-family: 'Prompt', sans-serif;
+        }
+    </style>
+    <style>
+        .checkbox-wrapper-31:hover .check {
+            stroke-dashoffset: 0;
+        }
+
+        .checkbox-wrapper-31 {
+            position: relative;
+            display: inline-block;
+            width: 30px;
+        }
+        .checkbox-wrapper-31 .background {
+            fill: #ccc;
+            transition: ease all 0.6s;
+            -webkit-transition: ease all 0.6s;
+        }
+        .checkbox-wrapper-31 .stroke {
+            fill: none;
+            stroke: #fff;
+            stroke-miterlimit: 10;
+            stroke-width: 2px;
+            stroke-dashoffset: 100;
+            stroke-dasharray: 100;
+            transition: ease all 0.6s;
+            -webkit-transition: ease all 0.6s;
+        }
+        .checkbox-wrapper-31 .check {
+            fill: none;
+            stroke: #fff;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 2px;
+            stroke-dashoffset: 22;
+            stroke-dasharray: 22;
+            transition: ease all 0.6s;
+            -webkit-transition: ease all 0.6s;
+        }
+        .checkbox-wrapper-31 input[type=checkbox] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            margin: 0;
+            opacity: 0;
+            -appearance: none;
+            -webkit-appearance: none;
+        }
+        .checkbox-wrapper-31 input[type=checkbox]:hover {
+            cursor: pointer;
+        }
+        .checkbox-wrapper-31 input[type=checkbox]:checked + svg .background {
+            fill: #6cbe45;
+        }
+        .checkbox-wrapper-31 input[type=checkbox]:checked + svg .stroke {
+            stroke-dashoffset: 0;
+        }
+        .checkbox-wrapper-31 input[type=checkbox]:checked + svg .check {
+            stroke-dashoffset: 0;
+        }
     </style>
 </head>
 <body>
@@ -243,7 +309,7 @@
         </nav>
         <!-- Navbar End -->
         <!-- Navbar End -->
-        <form id="regForm" action="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/save" method="POST" onsubmit="return confirmAction();" name="frm" style="width: 95%; margin-top: 15px;">
+        <form id="regForm" action="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/save" method="POST" onsubmit="return confirmAction();" name="frm" style="font-family: 'Prompt', sans-serif;width: 95%; margin-top: 15px;">
             <h1 style="text-align-last: start;">ร้องขอหลักสูตร</h1>
             <hr>
             <!-- One "tab" for each step in the form: -->
@@ -263,7 +329,7 @@
                                             <b>ค่าธรรมเนียม : </b><label id="display_Course_Fee">0.0</label><br>
                                         </div>
                                         <div style="width: 50%;" align="center">
-                                            <img id="myImage" src="${pageContext.request.contextPath}/uploads/course_img/gallery.png" style="width: 180px;">
+                                            <img id="myImage" src="${pageContext.request.contextPath}/uploads/course_img/gallery.png" style="width: 180px;border-radius: 10px">
                                         </div>
                                     </div>
 
@@ -272,7 +338,7 @@
                             </div>
                         </td>
                         <td style="width: 60%; vertical-align: top; height: 1px;">
-                            <h4>เลือกหลักสูตร</h4>
+                            <h4>เลือกหลักสูตร<b style="color: red; font-size: 24px">*</b></h4>
                             <div style="width: 100%;" align="center">
                                 <input style="width: 2%;" type="radio" name="CType" value="หลักสูตรทั้งหมด">
                                 <label style="margin-right: 20px;">หลักสูตรทั้งหมด</label>
@@ -347,21 +413,21 @@
                             <br>
                             <div class="mb-3" style="width: 100%; display: flex">
                                 <div style="width: 32%">
-                                    <label>วันเปิดรับสมัคร</label>
+                                    <b><label>วันเปิดรับสมัคร</label></b><b style="color: red; font-size: 20px">*</b>
                                     <div style="margin-right: 15px;">
                                         <input name="startRegister" type="date" id="startRegister"/>
                                     </div>
                                     <label id="invalidStartRegister" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 32%">
-                                    <label>วันปิดรับสมัคร</label>
+                                    <b><label>วันปิดรับสมัคร</label></b><b style="color: red; font-size: 20px">*</b>
                                     <div style="margin-right: 15px;">
                                         <input name="endRegister" type="date" id="endRegister"/>
                                     </div>
                                     <label id="invalidEndRegister" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 35%">
-                                    <label>จำนวนรับสมัคร</label>
+                                    <b><label>จำนวนรับสมัคร</label></b><b style="color: red; font-size: 20px">*</b>
                                     <div class="input-group mb-3">
                                         <input style="width: 80%;" name="quantity" id="quantity" type="number" class="form-control" oninput="this.className = ''" placeholder="จำนวนรับสมัคร" aria-describedby="basic-addon2">
                                         <span class="input-group-text" id="basic-addon2">คน</span>
@@ -375,21 +441,21 @@
                         <td style="vertical-align: top;">
                             <div class="mb-3" style="width: 100%; display: flex">
                                 <div style="width: 32%" id="startPayment_display">
-                                    <label>วันเริ่มชำระเงิน</label>
+                                    <b><label>วันเริ่มชำระเงิน</label></b><b style="color: red; font-size: 20px">*</b>
                                     <div style="margin-right: 15px;">
                                         <input name="startPayment" type="date" id="startPayment"/>
                                     </div>
                                     <label id="invalidStartPayment" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 32%" id="endPayment_display">
-                                    <label>วันสิ้นสุดการชำระเงิน</label>
+                                    <b><label>วันสิ้นสุดการชำระเงิน</label></b><b style="color: red; font-size: 20px">*</b>
                                     <div style="margin-right: 15px;">
                                         <input name="endPayment" type="date" id="endPayment"/>
                                     </div>
                                     <label id="invalidEndPayment" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 35%">
-                                    <label>วันประกาศผลการสมัคร</label>
+                                    <b><label>วันประกาศผลการสมัคร</label></b><b style="color: red; font-size: 20px">*</b>
                                     <div style="margin-right: 15px;">
                                         <input name="applicationResult" type="date" id="applicationResult"/>
                                     </div>
@@ -424,11 +490,11 @@
                             </div>
                         </td>
                         <td style="width: 60%; vertical-align: top; height: 1px;">
-                            <h4>วันในการเรียน</h4>
+                            <h5><b>วันในการเรียน</b><b style="color: red; font-size: 24px">*</b></h5>
                             <hr>
                             <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group" style="width: 100%" align="center">
-                                <input type="checkbox" class="btn-check" id="chk_mo" autocomplete="off" onchange="updateDisplay()">
-                                <label class="btn btn-outline-primary" for="chk_mo">วันจันทร์</label>
+<%--                                <input type="checkbox" class="btn-check" id="chk_mo" autocomplete="off" onchange="updateDisplay()">--%>
+<%--                                <label class="btn btn-outline-primary" for="chk_mo">วันจันทร์</label>--%>
 
                                 <input type="checkbox" class="btn-check" id="chk_tu" autocomplete="off" onchange="updateDisplay()">
                                 <label class="btn btn-outline-primary" for="chk_tu">วันอังคาร</label>
@@ -449,20 +515,31 @@
                                 <label class="btn btn-outline-primary" for="chk_su">วันอาทิตย์</label>
                             </div>
                         </td>
+
+                        <td>
+                            <div class="checkbox-wrapper-31">
+                                <input type="checkbox" id="chk_mo" autocomplete="off" onchange="updateDisplay()"/>
+                                <svg viewBox="0 0 35.6 35.6">
+                                    <circle class="background" cx="17.8" cy="17.8" r="17.8"></circle>
+                                    <circle class="stroke" cx="17.8" cy="17.8" r="14.37"></circle>
+                                    <polyline class="check" points="11.78 18.12 15.55 22.23 25.17 12.87"></polyline>
+                                </svg>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <td style="vertical-align: top;">
                             <br>
-                            <h4>เวลาในการเรียน</h4>
+                            <h5><b>เวลาในการเรียน</b><b style="color: red; font-size: 24px">*</b></h5>
                             <hr>
                             <div class="mb-3" style="width: 100%; display: flex">
                                 <div style="width: 25%;">
-                                    <label for="start_study_time">เริ่มเรียน </label>
+                                    <b><label for="start_study_time">เริ่มเวลา </label></b>
                                     <input type="time" id="start_study_time" name="start_study_time" onchange="calculateTimeDifference()"/>
                                     <label id="invalid_start_study_time" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 25%;">
-                                    <label for="end_study_time"> ถึงเวลา </label>
+                                    <b><label for="end_study_time"> ถึงเวลา </label></b>
                                     <input type="time" id="end_study_time" name="end_study_time" onchange="calculateTimeDifference()"/>
                                     <label id="invalid_end_study_time" style="color: red; font-size: 12px"></label>
                                 </div>
@@ -481,18 +558,18 @@
                     <tr>
                         <td style="vertical-align: top;">
                             <br>
-                            <h4>ระยะเวลาในการเรียน</h4>
+                            <h5><b>ระยะเวลาในการเรียน</b><b style="color: red; font-size: 24px">*</b></h5>
                             <hr>
                             <div class="mb-3" style="width: 100%; display: flex">
                                 <div style="width: 32%">
-                                    <label>เริ่มเรียน</label>
+                                    <b><label>เริ่มเรียน</label></b>
                                     <div style="margin-right: 15px;">
                                         <input name="startStudyDate" type="date" id="startStudyDate"/>
                                     </div>
                                     <label id="invalidStartStudyDate" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 32%">
-                                    <label>วันสิ้นสุดการเรียน</label>
+                                    <b><label>วันสิ้นสุดการเรียน</label></b>
                                     <div style="margin-right: 15px;">
                                         <input name="endStudyDate" type="date" id="endStudyDate" onchange="checkEndDate(this.value)"/>
                                     </div>
@@ -531,7 +608,7 @@
                         <td style="width: 100%; vertical-align: top; height: 1px;">
                             <div style="display: flex">
                                 <div style="width: 50%; padding-left: 20px">
-                                    <h4>ประเภทการเรียน</h4>
+                                    <h5><b>ประเภทการเรียน</b><b style="color: red; font-size: 24px">*</b></h5>
                                     <hr>
                                     <select name="type_teach" id="type_teach" class="form-select">
                                         <option value="">--กรุณาเลือกรูปแบบการสอน--</option>
@@ -542,7 +619,7 @@
                                     <label id="invalidTypeTeach" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 50%; padding-left: 20px">
-                                    <h4>รูปแบบการสอน</h4>
+                                    <h5><b>รูปแบบการสอน</b><b style="color: red; font-size: 24px">*</b></h5>
                                     <hr>
                                     <select name="type_learn" id="type_learn" onchange="showHideFields()" class="form-select">
                                         <option value="">--กรุณาเลือกประเภทการเรียน--</option>
@@ -557,6 +634,7 @@
                                 <div style="width: 100%;">
                                     <div id="locationRow" style="display: none;">
                                         <br>
+                                        <b><label>สถานที่เรียน:</label></b><b style="color: red; font-size: 20px">*</b>
                                         <div class="form-floating">
                                             <textarea class="form-control" id="floatingTextarea2" name="location" style="height: 100px" placeholder=""></textarea>
                                             <label for="floatingTextarea2">สถานที่ (ระบุ ตึก ห้อง และชั้นที่เรียน หรือรายละเอียดต่างๆ)</label>
@@ -568,9 +646,9 @@
                                 <br>
                                 <div style="width: 100%;">
                                     <div id="moocRow" style="display: none;">
-                                        <label>link mooc (สำหรับเรียนออนไลน์):</label>
+                                        <b><label>link mooc (สำหรับเรียนออนไลน์):</label></b><b style="color: red; font-size: 20px">*</b>
                                         <div class="form-floating">
-                                            <input name="link_mooc" id="link_mooc" autocomplete="off" placeholder="link http://...." />
+                                            <input name="link_mooc" id="link_mooc" autocomplete="off" placeholder="https://mooc.mju.ac.th/...." />
                                         </div>
                                         <label id="invalidLinkMooc" style="color: red; font-size: 12px"></label>
                                     </div>
@@ -607,7 +685,7 @@
                             <hr>
                             <div style="width: 100%; display: flex">
                                 <div style="width: 50%;">
-                                    <label>รับสมัครวันที่</label>
+                                    <b><label>รับสมัครวันที่</label></b>
                                     <div style="display: flex">
                                         <p id="startRegister_display">เริ่ม</p>
                                         <p style="margin: 0px 10px 0px 10px;"> ถึง </p>
@@ -615,7 +693,7 @@
                                     </div>
                                 </div>
                                 <div style="width: 50%">
-                                    <label>รับจำนวน </label>
+                                    <b><label>รับจำนวน </label></b>
                                     <div style="display: flex">
                                         <p id="quantity_display" style="margin-right: 10px;"></p> คน
                                     </div>
@@ -623,7 +701,7 @@
                             </div>
                             <div id="display_Payment_Date" style="width: 100%; display: flex">
                                 <div style="width: 100%;">
-                                    <label>วันชำระเงิน</label>
+                                    <b><label>วันชำระเงิน</label></b>
                                     <div style="display: flex">
                                         <p id="startPaymentTotal_display">เริ่ม</p>
                                         <p style="margin: 0px 10px 0px 10px;"> ถึง </p>
@@ -633,13 +711,13 @@
                             </div>
                             <div style="width: 100%; display: flex">
                                 <div style="width: 50%">
-                                    <label>ประกาศผล</label>
+                                    <b><label>ประกาศผลการสมัคร</label></b>
                                     <div style="display: flex">
                                         <p id="applicationResult_display">วันที่</p>
                                     </div>
                                 </div>
                                 <div style="width: 50%">
-                                    <label>ระยะเวลาในการเรียน</label>
+                                    <b><label>ระยะเวลาในการเรียน</label></b>
                                     <div style="width: 100%; display: flex">
                                         <p id="startStudyDate_display">เริ่ม</p>
                                         <p style="margin: 0px 10px 0px 10px;"> ถึง </p>
@@ -649,13 +727,13 @@
                             </div>
                             <div style="width: 100%; display: flex">
                                 <div style="width: 50%;">
-                                    <label>วันที่เรียน</label>
+                                    <b><label>วันที่เรียน</label></b>
                                     <div style="display: flex; width: 85%;">
                                         <p id="dayByWeek_display">วันไหนบ้าง</p>
                                     </div>
                                 </div>
                                 <div style="width: 50%;">
-                                    <label>เวลา</label>
+                                    <b><label>เวลา</label></b>
                                     <div style="display: flex">
                                         <p id="start_study_time_display" name="start_study_time_display" style="margin-right: 10px;">เริ่ม</p>น.
                                         <p style="margin: 0px 10px 0px 10px;"> ถึง </p>
@@ -665,26 +743,26 @@
                             </div>
                             <div style="width: 100%; display: flex">
                                 <div style="width: 50%;">
-                                    <label>ประเภทการสอน</label>
+                                    <b><label>ประเภทการสอน</label></b>
                                     <div style="display: flex">
                                         <p id="type_teach_display">ประเภท</p>
                                     </div>
                                 </div>
                                 <div style="width: 50%;">
-                                    <label>ประเภทการเรียน</label>
+                                    <b><label>ประเภทการเรียน</label></b>
                                     <div style="display: flex">
                                         <p id="type_learn_display">ประเภท</p>
                                     </div>
                                 </div>
                             </div>
                             <div style="width: 100%" id="link_type">
-                                <label>LinkMooc</label>
+                                <b><label>LinkMooc</label></b>
                                 <div style="width: 100%; display: flex">
                                     <p id="link_mooc_display">ลิงค์</p>
                                 </div>
                             </div>
                             <div style="width: 100%" id="location_type">
-                                <label>สถานที่เรียน</label>
+                                <b><label>สถานที่เรียน</label></b>
                                 <div style="width: 100%; display: flex">
                                     <p id="location_display">สถานที่</p>
                                 </div>
@@ -695,10 +773,10 @@
                 </table>
             </div>
             <div style="overflow:auto;">
-                <div style="float:right; display: flex;">
-                    <button type="button" id="prevBtn" onclick="nextPrev(-1)">ย้อนกลับ</button>
-                    <button type="button" id="nextBtn" onclick="nextPrev(1)">ต่อไป</button>
-                    <button type="submit" id="submitBtn" style="display: none">ยืนยัน</button>
+                <div>
+                    <button type="button" id="prevBtn" style="font-family: 'Prompt', sans-serif;width: 200px;border-radius: 15px;" onclick="nextPrev(-1)">ย้อนกลับ</button>
+                    <button type="button" id="nextBtn" style="float: right; font-family: 'Prompt', sans-serif;width: 200px;border-radius: 15px;" onclick="nextPrev(1)">ต่อไป</button>
+                    <button type="submit" id="submitBtn" style="display: none;float: right; font-family: 'Prompt', sans-serif;width: 200px;border-radius: 15px;">ยืนยัน</button>
                 </div>
             </div>
             <!-- Circles which indicates the steps of the form: -->
@@ -816,11 +894,14 @@
 
         // ตรวจสอบว่า end time มากกว่า start time
         if (startTimeInput >= endTimeInput && currentTab !== 0) {
-            alert("กรุณาเลือกเวลาสิ้นสุดที่มากกว่าเริ่มเรียน");
-            document.getElementById("end_study_time").value = "";
-            document.getElementById("cal_study").style.display = "none";
-            return;
+            if (endTimeInput !== "" && startTimeInput !== ""){
+                alert("กรุณาเลือกเวลาสิ้นสุดที่มากกว่าเริ่มเรียน");
+                document.getElementById("end_study_time").value = "";
+                document.getElementById("cal_study").style.display = "none";
+                return;
+            }
         }
+
         // แปลงค่าเวลาเป็นวินาที
         var startTime = new Date("1970-01-01T" + startTimeInput + "Z");
         var endTime = new Date("1970-01-01T" + endTimeInput + "Z");
@@ -995,7 +1076,7 @@
         }
         return valid; // return the valid status
     }
-
+    var pElement = document.getElementById("link_mooc_display");
     function displayDetailInStep3() {
         const startRegister = document.getElementById("startRegister").value;
         const endRegister = document.getElementById("endRegister").value;
@@ -1058,7 +1139,9 @@
             document.getElementById("location_type").style.display = "block";
             document.getElementById("link_type").style.display = "block";
         }
-        document.getElementById("link_mooc_display").textContent = link_mooc;
+        // สร้างลิงค์ <a> ด้วย innerHTML
+        pElement.innerHTML = `<a href="`+ link_mooc +`" target="_blank">`+link_mooc+`</a>`;
+        // document.getElementById("link_mooc_display").textContent = link_mooc;
         document.getElementById("location_display").textContent = location;
     }
     function displayCheckDisplayDetailInStep3() {
@@ -1080,7 +1163,8 @@
         const display_location = document.getElementById("location_display");
 
         if (type_learn === "เรียนออนไลน์"){
-            document.getElementById("link_mooc_display").textContent = linkMooc;
+            // document.getElementById("link_mooc_display").textContent = linkMooc;
+            pElement.innerHTML = `<a href="`+ linkMooc +`" target="_blank">`+linkMooc+`</a>`;
             display_linkMooc.style.display = "block";
             display_location.style.display = "none";
         }else if (type_learn === "เรียนในสถานศึกษา") {
@@ -1088,7 +1172,8 @@
             display_linkMooc.style.display = "none";
             display_location.style.display = "block";
         }else if (type_learn === "เรียนทั้งออนไลน์และในสถานศึกษา") {
-            document.getElementById("link_mooc_display").textContent = linkMooc;
+            // document.getElementById("link_mooc_display").textContent = linkMooc;
+            pElement.innerHTML = `<a href="`+ linkMooc +`" target="_blank">`+linkMooc+`</a>`;
             document.getElementById("location_display").textContent = location;
             display_linkMooc.style.display = "block";
             display_location.style.display = "block";
@@ -1218,9 +1303,11 @@
             document.getElementById("invalidStartPayment").innerHTML = "กรุณาเลือกวันเริ่มชำระเงิน";
             return false;
         }else if (Course_Fee !== "ไม่มีค่าธรรมเนียม"){
-            if (new Date(startPaymentValue) < new Date(currentDate) || new Date(startPaymentValue) < new Date(endRegisterValue)){
-                document.getElementById("invalidStartPayment").innerHTML = "กรุณาเลือกวันให้มากกว่าวันปัจจุบัน และให้มากกว่าวันปิดรับสมัคร";
+            if (new Date(startPaymentValue) < new Date(currentDate) || new Date(startPaymentValue) <= new Date(startRegisterValue)){
+                document.getElementById("invalidStartPayment").innerHTML = "กรุณาเลือกวันให้มากกว่าวันปัจจุบัน และให้มากกว่าวันเปิดรับสมัคร";
                 return false;
+            }else {
+                document.getElementById("invalidStartPayment").innerHTML = "";
             }
         } else {
             document.getElementById("invalidStartPayment").innerHTML = "";
@@ -1234,9 +1321,11 @@
             document.getElementById("invalidEndPayment").innerHTML = "กรุณาเลือกวันสิ้นสุดการชำระเงิน";
             return false;
         } else if (Course_Fee !== "ไม่มีค่าธรรมเนียม"){
-            if (new Date(endPayment) < new Date(currentDate) || new Date(endPayment) < new Date(startPaymentValue)){
-                document.getElementById("invalidEndPayment").innerHTML = "กรุณาเลือกวันให้มากกว่าวันปัจจุบัน และให้มากกว่าวันเริ่มชำระเงิน";
+            if (new Date(endPayment) < new Date(currentDate) || new Date(endPayment) < new Date(startPaymentValue) || new Date(endPayment) < new Date(endRegisterValue)){
+                document.getElementById("invalidEndPayment").innerHTML = "กรุณาเลือกวันให้มากกว่าวันปัจจุบัน วันสิ้นสุดการสมัคร และวันเริ่มชำระเงิน";
                 return false;
+            }else {
+                document.getElementById("invalidEndPayment").innerHTML = "";
             }
         } else {
             document.getElementById("invalidEndPayment").innerHTML = "";
@@ -1381,6 +1470,9 @@
         if (document.getElementById("type_learn").value === "เรียนออนไลน์" && linkMooc.trim() === "") {
             document.getElementById("invalidLinkMooc").innerHTML = "กรุณากรอก link mooc";
             return false;
+        }else if (document.getElementById("type_learn").value === "เรียนออนไลน์" && !linkMooc.trim().startsWith("https://mooc.mju.ac.th/")){
+            document.getElementById("invalidLinkMooc").innerHTML = "ต้องขึ้นต้นด้วย https://mooc.mju.ac.th/ เท่านั้น";
+            return false;
         }else if (document.getElementById("type_learn").value === "เรียนออนไลน์" && (linkMooc.trim().length < 2 || linkMooc.trim().length > 225)){
             document.getElementById("invalidLinkMooc").innerHTML = "ต้องมีจำนวน 2-225 ตัวอักษร";
             return false;
@@ -1418,6 +1510,9 @@
         }
         if (document.getElementById("type_learn").value === "เรียนทั้งออนไลน์และในสถานศึกษา" && linkMooc.trim() === "") {
             document.getElementById("invalidLinkMooc").innerHTML = "กรุณากรอก link mooc";
+            return false;
+        }else if (document.getElementById("type_learn").value === "เรียนทั้งออนไลน์และในสถานศึกษา" && !linkMooc.trim().startsWith("https://mooc.mju.ac.th/")){
+            document.getElementById("invalidLinkMooc").innerHTML = "ต้องขึ้นต้นด้วย https://mooc.mju.ac.th/ เท่านั้น";
             return false;
         }else if (document.getElementById("type_learn").value === "เรียนทั้งออนไลน์และในสถานศึกษา"){
             if (linkMooc.trim().length < 2 || linkMooc.trim().length > 225) {
@@ -1522,7 +1617,9 @@
                 }
                 // แสดงชื่อสาขาใน <h4> element
                 if(selectedCourseName === "เลือกหลักสูตร"){
-                    selectedCourseName = "ชื่อหลักสูตร";
+                    selectedCourseName = "กรุณาเลือกหลักสูตร";
+                    totalHours = "0";
+                    fee = "0.0"
                 }
                 document.getElementById("display_Course_Name").textContent = selectedCourseName;
                 if(course_type === null){
@@ -1645,7 +1742,9 @@
                 }
                 // แสดงชื่อสาขาใน <h4> element
                 if(selectedCourseName === "เลือกหลักสูตร"){
-                    selectedCourseName = "ชื่อหลักสูตร";
+                    selectedCourseName = "กรุณาเลือกหลักสูตร";
+                    totalHours = "0";
+                    fee = "0.0"
                 }
                 document.getElementById("display_Course_Name").textContent = selectedCourseName;
                 if(course_type === null){
@@ -1768,7 +1867,9 @@
                 }
                 // แสดงชื่อสาขาใน <h4> element
                 if(selectedCourseName === "เลือกหลักสูตร"){
-                    selectedCourseName = "ชื่อหลักสูตร";
+                    selectedCourseName = "กรุณาเลือกหลักสูตร";
+                    totalHours = "0";
+                    fee = "0.0"
                 }
                 document.getElementById("display_Course_Name").textContent = selectedCourseName;
                 if(course_type === null){
@@ -1867,6 +1968,7 @@
         var selectedStartDate = new Date(startRegisterElement.value);
         var setSelectedEndDate = new Date(startRegisterElement.value);
         var selectedEndDate = new Date(endRegisterElement.value);
+        var selectedStartPayDate = new Date(startPaymentElement.value);
 
         // เพิ่ม 1 วันลงในวันปัจจุบัน
         setSelectedEndDate.setDate(setSelectedEndDate.getDate() + 1);
@@ -1874,11 +1976,15 @@
         var formattedDate = setSelectedEndDate.toISOString().split("T")[0];
 
         endRegisterElement.min = formattedDate;
+        startPaymentElement.min = formattedDate;
         // startPaymentElement.min = formattedDate;
         // endPaymentElement.min = formattedDate;
         // applicationResultElement.min = formattedDate;
         if (selectedStartDate >= selectedEndDate) {
             endRegisterElement.value = selectedStartDate.toISOString().slice(0, 16);
+        }
+        if (selectedStartDate >= selectedStartPayDate) {
+            startPaymentElement.value = selectedStartDate.toISOString().slice(0, 16);
         }
     });
 
@@ -1887,7 +1993,6 @@
     endRegisterElement.addEventListener("change", function() {
         var selectedEndRegisterDate = new Date(endRegisterElement.value);
         var setSelectedEndRegisterDate = new Date(endRegisterElement.value);
-        var selectedStartPaymentDate = new Date(startPaymentElement.value);
         var selectedApplicationResultDate = new Date(applicationResultElement.value);
         const fee = document.getElementById("display_Course_Fee").textContent;
 
@@ -1901,12 +2006,9 @@
         if (fee === "ไม่มีค่าธรรมเนียม"){
             applicationResultElement.min = formattedDate;
         }
-        startPaymentElement.min = formattedDate;
         // endPaymentElement.min = formattedDate;
         // applicationResultElement.min = formattedDate;
-        if (selectedEndRegisterDate >= selectedStartPaymentDate && fee !== "ไม่มีค่าธรรมเนียม") {
-            startPaymentElement.value = selectedEndRegisterDate.toISOString().slice(0, 16);
-        }else if (selectedEndRegisterDate >= selectedApplicationResultDate){
+        if (selectedEndRegisterDate >= selectedApplicationResultDate){
             applicationResultElement.value = selectedEndRegisterDate.toISOString().slice(0, 16);
         }
     });

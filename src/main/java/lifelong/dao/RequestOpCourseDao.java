@@ -10,8 +10,14 @@ public interface RequestOpCourseDao {
 
     RequestOpenCourse getRequestOpCourseByCourseId (String courseId);
     List<RequestOpenCourse> getRequestOpenCourses();
+    List<RequestOpenCourse> getRequestOpenCoursesByTypeRegister();
+    List<RequestOpenCourse> getRequestOpenCoursesByTypeMaxRegister();
+    List<RequestOpenCourse> getRequestOpenCoursesByTypePayment();
+    List<RequestOpenCourse> getRequestOpenCoursesByTypeStudy();
     List<RequestOpenCourse> getRequestOpenCoursesByLecturerId(String lec_id);
-
+    List<RequestOpenCourse> getRequestOpenCoursesByTypePaymentByLec(String lec_id);
+    List<RequestOpenCourse> getRequestOpenCoursesByTypeApplicationByLec(String lec_id);
+    List<RequestOpenCourse> getRequestOpenCoursesByTypeStudyByLec(String lec_id);
     List<RequestOpenCourse> getRequestOpenCoursesByLecturerIdAndStatus(String lec_id);
 
     List<RequestOpenCourse> getRequestOpenCoursesToCheckDateStudy(String lec_id);

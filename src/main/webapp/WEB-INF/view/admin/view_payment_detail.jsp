@@ -12,13 +12,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>ข้อมูลการชำระเงิน</title>
     <%--    <link href="${pageContext.request.contextPath}/assets/css/list_open_course_style.css" rel="stylesheet">--%>
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/list_all_course.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/admin/list_approve_member.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/admin/style_addcourse.css" rel="stylesheet">
     <style>
+        body{
+            font-family: 'Prompt', sans-serif;
+        }
         h1{
             font-family: 'Prompt', sans-serif;
             font-weight: 700 !important;

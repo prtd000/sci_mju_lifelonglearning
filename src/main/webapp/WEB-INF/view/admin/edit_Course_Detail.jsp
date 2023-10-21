@@ -12,7 +12,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>แก้ไขข้อมูลหลักสูตร</title>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -28,41 +28,45 @@
 
             var file = input.files[0];
 
-            if (file) {
-                var allowedExtensions = /(\.png|\.jpg|\.jpeg)$/i;
-                var maxFileSize = 2 * 1024 * 1024; // 2MB
-
-                if (!allowedExtensions.exec(file.name)) {
-                    alert("รูปภาพต้องเป็นไฟล์นามสกุล png, jpg, หรือ jpeg เท่านั้น");
-                    input.value = "";
-                    return;
-                }
-
-                if (file.size > maxFileSize) {
-                    alert("ขนาดไฟล์รูปภาพต้องไม่เกิน 2MB");
-                    input.value = "";
-                    return;
-                }
-
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        preview.src = e.target.result;
-                        preview.style.display = 'block';
-
-                        displayPreview.src = e.target.result;
-                        displayPreview.style.display = 'block';
-                    };
-
-                    reader.readAsDataURL(input.files[0]);
-                }
-            } else {
-                // ไม่มีไฟล์รูปภาพที่เลือก
+            if (!file) {
                 alert("กรุณาเลือกรูปภาพ");
-                input.value = "";
+                return;
+            }
 
-                // เพิ่มการซ่อนรูปภาพที่แสดงอยู่แล้ว (ถ้ามี)
+            var allowedExtensions = /(\.png|\.jpg|\.jpeg)$/i;
+            var maxFileSize = 2 * 1024 * 1024; // 2MB
+
+            if (!allowedExtensions.exec(file.name)) {
+                alert("รูปภาพต้องเป็นไฟล์นามสกุล png, jpg, หรือ jpeg เท่านั้น");
+                input.value = "";
+                return;
+            }else {
+                document.getElementById("invalidImg").innerHTML = "";
+            }
+
+            if (file.size > maxFileSize) {
+                alert("ขนาดไฟล์รูปภาพต้องไม่เกิน 2MB");
+                input.value = "";
+                return;
+            }
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+
+                    displayPreview.src = e.target.result;
+                    displayPreview.style.display = 'block';
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.src = '';
+                preview.style.display = 'none';
+
+                displayPreview.src = '';
                 displayPreview.style.display = 'none';
             }
         }
@@ -99,11 +103,12 @@
         #regForm {
             background-color: #ffffff;
             margin: 100px auto;
-            font-family: Raleway;
+            font-family: 'Prompt', sans-serif;
             padding: 40px;
             width: 70%;
             min-width: 300px;
             border-radius: 15px;
+            font-size: 12px;
         }
 
         h1 {
@@ -113,9 +118,9 @@
         input {
             padding: 10px;
             width: 100%;
-            font-size: 17px;
-            font-family: Raleway;
+            font-size: 12px;
             border: 1px solid #aaaaaa;
+            font-family: 'Prompt', sans-serif;
         }
 
         /* Mark input boxes that gets an error on validation: */
@@ -134,7 +139,7 @@
             border: none;
             padding: 10px 20px;
             font-size: 17px;
-            font-family: Raleway;
+            font-family: 'Prompt', sans-serif;
             cursor: pointer;
         }
 
@@ -170,6 +175,12 @@
             width: 100%;
             display: flex;
             align-items: center;
+        }
+        .objective{
+            font-family: 'Prompt', sans-serif;
+        }
+        label{
+            font-size: 12px;
         }
     </style>
 </head>
@@ -236,8 +247,8 @@
             </div>
         </nav>
         <!-- Navbar End -->
-        <form id="regForm" action="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/${course_by_id.course_id}/update_edit_course" method="POST" enctype="multipart/form-data" onsubmit="return confirmAction();" name="frm" style="width: 95%; margin-top: 15px;">
-            <h1 style="text-align-last: start;">แก้ไขหลักสูตร</h1>
+        <form id="regForm" action="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/${course_by_id.course_id}/update_edit_course" method="POST" enctype="multipart/form-data" onsubmit="return confirmAction();" name="frm" style="font-family: 'Prompt', sans-serif;width: 95%; margin-top: 15px;">
+            <h3 style="text-align-last: start;">แก้ไขหลักสูตร</h3>
             <hr>
             <!-- One "tab" for each step in the form: -->
             <div class="tab">
@@ -246,8 +257,8 @@
                         <td style="width: 70%;">
                             <div class="mb-3" style="width: 100%; display: flex">
                                 <div style="width: 50%">
-                                    <label>ประเภทหลักสูตร</label>
-                                    <select class="form-select" name="course_type" id="course_type" aria-label="Default select example">
+                                    <b><label>ประเภทหลักสูตร</label></b><b style="color: red;font-size: 15px;">*</b>
+                                    <select style="font-size: 14px" class="form-select" name="course_type" id="course_type" aria-label="Default select example">
                                         <option value="">--กรุณาเลือกหลักสูตร--</option>
                                         <option value="หลักสูตรอบรมระยะสั้น" label="หลักสูตรอบรมระยะสั้น" ${course_by_id.course_type == 'หลักสูตรอบรมระยะสั้น' ? 'selected' : ''}></option>
                                         <option value="Non-Degree" label="Non-Degree" ${course_by_id.course_type == 'Non-Degree' ? 'selected' : ''}></option>
@@ -255,8 +266,8 @@
                                     <label id="invalidCourseType" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 50%">
-                                    <label>สาขา:</label>
-                                    <select name="major_id" id="major_id" class="form-select">
+                                    <b><label>สาขา</label></b><b style="color: red;font-size: 15px;">*</b>
+                                    <select style="font-size: 14px" name="major_id" id="major_id" class="form-select">
                                         <option value="" >--กรุณาเลือกสาขา--</option>
                                         <c:forEach items="${majors}" var="major">
                                             <c:choose>
@@ -272,20 +283,20 @@
                                     <label id="invalidMajor" style="color: red; font-size: 12px"></label>
                                 </div>
                             </div>
-                            <label>ชื่อหลักสูตร</label>
+                            <b><label>ชื่อหลักสูตร</label></b><b style="color: red;font-size: 15px;">*</b>
                             <div class="mb-3">
-                                <input name="course_name" type="text" id="course_name" placeholder="ชื่อหลักสูตร" value="${course_by_id.name}" oninput="this.className = ''"/>
+                                <input name="course_name" type="text" style="font-family: 'Prompt', sans-serif;" id="course_name" placeholder="ชื่อหลักสูตร" value="${course_by_id.name}" oninput="this.className = ''"/>
                                 <a id="link" href="#">ตรวจสอบ</a> &nbsp; <label id="status"></label>
                                 <label id="invalidCourseName" style="color: red; font-size: 12px"></label>
                             </div>
-                            <label>ชื่อเกียรติบัตร</label>
+                            <b><label>ชื่อเกียรติบัตร</label></b><b style="color: red;font-size: 15px;">*</b>
                             <div class="mb-3">
-                                <input name="certificateName" type="text" id="certificateName" placeholder="ชื่อเกียรติบัตร" value="${course_by_id.certificateName}" oninput="this.className = ''"/>
+                                <input name="certificateName" type="text" style="font-family: 'Prompt', sans-serif;" id="certificateName" placeholder="ชื่อเกียรติบัตร" value="${course_by_id.certificateName}" oninput="this.className = ''"/>
                                 <label id="invalidCertificateName" style="color: red; font-size: 12px"></label>
                             </div>
-                            <label>รูปหลักสูตร</label>
+                            <b><label>รูปหลักสูตร</label></b><b style="color: red;font-size: 15px;">*</b>
                             <div class="mb-3">
-                                <input name="course_img" type="file" id="fileInput" accept="image/*" onchange="previewImage(this)" class="form-control"/>
+                                <input name="course_img" type="file" style="font-family: 'Prompt', sans-serif;font-size: 12px" id="fileInput" accept="image/*" onchange="previewImage(this)" class="form-control"/>
                                 <label id="invalidImg" style="color: red; font-size: 12px"></label>
                             </div>
                         </td>
@@ -301,14 +312,14 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <label>หลักการและเหตุผล</label>
+                            <b><label>หลักการและเหตุผล</label></b><b style="color: red;font-size: 15px;">*</b>
                             <div class="form-floating">
                                 <div class="toolbar">
                                     <button type="button" onclick="boldText()">Bold</button>
                                     <button type="button" onclick="italicText()">Italic</button>
                                     <button type="button" onclick="underlineText()">Underline</button>
                                 </div>
-                                <div id="editor" contenteditable="true" name="course_principle">
+                                <div id="editor" style="font-size: 12px" contenteditable="true" name="course_principle">
                                     <!-- เริ่มเพิ่มเนื้อหาของ Text Editor ที่นี่ -->
                                     ${course_by_id.principle}
                                 </div>
@@ -321,23 +332,23 @@
             <div class="tab">
                 <c:set var="object" value="${course_by_id.object}"></c:set>
                 <c:set var="parts" value="${fn:split(object, '$%')}"/>
-                <label>วัตถุประสงค์</label>
+                <b><label>วัตถุประสงค์</label></b><b style="color: red;font-size: 15px;">*</b>
                 <div>
                     <div class="mb-3">
                         <div id="objectives-container">
                             <c:forEach items="${parts}" var="part">
-                                <div class="objective-container">
-                                    <input type="text" name="course_objectives[]" class="objective" id="course_object" value="${part}" oninput="this.className = ''"/>
-                                    <button type="button" onclick="removeObjective(this)" class="btn btn-danger">ลบ</button>
+                                <div class="objective-container" style="align-items: baseline;">
+                                    <input type="text" name="course_objectives[]" style="font-family: 'Prompt', sans-serif;margin-bottom: 5px;margin-right: 5px;" class="objective" id="course_object" value="${part}" oninput="this.className = ''"/>
+                                    <button type="button" style="font-size: 12px" onclick="removeObjective(this)" class="btn btn-danger">ลบ</button>
                                 </div>
                             </c:forEach>
                         </div>
-                        <button type="button" onclick="addObjective()">เพิ่มวัตถุประสงค์</button>
+                        <button type="button" style="font-family: 'Prompt', sans-serif;  font-size: 12px; border-radius: 10px" onclick="addObjective()">เพิ่มวัตถุประสงค์</button>
                     </div>
                     <label id="invalidObjective" style="color: red; font-size: 12px"></label>
                 </div>
 
-                <label>ค่าธรรมเนียม</label>
+                <b><label>ค่าธรรมเนียม</label></b><b style="color: red;font-size: 15px;">*</b>
                 <div class="mb-3">
                     <table>
                         <tr style="vertical-align: text-top;">
@@ -357,8 +368,8 @@
                             </c:choose>
                             <td id="fee" style="display: none; margin-left: 10px;">
                                 <div class="input-group mb-3" style="display: -webkit-box;">
-                                    <input value="${course_by_id.fee}" style="width: 325px;" name="course_fee" type="number" class="form-control" id="course_fee" placeholder="ค่าธรรมเนียม" aria-describedby="basic-addon2">
-                                    <span class="input-group-text" id="basic-addon1">บาท</span>
+                                    <input value="${course_by_id.fee}" style="font-family: 'Prompt', sans-serif;width: 325px;font-size: 12px" name="course_fee" type="number" class="form-control" id="course_fee" placeholder="ค่าธรรมเนียม" aria-describedby="basic-addon2">
+                                    <span class="input-group-text" id="basic-addon1" style="font-size: 12px;">บาท</span>
                                 </div>
                                 <label id="invalidCourseFee" style="color: red; font-size: 12px"></label>
                             </td>
@@ -369,18 +380,18 @@
 
                 <div class="flex-div-container">
                     <div style="width: 50%">
-                        <label>ระยะเวลาในการเรียน</label>
+                        <b><label>ระยะเวลาในการเรียน</label></b><b style="color: red;font-size: 15px;">*</b>
                             <div class="input-group mb-3" style="display: -webkit-box;">
-                                <input style="width: 600px;" name="course_totalHours" type="number" class="form-control" value="${course_by_id.totalHours}" id="course_totalHours" oninput="this.className = ''" placeholder="ระยะเวลาในการเรียน" aria-describedby="basic-addon2">
-                                <span class="input-group-text" id="basic-addon2">ชั่วโมง</span>
+                                <input style="width: 600px;font-family: 'Prompt', sans-serif;font-size: 12px" name="course_totalHours" type="number" class="form-control" value="${course_by_id.totalHours}" id="course_totalHours" oninput="this.className = ''" placeholder="ระยะเวลาในการเรียน" aria-describedby="basic-addon2">
+                                <span class="input-group-text" id="basic-addon2" style="font-size: 12px;">ชั่วโมง</span>
                             </div>
                             <label id="invalidCourseTotalHours" style="color: red; font-size: 12px"></label>
                     </div>
                     <div style="width: 50%">
-                        <label>ไฟล์เนื้อหาหลักสูตร</label>
+                        <b><label>ไฟล์เนื้อหาหลักสูตร</label></b><b style="color: red;font-size: 15px;">*</b>
                         <div class="mb-3">
                             <div class="course-totalHours-container" style="display: flex; align-items: baseline;">
-                                <input name="course_file" type="file" id="course_file" style="width: 70%;" accept="file/*" onchange="checkFile(this)" class="form-control"/>
+                                <input name="course_file" type="file" id="course_file" style="width: 70%;font-size: 12px" accept="file/*" onchange="checkFile(this)" class="form-control"/>
                                 <c:if test="${not empty course_by_id.file}">
                                     <input type="hidden" name="original_file" value="${course_by_id.file}" />
                                     <a style="margin-left: 20px;" href="${pageContext.request.contextPath}/uploads/course_pdf/${course_by_id.file}" target="_blank" download="${course_by_id.file}">ดูไฟล์เดิม</a>
@@ -400,11 +411,116 @@
                     <label id="invalidCourseTargetOccupation" style="color: red; font-size: 12px"></label>
                 </div>
             </div>
+
+            <div class="tab" style="font-size: 12px">
+                <c:set var="contact" value="${course_by_id.contact}"></c:set>
+                <c:set var="parts_contact" value="${fn:split(contact, '$%')}"/>
+                <h5>ข้อมูลเกี่ยวกับผู้ติดต่อประสานงานหลักสูตร</h5><br>
+                <b><label>คำนำหน้าชื่อ</label></b><b style="color: red;font-size: 15px;">*</b>
+                <table style="font-size: 12px">
+                    <tr style="vertical-align: middle;">
+
+                        <c:choose>
+                            <c:when test="${parts_contact[0] == 'นาย'}">
+                                <td style="width: 35px;"><input type="radio" name="prefix" value="นาย" checked></td>
+                                <td><label>นาย</label></td>
+                                <td style="width: 35px;"><input type="radio" name="prefix" value="นาง"></td>
+                                <td><label>นาง</label></td>
+                                <td style="width: 35px;"><input type="radio" name="prefix" value="นางสาว"></td>
+                                <td><label>นางสาว</label></td>
+                                <td style="width: 35px;"><input type="radio" name="prefix" value="อื่นๆ..."></td>
+                                <td><label>อื่นๆ...</label></td>
+                            </c:when>
+                            <c:when test="${parts_contact[0] == 'นาง'}">
+                                <td style="width: 35px;"><input type="radio" name="prefix" value="นาย"></td>
+                                <td><label>นาย</label></td>
+                                <td style="width: 35px;"><input type="radio" name="prefix" value="นาง" checked></td>
+                                <td><label>นาง</label></td>
+                                <td style="width: 35px;"><input type="radio" name="prefix" value="นางสาว"></td>
+                                <td><label>นางสาว</label></td>
+                                <td style="width: 35px;"><input type="radio" name="prefix" value="อื่นๆ..."></td>
+                                <td><label>อื่นๆ...</label></td>
+                            </c:when>
+                            <c:when test="${parts_contact[0] == 'นางสาว'}">
+                                <td style="width: 35px;"><input type="radio" name="prefix" value="นาย"></td>
+                                <td><label>นาย</label></td>
+                                <td style="width: 35px;"><input type="radio" name="prefix" value="นาง"></td>
+                                <td><label>นาง</label></td>
+                                <td style="width: 35px;"><input type="radio" name="prefix" value="นางสาว" checked></td>
+                                <td><label>นางสาว</label></td>
+                                <td style="width: 35px;"><input type="radio" name="prefix" value="อื่นๆ..."></td>
+                                <td><label>อื่นๆ...</label></td>
+                            </c:when>
+                            <c:otherwise>
+                                <td style="width: 35px;"><input type="radio" name="prefix" value="นาย"></td>
+                                <td><label>นาย</label></td>
+                                <td style="width: 35px;"><input type="radio" name="prefix" value="นาง"></td>
+                                <td><label>นาง</label></td>
+                                <td style="width: 35px;"><input type="radio" name="prefix" value="นางสาว"></td>
+                                <td><label>นางสาว</label></td>
+                                <td style="width: 35px;"><input type="radio" name="prefix" value="อื่นๆ..." checked></td>
+                                <td><label>อื่นๆ...</label></td>
+                            </c:otherwise>
+                        </c:choose>
+
+                        <td id="other_prefix" style="display: none; margin-left: 10px;">
+                            <div class="input-group mb-3" style="display: -webkit-box;">
+                                <input style="width: 325px;font-family: 'Prompt', sans-serif; font-size: 12px;" value="" name="prefix_name" type="text" class="form-control" id="prefix_name" placeholder="โปรดระบุคำนำหน้าชื่อ" aria-describedby="basic-addon2">
+                            </div>
+                            <label id="invalidPrefixName" style="color: red; font-size: 12px"></label>
+                        </td>
+                    </tr>
+                    <label id="invalidSelectPrefix" style="color: red; font-size: 12px"></label>
+                </table>
+                <div style="display:flex; width: 100%">
+                    <div class="mb-3"  style="width: 33%; margin-right: 15px">
+                        <div>
+                            <b><label>ชื่อจริง</label></b><b style="color: red;font-size: 15px;">*</b>
+                            <input type="text" value="${parts_contact[1]}" name="fname_contacts" id="fname_contacts" placeholder="โปรดระบุชื่อจริง">
+                        </div>
+                        <label id="invalidFNameContacts" style="color: red; font-size: 12px"></label>
+                    </div>
+                    <div class="mb-3"  style="width: 33%;margin-right: 15px;">
+                        <div>
+                            <b><label>นามสกุล</label></b><b style="color: red;font-size: 15px;">*</b>
+                            <input type="text" value="${parts_contact[2]}"  name="lname_contacts" id="lname_contacts" placeholder="โปรดระบุนามสกุล">
+                        </div>
+                        <label id="invalidLNameContacts" style="color: red; font-size: 12px"></label>
+                    </div>
+                    <div class="mb-3"  style="width: 33%;margin-right: 15px">
+                        <div>
+                            <b><label>สังกัดคณะ/วิทยาลัย</label></b><b style="color: red;font-size: 15px;">*</b>
+                            <input type="text" value="${parts_contact[3]}"  name="faculty" id="faculty" placeholder="โปรดระบุสังกัดคณะ/วิทยาลัย">
+                        </div>
+                        <label id="invalidFaculty" style="color: red; font-size: 12px"></label>
+                    </div>
+                </div>
+                <div style="display:flex; width: 100%">
+                    <div class="mb-3" style="width: 33%; margin-right: 15px">
+                        <div>
+                            <b><label>เบอร์โทรศัพท์</label></b><b style="color: red;font-size: 15px;">*</b>
+                            <input type="number" value="${parts_contact[4]}"  name="phone_contacts" id="phone_contacts" placeholder="โปรดระบุเบอร์โทรศัพท์">
+                        </div>
+                        <label id="invalidPhoneContacts" style="color: red; font-size: 12px"></label>
+                    </div>
+                    <div class="mb-3" style="width: 66%">
+                        <div>
+                            <b><label>Email.</label></b><b style="color: red;font-size: 15px;">*</b>
+                            <input type="text" name="email_contacts" value="${parts_contact[5]}"  id="email_contacts" style="font-size: 12px" placeholder="โปรดระบุ Email.">
+                        </div>
+                        <label id="invalidEmailContacts" style="color: red; font-size: 12px"></label>
+                    </div>
+                </div>
+                <div style="width: 100%">
+                    <b><label>link Facebook (ถ้ามี)</label></b>
+                    <input type="text" name="link_facebook" value="${parts_contact[6]}"  id="link_facebook" placeholder="link Facebook ที่สามารถติดต่อได้ (ถ้ามี)">
+                </div>
+            </div>
             <div class="tab">
                 <div><h5 id="displayCourseType"></h5></div>
-                <div><h2 id="displayCourseName"></h2></div>
-                <div><h4 id="displayMajor"></h4></div>
-                
+                <div><h4 id="displayCourseName"></h4></div>
+                <div><h6 id="displayMajor"></h6></div>
+
                 <div><h5>ชื่อเกียรติบัตร : <span id="displayCertificateName"></span></h5></div>
                 <hr>
                 <div style="width: 100%">
@@ -412,23 +528,55 @@
                 </div>
                 <div style="width: 100%; display: flex">
                     <div style="width: 70%;vertical-align: text-bottom;">
-                        <b><label style="font-size: 18px">หลักการ และเหตุผล</label></b>
-                        <label id="displayCoursePrinciple" style="font-size: 15px"></label>
+                        <b><label style="font-size: 15px">หลักการ และเหตุผล</label></b><br>
+                        <label id="displayCoursePrinciple" style="font-size: 12px"></label>
                         <input type="text" id="coursePrinciple" name="coursePrinciple" style="display: none">
                         <hr>
-                        <b><label style="font-size: 18px">วัตถุประสงค์</label></b><br>
+                        <b><label style="font-size: 15px">วัตถุประสงค์</label></b><br>
                         <span id="displayObjectives"></span>
                         <hr>
                         <div style="display:flex; width: 100%">
-                            <div><b>ค่าธรรมเนียม : </b><span id="displayFee" style="margin-right: 20px"></span></div>
-                            <div><b>ระยะเวลาในการเรียน : </b><span id="displayTotalHours" style="margin-right: 20px"></span> ชั่วโมง</div>
+                            <div><b style="font-size: 13px">ค่าธรรมเนียม : </b><span id="displayFee" style="margin-right: 20px"></span></div>
+                            <div><b style="font-size: 13px">ระยะเวลาในการเรียน : </b><span id="displayTotalHours" style="margin-right: 20px"></span> ชั่วโมง</div>
                         </div>
                         <hr>
                         <div>
-                            <b><label style="font-size: 18px">เป้าหมายกลุ่มอาชีพ</label></b><br>
+                            <b><label style="font-size: 15px">เป้าหมายกลุ่มอาชีพ</label></b><br>
                             <span id="displayTargetOccupation" style="margin-right: 20px"></span>
                         </div>
-<%--                        ไฟล์หลักสูตร : <span id="displayCourseFile"></span>--%>
+                        <hr>
+                        <div>
+                            <b><label style="font-size: 15px">ข้อมูลเกี่ยวกับผู้ติดต่อประสานงานหลักสูตร</label></b><br>
+                            <div style="display: flex; width: 100%;">
+                                <div>
+                                    <b><span style="margin-right: 5px">ชื่อ</span></b>
+                                    <span style="margin-right: 5px" id="displayPrefix"></span>
+                                    <input type="hidden" id="prefix_toSave" name="prefix_toSave">
+                                    <span style="margin-right: 5px" id="displayFname_contacts"></span>
+                                    <span style="margin-right: 5px" id="displayLname_contacts"></span>
+                                    <b><span style="margin-right: 5px">สังกัดคณะ/วิทยาลัย</span></b>
+                                    <span style="margin-right: 5px" id="displayFaculty"></span>
+                                </div>
+                            </div>
+                            <div>
+                                <b><span>ช่องทางติดต่อ</span></b>
+                            </div>
+                            <div style="display: flex; width: 100%;">
+                                <div>
+                                    <b><span style="margin-right: 5px">เบอร์โทรศัพท์</span></b>
+                                    <span style="margin-right: 5px" id="displayPhone_contacts"></span>
+                                    <b><span style="margin-right: 5px">Email</span></b>
+                                    <span style="margin-right: 5px" id="displayEmail_contacts"></span>
+                                </div>
+                            </div>
+                            <div style="display: flex; width: 100%;">
+                                <div>
+                                    <b><span style="margin-right: 5px">link Facebook</span></b>
+                                    <span id="displayLink_facebook"></span>
+                                </div>
+                            </div>
+                        </div>
+                            <%--                        ไฟล์หลักสูตร : <span id="displayCourseFile"></span>--%>
                     </div>
                     <div style="width: 30%; writing-mode: vertical-rl;">
                         <img id="displayPreview" src="${pageContext.request.contextPath}/uploads/course_img/${course_by_id.img}" alt="Image Preview" style="width: 400px; margin-top: 10px; border-radius: 10px">
@@ -436,13 +584,16 @@
                 </div>
             </div>
             <div style="overflow:auto;">
-                <div style="float:right; margin-top: 60px;">
-                    <button type="button" id="prevBtn" onclick="nextPrev(-1)">ย้อนกลับ</button>
-                    <button type="button" id="nextBtn" onclick="nextPrev(1)">ต่อไป</button>
+                <div style="margin-top: 60px;">
+                    <button type="button" id="prevBtn" style="font-family: 'Prompt', sans-serif;width: 10%;border-radius: 15px;font-size: 14px;" onclick="nextPrev(-1)">
+                        <i class="fa fa-reply" style="margin-right: 10px;"></i>ย้อนกลับ</button>
+                    <button type="button" id="nextBtn" style="float: right; font-family: 'Prompt', sans-serif;width: 10%;border-radius: 15px;font-size: 14px;" onclick="nextPrev(1)">
+                        ต่อไป<i class="fa fa-arrow-right" style="margin-left: 10px;"></i></button>
                 </div>
             </div>
             <!-- Circles which indicates the steps of the form: -->
             <div style="text-align:center;margin-top:40px;">
+                <span class="step"></span>
                 <span class="step"></span>
                 <span class="step"></span>
                 <span class="step"></span>
@@ -560,15 +711,15 @@
         x = document.getElementsByClassName("tab");
         y = x[currentTab].getElementsByTagName("input");
         // A loop that checks every input field in the current tab:
-        for (i = 0; i < y.length; i++) {
-            // If a field is empty and not the file input field...
-            if (y[i].value === "" && y[i].type !== "file") {
-                // Add an "invalid" class to the field:
-                y[i].className += " invalid";
-                // And set the current valid status to false
-                valid = false;
-            }
-        }
+        // for (i = 0; i < y.length; i++) {
+        //     // If a field is empty...checkScriptPage1()
+        //     if (y[i].value == "") {
+        //         // add an "invalid" class to the field:
+        //         y[i].className += " invalid";
+        //         // and set the current valid status to false
+        //         valid = false;
+        //     }
+        // }
         if (currentTab === 0) {
             // ตรวจสอบข้อมูลใน Step 1
             if (!checkScriptPage1()) {
@@ -578,6 +729,12 @@
         if (currentTab === 1) {
             // ตรวจสอบข้อมูลใน Step 2
             if (!checkScriptPage2()) {
+                return false;
+            }
+        }
+        if (currentTab === 2) {
+            // ตรวจสอบข้อมูลใน Step 3
+            if (!checkScriptPage3()) {
                 return false;
             }
         }
@@ -812,9 +969,9 @@
             document.getElementById("invalidCourseTotalHours").innerHTML = "กรุณากรอกระยะเวลาในการเรียน";
             document.getElementById("course_totalHours").focus();
             return false;
-        } else if(parseInt(document.getElementById("course_totalHours").value) < 1 || parseInt(document.getElementById("course_totalHours").value) > 999999){
+        } else if(parseInt(document.getElementById("course_totalHours").value) < 1 || parseInt(document.getElementById("course_totalHours").value) > 1000){
             // alert("ตัองเป็นภาษาไทย อังกฤษหรือตัวเลขเท่านั้น");
-            document.getElementById("invalidCourseTotalHours").innerHTML = "ต้องมีค่าระหว่าง 1 - 999,999 บาท";
+            document.getElementById("invalidCourseTotalHours").innerHTML = "ต้องมีค่าระหว่าง 1 - 1000 ชั่วโมง";
             document.getElementById("course_totalHours").focus();
             document.getElementById("course_totalHours").value = "";
             return false;
@@ -841,20 +998,117 @@
 
         return true;
     }
-    // function checkScriptPage2FILE(){
-    //     //----------------Course File----------------------
-    //     // ตรวจสอบว่าผู้ใช้เลือกไฟล์เนื้อหาหลักสูตรหรือไม่
-    //     var courseFile = document.getElementById("course_file").value;
-    //     if (courseFile === "") {
-    //         document.getElementById("invalidCourseFile").innerHTML = "กรุณาเลือกไฟล์เนื้อหาหลักสูตร";
-    //         document.getElementById("course_file").focus();
-    //         return false;
-    //     }else if (!courseFile === ""){
-    //
-    //     } else {
-    //         document.getElementById("invalidCourseFile").innerHTML = "";
-    //     }
-    // }
+    function checkScriptPage3(){
+        //------------prefix-------------
+        var prefixTypecheck = document.getElementsByName('prefix');
+        var prefixTypenull = false;
+        for (var i = 0; i < prefixTypecheck.length; i++) {
+            if (prefixTypecheck[i].checked) {
+                prefixTypenull = true;
+                break;
+            }
+        }
+        if (!prefixTypenull) {
+            document.getElementById("invalidSelectPrefix").innerHTML = "กรุณาเลือกนำนำหน้าชื่อ";
+            return false;
+        }else {
+            document.getElementById("invalidSelectPrefix").innerHTML = "";
+        }
+
+        var prefixRadio = document.querySelector('input[name="prefix"][value="อื่นๆ..."]');
+        if (prefixRadio.checked) {
+            var prefix_name = document.getElementById("prefix_name").value;
+            if (prefix_name.length < 2 || prefix_name.length >225) {
+                document.getElementById("invalidPrefixName").innerHTML = "ต้องมีตัวอักษร 2 - 225 ตัวอักษร";
+                document.getElementById("prefix_name").focus();
+                return false;
+            } else {
+                document.getElementById("invalidPrefixName").innerHTML = "";
+            }
+        }
+        //-----------prefix Fname ------------------
+        var regExName = /^[ก-์A-Za-z ]{2,50}$/;
+        var fname_contacts = document.getElementById("fname_contacts").value;
+        if (fname_contacts === ""){
+            document.getElementById("invalidFNameContacts").innerHTML = "กรุณากรอกชื่อ";
+            document.getElementById("fname_contacts").focus();
+            return false;
+        } else if (!fname_contacts.match(regExName)) {
+            document.getElementById("invalidFNameContacts").innerHTML = "ตัองเป็นภาษาไทย หรืออังกฤษเท่านั้น และต้องมีจำนวน 2-50 ตัวอักษร";
+            document.getElementById("fname_contacts").focus();
+            document.getElementById("fname_contacts").value = "";
+            return false;
+        }else {
+            document.getElementById("invalidFNameContacts").innerHTML = "";
+        }
+
+        //-----------prefix Lname ------------------
+        var lname_contacts = document.getElementById("lname_contacts").value;
+        if (lname_contacts === ""){
+            document.getElementById("invalidLNameContacts").innerHTML = "กรุณากรอกนามสกุล";
+            document.getElementById("lname_contacts").focus();
+            return false;
+        } else if (!lname_contacts.match(regExName)) {
+            document.getElementById("invalidLNameContacts").innerHTML = "ตัองเป็นภาษาไทย หรืออังกฤษเท่านั้น และต้องมีจำนวน 2-50 ตัวอักษร";
+            document.getElementById("lname_contacts").focus();
+            document.getElementById("lname_contacts").value = "";
+            return false;
+        }else {
+            document.getElementById("invalidLNameContacts").innerHTML = "";
+        }
+
+        //-----------faculty ------------------
+        var regFxName = /^[ก-์A-Za-z ]{2,100}$/;
+        var faculty = document.getElementById("faculty").value;
+        if (faculty === ""){
+            document.getElementById("invalidFaculty").innerHTML = "กรุณากรอกสังกัดคณะ/วิทยาลัย";
+            document.getElementById("faculty").focus();
+            return false;
+        } else if (!faculty.match(regFxName)) {
+            document.getElementById("invalidFaculty").innerHTML = "ตัองเป็นภาษาไทย หรืออังกฤษเท่านั้น และต้องมีจำนวน 2-100 ตัวอักษร";
+            document.getElementById("faculty").focus();
+            document.getElementById("faculty").value = "";
+            return false;
+        }else {
+            document.getElementById("invalidFaculty").innerHTML = "";
+        }
+
+        //----------Tel---------------------
+        const regex = /^(09|08|06)\d{8}$/;
+        var phone_contacts = document.getElementById("phone_contacts").value;
+        if (phone_contacts === ""){
+            document.getElementById("invalidPhoneContacts").innerHTML = "กรุณากรอกเบอร์โทรศัพท์";
+            document.getElementById("phone_contacts").focus();
+            return false;
+        }else if (!regex.test(phone_contacts)) {
+            document.getElementById("invalidPhoneContacts").innerHTML = "ต้องขึ้นต้นด้วย 09 08 06 และต้องมีจำนวน 10 ตัวอักษรเท่านั้น";
+            document.getElementById("phone_contacts").focus();
+            document.getElementById("phone_contacts").value = "";
+            return false;
+        }else {
+            document.getElementById("invalidPhoneContacts").innerHTML = "";
+        }
+
+        //------------Email---------------
+        var Email = /^.+@.+\..{2,3}$/;
+        var email_contacts = document.getElementById("email_contacts").value;
+        if (email_contacts.value === ""){
+            document.getElementById("invalidEmailContacts").innerHTML = "กรุณากรอกอีเมล";
+            return false;
+        } else if (!email_contacts.match(Email)) {
+            document.getElementById("invalidEmailContacts").innerHTML = "กรอกอีเมล์ให้ถูกต้อง";
+            document.getElementById("email_contacts").value = "";
+            return false;
+        }else {
+            document.getElementById("invalidEmailContacts").innerHTML = "";
+        }
+        //------------link facebook---------------
+        var link_facebook = document.getElementById("link_facebook").value;
+        if (link_facebook === ""){
+            return true;
+        }
+        return true;
+    }
 
     function display(){
         const courseType = document.getElementById("course_type").value;
@@ -868,6 +1122,43 @@
         const fee = document.getElementById("course_fee").value;
         const courseFile = document.getElementById("course_file").value;
         const targetOccupation = document.getElementById("floatingTextarea3").value;
+
+        const prefix_name = document.getElementById("prefix_name").value;
+        const fname_contacts = document.getElementById("fname_contacts").value;
+        const lname_contacts = document.getElementById("lname_contacts").value;
+        const faculty = document.getElementById("faculty").value;
+        const phone_contacts = document.getElementById("phone_contacts").value;
+        const email_contacts = document.getElementById("email_contacts").value;
+        const link_facebook = document.getElementById("link_facebook").value;
+
+        const radioButtons = document.querySelectorAll('input[type="radio"][name="prefix"]');
+        var prefix = "";
+        radioButtons.forEach(function(radioButton) {
+            if (radioButton.checked) {
+                prefix = radioButton.value;
+            }
+        });
+
+        var display_facebook = document.getElementById("displayLink_facebook");
+        if (prefix === "อื่นๆ..."){
+            document.getElementById("displayPrefix").innerHTML = prefix_name;
+            document.getElementById("prefix_toSave").value = prefix_name;
+        }else {
+            document.getElementById("displayPrefix").innerHTML = prefix;
+            document.getElementById("prefix_toSave").value = prefix;
+        }
+        document.getElementById("displayFname_contacts").innerHTML = fname_contacts;
+        document.getElementById("displayLname_contacts").innerHTML = lname_contacts;
+        document.getElementById("displayFaculty").innerHTML = faculty;
+        document.getElementById("displayPhone_contacts").innerHTML = phone_contacts;
+        document.getElementById("displayEmail_contacts").innerHTML = email_contacts;
+        // document.getElementById("displayLink_facebook").innerHTML = link_facebook;
+        if (link_facebook === ""){
+            document.getElementById("displayLink_facebook").innerHTML = "-ไม่มีข้อมูล-";
+        }else {
+            display_facebook.innerHTML = `<a href="`+ link_facebook +`" target="_blank">`+link_facebook+`</a>`;
+        }
+
 
         document.getElementById("displayCourseName").innerHTML = courseName;
         document.getElementById("displayCourseType").innerHTML = courseType;
@@ -935,11 +1226,13 @@
         objectiveInput.type = 'text';
         objectiveInput.name = 'course_objectives[]';
         objectiveInput.className = 'objective';
+        objectiveInput.style = 'margin-bottom: 5px;margin-right: 5px;';
 
         var removeButton = document.createElement('button');
         removeButton.type = 'button';
         removeButton.textContent = 'ลบ';
         removeButton.className = 'btn btn-danger';
+        objectiveInput.style = 'font-size: 12px';
         removeButton.onclick = function() {
             container.removeChild(objectiveContainer);
             updateRemoveButtons();
@@ -1026,5 +1319,61 @@
         }
     }
     window.addEventListener('load',checkCourseFee);
+</script>
+<script>
+    // ตรวจสอบเมื่อเลือก "ไม่มีค่าธรรมเนียม"
+    var prefixT1Radio = document.querySelector('input[name="prefix"][value="นาย"]');
+    prefixT1Radio.addEventListener("change", function() {
+        if (prefixT1Radio.checked) {
+            // ซ่อนส่วนที่มี id เป็น "fee"
+            document.getElementById("other_prefix").style.display = "none";
+            document.getElementById("prefix_name").value = "";
+        }
+    });
+
+    // ตรวจสอบเมื่อเลือก "ไม่มีค่าธรรมเนียม"
+    var prefixT2Radio = document.querySelector('input[name="prefix"][value="นาง"]');
+    prefixT2Radio.addEventListener("change", function() {
+        if (prefixT2Radio.checked) {
+            // ซ่อนส่วนที่มี id เป็น "fee"
+            document.getElementById("other_prefix").style.display = "none";
+            document.getElementById("prefix_name").value = "";
+        }
+    });
+
+    // ตรวจสอบเมื่อเลือก "ไม่มีค่าธรรมเนียม"
+    var prefixT3Radio = document.querySelector('input[name="prefix"][value="นางสาว"]');
+    prefixT3Radio.addEventListener("change", function() {
+        if (prefixT3Radio.checked) {
+            // ซ่อนส่วนที่มี id เป็น "fee"
+            document.getElementById("other_prefix").style.display = "none";
+            document.getElementById("prefix_name").value = "";
+
+        }
+    });
+
+    // ตรวจสอบเมื่อเลือก "มีค่าธรรมเนียม"
+    var prefixT4Radio = document.querySelector('input[name="prefix"][value="อื่นๆ..."]');
+    prefixT4Radio.addEventListener("change", function() {
+        if (prefixT4Radio.checked) {
+            // แสดงส่วนที่มี id เป็น "fee"
+            document.getElementById("other_prefix").style.display = "block";
+            document.getElementById("prefix_name").value = "${parts_contact[0]}";
+        }
+    });
+</script>
+<script>
+    var prefixRadio = document.querySelector('input[name="prefix"][value="อื่นๆ..."]');
+    function checkPrefix() {
+        if (prefixRadio.checked) {
+            // ซ่อนส่วนที่มี id เป็น "fee"
+            document.getElementById("other_prefix").style.display = "block";
+            document.getElementById("prefix_name").value = "${parts_contact[0]}";
+        }else {
+            document.getElementById("other_prefix").style.display = "none";
+            document.getElementById("prefix_name").value = "";
+        }
+    }
+    window.addEventListener('load',checkPrefix);
 </script>
 </html>

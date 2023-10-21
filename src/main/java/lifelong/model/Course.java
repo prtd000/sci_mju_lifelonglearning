@@ -51,6 +51,10 @@ public class Course {
 
     @Column(name = "course_type",nullable = false,length = 50)
     private String course_type;
+
+    @Column(name = "contact")
+    private String contact;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "major_id",nullable = false)
     private Major major;
@@ -66,7 +70,7 @@ public class Course {
     public Course() {
     }
 
-    public Course(String name, String certificateName, String img, String principle, String object, int totalHours, String targetOccupation, double fee, String file, String status, String course_type, Major major) {
+    public Course(String name, String certificateName, String img, String principle, String object, int totalHours, String targetOccupation, double fee, String file, String status, String course_type, Major major,String contact) {
         this.name = name;
         this.certificateName = certificateName;
         this.img = img;
@@ -79,6 +83,7 @@ public class Course {
         this.status = status;
         this.course_type = course_type;
         this.major = major;
+        this.contact = contact;
     }
 
     public String getCourse_id() {
@@ -199,5 +204,13 @@ public class Course {
 
     public void setRequests(List<RequestOpenCourse> requests) {
         this.requests = requests;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 }

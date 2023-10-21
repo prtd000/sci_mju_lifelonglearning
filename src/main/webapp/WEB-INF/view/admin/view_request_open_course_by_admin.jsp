@@ -14,7 +14,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>RequestOpenCourse</title>
+    <title>ยืนยันการหลักสูตรร้องขอ</title>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
@@ -23,7 +23,11 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+<style>
+    body{
+        font-family: 'Prompt', sans-serif;
+    }
+</style>
 </head>
 <script>
     function previewImages() {
@@ -248,8 +252,8 @@
                                 <!-- start previous / next buttons -->
                                 <div style="width: 100%" align="center" class="flex-container">
                                     <input type="button" name="statusResult" value="ยกเลิกคำร้องขอ"
-                                           onclick="cancelRequest();" style="width: 47%" class="cancel-button"/>
-                                    <input type="button" name="statusResult" value="ยืนยันคำร้องขอ" onclick="confirmSubmit();" class="button-5" style="width: 47%"/>
+                                           onclick="cancelRequest();" style="width: 50%;font-family: 'Prompt', sans-serif;" class="cancel-button"/>
+                                    <input type="button" name="statusResult" value="ยืนยันคำร้องขอ" onclick="confirmSubmit();" class="button-5" style="width: 50%;font-family: 'Prompt', sans-serif;"/>
                                 </div>
                                 <!-- end previous / next buttons -->
                             </div>

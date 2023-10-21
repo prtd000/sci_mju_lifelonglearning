@@ -15,7 +15,7 @@
 <!DOCTYPEhtml>
 <html>
 <head>
-  <title>เพิ่ม${title}</title>
+  <title>แก้ไขข้อมูลข่าวสารทั่วไป</title>
   <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
   <!-- google font -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -25,6 +25,9 @@
   <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 </head>
 <style>
+  body{
+    font-family: 'Prompt', sans-serif;
+  }
   .txt_input {
     width: 70%;
   }
@@ -144,7 +147,6 @@
             <table style="width: 100%">
               <tr>
                 <td>
-                  <label>ชื่อข่าวสาร</label>
                   <div class="mb-3">
                     <div class="course-totalHours-container">
                       <input name="ac_name" id="ac_name" type="text" autocomplete="off" oninput="this.className = ''" class="flex-td" value="${activities.name}"/>
@@ -159,15 +161,17 @@
                     <div class="form-floating" style="height: 500px">
 <%--                      <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px">${activities.detail}</textarea>--%>
 <%--                      <label for="ac_detail">รายละเอียด</label>--%>
-                          <div id="editor" style="">${activities.detail}</div>
+                          <div id="editor" style="font-family: 'Prompt', sans-serif;">${activities.detail}</div>
                           <textarea style="display: none;" id="ac_detail" name="ac_detail"></textarea>
                     </div>
-                    <label id="invalidAcDetail" style="color: red; font-size: 12px"></label>
                   </div>
+                  <label id="invalidAcDetail" style="color: red; font-size: 12px"></label>
                 </td>
               </tr>
               <tr>
                 <td>
+                  <br>
+                  <br>
                   <label>รูปภาพ</label>
                 </td>
               </tr>
@@ -211,8 +215,8 @@
           <div style="width: 100%" align="center" class="flex-container">
             <input type="button" value="ย้อนกลับ"
                    onclick="window.location.href='${pageContext.request.contextPath}/course/public/list_activity'; return false;"
-                   style="width: 47%" class="flex-container"/>
-            <input type="submit" value="บันทึก" class="button-5" style="width: 47%"/>
+                   style="width: 50%"/>
+            <input type="submit" value="บันทึก" class="button-5" style="width: 50%; font-family: 'Prompt', sans-serif;"/>
           </div>
           <!-- end previous / next buttons -->
         </form>
@@ -237,17 +241,18 @@
   }
   function validateAcName() {
     var acName = document.getElementById('ac_name').value;
-    var regex = /^[ก-์A-Za-z0-9 ().]+$/; // รูปแบบที่อนุญาต
+    // var regex = /^[ก-์A-Za-z0-9 ().]+$/; // รูปแบบที่อนุญาต
     var minLength = 2;
     var maxLength = 255;
 
     if (acName.trim() === "") {
       document.getElementById("invalidAcName").innerHTML = "กรุณากรอกชื่อหัวข้อข่าวสารและกิจกรรม";
-      alert("กรุณากรอกชื่อหัวข้อข่าวสารและกิจกรรม");
+      document.getElementById("ac_name").focus();
+      // alert("กรุณากรอกชื่อหัวข้อข่าวสารและกิจกรรม");
       return false;
     }else if (acName.length < minLength || acName.length > maxLength) {
       document.getElementById("invalidAcName").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องมีความยาวระหว่าง 2 ถึง 255 ตัวอักษร";
-      alert("ชื่อหัวข้อข่าวสารและกิจกรรมต้องมีความยาวระหว่าง 2 ถึง 255 ตัวอักษร");
+      document.getElementById("ac_name").focus();
       return false;
     }else {
       document.getElementById("invalidAcName").innerHTML = "";
@@ -255,56 +260,59 @@
 
     return true;
   }
-  // function validateAcDetail() {
-  //   var acDetail = document.getElementById('ac_detail').value;
-  //   var regex = /^[ก-์A-Za-z0-9 ().]+$/; // รูปแบบที่อนุญาต
-  //   var minLength = 2;
-  //   var maxLength = 225;
-  //
-  //   if (acDetail.trim() === "") {
-  //     document.getElementById("invalidAcDetail").innerHTML = "กรุณากรอกรายละเอียด";
-  //     return false;
-  //   }else if (acDetail.length < minLength || acDetail.length > maxLength) {
-  //     document.getElementById("invalidAcDetail").innerHTML = "รายละเอียดต้องมีความยาวระหว่าง 2 ถึง 225 ตัวอักษร";
-  //     return false;
-  //   }else if (!regex.test(acDetail)) {
-  //     document.getElementById("invalidAcDetail").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข";
-  //     return false;
-  //   }else {
-  //     document.getElementById("invalidAcDetail").innerHTML = "";
-  //   }
-  //
-  //   return true;
-  // }
+  function validateAcDetail() {
+    var acDetail = document.getElementById('ac_detail').value;
+    var minLength = 2;
+    var maxLength = 225;
 
-  // function validateAcImg() {
-  //   var acImgInput = document.getElementById('ac_img');
-  //   var acImg = acImgInput.files[0];
-  //   var allowedExtensions = /(\.png|\.jpeg|\.jpg)$/i; // นามสกุลไฟล์ที่อนุญาต
-  //   var maxFileSize = 2 * 1024 * 1024; // ขนาดไฟล์สูงสุด (2MB)
-  //
-  //   if (!acImg) {
-  //     alert("กรุณาเลือกไฟล์รูปภาพ");
-  //     return false;
-  //   }
-  //
-  //   if (!allowedExtensions.exec(acImg.name)) {
-  //     alert("รูปภาพต้องเป็นไฟล์นามสกุล png, jpeg, หรือ jpg เท่านั้น");
-  //     return false;
-  //   }
-  //
-  //   if (acImg.size > maxFileSize) {
-  //     alert("ขนาดไฟล์รูปภาพต้องไม่เกิน 2MB");
-  //     return false;
-  //   }
-  //
-  //   return true;
-  // }
+    if (acDetail.trim() === "") {
+      document.getElementById("invalidAcDetail").innerHTML = "กรุณากรอกรายละเอียด";
+      document.getElementById("editor").focus();
+      return false;
+    }
+            // else if (acDetail.length < minLength || acDetail.length > maxLength) {
+            //   document.getElementById("invalidAcDetail").innerHTML = "รายละเอียดต้องมีความยาวระหว่าง 2 ถึง 225 ตัวอักษร";
+            //   return false;
+    // }
+    else {
+      document.getElementById("invalidAcDetail").innerHTML = "";
+    }
+
+    return true;
+  }
+
+  function validateAcImg() {
+    var acImgInput = document.getElementById('ac_img');
+    var acImg = acImgInput.files[0];
+    var allowedExtensions = /(\.png|\.jpeg|\.jpg)$/i; // นามสกุลไฟล์ที่อนุญาต
+    var maxFileSize = 2 * 1024 * 1024; // ขนาดไฟล์สูงสุด (2MB)
+
+    if (!acImg) {
+      document.getElementById("invalidAcImg").innerHTML = "กรุณาเลือกไฟล์รูปภาพ";
+      return false;
+    }
+
+    if (!allowedExtensions.exec(acImg.name)) {
+      document.getElementById('ac_img').value = "";
+      document.getElementById("invalidAcImg").innerHTML = "รูปภาพต้องเป็นไฟล์นามสกุล png, jpeg, หรือ jpg เท่านั้น";
+      return false;
+    }
+
+    if (acImg.size > maxFileSize) {
+      document.getElementById('ac_img').value = "";
+      document.getElementById("invalidAcImg").innerHTML = "ขนาดไฟล์รูปภาพต้องไม่เกิน 2MB";
+      return false;
+    }else {
+      document.getElementById("invalidAcImg").innerHTML = "";
+    }
+
+    return true;
+  }
 
   function confirmAction() {
     updateAcDetailField(); // อัปเดตข้อมูลจาก Rich Text Editor
-    if (validateAcName() && validateAcImg()) {
-      var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการเพิ่มข่าวสารนี้?");
+    if (validateAcName()&&validateAcDetail() && validateAcImg()) {
+      var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการแก้ไขข่าวสารนี้?");
       if (result) {
         return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
       } else {

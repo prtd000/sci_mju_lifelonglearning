@@ -11,8 +11,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>ข่าวสารทั่วไป</title>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
+    <style>
+        body{
+            font-family: 'Prompt', sans-serif;
+        }
+    </style>
+
 </head>
 <body>
 <%
@@ -94,25 +100,34 @@
                                 <td style="width: 10%" align="center"></td>
                                 <td style="width: 10%" align="center"></td>
                             </tr>
-                            <c:forEach var="list" items="${list_activities}">
-                                <tr>
-                                    <td>${list.name}</td>
-                                    <fmt:formatDate value="${list.date}" pattern="dd/MM/yyyy HH:mm:ss" var="date" />
-                                    <td align="center">${date}</td>
-                                    <td align="center">${list.type}</td>
-                                    <td align="center">
-                                        <a href="${pageContext.request.contextPath}/course/public/${list.ac_id}/edit_page">
-                                            <button type="button" class="btn btn-outline-warning">
-                                                <i class='fa fa-edit'></i>แก้ไข</button>
-                                        </a>
-                                    </td>
-                                    <td align="center">
-                                        <button type="button" class="btn btn-outline-danger" onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/${list.ac_id}/delete'; return false; }">
-                                            <i class="fas fa-window-close fa-lg"></i> ลบข่าวสาร
-                                        </button>
-                                    </td>
-                                </tr>
-                            </c:forEach>
+                            <c:choose>
+                                <c:when test="${list_activities.size() == 0}">
+                                    <tr>
+                                        <td colspan="5" align="center">ไม่มีข้อมูล</td>
+                                    </tr>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach var="list" items="${list_activities}">
+                                        <tr>
+                                            <td>${list.name}</td>
+                                            <fmt:formatDate value="${list.date}" pattern="dd/MM/yyyy HH:mm:ss" var="date" />
+                                            <td align="center">${date}</td>
+                                            <td align="center">${list.type}</td>
+                                            <td align="center">
+                                                <a href="${pageContext.request.contextPath}/course/public/${list.ac_id}/edit_page">
+                                                    <button type="button" class="btn btn-outline-warning">
+                                                        <i class='fa fa-edit'></i>แก้ไข</button>
+                                                </a>
+                                            </td>
+                                            <td align="center">
+                                                <button type="button" class="btn btn-outline-danger" onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/${list.ac_id}/delete'; return false; }">
+                                                    <i class="fas fa-window-close fa-lg"></i> ลบข่าวสาร
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
                         </table>
                     </div>
                 </div>
@@ -128,4 +143,20 @@
     </c:otherwise>
 </c:choose>
 </body>
+<script>
+    // ดึงค่าพารามิเตอร์ success จาก URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const addParam = urlParams.get('addStatus');
+    const editParam = urlParams.get('editStatus');
+    const deleteParam = urlParams.get('deleteStatus');
+
+    // ถ้ามีค่าเป็น 'true', แสดง Alert
+    if (addParam === 'true') {
+        alert("เพิ่มข้อมูลข่าวสารสำเร็จ");
+    } else if (editParam === 'true') {
+        alert("แก้ไขข้อมูลข่าวสารสำเร็จ");
+    } else if (deleteParam === 'true') {
+        alert("ลบข้อมูลข่าวสารสำเร็จ");
+    }
+</script>
 </html>

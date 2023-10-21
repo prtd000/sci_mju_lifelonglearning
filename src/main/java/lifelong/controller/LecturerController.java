@@ -159,7 +159,7 @@ public class LecturerController {
             Session session = sessionFactory.getCurrentSession();
             RequestOpenCourse mergedRequestOpenCourse = (RequestOpenCourse) session.merge(requestOpenCourse_toAdd);
             requestOpCourseService.saveRequestOpenCourse(mergedRequestOpenCourse);
-        return "redirect:/lecturer/"+ lec_id +"/list_request_open_course";
+        return "redirect:/lecturer/"+ lec_id +"/list_request_open_course?addStatus=true";
     }
     //********************************************************//
 
@@ -179,6 +179,9 @@ public class LecturerController {
         model.addAttribute("title", "รายการ");
         model.addAttribute("lecturer_id", lecturer_id);
         model.addAttribute("requests_open_course", requestOpenCourse);
+        model.addAttribute("requests_sort_payment_date", requestOpCourseService.getRequestOpenCoursesByTypePaymentByLec(lecturer_id));
+        model.addAttribute("requests_sort_Application_date", requestOpCourseService.getRequestOpenCoursesByTypeApplicationByLec(lecturer_id));
+        model.addAttribute("requests_sort_endStudy_date", requestOpCourseService.getRequestOpenCoursesByTypeStudyByLec(lecturer_id));
         return "lecturer/list_approve_request_open_course";
     }
     //**********************************************************************//
@@ -275,7 +278,7 @@ public class LecturerController {
 
         }
 //        String lec_id = existingRequest.getLecturer().getUsername();
-        return "redirect:/lecturer/"+ lec_id +"/list_request_open_course";
+        return "redirect:/lecturer/"+ lec_id +"/list_request_open_course?editStatus=true";
     }
     //******************************************************************************//
 
@@ -294,7 +297,7 @@ public class LecturerController {
 //            // ส่งพารามิเตอร์ "error" ใน URL เพื่อระบุว่าเกิดข้อผิดพลาด
 //            return "redirect:/lecturer/" + lec_id + "/list_request_open_course?error=true";
 //        }
-        return "redirect:/lecturer/"+ lec_id +"/list_approve_request_open_course";
+        return "redirect:/lecturer/"+ lec_id +"/list_approve_request_open_course?cancelStatus=true";
     }
     @GetMapping("/{lec_id}/{roc_id}/delete_request_open_course")
     public String doDeleteCourseDetail(@PathVariable("lec_id")String lec_id,@PathVariable("roc_id") long roc_id) throws IOException {
@@ -304,7 +307,7 @@ public class LecturerController {
         Course course = courseService.getCourseById(requestOpenCourse.getCourse().getCourse_id());
         course.setStatus("ยังไม่เปิดสอน");
         courseService.updateCourse(course);
-        return "redirect:/lecturer/"+ lec_id +"/list_approve_request_open_course";
+        return "redirect:/lecturer/"+ lec_id +"/list_request_open_course?deleteStatus=true";
     }
     //**********************************************************************************//
 
@@ -328,6 +331,10 @@ public class LecturerController {
         model.addAttribute("receipt",list_receipt);
         model.addAttribute("currentDate",currentDate);
         model.addAttribute("registers",register);
+        model.addAttribute("registers_sort_by_action_date",registerService.getRegisterByRequestIdAndPayStatusAndApproveSortByActionDate(request_id));
+
+        model.addAttribute("registers_sort_by_status",registerService.getRegisterByRequestIdAndPayStatusAndApproveSortByStatusPass(request_id));
+
         model.addAttribute("lecturer_id",lecturer_id);
         model.addAttribute("request_name",requestOpCourseService.getRequestOpenCourseDetail(request_id));
         return "lecturer/list_member_approve_course";
@@ -341,7 +348,6 @@ public class LecturerController {
         List<Register> register = registerService.getRegisterByRequestIdAndApprove(request_id);
         RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(request_id);
 
-        // โหลดไฟล์ Excel โครงที่มีอยู่แล้ว
         FileInputStream inputStream = new FileInputStream(ImgPath.pathUploads + "/excel/register_data.xlsx");
 //        Workbook workbook = new XSSFWorkbook(inputStream);
         Workbook workbook = new XSSFWorkbook(inputStream);
@@ -390,16 +396,19 @@ public class LecturerController {
 
         String studyResult = allReqParams.get("studyResult");
         Register register = registerService.getRegisterByRegisterId(register_id);
+        String result = "";
         // ตรวจสอบค่า studyResult และดำเนินการตามที่คุณต้องการ
         if ("ผ่านหลักสูตร".equals(studyResult)) {
             register.setStudy_result("ผ่าน");
+            result = "true";
         } else if ("ไม่ผ่านหลักสูตร".equals(studyResult)) {
             register.setStudy_result("ไม่ผ่าน");
+            result = "false";
         }
         String lec_id = register.getRequestOpenCourse().getLecturer().getUsername();
         registerService.updateRegister(register);
 
-        return "redirect:/lecturer/" +lec_id+"/"+ request_id + "/list_member_to_approve";
+        return "redirect:/lecturer/" +lec_id+"/"+ request_id + "/list_member_to_approve?studyResult="+result;
     }
     //******************************************************//
 
@@ -480,7 +489,7 @@ public class LecturerController {
             e.printStackTrace();
         }
 //        String lec_id = existingRequest.getLecturer().getUsername();
-        return "redirect:/lecturer/"+lec_id+"/"+req_id+"/view_sample_certificate";
+        return "redirect:/lecturer/"+lec_id+"/"+req_id+"/view_sample_certificate?updateSig=true";
     }
     //*********************************************************************//
 
@@ -546,7 +555,7 @@ public class LecturerController {
             e.printStackTrace();
         }
 
-        return "redirect:/lecturer/"+roc_id+"/list_course_activity_news";
+        return "redirect:/lecturer/"+roc_id+"/list_course_activity_news?addStatus=true";
     }
     //**********************************************************************************************//
 
@@ -657,7 +666,7 @@ public class LecturerController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "redirect:/lecturer/"+activity.getRequestOpenCourse().getRequest_id()+"/list_course_activity_news";
+        return "redirect:/lecturer/"+activity.getRequestOpenCourse().getRequest_id()+"/list_course_activity_news?editStatus=true";
     }
     //*****************************************************************************//
 
@@ -678,7 +687,7 @@ public class LecturerController {
             Files.delete(deletedirectoryPath);
         }
         activityService.deleteCourseActivity(id,lec_id);
-        return "redirect:/lecturer/"+activity.getRequestOpenCourse().getRequest_id()+"/list_course_activity_news";
+        return "redirect:/lecturer/"+activity.getRequestOpenCourse().getRequest_id()+"/list_course_activity_news?deleteStatus=true";
     }
     //****************************************************************************//
 

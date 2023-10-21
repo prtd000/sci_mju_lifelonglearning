@@ -5,12 +5,17 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>${title}</title>
+    <title>หลักสูตรที่ผ่านการร้องขอ</title>
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet">
 <%--    <link href="${pageContext.request.contextPath}/assets/css/lecturer/list_request_open_course.css" rel="stylesheet">--%>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
     <link href="${pageContext.request.contextPath}/assets/css/lecturer/list_request_open_course.css" rel="stylesheet">
 <%--    <link href="${pageContext.request.contextPath}/assets/css/list_open_course_style.css" rel="stylesheet">--%>
+    <style>
+        body{
+            font-family: 'Prompt', sans-serif;
+        }
+    </style>
 </head>
 <body>
 <%
@@ -70,7 +75,7 @@
         <!-- Navbar End -->
 
 <div align="center" style="margin-top: 20px">
-    <h1>${title}การร้องขอ</h1>
+    <h1>รายการหลักสูตรที่ผ่านการร้องขอ</h1>
     <table class="container">
         <tr align="center">
             <td class="list_course" align="center">
@@ -101,48 +106,56 @@
                                 <td style="width: 10%" align="center">ผู้สมัคร</td>
                                 <td style="width: 5%" align="center"></td>
                             </tr>
-
-                            <c:forEach var="request_course" items="${requests_open_course}">
-                                <%
-                                    Date currentDate = new Date(); // วันปัจจุบัน
-                                %>
-                                <c:set var="currentDate1" value="<%=currentDate%>"/>
-                                <c:if test="${request_course.requestStatus == 'ผ่าน' && currentDate1 <= request_course.endRegister}">
-                                    <fmt:formatDate value="${request_course.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
-                                    <fmt:formatDate value="${request_course.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
-                                    <fmt:formatDate value="${request_course.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
-                                    <fmt:formatDate value="${request_course.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
-                                    <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
-                                    <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                    <tr style="color: black">
-                                        <td><p>${request_course.course.name}</p></td>
-                                        <td align="center"><p>${startRegister} - ${endRegister}</p></td>
-                                        <c:choose>
-                                            <c:when test="${request_course.course.fee == 0}">
-                                                <td align="center"><p>ไม่มีค่าธรรมเนียม</p></td>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <td align="center"><p>${startPayment} - ${endPayment}</p></td>
-                                            </c:otherwise>
-                                        </c:choose>
-                                        <td align="center"><p>${startStudyDate} - ${endStudyDate}</p></td>
-                                        <td align="center"><p>${request_course.course.course_type}</p></td>
-                                        <td align="center">
-                                            <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
-                                                <button class="button-5" role="button" style="font-size: 12px">
-                                                    <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.registerList.size()}/${request_course.quantity}
-                                                </button>
-                                            </a>
-                                        </td>
-                                        <td align="center">
-                                            <!-- เช็คว่าวันที่ applicationResult เลยหรือไม่ -->
-                                            <c:if test="${currentDate1 < request_course.endRegister}">
-                                                <i class='fa fa-times-circle' style='color: red;font-size: 25px; margin-top: 5px' onclick="if((confirm('คุณแน่ใจหรือว่าต้องการยกเลิกหลักสูตรนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/cancel_request_open_course'; return false; }"></i>
-                                            </c:if>
-                                        </td>
+                            <c:choose>
+                                <c:when test="${requests_open_course.size() == 0}">
+                                    <tr>
+                                        <td colspan="7" align="center">ไม่มีข้อมูล</td>
                                     </tr>
-                                </c:if>
-                            </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach var="request_course" items="${requests_open_course}">
+                                        <%
+                                            Date currentDate = new Date(); // วันปัจจุบัน
+                                        %>
+                                        <c:set var="currentDate1" value="<%=currentDate%>"/>
+                                        <c:if test="${request_course.requestStatus == 'ผ่าน' && currentDate1 <= request_course.endRegister}">
+                                            <fmt:formatDate value="${request_course.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
+                                            <fmt:formatDate value="${request_course.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
+                                            <fmt:formatDate value="${request_course.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
+                                            <fmt:formatDate value="${request_course.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
+                                            <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                            <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
+                                            <tr style="color: black">
+                                                <td><p>${request_course.course.name}</p></td>
+                                                <td align="center"><p>${startRegister} - ${endRegister}</p></td>
+                                                <c:choose>
+                                                    <c:when test="${request_course.course.fee == 0}">
+                                                        <td align="center"><p>ไม่มีค่าธรรมเนียม</p></td>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <td align="center"><p>${startPayment} - ${endPayment}</p></td>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <td align="center"><p>${startStudyDate} - ${endStudyDate}</p></td>
+                                                <td align="center"><p>${request_course.course.course_type}</p></td>
+                                                <td align="center">
+                                                    <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
+                                                        <button class="button-5" role="button" style="font-size: 12px">
+                                                            <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.registerList.size()}/${request_course.quantity}
+                                                        </button>
+                                                    </a>
+                                                </td>
+                                                <td align="center">
+                                                    <!-- เช็คว่าวันที่ applicationResult เลยหรือไม่ -->
+                                                    <c:if test="${currentDate1 < request_course.endRegister}">
+                                                        <i class='fa fa-times-circle' style='color: red;font-size: 25px; margin-top: 5px' onclick="if((confirm('คุณแน่ใจหรือว่าต้องการยกเลิกหลักสูตรนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${request_course.request_id}/cancel_request_open_course'; return false; }"></i>
+                                                    </c:if>
+                                                </td>
+                                            </tr>
+                                        </c:if>
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
                         </table>
                     </div>
 
@@ -164,36 +177,44 @@
                                     <td style="width: 10%" align="center">ประเภท</td>
                                     <td style="width: 10%" align="center">ผู้สมัคร</td>
                                 </tr>
-
-                                <c:forEach var="request_course" items="${requests_open_course}">
-                                    <%
-                                        Date currentDate = new Date(); // วันปัจจุบัน
-                                    %>
-                                    <c:set var="currentDate1" value="<%=currentDate%>"/>
-                                    <c:if test="${request_course.requestStatus == 'ผ่าน' &&
+                                <c:choose>
+                                    <c:when test="${requests_sort_payment_date.size() == 0}">
+                                        <tr>
+                                            <td colspan="6" align="center">ไม่มีข้อมูล</td>
+                                        </tr>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach var="request_course" items="${requests_sort_payment_date}">
+                                            <%
+                                                Date currentDate = new Date(); // วันปัจจุบัน
+                                            %>
+                                            <c:set var="currentDate1" value="<%=currentDate%>"/>
+                                            <c:if test="${request_course.requestStatus == 'ผ่าน' &&
                                               currentDate1 > request_course.endRegister &&
                                               currentDate1 <= request_course.endPayment}">
-                                        <fmt:formatDate value="${request_course.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
-                                        <fmt:formatDate value="${request_course.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
-                                        <fmt:formatDate value="${request_course.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
-                                        <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
-                                        <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                        <tr style="color: black">
-                                            <td><p>${request_course.course.name}</p></td>
-                                            <td align="center"><p>${startPayment} - ${endPayment}</p></td>
-                                            <td align="center"><p>${applicationResult}</p></td>
-                                            <td align="center"><p>${startStudyDate} - ${endStudyDate}</p></td>
-                                            <td align="center"><p>${request_course.course.course_type}</p></td>
-                                            <td align="center">
-                                                <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
-                                                    <button class="button-5" role="button" style="font-size: 12px">
-                                                        <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.numberOfAllRegistrations}/${request_course.quantity}
-                                                    </button>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </c:if>
-                                </c:forEach>
+                                                <fmt:formatDate value="${request_course.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
+                                                <fmt:formatDate value="${request_course.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
+                                                <fmt:formatDate value="${request_course.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
+                                                <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                                <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
+                                                <tr style="color: black">
+                                                    <td><p>${request_course.course.name}</p></td>
+                                                    <td align="center"><p>${startPayment} - ${endPayment}</p></td>
+                                                    <td align="center"><p>${applicationResult}</p></td>
+                                                    <td align="center"><p>${startStudyDate} - ${endStudyDate}</p></td>
+                                                    <td align="center"><p>${request_course.course.course_type}</p></td>
+                                                    <td align="center">
+                                                        <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
+                                                            <button class="button-5" role="button" style="font-size: 12px">
+                                                                <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.numberOfAllRegistrations}/${request_course.quantity}
+                                                            </button>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </c:if>
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
                             </table>
                         </div>
                         <div id="app_list" style="display:none;">
@@ -206,61 +227,69 @@
                                     <td style="width: 10%" align="center">ประเภท</td>
                                     <td style="width: 12%" align="center">ผู้สมัคร</td>
                                 </tr>
-
-                                <c:forEach var="request_course" items="${requests_open_course}">
-                                    <%
-                                        Date currentDate = new Date(); // วันปัจจุบัน
-                                    %>
-                                    <c:set var="currentDate1" value="<%=currentDate%>"/>
-                                    <c:if test="${request_course.endPayment.before(currentDate1) && request_course.applicationResult.after(currentDate1)}">
-                                        <c:if test="${request_course.requestStatus == 'ผ่าน' &&
+                                <c:choose>
+                                    <c:when test="${requests_sort_Application_date.size() == 0}">
+                                        <tr>
+                                            <td colspan="6" align="center">ไม่มีข้อมูล</td>
+                                        </tr>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach var="request_course" items="${requests_sort_Application_date}">
+                                            <%
+                                                Date currentDate = new Date(); // วันปัจจุบัน
+                                            %>
+                                            <c:set var="currentDate1" value="<%=currentDate%>"/>
+                                            <c:if test="${request_course.endPayment.before(currentDate1) && request_course.applicationResult.after(currentDate1)}">
+                                                <c:if test="${request_course.requestStatus == 'ผ่าน' &&
                                               currentDate1 > request_course.endPayment &&
                                               currentDate1 < request_course.applicationResult}">
-                                            <fmt:formatDate value="${request_course.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
-                                            <fmt:formatDate value="${request_course.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
-                                            <fmt:formatDate value="${request_course.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
-                                            <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
-                                            <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                            <tr style="color: black">
-                                                <td><p>${request_course.course.name}</p></td>
-                                                <td align="center"><p>${startPayment} - ${endPayment}</p></td>
-                                                <td align="center"><p>${applicationResult}</p></td>
-                                                <td align="center"><p>${startStudyDate} - ${endStudyDate}</p></td>
-                                                <td align="center"><p>${request_course.course.course_type}</p></td>
-                                                <td align="center">
-                                                    <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
-                                                        <button class="button-5" role="button" style="font-size: 12px">
-                                                            <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.numberOfAllRegistrations}/${request_course.quantity}
-                                                        </button>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </c:if>
-                                    </c:if>
-                                    <c:if test="${request_course.requestStatus == 'ผ่าน' &&
+                                                    <fmt:formatDate value="${request_course.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
+                                                    <fmt:formatDate value="${request_course.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
+                                                    <fmt:formatDate value="${request_course.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
+                                                    <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                                    <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
+                                                    <tr style="color: black">
+                                                        <td><p>${request_course.course.name}</p></td>
+                                                        <td align="center"><p>${startPayment} - ${endPayment}</p></td>
+                                                        <td align="center"><p>${applicationResult}</p></td>
+                                                        <td align="center"><p>${startStudyDate} - ${endStudyDate}</p></td>
+                                                        <td align="center"><p>${request_course.course.course_type}</p></td>
+                                                        <td align="center">
+                                                            <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
+                                                                <button class="button-5" role="button" style="font-size: 12px">
+                                                                    <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.numberOfAllRegistrations}/${request_course.quantity}
+                                                                </button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </c:if>
+                                            </c:if>
+                                            <c:if test="${request_course.requestStatus == 'ผ่าน' &&
                                               request_course.course.fee == 0 &&
                                               currentDate1 < request_course.applicationResult}">
-                                        <fmt:formatDate value="${request_course.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
-                                        <fmt:formatDate value="${request_course.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
-                                        <fmt:formatDate value="${request_course.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
-                                        <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
-                                        <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                        <tr style="color: black">
-                                            <td><p>${request_course.course.name}</p></td>
-                                            <td align="center"><p>ไม่มีค่าธรรมเนียม</p></td>
-                                            <td align="center"><p>${applicationResult}</p></td>
-                                            <td align="center"><p>${startStudyDate} - ${endStudyDate}</p></td>
-                                            <td align="center"><p>${request_course.course.course_type}</p></td>
-                                            <td align="center">
-                                                <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
-                                                    <button class="button-5" role="button" style="font-size: 12px">
-                                                        <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.numberOfAllRegistrations}/${request_course.quantity}
-                                                    </button>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </c:if>
-                                </c:forEach>
+                                                <fmt:formatDate value="${request_course.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
+                                                <fmt:formatDate value="${request_course.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
+                                                <fmt:formatDate value="${request_course.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
+                                                <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                                <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
+                                                <tr style="color: black">
+                                                    <td><p>${request_course.course.name}</p></td>
+                                                    <td align="center"><p>ไม่มีค่าธรรมเนียม</p></td>
+                                                    <td align="center"><p>${applicationResult}</p></td>
+                                                    <td align="center"><p>${startStudyDate} - ${endStudyDate}</p></td>
+                                                    <td align="center"><p>${request_course.course.course_type}</p></td>
+                                                    <td align="center">
+                                                        <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
+                                                            <button class="button-5" role="button" style="font-size: 12px">
+                                                                <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.numberOfAllRegistrations}/${request_course.quantity}
+                                                            </button>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </c:if>
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
                             </table>
                         </div>
                     </div>
@@ -275,40 +304,48 @@
                                 <td style="width: 10%"align="center">ผู้สมัคร</td>
                                 <td style="width: 20%"align="center"></td>
                             </tr>
-
-                            <c:forEach var="request_course" items="${requests_open_course}">
-                                <c:if test="${request_course.requestStatus == 'ผ่าน' && request_course.course.status == 'เปิดสอน'}">
-                                    <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
-                                    <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                    <tr style="color: black">
-                                        <td><p>${request_course.course.name}</p></td>
-                                        <td align="center"><p>${startStudyDate} - ${endStudyDate}</p></td>
-                                        <td align="center"><p>${request_course.course.course_type}</p></td>
-                                        <td align="center">
-                                            <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/view_sample_certificate">ดูตัวอย่าง</a>
-                                        </td>
-                                        <td align="center">
-                                            <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
-                                                <button class="button-5" role="button" style="font-size: 12px">
-                                                    <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.numberOfApprovedRegistrations}/${request_course.quantity}
-                                                </button>
-                                            </a>
-                                        </td>
-                                        <td align="center">
-                                            <button type="button" style="font-size: 12px"
-                                                    onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_course.request_id}/add_course_activity'; return false;"
-                                                    class="activity-btn">
-                                                <i class='fas fa-plus-circle' style='color: #ffffff; margin-right: 5px'></i> เพิ่มข่าวสาร
-                                            </button>
-                                            <button type="button" style="font-size: 12px"
-                                                    onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_course.request_id}/list_course_activity_news'; return false;"
-                                                    class="list-activity-btn">
-                                                <i class='fa fa-list' style='color: #0077ff; margin-right: 5px'></i> รายการข่าวสาร
-                                            </button>
-                                        </td>
+                            <c:choose>
+                                <c:when test="${requests_sort_endStudy_date.size() == 0}">
+                                    <tr>
+                                        <td colspan="6" align="center">ไม่มีข้อมูล</td>
                                     </tr>
-                                </c:if>
-                            </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach var="request_course" items="${requests_sort_endStudy_date}">
+                                        <c:if test="${request_course.requestStatus == 'ผ่าน' && request_course.course.status == 'เปิดสอน'}">
+                                            <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                            <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
+                                            <tr style="color: black">
+                                                <td><p>${request_course.course.name}</p></td>
+                                                <td align="center"><p>${startStudyDate} - ${endStudyDate}</p></td>
+                                                <td align="center"><p>${request_course.course.course_type}</p></td>
+                                                <td align="center">
+                                                    <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/view_sample_certificate">ดูตัวอย่าง</a>
+                                                </td>
+                                                <td align="center">
+                                                    <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
+                                                        <button class="button-5" role="button" style="font-size: 12px">
+                                                            <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.numberOfApprovedRegistrations}/${request_course.quantity}
+                                                        </button>
+                                                    </a>
+                                                </td>
+                                                <td align="center">
+                                                    <button type="button" style="font-size: 12px"
+                                                            onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_course.request_id}/add_course_activity'; return false;"
+                                                            class="activity-btn">
+                                                        <i class='fas fa-plus-circle' style='color: #ffffff; margin-right: 5px'></i> เพิ่มข่าวสาร
+                                                    </button>
+                                                    <button type="button" style="font-size: 12px"
+                                                            onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_course.request_id}/list_course_activity_news'; return false;"
+                                                            class="list-activity-btn">
+                                                        <i class='fa fa-list' style='color: #0077ff; margin-right: 5px'></i> รายการข่าวสาร
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </c:if>
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
                         </table>
                     </div>
                 </div>
@@ -328,6 +365,22 @@
     </c:otherwise>
 </c:choose>
 </body>
+<script>
+    // ดึงค่าพารามิเตอร์ success จาก URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const addParam = urlParams.get('addStatus');
+    const editParam = urlParams.get('editStatus');
+    const deleteParam = urlParams.get('deleteStatus');
+
+    // ถ้ามีค่าเป็น 'true', แสดง Alert
+    if (addParam === 'true') {
+        alert("เพิ่มข้อมูลการร้องขอสำเร็จ");
+    }else if (editParam === 'true'){
+        alert("แก้ไขข้อมูลการร้องขอสำเร็จ");
+    }else if (deleteParam === 'true'){
+        alert("ลบข้อมูลการร้องขอสำเร็จ");
+    }
+</script>
 <script>
     function checkSelection() {
         var selectElement = document.getElementById("select_type");

@@ -35,6 +35,21 @@ public class ActivityDaoImpl implements ActivityDao{
     }
 
     @Override
+    public List<Activity> getPublicActivityLast3Months() {
+        Session session = sessionFactory.getCurrentSession();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -3); // ลดเวลากลับ 3 เดือน
+
+        Query<Activity> query = session.createQuery("from Activity a where a.type =:acType AND a.date BETWEEN :startDate AND :endDate ORDER BY a.date DESC", Activity.class);
+        query.setParameter("acType", "ข่าวสารทั่วไป");
+        query.setParameter("startDate", calendar.getTime());
+        query.setParameter("endDate", new Date()); // วันปัจจุบัน
+
+        List<Activity> activities = query.getResultList();
+        return activities;
+    }
+
+    @Override
     public List<Activity> getViewCourseActivityNews(long req_id) {
         Session session = sessionFactory.getCurrentSession();
         Query<Activity> query = session.createQuery("FROM Activity a WHERE a.type =: acType AND a.requestOpenCourse.request_id =: reqId AND a.date >= :threeMonthsAgo ORDER BY a.date DESC", Activity.class);
@@ -80,7 +95,7 @@ public class ActivityDaoImpl implements ActivityDao{
     @Override
     public List<Activity> getActivityByRequestOpenCourseId(long id) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Activity> query = session.createQuery("FROM Activity a WHERE a.requestOpenCourse.id =: roc_Id", Activity.class);
+        Query<Activity> query = session.createQuery("FROM Activity a WHERE a.requestOpenCourse.id =: roc_Id ORDER BY a.date DESC", Activity.class);
         query.setParameter("roc_Id", id);
         List<Activity> activity = query.getResultList();
         return activity;

@@ -10,6 +10,7 @@ public interface ActivityService {
     void addActivityNews(Activity activity);
 
     List<Activity> getPublicActivity();
+    List<Activity> getPublicActivityLast3Months();
 
     List<Activity> getViewCourseActivityNews(long req_id);
 

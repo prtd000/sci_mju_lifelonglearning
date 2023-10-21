@@ -63,7 +63,17 @@ public class CourseController {
         String course_name = allReqParams.get("course_name");
         String certificateName = allReqParams.get("certificateName");
         String course_principle = allReqParams.get("coursePrinciple");
-//        String course_object = allReqParams.get("course_object");
+
+        String prefix = allReqParams.get("prefix_toSave");
+        String fname_contacts = allReqParams.get("fname_contacts");
+        String lname_contacts = allReqParams.get("lname_contacts");
+        String faculty = allReqParams.get("faculty");
+        String phone_contacts = allReqParams.get("phone_contacts");
+        String email_contacts = allReqParams.get("email_contacts");
+        String link_facebook = allReqParams.get("link_facebook");
+
+        String contact = prefix + "$%" + fname_contacts + "$%" + lname_contacts + "$%" + faculty + "$%" + phone_contacts + "$%" + email_contacts  + "$%" + link_facebook ;
+
         String course_object = "";
         for (String objective : courseObjectives) {
             System.out.println("วัตถุประสงค์: " + objective);
@@ -123,12 +133,12 @@ public class CourseController {
 
             // บันทึก path ไปยังฐานข้อมูล
             Course course_add = new Course(course_name, certificateName, course_img, course_principle, course_object, course_totalHours,
-                    course_targetOccupation, course_fee, course_pdf, course_status, course_type, major);
+                    course_targetOccupation, course_fee, course_pdf, course_status, course_type, major,contact);
             courseService.doAddCourse(course_add);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "redirect:/course/"+admin_id+"/list_all_course";
+        return "redirect:/course/"+admin_id+"/list_all_course?success=true";
     }
     //***********************************************//
 
@@ -167,7 +177,7 @@ public class CourseController {
             course.setStatus("ลงทะเบียน");
             courseService.updateCourse(course);
         }
-        return "redirect:/course/"+admin_id+"/list_all_course";
+        return "redirect:/course/"+admin_id+"/list_all_course?approve=true";
     }
 
     @PostMapping(path = "/{admin_id}/view_request_open_course/{request_id}/cancel")
@@ -185,7 +195,7 @@ public class CourseController {
             existingRequestOpenCourse.setRequestStatus("ไม่ผ่าน");
             requestOpCourseService.updateRequestOpenCourse(existingRequestOpenCourse);
         }
-        return "redirect:/course/"+admin_id+"/list_all_course";
+        return "redirect:/course/"+admin_id+"/list_all_course?approve=false";
     }
     //******************************************************//
 
@@ -199,7 +209,15 @@ public class CourseController {
         model.addAttribute("courses_by_payment_date",courseService.getCourseByStatus("ชำระเงิน"));
         model.addAttribute("courses_by_study_date",courseService.getCourseByStatus("เปิดสอน"));
         model.addAttribute("courses_by_not_study",courseService.getCourseByStatus("ยังไม่เปิดสอน"));
+
         model.addAttribute("requests_open_course", requestOpCourseService.getRequestOpenCourses());
+        model.addAttribute("requests_by_register", requestOpCourseService.getRequestOpenCoursesByTypeRegister());
+        model.addAttribute("requests_by_max_register", requestOpCourseService.getRequestOpenCoursesByTypeMaxRegister());
+
+        model.addAttribute("requests_by_payment", requestOpCourseService.getRequestOpenCoursesByTypePayment());
+
+        model.addAttribute("requests_by_study", requestOpCourseService.getRequestOpenCoursesByTypeStudy());
+
         model.addAttribute("list_activities", activityService.getPublicActivity());
         model.addAttribute("admin_id",admin_id);
         model.addAttribute("currentDate",currentDate);
@@ -265,6 +283,18 @@ public class CourseController {
 //            existingCourse.setFile(allReqParams.get("course_file"));
             existingCourse.setCourse_type(allReqParams.get("course_type"));
             existingCourse.setMajor(majorService.getMajorDetail(allReqParams.get("major_id")));
+
+            String prefix = allReqParams.get("prefix_toSave");
+            String fname_contacts = allReqParams.get("fname_contacts");
+            String lname_contacts = allReqParams.get("lname_contacts");
+            String faculty = allReqParams.get("faculty");
+            String phone_contacts = allReqParams.get("phone_contacts");
+            String email_contacts = allReqParams.get("email_contacts");
+            String link_facebook = allReqParams.get("link_facebook");
+
+            String contact = prefix + "$%" + fname_contacts + "$%" + lname_contacts + "$%" + faculty + "$%" + phone_contacts + "$%" + email_contacts  + "$%" + link_facebook ;
+
+            existingCourse.setContact(contact);
 
             try {
                 // กำหนด path ที่จะบันทึกไฟล์
@@ -340,7 +370,7 @@ public class CourseController {
                 e.printStackTrace();
             }
         }
-        return "redirect:/course/"+admin_id+"/list_all_course";
+        return "redirect:/course/"+admin_id+"/list_all_course?editStatus=true";
     }
     //************************************************************//
 
@@ -387,16 +417,19 @@ public class CourseController {
 
         String approveResult = allReqParams.get("approveResult");
         Invoice invoice = paymentService.getInvoiceById(invoice_id);
+        String status = "";
         // ตรวจสอบค่า approveResult และดำเนินการตามที่คุณต้องการ
         if ("ยืนยันการสมัคร".equals(approveResult)) {
             invoice.setApprove_status("ผ่าน");
             invoice.getRegister().setStudy_result("กำลังเรียน");
+            status = "true";
         } else if ("ยกเลิกการสมัคร".equals(approveResult)) {
             invoice.setApprove_status("ไม่ผ่าน");
+            status = "false";
         }
         paymentService.updateInvoice(invoice);
 
-        return "redirect:/course/"+request_id+"/list_member_to_course";
+        return "redirect:/course/"+request_id+"/list_member_to_course?approveStatus="+status;
     }
 
     //*******************************************************************//
@@ -456,7 +489,7 @@ public class CourseController {
             e.printStackTrace();
         }
 
-        return "redirect:/course/public/list_activity";
+        return "redirect:/course/public/list_activity?addStatus=true";
     }
     //*********************************************************//
 
@@ -464,7 +497,7 @@ public class CourseController {
     @GetMapping("/public/list_activity")
     public String getListActivityNews(Model model) {
         model.addAttribute("title", "รายการ" + title);
-        model.addAttribute("list_activities", activityService.getPublicActivity());
+        model.addAttribute("list_activities", activityService.getPublicActivityLast3Months());
         return "admin/list_Public_Activity";
     }
     //************************************************//
@@ -564,7 +597,7 @@ public class CourseController {
         }
         System.out.println("PASS");
 
-        return "redirect:/course/public/list_activity";
+        return "redirect:/course/public/list_activity?editStatus=true";
     }
     //**********************************************//
 
@@ -592,7 +625,7 @@ public class CourseController {
             Files.delete(deletedirectoryPath);
         }
         activityService.deleteActivity(ac_id);
-        return "redirect:/course/public/list_activity";
+        return "redirect:/course/public/list_activity?deleteStatus=true";
     }
     //*******************************************************//
 

@@ -5,12 +5,17 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>${title}</title>
+    <title>หลักสูตรที่ร้องขอ</title>
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet">
 <%--    <link href="${pageContext.request.contextPath}/assets/css/lecturer/list_request_open_course.css" rel="stylesheet">--%>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
     <link href="${pageContext.request.contextPath}/assets/css/lecturer/list_request_open_course.css" rel="stylesheet">
 <%--    <link href="${pageContext.request.contextPath}/assets/css/list_open_course_style.css" rel="stylesheet">--%>
+    <style>
+        body{
+            font-family: 'Prompt', sans-serif;
+        }
+    </style>
 </head>
 <body>
 <%
@@ -70,7 +75,7 @@
         <!-- Navbar End -->
 
 <div align="center" style="margin-top: 20px">
-    <h1>${title}การร้องขอ</h1>
+    <h1>รายการหลักสูตรที่ร้องขอ</h1>
     <table class="container">
         <tr align="center">
             <td class="list_course" align="center">
@@ -100,7 +105,6 @@
                                 <td style="width: 8%" align="center">ประเภท</td>
                                 <td style="width: 12%" align="center"></td>
                             </tr>
-
                             <c:forEach var="request_course" items="${requests_open_course}">
                                 <c:if test="${request_course.requestStatus == 'รอดำเนินการ'}">
                                     <fmt:formatDate value="${request_course.requestDate}" pattern="dd/MM/yyyy" var="formattedDate" />
@@ -202,6 +206,22 @@
     </c:otherwise>
 </c:choose>
 </body>
+<script>
+    // ดึงค่าพารามิเตอร์ success จาก URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const cancelParam = urlParams.get('cancelStatus');
+    const addParam = urlParams.get('addStatus');
+    const editParam = urlParams.get('editStatus');
+
+    // ถ้ามีค่าเป็น 'true', แสดง Alert
+    if (cancelParam === 'true') {
+        alert("ยกเลิกข้อมูลการร้องขอสำเร็จ");
+    }else if (addParam === 'true') {
+        alert("เพิ่มข้อมูลการร้องขอสำเร็จ");
+    }else if (editParam === 'true') {
+        alert("แก้ไขข้อมูลการร้องขอสำเร็จ");
+    }
+</script>
 <script>
     function checkSelection() {
         var selectElement = document.getElementById("select_type");

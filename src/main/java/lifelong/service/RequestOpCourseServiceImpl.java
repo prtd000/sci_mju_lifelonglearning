@@ -45,6 +45,30 @@ public class RequestOpCourseServiceImpl implements RequestOpCourseService {
 
     @Override
     @Transactional
+    public List<RequestOpenCourse> getRequestOpenCoursesByTypeRegister() {
+        return requestOpCourseDao.getRequestOpenCoursesByTypeRegister();
+    }
+
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> getRequestOpenCoursesByTypeMaxRegister() {
+        return requestOpCourseDao.getRequestOpenCoursesByTypeMaxRegister();
+    }
+
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> getRequestOpenCoursesByTypePayment() {
+        return requestOpCourseDao.getRequestOpenCoursesByTypePayment();
+    }
+
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> getRequestOpenCoursesByTypeStudy() {
+        return requestOpCourseDao.getRequestOpenCoursesByTypeStudy();
+    }
+
+    @Override
+    @Transactional
     public RequestOpenCourse getRequestOpenCourseDetail(long requestId) {
         return requestOpCourseDao.getRequestOpenCourseDetail(requestId);
     }
@@ -130,6 +154,24 @@ public class RequestOpCourseServiceImpl implements RequestOpCourseService {
     @Transactional
     public List<RequestOpenCourse> getRequestOpenCoursesByLecturerId(String lec_Id) {
         return requestOpCourseDao.getRequestOpenCoursesByLecturerId(lec_Id);
+    }
+
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> getRequestOpenCoursesByTypePaymentByLec(String lec_id) {
+        return requestOpCourseDao.getRequestOpenCoursesByTypePaymentByLec(lec_id);
+    }
+
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> getRequestOpenCoursesByTypeApplicationByLec(String lec_id) {
+        return requestOpCourseDao.getRequestOpenCoursesByTypeApplicationByLec(lec_id);
+    }
+
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> getRequestOpenCoursesByTypeStudyByLec(String lec_id) {
+        return requestOpCourseDao.getRequestOpenCoursesByTypeStudyByLec(lec_id);
     }
 
     @Override

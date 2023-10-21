@@ -20,6 +20,8 @@ public interface RegisterService {
     List<Receipt> getReceipt();
     List<Register>getRegisterByRequestIdAndPayStatus(long roc_Id);
     List<Register> getRegisterByRequestIdAndPayStatusAndApprove(long roc_Id);
+    List<Register> getRegisterByRequestIdAndPayStatusAndApproveSortByActionDate(long roc_Id);
+    List<Register> getRegisterByRequestIdAndPayStatusAndApproveSortByStatusPass(long roc_Id);
 
     List<Register> getRegisterByRequestIdAndApprove(long roc_Id);
 

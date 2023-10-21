@@ -12,13 +12,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>ApproveRequestOpenCourse</title>
+    <title>ยืนยันการหลักสูตรร้องขอ</title>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+<style>
+    body{
+        font-family: 'Prompt', sans-serif;
+    }
+</style>
 </head>
 <body>
 <%

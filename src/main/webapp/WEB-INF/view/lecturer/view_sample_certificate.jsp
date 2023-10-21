@@ -12,13 +12,18 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>ดูตัวอย่างเกียรติบัตร</title>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
     <link href="${pageContext.request.contextPath}/assets/css/admin/style_addcourse.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/lecturer/certificate.css" rel="stylesheet">
+    <style>
+        body{
+            font-family: 'Prompt', sans-serif;
+        }
+    </style>
 </head>
 <script>
     function previewImage(input) {
@@ -213,6 +218,16 @@
     </c:otherwise>
 </c:choose>
 </body>
+<script>
+    // ดึงค่าพารามิเตอร์ success จาก URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const updateSigParam = urlParams.get('updateSig');
+
+    // ถ้ามีค่าเป็น 'true', แสดง Alert
+    if (updateSigParam === 'true') {
+        alert("แก้ไขข้อมูลลายเซ็นสำเร็จ");
+    }
+</script>
 <script>
     const course_img = document.getElementById("preview").src;
     var currentTab = 0; // Current tab is set to be the first tab (0)

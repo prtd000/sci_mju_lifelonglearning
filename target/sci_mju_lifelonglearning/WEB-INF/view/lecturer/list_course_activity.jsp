@@ -4,12 +4,15 @@
 <%@ page import="lifelong.model.*" %>
 <html>
 <head>
-    <title>title</title>
+    <title>ข่าวสารประจำหลักสูตร</title>
     <link href="${pageContext.request.contextPath}/assets/css/list_open_course_style.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/admin/list_approve_member.css" rel="stylesheet">
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
     <style>
+        body{
+            font-family: 'Prompt', sans-serif;
+        }
         h1{
             font-family: 'Prompt', sans-serif;
             font-weight: 700 !important;
@@ -140,24 +143,34 @@
                                 <td style="width: 10%" align="center"></td>
                                 <td style="width: 10%" align="center"></td>
                             </tr>
-                            <c:forEach var="list" items="${list_activity}">
-                                <tr>
-                                    <td>${list.name}</td>
-                                    <fmt:formatDate value="${list.date}" pattern="dd/MM/yyyy" var="date" />
-                                    <td align="center">${date}</td>
-                                    <td align="center">${list.type}</td>
-                                    <td align="center">
-                                        <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/private/${list.ac_id}/edit_course_activity_page/${list.requestOpenCourse.request_id}">
-                                            <button type="button" class="btn btn-outline-warning">แก้ไข</button>
-                                        </a>
-                                    </td>
-                                    <td align="center">
-                                        <input type="button" value="ยกเลิก"
-                                               onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${list.ac_id}/delete'; return false; }"
-                                               class="btn btn-outline-danger"/>
-                                    </td>
-                                </tr>
-                            </c:forEach>
+                            <c:choose>
+                                <c:when test="${list_activity.size() == 0}">
+                                    <tr>
+                                        <td colspan="5" align="center">ไม่มีข้อมูล</td>
+                                    </tr>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach var="list" items="${list_activity}">
+                                        <tr>
+                                            <td>${list.name}</td>
+                                            <fmt:formatDate value="${list.date}" pattern="dd/MM/yyyy" var="date" />
+                                            <td align="center">${date}</td>
+                                            <td align="center">${list.type}</td>
+                                            <td align="center">
+                                                <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/private/${list.ac_id}/edit_course_activity_page/${list.requestOpenCourse.request_id}">
+                                                    <button type="button" class="btn btn-outline-warning">แก้ไข</button>
+                                                </a>
+                                            </td>
+                                            <td align="center">
+                                                <input type="button" value="ยกเลิก"
+                                                       onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${list.ac_id}/delete'; return false; }"
+                                                       class="btn btn-outline-danger"/>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
+
                         </table>
                     </div>
                 </div>
@@ -173,7 +186,22 @@
     </c:otherwise>
 </c:choose>
 </body>
+<script>
+    // ดึงค่าพารามิเตอร์ success จาก URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const addParam = urlParams.get('addStatus');
+    const editParam = urlParams.get('editStatus');
+    const deleteParam = urlParams.get('deleteStatus');
 
+    // ถ้ามีค่าเป็น 'true', แสดง Alert
+    if (addParam === 'true') {
+        alert("เพิ่มข้อมูลข่าวสารประจำหลักสูตรสำเร็จ");
+    }else if (editParam === 'true') {
+        alert("แก้ไขข้อมูลข่าวสารประจำหลักสูตรสำเร็จ");
+    }else if (deleteParam === 'true') {
+        alert("ลบข้อมูลข่าวสารประจำหลักสูตรสำเร็จ");
+    }
+</script>
 <script>
     window.addEventListener('DOMContentLoaded', (event) => {
         var button = document.getElementById('FClick');

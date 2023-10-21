@@ -13,7 +13,7 @@
 <!DOCTYPEhtml>
 <html>
 <head>
-  <title>เพิ่ม${title}</title>
+  <title>เพิ่มข้อมูลข่าวสารทั่วไป</title>
   <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
   <!-- google font -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -27,39 +27,45 @@
   .txt_input {
     width: 70%;
   }
+  body{
+    font-family: 'Prompt', sans-serif;
+  }
 </style>
 <script>
   function previewImages() {
-    var preview = document.getElementById('imagePreview');
-    var img_label = document.getElementById('img_label');
-    var files = document.getElementById('ac_img').files;
-    var maxImagesToShow = 3; // จำนวนรูปภาพที่ต้องการแสดงเป็นตัวอย่าง
-    var remainingImages = files.length - maxImagesToShow; // จำนวนรูปภาพที่เหลือ
+    var valid = validateAcImg(); // เรียกใช้ฟังก์ชัน validateAcImg() เพื่อตรวจสอบไฟล์รูปภาพ
+    if (valid) {
+      var preview = document.getElementById('imagePreview');
+      var img_label = document.getElementById('img_label');
+      var files = document.getElementById('ac_img').files;
+      var maxImagesToShow = 3; // จำนวนรูปภาพที่ต้องการแสดงเป็นตัวอย่าง
+      var remainingImages = files.length - maxImagesToShow; // จำนวนรูปภาพที่เหลือ
 
-    preview.innerHTML = ''; // ล้างเนื้อหาที่แสดงรูปภาพตัวอย่างเก่า
-    img_label.innerHTML = '';
+      preview.innerHTML = ''; // ล้างเนื้อหาที่แสดงรูปภาพตัวอย่างเก่า
+      img_label.innerHTML = '';
 
-    for (var i = 0; i < maxImagesToShow; i++) {
-      var file = files[i];
-      var reader = new FileReader();
+      for (var i = 0; i < maxImagesToShow; i++) {
+        var file = files[i];
+        var reader = new FileReader();
 
-      reader.onload = function (e) {
-        var img = document.createElement('img');
-        img.src = e.target.result;
-        img.style.maxWidth = '180px'; // ตั้งความกว้างสูงสุดของรูปภาพ
-        // img.style.maxHeight = '200px'; // ตั้งความสูงสูงสุดของรูปภาพ
-        preview.appendChild(img); // เพิ่มรูปภาพลงในตัวแสดงรูปภาพตัวอย่าง
-      };
+        reader.onload = function (e) {
+          var img = document.createElement('img');
+          img.src = e.target.result;
+          img.style.maxWidth = '180px'; // ตั้งความกว้างสูงสุดของรูปภาพ
+          // img.style.maxHeight = '200px'; // ตั้งความสูงสูงสุดของรูปภาพ
+          preview.appendChild(img); // เพิ่มรูปภาพลงในตัวแสดงรูปภาพตัวอย่าง
+        };
 
-      reader.readAsDataURL(file); // อ่านไฟล์ภาพและแสดงผล
-    }
+        reader.readAsDataURL(file); // อ่านไฟล์ภาพและแสดงผล
+      }
 
-    if (remainingImages > 0) {
-      var remainingImagesText = 'และรูปภาพอีก ' + remainingImages + ' รูป';
-      var message = document.createElement('p');
-      message.textContent = remainingImagesText;
-      // preview.appendChild(message);
-      img_label.appendChild(message);
+      if (remainingImages > 0) {
+        var remainingImagesText = 'และรูปภาพอีก ' + remainingImages + ' รูป';
+        var message = document.createElement('p');
+        message.textContent = remainingImagesText;
+        // preview.appendChild(message);
+        img_label.appendChild(message);
+      }
     }
   }
 
@@ -152,11 +158,11 @@
                     <div class="form-floating" style="height: 500px">
 <%--                      <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px"></textarea>--%>
 <%--                      <label for="ac_detail">รายละเอียด</label>--%>
-                            <div id="editor" style=""></div>
+                            <div id="editor" style="font-family: 'Prompt', sans-serif;"></div>
                             <textarea style="display: none;" id="ac_detail" name="ac_detail"></textarea>
                     </div>
-                    <label id="invalidAcDetail" style="color: red; font-size: 12px"></label>
                   </div>
+                    <label id="invalidAcDetail" style="color: red; font-size: 12px"></label>
                 </td>
               </tr>
               <tr>
@@ -172,6 +178,7 @@
                     <div class="form-floating">
                       <input class="txt_input" name="ac_img" type="file" id="ac_img" accept="image/*" multiple onchange="previewImages()"/>
                     </div>
+                    <label id="invalidAcImg" style="color: red; font-size: 12px"></label>
                   </div>
                 </td>
               </tr>
@@ -187,8 +194,8 @@
           <div style="width: 100%" align="center" class="flex-container">
             <input type="button" value="ย้อนกลับ"
                    onclick="window.location.href='${pageContext.request.contextPath}/course/public/list_activity'; return false;"
-                   style="width: 47%" class="flex-container"/>
-            <input type="submit" value="บันทึก" class="button-5" style="width: 47%"/>
+                   style="width: 50%"/>
+            <input type="submit" value="บันทึก" class="button-5" style="width: 50%; font-family: 'Prompt', sans-serif;"/>
           </div>
           <!-- end previous / next buttons -->
         </form>
@@ -220,40 +227,73 @@
 
     if (acName.trim() === "") {
       document.getElementById("invalidAcName").innerHTML = "กรุณากรอกชื่อหัวข้อข่าวสารและกิจกรรม";
-      alert("กรุณากรอกชื่อหัวข้อข่าวสารและกิจกรรม");
+      document.getElementById("ac_name").focus();
+      // alert("กรุณากรอกชื่อหัวข้อข่าวสารและกิจกรรม");
       return false;
     }else if (acName.length < minLength || acName.length > maxLength) {
       document.getElementById("invalidAcName").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องมีความยาวระหว่าง 2 ถึง 255 ตัวอักษร";
-      document.getElementById("invalidAcName").focus();
-      alert("ชื่อหัวข้อข่าวสารและกิจกรรมต้องมีความยาวระหว่าง 2 ถึง 255 ตัวอักษร");
+      document.getElementById("ac_name").focus();
       return false;
     }else {
       document.getElementById("invalidAcName").innerHTML = "";
     }
 
+    // //Detail
+    // var acDetail = document.getElementById('ac_detail').value;
+    //
+    // if (acDetail.trim() === "") {
+    //   document.getElementById("invalidAcDetail").innerHTML = "กรุณากรอกรายละเอียด";
+    //   return false;
+    // }else if (acDetail.length < minLength || acDetail.length > maxLength) {
+    //   document.getElementById("invalidAcDetail").innerHTML = "รายละเอียดต้องมีความยาวระหว่าง 2 ถึง 225 ตัวอักษร";
+    //   return false;
+    // }else {
+    //   document.getElementById("invalidAcDetail").innerHTML = "";
+    // }
+    //
+    // //Img
+    // var acImgInput = document.getElementById('ac_img');
+    // var acImg = acImgInput.files[0];
+    // var allowedExtensions = /(\.png|\.jpeg|\.jpg)$/i; // นามสกุลไฟล์ที่อนุญาต
+    // var maxFileSize = 2 * 1024 * 1024; // ขนาดไฟล์สูงสุด (2MB)
+    //
+    // if (!acImg) {
+    //   alert("กรุณาเลือกไฟล์รูปภาพ");
+    //   return false;
+    // }
+    //
+    // if (!allowedExtensions.exec(acImg.name)) {
+    //   alert("รูปภาพต้องเป็นไฟล์นามสกุล png, jpeg, หรือ jpg เท่านั้น");
+    //   return false;
+    // }
+    //
+    // if (acImg.size > maxFileSize) {
+    //   alert("ขนาดไฟล์รูปภาพต้องไม่เกิน 2MB");
+    //   return false;
+    // }
+
     return true;
   }
-  // function validateAcDetail() {
-  //   var acDetail = document.getElementById('ac_detail').value;
-  //   var regex = /^[ก-์A-Za-z0-9 ().]+$/; // รูปแบบที่อนุญาต
-  //   var minLength = 2;
-  //   var maxLength = 225;
-  //
-  //   if (acDetail.trim() === "") {
-  //     document.getElementById("invalidAcDetail").innerHTML = "กรุณากรอกรายละเอียด";
-  //     return false;
-  //   }else if (acDetail.length < minLength || acDetail.length > maxLength) {
-  //     document.getElementById("invalidAcDetail").innerHTML = "รายละเอียดต้องมีความยาวระหว่าง 2 ถึง 225 ตัวอักษร";
-  //     return false;
-  //   }else if (!regex.test(acDetail)) {
-  //     document.getElementById("invalidAcDetail").innerHTML = "ชื่อหัวข้อข่าวสารและกิจกรรมต้องประกอบด้วยอักขระภาษาไทย อังกฤษ ตัวเลข";
-  //     return false;
-  //   }else {
-  //     document.getElementById("invalidAcDetail").innerHTML = "";
-  //   }
-  //
-  //   return true;
-  // }
+  function validateAcDetail() {
+    var acDetail = document.getElementById('ac_detail').value;
+    var minLength = 2;
+    var maxLength = 225;
+
+    if (acDetail.trim() === "") {
+      document.getElementById("invalidAcDetail").innerHTML = "กรุณากรอกรายละเอียด";
+      document.getElementById("editor").focus();
+      return false;
+    }
+    // else if (acDetail.length < minLength || acDetail.length > maxLength) {
+    //   document.getElementById("invalidAcDetail").innerHTML = "รายละเอียดต้องมีความยาวระหว่าง 2 ถึง 225 ตัวอักษร";
+    //   return false;
+    // }
+    else {
+      document.getElementById("invalidAcDetail").innerHTML = "";
+    }
+
+    return true;
+  }
 
   function validateAcImg() {
     var acImgInput = document.getElementById('ac_img');
@@ -262,18 +302,22 @@
     var maxFileSize = 2 * 1024 * 1024; // ขนาดไฟล์สูงสุด (2MB)
 
     if (!acImg) {
-      alert("กรุณาเลือกไฟล์รูปภาพ");
+      document.getElementById("invalidAcImg").innerHTML = "กรุณาเลือกไฟล์รูปภาพ";
       return false;
     }
 
     if (!allowedExtensions.exec(acImg.name)) {
-      alert("รูปภาพต้องเป็นไฟล์นามสกุล png, jpeg, หรือ jpg เท่านั้น");
+      document.getElementById('ac_img').value = "";
+      document.getElementById("invalidAcImg").innerHTML = "รูปภาพต้องเป็นไฟล์นามสกุล png, jpeg, หรือ jpg เท่านั้น";
       return false;
     }
 
     if (acImg.size > maxFileSize) {
-      alert("ขนาดไฟล์รูปภาพต้องไม่เกิน 2MB");
+      document.getElementById('ac_img').value = "";
+      document.getElementById("invalidAcImg").innerHTML = "ขนาดไฟล์รูปภาพต้องไม่เกิน 2MB";
       return false;
+    }else {
+      document.getElementById("invalidAcImg").innerHTML = "";
     }
 
     return true;
@@ -281,7 +325,7 @@
 
   function confirmAction() {
     updateAcDetailField(); // อัปเดตข้อมูลจาก Rich Text Editor
-    if (validateAcName() && validateAcImg()) {
+    if (validateAcName()&&validateAcDetail() && validateAcImg()) {
       var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการเพิ่มข่าวสารนี้?");
       if (result) {
         return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ

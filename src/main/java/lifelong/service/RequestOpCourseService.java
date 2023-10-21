@@ -12,7 +12,14 @@ public interface RequestOpCourseService {
 
     void saveRequestOpenCourse (RequestOpenCourse requestOpenCourse);
     List<RequestOpenCourse> getRequestOpenCourses();
+    List<RequestOpenCourse> getRequestOpenCoursesByTypeRegister();
+    List<RequestOpenCourse> getRequestOpenCoursesByTypeMaxRegister();
+    List<RequestOpenCourse> getRequestOpenCoursesByTypePayment();
+    List<RequestOpenCourse> getRequestOpenCoursesByTypeStudy();
     List<RequestOpenCourse> getRequestOpenCoursesByLecturerId(String lec_id);
+    List<RequestOpenCourse> getRequestOpenCoursesByTypePaymentByLec(String lec_id);
+    List<RequestOpenCourse> getRequestOpenCoursesByTypeApplicationByLec(String lec_id);
+    List<RequestOpenCourse> getRequestOpenCoursesByTypeStudyByLec(String lec_id);
     List<RequestOpenCourse> getRequestOpenCoursesToCheckDateStudy(String lec_id);
     RequestOpenCourse getRequestOpenCourseDetail(long requestId);
     RequestOpenCourse getRequestOpenCourseDetailToUpdate(long roc_id,String lec_id);

@@ -32,6 +32,12 @@ public class ActivityServiceImpl implements ActivityService{
 
     @Override
     @Transactional
+    public List<Activity> getPublicActivityLast3Months() {
+        return activityDao.getPublicActivityLast3Months();
+    }
+
+    @Override
+    @Transactional
     public List<Activity> getViewCourseActivityNews(long req_id) {
         return activityDao.getViewCourseActivityNews(req_id);
     }

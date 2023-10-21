@@ -13,7 +13,7 @@
 <!DOCTYPEhtml>
 <html>
 <head>
-  <title>เพิ่ม${title}</title>
+  <title>แก้ไขข้อมูลข่าวสารประจำหลักสูตร</title>
   <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
   <!-- google font -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -21,6 +21,11 @@
   <link href="${pageContext.request.contextPath}/assets/css/admin/addPublicActivity.css" rel="stylesheet">
   <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
   <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  <style>
+    body{
+      font-family: 'Prompt', sans-serif;
+    }
+  </style>
 </head>
 <script>
   function previewImages() {

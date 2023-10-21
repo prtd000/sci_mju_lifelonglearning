@@ -87,6 +87,28 @@ public class RegisterDaoImpl implements RegisterDao {
     }
 
     @Override
+    public List<Register> getRegisterByRequestIdAndPayStatusAndApproveSortByActionDate(long roc_Id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Register> query = session.createQuery("from Register r where r.requestOpenCourse.id =: roc_Id AND " +
+                "r.invoice.approve_status NOT IN ('ไม่ผ่าน') ORDER BY register_date DESC", Register.class);
+        query.setParameter("roc_Id",roc_Id);
+        List<Register> registers = query.getResultList();
+        System.out.println(query.getResultList().size());
+        return registers;
+    }
+
+    @Override
+    public List<Register> getRegisterByRequestIdAndPayStatusAndApproveSortByStatusPass(long roc_Id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Register> query = session.createQuery("from Register r where r.requestOpenCourse.id =: roc_Id AND " +
+                "r.invoice.approve_status NOT IN ('ไม่ผ่าน') ORDER BY r.invoice.approve_status DESC", Register.class);
+        query.setParameter("roc_Id", roc_Id);
+        List<Register> registers = query.getResultList();
+        System.out.println(query.getResultList().size());
+        return registers;
+    }
+
+    @Override
     public List<Register> getRegisterByRequestIdAndApprove(long roc_Id) {
         Session session = sessionFactory.getCurrentSession();
         Query<Register> query = session.createQuery("from Register r where r.requestOpenCourse.id =: roc_Id AND " +

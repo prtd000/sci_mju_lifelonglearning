@@ -39,14 +39,74 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
     @Override
     public List<RequestOpenCourse> getRequestOpenCourses() {
         Session session = sessionFactory.getCurrentSession();
-        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse ", RequestOpenCourse.class);
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse ORDER BY requestDate DESC", RequestOpenCourse.class);
         List<RequestOpenCourse> requestOpenCourses = query.getResultList();
         return requestOpenCourses;
     }
+
+    @Override
+    public List<RequestOpenCourse> getRequestOpenCoursesByTypeRegister() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse ORDER BY endRegister ASC", RequestOpenCourse.class);
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
+
+    @Override
+    public List<RequestOpenCourse> getRequestOpenCoursesByTypeMaxRegister() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse ORDER BY applicationResult ASC", RequestOpenCourse.class);
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
+
+    @Override
+    public List<RequestOpenCourse> getRequestOpenCoursesByTypePayment() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse ORDER BY endPayment ASC", RequestOpenCourse.class);
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
+
+    @Override
+    public List<RequestOpenCourse> getRequestOpenCoursesByTypeStudy() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse ORDER BY endStudyDate ASC", RequestOpenCourse.class);
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
+
     @Override
     public List<RequestOpenCourse> getRequestOpenCoursesByLecturerId(String lec_id) {
         Session session = sessionFactory.getCurrentSession();
-        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse r where r.lecturer.id =: Id ", RequestOpenCourse.class);
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse r where r.lecturer.id =: Id ORDER BY requestDate DESC", RequestOpenCourse.class);
+        query.setParameter("Id",lec_id);
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
+
+    @Override
+    public List<RequestOpenCourse> getRequestOpenCoursesByTypePaymentByLec(String lec_id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse r where r.lecturer.id =: Id ORDER BY endPayment ASC", RequestOpenCourse.class);
+        query.setParameter("Id",lec_id);
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
+
+    @Override
+    public List<RequestOpenCourse> getRequestOpenCoursesByTypeApplicationByLec(String lec_id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse r where r.lecturer.id =: Id ORDER BY applicationResult ASC", RequestOpenCourse.class);
+        query.setParameter("Id",lec_id);
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
+
+    @Override
+    public List<RequestOpenCourse> getRequestOpenCoursesByTypeStudyByLec(String lec_id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse r where r.lecturer.id =: Id ORDER BY endStudyDate ASC", RequestOpenCourse.class);
         query.setParameter("Id",lec_id);
         List<RequestOpenCourse> requestOpenCourses = query.getResultList();
         return requestOpenCourses;

@@ -90,6 +90,7 @@
                     <div align="right" style="width: 50%"></div>
                 </div>
                 <hr>
+
                 <div align="center" class="main_container">
                     <div id="Activity_News" class="tabcontent">
                         <table class="table table-striped table-hover">

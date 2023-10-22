@@ -17,6 +17,9 @@
         body{
             font-family: 'Prompt', sans-serif;
         }
+        table{
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
@@ -82,11 +85,11 @@
                     </div>
         </nav>
 <!-- Navbar End -->
-        <div align="center" class="main_container">
+        <div align="center" class="main_container" style="font-size: 12px">
             <br>
             <br>
             <h1>หลักสูตรทั้งหมด</h1>
-            <table class="container">
+            <table class="container" style="font-size: 12px">
                 <tr align="center">
                     <td class="list_course" align="center">
                             <%--DIV แรก--%>
@@ -252,6 +255,7 @@
                                             <td style="width: 8%" align="center">วันประกาศผล</td>
                                             <td style="width: 15%" align="center">ระยะเวลาการเรียน</td>
                                             <td style="width: 5%" align="center">ผู้สมัคร</td>
+                                            <td style="width: 10%" align="center"></td>
                                         </tr>
                                         <c:choose>
                                             <c:when test="${courses_by_register_date.size() == 0}">
@@ -295,6 +299,13 @@
                                                                         <button class="button-35" role="button"><i class="fa fa-users" style="margin-right: 10px"></i>
                                                                                 ${request.numberOfAllRegistrations} / ${request.quantity}
                                                                         </button>
+                                                                    </a></td>
+                                                                    <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/close_register">
+                                                                        <form method="post" action="${pageContext.request.contextPath}/course/${request.request_id}/close_register">
+                                                                            <button class="btn btn-outline-danger" role="button" style="font-size: 12px">
+                                                                                ปิดลงทะเบียน
+                                                                            </button>
+                                                                        </form>
                                                                     </a></td>
                                                                 </c:if>
                                                             </c:if>
@@ -350,7 +361,7 @@
                                                                     </td>
                                                                     <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course">
                                                                         <button class="button-35" role="button"><i class="fa fa-users" style="margin-right: 10px"></i>
-                                                                                ${request.numberOfAllRegistrations} / ${request.quantity}
+                                                                                ${request.numberOfAllRegistrationsToPass} / ${request.numberOfAllRegistrations}
                                                                         </button>
                                                                     </a></td>
                                                                 </c:if>
@@ -545,13 +556,14 @@
                                                     <c:if test="${course.course_id == request.course.course_id && request.requestStatus == 'ถูกยกเลิก' && request.endRegister >= currentDate}">
                                                         <td><p>${course.name}</p></td>
                                                         <td align="center">
-                                                            <p>${startStudyDate} - ${endStudyDate}</p><br>
+                                                            <p>${startRegister} - ${endRegister}</p><br>
                                                         </td>
                                                         <td align="center">
                                                             <p>${applicationResult}</p><br>
                                                         </td>
                                                         <td align="center">
-                                                            <p>${startRegister} - ${endRegister}</p><br>
+
+                                                            <p>${startStudyDate} - ${endStudyDate}</p><br>
                                                         </td>
                                                         <td align="center"><p>${course.course_type}</p></td>
                                                         <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course">

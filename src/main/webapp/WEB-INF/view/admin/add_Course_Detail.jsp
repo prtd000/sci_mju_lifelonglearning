@@ -284,7 +284,7 @@
                                 <a id="link" href="#">ตรวจสอบ</a> &nbsp; <label id="status"></label>
                                 <label id="invalidCourseName" style="color: red; font-size: 12px"></label>
                             </div>
-                            <b><label>ชื่อเกียรติบัตร</label></b><b style="color: red;font-size: 15px;">*</b>
+                            <b><label>ชื่อเกียรติบัตร</label></b><b style="color: red;font-size: 15px;">*</b><label style="color: blue">หมายเหตุ ในกรณีที่ชื่อเกียรติบัตรมีความยาวมากเกินไป ให้ใช้ &lt;br&gt; ในชื่อ โดยจะทำการตัดบรรทัดให้อัตโนมัติ เช่น หลักสูตรเพื่อการเรียนรู้ &lt;br&gt; ในอนาคต  </label>
                             <div class="mb-3">
                                 <input name="certificateName" type="text" id="certificateName" style="font-family: 'Prompt', sans-serif;" placeholder="ชื่อเกียรติบัตร" oninput="this.className = ''"/>
                                 <label id="invalidCertificateName" style="color: red; font-size: 12px"></label>

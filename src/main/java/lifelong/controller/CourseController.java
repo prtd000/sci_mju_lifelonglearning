@@ -433,6 +433,15 @@ public class CourseController {
         return "redirect:/course/"+request_id+"/list_member_to_course?approveStatus="+status;
     }
 
+    @PostMapping(path = "/{request_id}/close_register")
+    public String close_register(@PathVariable long request_id) {
+
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(request_id);
+        requestOpenCourse.getCourse().setStatus("ชำระเงิน");
+        requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
+
+        return "redirect:/course/admin/list_all_course";
+    }
     //*******************************************************************//
 
     //**************Add Activity News************************//

@@ -104,9 +104,9 @@ public class LecturerController {
         Date endStudyDate = dateFormat.parse(allReqParams.get("endStudyDate"));
         String studyDay = allReqParams.get("display_for_submit");
 
-        String startStudyTime = allReqParams.get("start_study_time");
-        String endStudyTime = allReqParams.get("end_study_time");
-        String studyTime = startStudyTime +","+ endStudyTime;
+//        String startStudyTime = allReqParams.get("start_study_time");
+//        String endStudyTime = allReqParams.get("end_study_time");
+//        String studyTime = startStudyTime +","+ endStudyTime;
 
         String type_learn = allReqParams.get("type_learn");
         String type_teach = allReqParams.get("type_teach");
@@ -116,8 +116,6 @@ public class LecturerController {
 
         Course course = courseService.getCourseById(allReqParams.get("course_id"));
 
-        Date startPaymentDate = dateFormat.parse(allReqParams.get("startPayment"));
-        Date endPaymentDate = dateFormat.parse(allReqParams.get("endPayment"));
 
         Lecturer lecturer = lecturerService.getLecturerById(lec_id);
 
@@ -127,29 +125,35 @@ public class LecturerController {
         RequestOpenCourse requestOpenCourse_toAdd;
             if (Objects.equals(type_learn, "เรียนในสถานศึกษา")){
                 requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate,startRegisterDate,endRegisterDate,
-                        quantity,startStudyDate,endStudyDate,studyTime,type_learn,type_teach,applicationResultDate,
+                        quantity,startStudyDate,endStudyDate,studyDay,type_learn,type_teach,applicationResultDate,
                         requestStatus,course,lecturer);
                 requestOpenCourse_toAdd.setLocation(location);
                 if (course.getFee() != 0){
+                    Date startPaymentDate = dateFormat.parse(allReqParams.get("startPayment"));
+                    Date endPaymentDate = dateFormat.parse(allReqParams.get("endPayment"));
                     requestOpenCourse_toAdd.setStartPayment(startPaymentDate);
                     requestOpenCourse_toAdd.setEndPayment(endPaymentDate);
                 }
             } else if (Objects.equals(type_learn, "เรียนออนไลน์")) {
                 requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate,startRegisterDate,endRegisterDate,
-                        quantity,startStudyDate,endStudyDate,studyTime,type_learn,type_teach,applicationResultDate,
+                        quantity,startStudyDate,endStudyDate,studyDay,type_learn,type_teach,applicationResultDate,
                         requestStatus,course,lecturer);
                 requestOpenCourse_toAdd.setLinkMooc(link_mooc);
                 if (course.getFee() != 0){
+                    Date startPaymentDate = dateFormat.parse(allReqParams.get("startPayment"));
+                    Date endPaymentDate = dateFormat.parse(allReqParams.get("endPayment"));
                     requestOpenCourse_toAdd.setStartPayment(startPaymentDate);
                     requestOpenCourse_toAdd.setEndPayment(endPaymentDate);
                 }
             }else {
                 requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate,startRegisterDate,endRegisterDate,
-                        quantity,startStudyDate,endStudyDate,studyTime,type_learn,type_teach,applicationResultDate,
+                        quantity,startStudyDate,endStudyDate,studyDay,type_learn,type_teach,applicationResultDate,
                         requestStatus,course,lecturer);
                 requestOpenCourse_toAdd.setLocation(location);
                 requestOpenCourse_toAdd.setLinkMooc(link_mooc);
                 if (course.getFee() != 0){
+                    Date startPaymentDate = dateFormat.parse(allReqParams.get("startPayment"));
+                    Date endPaymentDate = dateFormat.parse(allReqParams.get("endPayment"));
                     requestOpenCourse_toAdd.setStartPayment(startPaymentDate);
                     requestOpenCourse_toAdd.setEndPayment(endPaymentDate);
                 }

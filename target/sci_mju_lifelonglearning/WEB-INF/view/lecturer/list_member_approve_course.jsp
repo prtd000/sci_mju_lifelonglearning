@@ -172,14 +172,14 @@
                                     <fmt:formatDate value="${request_name.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
                                     <label>${startStudyDate} - ${endStudyDate}</label>
                                 </div>
-                                <div class="flex-container">
-                                    <label>เรียนทุกวัน : ${request_name.studyDay}</label>
-                                </div>
-                                <div class="flex-container">
-                                    <c:set var="studyTime" value="${request_name.studyTime}"/>
-                                    <c:set var="parts" value="${fn:split(studyTime, ', ')}"/>
-                                    <label>เวลา : ${parts[0]} : ${parts[1]} น.</label>
-                                </div>
+<%--                                <div class="flex-container">--%>
+<%--                                    <label>เรียนทุกวัน : ${request_name.studyDay}</label>--%>
+<%--                                </div>--%>
+<%--                                <div class="flex-container">--%>
+<%--                                    <c:set var="studyTime" value="${request_name.studyTime}"/>--%>
+<%--                                    <c:set var="parts" value="${fn:split(studyTime, ', ')}"/>--%>
+<%--                                    <label>เวลา : ${parts[0]} : ${parts[1]} น.</label>--%>
+<%--                                </div>--%>
                             </div>
                                 <%--                            <div class="mb-3">--%>
                                 <%--                                <div class="flex-container">--%>
@@ -215,7 +215,7 @@
                                     <div align="right" style="width: 50%;">
                                         <div style="display:flex; width: 180px">
                                             <div style="margin-right: 10px"><i class="fa fa-users fa-2x"></i></div>
-                                            <div><h4>${request_name.numberOfAllRegistrations} / ${request_name.quantity}</h4></div>
+                                            <div><h4>${request_name.numberOfAllRegistrationsToPass} / ${request_name.numberOfAllRegistrations}</h4></div>
                                         </div>
                                     </div>
                                 </div>

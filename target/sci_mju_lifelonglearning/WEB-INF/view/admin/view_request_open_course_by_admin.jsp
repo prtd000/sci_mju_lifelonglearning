@@ -214,17 +214,17 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2">
-                                            <hr>
-                                            <fmt:formatDate value="${ROC_detail.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
-                                            <fmt:formatDate value="${ROC_detail.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                            <c:set var="studyTime" value="${ROC_detail.studyTime}"/>
-                                            <c:set var="parts" value="${fn:split(studyTime, ', ')}"/>
-                                            <label>ระยะเวลาการเรียน : </label><label>${startStudyDate} - ${endStudyDate}</label>
-                                            <label>เรียนทุกวัน ${ROC_detail.studyDay}</label><br>
-                                            <label>เวลา : ${parts[0]} : ${parts[1]} น.</label>
-                                            <hr>
-                                        </td>
+<%--                                        <td colspan="2">--%>
+<%--                                            <hr>--%>
+<%--                                            <fmt:formatDate value="${ROC_detail.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />--%>
+<%--                                            <fmt:formatDate value="${ROC_detail.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />--%>
+<%--                                            <c:set var="studyTime" value="${ROC_detail.studyTime}"/>--%>
+<%--                                            <c:set var="parts" value="${fn:split(studyTime, ', ')}"/>--%>
+<%--                                            <label>ระยะเวลาการเรียน : </label><label>${startStudyDate} - ${endStudyDate}</label>--%>
+<%--                                            <label>เรียนทุกวัน ${ROC_detail.studyDay}</label><br>--%>
+<%--                                            <label>เวลา : ${parts[0]} : ${parts[1]} น.</label>--%>
+<%--                                            <hr>--%>
+<%--                                        </td>--%>
                                     </tr>
                                     <tr>
                                         <td colspan="2">

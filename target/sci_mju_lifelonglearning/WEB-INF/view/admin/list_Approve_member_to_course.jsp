@@ -25,6 +25,9 @@
             font-family: 'Prompt', sans-serif;
             font-weight: 700 !important;
         }
+        table{
+            font-size: 12px;
+        }
     </style>
     <jsp:include page="/WEB-INF/view/layouts/detail-all-style.jsp"/>
 </head>
@@ -92,7 +95,7 @@
         </nav>
         <br>
         <br>
-        <div align="center" style="width: 100%">
+        <div align="center" style="width: 100%; font-size: 12px">
             <div align="left" style="width: 85%">
 <%--                <h2>${request_name.course.name}</h2>--%>
                 <div align="center" class="main_container">
@@ -153,14 +156,14 @@
                                     <fmt:formatDate value="${request_name.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
                                     <label>${startStudyDate} - ${endStudyDate}</label>
                                 </div>
-                                <div class="flex-container">
-                                    <label>เรียนทุกวัน : ${request_name.studyDay}</label>
-                                </div>
-                                <div class="flex-container">
-                                    <c:set var="studyTime" value="${request_name.studyTime}"/>
-                                    <c:set var="parts" value="${fn:split(studyTime, ', ')}"/>
-                                    <label>เวลา : ${parts[0]} : ${parts[1]} น.</label>
-                                </div>
+<%--                                <div class="flex-container">--%>
+<%--                                    <label>เรียนทุกวัน : ${request_name.studyDay}</label>--%>
+<%--                                </div>--%>
+<%--                                <div class="flex-container">--%>
+<%--                                    <c:set var="studyTime" value="${request_name.studyTime}"/>--%>
+<%--                                    <c:set var="parts" value="${fn:split(studyTime, ', ')}"/>--%>
+<%--                                    <label>เวลา : ${parts[0]} : ${parts[1]} น.</label>--%>
+<%--                                </div>--%>
                             </div>
 <%--                            <div class="mb-3">--%>
 <%--                                <div class="flex-container">--%>
@@ -249,7 +252,7 @@
                                 <div align="right" style="width: 50%;">
                                     <div style="display:flex; width: 180px">
                                         <div style="margin-right: 10px"><i class="fa fa-users fa-2x"></i></div>
-                                        <div><h4>${request_name.numberOfAllRegistrations} / ${request_name.quantity}</h4></div>
+                                        <div><h4>${request_name.numberOfAllRegistrationsToPass} / ${request_name.numberOfAllRegistrations}</h4></div>
                                     </div>
                                 </div>
                             </div>
@@ -284,46 +287,94 @@
                                             </tr>
                                         </c:when>
                                         <c:otherwise>
-                                            <c:forEach var="registers" items="${register_detail}">
-                                                <tr style="color: black">
-                                                    <td><p>${registers.member.idcard}</p></td>
-                                                    <td><p>${registers.member.firstName} ${registers.member.lastName}</p></td>
-                                                    <td align="center">
-                                                        <c:choose>
-                                                            <c:when test="${registers.requestOpenCourse.course.fee == 0}">
-                                                                <p>ไม่มีค่าธรรมเนียม(ฟรี)</p>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <c:forEach var="receipts" items="${receipt}">
-                                                                    <fmt:formatDate value="${receipts.pay_date}" pattern="dd/MM/yyyy" var="pay_date" />
-                                                                    <c:if test="${registers.invoice.invoice_id == receipts.invoice.invoice_id}">
-                                                                        <p>${pay_date} ${receipts.pay_time} น.</p>
-                                                                    </c:if>
-                                                                </c:forEach>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </td>
-                                                    <td align="center">${registers.member.tel}</td>
-                                                    <c:if test="${registers.invoice.approve_status == 'ผ่าน'}">
-                                                        <td align="center" style="color: green">ผ่าน</td>
-                                                    </c:if>
-                                                    <c:if test="${registers.invoice.approve_status == 'ไม่ผ่าน'}">
-                                                        <td align="center" style="color: red">ไม่ผ่าน</td>
-                                                    </c:if>
-                                                    <c:if test="${registers.invoice.approve_status == 'รอดำเนินการ'}">
+                                            <c:choose>
+                                                <c:when test="${request_name.numberOfAllRegistrationsPayStatus == request_name.quantity}">
+                                                    <c:forEach var="registers" items="${register_detail}">
                                                         <c:if test="${registers.invoice.pay_status == true}">
+                                                            <tr style="color: black">
+                                                                <td><p>${registers.member.idcard}</p></td>
+                                                                <td><p>${registers.member.firstName} ${registers.member.lastName}</p></td>
+                                                                <td align="center">
+                                                                    <c:choose>
+                                                                        <c:when test="${registers.requestOpenCourse.course.fee == 0}">
+                                                                            <p>ไม่มีค่าธรรมเนียม(ฟรี)</p>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <c:forEach var="receipts" items="${receipt}">
+                                                                                <fmt:formatDate value="${receipts.pay_date}" pattern="dd/MM/yyyy" var="pay_date" />
+                                                                                <c:if test="${registers.invoice.invoice_id == receipts.invoice.invoice_id}">
+                                                                                    <p>${pay_date} ${receipts.pay_time} น.</p>
+                                                                                </c:if>
+                                                                            </c:forEach>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </td>
+                                                                <td align="center">${registers.member.tel}</td>
+                                                                <c:if test="${registers.invoice.approve_status == 'ผ่าน'}">
+                                                                    <td align="center" style="color: green">ผ่าน</td>
+                                                                </c:if>
+                                                                <c:if test="${registers.invoice.approve_status == 'ไม่ผ่าน'}">
+                                                                    <td align="center" style="color: red">ไม่ผ่าน</td>
+                                                                </c:if>
+                                                                <c:if test="${registers.invoice.approve_status == 'รอดำเนินการ'}">
+                                                                    <c:if test="${registers.invoice.pay_status == true}">
+                                                                        <td align="center">
+                                                                            <a href="${pageContext.request.contextPath}/course/${request_name.request_id}/view_payment_detail/${registers.invoice.invoice_id}">
+                                                                                <button class="button-48" role="button"><span class="text">ดูข้อมูลการชำระเงิน</span></button>
+                                                                            </a>
+                                                                        </td>
+                                                                    </c:if>
+                                                                    <c:if test="${registers.invoice.pay_status == false}">
+                                                                        <td align="center" style="color: orange">ยังไม่ได้ชำระเงิน</td>
+                                                                    </c:if>
+                                                                </c:if>
+                                                            </tr>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <c:forEach var="registers" items="${register_detail}">
+                                                        <tr style="color: black">
+                                                            <td><p>${registers.member.idcard}</p></td>
+                                                            <td><p>${registers.member.firstName} ${registers.member.lastName}</p></td>
                                                             <td align="center">
-                                                                <a href="${pageContext.request.contextPath}/course/${request_name.request_id}/view_payment_detail/${registers.invoice.invoice_id}">
-                                                                    <button class="button-48" role="button"><span class="text">ดูข้อมูลการชำระเงิน</span></button>
-                                                                </a>
+                                                                <c:choose>
+                                                                    <c:when test="${registers.requestOpenCourse.course.fee == 0}">
+                                                                        <p>ไม่มีค่าธรรมเนียม(ฟรี)</p>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <c:forEach var="receipts" items="${receipt}">
+                                                                            <fmt:formatDate value="${receipts.pay_date}" pattern="dd/MM/yyyy" var="pay_date" />
+                                                                            <c:if test="${registers.invoice.invoice_id == receipts.invoice.invoice_id}">
+                                                                                <p>${pay_date} ${receipts.pay_time} น.</p>
+                                                                            </c:if>
+                                                                        </c:forEach>
+                                                                    </c:otherwise>
+                                                                </c:choose>
                                                             </td>
-                                                        </c:if>
-                                                        <c:if test="${registers.invoice.pay_status == false}">
-                                                            <td align="center" style="color: orange">ยังไม่ได้ชำระเงิน</td>
-                                                        </c:if>
-                                                    </c:if>
-                                                </tr>
-                                            </c:forEach>
+                                                            <td align="center">${registers.member.tel}</td>
+                                                            <c:if test="${registers.invoice.approve_status == 'ผ่าน'}">
+                                                                <td align="center" style="color: green">ผ่าน</td>
+                                                            </c:if>
+                                                            <c:if test="${registers.invoice.approve_status == 'ไม่ผ่าน'}">
+                                                                <td align="center" style="color: red">ไม่ผ่าน</td>
+                                                            </c:if>
+                                                            <c:if test="${registers.invoice.approve_status == 'รอดำเนินการ'}">
+                                                                <c:if test="${registers.invoice.pay_status == true}">
+                                                                    <td align="center">
+                                                                        <a href="${pageContext.request.contextPath}/course/${request_name.request_id}/view_payment_detail/${registers.invoice.invoice_id}">
+                                                                            <button class="button-48" role="button"><span class="text">ดูข้อมูลการชำระเงิน</span></button>
+                                                                        </a>
+                                                                    </td>
+                                                                </c:if>
+                                                                <c:if test="${registers.invoice.pay_status == false}">
+                                                                    <td align="center" style="color: orange">ยังไม่ได้ชำระเงิน</td>
+                                                                </c:if>
+                                                            </c:if>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </c:otherwise>
                                     </c:choose>
                                 </table>

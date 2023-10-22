@@ -73,6 +73,8 @@
         }
 
     </script>
+
+    </script>
     <!--Internal CSS start-->
     <style>
         body{
@@ -189,9 +191,6 @@
         }
         input{
             font-family: 'Prompt', sans-serif;
-        }
-        label{
-            font-size: 12px;
         }
     </style>
     <style>
@@ -348,7 +347,7 @@
         <!-- Navbar End -->
         <!-- Navbar End -->
         <form id="regForm" action="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/save" method="POST" onsubmit="return confirmAction();" name="frm" style="font-family: 'Prompt', sans-serif;width: 95%; margin-top: 15px;font-size: 12px">
-            <h3 style="text-align-last: start;">ร้องขอหลักสูตร</h3>
+            <h1 style="text-align-last: start;">ร้องขอหลักสูตร</h1>
             <hr>
             <!-- One "tab" for each step in the form: -->
             <div class="tab">
@@ -357,17 +356,23 @@
                         <td style="width: 40%; vertical-align: top;" rowspan="2">
                             <div class="course_detail" id="course_details_tab1">
                                 <div style="width: 100%;">
-                                    <h4 id="display_Course_Name">ชื่อหลักสูตร</h4>
+                                    <h4 id="display_Course_Name">${request_open_course.course.name}</h4>
                                     <hr>
                                     <div style="display: flex; width: 100%;">
                                         <div style="width: 50%;">
-                                            <label id="display_Course_Major">สาขาวิชา</label><br>
-                                            <label id="display_Course_Type">ประเภทหลักสูตร</label><br>
-                                            <b>ระยะเวลาเรียน : </b><label id="display_Course_Total_hours">0</label><b> ชั่วโมง</b><br>
-                                            <b>ค่าธรรมเนียม : </b><label id="display_Course_Fee">0.0</label><br>
+                                            <label id="display_Course_Major">${request_open_course.course.major.name}</label><br>
+                                            <label id="display_Course_Type">${request_open_course.course.course_type}</label><br>
+                                            <b>ระยะเวลาเรียน : </b><label id="display_Course_Total_hours">${request_open_course.course.totalHours}</label><b> ชั่วโมง</b><br>
+                                            <c:if test="${request_open_course.course.fee == 0}">
+                                                <b>ค่าธรรมเนียม : </b><label id="display_Course_Fee">ไม่มีค่าธรรมเนียม</label><br>
+                                            </c:if>
+                                            <c:if test="${request_open_course.course.fee != 0}">
+                                                <b>ค่าธรรมเนียม : </b><label id="display_Course_Fee">${request_open_course.course.fee}</label><br>
+                                            </c:if>
+
                                         </div>
                                         <div style="width: 50%;" align="center">
-                                            <img id="myImage" src="${pageContext.request.contextPath}/uploads/course_img/gallery.png" style="width: 180px;border-radius: 10px">
+                                            <img id="myImage" src="${pageContext.request.contextPath}/uploads/course_img/${request_open_course.course.img}" style="width: 180px;">
                                         </div>
                                     </div>
 
@@ -376,20 +381,40 @@
                             </div>
                         </td>
                         <td style="width: 60%; vertical-align: top; height: 1px;">
-                            <h6><b>เลือกหลักสูตร</b><b style="color: red; font-size: 15px">*</b></h6>
+                            <h4>เลือกหลักสูตร<b style="color: red; font-size: 24px">*</b></h4>
                             <div style="width: 100%;" align="center">
-                                <input style="width: 2%;" type="radio" name="CType" value="หลักสูตรทั้งหมด">
-                                <label style="margin-right: 20px;">หลักสูตรทั้งหมด</label>
-                                <input style="width: 2%;" type="radio" name="CType" value="หลักสูตรอบรมระยะสั้น">
-                                <label style="margin-right: 20px;">หลักสูตรอบรมระยะสั้น</label>
-                                <input style="width: 2%;" type="radio" name="CType" value="Non-Degree">
-                                <label>Non-Degree</label>
+                                <c:choose>
+                                    <c:when test="${request_open_course.course.course_type == 'หลักสูตรอบรมระยะสั้น'}">
+                                        <input style="width: 2%;" type="radio" name="CType" value="หลักสูตรทั้งหมด">
+                                        <label style="margin-right: 20px;">หลักสูตรทั้งหมด</label>
+                                        <input style="width: 2%;" type="radio" name="CType" value="หลักสูตรอบรมระยะสั้น" checked>
+                                        <label style="margin-right: 20px;">หลักสูตรอบรมระยะสั้น</label>
+                                        <input style="width: 2%;" type="radio" name="CType" value="Non-Degree">
+                                        <label>Non-Degree</label>
+                                    </c:when>
+                                    <c:when test="${request_open_course.course.course_type == 'Non-Degree'}">
+                                        <input style="width: 2%;" type="radio" name="CType" value="หลักสูตรทั้งหมด">
+                                        <label style="margin-right: 20px;">หลักสูตรทั้งหมด</label>
+                                        <input style="width: 2%;" type="radio" name="CType" value="หลักสูตรอบรมระยะสั้น">
+                                        <label style="margin-right: 20px;">หลักสูตรอบรมระยะสั้น</label>
+                                        <input style="width: 2%;" type="radio" name="CType" value="Non-Degree" checked>
+                                        <label>Non-Degree</label>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input style="width: 2%;" type="radio" name="CType" value="หลักสูตรทั้งหมด">
+                                        <label style="margin-right: 20px;">หลักสูตรทั้งหมด</label>
+                                        <input style="width: 2%;" type="radio" name="CType" value="หลักสูตรอบรมระยะสั้น">
+                                        <label style="margin-right: 20px;">หลักสูตรอบรมระยะสั้น</label>
+                                        <input style="width: 2%;" type="radio" name="CType" value="Non-Degree">
+                                        <label>Non-Degree</label>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                             <hr>
-                            <div id="select_course" style="width: 97.5%; display: none">
+                            <div id="select_course" style="width: 97.5%;">
                                 <div class="input-group mb-3" style="width: 97.5%;">
-                                    <label class="input-group-text" for="inputGroupSelect01" id="CName" style="font-size: 12px">หลักสูตรทั้งหมด</label>
-                                    <select name="course_id" class="form-select" id="inputGroupSelect01" style="font-size: 12px">
+                                    <label class="input-group-text" for="inputGroupSelect01" id="CName">หลักสูตรทั้งหมด</label>
+                                    <select name="course_id" class="form-select" id="inputGroupSelect01">
                                         <option value="">เลือกหลักสูตร</option>
                                         <c:set var="requestedCourseIds" value="" />
                                         <c:forEach var="item1" items="${request_select}">
@@ -405,10 +430,17 @@
                                                         data-fee="${course.fee}"
                                                         data-img="${course.img}">${course.name}</option>
                                             </c:if>
+
                                         </c:forEach>
+                                        <option value="${request_open_course.course.course_id}"
+                                                data-course_type="${request_open_course.course.course_type}"
+                                                data-major="${request_open_course.course.major.name}"
+                                                data-totalHours="${request_open_course.course.totalHours}"
+                                                data-fee="${request_open_course.course.fee}"
+                                                data-img="${request_open_course.course.img}" selected>${request_open_course.course.name}</option>
 
                                     </select>
-                                    <select name="course_id" class="form-select" id="inputGroupSelect02" style="font-size: 12px">
+                                    <select name="course_id" class="form-select" id="inputGroupSelect02">
                                         <option value="">เลือกหลักสูตร</option>
                                         <c:set var="requestedCourseIds" value="" />
                                         <c:forEach var="item1" items="${request_select}">
@@ -425,8 +457,16 @@
                                                         data-img="${course.img}">${course.name}</option>
                                             </c:if>
                                         </c:forEach>
+                                        <c:if test="${request_open_course.course.course_type == 'หลักสูตรอบรมระยะสั้น'}">
+                                            <option value="${request_open_course.course.course_id}"
+                                                    data-course_type="${request_open_course.course.course_type}"
+                                                    data-major="${request_open_course.course.major.name}"
+                                                    data-totalHours="${request_open_course.course.totalHours}"
+                                                    data-fee="${request_open_course.course.fee}"
+                                                    data-img="${request_open_course.course.img}" selected>${request_open_course.course.name}</option>
+                                        </c:if>
                                     </select>
-                                    <select name="course_id" class="form-select" id="inputGroupSelect03" style="font-size: 12px">
+                                    <select name="course_id" class="form-select" id="inputGroupSelect03">
                                         <option value="">เลือกหลักสูตร</option>
                                         <c:set var="requestedCourseIds" value="" />
                                         <c:forEach var="item1" items="${request_select}">
@@ -444,6 +484,14 @@
                                                         data-img="${course.img}">${course.name}</option>
                                             </c:if>
                                         </c:forEach>
+                                        <c:if test="${request_open_course.course.course_type == 'Non-Degree'}">
+                                            <option value="${request_open_course.course.course_id}"
+                                                    data-course_type="${request_open_course.course.course_type}"
+                                                    data-major="${request_open_course.course.major.name}"
+                                                    data-totalHours="${request_open_course.course.totalHours}"
+                                                    data-fee="${request_open_course.course.fee}"
+                                                    data-img="${request_open_course.course.img}" selected>${request_open_course.course.name}</option>
+                                        </c:if>
                                     </select>
                                 </div>
                                 <label id="invalidCourse_Select" style="color: red; font-size: 12px"></label>
@@ -451,24 +499,24 @@
                             <br>
                             <div class="mb-3" style="width: 100%; display: flex">
                                 <div style="width: 32%">
-                                    <b><label>วันเปิดรับสมัคร</label></b><b style="color: red; font-size: 15px">*</b>
+                                    <label>วันเปิดรับสมัคร</label></b><b style="color: red; font-size: 20px">*</b>
                                     <div style="margin-right: 15px;">
-                                        <input name="startRegister" type="date" id="startRegister"/>
+                                        <input name="startRegister" type="date" id="startRegister" value="${request_open_course.startRegister}"/>
                                     </div>
                                     <label id="invalidStartRegister" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 32%">
-                                    <b><label>วันปิดรับสมัคร</label></b><b style="color: red; font-size: 15px">*</b>
+                                    <label>วันปิดรับสมัคร</label><b style="color: red; font-size: 20px">*</b>
                                     <div style="margin-right: 15px;">
-                                        <input name="endRegister" type="date" id="endRegister"/>
+                                        <input name="endRegister" type="date" id="endRegister" value="${request_open_course.endRegister}"/>
                                     </div>
                                     <label id="invalidEndRegister" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 35%">
-                                    <b><label>จำนวนรับสมัคร</label></b><b style="color: red; font-size: 15px">*</b>
+                                    <label>จำนวนรับสมัคร</label><b style="color: red; font-size: 20px">*</b>
                                     <div class="input-group mb-3">
-                                        <input style="width: 80%;" name="quantity" id="quantity" type="number" class="form-control" oninput="this.className = ''" placeholder="จำนวนรับสมัคร" aria-describedby="basic-addon2">
-                                        <span class="input-group-text" id="basic-addon2" style="font-size: 12px">คน</span>
+                                        <input style="width: 80%;" name="quantity" id="quantity" value="${request_open_course.quantity}" type="number" class="form-control" oninput="this.className = ''" placeholder="จำนวนรับสมัคร" aria-describedby="basic-addon2">
+                                        <span class="input-group-text" id="basic-addon2">คน</span>
                                     </div>
                                     <label id="invalidQuantity" style="color: red; font-size: 12px"></label>
                                 </div>
@@ -479,23 +527,23 @@
                         <td style="vertical-align: top;">
                             <div class="mb-3" style="width: 100%; display: flex">
                                 <div style="width: 32%" id="startPayment_display">
-                                    <b><label>วันเริ่มชำระเงิน</label></b><b style="color: red; font-size: 15px">*</b>
+                                    <label>วันเริ่มชำระเงิน</label><b style="color: red; font-size: 20px">*</b>
                                     <div style="margin-right: 15px;">
-                                        <input name="startPayment" type="date" id="startPayment"/>
+                                        <input name="startPayment" type="date" id="startPayment" value="${request_open_course.startPayment}"/>
                                     </div>
                                     <label id="invalidStartPayment" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 32%" id="endPayment_display">
-                                    <b><label>วันสิ้นสุดการชำระเงิน</label></b><b style="color: red; font-size: 15px">*</b>
+                                    <label>วันสิ้นสุดการชำระเงิน</label><b style="color: red; font-size: 20px">*</b>
                                     <div style="margin-right: 15px;">
-                                        <input name="endPayment" type="date" id="endPayment"/>
+                                        <input name="endPayment" type="date" id="endPayment" value="${request_open_course.endPayment}"/>
                                     </div>
                                     <label id="invalidEndPayment" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 35%">
-                                    <b><label>วันประกาศผลการสมัคร</label></b><b style="color: red; font-size: 15px">*</b>
+                                    <label>วันประกาศผลการสมัคร</label><b style="color: red; font-size: 20px">*</b>
                                     <div style="margin-right: 15px;">
-                                        <input name="applicationResult" type="date" id="applicationResult"/>
+                                        <input name="applicationResult" type="date" id="applicationResult" value="${request_open_course.applicationResult}"/>
                                     </div>
                                     <label id="invalidApplicationResult" style="color: red; font-size: 12px"></label>
                                 </div>
@@ -511,24 +559,29 @@
                         <td style="width: 40%; vertical-align: top;" rowspan="3">
                             <div class="course_detail">
                                 <div style="width: 100%;">
-                                    <h4 id="display_Course_Name_tap2">ชื่อหลักสูตร</h4>
+                                    <h4 id="display_Course_Name_tap2">${request_open_course.course.name}</h4>
                                     <hr>
                                     <div style="display: flex; width: 100%;">
                                         <div style="width: 50%;">
-                                            <label id="display_Course_Major_tap2">สาขาวิชา</label><br>
-                                            <label id="display_Course_Type_tap2">ประเภทหลักสูตร</label><br>
-                                            <b>ระยะเวลาเรียน : </b><label id="display_Course_Total_hours_tap2">0</label><b> ชั่วโมง</b><br>
-                                            <b>ค่าธรรมเนียม : </b><label id="display_Course_Fee_tap2">0.0 บาท</label><br>
+                                            <label id="display_Course_Major_tap2">${request_open_course.course.major.name}</label><br>
+                                            <label id="display_Course_Type_tap2">${request_open_course.course.course_type}</label><br>
+                                            <b>ระยะเวลาเรียน : </b><label id="display_Course_Total_hours_tap2">${request_open_course.course.totalHours}</label><b> ชั่วโมง</b><br>
+                                            <c:if test="${request_open_course.course.fee == 0}">
+                                                <b>ค่าธรรมเนียม : </b><label id="display_Course_Fee_tap2">ไม่มีค่าธรรมเนียม</label><br>
+                                            </c:if>
+                                            <c:if test="${request_open_course.course.fee != 0}">
+                                                <b>ค่าธรรมเนียม : </b><label id="display_Course_Fee_tap2">${request_open_course.course.fee}</label><br>
+                                            </c:if>
                                         </div>
                                         <div style="width: 50%;" align="center">
-                                            <img id="myImage_tap2" src="${pageContext.request.contextPath}/uploads/course_img/gallery.png" style="width: 180px;">
+                                            <img id="myImage_tap2" src="${pageContext.request.contextPath}/uploads/course_img/${request_open_course.course.img}" style="width: 180px;">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </td>
                         <td style="width: 60%; vertical-align: top; height: 1px;">
-                            <h6><b>วันในการเรียน</b><b style="color: red; font-size: 15px">*</b></h6>
+                            <h5><b>วันในการเรียน</b><b style="color: red; font-size: 24px">*</b></h5>
                             <hr>
                             <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group" style="width: 100%; display: flex; text-align: -webkit-left;" align="center">
                                 <div style="width: 50%; margin-right: 15px">
@@ -658,39 +711,37 @@
                     <tr>
                         <td style="vertical-align: top;">
                             <br>
+                            <h5><b>เวลาในการเรียน</b><b style="color: red; font-size: 24px">*</b></h5>
+                            <hr>
                             <div class="mb-3" style="width: 100%;">
                                 <div id="cal_study" style="display: none; margin-left: 20px; width: 50%">
                                     <p id="display"></p>
                                     <label style="display: flex;">
-                                        <label style="color: blue"><b>จากการคำนวณ </b></label>
+                                        <p id="display_time_by_week">เรียนสัปดาห์ละ: <span id="time_difference_by_week"></span></p>
                                     </label>
-                                    <label style="display: flex;color: blue">
-                                        <p id="display_time_by_week"><b>เรียนสัปดาห์ละ: <span id="time_difference_by_week"></span></b></p>
-                                    </label>
-                                    <label id="display_study_course" style="color:blue;"><b>ควรเรียนอย่างน้อย <span id="time_difference_study_course"></span> สัปดาห์</b></label>
+                                    <p id="display_study_course">ควรเรียนอย่างน้อย <span id="time_difference_study_course"></span> สัปดาห์</p>
                                 </div>
                             </div>
-                            <hr>
                         </td>
                         <h5 style="display: none">จำนวน Checkbox ที่ถูกเลือก: <span id="selectedCount">0</span></h5>
                     </tr>
                     <tr>
                         <td style="vertical-align: top;">
                             <br>
-                            <h6><b>ระยะเวลาในการเรียน</b><b style="color: red; font-size: 15px">*</b></h6><label style="color:red;">กรุณากดคำนวณวันเวลาก่อนเลือกวันที่</label>
+                            <h5><b>ระยะเวลาในการเรียน</b><b style="color: red; font-size: 24px">*</b></h5>
                             <hr>
                             <div class="mb-3" style="width: 100%; display: flex">
                                 <div style="width: 32%">
-                                    <b><label>เริ่มเรียน</label></b>
+                                    <label>เริ่มเรียน</label>
                                     <div style="margin-right: 15px;">
-                                        <input name="startStudyDate" type="date" id="startStudyDate"/>
+                                        <input name="startStudyDate" type="date" id="startStudyDate" value="${request_open_course.startStudyDate}"/>
                                     </div>
                                     <label id="invalidStartStudyDate" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 32%">
-                                    <b><label>วันสิ้นสุดการเรียน</label></b>
+                                    <label>วันสิ้นสุดการเรียน</label>
                                     <div style="margin-right: 15px;">
-                                        <input name="endStudyDate" type="date" id="endStudyDate" onchange="checkEndDate(this.value)"/>
+                                        <input name="endStudyDate" type="date" id="endStudyDate" onchange="checkEndDate(this.value)" value="${request_open_course.endStudyDate}"/>
                                     </div>
                                     <label id="invalidEndStudyDate" style="color: red; font-size: 12px"></label>
                                 </div>
@@ -727,9 +778,9 @@
                         <td style="width: 100%; vertical-align: top; height: 1px;">
                             <div style="display: flex">
                                 <div style="width: 50%; padding-left: 20px">
-                                    <h6><b>ประเภทการเรียน</b><b style="color: red; font-size: 15px">*</b></h6>
+                                    <h5><b>ประเภทการเรียน</b><b style="color: red; font-size: 24px">*</b></h5>
                                     <hr>
-                                    <select name="type_teach" id="type_teach" class="form-select" style="font-size: 12px">
+                                    <select name="type_teach" id="type_teach" class="form-select">
                                         <option value="">--กรุณาเลือกรูปแบบการสอน--</option>
                                         <option value="แบบที่ 1 เรียนร่วมกับนักศึกษาในหลักสูตร">แบบที่ 1 เรียนร่วมกับนักศึกษาในหลักสูตร</option>
                                         <option value="แบบที่ 2 แยกกลุ่มเรียนโดยเฉพาะ">แบบที่ 2 แยกกลุ่มเรียนโดยเฉพาะ</option>
@@ -738,9 +789,9 @@
                                     <label id="invalidTypeTeach" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 50%; padding-left: 20px">
-                                    <h6><b>รูปแบบการสอน</b><b style="color: red; font-size: 15px">*</b></h6>
+                                    <h5><b>รูปแบบการสอน</b><b style="color: red; font-size: 24px">*</b></h5>
                                     <hr>
-                                    <select name="type_learn" id="type_learn" onchange="showHideFields()" class="form-select" style="font-size: 12px">
+                                    <select name="type_learn" id="type_learn" onchange="showHideFields()" class="form-select">
                                         <option value="">--กรุณาเลือกประเภทการเรียน--</option>
                                         <option value="เรียนออนไลน์">เรียนออนไลน์</option>
                                         <option value="เรียนในสถานศึกษา">เรียนในสถานศึกษา</option>
@@ -753,9 +804,9 @@
                                 <div style="width: 100%;">
                                     <div id="locationRow" style="display: none;">
                                         <br>
-                                        <b><label>สถานที่เรียน:</label></b><b style="color: red; font-size: 15px">*</b>
+                                        <b><label>สถานที่เรียน:</label></b><b style="color: red; font-size: 20px">*</b>
                                         <div class="form-floating">
-                                            <textarea class="form-control" id="floatingTextarea2" name="location" style="height: 100px; font-size: 12px" placeholder=""></textarea>
+                                            <textarea class="form-control" id="floatingTextarea2" name="location" style="height: 100px" placeholder=""></textarea>
                                             <label for="floatingTextarea2">สถานที่ (ระบุ ตึก ห้อง และชั้นที่เรียน หรือรายละเอียดต่างๆ)</label>
                                         </div>
 
@@ -765,7 +816,7 @@
                                 <br>
                                 <div style="width: 100%;">
                                     <div id="moocRow" style="display: none;">
-                                        <b><label>link mooc (สำหรับเรียนออนไลน์):</label></b><b style="color: red; font-size: 15px">*</b>
+                                        <b><label>link mooc (สำหรับเรียนออนไลน์):</label></b><b style="color: red; font-size: 20px">*</b>
                                         <div class="form-floating">
                                             <input name="link_mooc" id="link_mooc" autocomplete="off" placeholder="https://mooc.mju.ac.th/...." />
                                         </div>
@@ -800,86 +851,93 @@
                             </div>
                         </td>
                         <td style="width: 100%; vertical-align: top; height: 1px;">
-                            <h6><b>รายละเอียดการร้องขอ</b></h6>
+                            <h4>รายละเอียดการร้องขอ</h4>
                             <hr>
                             <div style="width: 100%; display: flex">
                                 <div style="width: 50%;">
-                                    <b><label style="font-size: 14px;">รับสมัครวันที่</label></b>
+                                    <b><label>รับสมัครวันที่</label></b>
                                     <div style="display: flex">
-                                        <label id="startRegister_display" style="font-size: 14px;">เริ่ม</label>
-                                        <label style="margin: 0px 10px 0px 10px;" style="font-size: 14px;"> ถึง </label>
-                                        <label id="endRegister_display" style="font-size: 14px;">สิ้นสุด</label>
+                                        <p id="startRegister_display">เริ่ม</p>
+                                        <p style="margin: 0px 10px 0px 10px;"> ถึง </p>
+                                        <p id="endRegister_display">สิ้นสุด</p>
                                     </div>
                                 </div>
                                 <div style="width: 50%">
-                                    <b><label style="font-size: 14px;">รับจำนวน </label></b>
+                                    <b><label>รับจำนวน </label></b>
                                     <div style="display: flex">
-                                        <label id="quantity_display" style="margin-right: 10px;font-size: 14px"> คน</label>
+                                        <p id="quantity_display" style="margin-right: 10px;"></p> คน
                                     </div>
                                 </div>
                             </div>
                             <div id="display_Payment_Date" style="width: 100%; display: flex">
                                 <div style="width: 100%;">
-                                    <b><label style="font-size: 14px;">วันชำระเงิน</label></b>
+                                    <b><label>วันชำระเงิน</label></b>
                                     <div style="display: flex">
-                                        <label style="font-size: 14px;" id="startPaymentTotal_display">เริ่ม</label>
-                                        <label style="margin: 0px 10px 0px 10px;font-size: 14px"> ถึง </label>
-                                        <label id="endPaymentTotal_display" style="font-size: 14px;">สิ้นสุด</label>
+                                        <p id="startPaymentTotal_display">เริ่ม</p>
+                                        <p style="margin: 0px 10px 0px 10px;"> ถึง </p>
+                                        <p id="endPaymentTotal_display">สิ้นสุด</p>
                                     </div>
                                 </div>
                             </div>
                             <div style="width: 100%; display: flex">
                                 <div style="width: 50%">
-                                    <b><label style="font-size: 14px;">ประกาศผลการสมัคร</label></b>
+                                    <b><label>ประกาศผลการสมัคร</label></b>
                                     <div style="display: flex">
-                                        <label id="applicationResult_display" style="font-size: 14px;">วันที่</label>
+                                        <p id="applicationResult_display">วันที่</p>
                                     </div>
                                 </div>
                                 <div style="width: 50%">
-                                    <b><label style="font-size: 14px;">ระยะเวลาในการเรียน</label></b>
+                                    <b><label>ระยะเวลาในการเรียน</label></b>
                                     <div style="width: 100%; display: flex">
-                                        <label style="font-size: 14px;" id="startStudyDate_display">เริ่ม</label>
-                                        <label style="margin: 0px 10px 0px 10px; font-size: 14px;"> ถึง </label>
-                                        <label style="font-size: 14px;" id="endStudyDate_display">สิ้นสุด</label>
+                                        <p id="startStudyDate_display">เริ่ม</p>
+                                        <p style="margin: 0px 10px 0px 10px;"> ถึง </p>
+                                        <p id="endStudyDate_display">สิ้นสุด</p>
                                     </div>
                                 </div>
                             </div>
                             <div style="width: 100%; display: flex">
-                                <div>
-                                    <b><label style="font-size: 14px;">วันที่เรียน</label></b>
+                                <div style="width: 50%;">
+                                    <b><label>วันที่เรียน</label></b>
                                     <div style="display: flex; width: 85%;">
-                                        <label id="study_display" style="font-size: 14px;">วันไหนบ้าง</label>
+                                        <p id="dayByWeek_display">วันไหนบ้าง</p>
+                                    </div>
+                                </div>
+                                <div style="width: 50%;">
+                                    <b><label>เวลา</label></b>
+                                    <div style="display: flex">
+                                        <p id="start_study_time_display" name="start_study_time_display" style="margin-right: 10px;">เริ่ม</p>น.
+                                        <p style="margin: 0px 10px 0px 10px;"> ถึง </p>
+                                        <p id="end_study_time_display" name="end_study_time_display" style="margin-right: 10px;">สิ้นสุด</p>น.
                                     </div>
                                 </div>
                             </div>
                             <div style="width: 100%; display: flex">
                                 <div style="width: 50%;">
-                                    <b><label style="font-size: 14px;">ประเภทการสอน</label></b>
+                                    <b><label>ประเภทการสอน</label></b>
                                     <div style="display: flex">
-                                        <label style="font-size: 14px;" id="type_teach_display">ประเภท</label>
+                                        <p id="type_teach_display">ประเภท</p>
                                     </div>
                                 </div>
                                 <div style="width: 50%;">
-                                    <b><label style="font-size: 14px;">ประเภทการเรียน</label></b>
+                                    <b><label>ประเภทการเรียน</label></b>
                                     <div style="display: flex">
-                                        <label style="font-size: 14px;" id="type_learn_display">ประเภท</label>
+                                        <p id="type_learn_display">ประเภท</p>
                                     </div>
                                 </div>
                             </div>
                             <div style="width: 100%" id="link_type">
-                                <b><label style="font-size: 14px;">LinkMooc</label></b>
+                                <b><label>LinkMooc</label></b>
                                 <div style="width: 100%; display: flex">
-                                    <label style="font-size: 14px;" id="link_mooc_display">ลิงค์</label>
+                                    <p id="link_mooc_display">ลิงค์</p>
                                 </div>
                             </div>
                             <div style="width: 100%" id="location_type">
-                                <b><label style="font-size: 14px;">สถานที่เรียน</label></b>
+                                <b><label>สถานที่เรียน</label></b>
                                 <div style="width: 100%; display: flex">
-                                    <label style="font-size: 14px;" id="location_display">สถานที่</label>
+                                    <p id="location_display">สถานที่</p>
                                 </div>
                             </div>
-                            <input type="text" id="display_for_submit" style="display: none" name="display_for_submit">
-                            <label id="all_study_time" style="display: none" name="all_study_time"></label>
+                            <input type="text" id="display_for_submit" name="display_for_submit">
                         </td>
                     </tr>
                 </table>
@@ -1099,9 +1157,6 @@
             var day = document.querySelector('label[for="' + id + '"]');
             document.getElementById("total_to_save_"+id).value = day.textContent + '/' + startTimeInput + '/' + endTimeInput + '$%';
             document.getElementById("total_to_cal_"+id).value = timeDifference;
-            var study_time = document.getElementById("all_study_time").textContent;
-            study_time += day.textContent + " เวลา " + startTimeInput + " ถึง " + endTimeInput + "\n";
-            document.getElementById("all_study_time").textContent = study_time;
         }
     }
     function calTotal(){
@@ -1310,12 +1365,7 @@
         const startPayment = document.getElementById("startPayment").value;
         const endPayment = document.getElementById("endPayment").value;
         const applicationResult = document.getElementById("applicationResult").value;
-        let study_time_dp = document.getElementById("all_study_time").textContent;
-        function replaceLineBreaksWithBr(text) {
-            const lines = text.split('<br>');
-            return lines.join('<br>');
-        }
-        const formatted_study_time = replaceLineBreaksWithBr(study_time_dp);
+        // const dayByWeek = document.getElementById("display").textContent;
         // const start_study_time = document.getElementById("start_study_time").value;
         // const end_study_time = document.getElementById("end_study_time").value;
         const startStudyDate = document.getElementById("startStudyDate").value;
@@ -1355,7 +1405,7 @@
         document.getElementById("applicationResult_display").textContent = applicationResult_display;
         document.getElementById("startStudyDate_display").textContent = startStudyDate_display;
         document.getElementById("endStudyDate_display").textContent = endStudyDate_display;
-        document.getElementById("study_display").textContent = formatted_study_time;
+        // document.getElementById("dayByWeek_display").textContent = dayByWeek;
         // document.getElementById("start_study_time_display").textContent = start_study_time;
         // document.getElementById("end_study_time_display").textContent = end_study_time;
         document.getElementById("type_teach_display").textContent = type_teach;
@@ -1534,7 +1584,7 @@
             if (startPaymentValue.trim() === "") {
                 document.getElementById("invalidStartPayment").innerHTML = "กรุณาเลือกวันเริ่มชำระเงิน";
                 return false;
-            }else if (new Date(startPaymentValue) < new Date(currentDate) || new Date(startPaymentValue) < new Date(startRegisterValue)){
+            }else if (new Date(startPaymentValue) < new Date(currentDate) || new Date(startPaymentValue) <= new Date(startRegisterValue)){
                 document.getElementById("invalidStartPayment").innerHTML = "กรุณาเลือกวันให้มากกว่าวันปัจจุบัน และให้มากกว่าวันเปิดรับสมัคร";
                 return false;
             }else {
@@ -2332,5 +2382,500 @@
             document.getElementById('invalid_StudyDate').textContent = "";
         }
     }
+</script>
+<script>
+    // ข้อมูลที่คุณระบุ
+    var data = '${request_open_course.studyTime}';
+    var days = ["mo", "tu", "we", "th", "fr", "sa", "su"];
+
+    // วนลูปผ่านทุกวัน
+    for (var i = 0; i < days.length; i++) {
+        var day = days[i];
+        var checkbox = document.getElementById("chk_" + day);
+        var startInput = document.getElementById("start_chk_" + day);
+        var endInput = document.getElementById("end_chk_" + day);
+        var invalidLabel = document.getElementById("invalid_chk_" + day);
+        var totalToSave = document.getElementById("total_to_save_chk_" + day);
+        var totalToCal = document.getElementById("total_to_cal_chk_" + day);
+
+        if (data.includes(day)) {
+            var dayData = data.split(day + "/")[1].split("$%")[0];
+            var [startTime, endTime] = dayData.split("/");
+
+            checkbox.checked = true;
+            startInput.value = startTime;
+            endInput.value = endTime;
+            totalToSave.value = dayData;
+            totalToCal.value = calculateTime(day);
+            invalidLabel.textContent = ""; // ลบข้อความเตือน
+        }
+    }
+</script>
+<script>
+    // สมมติข้อมูลจากฐานข้อมูล
+    var dataFromDB = "${request_open_course.studyTime}";
+    var entries = dataFromDB.split("$%");
+
+    // สร้างรายการเพื่อเก็บข้อมูลแต่ละวัน
+    var dayData = {};
+
+    entries.forEach(function(entry) {
+        var parts = entry.split("/");
+        var day = parts[0];
+        var start = parts[1];
+        var end = parts[2];
+
+        dayData[day] = {
+            start: start,
+            end: end
+        };
+    });
+
+    // ตั้งค่าสถานะ Checkbox และเวลาเริ่ม/สิ้นสุด
+    for (var day in dayData) {
+        var checkbox = document.getElementById("chk_" + day);
+        var startInput = document.getElementById("start_chk_" + day);
+        var endInput = document.getElementById("end_chk_" + day);
+
+        if (checkbox && startInput && endInput) {
+            checkbox.checked = true;
+            startInput.disabled = false;
+            endInput.disabled = false;
+            startInput.value = dayData[day].start;
+            endInput.value = dayData[day].end;
+        }
+    }
+</script>
+<%--เช็คประเภทหลักสูตร--%>
+<script>
+    function checkLabelValue() {
+        var type = "inputGroupSelect01";
+        var checkCTypeRadio = document.querySelector('input[name="CType"][value="หลักสูตรอบรมระยะสั้น"]');
+        var checkNTypeRadio = document.querySelector('input[name="CType"][value="Non-Degree"]');
+        var checkOTypeRadio = document.querySelector('input[name="CType"][value="หลักสูตรทั้งหมด"]');
+        if(checkCTypeRadio.checked){
+            document.getElementById("inputGroupSelect01").style.display = "none";
+            document.getElementById("inputGroupSelect02").style.display = "block";
+            document.getElementById("inputGroupSelect03").style.display = "none";
+            document.getElementById("CName").innerHTML = "หลักสูตรอบรมระยะสั้น";
+            toCheckCTypeRadio();
+            CTypeRadio();
+        }else if(checkNTypeRadio.checked){
+            document.getElementById("inputGroupSelect01").style.display = "none";
+            document.getElementById("inputGroupSelect02").style.display = "none";
+            document.getElementById("inputGroupSelect03").style.display = "block";
+            document.getElementById("CName").innerHTML = "Non-Degree";
+            toCheckNTypeRadio();
+            NTypeRadio();
+        }else if(checkOTypeRadio.checked){
+            document.getElementById("inputGroupSelect01").style.display = "block";
+            document.getElementById("inputGroupSelect02").style.display = "none";
+            document.getElementById("inputGroupSelect03").style.display = "none";
+            document.getElementById("CName").innerHTML = "หลักสูตรทั้งหมด";
+            toCheckOTypeRadio();
+            OTypeRadio();
+        }
+    }
+    window.addEventListener('load', checkLabelValue);
+
+    function toCheckCTypeRadio() {
+        document.getElementById("select_course").style.display = "block";
+
+        document.getElementById("CName").innerHTML = "หลักสูตรอบรมระยะสั้น";
+        document.getElementById("inputGroupSelect01").style.display = "none";
+        document.getElementById("inputGroupSelect02").style.display = "block";
+        document.getElementById("inputGroupSelect03").style.display = "none";
+
+        document.getElementById("display_Course_Name").textContent = "ชื่อหลักสูตร";
+
+        document.getElementById('display_Course_Type').textContent = "ประเภทหลักสูตร";
+        document.getElementById('display_Course_Major').textContent = "สาขาวิชา";
+        document.getElementById('display_Course_Total_hours').textContent = "0";
+        document.getElementById('display_Course_Fee').textContent = "0.0 บาท";
+        // เปลี่ยน URL ของรูปภาพโดยใช้ JavaScript
+        var newImageUrl = "${pageContext.request.contextPath}/uploads/course_img/gallery.png";
+        var imageElement = document.getElementById("myImage");
+        imageElement.setAttribute("src", newImageUrl);
+        // document.getElementById('myImage').style.display = "none";
+
+        document.getElementById("inputGroupSelect01").value = "";
+        document.getElementById("inputGroupSelect03").value = "";
+        type = "inputGroupSelect02";
+
+
+        document.getElementById(type).addEventListener("change", function () {
+            CTypeRadio();
+        });
+    }
+    function CTypeRadio() {
+        // รับค่าที่ถูกเลือก
+        var selectedMajor = document.getElementById("inputGroupSelect02").value;
+        // ค้นหาชื่อสาขาที่ถูกเลือกจาก dropdown
+        var courses = document.querySelectorAll("#inputGroupSelect02 option");
+        var selectElement = document.getElementById("inputGroupSelect02");
+
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
+        var course_type = selectedOption.getAttribute("data-course_type");
+        var major = selectedOption.getAttribute("data-major");
+        var totalHours = selectedOption.getAttribute("data-totalHours");
+        var fee = selectedOption.getAttribute("data-fee");
+        var img = selectedOption.getAttribute("data-img");
+
+
+        var selectedCourseName = "";
+        for (var i = 0; i < courses.length; i++) {
+            if (courses[i].value === selectedMajor) {
+                selectedCourseName = courses[i].textContent;
+                document.getElementById("cId").value = courses[i].value;
+                break;
+            }
+        }
+        // แสดงชื่อสาขาใน <h4> element
+        if(selectedCourseName === "เลือกหลักสูตร"){
+            selectedCourseName = "กรุณาเลือกหลักสูตร";
+            totalHours = "0";
+            fee = "0.0"
+        }
+        document.getElementById("display_Course_Name").textContent = selectedCourseName;
+        if(course_type === null){
+            course_type = "ประเภทหลักสูตร";
+        }
+        document.getElementById('display_Course_Type').textContent = course_type;
+        if(major === null){
+            major = "สาขาวิชา";
+        }
+        document.getElementById('display_Course_Major').textContent = major;
+        document.getElementById('display_Course_Total_hours').textContent = totalHours;
+        if (fee === "0.0"){
+            document.getElementById('startPayment_display').style.display = "none";
+            document.getElementById('endPayment_display').style.display = "none";
+            applicationResultElement.min = endRegisterElement.value;
+            startPaymentElement.value = currentDate;
+            endPaymentElement.value = currentDate;
+            // applicationResultElement.value = "";
+            fee = "ไม่มีค่าธรรมเนียม";
+        }else {
+            document.getElementById('startPayment_display').style.display = "block";
+            document.getElementById('endPayment_display').style.display = "block";
+            // startPaymentElement.value = "";
+            // endPaymentElement.value = "";
+            fee = fee+" บาท";
+            // applicationResultElement.value = "";
+        }
+        document.getElementById('display_Course_Fee').textContent = fee;
+        if(img === null){
+            img = "gallery.png";
+        }
+        document.getElementById('display_Course_IMG').textContent = img;
+        document.getElementById('myImage').style.display = "block";
+        // เปลี่ยน URL ของรูปภาพโดยใช้ JavaScript
+        var newImageUrl = "${pageContext.request.contextPath}/uploads/course_img/" + img;
+        var imageElement = document.getElementById("myImage");
+        imageElement.setAttribute("src", newImageUrl);
+
+        // โชว์ข้อมูลใน tap2
+        document.getElementById('display_Course_Name_tap2').textContent = selectedCourseName;
+        document.getElementById('display_Course_Major_tap2').textContent = major;
+        document.getElementById('display_Course_Type_tap2').textContent = course_type;
+        document.getElementById('display_Course_Total_hours_tap2').textContent = totalHours;
+        document.getElementById('display_Course_Fee_tap2').textContent = fee;
+        // เปลี่ยน URL ของรูปภาพโดยใช้ JavaScript
+        var imageElement_tap2 = document.getElementById("myImage_tap2");
+        imageElement_tap2.setAttribute("src", newImageUrl);
+
+        // โชว์ข้อมูลใน tap3
+        document.getElementById('display_Course_Name_tap3').textContent = selectedCourseName;
+        document.getElementById('display_Course_Major_tap3').textContent = major;
+        document.getElementById('display_Course_Type_tap3').textContent = course_type;
+        document.getElementById('display_Course_Total_hours_tap3').textContent = totalHours;
+        document.getElementById('display_Course_Fee_tap3').textContent = fee;
+        // เปลี่ยน URL ของรูปภาพโดยใช้ JavaScript
+        var imageElement_tap3 = document.getElementById("myImage_tap3");
+        imageElement_tap3.setAttribute("src", newImageUrl);
+
+        // โชว์ข้อมูลใน tap4
+        document.getElementById('display_Course_Name_tap4').textContent = selectedCourseName;
+        document.getElementById('display_Course_Major_tap4').textContent = major;
+        document.getElementById('display_Course_Type_tap4').textContent = course_type;
+        document.getElementById('display_Course_Total_hours_tap4').textContent = totalHours;
+        document.getElementById('display_Course_Fee_tap4').textContent = fee;
+        // เปลี่ยน URL ของรูปภาพโดยใช้ JavaScript
+        var imageElement_tap4 = document.getElementById("myImage_tap4");
+        imageElement_tap4.setAttribute("src", newImageUrl);
+    }
+
+    function toCheckNTypeRadio() {
+        document.getElementById("select_course").style.display = "block";
+
+        document.getElementById("CName").innerHTML = "Non-Degree";
+        document.getElementById("inputGroupSelect01").style.display = "none";
+        document.getElementById("inputGroupSelect02").style.display = "none";
+        document.getElementById("inputGroupSelect03").style.display = "block";
+
+        document.getElementById("display_Course_Name").textContent = "ชื่อหลักสูตร";
+
+        document.getElementById('display_Course_Type').textContent = "ประเภทหลักสูตร";
+        document.getElementById('display_Course_Major').textContent = "สาขาวิชา";
+        document.getElementById('display_Course_Total_hours').textContent = "0";
+        document.getElementById('display_Course_Fee').textContent = "0.0 บาท";
+        // เปลี่ยน URL ของรูปภาพโดยใช้ JavaScript
+        var newImageUrl = "${pageContext.request.contextPath}/uploads/course_img/gallery.png";
+        var imageElement = document.getElementById("myImage");
+        imageElement.setAttribute("src", newImageUrl);
+        // document.getElementById('myImage').style.display = "none";
+
+        document.getElementById("inputGroupSelect01").value = "";
+        document.getElementById("inputGroupSelect02").value = "";
+        type = "inputGroupSelect03";
+
+        document.getElementById(type).addEventListener("change", function () {
+            NTypeRadio();
+        });
+    }
+    function NTypeRadio() {
+        // รับค่าที่ถูกเลือก
+        var selectedMajor = document.getElementById("inputGroupSelect03").value;
+        // ค้นหาชื่อสาขาที่ถูกเลือกจาก dropdown
+        var courses = document.querySelectorAll("#inputGroupSelect03 option");
+
+        var selectElement = document.getElementById("inputGroupSelect03");
+
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
+        var course_type = selectedOption.getAttribute("data-course_type");
+        var major = selectedOption.getAttribute("data-major");
+        var totalHours = selectedOption.getAttribute("data-totalHours");
+        var fee = selectedOption.getAttribute("data-fee");
+        var img = selectedOption.getAttribute("data-img");
+
+        var selectedCourseName = "";
+        for (var i = 0; i < courses.length; i++) {
+            if (courses[i].value === selectedMajor) {
+                selectedCourseName = courses[i].textContent;
+                document.getElementById("cId").value = courses[i].value;
+                break;
+            }
+        }
+        // แสดงชื่อสาขาใน <h4> element
+        if(selectedCourseName === "เลือกหลักสูตร"){
+            selectedCourseName = "กรุณาเลือกหลักสูตร";
+            totalHours = "0";
+            fee = "0.0"
+        }
+        document.getElementById("display_Course_Name").textContent = selectedCourseName;
+        if(course_type === null){
+            course_type = "ประเภทหลักสูตร";
+        }
+        document.getElementById('display_Course_Type').textContent = course_type;
+        if(major === null){
+            major = "สาขาวิชา";
+        }
+        document.getElementById('display_Course_Major').textContent = major;
+        document.getElementById('display_Course_Total_hours').textContent = totalHours;
+        if (fee === "0.0"){
+            document.getElementById('startPayment_display').style.display = "none";
+            document.getElementById('endPayment_display').style.display = "none";
+            applicationResultElement.min = endRegisterElement.value;
+            startPaymentElement.value = currentDate;
+            endPaymentElement.value = currentDate;
+            applicationResultElement.value = "";
+            fee = "ไม่มีค่าธรรมเนียม";
+        }else {
+            document.getElementById('startPayment_display').style.display = "block";
+            document.getElementById('endPayment_display').style.display = "block";
+            // startPaymentElement.value = "";
+            // endPaymentElement.value = "";
+            fee = fee+" บาท";
+            // applicationResultElement.value = "";
+        }
+        document.getElementById('display_Course_Fee').textContent = fee;
+        if(img === null){
+            img = "gallery.png";
+        }
+        document.getElementById('display_Course_IMG').textContent = img;
+        document.getElementById('myImage').style.display = "block";
+        // เปลี่ยน URL ของรูปภาพโดยใช้ JavaScript
+        var newImageUrl = "${pageContext.request.contextPath}/uploads/course_img/" + img;
+        var imageElement = document.getElementById("myImage");
+        imageElement.setAttribute("src", newImageUrl);
+
+        // โชว์ข้อมูลใน tap2
+        document.getElementById('display_Course_Name_tap2').textContent = selectedCourseName;
+        document.getElementById('display_Course_Major_tap2').textContent = major;
+        document.getElementById('display_Course_Type_tap2').textContent = course_type;
+        document.getElementById('display_Course_Total_hours_tap2').textContent = totalHours;
+        document.getElementById('display_Course_Fee_tap2').textContent = fee;
+        // เปลี่ยน URL ของรูปภาพโดยใช้ JavaScript
+        var imageElement_tap2 = document.getElementById("myImage_tap2");
+        imageElement_tap2.setAttribute("src", newImageUrl);
+
+        // โชว์ข้อมูลใน tap3
+        document.getElementById('display_Course_Name_tap3').textContent = selectedCourseName;
+        document.getElementById('display_Course_Major_tap3').textContent = major;
+        document.getElementById('display_Course_Type_tap3').textContent = course_type;
+        document.getElementById('display_Course_Total_hours_tap3').textContent = totalHours;
+        document.getElementById('display_Course_Fee_tap3').textContent = fee;
+        // เปลี่ยน URL ของรูปภาพโดยใช้ JavaScript
+        var imageElement_tap3 = document.getElementById("myImage_tap3");
+        imageElement_tap3.setAttribute("src", newImageUrl);
+
+        // โชว์ข้อมูลใน tap4
+        document.getElementById('display_Course_Name_tap4').textContent = selectedCourseName;
+        document.getElementById('display_Course_Major_tap4').textContent = major;
+        document.getElementById('display_Course_Type_tap4').textContent = course_type;
+        document.getElementById('display_Course_Total_hours_tap4').textContent = totalHours;
+        document.getElementById('display_Course_Fee_tap4').textContent = fee;
+        // เปลี่ยน URL ของรูปภาพโดยใช้ JavaScript
+        var imageElement_tap4 = document.getElementById("myImage_tap4");
+        imageElement_tap4.setAttribute("src", newImageUrl);
+    }
+
+    function toCheckOTypeRadio() {
+        document.getElementById("select_course").style.display = "block";
+
+        document.getElementById("CName").innerHTML = "หลักสูตรทั้งหมด";
+        document.getElementById("inputGroupSelect01").style.display = "block";
+        document.getElementById("inputGroupSelect02").style.display = "none";
+        document.getElementById("inputGroupSelect03").style.display = "none";
+
+        document.getElementById("display_Course_Name").textContent = "ชื่อหลักสูตร";
+
+        document.getElementById('display_Course_Type').textContent = "ประเภทหลักสูตร";
+        document.getElementById('display_Course_Major').textContent = "สาขาวิชา";
+        document.getElementById('display_Course_Total_hours').textContent = "0";
+        document.getElementById('display_Course_Fee').textContent = "0.0 บาท";
+        // เปลี่ยน URL ของรูปภาพโดยใช้ JavaScript
+        var newImageUrl = "${pageContext.request.contextPath}/uploads/course_img/gallery.png";
+        var imageElement = document.getElementById("myImage");
+        imageElement.setAttribute("src", newImageUrl);
+        // document.getElementById('myImage').style.display = "none";
+
+        document.getElementById("inputGroupSelect02").value = "";
+        document.getElementById("inputGroupSelect03").value = "";
+        type = "inputGroupSelect01";
+
+        document.getElementById(type).addEventListener("change", function () {
+            OTypeRadio();
+        });
+    }
+    function OTypeRadio() {
+        // รับค่าที่ถูกเลือก
+        var selectedMajor = document.getElementById("inputGroupSelect01").value;
+        // ค้นหาชื่อสาขาที่ถูกเลือกจาก dropdown
+        var courses = document.querySelectorAll("#inputGroupSelect01 option");
+
+        var selectElement = document.getElementById("inputGroupSelect01");
+
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
+        var course_type = selectedOption.getAttribute("data-course_type");
+        var major = selectedOption.getAttribute("data-major");
+        var totalHours = selectedOption.getAttribute("data-totalHours");
+        var fee = selectedOption.getAttribute("data-fee");
+        var img = selectedOption.getAttribute("data-img");
+
+        var selectedCourseName = "";
+        for (var i = 0; i < courses.length; i++) {
+            if (courses[i].value === selectedMajor) {
+                selectedCourseName = courses[i].textContent;
+                document.getElementById("cId").value = courses[i].value;
+                break;
+            }
+        }
+        // แสดงชื่อสาขาใน <h4> element
+        if(selectedCourseName === "เลือกหลักสูตร"){
+            selectedCourseName = "กรุณาเลือกหลักสูตร";
+            totalHours = "0";
+            fee = "0.0"
+        }
+        document.getElementById("display_Course_Name").textContent = selectedCourseName;
+        if(course_type === null){
+            course_type = "ประเภทหลักสูตร";
+        }
+        document.getElementById('display_Course_Type').textContent = course_type;
+        if(major === null){
+            major = "สาขาวิชา";
+        }
+        document.getElementById('display_Course_Major').textContent = major;
+        document.getElementById('display_Course_Total_hours').textContent = totalHours;
+        if (fee === "0.0"){
+            document.getElementById('startPayment_display').style.display = "none";
+            document.getElementById('endPayment_display').style.display = "none";
+            applicationResultElement.min = endRegisterElement.value;
+            startPaymentElement.value = currentDate;
+            endPaymentElement.value = currentDate;
+            applicationResultElement.value = "";
+            fee = "ไม่มีค่าธรรมเนียม";
+        }else {
+            document.getElementById('startPayment_display').style.display = "block";
+            document.getElementById('endPayment_display').style.display = "block";
+            // startPaymentElement.value = "";
+            // endPaymentElement.value = "";
+            fee = fee+" บาท";
+            // applicationResultElement.value = "";
+        }
+        document.getElementById('display_Course_Fee').textContent = fee;
+        if(img === null){
+            img = "gallery.png";
+        }
+        document.getElementById('display_Course_IMG').textContent = img;
+        document.getElementById('myImage').style.display = "block";
+        // เปลี่ยน URL ของรูปภาพโดยใช้ JavaScript
+        var newImageUrl = "${pageContext.request.contextPath}/uploads/course_img/" + img;
+        var imageElement = document.getElementById("myImage");
+        imageElement.setAttribute("src", newImageUrl);
+
+        // โชว์ข้อมูลใน tap2
+        document.getElementById('display_Course_Name_tap2').textContent = selectedCourseName;
+        document.getElementById('display_Course_Major_tap2').textContent = major;
+        document.getElementById('display_Course_Type_tap2').textContent = course_type;
+        document.getElementById('display_Course_Total_hours_tap2').textContent = totalHours;
+        document.getElementById('display_Course_Fee_tap2').textContent = fee;
+        // เปลี่ยน URL ของรูปภาพโดยใช้ JavaScript
+        var imageElement_tap2 = document.getElementById("myImage_tap2");
+        imageElement_tap2.setAttribute("src", newImageUrl);
+
+        // โชว์ข้อมูลใน tap3
+        document.getElementById('display_Course_Name_tap3').textContent = selectedCourseName;
+        document.getElementById('display_Course_Major_tap3').textContent = major;
+        document.getElementById('display_Course_Type_tap3').textContent = course_type;
+        document.getElementById('display_Course_Total_hours_tap3').textContent = totalHours;
+        document.getElementById('display_Course_Fee_tap3').textContent = fee;
+        // เปลี่ยน URL ของรูปภาพโดยใช้ JavaScript
+        var imageElement_tap3 = document.getElementById("myImage_tap3");
+        imageElement_tap3.setAttribute("src", newImageUrl);
+
+        // โชว์ข้อมูลใน tap4
+        document.getElementById('display_Course_Name_tap4').textContent = selectedCourseName;
+        document.getElementById('display_Course_Major_tap4').textContent = major;
+        document.getElementById('display_Course_Type_tap4').textContent = course_type;
+        document.getElementById('display_Course_Total_hours_tap4').textContent = totalHours;
+        document.getElementById('display_Course_Fee_tap4').textContent = fee;
+        // เปลี่ยน URL ของรูปภาพโดยใช้ JavaScript
+        var imageElement_tap4 = document.getElementById("myImage_tap4");
+        imageElement_tap4.setAttribute("src", newImageUrl);
+    }
+
+    // ตรวจสอบเมื่อเลือก "หลักสูตรอบรมระยะสั้น"
+    var noCTypeRadio = document.querySelector('input[name="CType"][value="หลักสูตรอบรมระยะสั้น"]');
+    noCTypeRadio.addEventListener("change", function() {
+        if (noCTypeRadio.checked) {
+            toCheckCTypeRadio();
+        }
+    });
+
+    // ตรวจสอบเมื่อเลือก "Non-Degree"
+    var cTypeRadio = document.querySelector('input[name="CType"][value="Non-Degree"]');
+    cTypeRadio.addEventListener("change", function() {
+        if (cTypeRadio.checked) {
+            toCheckNTypeRadio();
+        }
+    });
+
+    // ตรวจสอบเมื่อเลือก "หลักสูตรทั้งหมด"
+    var allCTypeRadio = document.querySelector('input[name="CType"][value="หลักสูตรทั้งหมด"]');
+    allCTypeRadio.addEventListener("change", function() {
+        if (allCTypeRadio.checked) {
+            toCheckOTypeRadio();
+        }
+    });
 </script>
 </html>

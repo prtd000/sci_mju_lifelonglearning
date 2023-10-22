@@ -206,7 +206,7 @@
                                                     <td align="center">
                                                         <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
                                                             <button class="button-5" role="button" style="font-size: 12px">
-                                                                <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.numberOfAllRegistrations}/${request_course.quantity}
+                                                                <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.numberOfAllRegistrationsToPass}/${request_course.numberOfAllRegistrations}
                                                             </button>
                                                         </a>
                                                     </td>
@@ -257,7 +257,7 @@
                                                         <td align="center">
                                                             <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
                                                                 <button class="button-5" role="button" style="font-size: 12px">
-                                                                    <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.numberOfAllRegistrations}/${request_course.quantity}
+                                                                    <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.numberOfAllRegistrationsToPass}/${request_course.numberOfAllRegistrations}
                                                                 </button>
                                                             </a>
                                                         </td>
@@ -281,7 +281,7 @@
                                                     <td align="center">
                                                         <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
                                                             <button class="button-5" role="button" style="font-size: 12px">
-                                                                <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.numberOfAllRegistrations}/${request_course.quantity}
+                                                                <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.numberOfAllRegistrationsToPass}/${request_course.numberOfAllRegistrations}
                                                             </button>
                                                         </a>
                                                     </td>
@@ -325,7 +325,7 @@
                                                 <td align="center">
                                                     <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
                                                         <button class="button-5" role="button" style="font-size: 12px">
-                                                            <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.numberOfApprovedRegistrations}/${request_course.quantity}
+                                                            <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>${request_course.numberOfApprovedRegistrations}/${request_course.numberOfAllRegistrationsToPass}
                                                         </button>
                                                     </a>
                                                 </td>

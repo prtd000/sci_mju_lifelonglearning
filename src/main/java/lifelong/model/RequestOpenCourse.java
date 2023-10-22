@@ -104,10 +104,28 @@ public class RequestOpenCourse {
         }
         return count;
     }
+    public int getNumberOfAllRegistrationsPayStatus() {
+        int count = 0;
+        for (Register register : registerList) {
+            if (Objects.equals(register.getInvoice().getPay_status(), true)){
+                count++;
+            }
+        }
+        return count;
+    }
     public int getNumberOfAllRegistrationsToPass() {
         int count = 0;
         for (Register register : registerList) {
             if (Objects.equals(register.getInvoice().getApprove_status(), "ผ่าน")){
+                count++;
+            }
+        }
+        return count;
+    }
+    public int getNumberOfAllRegistrationsByStudyResult() {
+        int count = 0;
+        for (Register register : registerList) {
+            if (Objects.equals(register.getStudy_result(), "ผ่าน")){
                 count++;
             }
         }

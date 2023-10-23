@@ -73,7 +73,6 @@
                     <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                         <div class="navbar-nav ms-auto py-0">
                             <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
-                            <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
                             <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course" class="nav-item nav-link" style="font-size: 17px">เพิ่มหลักสูตร</a>
                             <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active" style="font-size: 17px">หลักสูตรทั้งหมด</a>
                             <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 17px">รายการร้องขอ</a>
@@ -133,54 +132,57 @@
                                             <td style="width: 15%" align="center">ระยะเวลาการเรียน</td>
                                             <td style="width: 5%" align="center">ผู้สมัคร</td>
                                         </tr>
-                                        <c:choose>
-                                            <c:when test="${courses_by_register_date.size() == 0}">
-                                                <tr>
-                                                    <td colspan="6" align="center">ไม่มีข้อมูล</td>
-                                                </tr>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <c:forEach var="course" items="${courses_by_register_date}">
-                                                    <tr style="color: black;">
-                                                        <c:forEach var="request" items="${requests_by_register}">
-                                                            <fmt:formatDate value="${request.requestDate}" pattern="dd/MM/yyyy" var="requestDate" />
-                                                            <fmt:formatDate value="${request.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
-                                                            <fmt:formatDate value="${request.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
-                                                            <fmt:formatDate value="${request.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
-                                                            <fmt:formatDate value="${request.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                                            <fmt:formatDate value="${request.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
-                                                            <fmt:formatDate value="${request.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
-                                                            <fmt:formatDate value="${request.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
-                                                            <c:if test="${course.course_id == request.course.course_id && request.requestStatus == 'ผ่าน'}">
-                                                                <td><p>${course.name}</p></td>
-                                                                <td align="center">
-                                                                    <p>${startRegister} - ${endRegister}</p><br>
-                                                                </td>
-                                                                <c:choose>
-                                                                    <c:when test="${request.course.fee != 0}">
-                                                                        <td align="center"><p>${startPayment} - ${endPayment}</p></td>
-                                                                    </c:when>
-                                                                    <c:otherwise>
-                                                                        <td align="center"><p>ไม่มีการชำระเงิน(ฟรี)</p></td>
-                                                                    </c:otherwise>
-                                                                </c:choose>
-                                                                <td align="center">
-                                                                    <p>${applicationResult}</p><br>
-                                                                </td>
-                                                                <td align="center">
-                                                                    <p>${startStudyDate} - ${endStudyDate}</p><br>
-                                                                </td>
-                                                                <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course">
-                                                                    <button class="button-35" role="button"><i class="fa fa-users" style="margin-right: 10px"></i>
-                                                                            ${request.numberOfAllRegistrations} / ${request.quantity}
-                                                                    </button>
-                                                                </a></td>
-                                                            </c:if>
-                                                        </c:forEach>
-                                                    </tr>
+<%--                                        <c:choose>--%>
+<%--                                            <c:when test="${courses_by_register_date.size() == 0}">--%>
+<%--                                                <tr>--%>
+<%--                                                    <td colspan="6" align="center">ไม่มีข้อมูล</td>--%>
+<%--                                                </tr>--%>
+<%--                                            </c:when>--%>
+<%--                                            <c:otherwise>--%>
+<%--                                                <c:forEach var="course" items="${courses_by_register_date}">--%>
+                                                <c:forEach var="requests" items="${requests_open_course}">
+                                                    <c:if test="${requests.endRegister >= currentDate && requests.requestStatus == 'ผ่าน'}">
+                                                        <tr style="color: black;">
+                                                            <c:forEach var="request" items="${requests_by_register}">
+                                                                <fmt:formatDate value="${request.requestDate}" pattern="dd/MM/yyyy" var="requestDate" />
+                                                                <fmt:formatDate value="${request.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
+                                                                <fmt:formatDate value="${request.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
+                                                                <fmt:formatDate value="${request.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                                                <fmt:formatDate value="${request.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
+                                                                <fmt:formatDate value="${request.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
+                                                                <fmt:formatDate value="${request.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
+                                                                <fmt:formatDate value="${request.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
+                                                                <c:if test="${requests.course.course_id == request.course.course_id && request.requestStatus == 'ผ่าน'}">
+                                                                    <td><p>${requests.course.name}</p></td>
+                                                                    <td align="center">
+                                                                        <p>${startRegister} - ${endRegister}</p><br>
+                                                                    </td>
+                                                                    <c:choose>
+                                                                        <c:when test="${request.course.fee != 0}">
+                                                                            <td align="center"><p>${startPayment} - ${endPayment}</p></td>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <td align="center"><p>ไม่มีการชำระเงิน(ฟรี)</p></td>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                    <td align="center">
+                                                                        <p>${applicationResult}</p><br>
+                                                                    </td>
+                                                                    <td align="center">
+                                                                        <p>${startStudyDate} - ${endStudyDate}</p><br>
+                                                                    </td>
+                                                                    <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course">
+                                                                        <button class="button-35" role="button"><i class="fa fa-users" style="margin-right: 10px"></i>
+                                                                                ${request.numberOfAllRegistrations} / ${request.quantity}
+                                                                        </button>
+                                                                    </a></td>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </tr>
+                                                    </c:if>
                                                 </c:forEach>
-                                            </c:otherwise>
-                                        </c:choose>
+<%--                                            </c:otherwise>--%>
+<%--                                        </c:choose>--%>
                                     </table>
                                 </div>
                                 <div id="no_max_register" style="display: none">
@@ -193,17 +195,18 @@
                                             <td style="width: 15%" align="center">ระยะเวลาการเรียน</td>
                                             <td style="width: 5%" align="center">ผู้สมัคร</td>
                                         </tr>
-                                        <c:choose>
-                                            <c:when test="${courses_by_register_date.size() == 0}">
-                                                <tr>
-                                                    <td colspan="6" align="center">ไม่มีข้อมูล</td>
-                                                </tr>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <c:forEach var="course" items="${courses_by_register_date}">
+<%--                                        <c:choose>--%>
+<%--                                            <c:when test="${courses_by_register_date.size() == 0}">--%>
+<%--                                                <tr>--%>
+<%--                                                    <td colspan="6" align="center">ไม่มีข้อมูล</td>--%>
+<%--                                                </tr>--%>
+<%--                                            </c:when>--%>
+<%--                                            <c:otherwise>--%>
+                                        <c:forEach var="requests" items="${requests_open_course}">
+                                            <c:if test="${requests.endRegister >= currentDate && requests.requestStatus == 'ผ่าน'}">
                                                     <tr style="color: black;">
                                                         <c:forEach var="request" items="${requests_by_register}">
-                                                            <c:if test="${request.quantity != request.registerList.size()}">
+                                                            <c:if test="${request.quantity > request.registerList.size()}">
                                                                 <fmt:formatDate value="${request.requestDate}" pattern="dd/MM/yyyy" var="requestDate" />
                                                                 <fmt:formatDate value="${request.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
                                                                 <fmt:formatDate value="${request.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
@@ -212,8 +215,8 @@
                                                                 <fmt:formatDate value="${request.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
                                                                 <fmt:formatDate value="${request.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
                                                                 <fmt:formatDate value="${request.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
-                                                                <c:if test="${course.course_id == request.course.course_id && request.requestStatus == 'ผ่าน'}">
-                                                                    <td><p>${course.name}</p></td>
+                                                                <c:if test="${requests.course.course_id == request.course.course_id && request.requestStatus == 'ผ่าน'}">
+                                                                    <td><p>${requests.course.name}</p></td>
                                                                     <td align="center">
                                                                         <p>${startRegister} - ${endRegister}</p><br>
                                                                     </td>
@@ -241,9 +244,10 @@
 
                                                         </c:forEach>
                                                     </tr>
+                                                    </c:if>
                                                 </c:forEach>
-                                            </c:otherwise>
-                                        </c:choose>
+<%--                                            </c:otherwise>--%>
+<%--                                        </c:choose>--%>
                                     </table>
                                 </div>
                                 <div id="max_register" style="display: none">
@@ -257,14 +261,15 @@
                                             <td style="width: 5%" align="center">ผู้สมัคร</td>
                                             <td style="width: 10%" align="center"></td>
                                         </tr>
-                                        <c:choose>
-                                            <c:when test="${courses_by_register_date.size() == 0}">
-                                                <tr>
-                                                    <td colspan="6" align="center">ไม่มีข้อมูล</td>
-                                                </tr>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <c:forEach var="course" items="${courses_by_register_date}">
+<%--                                        <c:choose>--%>
+<%--                                            <c:when test="${courses_by_register_date.size() == 0}">--%>
+<%--                                                <tr>--%>
+<%--                                                    <td colspan="6" align="center">ไม่มีข้อมูล</td>--%>
+<%--                                                </tr>--%>
+<%--                                            </c:when>--%>
+<%--                                            <c:otherwise>--%>
+                                        <c:forEach var="requests" items="${requests_open_course}">
+                                            <c:if test="${requests.endRegister >= currentDate && requests.requestStatus == 'ผ่าน'}">
                                                     <tr style="color: black;">
                                                         <c:forEach var="request" items="${requests_by_max_register}">
                                                             <c:if test="${request.quantity == request.registerList.size()}">
@@ -276,8 +281,8 @@
                                                                 <fmt:formatDate value="${request.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
                                                                 <fmt:formatDate value="${request.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
                                                                 <fmt:formatDate value="${request.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
-                                                                <c:if test="${course.course_id == request.course.course_id && request.requestStatus == 'ผ่าน'}">
-                                                                    <td><p>${course.name}</p></td>
+                                                                <c:if test="${requests.course.course_id == request.course.course_id && request.requestStatus == 'ผ่าน'}">
+                                                                    <td><p>${requests.course.name}</p></td>
                                                                     <td align="center">
                                                                         <p>${startRegister} - ${endRegister}</p><br>
                                                                     </td>
@@ -300,20 +305,21 @@
                                                                                 ${request.numberOfAllRegistrations} / ${request.quantity}
                                                                         </button>
                                                                     </a></td>
-                                                                    <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/close_register">
-                                                                        <form method="post" action="${pageContext.request.contextPath}/course/${request.request_id}/close_register">
-                                                                            <button class="btn btn-outline-danger" role="button" style="font-size: 12px">
-                                                                                ปิดลงทะเบียน
-                                                                            </button>
-                                                                        </form>
-                                                                    </a></td>
+<%--                                                                    <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/close_register">--%>
+<%--                                                                        <form method="post" action="${pageContext.request.contextPath}/course/${request.request_id}/close_register">--%>
+<%--                                                                            <button class="btn btn-outline-danger" role="button" style="font-size: 12px">--%>
+<%--                                                                                ปิดลงทะเบียน--%>
+<%--                                                                            </button>--%>
+<%--                                                                        </form>--%>
+<%--                                                                    </a></td>--%>
                                                                 </c:if>
                                                             </c:if>
                                                         </c:forEach>
                                                     </tr>
+                                                    </c:if>
                                                 </c:forEach>
-                                            </c:otherwise>
-                                        </c:choose>
+<%--                                            </c:otherwise>--%>
+<%--                                        </c:choose>--%>
                                     </table>
                                 </div>
                             </div>
@@ -344,7 +350,7 @@
                                                 <c:forEach var="course" items="${courses_by_payment_date}">
                                                     <tr style="color: black">
                                                         <c:forEach var="request" items="${requests_by_payment}">
-                                                            <c:if test="${request.endPayment >= currentDate}">
+                                                            <c:if test="${request.endPayment >= currentDate && currentDate >= request.startPayment && currentDate > request.endRegister}">
                                                                 <fmt:formatDate value="${request.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
                                                                 <fmt:formatDate value="${request.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
                                                                 <fmt:formatDate value="${request.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
@@ -525,7 +531,7 @@
                                                     <td align="center"><p>${course.course_type}</p></td>
                                                     <td align="center">
                                                         <a href="${pageContext.request.contextPath}/course/${course.course_id}/edit_course">
-                                                            <button type="button" class="btn btn-outline-warning">
+                                                            <button style="font-size: 12px" type="button" class="btn btn-outline-warning">
                                                                 <i class='fa fa-edit'></i>แก้ไข</button>
                                                         </a>
                                                     </td>

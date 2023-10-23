@@ -189,6 +189,13 @@
         }
         input{
             font-family: 'Prompt', sans-serif;
+            font-size: 12px;
+        }
+        label{
+            font-size: 12px;
+        }
+        span{
+            font-size: 12px;
         }
     </style>
 </head>
@@ -239,22 +246,23 @@
                 <div class="navbar-nav ms-auto py-0">
                     <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 18px">หน้าหลัก</a>
                     <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรการอบรม</a>
-                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/add_roc" class="nav-item nav-link active" style="font-size: 18px">ร้องขอหลักสูตร</a>
-                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 18px">รายการร้องขอ</a>
-                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_approve_request_open_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรของฉัน</a>
+                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/add_roc" class="nav-item nav-link" style="font-size: 18px">ร้องขอหลักสูตร</a>
+                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link active" style="font-size: 18px">รายการร้องขอ</a>
+                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_approve_request_open_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรที่เปิดสอน</a>
                     <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 17px">อาจารย์</a>
                     <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
                 </div>
             </div>
         </nav>
         <!-- Navbar End -->
         <!-- Navbar End -->
-        <form id="regForm" action="${pageContext.request.contextPath}/lecturer/${lec_id}/${request_open_course.request_id}/update" method="POST" onsubmit="return confirmAction();" name="frm" style="font-family: 'Prompt', sans-serif;width: 95%; margin-top: 15px;">
-            <h1 style="text-align-last: start;">ร้องขอหลักสูตร</h1>
+        <form id="regForm" action="${pageContext.request.contextPath}/lecturer/${lec_id}/${request_open_course.request_id}/update" method="POST" onsubmit="return confirmAction();" name="frm" style="font-family: 'Prompt', sans-serif;width: 95%; margin-top: 15px;font-size: 12px">
+            <h3 style="text-align-last: start;">ร้องขอหลักสูตร</h3>
             <hr>
             <!-- One "tab" for each step in the form: -->
             <div class="tab">
-                <table style="width: 100%">
+                <table style="width: 100%;">
                     <tr>
                         <td style="width: 40%; vertical-align: top;" rowspan="2">
                             <div class="course_detail" id="course_details_tab1">
@@ -284,7 +292,7 @@
                             </div>
                         </td>
                         <td style="width: 60%; vertical-align: top; height: 1px;">
-                            <h4>เลือกหลักสูตร<b style="color: red; font-size: 24px">*</b></h4>
+                            <h6><b>เลือกหลักสูตร<b style="color: red; font-size: 15px">*</b></b></h6>
                             <div style="width: 100%;" align="center">
                                 <c:choose>
                                     <c:when test="${request_open_course.course.course_type == 'หลักสูตรอบรมระยะสั้น'}">
@@ -316,8 +324,8 @@
                             <hr>
                             <div id="select_course" style="width: 97.5%;">
                                 <div class="input-group mb-3" style="width: 97.5%;">
-                                    <label class="input-group-text" for="inputGroupSelect01" id="CName">หลักสูตรทั้งหมด</label>
-                                    <select name="course_id" class="form-select" id="inputGroupSelect01">
+                                    <label class="input-group-text" for="inputGroupSelect01" id="CName" style="font-size: 12px">หลักสูตรทั้งหมด</label>
+                                    <select name="course_id" class="form-select" id="inputGroupSelect01" style="font-size: 12px">
                                         <option value="">เลือกหลักสูตร</option>
                                         <c:set var="requestedCourseIds" value="" />
                                         <c:forEach var="item1" items="${request_select}">
@@ -343,7 +351,7 @@
                                                 data-img="${request_open_course.course.img}" selected>${request_open_course.course.name}</option>
 
                                     </select>
-                                    <select name="course_id" class="form-select" id="inputGroupSelect02">
+                                    <select name="course_id" class="form-select" id="inputGroupSelect02" style="font-size: 12px">
                                         <option value="">เลือกหลักสูตร</option>
                                         <c:set var="requestedCourseIds" value="" />
                                         <c:forEach var="item1" items="${request_select}">
@@ -369,7 +377,7 @@
                                                     data-img="${request_open_course.course.img}" selected>${request_open_course.course.name}</option>
                                         </c:if>
                                     </select>
-                                    <select name="course_id" class="form-select" id="inputGroupSelect03">
+                                    <select name="course_id" class="form-select" id="inputGroupSelect03" style="font-size: 12px">
                                         <option value="">เลือกหลักสูตร</option>
                                         <c:set var="requestedCourseIds" value="" />
                                         <c:forEach var="item1" items="${request_select}">
@@ -402,24 +410,24 @@
                             <br>
                             <div class="mb-3" style="width: 100%; display: flex">
                                 <div style="width: 32%">
-                                    <label>วันเปิดรับสมัคร</label></b><b style="color: red; font-size: 20px">*</b>
+                                    <b><label>วันเปิดรับสมัคร</label></b><b style="color: red; font-size: 20px">*</b>
                                     <div style="margin-right: 15px;">
                                         <input name="startRegister" type="date" id="startRegister" value="${request_open_course.startRegister}"/>
                                     </div>
                                     <label id="invalidStartRegister" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 32%">
-                                    <label>วันปิดรับสมัคร</label><b style="color: red; font-size: 20px">*</b>
+                                    <b><label>วันปิดรับสมัคร</label></b><b style="color: red; font-size: 20px">*</b>
                                     <div style="margin-right: 15px;">
                                         <input name="endRegister" type="date" id="endRegister" value="${request_open_course.endRegister}"/>
                                     </div>
                                     <label id="invalidEndRegister" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 35%">
-                                    <label>จำนวนรับสมัคร</label><b style="color: red; font-size: 20px">*</b>
+                                    <b><label>จำนวนรับสมัคร</label></b><b style="color: red; font-size: 20px">*</b>
                                     <div class="input-group mb-3">
-                                        <input style="width: 80%;" name="quantity" id="quantity" value="${request_open_course.quantity}" type="number" class="form-control" oninput="this.className = ''" placeholder="จำนวนรับสมัคร" aria-describedby="basic-addon2">
-                                        <span class="input-group-text" id="basic-addon2">คน</span>
+                                        <input style="width: 80%;font-size: 12px" name="quantity" id="quantity" value="${request_open_course.quantity}" type="number" class="form-control" oninput="this.className = ''" placeholder="จำนวนรับสมัคร" aria-describedby="basic-addon2">
+                                        <span class="input-group-text" id="basic-addon2" style="font-size: 12px">คน</span>
                                     </div>
                                     <label id="invalidQuantity" style="color: red; font-size: 12px"></label>
                                 </div>
@@ -430,21 +438,21 @@
                         <td style="vertical-align: top;">
                             <div class="mb-3" style="width: 100%; display: flex">
                                 <div style="width: 32%" id="startPayment_display">
-                                    <label>วันเริ่มชำระเงิน</label><b style="color: red; font-size: 20px">*</b>
+                                    <b><label>วันเริ่มชำระเงิน</label></b><b style="color: red; font-size: 20px">*</b>
                                     <div style="margin-right: 15px;">
                                         <input name="startPayment" type="date" id="startPayment" value="${request_open_course.startPayment}"/>
                                     </div>
                                     <label id="invalidStartPayment" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 32%" id="endPayment_display">
-                                    <label>วันสิ้นสุดการชำระเงิน</label><b style="color: red; font-size: 20px">*</b>
+                                    <b><label>วันสิ้นสุดการชำระเงิน</label></b><b style="color: red; font-size: 20px">*</b>
                                     <div style="margin-right: 15px;">
                                         <input name="endPayment" type="date" id="endPayment" value="${request_open_course.endPayment}"/>
                                     </div>
                                     <label id="invalidEndPayment" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 35%">
-                                    <label>วันประกาศผลการสมัคร</label><b style="color: red; font-size: 20px">*</b>
+                                    <b><label>วันประกาศผลการสมัคร</label></b><b style="color: red; font-size: 20px">*</b>
                                     <div style="margin-right: 15px;">
                                         <input name="applicationResult" type="date" id="applicationResult" value="${request_open_course.applicationResult}"/>
                                     </div>
@@ -484,7 +492,7 @@
                             </div>
                         </td>
                         <td style="width: 60%; vertical-align: top; height: 1px;">
-                            <h5><b>วันในการเรียน</b><b style="color: red; font-size: 24px">*</b></h5>
+                            <h6><b>วันในการเรียน</b><b style="color: red; font-size: 24px">*</b></h6>
                             <hr>
                             <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group" style="width: 100%; display: flex; text-align: -webkit-left;" align="center">
                                 <div style="width: 50%; margin-right: 15px">
@@ -494,13 +502,63 @@
                                             <input type="checkbox" class="btn-check" id="chk_mo" autocomplete="off">
                                             <label class="btn btn-outline-primary" for="chk_mo" style="width: 95%; font-size: 12px">วันจันทร์</label>
                                         </div>
-                                        <div class="input-group" style="width:70%;">
-                                            <span class="input-group-text" style="font-size: 12px">เวลาเรียน</span>
-                                            <input type="time" class="form-control" id="start_chk_mo" name="mo_start_study_time" onchange="calculateTime('chk_mo')" step="1800" style="font-size: 12px" disabled/>
-                                            <input type="time" class="form-control" id="end_chk_mo" name="mo_end_study_time" onchange="calculateTime('chk_mo')" step="1800" style="font-size: 12px" disabled/>
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="inputGroupSelect01" style="font-size: 12px">เวลาเรียน</label>
+                                            <select class="form-select" id="start_chk_mo" name="mo_start_study_time" style="font-size: 12px" onchange="calculateTime('chk_mo')" disabled>
+                                                <option value="เริ่ม" selected>เริ่ม</option>
+                                                <option value="8:00">8:00</option>
+                                                <option value="8:30">8:30</option>
+                                                <option value="9:00">9:00</option>
+                                                <option value="9:30">9:30</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="10:30">10:30</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="11:30">11:30</option>
+                                                <option value="12:00">12:00</option>
+                                                <option value="12:30">12:30</option>
+                                                <option value="13:00">13:00</option>
+                                                <option value="13:30">13:30</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="14:30">14:30</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="15:30">15:30</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="16:30">16:30</option>
+                                                <option value="17:00">17:00</option>
+                                            </select>
+                                            <select class="form-select" id="end_chk_mo" name="mo_end_study_time" style="font-size: 12px" onchange="calculateTime('chk_mo')" disabled>
+                                                <option value="สิ้นสุด" selected>สิ้นสุด</option>
+                                                <option value="8:00">8:00</option>
+                                                <option value="8:30">8:30</option>
+                                                <option value="9:00">9:00</option>
+                                                <option value="9:30">9:30</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="10:30">10:30</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="11:30">11:30</option>
+                                                <option value="12:00">12:00</option>
+                                                <option value="12:30">12:30</option>
+                                                <option value="13:00">13:00</option>
+                                                <option value="13:30">13:30</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="14:30">14:30</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="15:30">15:30</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="16:30">16:30</option>
+                                                <option value="17:00">17:00</option>
+                                            </select>
                                             <input type="hidden" id="total_to_save_chk_mo">
+                                            <input type="hidden" id="total_to_display_chk_mo">
                                             <input type="hidden" id="total_to_cal_chk_mo">
                                         </div>
+                                            <%--                                        <div class="input-group" style="width:70%;">--%>
+                                            <%--                                            <span class="input-group-text" style="font-size: 12px">เวลาเรียน</span>--%>
+                                            <%--                                            <input type="time" class="form-control" id="start_chk_mo" name="mo_start_study_time" onchange="calculateTime('chk_mo')" step="1800" style="font-size: 12px" disabled/>--%>
+                                            <%--                                            <input type="time" class="form-control" id="end_chk_mo" name="mo_end_study_time" onchange="calculateTime('chk_mo')" step="1800" style="font-size: 12px" disabled/>--%>
+                                            <%--                                            <input type="hidden" id="total_to_save_chk_mo">--%>
+                                            <%--                                            <input type="hidden" id="total_to_cal_chk_mo">--%>
+                                            <%--                                        </div>--%>
                                     </div>
                                     <label id="invalid_chk_mo" align="right" style="color: red; font-size: 12px;width: 100%"></label>
                                     <br>
@@ -510,13 +568,63 @@
                                             <input type="checkbox" class="btn-check" id="chk_tu" autocomplete="off">
                                             <label class="btn btn-outline-primary" for="chk_tu" style="width: 95%; font-size: 12px">วันอังคาร</label>
                                         </div>
-                                        <div class="input-group" style="width:70%;">
-                                            <span class="input-group-text" style="font-size: 12px">เวลาเรียน</span>
-                                            <input class="form-control" type="time" id="start_chk_tu" name="tu_start_study_time" onchange="calculateTime('chk_tu')" step="1800" style="font-size: 12px" disabled/>
-                                            <input class="form-control" type="time" id="end_chk_tu" name="tu_end_study_time" onchange="calculateTime('chk_tu')" step="1800" style="font-size: 12px" disabled/>
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="inputGroupSelect01" style="font-size: 12px">เวลาเรียน</label>
+                                            <select class="form-select" id="start_chk_tu" name="tu_start_study_time" style="font-size: 12px" onchange="calculateTime('chk_tu')" disabled>
+                                                <option value="เริ่ม" selected>เริ่ม</option>
+                                                <option value="8:00">8:00</option>
+                                                <option value="8:30">8:30</option>
+                                                <option value="9:00">9:00</option>
+                                                <option value="9:30">9:30</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="10:30">10:30</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="11:30">11:30</option>
+                                                <option value="12:00">12:00</option>
+                                                <option value="12:30">12:30</option>
+                                                <option value="13:00">13:00</option>
+                                                <option value="13:30">13:30</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="14:30">14:30</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="15:30">15:30</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="16:30">16:30</option>
+                                                <option value="17:00">17:00</option>
+                                            </select>
+                                            <select class="form-select" id="end_chk_tu" name="tu_end_study_time" style="font-size: 12px" onchange="calculateTime('chk_tu')" disabled>
+                                                <option value="สิ้นสุด" selected>สิ้นสุด</option>
+                                                <option value="8:00">8:00</option>
+                                                <option value="8:30">8:30</option>
+                                                <option value="9:00">9:00</option>
+                                                <option value="9:30">9:30</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="10:30">10:30</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="11:30">11:30</option>
+                                                <option value="12:00">12:00</option>
+                                                <option value="12:30">12:30</option>
+                                                <option value="13:00">13:00</option>
+                                                <option value="13:30">13:30</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="14:30">14:30</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="15:30">15:30</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="16:30">16:30</option>
+                                                <option value="17:00">17:00</option>
+                                            </select>
                                             <input type="hidden" id="total_to_save_chk_tu">
+                                            <input type="hidden" id="total_to_display_chk_tu">
                                             <input type="hidden" id="total_to_cal_chk_tu">
                                         </div>
+                                            <%--                                        <div class="input-group" style="width:70%;">--%>
+                                            <%--                                            <span class="input-group-text" style="font-size: 12px">เวลาเรียน</span>--%>
+                                            <%--                                            <input class="form-control" type="time" id="start_chk_tu" name="tu_start_study_time" onchange="calculateTime('chk_tu')" step="1800" style="font-size: 12px" disabled/>--%>
+                                            <%--                                            <input class="form-control" type="time" id="end_chk_tu" name="tu_end_study_time" onchange="calculateTime('chk_tu')" step="1800" style="font-size: 12px" disabled/>--%>
+                                            <%--                                            <input type="hidden" id="total_to_save_chk_tu">--%>
+                                            <%--                                            <input type="hidden" id="total_to_cal_chk_tu">--%>
+                                            <%--                                        </div>--%>
                                     </div>
                                     <label id="invalid_chk_tu" align="right" style="color: red; font-size: 12px;width: 100%"></label>
                                     <br>
@@ -526,13 +634,63 @@
                                             <input type="checkbox" class="btn-check" id="chk_we" autocomplete="off">
                                             <label class="btn btn-outline-primary" for="chk_we" style="width: 95%; font-size: 12px">วันพุธ</label>
                                         </div>
-                                        <div class="input-group" style="width:70%;">
-                                            <span class="input-group-text" style="font-size: 12px">เวลาเรียน</span>
-                                            <input class="form-control" type="time" id="start_chk_we" name="we_start_study_time" onchange="calculateTime('chk_we')" step="1800" style="font-size: 12px" disabled/>
-                                            <input class="form-control" type="time" id="end_chk_we" name="we_end_study_time" onchange="calculateTime('chk_we')" step="1800" style="font-size: 12px" disabled/>
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="inputGroupSelect01" style="font-size: 12px">เวลาเรียน</label>
+                                            <select class="form-select" id="start_chk_we" name="we_start_study_time" style="font-size: 12px" onchange="calculateTime('chk_we')" disabled>
+                                                <option value="เริ่ม" selected>เริ่ม</option>
+                                                <option value="8:00">8:00</option>
+                                                <option value="8:30">8:30</option>
+                                                <option value="9:00">9:00</option>
+                                                <option value="9:30">9:30</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="10:30">10:30</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="11:30">11:30</option>
+                                                <option value="12:00">12:00</option>
+                                                <option value="12:30">12:30</option>
+                                                <option value="13:00">13:00</option>
+                                                <option value="13:30">13:30</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="14:30">14:30</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="15:30">15:30</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="16:30">16:30</option>
+                                                <option value="17:00">17:00</option>
+                                            </select>
+                                            <select class="form-select" id="end_chk_we" name="we_end_study_time" style="font-size: 12px" onchange="calculateTime('chk_we')" disabled>
+                                                <option value="สิ้นสุด" selected>สิ้นสุด</option>
+                                                <option value="8:00">8:00</option>
+                                                <option value="8:30">8:30</option>
+                                                <option value="9:00">9:00</option>
+                                                <option value="9:30">9:30</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="10:30">10:30</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="11:30">11:30</option>
+                                                <option value="12:00">12:00</option>
+                                                <option value="12:30">12:30</option>
+                                                <option value="13:00">13:00</option>
+                                                <option value="13:30">13:30</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="14:30">14:30</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="15:30">15:30</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="16:30">16:30</option>
+                                                <option value="17:00">17:00</option>
+                                            </select>
                                             <input type="hidden" id="total_to_save_chk_we">
+                                            <input type="hidden" id="total_to_display_chk_we">
                                             <input type="hidden" id="total_to_cal_chk_we">
                                         </div>
+                                            <%--                                        <div class="input-group" style="width:70%;">--%>
+                                            <%--                                            <span class="input-group-text" style="font-size: 12px">เวลาเรียน</span>--%>
+                                            <%--                                            <input class="form-control" type="time" id="start_chk_we" name="we_start_study_time" onchange="calculateTime('chk_we')" step="1800" style="font-size: 12px" disabled/>--%>
+                                            <%--                                            <input class="form-control" type="time" id="end_chk_we" name="we_end_study_time" onchange="calculateTime('chk_we')" step="1800" style="font-size: 12px" disabled/>--%>
+                                            <%--                                            <input type="hidden" id="total_to_save_chk_we">--%>
+                                            <%--                                            <input type="hidden" id="total_to_cal_chk_we">--%>
+                                            <%--                                        </div>--%>
                                     </div>
                                     <label id="invalid_chk_we" align="right" style="color: red; font-size: 12px;width: 100%"></label>
                                     <br>
@@ -542,13 +700,63 @@
                                             <input type="checkbox" class="btn-check" id="chk_th" autocomplete="off">
                                             <label class="btn btn-outline-primary" for="chk_th" style="width: 95%; font-size: 12px">วันพฤหัสบดี</label>
                                         </div>
-                                        <div class="input-group" style="width:70%;">
-                                            <span class="input-group-text" style="font-size: 12px">เวลาเรียน</span>
-                                            <input class="form-control" type="time" id="start_chk_th" name="th_start_study_time" onchange="calculateTime('chk_th')" step="1800" style="font-size: 12px" disabled/>
-                                            <input class="form-control" type="time" id="end_chk_th" name="th_end_study_time" onchange="calculateTime('chk_th')" step="1800" style="font-size: 12px" disabled/>
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="inputGroupSelect01" style="font-size: 12px">เวลาเรียน</label>
+                                            <select class="form-select" id="start_chk_th" name="th_start_study_time" style="font-size: 12px" onchange="calculateTime('chk_th')" disabled>
+                                                <option value="เริ่ม" selected>เริ่ม</option>
+                                                <option value="8:00">8:00</option>
+                                                <option value="8:30">8:30</option>
+                                                <option value="9:00">9:00</option>
+                                                <option value="9:30">9:30</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="10:30">10:30</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="11:30">11:30</option>
+                                                <option value="12:00">12:00</option>
+                                                <option value="12:30">12:30</option>
+                                                <option value="13:00">13:00</option>
+                                                <option value="13:30">13:30</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="14:30">14:30</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="15:30">15:30</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="16:30">16:30</option>
+                                                <option value="17:00">17:00</option>
+                                            </select>
+                                            <select class="form-select" id="end_chk_th" name="th_end_study_time" style="font-size: 12px" onchange="calculateTime('chk_th')" disabled>
+                                                <option value="สิ้นสุด" selected>สิ้นสุด</option>
+                                                <option value="8:00">8:00</option>
+                                                <option value="8:30">8:30</option>
+                                                <option value="9:00">9:00</option>
+                                                <option value="9:30">9:30</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="10:30">10:30</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="11:30">11:30</option>
+                                                <option value="12:00">12:00</option>
+                                                <option value="12:30">12:30</option>
+                                                <option value="13:00">13:00</option>
+                                                <option value="13:30">13:30</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="14:30">14:30</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="15:30">15:30</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="16:30">16:30</option>
+                                                <option value="17:00">17:00</option>
+                                            </select>
                                             <input type="hidden" id="total_to_save_chk_th">
+                                            <input type="hidden" id="total_to_display_chk_th">
                                             <input type="hidden" id="total_to_cal_chk_th">
                                         </div>
+                                            <%--                                        <div class="input-group" style="width:70%;">--%>
+                                            <%--                                            <span class="input-group-text" style="font-size: 12px">เวลาเรียน</span>--%>
+                                            <%--                                            <input class="form-control" type="time" id="start_chk_th" name="th_start_study_time" onchange="calculateTime('chk_th')" step="1800" style="font-size: 12px" disabled/>--%>
+                                            <%--                                            <input class="form-control" type="time" id="end_chk_th" name="th_end_study_time" onchange="calculateTime('chk_th')" step="1800" style="font-size: 12px" disabled/>--%>
+                                            <%--                                            <input type="hidden" id="total_to_save_chk_th">--%>
+                                            <%--                                            <input type="hidden" id="total_to_cal_chk_th">--%>
+                                            <%--                                        </div>--%>
                                     </div>
                                     <label id="invalid_chk_th" align="right" style="color: red; font-size: 12px;width: 100%"></label>
                                     <br>
@@ -560,13 +768,63 @@
                                             <input type="checkbox" class="btn-check" id="chk_fr" autocomplete="off">
                                             <label class="btn btn-outline-primary" for="chk_fr" style="width: 95%; font-size: 12px">วันศุกร์</label>
                                         </div>
-                                        <div class="input-group" style="width:70%;">
-                                            <span class="input-group-text" style="font-size: 12px">เวลาเรียน</span>
-                                            <input class="form-control" type="time" id="start_chk_fr" name="fr_start_study_time" onchange="calculateTime('chk_fr')" step="1800" style="font-size: 12px" disabled/>
-                                            <input class="form-control" type="time" id="end_chk_fr" name="fr_end_study_time" onchange="calculateTime('chk_fr')" step="1800" style="font-size: 12px" disabled/>
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="inputGroupSelect01" style="font-size: 12px">เวลาเรียน</label>
+                                            <select class="form-select" id="start_chk_fr" name="fr_start_study_time" style="font-size: 12px" onchange="calculateTime('chk_fr')" disabled>
+                                                <option value="เริ่ม" selected>เริ่ม</option>
+                                                <option value="8:00">8:00</option>
+                                                <option value="8:30">8:30</option>
+                                                <option value="9:00">9:00</option>
+                                                <option value="9:30">9:30</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="10:30">10:30</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="11:30">11:30</option>
+                                                <option value="12:00">12:00</option>
+                                                <option value="12:30">12:30</option>
+                                                <option value="13:00">13:00</option>
+                                                <option value="13:30">13:30</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="14:30">14:30</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="15:30">15:30</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="16:30">16:30</option>
+                                                <option value="17:00">17:00</option>
+                                            </select>
+                                            <select class="form-select" id="end_chk_fr" name="fr_end_study_time" style="font-size: 12px" onchange="calculateTime('chk_fr')" disabled>
+                                                <option value="สิ้นสุด" selected>สิ้นสุด</option>
+                                                <option value="8:00">8:00</option>
+                                                <option value="8:30">8:30</option>
+                                                <option value="9:00">9:00</option>
+                                                <option value="9:30">9:30</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="10:30">10:30</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="11:30">11:30</option>
+                                                <option value="12:00">12:00</option>
+                                                <option value="12:30">12:30</option>
+                                                <option value="13:00">13:00</option>
+                                                <option value="13:30">13:30</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="14:30">14:30</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="15:30">15:30</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="16:30">16:30</option>
+                                                <option value="17:00">17:00</option>
+                                            </select>
                                             <input type="hidden" id="total_to_save_chk_fr">
+                                            <input type="hidden" id="total_to_display_chk_fr">
                                             <input type="hidden" id="total_to_cal_chk_fr">
                                         </div>
+                                            <%--                                        <div class="input-group" style="width:70%;">--%>
+                                            <%--                                            <span class="input-group-text" style="font-size: 12px">เวลาเรียน</span>--%>
+                                            <%--                                            <input class="form-control" type="time" id="start_chk_fr" name="fr_start_study_time" onchange="calculateTime('chk_fr')" step="1800" style="font-size: 12px" disabled/>--%>
+                                            <%--                                            <input class="form-control" type="time" id="end_chk_fr" name="fr_end_study_time" onchange="calculateTime('chk_fr')" step="1800" style="font-size: 12px" disabled/>--%>
+                                            <%--                                            <input type="hidden" id="total_to_save_chk_fr">--%>
+                                            <%--                                            <input type="hidden" id="total_to_cal_chk_fr">--%>
+                                            <%--                                        </div>--%>
                                     </div>
                                     <label id="invalid_chk_fr" align="right" style="color: red; font-size: 12px;width: 100%"></label>
                                     <br>
@@ -576,13 +834,63 @@
                                             <input type="checkbox" class="btn-check" id="chk_sa" autocomplete="off">
                                             <label class="btn btn-outline-primary" for="chk_sa" style="width: 95%; font-size: 12px">วันเสาร์</label>
                                         </div>
-                                        <div class="input-group" style="width:70%;">
-                                            <span class="input-group-text" style="font-size: 12px">เวลาเรียน</span>
-                                            <input class="form-control" type="time" id="start_chk_sa" name="sa_start_study_time" onchange="calculateTime('chk_sa')" step="1800" style="font-size: 12px" disabled/>
-                                            <input class="form-control" type="time" id="end_chk_sa" name="sa_end_study_time" onchange="calculateTime('chk_sa')" step="1800" style="font-size: 12px" disabled/>
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="inputGroupSelect01" style="font-size: 12px">เวลาเรียน</label>
+                                            <select class="form-select" id="start_chk_sa" name="sa_start_study_time" style="font-size: 12px" onchange="calculateTime('chk_sa')" disabled>
+                                                <option value="เริ่ม" selected>เริ่ม</option>
+                                                <option value="8:00">8:00</option>
+                                                <option value="8:30">8:30</option>
+                                                <option value="9:00">9:00</option>
+                                                <option value="9:30">9:30</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="10:30">10:30</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="11:30">11:30</option>
+                                                <option value="12:00">12:00</option>
+                                                <option value="12:30">12:30</option>
+                                                <option value="13:00">13:00</option>
+                                                <option value="13:30">13:30</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="14:30">14:30</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="15:30">15:30</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="16:30">16:30</option>
+                                                <option value="17:00">17:00</option>
+                                            </select>
+                                            <select class="form-select" id="end_chk_sa" name="sa_end_study_time" style="font-size: 12px" onchange="calculateTime('chk_sa')" disabled>
+                                                <option value="สิ้นสุด" selected>สิ้นสุด</option>
+                                                <option value="8:00">8:00</option>
+                                                <option value="8:30">8:30</option>
+                                                <option value="9:00">9:00</option>
+                                                <option value="9:30">9:30</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="10:30">10:30</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="11:30">11:30</option>
+                                                <option value="12:00">12:00</option>
+                                                <option value="12:30">12:30</option>
+                                                <option value="13:00">13:00</option>
+                                                <option value="13:30">13:30</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="14:30">14:30</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="15:30">15:30</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="16:30">16:30</option>
+                                                <option value="17:00">17:00</option>
+                                            </select>
                                             <input type="hidden" id="total_to_save_chk_sa">
+                                            <input type="hidden" id="total_to_display_chk_sa">
                                             <input type="hidden" id="total_to_cal_chk_sa">
                                         </div>
+                                            <%--                                        <div class="input-group" style="width:70%;">--%>
+                                            <%--                                            <span class="input-group-text" style="font-size: 12px">เวลาเรียน</span>--%>
+                                            <%--                                            <input class="form-control" type="time" id="start_chk_sa" name="sa_start_study_time" onchange="calculateTime('chk_sa')" step="1800" style="font-size: 12px" disabled/>--%>
+                                            <%--                                            <input class="form-control" type="time" id="end_chk_sa" name="sa_end_study_time" onchange="calculateTime('chk_sa')" step="1800" style="font-size: 12px" disabled/>--%>
+                                            <%--                                            <input type="hidden" id="total_to_save_chk_sa">--%>
+                                            <%--                                            <input type="hidden" id="total_to_cal_chk_sa">--%>
+                                            <%--                                        </div>--%>
                                     </div>
                                     <label id="invalid_chk_sa" align="right" style="color: red; font-size: 12px;width: 100%"></label>
                                     <br>
@@ -592,13 +900,63 @@
                                             <input type="checkbox" class="btn-check" id="chk_su" autocomplete="off">
                                             <label class="btn btn-outline-primary" for="chk_su" style="width: 95%; font-size: 12px">วันอาทิตย์</label>
                                         </div>
-                                        <div class="input-group" style="width:70%;">
-                                            <span class="input-group-text" style="font-size: 12px">เวลาเรียน</span>
-                                            <input class="form-control" type="time" id="start_chk_su" name="su_start_study_time" onchange="calculateTime('chk_su')" step="1800" style="font-size: 12px" disabled/>
-                                            <input class="form-control" type="time" id="end_chk_su" name="su_end_study_time" onchange="calculateTime('chk_su')" step="1800" style="font-size: 12px" disabled/>
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="inputGroupSelect01" style="font-size: 12px">เวลาเรียน</label>
+                                            <select class="form-select" id="start_chk_su" name="su_start_study_time" style="font-size: 12px" onchange="calculateTime('chk_su')" disabled>
+                                                <option value="เริ่ม" selected>เริ่ม</option>
+                                                <option value="8:00">8:00</option>
+                                                <option value="8:30">8:30</option>
+                                                <option value="9:00">9:00</option>
+                                                <option value="9:30">9:30</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="10:30">10:30</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="11:30">11:30</option>
+                                                <option value="12:00">12:00</option>
+                                                <option value="12:30">12:30</option>
+                                                <option value="13:00">13:00</option>
+                                                <option value="13:30">13:30</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="14:30">14:30</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="15:30">15:30</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="16:30">16:30</option>
+                                                <option value="17:00">17:00</option>
+                                            </select>
+                                            <select class="form-select" id="end_chk_su" name="su_end_study_time" style="font-size: 12px" onchange="calculateTime('chk_su')" disabled>
+                                                <option value="สิ้นสุด" selected>สิ้นสุด</option>
+                                                <option value="8:00">8:00</option>
+                                                <option value="8:30">8:30</option>
+                                                <option value="9:00">9:00</option>
+                                                <option value="9:30">9:30</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="10:30">10:30</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="11:30">11:30</option>
+                                                <option value="12:00">12:00</option>
+                                                <option value="12:30">12:30</option>
+                                                <option value="13:00">13:00</option>
+                                                <option value="13:30">13:30</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="14:30">14:30</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="15:30">15:30</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="16:30">16:30</option>
+                                                <option value="17:00">17:00</option>
+                                            </select>
                                             <input type="hidden" id="total_to_save_chk_su">
+                                            <input type="hidden" id="total_to_display_chk_su">
                                             <input type="hidden" id="total_to_cal_chk_su">
                                         </div>
+                                            <%--                                        <div class="input-group" style="width:70%;">--%>
+                                            <%--                                            <span class="input-group-text" style="font-size: 12px">เวลาเรียน</span>--%>
+                                            <%--                                            <input class="form-control" type="time" id="start_chk_su" name="su_start_study_time" onchange="calculateTime('chk_su')" step="1800" style="font-size: 12px" disabled/>--%>
+                                            <%--                                            <input class="form-control" type="time" id="end_chk_su" name="su_end_study_time" onchange="calculateTime('chk_su')" step="1800" style="font-size: 12px" disabled/>--%>
+                                            <%--                                            <input type="hidden" id="total_to_save_chk_su">--%>
+                                            <%--                                            <input type="hidden" id="total_to_cal_chk_su">--%>
+                                            <%--                                        </div>--%>
                                     </div>
                                     <label id="invalid_chk_su" align="right" style="color: red; font-size: 12px;width: 100%"></label>
                                     <br>
@@ -612,39 +970,29 @@
                         </td>
                     </tr>
                     <tr>
-<%--                        <td style="vertical-align: top;">--%>
-<%--                            <c:set var="studyTime" value="${request_open_course.studyTime}"/>--%>
-<%--                            <c:set var="parts" value="${fn:split(studyTime, ',')}"/>--%>
-<%--                            <br>--%>
-<%--                            <h5><b>เวลาในการเรียน</b><b style="color: red; font-size: 24px">*</b></h5>--%>
-<%--                            <hr>--%>
-<%--                            <div class="mb-3" style="width: 100%; display: flex">--%>
-<%--                                <div style="width: 25%;">--%>
-<%--                                    <label for="start_study_time">เริ่มเรียน </label>--%>
-<%--                                    <input type="time" id="start_study_time" name="start_study_time" value="${parts[0]}" onchange="calculateTimeDifference()"/>--%>
-<%--                                    <label id="invalid_start_study_time" style="color: red; font-size: 12px"></label>--%>
-<%--                                </div>--%>
-<%--                                <div style="width: 25%;">--%>
-<%--                                    <label for="end_study_time"> ถึงเวลา </label>--%>
-<%--                                    <input type="time" id="end_study_time" name="end_study_time" value="${parts[1]}" onchange="calculateTimeDifference()"/>--%>
-<%--                                    <label id="invalid_end_study_time" style="color: red; font-size: 12px"></label>--%>
-<%--                                </div>--%>
-<%--                                <div id="cal_study" style="display: none; margin-left: 20px; width: 50%">--%>
-<%--                                    <p id="display"></p>--%>
-<%--                                    <label style="display: flex;">--%>
-<%--                                        <p id="display_time">เรียนวันละ: <span id="time_difference"></span></p><p> </p>--%>
-<%--                                        <p id="display_time_by_week">สัปดาห์ละ: <span id="time_difference_by_week"></span></p>--%>
-<%--                                    </label>--%>
-<%--                                    <p id="display_study_course">ควรเรียนอย่างน้อย <span id="time_difference_study_course"></span> สัปดาห์</p>--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
-                        <h5 style="display: none">จำนวน Checkbox ที่ถูกเลือก: <span id="selectedCount">0</span></h5>
+                        <td style="vertical-align: top;">
+                            <br>
+                            <div class="mb-3" style="width: 100%;">
+                                <div id="cal_study" style="display: none; margin-left: 20px; width: 50%">
+                                    <p id="display"></p>
+                                    <label style="display: flex;">
+                                        <label style="color: blue"><b>จากการคำนวณ </b></label>
+                                    </label>
+                                    <label style="display: flex;color: blue">
+                                        <p id="display_time_by_week"><b>เรียนสัปดาห์ละ: <span id="time_difference_by_week"></span></b></p>
+                                    </label>
+                                    <label id="display_study_course" style="color:blue;"><b>ควรเรียนอย่างน้อย <span id="time_difference_study_course"></span> สัปดาห์</b></label>
+                                </div>
+                            </div>
+                            <hr>
+                        </td>
+                        <h5 style="display: none">จำนวน Checkbox ที่ถูกเลือก: <span id="selectedCount"></span></h5>
+                        <input type="number" style="display:none;" id="selectedCountNum">
                     </tr>
                     <tr>
                         <td style="vertical-align: top;">
                             <br>
-                            <h5><b>ระยะเวลาในการเรียน</b><b style="color: red; font-size: 24px">*</b></h5>
+                            <h6><b>ระยะเวลาในการเรียน</b><b style="color: red; font-size: 24px">*</b></h6>
                             <hr>
                             <div class="mb-3" style="width: 100%; display: flex">
                                 <div style="width: 32%">
@@ -657,7 +1005,7 @@
                                 <div style="width: 32%">
                                     <label>วันสิ้นสุดการเรียน</label>
                                     <div style="margin-right: 15px;">
-                                        <input name="endStudyDate" type="date" id="endStudyDate" onchange="checkEndDate(this.value)" value="${request_open_course.endStudyDate}"/>
+                                        <input name="endStudyDate" type="date" id="endStudyDate" value="${request_open_course.endStudyDate}"/>
                                     </div>
                                     <label id="invalidEndStudyDate" style="color: red; font-size: 12px"></label>
                                 </div>
@@ -694,9 +1042,9 @@
                         <td style="width: 100%; vertical-align: top; height: 1px;">
                             <div style="display: flex">
                                 <div style="width: 50%; padding-left: 20px">
-                                    <h5><b>ประเภทการเรียน</b><b style="color: red; font-size: 24px">*</b></h5>
+                                    <h6><b>ประเภทการเรียน</b><b style="color: red; font-size: 24px">*</b></h6>
                                     <hr>
-                                    <select name="type_teach" id="type_teach" class="form-select">
+                                    <select name="type_teach" id="type_teach" class="form-select" style="font-size: 12px">
                                         <option value="">--กรุณาเลือกรูปแบบการสอน--</option>
                                         <option value="แบบที่ 1 เรียนร่วมกับนักศึกษาในหลักสูตร" ${request_open_course.type_teach == 'แบบที่ 1 เรียนร่วมกับนักศึกษาในหลักสูตร'?'selected':''}>แบบที่ 1 เรียนร่วมกับนักศึกษาในหลักสูตร</option>
                                         <option value="แบบที่ 2 แยกกลุ่มเรียนโดยเฉพาะ" ${request_open_course.type_teach == 'แบบที่ 2 แยกกลุ่มเรียนโดยเฉพาะ'?'selected':''}>แบบที่ 2 แยกกลุ่มเรียนโดยเฉพาะ</option>
@@ -705,9 +1053,9 @@
                                     <label id="invalidTypeTeach" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <div style="width: 50%; padding-left: 20px">
-                                    <h5><b>รูปแบบการสอน</b><b style="color: red; font-size: 24px">*</b></h5>
+                                    <h6><b>รูปแบบการสอน</b><b style="color: red; font-size: 24px">*</b></h6>
                                     <hr>
-                                    <select name="type_learn" id="type_learn" onchange="showHideFields()" class="form-select">
+                                    <select name="type_learn" id="type_learn" onchange="showHideFields()" class="form-select" style="font-size: 12px">
                                         <option value="">--กรุณาเลือกประเภทการเรียน--</option>
                                         <option value="เรียนออนไลน์" ${request_open_course.type_learn == 'เรียนออนไลน์' ? 'selected' : ''}>เรียนออนไลน์</option>
                                         <option value="เรียนในสถานศึกษา" ${request_open_course.type_learn == 'เรียนในสถานศึกษา' ? 'selected' : ''}>เรียนในสถานศึกษา</option>
@@ -722,7 +1070,7 @@
                                         <br>
                                         <b><label>สถานที่เรียน:</label></b><b style="color: red; font-size: 20px">*</b>
                                         <div class="form-floating">
-                                            <textarea class="form-control" placeholder="" id="floatingTextarea2" name="location" style="height: 100px">
+                                            <textarea class="form-control" placeholder="" id="floatingTextarea2" name="location" style="height: 100px;font-size: 12px">
                                                 ${request_open_course.location}
                                             </textarea>
                                             <label for="floatingTextarea2">สถานที่</label>
@@ -768,95 +1116,90 @@
                             </div>
                         </td>
                         <td style="width: 100%; vertical-align: top; height: 1px;">
-                            <h4>รายละเอียดการร้องขอ</h4>
+                            <h6><b>รายละเอียดการร้องขอ</b></h6>
                             <hr>
                             <div style="width: 100%; display: flex">
                                 <div style="width: 50%;">
-                                    <label>รับสมัครวันที่</label>
+                                    <b><label style="font-size: 14px;">รับสมัครวันที่</label></b>
                                     <div style="display: flex">
-                                        <p id="startRegister_display">เริ่ม</p>
-                                        <p style="margin: 0px 10px 0px 10px;"> ถึง </p>
-                                        <p id="endRegister_display">สิ้นสุด</p>
+                                        <label id="startRegister_display" style="font-size: 14px;">เริ่ม</label>
+                                        <label style="margin: 0px 10px 0px 10px;" style="font-size: 14px;"> ถึง </label>
+                                        <label id="endRegister_display" style="font-size: 14px;">สิ้นสุด</label>
                                     </div>
                                 </div>
                                 <div style="width: 50%">
-                                    <label>รับจำนวน </label>
+                                    <b><label style="font-size: 14px;">รับจำนวน </label></b>
                                     <div style="display: flex">
-                                        <p id="quantity_display" style="margin-right: 10px;"></p> คน
+                                        <label id="quantity_display" style="margin-right: 10px;font-size: 14px"> คน</label>
                                     </div>
                                 </div>
                             </div>
                             <div id="display_Payment_Date" style="width: 100%; display: flex">
                                 <div style="width: 100%;">
-                                    <label>วันชำระเงิน</label>
+                                    <b><label style="font-size: 14px;">วันชำระเงิน</label></b>
                                     <div style="display: flex">
-                                        <p id="startPaymentTotal_display">เริ่ม</p>
-                                        <p style="margin: 0px 10px 0px 10px;"> ถึง </p>
-                                        <p id="endPaymentTotal_display">สิ้นสุด</p>
+                                        <label style="font-size: 14px;" id="startPaymentTotal_display">เริ่ม</label>
+                                        <label style="margin: 0px 10px 0px 10px;font-size: 14px"> ถึง </label>
+                                        <label id="endPaymentTotal_display" style="font-size: 14px;">สิ้นสุด</label>
                                     </div>
                                 </div>
                             </div>
                             <div style="width: 100%; display: flex">
                                 <div style="width: 50%">
-                                    <label>ประกาศผล</label>
+                                    <b><label style="font-size: 14px;">ประกาศผลการสมัคร</label></b>
                                     <div style="display: flex">
-                                        <p id="applicationResult_display">วันที่</p>
+                                        <label id="applicationResult_display" style="font-size: 14px;">วันที่</label>
                                     </div>
                                 </div>
                                 <div style="width: 50%">
-                                    <label>ระยะเวลาในการเรียน</label>
+                                    <b><label style="font-size: 14px;">ระยะเวลาในการเรียน</label></b>
                                     <div style="width: 100%; display: flex">
-                                        <p id="startStudyDate_display">เริ่ม</p>
-                                        <p style="margin: 0px 10px 0px 10px;"> ถึง </p>
-                                        <p id="endStudyDate_display">สิ้นสุด</p>
+                                        <label style="font-size: 14px;" id="startStudyDate_display">เริ่ม</label>
+                                        <label style="margin: 0px 10px 0px 10px; font-size: 14px;"> ถึง </label>
+                                        <label style="font-size: 14px;" id="endStudyDate_display">สิ้นสุด</label>
                                     </div>
                                 </div>
                             </div>
                             <div style="width: 100%; display: flex">
-                                <div style="width: 50%;">
-                                    <label>วันที่เรียน</label>
+                                <div>
+                                    <b><label style="font-size: 14px;">วันที่เรียน</label></b>
                                     <div style="display: flex; width: 85%;">
-                                        <p id="dayByWeek_display">วันไหนบ้าง</p>
-                                    </div>
-                                </div>
-                                <div style="width: 50%;">
-                                    <label>เวลา</label>
-                                    <div style="display: flex">
-                                        <p id="start_study_time_display" name="start_study_time_display" style="margin-right: 10px;">เริ่ม</p>น.
-                                        <p style="margin: 0px 10px 0px 10px;"> ถึง </p>
-                                        <p id="end_study_time_display" name="end_study_time_display" style="margin-right: 10px;">สิ้นสุด</p>น.
+                                        <label id="study_display" style="font-size: 14px;">วันไหนบ้าง</label>
                                     </div>
                                 </div>
                             </div>
                             <div style="width: 100%; display: flex">
                                 <div style="width: 50%;">
-                                    <label>ประเภทการสอน</label>
+                                    <b><label style="font-size: 14px;">ประเภทการสอน</label></b>
                                     <div style="display: flex">
-                                        <p id="type_teach_display">ประเภท</p>
+                                        <label style="font-size: 14px;" id="type_teach_display">ประเภท</label>
                                     </div>
                                 </div>
                                 <div style="width: 50%;">
-                                    <label>ประเภทการเรียน</label>
+                                    <b><label style="font-size: 14px;">ประเภทการเรียน</label></b>
                                     <div style="display: flex">
-                                        <p id="type_learn_display">ประเภท</p>
+                                        <label style="font-size: 14px;" id="type_learn_display">ประเภท</label>
                                     </div>
                                 </div>
                             </div>
                             <div style="width: 100%" id="link_type">
-                                <b><label>LinkMooc</label></b>
+                                <b><label style="font-size: 14px;">LinkMooc</label></b>
                                 <div style="width: 100%; display: flex">
-                                    <p id="link_mooc_display">ลิงค์</p>
+                                    <label style="font-size: 14px;" id="link_mooc_display">ลิงค์</label>
                                 </div>
                             </div>
                             <div style="width: 100%" id="location_type">
-                                <b><label>สถานที่เรียน</label></b>
+                                <b><label style="font-size: 14px;">สถานที่เรียน</label></b>
                                 <div style="width: 100%; display: flex">
-                                    <p id="location_display">สถานที่</p>
+                                    <label style="font-size: 14px;" id="location_display">สถานที่</label>
                                 </div>
                             </div>
 <%--                            <input type="text" id="display_for_submit" style="display: none;" name="display_for_submit" value="${request_open_course.studyDay}">--%>
 <%--                            <input type="text" id="daysList" style="display: none" value="${request_open_course.studyDay}">--%>
                             <input type="text" id="cId" name="cId" style="display: none" value="${request_open_course.course.course_id}">
+                            <input type="text" id="display_for_submit" style="display: none" name="display_for_submit">
+                            <input type="text" id="display_tree" style="display: none" name="display_tree">
+                            <label id="all_study_time" style="display: none" name="all_study_time"></label>
                         </td>
                     </tr>
                 </table>
@@ -887,7 +1230,44 @@
 </c:choose>
 </body>
 <script>
-    var selectedCount = 0;
+    var count = document.getElementById("selectedCountNum").value;
+    function updateDisplayCheckDay() {
+        var inputText = "${request_open_course.studyTime}";
+        var parts = inputText.split("$%");
+        var days = [];
+
+        for (var i = 0; i < parts.length; i++) {
+            var day = parts[i].split("/")[0];
+            var start_time = parts[i].split("/")[1];
+            var end_time = parts[i].split("/")[2];
+            days.push({ day, start_time, end_time });
+        }
+
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+        checkboxes.forEach(function (checkbox) {
+            if (days.some(item => item.day === checkbox.nextElementSibling.textContent)) {
+                checkbox.checked = true;
+                var dayInfo = days.find(item => item.day === checkbox.nextElementSibling.textContent);
+                var startSelect = document.getElementById("start_" + checkbox.id);
+                var endSelect = document.getElementById("end_" + checkbox.id);
+                startSelect.disabled = false;
+                endSelect.disabled = false;
+                startSelect.value = dayInfo.start_time; // กำหนดเวลาเริ่มต้น
+                endSelect.value = dayInfo.end_time; // กำหนดเวลาสิ้นสุด
+                calculateTime(checkbox.id); // เรียกใช้ calculateTime() กับ checkbox ที่ถูกติ๊ก
+                count++;
+            } else {
+                checkbox.checked = false;
+            }
+        });
+        calTotal();
+        document.getElementById("selectedCountNum").value = count;
+    }
+    window.addEventListener('load', updateDisplayCheckDay);
+</script>
+<script>
+    var selectedCount = count;
     // ดึง Checkbox elements
     const checkboxes = document.querySelectorAll('.btn-check');
     // เพิ่ม event listener ในทุก Checkbox
@@ -905,96 +1285,34 @@
                 // เปิดใช้งาน input elements เมื่อ Checkbox เลือก
                 startInput.disabled = false;
                 endInput.disabled = false;
-                selectedCount++;
+                count = count + 1;
             } else {
                 // ปิดใช้งาน input elements เมื่อ Checkbox ไม่ถูกเลือก
                 startInput.disabled = true;
                 endInput.disabled = true;
-                startInput.value = "";
-                endInput.value = "";
-                selectedCount--;
+                startInput.value = "เริ่ม";
+                endInput.value = "สิ้นสุด";
+                count = count - 1;
             }
             // แสดงจำนวน Checkbox ที่ถูกเลือกใน <span> element
-            var selectedCountElement = document.getElementById("selectedCount");
-            selectedCountElement.textContent = selectedCount.toString();
+            var selectedCountElement = document.getElementById("selectedCountNum");
+            selectedCountElement.value = count;
         });
     });
 </script>
-<%--<script>--%>
-<%--    function loadToDisplay() {--%>
-<%--        var selectedDays = [];--%>
-<%--        // ดึงค่าจาก input elements--%>
-<%--        var startTimeInput = document.getElementById("start_study_time").value;--%>
-<%--        var endTimeInput = document.getElementById("end_study_time").value;--%>
-<%--        var courseHour = document.getElementById("display_Course_Total_hours_tap2").textContent;--%>
-
-<%--        // แปลงค่าเวลาเป็นวินาที--%>
-<%--        var startTime = new Date("1970-01-01T" + startTimeInput + "Z");--%>
-<%--        var endTime = new Date("1970-01-01T" + endTimeInput + "Z");--%>
-
-<%--        // นับ Checkbox ที่ถูกเลือก--%>
-<%--        var selectedCount = 0;--%>
-<%--        // เริ่มจากการตรวจสอบสถานะของ Checkbox ทุกตัว--%>
-<%--        var checkboxes = document.querySelectorAll('.btn-check');--%>
-<%--        checkboxes.forEach(function(checkbox) {--%>
-<%--            if (checkbox.checked) {--%>
-<%--                // ถ้า Checkbox ถูกเลือก, เพิ่มชื่อวันเข้าไปในอาร์เรย์--%>
-<%--                var label = document.querySelector('label[for="' + checkbox.id + '"]');--%>
-<%--                selectedDays.push(label.textContent);--%>
-<%--                selectedCount++;--%>
-<%--            }--%>
-<%--        });--%>
-
-<%--        // คำนวณความต่างของเวลา--%>
-<%--        var timeDifference = endTime - startTime;--%>
-<%--        var timeDifferenceByWeek = timeDifference * parseInt(selectedCount);--%>
-
-<%--        // แปลงผลลัพธ์เป็นชั่วโมงและนาที--%>
-<%--        var hours = Math.floor(timeDifference / 3600000);--%>
-<%--        var minutes = Math.floor((timeDifference % 3600000) / 60000);--%>
-
-<%--        var hoursByWeek = Math.floor(timeDifferenceByWeek / 3600000);--%>
-<%--        var minutesByWeek = Math.floor((timeDifferenceByWeek % 3600000) / 60000);--%>
-
-<%--        var avgStudyByCourse = parseInt(courseHour);--%>
-<%--        var quotient = Math.floor((avgStudyByCourse*60) / ((hoursByWeek*60)+minutesByWeek));// หารเอาส่วน--%>
-<%--        var remainder = (avgStudyByCourse*60) - (quotient * (hoursByWeek*60)); // หารเอาเศษ--%>
-<%--        if(remainder !== 0){--%>
-<%--            quotient++;--%>
-<%--        }--%>
-
-<%--        if(startTimeInput !== "" && endTimeInput !== ""){--%>
-<%--            // แสดงผลลัพธ์--%>
-<%--            document.getElementById("cal_study").style.display = "block";--%>
-<%--            var resultElement1 = document.getElementById("time_difference");--%>
-<%--            resultElement1.textContent = hours + " ชั่วโมง " + minutes + " นาที";--%>
-
-<%--            var resultElement2 = document.getElementById("time_difference_by_week");--%>
-<%--            resultElement2.textContent = hoursByWeek + " ชั่วโมง " + minutesByWeek + " นาที";--%>
-
-<%--            var resultElement3 = document.getElementById("time_difference_study_course");--%>
-<%--            resultElement3.textContent = quotient;--%>
-<%--        }--%>
-
-<%--        // แสดงวันที่ถูกเลือกใน <h5> element--%>
-<%--        var displayElement = document.getElementById("display");--%>
-<%--        var displayElementForSubmit = document.getElementById("display_for_submit");--%>
-<%--        if (selectedDays.length > 0) {--%>
-<%--            displayElement.textContent = "เรียนทุกวัน: " + selectedDays.join(", ");--%>
-<%--            displayElementForSubmit.value = selectedDays.join(", ");--%>
-<%--            if(startTimeInput !== "" && endTimeInput !== ""){--%>
-<%--                document.getElementById("cal_study").style.display = "block";--%>
-<%--            }--%>
-<%--        } else {--%>
-<%--            document.getElementById("cal_study").style.display = "none";--%>
-<%--            displayElement.textContent = "กรุณาเลือกวันที่จะเรียน";--%>
-<%--        }--%>
-<%--        // แสดงจำนวน Checkbox ที่ถูกเลือกใน <span> element--%>
-<%--        var selectedCountElement = document.getElementById("selectedCount");--%>
-<%--        selectedCountElement.textContent = selectedCount.toString();--%>
-<%--    }--%>
-<%--</script>--%>
 <script>
+    function parseTime(timeString) {
+        if (timeString === "เริ่ม" || timeString === "สิ้นสุด") {
+            invalidLabel.textContent = "กรุณาเลือกเวลาให้ครบ";
+            return 0;
+        } else {
+            // แปลงข้อความเวลาเช่น "8:00" เป็น จำนวนนาที
+            var parts = timeString.split(":");
+            var hours = parseInt(parts[0], 10);
+            var minutes = parseInt(parts[1], 10);
+            return hours * 60 + minutes;
+        }
+    }
     function calculateTime(id) {
         // ดึงค่าจาก input elements
         var courseHour = document.getElementById("display_Course_Total_hours_tap2").textContent;
@@ -1002,33 +1320,26 @@
         const startTimeInput = document.getElementById('start_' + id).value;
         var endTimeInput = document.getElementById('end_' + id).value;
 
-        // แปลงค่าเวลาเป็นวินาที
-        var startTime = new Date("1970-01-01T" + startTimeInput + "Z");
-        var endTime = new Date("1970-01-01T" + endTimeInput + "Z");
+        var startTime = parseTime(startTimeInput); // แปลงค่าเริ่มในรูปแบบเวลา
+        var endTime = parseTime(endTimeInput); // แปลงค่าสิ้นสุดในรูปแบบเวลา
+
+        // ทำการคำนวณเวลาหรือช่วงเวลาที่คุณต้องการ
+        var duration = calculateDuration(startTime, endTime);
+
+
+        // // แปลงค่าเวลาเป็นวินาที
+        // var startTime = new Date("1970-01-01T" + startTimeInput + "Z");
+        // var endTime = new Date("1970-01-01T" + endTimeInput + "Z");
 
         // คำนวณความต่างของเวลา
-        var timeDifference = endTime - startTime;
-        var timeDifferenceByWeek = timeDifference * parseInt(selectedCountElement);
-        // แปลงผลลัพธ์เป็นชั่วโมงและนาที
-        var hours = Math.floor(timeDifference / 3600000);
-        var minutes = Math.floor((timeDifference % 3600000) / 60000);
-
-        var hoursByWeek = Math.floor(timeDifferenceByWeek / 3600000);
-        var minutesByWeek = Math.floor((timeDifferenceByWeek % 3600000) / 60000);
-
-        var avgStudyByCourse = parseInt(courseHour);
-        var quotient = Math.floor((avgStudyByCourse*60) / ((hoursByWeek*60)+minutesByWeek));// หารเอาส่วน
-        var remainder = (avgStudyByCourse*60) - (quotient * (hoursByWeek*60)); // หารเอาเศษ
-        if(remainder !== 0){
-            quotient++;
-        }
-
+        var sumTime = endTime - startTime;
         // // ตรวจสอบว่า end time มากกว่า start time
-        if (startTimeInput >= endTimeInput && currentTab !== 0) {
-            if (endTimeInput !== "" && startTimeInput !== ""){
+        if (startTime >= endTime && currentTab !== 0) {
+            if (endTimeInput !== "สิ้นสุด" && startTimeInput !== "เริ่ม"){
                 document.getElementById("invalid_"+id).textContent = "กรุณาเลือกเวลาสิ้นสุดที่มากกว่าเริ่มเรียน";
-                document.getElementById('end_' + id).value = "";
+                document.getElementById('end_' + id).value = "สิ้นสุด";
                 document.getElementById("total_to_save_"+id).value = "";
+                document.getElementById("total_to_display_"+id).value = "";
                 document.getElementById("total_to_cal_"+id).value = "";
                 endTimeInput.focus()
                 return false;
@@ -1039,13 +1350,33 @@
             document.getElementById("invalid_"+id).textContent = "";
             var day = document.querySelector('label[for="' + id + '"]');
             document.getElementById("total_to_save_"+id).value = day.textContent + '/' + startTimeInput + '/' + endTimeInput + '$%';
-            document.getElementById("total_to_cal_"+id).value = timeDifference;
+            document.getElementById("total_to_display_"+id).value = day.textContent + " เวลา " + startTimeInput + " ถึง " + endTimeInput + "\n";;
+            document.getElementById("total_to_cal_"+id).value = sumTime;
+            // var study_time = document.getElementById("all_study_time").textContent;
+            // study_time += day.textContent + " เวลา " + startTimeInput + " ถึง " + endTimeInput + "\n";
+            // document.getElementById("all_study_time").textContent = study_time;
+        }
+    }
+    function calculateDuration(startTime, endTime) {
+        if (startTime === 0 || endTime === 0) {
+            // กรณีเริ่มหรือสิ้นสุดไม่ถูกต้อง
+            return "กรุณากรอกเวลาให้ครบ";
+        } else if (startTime >= endTime) {
+            // กรณีเวลาสิ้นสุดมากกว่าหรือเท่ากับเวลาเริ่ม
+            return "เวลาสิ้นสุดต้องมากกว่าเวลาเริ่ม";
+        } else {
+            // คำนวณระยะเวลาและแสดงผล
+            var minutes = endTime - startTime;
+            var hours = Math.floor(minutes / 60);
+            var remainingMinutes = minutes % 60;
+            return hours + " ชั่วโมง " + remainingMinutes + " นาที";
         }
     }
     function calTotal(){
         // รายชื่อของวัน
         var days = ["mo", "tu", "we", "th", "fr", "sa", "su"];
         var total_study = "";
+        var total_display = "";
         var total_cal = 0;
         var count = 0;
 
@@ -1057,16 +1388,18 @@
             var endInput = document.getElementById("end_chk_" + day);
             var invalidLabel = document.getElementById("invalid_chk_" + day);
             var total_to_save = document.getElementById("total_to_save_chk_" + day).value;
+            var total_to_display = document.getElementById("total_to_display_chk_" + day).value;
             var total_to_cal = document.getElementById("total_to_cal_chk_" + day).value;
 
             if (checkbox.checked) {
-                if (startInput.value.trim() === "" || endInput.value.trim() === "") {
+                if (startInput.value === "เริ่ม" || endInput.value === "สิ้นสุด") {
                     // ถ้า Checkbox ถูกเลือก และมีค่าว่าง ให้แสดงข้อความเตือนให้ผู้ใช้ระบุเวลาที่ถูกต้อง
                     invalidLabel.textContent = "กรุณากรอกเวลาให้ครบ";
                 } else {
                     // ถ้า Checkbox ถูกเลือก และไม่มีค่าว่าง ให้ลบข้อความเตือน
                     invalidLabel.textContent = "";
                     total_study += total_to_save;
+                    total_display += total_to_display;
                     total_cal += parseInt(total_to_cal);
                     count++;
                 }
@@ -1078,12 +1411,12 @@
         var courseHour = document.getElementById("display_Course_Total_hours_tap2").textContent;
         var timeDifferenceByWeek = parseInt(total_cal);
 
-        var hoursByWeek = Math.floor(timeDifferenceByWeek / 3600000);
-        var minutesByWeek = Math.floor((timeDifferenceByWeek % 3600000) / 60000);
+        var hoursByWeek = Math.floor(timeDifferenceByWeek / 60);
+        var minutesByWeek = timeDifferenceByWeek % 60;
 
         var avgStudyByCourse = parseInt(courseHour);
-        var quotient = Math.floor((avgStudyByCourse*60) / ((hoursByWeek*60)+minutesByWeek));// หารเอาส่วน
-        var remainder = (avgStudyByCourse*60) - (quotient * (hoursByWeek*60)); // หารเอาเศษ
+        var quotient = Math.floor((avgStudyByCourse*60) / (timeDifferenceByWeek));// หารเอาส่วน
+        var remainder = (avgStudyByCourse*60) - (quotient * timeDifferenceByWeek); // หารเอาเศษ
         if(remainder !== 0){
             quotient++;
         }
@@ -1098,6 +1431,7 @@
             resultElement3.textContent = quotient;
 
             document.getElementById("display_for_submit").value = total_study;
+            document.getElementById("display_tree").value = total_display;
 
         }
     }
@@ -1159,11 +1493,11 @@
             document.getElementById("prevBtn").style.display = "inline";
         }
         if (n == (x.length - 1)) {
-            document.getElementById("nextBtn").innerHTML = "Submit";
+            document.getElementById("nextBtn").innerHTML = "ยืนยัน";
             // document.getElementById("nextBtn").style.display = "none";
             // document.getElementById("submitBtn").style.display = "block";
         } else {
-            document.getElementById("nextBtn").innerHTML = "Next";
+            document.getElementById("nextBtn").innerHTML = "ต่อไป";
             // document.getElementById("nextBtn").style.display = "block";
             // document.getElementById("submitBtn").style.display = "none";
         }
@@ -1243,7 +1577,12 @@
         const startPayment = document.getElementById("startPayment").value;
         const endPayment = document.getElementById("endPayment").value;
         const applicationResult = document.getElementById("applicationResult").value;
-        // const dayByWeek = document.getElementById("display").textContent;
+        let study_time_dp = document.getElementById("display_tree").value;
+        function replaceLineBreaksWithBr(text) {
+            const lines = text.split('<br>');
+            return lines.join('<br>');
+        }
+        const formatted_study_time = replaceLineBreaksWithBr(study_time_dp);
         // const start_study_time = document.getElementById("start_study_time").value;
         // const end_study_time = document.getElementById("end_study_time").value;
         const startStudyDate = document.getElementById("startStudyDate").value;
@@ -1283,7 +1622,7 @@
         document.getElementById("applicationResult_display").textContent = applicationResult_display;
         document.getElementById("startStudyDate_display").textContent = startStudyDate_display;
         document.getElementById("endStudyDate_display").textContent = endStudyDate_display;
-        // document.getElementById("dayByWeek_display").textContent = dayByWeek;
+        document.getElementById("study_display").textContent = formatted_study_time;
         // document.getElementById("start_study_time_display").textContent = start_study_time;
         // document.getElementById("end_study_time_display").textContent = end_study_time;
         document.getElementById("type_teach_display").textContent = type_teach;
@@ -1478,7 +1817,7 @@
             document.getElementById("invalidEndPayment").innerHTML = "กรุณาเลือกวันสิ้นสุดการชำระเงิน";
             return false;
         } else if (Course_Fee !== "ไม่มีค่าธรรมเนียม"){
-            if (new Date(endPayment) < new Date(currentDate) || new Date(endPayment) < new Date(startPaymentValue) || new Date(endPayment) <= new Date(endRegisterValue)){
+            if (new Date(endPayment) < new Date(currentDate) || new Date(endPayment) < new Date(startPaymentValue) || new Date(endPayment) < new Date(endRegisterValue)){
                 document.getElementById("invalidEndPayment").innerHTML = "กรุณาเลือกวันให้มากกว่าวันปัจจุบัน วันสิ้นสุดการสมัคร และวันเริ่มชำระเงิน";
                 return false;
             }else {
@@ -1512,6 +1851,11 @@
         //----dtime---
         var days = ["mo", "tu", "we", "th", "fr", "sa", "su"];
         var total_study = "";
+        var total_display = "";
+        var total_cal = 0;
+        var count = 0;
+
+// วนลูปผ่านทุกวัน
         for (var i = 0; i < days.length; i++) {
             var day = days[i];
             var checkbox = document.getElementById("chk_" + day);
@@ -1519,23 +1863,26 @@
             var endInput = document.getElementById("end_chk_" + day);
             var invalidLabel = document.getElementById("invalid_chk_" + day);
             var total_to_save = document.getElementById("total_to_save_chk_" + day).value;
+            var total_to_display = document.getElementById("total_to_display_chk_" + day).value;
+            var total_to_cal = document.getElementById("total_to_cal_chk_" + day).value;
 
             if (checkbox.checked) {
-                if (startInput.value.trim() === "" || endInput.value.trim() === "") {
+                if (startInput.value === "เริ่ม" || endInput.value === "สิ้นสุด") {
                     // ถ้า Checkbox ถูกเลือก และมีค่าว่าง ให้แสดงข้อความเตือนให้ผู้ใช้ระบุเวลาที่ถูกต้อง
                     invalidLabel.textContent = "กรุณากรอกเวลาให้ครบ";
-                    return false;
                 } else {
+                    // ถ้า Checkbox ถูกเลือก และไม่มีค่าว่าง ให้ลบข้อความเตือน
                     invalidLabel.textContent = "";
                     total_study += total_to_save;
+                    total_display += total_to_display;
+                    total_cal += parseInt(total_to_cal);
+                    count++;
                 }
             } else {
                 // ถ้า Checkbox ไม่ถูกเลือก ให้ลบข้อความเตือน
                 invalidLabel.textContent = "";
             }
-            document.getElementById("display_for_submit").value = total_study;
         }
-
         //-----------Start Study Date-----------
         var startStudyDateValue = document.getElementById('startStudyDate').value;
         var applicationResult = document.getElementById('applicationResult').value;
@@ -2186,15 +2533,16 @@
 
         endRegisterElement.min = formattedDate;
         startPaymentElement.min = formattedDate2;
+        startPaymentElement.value = formattedDate2;
         // startPaymentElement.min = formattedDate;
         // endPaymentElement.min = formattedDate;
         // applicationResultElement.min = formattedDate;
         if (selectedStartDate >= selectedEndDate) {
             endRegisterElement.value = selectedStartDate.toISOString().slice(0, 16);
         }
-        if (selectedStartDate >= selectedStartPayDate) {
-            startPaymentElement.value = selectedStartDate.toISOString().slice(0, 16);
-        }
+        // if (selectedStartDate >= selectedStartPayDate) {
+        //     startPaymentElement.value = selectedStartDate.toISOString().slice(0, 16);
+        // }
     });
 
     // กำหนดค่าเริ่มต้น endRegister
@@ -2202,28 +2550,39 @@
     endRegisterElement.addEventListener("change", function() {
         var selectedEndRegisterDate = new Date(endRegisterElement.value);
         var setSelectedEndRegisterDate = new Date(endRegisterElement.value);
-        var selectedStartPaymentDate = new Date(startPaymentElement.value);
-        var selectedApplicationResultDate = new Date(applicationResultElement.value);
+        var selectedStartStudyDate = new Date(startStudyDateElement.value);
+        var setSelectedEndRegisterDate2 = new Date(endRegisterElement.value);
         const fee = document.getElementById("display_Course_Fee").textContent;
-
-
 
         // เพิ่ม 1 วันลงในวันปัจจุบัน
         setSelectedEndRegisterDate.setDate(setSelectedEndRegisterDate.getDate() + 1);
+
         // แปลงวันปัจจุบันให้เป็นรูปแบบ YYYY-MM-DD (ตรงกับรูปแบบ input type="date")
         var formattedDate = setSelectedEndRegisterDate.toISOString().split("T")[0];
 
         if (fee === "ไม่มีค่าธรรมเนียม"){
             applicationResultElement.min = formattedDate;
+            applicationResultElement.value = formattedDate;
+            setSelectedEndRegisterDate2.setDate(setSelectedEndRegisterDate2.getDate() + 2);
+            startStudyDateElement.min = setSelectedEndRegisterDate2.toISOString().split("T")[0];
+        }else {
+            endPaymentElement.min = selectedEndRegisterDate.toISOString().split("T")[0];
+            endPaymentElement.value = selectedEndRegisterDate.toISOString().split("T")[0];
+            applicationResultElement.min = setSelectedEndRegisterDate.toISOString().split("T")[0];
+            applicationResultElement.value = setSelectedEndRegisterDate.toISOString().split("T")[0];
+            setSelectedEndRegisterDate.setDate(setSelectedEndRegisterDate.getDate() + 1);
+            startStudyDateElement.min = setSelectedEndRegisterDate.toISOString().split("T")[0];
+            setSelectedEndRegisterDate.setDate(setSelectedEndRegisterDate.getDate() + 1);
+            endStudyDateElement.min = setSelectedEndRegisterDate.toISOString().split("T")[0];
+            // var setSelectedEndPaymentDate = new Date(endPaymentElement.value);
+            // if (selectedEndRegisterDate >= setSelectedEndPaymentDate){
+            //     applicationResultElement.value = selectedEndRegisterDate.toISOString().slice(0, 16);
+            // }
         }
-        startPaymentElement.min = formattedDate;
-        // endPaymentElement.min = formattedDate;
-        // applicationResultElement.min = formattedDate;
-        if (selectedEndRegisterDate >= selectedStartPaymentDate && fee !== "ไม่มีค่าธรรมเนียม") {
-            startPaymentElement.value = selectedEndRegisterDate.toISOString().slice(0, 16);
-        }else if (selectedEndRegisterDate >= selectedApplicationResultDate){
-            applicationResultElement.value = selectedEndRegisterDate.toISOString().slice(0, 16);
-        }
+        // if (selectedEndRegisterDate >= selectedApplicationResultDate){
+        //     applicationResultElement.value = selectedEndRegisterDate.toISOString().slice(0, 16);
+        // }
+
     });
     // กำหนดค่าเริ่มต้น startPayment
     // ตรวจสอบเมื่อผู้ใช้เปลี่ยนค่าใน endRegister
@@ -2283,14 +2642,18 @@
     startStudyDateElement.addEventListener("change", function() {
         var selectedEndStudyDate = new Date(endStudyDateElement.value);
         var setSelectedStartStudyDate = new Date(startStudyDateElement.value);
+        var setSelectedEndStudyDate = new Date(startStudyDateElement.value);
         var selectedStartStudyDate = new Date(startStudyDateElement.value);
-
+        var resultHour = document.getElementById("time_difference_study_course").textContent;
+        var sumHour = parseInt(resultHour) * 7;
         // เพิ่ม 1 วันลงในวันปัจจุบัน
         setSelectedStartStudyDate.setDate(setSelectedStartStudyDate.getDate() + 1);
+        setSelectedEndStudyDate.setDate(setSelectedEndStudyDate.getDate() + parseInt(sumHour));
         // แปลงวันปัจจุบันให้เป็นรูปแบบ YYYY-MM-DD (ตรงกับรูปแบบ input type="date")
         var formattedDate = setSelectedStartStudyDate.toISOString().split("T")[0];
 
         endStudyDateElement.min = formattedDate;
+        endStudyDateElement.value = setSelectedEndStudyDate.toISOString().split("T")[0];
         if (selectedStartStudyDate >= selectedEndStudyDate) {
             endStudyDateElement.value = selectedStartStudyDate.toISOString().slice(0, 16);
         }
@@ -2313,26 +2676,6 @@
     }
 </script>
 <script>
-    // function updateDisplayCheckDay() {
-    //     // รายการของวันที่คุณต้องการให้ถูกติ๊ก
-    //     // ข้อมูลที่คั่นด้วยลูกน้ำ
-    //     var data = document.getElementById("daysList").value;
-    //
-    //     // ใช้ฟังก์ชัน split() เพื่อแยกข้อมูลเป็นรายการ
-    //     var daysList = data.split(', ');
-    //
-    //     // กล่องเลือกทั้งหมด
-    //     var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    //
-    //     checkboxes.forEach(function (checkbox) {
-    //         // ตรวจสอบว่าชื่อของ checkbox อยู่ในรายการวันที่คุณต้องการ
-    //         if (daysList.includes(checkbox.nextElementSibling.textContent)) {
-    //             checkbox.checked = true; // ติ๊ก checkbox ถ้าชื่อตรงกับรายการวันที่ต้องการ
-    //         } else {
-    //             checkbox.checked = false; // ไม่ติ๊ก checkbox ถ้าไม่ตรง
-    //         }
-    //     });
-    // }
     function setMinDate() {
         var selectedStartDate = new Date(document.getElementById("startRegister").value);
         var selectedEndDate = new Date(document.getElementById("endRegister").value);
@@ -2352,7 +2695,8 @@
 
 
         document.getElementById("endRegister").min = selectedStartDate.toISOString().split('T')[0];
-        document.getElementById("startPayment").min = selectedEndDate.toISOString().split('T')[0];
+        selectedStartDate.setDate(selectedStartDate.getDate());
+        document.getElementById("startPayment").min = selectedStartDate.toISOString().split('T')[0];
         document.getElementById("endPayment").min = selectedStartPaymentDate.toISOString().split('T')[0];
         document.getElementById("applicationResult").min = selectedEndPaymentDate.toISOString().split('T')[0];
         document.getElementById("startStudyDate").min = selectedApplicationResultDate.toISOString().split('T')[0];
@@ -2393,10 +2737,9 @@
     }
 
     // เรียกใช้ฟังก์ชันเมื่อหน้าเว็บโหลดเสร็จ
-    // window.addEventListener('load', updateDisplayCheckDay);
     // window.addEventListener('load',loadToDisplay);
-    // window.addEventListener('load',setMinDate);
-    // window.addEventListener('load',check_type_learn_toShow);
+    window.addEventListener('load',setMinDate);
+    window.addEventListener('load',check_type_learn_toShow);
 </script>
 
 </html>

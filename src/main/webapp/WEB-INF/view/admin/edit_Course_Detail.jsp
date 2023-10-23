@@ -74,23 +74,23 @@
     </script>
     <!--Internal CSS start-->
     <style>
-    #editor {
-        width: 100%;
-        height: 500px;
-        border: 1px solid #ccc;
-        padding: 10px;
-        font-size: 16px;
-    }
-    .toolbar {
-        background-color: #f2f2f2;
-        padding: 5px;
-    }
-    .toolbar button {
-        margin: 5px;
-        padding: 3px 10px;
-        font-size: 14px;
-    }
-</style>
+        #editor {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .toolbar {
+            background-color: #f2f2f2;
+            padding: 5px;
+        }
+        .toolbar button {
+            margin: 5px;
+            padding: 3px 10px;
+            font-size: 14px;
+        }
+    </style>
     <style>
         * {
             box-sizing: border-box;
@@ -235,7 +235,6 @@
             <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
                     <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course" class="nav-item nav-link" style="font-size: 17px">เพิ่มหลักสูตร</a>
                     <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active" style="font-size: 17px">หลักสูตรทั้งหมด</a>
                     <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 17px">รายการร้องขอ</a>
@@ -302,7 +301,7 @@
                         </td>
                         <td style="width: 30%; vertical-align: top;">
                             <div class="mb-3" align="center">
-<%--                                <img id="preview" src="" alt="Image Preview" style="display: none; height: 300px; margin-top: 10px; border-radius: 10px">--%>
+                                    <%--                                <img id="preview" src="" alt="Image Preview" style="display: none; height: 300px; margin-top: 10px; border-radius: 10px">--%>
                                 <c:if test="${not empty course_by_id.file}">
                                     <input type="hidden" name="original_img" value="${course_by_id.img}" />
                                     <img src="${pageContext.request.contextPath}/uploads/course_img/${course_by_id.img}" id="preview" alt="Image Preview" style="height: 300px; margin-top: 10px; border-radius: 10px">
@@ -321,7 +320,7 @@
                                 </div>
                                 <div id="editor" style="font-size: 12px" contenteditable="true" name="course_principle">
                                     <!-- เริ่มเพิ่มเนื้อหาของ Text Editor ที่นี่ -->
-                                    ${course_by_id.principle}
+                                        ${course_by_id.principle}
                                 </div>
                             </div>
                             <label id="invalidPrinciple" style="color: red; font-size: 12px"></label>
@@ -381,11 +380,11 @@
                 <div class="flex-div-container">
                     <div style="width: 50%">
                         <b><label>ระยะเวลาในการเรียน</label></b><b style="color: red;font-size: 15px;">*</b>
-                            <div class="input-group mb-3" style="display: -webkit-box;">
-                                <input style="width: 600px;font-family: 'Prompt', sans-serif;font-size: 12px" name="course_totalHours" type="number" class="form-control" value="${course_by_id.totalHours}" id="course_totalHours" oninput="this.className = ''" placeholder="ระยะเวลาในการเรียน" aria-describedby="basic-addon2">
-                                <span class="input-group-text" id="basic-addon2" style="font-size: 12px;">ชั่วโมง</span>
-                            </div>
-                            <label id="invalidCourseTotalHours" style="color: red; font-size: 12px"></label>
+                        <div class="input-group mb-3" style="display: -webkit-box;">
+                            <input style="width: 600px;font-family: 'Prompt', sans-serif;font-size: 12px" name="course_totalHours" type="number" class="form-control" value="${course_by_id.totalHours}" id="course_totalHours" oninput="this.className = ''" placeholder="ระยะเวลาในการเรียน" aria-describedby="basic-addon2">
+                            <span class="input-group-text" id="basic-addon2" style="font-size: 12px;">ชั่วโมง</span>
+                        </div>
+                        <label id="invalidCourseTotalHours" style="color: red; font-size: 12px"></label>
                     </div>
                     <div style="width: 50%">
                         <b><label>ไฟล์เนื้อหาหลักสูตร</label></b><b style="color: red;font-size: 15px;">*</b>
@@ -404,7 +403,7 @@
                 <div class="mb-3">
                     <div class="form-floating">
                         <textarea class="form-control" placeholder="" id="floatingTextarea3" name="course_targetOccupation" style="height: 100px">
-                            ${course_by_id.targetOccupation}
+                                ${course_by_id.targetOccupation}
                         </textarea>
                         <label for="floatingTextarea3">เป้าหมายกลุ่มอาชีพ</label>
                     </div>
@@ -419,56 +418,33 @@
                 <b><label>คำนำหน้าชื่อ</label></b><b style="color: red;font-size: 15px;">*</b>
                 <table style="font-size: 12px">
                     <tr style="vertical-align: middle;">
-
-                        <c:choose>
-                            <c:when test="${parts_contact[0] == 'นาย'}">
-                                <td style="width: 35px;"><input type="radio" name="prefix" value="นาย" checked></td>
-                                <td><label>นาย</label></td>
-                                <td style="width: 35px;"><input type="radio" name="prefix" value="นาง"></td>
-                                <td><label>นาง</label></td>
-                                <td style="width: 35px;"><input type="radio" name="prefix" value="นางสาว"></td>
-                                <td><label>นางสาว</label></td>
-                                <td style="width: 35px;"><input type="radio" name="prefix" value="อื่นๆ..."></td>
-                                <td><label>อื่นๆ...</label></td>
-                            </c:when>
-                            <c:when test="${parts_contact[0] == 'นาง'}">
-                                <td style="width: 35px;"><input type="radio" name="prefix" value="นาย"></td>
-                                <td><label>นาย</label></td>
-                                <td style="width: 35px;"><input type="radio" name="prefix" value="นาง" checked></td>
-                                <td><label>นาง</label></td>
-                                <td style="width: 35px;"><input type="radio" name="prefix" value="นางสาว"></td>
-                                <td><label>นางสาว</label></td>
-                                <td style="width: 35px;"><input type="radio" name="prefix" value="อื่นๆ..."></td>
-                                <td><label>อื่นๆ...</label></td>
-                            </c:when>
-                            <c:when test="${parts_contact[0] == 'นางสาว'}">
-                                <td style="width: 35px;"><input type="radio" name="prefix" value="นาย"></td>
-                                <td><label>นาย</label></td>
-                                <td style="width: 35px;"><input type="radio" name="prefix" value="นาง"></td>
-                                <td><label>นาง</label></td>
-                                <td style="width: 35px;"><input type="radio" name="prefix" value="นางสาว" checked></td>
-                                <td><label>นางสาว</label></td>
-                                <td style="width: 35px;"><input type="radio" name="prefix" value="อื่นๆ..."></td>
-                                <td><label>อื่นๆ...</label></td>
-                            </c:when>
-                            <c:otherwise>
-                                <td style="width: 35px;"><input type="radio" name="prefix" value="นาย"></td>
-                                <td><label>นาย</label></td>
-                                <td style="width: 35px;"><input type="radio" name="prefix" value="นาง"></td>
-                                <td><label>นาง</label></td>
-                                <td style="width: 35px;"><input type="radio" name="prefix" value="นางสาว"></td>
-                                <td><label>นางสาว</label></td>
-                                <td style="width: 35px;"><input type="radio" name="prefix" value="อื่นๆ..." checked></td>
-                                <td><label>อื่นๆ...</label></td>
-                            </c:otherwise>
-                        </c:choose>
-
-                        <td id="other_prefix" style="display: none; margin-left: 10px;">
-                            <div class="input-group mb-3" style="display: -webkit-box;">
-                                <input style="width: 325px;font-family: 'Prompt', sans-serif; font-size: 12px;" value="" name="prefix_name" type="text" class="form-control" id="prefix_name" placeholder="โปรดระบุคำนำหน้าชื่อ" aria-describedby="basic-addon2">
+                        <div style="width: 50%;display: flex;">
+                            <label class="input-group-text" for="prefix" style="font-size: 12px;width: 25%;">คำนำหน้าชื่อ</label>
+                            <select class="form-select" id="prefix" style="font-size: 12px;width: 75%;">
+                                <option value="">เลือก</option>
+                                <c:choose>
+                                    <c:when test="${parts_contact[0] == 'รองศาสตราจารย์' || parts_contact[0] == 'ผู้ช่วยศาสตราจารย์' || parts_contact[0] == 'อาจารย์'}">
+                                        <option value="รองศาสตราจารย์"  ${parts_contact[0] == 'รองศาสตราจารย์' ? 'selected' : ''}>รองศาสตราจารย์</option>
+                                        <option value="ผู้ช่วยศาสตราจารย์" ${parts_contact[0] == 'ผู้ช่วยศาสตราจารย์' ? 'selected' : ''}>ผู้ช่วยศาสตราจารย์</option>
+                                        <option value="อาจารย์" ${parts_contact[0] == 'อาจารย์' ? 'selected' : ''}>อาจารย์</option>
+                                        <option value="อื่นๆ...">อื่นๆ...</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option value="รองศาสตราจารย์">รองศาสตราจารย์</option>
+                                        <option value="ผู้ช่วยศาสตราจารย์">ผู้ช่วยศาสตราจารย์</option>
+                                        <option value="อาจารย์">อาจารย์</option>
+                                        <option value="อื่นๆ..." selected>อื่นๆ...</option>
+                                    </c:otherwise>
+                                </c:choose>
+                            </select>
+                            <div id="otherPrefix" style="display: none; width: 50%;">
+                                <div style="display: -webkit-box;">
+                                    <input style="width: 325px;font-family: 'Prompt', sans-serif; font-size: 12px;" name="prefix_name" type="text" class="form-control" id="prefix_name" placeholder="โปรดระบุคำนำหน้าชื่อ" aria-describedby="basic-addon2">
+                                </div>
+                                <label id="invalidPrefixName" style="color: red; font-size: 12px"></label>
                             </div>
-                            <label id="invalidPrefixName" style="color: red; font-size: 12px"></label>
-                        </td>
+                        </div>
+
                     </tr>
                     <label id="invalidSelectPrefix" style="color: red; font-size: 12px"></label>
                 </table>
@@ -778,12 +754,12 @@
 
         <c:forEach var="c" items="${courses}">
         <c:if test="${c.course_id != course_by_id.course_id}">
-            if ("${c.name}".trim() === courseElement.trim()) {
-                stt.innerHTML = "มีหลักสูตรนี้ในระบบแล้ว";
-                stt.style.color = "red"
-                document.getElementById("invalidCourseName").innerHTML = "";
-                courseFound = true;
-            }
+        if ("${c.name}".trim() === courseElement.trim()) {
+            stt.innerHTML = "มีหลักสูตรนี้ในระบบแล้ว";
+            stt.style.color = "red"
+            document.getElementById("invalidCourseName").innerHTML = "";
+            courseFound = true;
+        }
         </c:if>
         </c:forEach>
 
@@ -955,15 +931,15 @@
         }
 
         var feeRadio = document.querySelector('input[name="CFee"][value="มีค่าธรรมเนียม"]');
-            if (feeRadio.checked) {
-                var fee = document.getElementById("course_fee").value; // อ่านค่า fee ภายในฟังก์ชันที่ถูกเรียกในระหว่างการเปลี่ยนแปลง
-                if (parseInt(fee) < 1 || parseInt(fee) > 999999) {
-                    document.getElementById("invalidCourseFee").innerHTML = "ต้องมีค่าระหว่าง 1 - 999,999 บาท";
-                    document.getElementById("course_fee").focus();
-                    return false;
-                } else {
-                    document.getElementById("invalidCourseFee").innerHTML = "";
-                }
+        if (feeRadio.checked) {
+            var fee = document.getElementById("course_fee").value; // อ่านค่า fee ภายในฟังก์ชันที่ถูกเรียกในระหว่างการเปลี่ยนแปลง
+            if (parseInt(fee) < 1 || parseInt(fee) > 999999) {
+                document.getElementById("invalidCourseFee").innerHTML = "ต้องมีค่าระหว่าง 1 - 999,999 บาท";
+                document.getElementById("course_fee").focus();
+                return false;
+            } else {
+                document.getElementById("invalidCourseFee").innerHTML = "";
+            }
         }
 
 
@@ -1002,27 +978,30 @@
 
         return true;
     }
+    document.getElementById("prefix").addEventListener("change", function() {
+        var otherPrefix = document.getElementById("otherPrefix");
+        var prefix = document.getElementById("prefix");
+
+        if (prefix.value === "อื่นๆ...") {
+            otherPrefix.style.display = "block";
+        } else {
+            otherPrefix.style.display = "none";
+        }
+    });
     function checkScriptPage3(){
         //------------prefix-------------
-        var prefixTypecheck = document.getElementsByName('prefix');
-        var prefixTypenull = false;
-        for (var i = 0; i < prefixTypecheck.length; i++) {
-            if (prefixTypecheck[i].checked) {
-                prefixTypenull = true;
-                break;
-            }
-        }
-        if (!prefixTypenull) {
-            document.getElementById("invalidSelectPrefix").innerHTML = "กรุณาเลือกนำนำหน้าชื่อ";
+        if (document.getElementById("prefix").value === "") {
+            document.getElementById("invalidSelectPrefix").innerHTML = "กรุณาเลือกคำนำหน้าชื่อ";
+            document.getElementById("prefix").focus();
             return false;
-        }else {
+        } else {
             document.getElementById("invalidSelectPrefix").innerHTML = "";
         }
 
-        var prefixRadio = document.querySelector('input[name="prefix"][value="อื่นๆ..."]');
-        if (prefixRadio.checked) {
+        var prefixSelect = document.querySelector('select#prefix');
+        if (prefixSelect.value === "อื่นๆ...") {
             var prefix_name = document.getElementById("prefix_name").value;
-            if (prefix_name.length < 2 || prefix_name.length >225) {
+            if (prefix_name.length < 2 || prefix_name.length > 225) {
                 document.getElementById("invalidPrefixName").innerHTML = "ต้องมีตัวอักษร 2 - 225 ตัวอักษร";
                 document.getElementById("prefix_name").focus();
                 return false;
@@ -1135,13 +1114,7 @@
         const email_contacts = document.getElementById("email_contacts").value;
         const link_facebook = document.getElementById("link_facebook").value;
 
-        const radioButtons = document.querySelectorAll('input[type="radio"][name="prefix"]');
-        var prefix = "";
-        radioButtons.forEach(function(radioButton) {
-            if (radioButton.checked) {
-                prefix = radioButton.value;
-            }
-        });
+        const prefix = document.getElementById("prefix").value;
 
         var display_facebook = document.getElementById("displayLink_facebook");
         if (prefix === "อื่นๆ..."){
@@ -1368,13 +1341,13 @@
 </script>
 <script>
     var prefixRadio = document.querySelector('input[name="prefix"][value="อื่นๆ..."]');
+    var prefix_t = document.getElementById("prefix").value;
     function checkPrefix() {
-        if (prefixRadio.checked) {
-            // ซ่อนส่วนที่มี id เป็น "fee"
-            document.getElementById("other_prefix").style.display = "block";
+        if (prefix_t === "อื่นๆ..."){
+            document.getElementById("otherPrefix").style.display = "block";
             document.getElementById("prefix_name").value = "${parts_contact[0]}";
         }else {
-            document.getElementById("other_prefix").style.display = "none";
+            document.getElementById("otherPrefix").style.display = "none";
             document.getElementById("prefix_name").value = "";
         }
     }

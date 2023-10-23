@@ -86,7 +86,6 @@
                     <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                         <div class="navbar-nav ms-auto py-0">
                             <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
-                            <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
                             <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course" class="nav-item nav-link" style="font-size: 17px">เพิ่มหลักสูตร</a>
                             <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link active" style="font-size: 17px">หลักสูตรทั้งหมด</a>
                             <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 17px">รายการร้องขอ</a>
@@ -156,8 +155,8 @@
                                     <hr>
                                 </div>
                             </div>
-                            <input type="submit" name="approveResult" value="ยกเลิกการสมัคร" class="cancel-button" style="width: 47%"/>
-                            <input type="submit" name="approveResult" value="ยืนยันการสมัคร" class="button-5" style="width: 47%"/>
+                            <input type="submit" name="approveResult" value="ยกเลิกการสมัคร" class="cancel-button" style="width: 47%;font-family: 'Prompt', sans-serif;"/>
+                            <input type="submit" name="approveResult" value="ยืนยันการสมัคร" class="button-5" style="width: 47%;font-family: 'Prompt', sans-serif;"/>
 
                         </form>
                     </c:if>

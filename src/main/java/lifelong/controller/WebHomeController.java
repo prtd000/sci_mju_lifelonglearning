@@ -72,13 +72,22 @@ public class WebHomeController {
                         requestOpenCourse.getCourse().setStatus("ยังไม่เปิดสอน");
                         requestOpenCourse.setRequestStatus("เสร็จสิ้น");
                     }
-                }else if (currentDate.getTime() > requestOpenCourse.getEndRegister().getTime() && currentDate.getTime() <= requestOpenCourse.getEndPayment().getTime()) {
+                }else if (currentDate.getTime() >= requestOpenCourse.getStartPayment().getTime() && currentDate.getTime() <= requestOpenCourse.getEndPayment().getTime()) {
                     requestOpenCourse.getCourse().setStatus("ชำระเงิน");
-                }else if (currentDate.getTime() >= requestOpenCourse.getApplicationResult().getTime()){
+                }else if (currentDate.getTime() >= requestOpenCourse.getApplicationResult().getTime() && currentDate.getTime() <= requestOpenCourse.getEndStudyDate().getTime()){
                     requestOpenCourse.getCourse().setStatus("เปิดสอน");
                 }else if (currentDate.getTime() > requestOpenCourse.getEndStudyDate().getTime()) {
                     requestOpenCourse.getCourse().setStatus("ยังไม่เปิดสอน");
                     requestOpenCourse.setRequestStatus("เสร็จสิ้น");
+                }
+                if (requestOpenCourse.getNumberOfAllRegistrationsPayStatus() == requestOpenCourse.getQuantity()) {
+                    // หลักสูตรมีคนสมัครเต็มและมีคนที่จ่ายเงินครบแล้ว
+//                    for (Register registration : requestOpenCourse.getRegisterList()) {
+//                        if (!registration.getInvoice().isPay_status()) {
+//                            registration.getInvoice().setApprove_status("ไม่ผ่าน");
+//                        }
+//                    }
+                    requestOpenCourse.getCourse().setStatus("ชำระเงิน");
                 }
             }
 

@@ -71,7 +71,6 @@
                     <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                         <div class="navbar-nav ms-auto py-0">
                             <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
-                            <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
                             <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course" class="nav-item nav-link" style="font-size: 17px">เพิ่มหลักสูตร</a>
                             <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link" style="font-size: 17px">หลักสูตรทั้งหมด</a>
                             <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 17px">รายการร้องขอ</a>
@@ -93,7 +92,7 @@
 
                 <div align="center" class="main_container">
                     <div id="Activity_News" class="tabcontent">
-                        <table class="table table-striped table-hover">
+                        <table class="table table-striped table-hover" style="font-size: 12px">
                             <tr style="color: black">
                                 <td style="width: 50%">รายการข่าว</td>
                                 <td style="width: 15%" align="center">วันที่ออกข่าว</td>
@@ -116,12 +115,12 @@
                                             <td align="center">${list.type}</td>
                                             <td align="center">
                                                 <a href="${pageContext.request.contextPath}/course/public/${list.ac_id}/edit_page">
-                                                    <button type="button" class="btn btn-outline-warning">
+                                                    <button style="font-size: 12px" type="button" class="btn btn-outline-warning">
                                                         <i class='fa fa-edit'></i>แก้ไข</button>
                                                 </a>
                                             </td>
                                             <td align="center">
-                                                <button type="button" class="btn btn-outline-danger" onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/${list.ac_id}/delete'; return false; }">
+                                                <button style="font-size: 12px" type="button" class="btn btn-outline-danger" onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/${list.ac_id}/delete'; return false; }">
                                                     <i class="fas fa-window-close fa-lg"></i> ลบข่าวสาร
                                                 </button>
                                             </td>

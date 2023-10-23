@@ -66,8 +66,9 @@
                     <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรการอบรม</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/add_roc" class="nav-item nav-link" style="font-size: 18px">ร้องขอหลักสูตร</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 18px">รายการร้องขอ</a>
-                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_approve_request_open_course" class="nav-item nav-link active" style="font-size: 18px">หลักสูตรของฉัน</a>
+                    <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_approve_request_open_course" class="nav-item nav-link active" style="font-size: 18px">หลักสูตรที่เปิดสอน</a>
                     <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 17px">อาจารย์</a>
                     <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
                 </div>
             </div>
@@ -75,7 +76,7 @@
         <!-- Navbar End -->
 
 <div align="center" style="margin-top: 20px">
-    <h1>รายการหลักสูตรที่ผ่านการร้องขอ</h1>
+    <h3>รายการหลักสูตรที่ผ่านการร้องขอ</h3><br>
     <table class="container">
         <tr align="center">
             <td class="list_course" align="center">
@@ -86,7 +87,7 @@
                                 <h4><b id="tag_line"></b></h4>
                             </td>
                             <td align="right" style="width: 30%">
-                                <select id="select_type" class="form-select" aria-label="Default select example" onchange="checkSelection()">
+                                <select style="font-size: 12px" id="select_type" class="form-select" aria-label="Default select example" onchange="checkSelection()">
                                     <option value="กำลังลงทะเบียน" selected>กำลังลงทะเบียน</option>
                                     <option value="กำลังชำระเงิน">กำลังชำระเงิน</option>
                                     <option value="กำลังเรียน">กำลังเรียน</option>
@@ -96,7 +97,7 @@
                     </table>
                     <hr>
                     <div id="list_register" >
-                        <table class="table table-striped table-hover" style="font-size: 15px">
+                        <table class="table table-striped table-hover" style="font-size: 12px">
                             <tr style="color: black">
                                 <td>รายละเอียดหลักสูตร</td>
                                 <td style="width: 15%" align="center">ระยะเวลาลงทะเบียน</td>

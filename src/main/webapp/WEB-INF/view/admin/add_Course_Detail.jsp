@@ -237,7 +237,6 @@
             <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 18px">เกี่ยวกับคณะ</a>
                     <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course" class="nav-item nav-link active" style="font-size: 17px">เพิ่มหลักสูตร</a>
                     <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link" style="font-size: 17px">หลักสูตรทั้งหมด</a>
                     <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 17px">รายการร้องขอ</a>
@@ -384,25 +383,42 @@
             <div class="tab" style="font-size: 12px">
                 <h5>ข้อมูลเกี่ยวกับผู้ติดต่อประสานงานหลักสูตร</h5><br>
                 <b><label>คำนำหน้าชื่อ</label></b><b style="color: red;font-size: 15px;">*</b>
-                <table style="font-size: 12px">
-                    <tr style="vertical-align: middle;">
-                        <td style="width: 35px;"><input type="radio" name="prefix" value="นาย"></td>
-                        <td><label>นาย</label></td>
-                        <td style="width: 35px;"><input type="radio" name="prefix" value="นาง"></td>
-                        <td><label>นาง</label></td>
-                        <td style="width: 35px;"><input type="radio" name="prefix" value="นางสาว"></td>
-                        <td><label>นางสาว</label></td>
-                        <td style="width: 35px;"><input type="radio" name="prefix" value="อื่นๆ..."></td>
-                        <td><label>อื่นๆ...</label></td>
-                        <td id="other_prefix" style="display: none; margin-left: 10px;">
-                            <div class="input-group mb-3" style="display: -webkit-box;">
-                                <input style="width: 325px;font-family: 'Prompt', sans-serif; font-size: 12px;" name="prefix_name" type="text" class="form-control" id="prefix_name" placeholder="โปรดระบุคำนำหน้าชื่อ" aria-describedby="basic-addon2">
-                            </div>
-                            <label id="invalidPrefixName" style="color: red; font-size: 12px"></label>
-                        </td>
-                    </tr>
-                    <label id="invalidSelectPrefix" style="color: red; font-size: 12px"></label>
-                </table>
+<%--                <table style="font-size: 12px">--%>
+<%--                    <tr style="vertical-align: middle;">--%>
+<%--                        <td style="width: 35px;"><input type="radio" name="prefix" value="นาย"></td>--%>
+<%--                        <td><label>นาย</label></td>--%>
+<%--                        <td style="width: 35px;"><input type="radio" name="prefix" value="นาง"></td>--%>
+<%--                        <td><label>นาง</label></td>--%>
+<%--                        <td style="width: 35px;"><input type="radio" name="prefix" value="นางสาว"></td>--%>
+<%--                        <td><label>นางสาว</label></td>--%>
+<%--                        <td style="width: 35px;"><input type="radio" name="prefix" value="อื่นๆ..."></td>--%>
+<%--                        <td><label>อื่นๆ...</label></td>--%>
+<%--                        <td id="other_prefix" style="display: none; margin-left: 10px;">--%>
+<%--                            --%>
+<%--                        </td>--%>
+<%--                    </tr>--%>
+
+<%--                </table>--%>
+                <div class="input-group mb-3" style="width: 50%;">
+                    <div style="width: 50%;display: flex;">
+                        <label class="input-group-text" for="prefix" style="font-size: 12px;width: 25%;">คำนำหน้าชื่อ</label>
+                        <select class="form-select" id="prefix" style="font-size: 12px;width: 75%;">
+                            <option value="">เลือก</option>
+                            <option value="รองศาสตราจารย์">รองศาสตราจารย์</option>
+                            <option value="ผู้ช่วยศาสตราจารย์">ผู้ช่วยศาสตราจารย์</option>
+                            <option value="อาจารย์">อาจารย์</option>
+                            <option value="อื่นๆ...">อื่นๆ...</option>
+                        </select>
+                    </div>
+
+                    <div id="otherPrefix" style="display: none; width: 50%;">
+                        <div style="display: -webkit-box;">
+                            <input style="width: 325px;font-family: 'Prompt', sans-serif; font-size: 12px;" name="prefix_name" type="text" class="form-control" id="prefix_name" placeholder="โปรดระบุคำนำหน้าชื่อ" aria-describedby="basic-addon2">
+                        </div>
+                        <label id="invalidPrefixName" style="color: red; font-size: 12px"></label>
+                    </div>
+                </div>
+                <label id="invalidSelectPrefix" style="color: red; font-size: 12px"></label>
                 <div style="display:flex; width: 100%">
                     <div class="mb-3"  style="width: 33%; margin-right: 15px">
                         <div>
@@ -946,27 +962,31 @@
         }
     }
 
+    document.getElementById("prefix").addEventListener("change", function() {
+        var otherPrefix = document.getElementById("otherPrefix");
+        var prefix = document.getElementById("prefix");
+
+        if (prefix.value === "อื่นๆ...") {
+            otherPrefix.style.display = "block";
+        } else {
+            otherPrefix.style.display = "none";
+        }
+    });
+
     function checkScriptPage3(){
         //------------prefix-------------
-        var prefixTypecheck = document.getElementsByName('prefix');
-        var prefixTypenull = false;
-        for (var i = 0; i < prefixTypecheck.length; i++) {
-            if (prefixTypecheck[i].checked) {
-                prefixTypenull = true;
-                break;
-            }
-        }
-        if (!prefixTypenull) {
-            document.getElementById("invalidSelectPrefix").innerHTML = "กรุณาเลือกนำนำหน้าชื่อ";
+        if (document.getElementById("prefix").value === "") {
+            document.getElementById("invalidSelectPrefix").innerHTML = "กรุณาเลือกคำนำหน้าชื่อ";
+            document.getElementById("prefix").focus();
             return false;
-        }else {
+        } else {
             document.getElementById("invalidSelectPrefix").innerHTML = "";
         }
 
-        var prefixRadio = document.querySelector('input[name="prefix"][value="อื่นๆ..."]');
-        if (prefixRadio.checked) {
+        var prefixSelect = document.querySelector('select#prefix');
+        if (prefixSelect.value === "อื่นๆ...") {
             var prefix_name = document.getElementById("prefix_name").value;
-            if (prefix_name.length < 2 || prefix_name.length >225) {
+            if (prefix_name.length < 2 || prefix_name.length > 225) {
                 document.getElementById("invalidPrefixName").innerHTML = "ต้องมีตัวอักษร 2 - 225 ตัวอักษร";
                 document.getElementById("prefix_name").focus();
                 return false;
@@ -1078,14 +1098,7 @@
         const phone_contacts = document.getElementById("phone_contacts").value;
         const email_contacts = document.getElementById("email_contacts").value;
         const link_facebook = document.getElementById("link_facebook").value;
-
-        const radioButtons = document.querySelectorAll('input[type="radio"][name="prefix"]');
-        var prefix = "";
-        radioButtons.forEach(function(radioButton) {
-            if (radioButton.checked) {
-                prefix = radioButton.value;
-            }
-        });
+        const prefix = document.getElementById("prefix").value;
 
         var display_facebook = document.getElementById("displayLink_facebook");
         if (prefix === "อื่นๆ..."){
@@ -1242,15 +1255,12 @@
     });
 </script>
 <script>
-    // ตรวจสอบเมื่อเลือก "ไม่มีค่าธรรมเนียม"
-    var prefixT1Radio = document.querySelector('input[name="prefix"][value="นาย"]');
-    prefixT1Radio.addEventListener("change", function() {
-        if (prefixT1Radio.checked) {
+
+        if (document.getElementById("prefix").value === "อื่นๆ...") {
             // ซ่อนส่วนที่มี id เป็น "fee"
-            document.getElementById("other_prefix").style.display = "none";
+            document.getElementById("other_prefix").style.display = "block";
             document.getElementById("prefix_name").value = "";
         }
-    });
 
     // ตรวจสอบเมื่อเลือก "ไม่มีค่าธรรมเนียม"
     var prefixT2Radio = document.querySelector('input[name="prefix"][value="นาง"]');

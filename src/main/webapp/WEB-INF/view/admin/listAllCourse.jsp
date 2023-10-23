@@ -259,7 +259,7 @@
                                             <td style="width: 8%" align="center">วันประกาศผล</td>
                                             <td style="width: 15%" align="center">ระยะเวลาการเรียน</td>
                                             <td style="width: 5%" align="center">ผู้สมัคร</td>
-                                            <td style="width: 10%" align="center"></td>
+<%--                                            <td style="width: 10%" align="center"></td>--%>
                                         </tr>
 <%--                                        <c:choose>--%>
 <%--                                            <c:when test="${courses_by_register_date.size() == 0}">--%>

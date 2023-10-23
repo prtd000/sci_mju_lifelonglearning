@@ -148,6 +148,7 @@ public class MemberController {
         model.addAttribute("list_course", memberService.getMyListCourse(memId));
         model.addAttribute("list_invoice", memberService.getListInvoice());
         model.addAttribute("mem_username", memberService.getMemberById(memId));
+        model.addAttribute("listAllInvoice", paymentService.getListInvoice());
         model.addAttribute("register", registerService.getRegister(memId));
         model.addAttribute("receipt", paymentService.getReceiptByMemberId(memId));
 

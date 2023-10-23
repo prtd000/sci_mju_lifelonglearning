@@ -107,7 +107,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
-<%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>--%>
+                        <%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>--%>
                         <%--            <div class="nav-item dropdown">--%>
                         <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
                     <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link " style="font-size: 17px">หลักสูตรการอบรม</a>
@@ -118,7 +118,7 @@
                         <%--            </div>--%>
                     <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/listcourse" class="nav-item nav-link active" style="font-size: 17px">หลักสูตรของฉัน</a>
                     <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
-<%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>--%>
+                        <%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>--%>
                     <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/edit_profile" class="nav-item nav-link" style="font-size: 17px">ข้อมูลส่วนตัว</a>
                     <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 17px">ออกจากระบบ</a>
                 </div>
@@ -137,7 +137,7 @@
         <table class="blog-receipt">
             <tr>
                 <td style="width: 443px;vertical-align: bottom;">
-<%--                    <p style="font-size: 29px;">ใบเสร็จ</p>--%>
+                    <%--                    <p style="font-size: 29px;">ใบเสร็จ</p>--%>
                     คณะวิทยาศาสตร์ มหาวิทยาลัยแม่โจ้ <br>
                     63 หมู่ 4 ต.หนองหาร อ.สันทราย จ.เชียงใหม่ 50290 <br>
                     โทรศัพท์: 053-873150, โทรสาร: 053-873171
@@ -159,16 +159,9 @@
             <tr style="height: 30px">
                 <td>ธนาคาร ${receipt.banking}</td>
                 <td>
-                    <fmt:formatDate value="<%=new java.util.Date()%>" pattern="dd/MM/yyyy" var="currentDate" />
-                    วันที่พิมพ์ &nbsp;&nbsp;${currentDate}
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
                     <fmt:formatDate value="${receipt.pay_date}" pattern="dd/MM/yyyy" var="payDate" />
                     ชำระเมื่อวันที่ ${payDate}
                 </td>
-
             </tr>
             <tr>
                 <td colspan="2">
@@ -197,6 +190,13 @@
             <tr>
                 <td><p style="font-size: 22px;">รวมทั้งหมด</p></td>
                 <td><p style="font-size: 22px"><fmt:formatNumber value="${receipt.invoice.register.requestOpenCourse.course.fee}" type="number"/></p></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="font-size: 85%">
+                    <br>
+                    <fmt:formatDate value="<%=new java.util.Date()%>" pattern="dd/MM/yyyy" var="currentDate" />
+                    วันที่พิมพ์ &nbsp;&nbsp;${currentDate}
+                </td>
             </tr>
         </table>
     </div>

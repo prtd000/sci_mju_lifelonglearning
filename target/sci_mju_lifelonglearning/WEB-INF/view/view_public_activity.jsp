@@ -80,7 +80,6 @@
         .news_details{
             color: black;
             text-align: justify;
-            width: 745px;
             font-weight: bold;
         }
     </style>

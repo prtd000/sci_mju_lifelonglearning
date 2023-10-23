@@ -108,9 +108,14 @@
     <br>
 
     <%--    Button Switch--%>
-    <button id="FClick" class="tablinks btn btn-success" style="width: 12%;" onclick="openList(event, 'listCourse')">หลักสูตร</button>
-    <button class="tablinks btn btn-danger" style="width: 12%;" onclick="openList(event, 'listInvoice')">การชำระเงิน</button>
-    <button class="tablinks btn btn-dark" style="width: 12%;" onclick="openList(event, 'listHistory')">ประวัติการทำรายการ</button>
+    <button id="FClick" class="tablinks btn btn-success" style="width: 12%;" onclick="openList(event, 'listCourse')">
+        หลักสูตร
+    </button>
+    <button class="tablinks btn btn-danger" style="width: 12%;" onclick="openList(event, 'listInvoice')">การชำระเงิน
+    </button>
+    <button class="tablinks btn btn-dark" style="width: 12%;" onclick="openList(event, 'listHistory')">
+        ประวัติการทำรายการ
+    </button>
     <br><br>
 
 
@@ -122,8 +127,9 @@
                 <th style="width: 130px;">เริ่มเรียน</th>
                 <th style="width: 130px;">สิ้นสุดการเรียน</th>
                 <th style="width: 200px;">วันที่เรียน</th>
-                <th style="width: 110px;">สถานะ</th>
-                <th style="width: 130px;"></th>
+                <th style="width: 140px;">ประเภทการเรียน</th>
+                <th style="width: 105px;">สถานะ</th>
+                <th style="width: 100px;"></th>
             </tr>
             <c:set var="current_register" value="<%= new Date()%>"/>
             <c:forEach var="invoice" items="${register}">
@@ -133,22 +139,26 @@
                             <c:choose>
                                 <c:when test="${invoice.invoice.approve_status.equals('ผ่าน')}">
                                     <td><p>${invoice.requestOpenCourse.course.name}</p></td>
-                                    <fmt:formatDate value="${invoice.requestOpenCourse.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate"/>
-                                    <fmt:formatDate value="${invoice.requestOpenCourse.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate"/>
+                                    <fmt:formatDate value="${invoice.requestOpenCourse.startStudyDate}"
+                                                    pattern="dd/MM/yyyy" var="startStudyDate"/>
+                                    <fmt:formatDate value="${invoice.requestOpenCourse.endStudyDate}"
+                                                    pattern="dd/MM/yyyy" var="endStudyDate"/>
                                     <td style="text-align: center;"><p>${startStudyDate}</p></td>
                                     <td style="text-align: center;"><p>${endStudyDate}</p></td>
                                     <td style="text-align: center;">
                                         <c:set var="delimiter" value="$%"/>
-                                        <c:set var="subText" value="${fn:split(invoice.requestOpenCourse.studyTime, delimiter)}"/>
-                                        <c:forEach var="ogText" items="${subText}" >
+                                        <c:set var="subText"
+                                               value="${fn:split(invoice.requestOpenCourse.studyTime, delimiter)}"/>
+                                        <c:forEach var="ogText" items="${subText}">
                                             <c:set var="replaceSlash" value="${fn:replace(ogText, '/', ' ')}"/>
                                             <c:set var="newText" value="${fn:replace(replaceSlash, ',', ' - ')}"/>
                                             <p>${newText}</p>
                                         </c:forEach>
                                     </td>
+                                    <td style="text-align: center;"><p>${invoice.requestOpenCourse.type_learn}</p></td>
                                     <c:choose>
                                         <c:when test="${invoice.study_result.equals('ผ่าน')}">
-                                            <td style="width: 200px; text-align: center; color: green; font-weight: bold;">${invoice.study_result}</td>
+                                            <td style="width: 170px; text-align: center; color: green; font-weight: bold;">${invoice.study_result}</td>
                                             <td>
                                                 <a href="${pageContext.request.contextPath}/member/${invoice.member.username}/certificate/${invoice.register_id}">
                                                     <button style="text-align: center;" class="btn btn-outline-success">
@@ -160,8 +170,10 @@
 
                                         <c:when test="${invoice.study_result.equals('กำลังเรียน')}">
                                             <c:set var="current" value="<%=LocalDate.now()%>"/>
-                                            <c:set var="startStudyDate" value="${invoice.requestOpenCourse.startStudyDate.toLocalDate()}"/>
-                                            <c:set var="endStudyDate" value="${invoice.requestOpenCourse.endStudyDate.toLocalDate()}"/>
+                                            <c:set var="startStudyDate"
+                                                   value="${invoice.requestOpenCourse.startStudyDate.toLocalDate()}"/>
+                                            <c:set var="endStudyDate"
+                                                   value="${invoice.requestOpenCourse.endStudyDate.toLocalDate()}"/>
 
                                             <c:if test="${current.isBefore(startStudyDate)}">
                                                 <td><p style="color: black; font-weight: bold; text-align: center;">
@@ -170,8 +182,8 @@
                                             </c:if>
 
                                             <c:if test="${current.equals(startStudyDate) || current.equals(endStudyDate) || (current.isAfter(startStudyDate) && current.isBefore(endStudyDate))}">
-                                                <td style="width: 200px; text-align: center; color: #ee8e18; font-weight: bold;">${invoice.study_result}</td>
-                                                <td>
+                                                <td style="width: 170px; text-align: center; color: #ee8e18; font-weight: bold;">${invoice.study_result}</td>
+                                                <td style="text-align: center">
                                                     <a href="${invoice.requestOpenCourse.linkMooc}">
                                                         <button type="button" class="btn btn-outline-success">
                                                             เข้าเรียน
@@ -208,119 +220,250 @@
                 <th style="width: 160px;">สถานะการชำระเงิน</th>
                 <th style="width: 170px;">หมายเหตุ</th>
             </tr>
+
             <c:forEach var="invoices" items="${register}">
-                <c:set var="currentInvoice" value="<%=LocalDate.now()%>"/>
-                <tr>
-                    <c:if test="${invoices.invoice.approve_status ne 'ผ่าน'}">
-
-                        <td style="width: 550px;"><p>${invoices.requestOpenCourse.course.name}</p></td>
-                        <fmt:formatDate value="${invoices.invoice.startPayment}" pattern="dd/MM/yyyy" var="startPayment"/>
-                        <fmt:formatDate value="${invoices.invoice.endPayment}" pattern="dd/MM/yyyy" var="endPayment"/>
-                        <fmt:formatDate value="${invoices.requestOpenCourse.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult"/>
-                        <td style="text-align: center;"><p>${startPayment}</p></td>
-                        <td style="text-align: center;"><p>${endPayment}</p></td>
-                        <td style="text-align: center;"><p>${applicationResult}</p></td>
-                    </c:if>
-
-                    <c:choose>
-                        <c:when test="${invoices.invoice.pay_status == true}">
-                            <c:if test="${invoices.invoice.approve_status.equals('รอดำเนินการ')}">
-                                <td style="text-align: center;">
-                                    <p style="font-weight: bold; color: #ee8e18;">${invoices.invoice.approve_status}</p>
-                                </td>
-                                <td style="text-align: center;"></td>
+                <c:set var="listAllDisplayed" value="false"/>
+                <c:set var="paid" value="0"/>
+                <c:if test="${!listAllDisplayed}">
+                    <c:forEach var="listInvoice" items="${listAllInvoice}">
+                        <c:if test="${listInvoice.register.requestOpenCourse.request_id == invoices.requestOpenCourse.request_id}">
+                            <c:if test="${listInvoice.pay_status == true}">
+                                <c:set var="paid" value="${paid + 1}"/>
                             </c:if>
-                            <c:if test="${invoices.invoice.approve_status.equals('ไม่ผ่าน')}">
-                                <% String stt_update = (String) session.getAttribute("update"); %>
-                                <c:set var="status_update" value="<%= stt_update %>"/>
-                                <c:choose>
-                                    <c:when test="${status_update.equals('success')}">
-                                        <td style="text-align: center;">
-                                            <p style="color: green; font-weight: bold;">แก้ไขการชำระเงินแล้ว</p>
-                                        </td>
-                                        <td style="text-align: center;"><p style="font-weight: bold; color: #ee8e18;">
-                                            รอดำเนินการ</p></td>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <td style="text-align: center;">
-                                            <a href="${pageContext.request.contextPath}/member/${invoices.member.username}/update_payment_fill_detail/${invoices.invoice.invoice_id}">
-                                                <button class="btn btn-outline-danger">แก้ไขการชำระเงิน</button>
-                                            </a>
-                                        </td>
-                                        <td style="text-align: center;"><p
-                                                style="color: red; font-weight: bold; text-align: center;">
-                                            กรุณาอัพโหลดหลักฐานการชำระเงินใหม่</p></td>
-                                    </c:otherwise>
-                                </c:choose>
+                            <c:if test="${invoices.member.username.equals(listInvoice.register.member.username)}">
+
+                                <c:set var="currentInvoice" value="<%=LocalDate.now()%>"/>
+                                <tr>
+                                    <c:if test="${invoices.invoice.approve_status ne 'ผ่าน'}">
+
+                                        <td style="width: 550px;"><p>${invoices.requestOpenCourse.course.name}</p></td>
+                                        <fmt:formatDate value="${invoices.invoice.startPayment}" pattern="dd/MM/yyyy" var="startPayment"/>
+                                        <fmt:formatDate value="${invoices.invoice.endPayment}" pattern="dd/MM/yyyy" var="endPayment"/>
+                                        <fmt:formatDate value="${invoices.requestOpenCourse.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult"/>
+                                        <td style="text-align: center;"><p>${startPayment}</p></td>
+                                        <td style="text-align: center;"><p>${endPayment}</p></td>
+                                        <td style="text-align: center;"><p>${applicationResult}</p></td>
+                                    </c:if>
+                                    <c:choose>
+                                        <c:when test="${invoices.invoice.pay_status == true}">
+                                            <c:if test="${invoices.invoice.approve_status.equals('รอดำเนินการ')}">
+                                                <td style="text-align: center;">
+                                                    <p style="font-weight: bold; color: #ee8e18;">${invoices.invoice.approve_status}</p>
+                                                </td>
+                                                <td style="text-align: center;"></td>
+                                            </c:if>
+                                            <c:if test="${invoices.invoice.approve_status.equals('ไม่ผ่าน')}">
+                                                <% String stt_update = (String) session.getAttribute("update"); %>
+                                                <c:set var="status_update" value="<%= stt_update %>"/>
+                                                <c:choose>
+                                                    <c:when test="${status_update.equals('success')}">
+                                                        <td style="text-align: center;">
+                                                            <p style="color: green; font-weight: bold;">
+                                                                แก้ไขการชำระเงินแล้ว</p>
+                                                        </td>
+                                                        <td style="text-align: center;"><p
+                                                                style="font-weight: bold; color: #ee8e18;">
+                                                            รอดำเนินการ</p></td>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <td style="text-align: center;">
+                                                            <a href="${pageContext.request.contextPath}/member/${invoices.member.username}/update_payment_fill_detail/${invoices.invoice.invoice_id}">
+                                                                <button class="btn btn-outline-danger">แก้ไขการชำระเงิน
+                                                                </button>
+                                                            </a>
+                                                        </td>
+                                                        <td style="text-align: center;"><p
+                                                                style="color: red; font-weight: bold; text-align: center;">
+                                                            กรุณาอัพโหลดหลักฐานการชำระเงินใหม่</p></td>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:if>
+                                        </c:when>
+                                        <c:when test="${invoices.invoice.pay_status == false}">
+                                            <c:choose>
+                                                <c:when test="${paid == invoices.requestOpenCourse.quantity}">
+                                                    <td style="text-align: center;"><p
+                                                            style="color: red; font-weight: bold;">ขออภัย <br>ยอดผู้ชำระเงินครบ
+                                                        <br>ตามจำนวนแล้ว</p></td>
+                                                    <td></td>
+                                                </c:when>
+                                                <c:when test="${invoices.requestOpenCourse.requestStatus.equals('ถูกยกเลิก')}">
+                                                    <td><p style="color: red; font-weight: bold;">
+                                                        หลักสูตรนี้ได้ถูกยกเลิกการเรียน</p></td>
+                                                    <td></td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td style="width: 100px; text-align: center;">
+                                                        <!---Start check date--->
+                                                        <c:set var="startpay" value="${invoices.invoice.startPayment}"/>
+                                                        <c:set var="s_year" value="${fn:substring(startpay, 0, 4)}"/>
+                                                        <c:set var="s_month" value="${fn:substring(startpay, 5, 7)}"/>
+                                                        <c:set var="s_day" value="${fn:substring(startpay, 8, 10)}"/>
+
+                                                        <c:set var="endpay" value="${invoices.invoice.endPayment}"/>
+                                                        <c:set var="e_year" value="${fn:substring(endpay, 0, 4)}"/>
+                                                        <c:set var="e_month" value="${fn:substring(endpay, 5, 7)}"/>
+                                                        <c:set var="e_day" value="${fn:substring(endpay, 8, 10)}"/>
+
+                                                        <c:set var="currentDate" value="<%=LocalDate.now()%>"/>
+                                                        <c:set var="startDate"
+                                                               value="${LocalDate.of(s_year, s_month, s_day)}"/>
+                                                        <c:set var="endDate"
+                                                               value="${LocalDate.of(e_year, e_month, e_day)}"/>
+
+                                                        <c:if test="${currentDate.isBefore(startDate)}">
+                                                            <p style="color: black; font-weight: bold;">เร็วๆนี้</p>
+                                                        </c:if>
+
+                                                        <c:if test="${currentDate.isAfter(endDate)}">
+                                                            <p style="color: red; font-weight: bold">
+                                                                การลงทะเบียนถูกยกเลิก</p>
+                                                        </c:if>
+
+                                                        <c:if test="${currentDate.equals(startDate) || currentDate.equals(endDate)}">
+                                                            <a href="${pageContext.request.contextPath}/member/${username}/payment_fill_detail/${invoices.invoice.invoice_id}">
+                                                                <button class="btn btn-outline-dark">ชำระเงิน</button>
+                                                            </a>
+                                                        </c:if>
+
+                                                        <c:if test="${currentDate.isAfter(startDate) && currentDate.isBefore(endDate)}">
+                                                            <a href="${pageContext.request.contextPath}/member/${username}/payment_fill_detail/${invoices.invoice.invoice_id}">
+                                                                <button class="btn btn-outline-dark">ชำระเงิน</button>
+                                                            </a>
+                                                        </c:if>
+                                                    </td>
+                                                    <!---End check date--->
+                                                    <td>
+                                                        <c:if test="${currentDate.isAfter(endDate)}">
+                                                            <p style="color: black; font-weight: bold; text-align: center;">
+                                                                เลยกำหนดชำระเงิน</p>
+                                                        </c:if>
+                                                    </td>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:when>
+                                    </c:choose>
+                                </tr>
+                                <c:set var="listAllDisplayed" value="true"/>
                             </c:if>
-
-                        </c:when>
-                        <c:otherwise>
-                            <c:choose>
-                                <c:when test="${invoices.requestOpenCourse.requestStatus.equals('ถูกยกเลิก')}">
-                                    <td>
-                                        <p style="color: red; font-weight: bold;">หลักสูตรนี้ได้ถูกยกเลิกการเรียน</p>
-                                    </td>
-                                    <td></td>
-                                </c:when>
-                                <c:otherwise>
-                                    <td style="width: 100px; text-align: center;">
-                                        <!---Start check date--->
-                                        <c:set var="startpay" value="${invoices.invoice.startPayment}"/>
-                                        <c:set var="s_year" value="${fn:substring(startpay, 0, 4)}"/>
-                                        <c:set var="s_month" value="${fn:substring(startpay, 5, 7)}"/>
-                                        <c:set var="s_day" value="${fn:substring(startpay, 8, 10)}"/>
-
-                                        <c:set var="endpay" value="${invoices.invoice.endPayment}"/>
-                                        <c:set var="e_year" value="${fn:substring(endpay, 0, 4)}"/>
-                                        <c:set var="e_month" value="${fn:substring(endpay, 5, 7)}"/>
-                                        <c:set var="e_day" value="${fn:substring(endpay, 8, 10)}"/>
-
-                                        <c:set var="currentDate" value="<%=LocalDate.now()%>"/>
-                                        <c:set var="startDate" value="${LocalDate.of(s_year, s_month, s_day)}"/>
-                                        <c:set var="endDate" value="${LocalDate.of(e_year, e_month, e_day)}"/>
-
-
-                                        <c:if test="${currentDate.isBefore(startDate)}">
-
-                                            <p style="color: black; font-weight: bold;">เร็วๆนี้</p>
-                                        </c:if>
-
-                                        <c:if test="${currentDate.isAfter(endDate)}">
-                                            <p style="color: red; font-weight: bold">การลงทะเบียนถูกยกเลิก</p>
-                                        </c:if>
-
-                                        <c:if test="${currentDate.equals(startDate) || currentDate.equals(endDate)}">
-                                            <a href="${pageContext.request.contextPath}/member/${username}/payment_fill_detail/${invoices.invoice.invoice_id}">
-                                                <button class="btn btn-outline-dark">ชำระเงิน</button>
-                                            </a>
-                                        </c:if>
-
-                                        <c:if test="${currentDate.isAfter(startDate) && currentDate.isBefore(endDate)}">
-                                            <a href="${pageContext.request.contextPath}/member/${username}/payment_fill_detail/${invoices.invoice.invoice_id}">
-                                                <button class="btn btn-outline-dark">ชำระเงิน</button>
-                                            </a>
-                                        </c:if>
-                                    </td>
-                                    <!---End check date--->
-                                    <td>
-                                        <c:if test="${currentDate.isAfter(endDate)}">
-                                            <p style="color: black; font-weight: bold; text-align: center;">เลยกำหนดชำระเงิน</p>
-                                        </c:if>
-                                    </td>
-
-                                    <%--                            <c:if test="${currentDate.isAfter(endDate)}">--%>
-                                    <%--                                <td style="text-align: center;">--%>
-                                    <%--                                    <input type="button" value="ลงทะเบียนใหม่" onclick="if((confirm('ยืนยันการลงทะเบียนใหม่อีกครั้ง?'))){ window.location.href='${pageContext.request.contextPath}/member/${invoices.member.username}/${invoices.register_id}/delete';return false; }"/>--%>
-                                    <%--                                </td>--%>
-                                    <%--                            </c:if>--%>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:otherwise>
-                    </c:choose>
-                </tr>
-
+                        </c:if>
+                    </c:forEach>
+                </c:if>
             </c:forEach>
+
+
+            <%--            <c:forEach var="invoices" items="${register}">--%>
+            <%--                <c:set var="currentInvoice" value="<%=LocalDate.now()%>"/>--%>
+            <%--                <tr>--%>
+            <%--                    <c:if test="${invoices.invoice.approve_status ne 'ผ่าน'}">--%>
+
+            <%--                        <td style="width: 550px;"><p>${invoices.requestOpenCourse.course.name}</p></td>--%>
+            <%--                        <fmt:formatDate value="${invoices.invoice.startPayment}" pattern="dd/MM/yyyy" var="startPayment"/>--%>
+            <%--                        <fmt:formatDate value="${invoices.invoice.endPayment}" pattern="dd/MM/yyyy" var="endPayment"/>--%>
+            <%--                        <fmt:formatDate value="${invoices.requestOpenCourse.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult"/>--%>
+            <%--                        <td style="text-align: center;"><p>${startPayment}</p></td>--%>
+            <%--                        <td style="text-align: center;"><p>${endPayment}</p></td>--%>
+            <%--                        <td style="text-align: center;"><p>${applicationResult}</p></td>--%>
+            <%--                    </c:if>--%>
+
+            <%--                    <c:choose>--%>
+            <%--                        <c:when test="${invoices.invoice.pay_status == true}">--%>
+            <%--                            <c:if test="${invoices.invoice.approve_status.equals('รอดำเนินการ')}">--%>
+            <%--                                <td style="text-align: center;">--%>
+            <%--                                    <p style="font-weight: bold; color: #ee8e18;">${invoices.invoice.approve_status}</p>--%>
+            <%--                                </td>--%>
+            <%--                                <td style="text-align: center;"></td>--%>
+            <%--                            </c:if>--%>
+            <%--                            <c:if test="${invoices.invoice.approve_status.equals('ไม่ผ่าน')}">--%>
+            <%--                                <% String stt_update = (String) session.getAttribute("update"); %>--%>
+            <%--                                <c:set var="status_update" value="<%= stt_update %>"/>--%>
+            <%--                                <c:choose>--%>
+            <%--                                    <c:when test="${status_update.equals('success')}">--%>
+            <%--                                        <td style="text-align: center;">--%>
+            <%--                                            <p style="color: green; font-weight: bold;">แก้ไขการชำระเงินแล้ว</p>--%>
+            <%--                                        </td>--%>
+            <%--                                        <td style="text-align: center;"><p style="font-weight: bold; color: #ee8e18;">--%>
+            <%--                                            รอดำเนินการ</p></td>--%>
+            <%--                                    </c:when>--%>
+            <%--                                    <c:otherwise>--%>
+            <%--                                        <td style="text-align: center;">--%>
+            <%--                                            <a href="${pageContext.request.contextPath}/member/${invoices.member.username}/update_payment_fill_detail/${invoices.invoice.invoice_id}">--%>
+            <%--                                                <button class="btn btn-outline-danger">แก้ไขการชำระเงิน</button>--%>
+            <%--                                            </a>--%>
+            <%--                                        </td>--%>
+            <%--                                        <td style="text-align: center;"><p--%>
+            <%--                                                style="color: red; font-weight: bold; text-align: center;">--%>
+            <%--                                            กรุณาอัพโหลดหลักฐานการชำระเงินใหม่</p></td>--%>
+            <%--                                    </c:otherwise>--%>
+            <%--                                </c:choose>--%>
+            <%--                            </c:if>--%>
+
+            <%--                        </c:when>--%>
+            <%--                        <c:otherwise>--%>
+            <%--                            <c:choose>--%>
+            <%--                                <c:when test="${invoices.requestOpenCourse.requestStatus.equals('ถูกยกเลิก')}">--%>
+            <%--                                    <td>--%>
+            <%--                                        <p style="color: red; font-weight: bold;">หลักสูตรนี้ได้ถูกยกเลิกการเรียน</p>--%>
+            <%--                                    </td>--%>
+            <%--                                    <td></td>--%>
+            <%--                                </c:when>--%>
+            <%--                                <c:otherwise>--%>
+            <%--                                    <td style="width: 100px; text-align: center;">--%>
+            <%--                                        <!---Start check date--->--%>
+            <%--                                        <c:set var="startpay" value="${invoices.invoice.startPayment}"/>--%>
+            <%--                                        <c:set var="s_year" value="${fn:substring(startpay, 0, 4)}"/>--%>
+            <%--                                        <c:set var="s_month" value="${fn:substring(startpay, 5, 7)}"/>--%>
+            <%--                                        <c:set var="s_day" value="${fn:substring(startpay, 8, 10)}"/>--%>
+
+            <%--                                        <c:set var="endpay" value="${invoices.invoice.endPayment}"/>--%>
+            <%--                                        <c:set var="e_year" value="${fn:substring(endpay, 0, 4)}"/>--%>
+            <%--                                        <c:set var="e_month" value="${fn:substring(endpay, 5, 7)}"/>--%>
+            <%--                                        <c:set var="e_day" value="${fn:substring(endpay, 8, 10)}"/>--%>
+
+            <%--                                        <c:set var="currentDate" value="<%=LocalDate.now()%>"/>--%>
+            <%--                                        <c:set var="startDate" value="${LocalDate.of(s_year, s_month, s_day)}"/>--%>
+            <%--                                        <c:set var="endDate" value="${LocalDate.of(e_year, e_month, e_day)}"/>--%>
+
+
+            <%--                                        <c:if test="${currentDate.isBefore(startDate)}">--%>
+
+            <%--                                            <p style="color: black; font-weight: bold;">เร็วๆนี้</p>--%>
+            <%--                                        </c:if>--%>
+
+            <%--                                        <c:if test="${currentDate.isAfter(endDate)}">--%>
+            <%--                                            <p style="color: red; font-weight: bold">การลงทะเบียนถูกยกเลิก</p>--%>
+            <%--                                        </c:if>--%>
+
+            <%--                                        <c:if test="${currentDate.equals(startDate) || currentDate.equals(endDate)}">--%>
+            <%--                                            <a href="${pageContext.request.contextPath}/member/${username}/payment_fill_detail/${invoices.invoice.invoice_id}">--%>
+            <%--                                                <button class="btn btn-outline-dark">ชำระเงิน</button>--%>
+            <%--                                            </a>--%>
+            <%--                                        </c:if>--%>
+
+            <%--                                        <c:if test="${currentDate.isAfter(startDate) && currentDate.isBefore(endDate)}">--%>
+            <%--                                            <a href="${pageContext.request.contextPath}/member/${username}/payment_fill_detail/${invoices.invoice.invoice_id}">--%>
+            <%--                                                <button class="btn btn-outline-dark">ชำระเงิน</button>--%>
+            <%--                                            </a>--%>
+            <%--                                        </c:if>--%>
+            <%--                                    </td>--%>
+            <%--                                    <!---End check date--->--%>
+            <%--                                    <td>--%>
+            <%--                                        <c:if test="${currentDate.isAfter(endDate)}">--%>
+            <%--                                            <p style="color: black; font-weight: bold; text-align: center;">เลยกำหนดชำระเงิน</p>--%>
+            <%--                                        </c:if>--%>
+            <%--                                    </td>--%>
+
+            <%--                                    &lt;%&ndash;                            <c:if test="${currentDate.isAfter(endDate)}">&ndash;%&gt;--%>
+            <%--                                    &lt;%&ndash;                                <td style="text-align: center;">&ndash;%&gt;--%>
+            <%--                                    &lt;%&ndash;                                    <input type="button" value="ลงทะเบียนใหม่" onclick="if((confirm('ยืนยันการลงทะเบียนใหม่อีกครั้ง?'))){ window.location.href='${pageContext.request.contextPath}/member/${invoices.member.username}/${invoices.register_id}/delete';return false; }"/>&ndash;%&gt;--%>
+            <%--                                    &lt;%&ndash;                                </td>&ndash;%&gt;--%>
+            <%--                                    &lt;%&ndash;                            </c:if>&ndash;%&gt;--%>
+            <%--                                </c:otherwise>--%>
+            <%--                            </c:choose>--%>
+            <%--                        </c:otherwise>--%>
+            <%--                    </c:choose>--%>
+            <%--                </tr>--%>
+            <%--            </c:forEach>--%>
         </table>
     </div>
 
@@ -345,8 +488,10 @@
                                     <fmt:formatDate value="${his.pay_date}" pattern="dd/MM/yyyy" var="datePayment"/>
                                     <td style="text-align: center;"><p>${datePayment}</p></td>
 
-                                    <c:set var="course_fee" value="${his.invoice.register.requestOpenCourse.course.fee}"/>
-                                    <td style="text-align: center; color: black;"><fmt:formatNumber value="${course_fee}" type="number"/></td>
+                                    <c:set var="course_fee"
+                                           value="${his.invoice.register.requestOpenCourse.course.fee}"/>
+                                    <td style="text-align: center; color: black;"><fmt:formatNumber
+                                            value="${course_fee}" type="number"/></td>
 
                                     <c:choose>
                                         <c:when test="${his.invoice.pay_status == true && his.invoice.approve_status.equals('ผ่าน')}">

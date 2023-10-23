@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import utils.ImgPath;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
@@ -54,11 +55,49 @@ public class CourseController {
         return "admin/add_Course_Detail";
     }
 
+//    @RequestMapping(value = "/addRestaurant", method = RequestMethod.POST)
+//    public ModelAndView addRestaurant(HttpServletRequest request, @RequestParam("url_pic") MultipartFile photo) {
+//        ModelAndView mav = new ModelAndView("index");
+//        RestaurantManager rm = new RestaurantManager();
+//        Restaurant restaurant = new Restaurant();
+//
+//        String restaurant_name = request.getParameter("restaurant_name");
+//        String type = request.getParameter("type");
+//
+//
+//        String originalFileName = photo.getOriginalFilename();
+//        String fileExtension = getFileExtension(originalFileName);
+//        String newFileName = "restaurant_" + restaurant_name + fileExtension;
+//
+//        try {
+//            restaurant.setRestaurant_name(restaurant_name);
+//            restaurant.setType(type);
+//            restaurant.setPic_url("http://localhost:8080/MidtermWeb/assets/images/" + newFileName);
+//            boolean result = rm.addRestaurant(restaurant);
+//
+//            if (result) {
+//                String path = request.getSession().getServletContext().getRealPath("/") + "//assets//images//";
+//                Path imgFilePath = Paths.get(path, newFileName);
+//                Files.write(imgFilePath, photo.getBytes());
+//            }
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//
+//        List<Restaurant> restaurants = rm.listAllRestaurant(); // เรียกใช้แบบ Hibernate
+//        mav.addObject("restaurants", restaurants);
+//        return mav;
+//    }
+
+
+
+
     @PostMapping(path = "/{admin_id}/save")
     public String doAddCourse(@RequestParam Map<String, String> allReqParams,
                               @RequestParam("course_img") MultipartFile img,
                               @RequestParam("course_file") MultipartFile pdf,
                               @RequestParam("course_objectives[]") String[] courseObjectives,
+                              HttpServletRequest request,
                               @PathVariable("admin_id") String admin_id) throws ParseException {
         Date currentDate = new Date();
         String course_name = allReqParams.get("course_name");
@@ -94,18 +133,19 @@ public class CourseController {
         Major major = majorService.getMajorDetail(allReqParams.get("major_id"));
 
         try {
-
             // เพิ่ม รูปภาพ
             // กำหนด path ที่จะบันทึกไฟล์
-            String uploadPathIMG = ImgPath.pathUploads + "/course_img/";
+//            String uploadPathIMG = ImgPath.pathUploads + "/course_img/";
             // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
+            String uploadPathIMG = request.getSession().getServletContext().getRealPath("/") + "//uploads//course_img//";
             Path directoryPathIMG = Paths.get(uploadPathIMG);
             Files.createDirectories(directoryPathIMG);
 
             int maxIdImgFile = courseService.getImgCourseMaxId(course_type); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
 //            // เพิ่ม PDF
 //            // กำหนด path ที่จะบันทึกไฟล์
-            String uploadPathPDF = ImgPath.pathUploads + "/course_pdf/";
+//            String uploadPathPDF = ImgPath.pathUploads + "/course_pdf/";
+            String uploadPathPDF = request.getSession().getServletContext().getRealPath("/") + "//uploads//course_pdf//";
             // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
             Path directoryPathPDF = Paths.get(uploadPathPDF);
             Files.createDirectories(directoryPathPDF);
@@ -121,6 +161,8 @@ public class CourseController {
                 // สร้างรหัสไฟล์ใหม่ในรูปแบบ "N_IMG0001", "N_IMG0002", ...
                 course_img = String.format("N_IMG%04d%s", ++maxIdImgFile, imgFileExtension);
             }
+//            Path imgFilePath = Paths.get(path, newFileName);
+//            Files.write(imgFilePath, photo.getBytes());
             Path imgFilePath = Paths.get(uploadPathIMG, course_img);
             Files.write(imgFilePath, img.getBytes());
 
@@ -263,6 +305,7 @@ public class CourseController {
                                @RequestParam("course_img") MultipartFile course_img,
                                @RequestParam(value = "original_img", required = false) String original_img,
                                @RequestParam("course_file") MultipartFile course_file,
+                               HttpServletRequest request,
                                @RequestParam(value = "original_file", required = false) String original_file,
                                @RequestParam Map<String, String> allReqParams) throws ParseException {
         Course existingCourse = courseService.getCourseById(course_id);
@@ -299,8 +342,10 @@ public class CourseController {
 
             try {
                 // กำหนด path ที่จะบันทึกไฟล์
-                String imgPath = ImgPath.pathUploads + "/course_img/";
-                String pdfPath = ImgPath.pathUploads + "/course_pdf/";
+//                String imgPath = ImgPath.pathUploads + "/course_img/";
+//                String pdfPath = ImgPath.pathUploads + "/course_pdf/";
+                String imgPath = request.getSession().getServletContext().getRealPath("/") + "//uploads//course_img//";
+                String pdfPath = request.getSession().getServletContext().getRealPath("/") + "//uploads//course_pdf//";
                 // ถ้ามีการอัพโหลดไฟล์ใหม่
                 Path pathIMG = Paths.get(imgPath, original_img);
                 Path pathPDF = Paths.get(pdfPath,original_file);
@@ -456,6 +501,7 @@ public class CourseController {
     public String addActivityNews(@PathVariable("admin_id") String admin_id,
                                   @RequestParam Map<String, String> allReqParams,
                                   @RequestParam("ac_detail") String acDetail,
+                                  HttpServletRequest request,
                                   @RequestParam("ac_img") MultipartFile[] ac_img) throws ParseException {
         try {
             List<String> newFileNames = new ArrayList<>();
@@ -471,7 +517,8 @@ public class CourseController {
             int count = 1;
             for (MultipartFile img : ac_img) {
                 String folderName = String.format("AP%03d", latestId+1);
-                String uploadPath = ImgPath.pathUploads + "/activity/public/"+folderName+"/";
+//                String uploadPath = ImgPath.pathUploads + "/activity/public/"+folderName+"/";
+                String uploadPath = request.getSession().getServletContext().getRealPath("/") + "//uploads//activity//public//"+folderName+"//";
                 Path directoryPath = Paths.get(uploadPath);
                 Files.createDirectories(directoryPath);
 
@@ -525,6 +572,7 @@ public class CourseController {
     public String doEditActivityNews(@PathVariable("id") String ac_id,
                                      @RequestParam("ac_img") MultipartFile[] imgs,
                                      @RequestParam Map<String, String> allReqParams,
+                                     HttpServletRequest request,
                                      @PathVariable String admin) throws ParseException {
         try {
             List<String> newFileNames = new ArrayList<>();
@@ -556,7 +604,8 @@ public class CourseController {
                 // ลบข้อมูลในฐานข้อมูลก่อน
                 existingImgNames.clear();
                 // ลบข้อมูลเดิมก่อน
-                String deletePath = ImgPath.pathUploads + "/activity/public/"+existingActivity.getAc_id()+"/";
+//                String deletePath = ImgPath.pathUploads + "/activity/public/"+existingActivity.getAc_id()+"/";
+                String deletePath = request.getSession().getServletContext().getRealPath("/") + "//uploads//activity//public//"+existingActivity.getAc_id()+"//";
 //            String deletePath = ImgPath.pathImg + "/activity/public/public_activity"+maxNumericId+"/";
                 Path deletedirectoryPath = Paths.get(deletePath);
 
@@ -575,7 +624,8 @@ public class CourseController {
                 // เพิ่มข้อมูลใหม่
                 int count = 1;
                 for (MultipartFile img : imgs) {
-                    String uploadPath = ImgPath.pathUploads + "/activity/public/"+existingActivity.getAc_id()+"/";
+//                    String uploadPath = ImgPath.pathUploads + "/activity/public/"+existingActivity.getAc_id()+"/";
+                    String uploadPath = request.getSession().getServletContext().getRealPath("/") + "//uploads//activity//public//"+existingActivity.getAc_id()+"//";
                     Path directoryPath = Paths.get(uploadPath);
                     Files.createDirectories(directoryPath);
 
@@ -613,14 +663,17 @@ public class CourseController {
 
     //***************Delete Activity News********************//
     @GetMapping("/{admin_id}/{ac_id}/delete")
-    public String doDeleteActivityNews(@PathVariable String ac_id, @PathVariable String admin_id) throws IOException {
+    public String doDeleteActivityNews(@PathVariable String ac_id,HttpServletRequest request, @PathVariable String admin_id) throws IOException {
         Activity activity = activityService.getActivityDetail(ac_id);
 //        String activity_id = activity.getAc_id();
 //        activity_id = activity_id.replace("AP", "").replace("AC", "");
 //        int maxNumericId = Integer.parseInt(activity_id);
 ////        System.out.println(maxNumericId);
         // ลบข้อมูลเดิมก่อน
-        String deletePath = ImgPath.pathUploads + "/activity/public/"+activity.getAc_id()+"/";
+//        String deletePath = ImgPath.pathUploads + "/activity/public/"+activity.getAc_id()+"/";
+        String deletePath = request.getSession().getServletContext().getRealPath("/") + "//uploads//activity//public//"+activity.getAc_id()+"//";
+
+
         Path deletedirectoryPath = Paths.get(deletePath);
 
 

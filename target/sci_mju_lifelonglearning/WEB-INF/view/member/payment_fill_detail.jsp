@@ -119,7 +119,10 @@
         }
 
         .tb_payment{
-            box-shadow: 0px 0px 9px 0px #c0c0c0;border-radius: 5px;height: 430px;width: 96%;
+            box-shadow: 0px 0px 9px 0px #c0c0c0;
+            border-radius: 5px;
+            height: 430px;
+            width: 96%;
         }
     </style>
 </head>
@@ -165,7 +168,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
-<%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>--%>
+                        <%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>--%>
                         <%--            <div class="nav-item dropdown">--%>
                         <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
                     <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link " style="font-size: 17px">หลักสูตรการอบรม</a>
@@ -176,7 +179,7 @@
                         <%--            </div>--%>
                     <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/listcourse" class="nav-item nav-link active" style="font-size: 17px">หลักสูตรของฉัน</a>
                     <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
-<%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>--%>
+                        <%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>--%>
                     <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/edit_profile" class="nav-item nav-link" style="font-size: 17px">ข้อมูลส่วนตัว</a>
                     <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 17px">ออกจากระบบ</a>
                 </div>
@@ -209,52 +212,56 @@
         <table style="width: 80%;">
             <tr>
                 <td style="width: 40%;">
-                        <table class="tb_payment">
-                            <tr>
-                                <td style="width: 360px; padding: 10px 0px 0px 100px;">เริ่มชำระเงิน</td>
-                                <td>
-                                    <fmt:formatDate value="${payment.startPayment}" pattern="dd/MM/yyyy" var="startPayment"/>
-                                    ${startPayment}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 10px 0px 0px 100px;">สิ้นสุดการชำระเงิน</td>
-                                <td>
-                                    <fmt:formatDate value="${payment.endPayment}" pattern="dd/MM/yyyy" var="endPayment"/>
-                                    ${endPayment}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 10px 0px 0px 100px;">ธนาคารปลายทาง</td>
-                                <td>กรุงไทย</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 10px 0px 0px 100px;">เลขที่บัญชี</td>
-                                <td>679-5-60403-1</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 10px 0px 0px 100px;">ยอดรวมชำระเงินทั้งหมด</td>
-                                <td>
-                                    <c:set var="course_fee" value="${payment.register.requestOpenCourse.course.fee}" />
-                                    <fmt:formatNumber value="${course_fee}" type="number" /> บาท
-                                </td>
-                            </tr>
-                        </table>
+                    <table class="tb_payment">
+                        <tr>
+                            <td style="padding: 10px 55px 0px 70px;">เริ่มชำระเงิน</td>
+                            <td style="width: 46%">
+                                <fmt:formatDate value="${payment.startPayment}" pattern="dd/MM/yyyy" var="startPayment"/>
+                                ${startPayment}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px 55px 0px 70px;">สิ้นสุดการชำระเงิน</td>
+                            <td>
+                                <fmt:formatDate value="${payment.endPayment}" pattern="dd/MM/yyyy" var="endPayment"/>
+                                ${endPayment}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px 55px 0px 70px;">ธนาคารปลายทาง</td>
+                            <td>กรุงไทย</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px 55px 0px 70px;">ชื่อบัญชี</td>
+                            <td>มหาวิทยาลัยแม่โจ้ เชียงใหม่</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px 55px 0px 70px;">เลขที่บัญชี</td>
+                            <td>679-5-60403-1</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px 55px 0px 70px;">ยอดรวมชำระเงินทั้งหมด</td>
+                            <td>
+                                <c:set var="course_fee" value="${payment.register.requestOpenCourse.course.fee}" />
+                                <fmt:formatNumber value="${course_fee}" type="number" /> บาท
+                            </td>
+                        </tr>
+                    </table>
                 </td>
                 <td style="width: 40%">
                     <table style="box-shadow: 0px 0px 9px 0px #c0c0c0; border-radius: 5px; height: 430px; width: 100%;">
-                    <tr style="height: 350px;">
-                        <td>
-                            <label for="fileInput" class="file-label" style="margin-left: 70px; width: 70%; text-align: center;">เลือกไฟล์</label> <br>
-                            <input type="file" id="fileInput" accept="image/*" name="slip" class="file-input"
-                                   onchange="previewImage(this)" style="width: 0;">
-                        </td>
-                        <td style="text-align: -webkit-center;">
-                            <p style="color: red; margin-top: 26px; font-weight: bold;">*อัพโหลดหลักฐานการชำระเงิน*</p> <br>
-                            <img id="preview" src="" alt="Image Preview" style="display: none; height: 270px; margin-left: 28px; margin-top: -24px;">
-                        </td>
-                    </tr>
-                </table>
+                        <tr style="height: 350px;">
+                            <td>
+                                <label for="fileInput" class="file-label" style="margin-left: 70px; width: 70%; text-align: center;">เลือกไฟล์</label> <br>
+                                <input type="file" id="fileInput" accept="image/*" name="slip" class="file-input"
+                                       onchange="previewImage(this)" style="width: 0;">
+                            </td>
+                            <td style="text-align: -webkit-center;">
+                                <p style="color: red; margin-top: 26px; font-weight: bold;">*อัพโหลดหลักฐานการชำระเงิน*</p> <br>
+                                <img id="preview" src="" alt="Image Preview" style="display: none; height: 270px; margin-left: 28px; margin-top: -24px;">
+                            </td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
             <tr>

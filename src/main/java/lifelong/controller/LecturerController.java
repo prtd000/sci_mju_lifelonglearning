@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import utils.ImgPath;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.file.Files;
@@ -347,12 +348,12 @@ public class LecturerController {
 
     //**************************getPrintListMember() IReport*******************//
     @GetMapping("/{request_id}/downloadExcel")
-    public void downloadExcel(HttpServletResponse response, @PathVariable long request_id) throws IOException {
+    public void downloadExcel(HttpServletResponse response ,HttpServletRequest request, @PathVariable long request_id) throws IOException {
         // ดึงข้อมูลจาก Service หรือ Repository
         List<Register> register = registerService.getRegisterByRequestIdAndApprove(request_id);
         RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(request_id);
 
-        FileInputStream inputStream = new FileInputStream(ImgPath.pathUploads + "/excel/register_data.xlsx");
+        FileInputStream inputStream = new FileInputStream(request.getSession().getServletContext().getRealPath("/") + "//uploads//excel//register_data.xlsx//");
 //        Workbook workbook = new XSSFWorkbook(inputStream);
         Workbook workbook = new XSSFWorkbook(inputStream);
         inputStream.close();
@@ -430,6 +431,7 @@ public class LecturerController {
                                     @PathVariable("req_id") String req_id,
                                     @RequestParam(value = "original_signature", required = false) String original_signature,
                                     @RequestParam("signature") MultipartFile signature,
+                                    HttpServletRequest request,
                                     @RequestParam Map<String, String> allReqParams) throws ParseException {
         // ดึงข้อมูล PDF ที่ต้องการแก้ไขจากฐานข้อมูล
         long existingRequestId = Long.parseLong(req_id);
@@ -437,7 +439,9 @@ public class LecturerController {
         try {
             // ถ้ามีการอัพโหลดไฟล์ใหม่
             if (!signature.isEmpty()) {
-                String uploadPathSIG = ImgPath.pathUploads + "/request_open_course/signature/";
+//                String uploadPathSIG = ImgPath.pathUploads + "/request_open_course/signature/";
+                String uploadPathSIG = request.getSession().getServletContext().getRealPath("/") + "//uploads//request_open_course//signature//";
+
                 if(original_signature == null){
                     // กำหนด path ที่จะบันทึกไฟล์
                     // ตรวจสอบและสร้างโฟลเดอร์ถ้าไม่มี
@@ -510,6 +514,7 @@ public class LecturerController {
     @PostMapping (path="/{lec_id}/save_add_course_activity/{roc_id}")
     public String addCourseActivityNews(@PathVariable("lec_id") String lec_id,
                                         @PathVariable("roc_id") long roc_id,
+                                        HttpServletRequest request,
                                         @RequestParam("ac_img") MultipartFile[] ac_img,
                                         @RequestParam Map<String, String> allReqParams) throws ParseException {
         try {
@@ -527,7 +532,9 @@ public class LecturerController {
             int count = 1;
             for (MultipartFile img : ac_img) {
                 String folderName = String.format("AC%03d", latestId+1);
-                String uploadPath = ImgPath.pathUploads + "/activity/private/"+folderName+"/";
+//                String uploadPath = ImgPath.pathUploads + "/activity/private/"+folderName+"/";
+                String uploadPath = request.getSession().getServletContext().getRealPath("/") + "//uploads//activity//private//"+folderName+"//";
+
                 Path directoryPath = Paths.get(uploadPath);
                 Files.createDirectories(directoryPath);
 
@@ -587,6 +594,7 @@ public class LecturerController {
     public String doEditCourseActivity(@PathVariable("lec_id") String lec_id,
                                        @PathVariable("id") String ac_id,
                                        @RequestParam("ac_img") MultipartFile[] imgs,
+                                       HttpServletRequest request,
                                        @RequestParam Map<String, String> allReqParams) throws ParseException {
 //        long existingActivityId = Long.parseLong(ac_id);
         Activity activity = activityService.getActivityDetailToUpdate(ac_id,lec_id);
@@ -620,7 +628,9 @@ public class LecturerController {
                 // ลบข้อมูลในฐานข้อมูลก่อน
                 existingImgNames.clear();
                 // ลบข้อมูลเดิมก่อน
-                String deletePath = ImgPath.pathUploads + "/activity/private/"+existingActivity.getAc_id()+"/";
+//                String deletePath = ImgPath.pathUploads + "/activity/private/"+existingActivity.getAc_id()+"/";
+                String deletePath = request.getSession().getServletContext().getRealPath("/") + "//uploads//activity//private//"+existingActivity.getAc_id()+"//";
+
 //            String deletePath = ImgPath.pathImg + "/activity/public/public_activity"+maxNumericId+"/";
                 Path deletedirectoryPath = Paths.get(deletePath);
 
@@ -639,7 +649,9 @@ public class LecturerController {
                 // เพิ่มข้อมูลใหม่
                 int count = 1;
                 for (MultipartFile img : imgs) {
-                    String uploadPath = ImgPath.pathUploads + "/activity/private/"+existingActivity.getAc_id()+"/";
+//                    String uploadPath = ImgPath.pathUploads + "/activity/private/"+existingActivity.getAc_id()+"/";
+                    String uploadPath = request.getSession().getServletContext().getRealPath("/") + "//uploads//activity//private//"+existingActivity.getAc_id()+"//";
+
                     Path directoryPath = Paths.get(uploadPath);
                     Files.createDirectories(directoryPath);
 
@@ -676,9 +688,11 @@ public class LecturerController {
 
     //***********************Delete Course Activity News***********************//
     @GetMapping("/{lec_id}/{id}/delete")
-    public String doDeleteCourseActivityNews(@PathVariable("lec_id") String lec_id,@PathVariable("id") String id) throws IOException {
+    public String doDeleteCourseActivityNews(@PathVariable("lec_id") String lec_id, HttpServletRequest request, @PathVariable("id") String id) throws IOException {
         Activity activity = activityService.getActivityDetail(id);
-        String deletePath = ImgPath.pathUploads + "/activity/private/"+activity.getAc_id()+"/";
+//        String deletePath = ImgPath.pathUploads + "/activity/private/"+activity.getAc_id()+"/";
+        String deletePath = request.getSession().getServletContext().getRealPath("/") + "//uploads//activity//private//"+activity.getAc_id()+"//";
+
         Path deletedirectoryPath = Paths.get(deletePath);
         if (Files.isDirectory(deletedirectoryPath)) {
             // ลบไดเร็กทอรีและเนื้อหาภายใน

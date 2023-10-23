@@ -11,6 +11,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletRegistration;
 import java.io.IOException;
 
 @Configuration
@@ -26,7 +28,7 @@ public class WebConfig implements WebMvcConfigurer{
     }
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/assets/**").addResourceLocations("/assets/");
-        registry.addResourceHandler("/uploads/**").addResourceLocations("file:/C:/uploads/");
+        registry.addResourceHandler("/uploads/**").addResourceLocations("/uploads/");
     }
     @Bean
     public CommonsMultipartResolver multipartResolver() throws IOException {
@@ -34,4 +36,6 @@ public class WebConfig implements WebMvcConfigurer{
         multipartResolver.setMaxUploadSize(209715200); // Set maximum file size (5MB in this example)
         return multipartResolver;
     }
+
+
 }

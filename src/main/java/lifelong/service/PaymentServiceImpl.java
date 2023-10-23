@@ -29,6 +29,12 @@ public class PaymentServiceImpl implements PaymentService{
 
     @Override
     @Transactional
+    public List<Invoice> getListInvoice() {
+        return paymentDao.getListInvoice();
+    }
+
+    @Override
+    @Transactional
     public List<Invoice> getListInvoiceByMemberId(String memId) {
         return paymentDao.getListInvoiceByMemberId(memId);
     }

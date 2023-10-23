@@ -255,7 +255,7 @@
                                     <c:when test="${flag.equals('member')}">
                                         <div class="p-4">
                                             <img src="${pageContext.request.contextPath}/uploads/course_img/${course.img}"
-                                                 style="height: 300px;margin-top: -24px;margin-left: -24px;">
+                                                 style="height: 300px; width: 300px; margin-top: -24px;margin-left: -24px;">
                                             <br><br>
                                             <b><p class="item text_ellipsis course_name">${course.name}</p></b>
                                             <p style="font-size: 85%; font-weight: bold; color: dodgerblue">${course.course_type}</p>
@@ -413,7 +413,7 @@
                                         <a href="${pageContext.request.contextPath}/${course.course_id}">
                                             <div class="p-4">
                                                 <img src="${pageContext.request.contextPath}/uploads/course_img/${course.img}"
-                                                     style="height: 300px;margin-top: -24px;margin-left: -24px;">
+                                                     style="height: 300px;width:300px;margin-top: -24px;margin-left: -24px;">
                                                 <div>
                                                     <br>
                                                     <b><p class="item text_ellipsis course_name">${course.name}</p></b>

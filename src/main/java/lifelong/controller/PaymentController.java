@@ -47,6 +47,7 @@ public class PaymentController {
     public String saveMakePayment(@PathVariable("memid") String memId,
                                   @PathVariable("invoice_id") long invoiceId,
                                   @RequestParam Map<String, String> params,
+                                  HttpServletRequest request,
                                   @RequestParam("slip") MultipartFile slip_payment,
                                   HttpSession session) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -85,7 +86,9 @@ public class PaymentController {
 
 
             /**************** Image *******************/
-            String slipPath = ImgPath.pathUploads + "/make_payment/slip/";
+//            String slipPath = ImgPath.pathUploads + "/make_payment/slip/";
+            String slipPath = request.getSession().getServletContext().getRealPath("/") + "//uploads//make_payment//slip//";
+
 
             /*** กำหนดเส้นทางสำหรับการบันทึกไฟล์รูปภาพ ***/
             Path directoryPathIMG = Paths.get(slipPath);
@@ -131,6 +134,7 @@ public class PaymentController {
     public String updateMakePayment(@PathVariable("memid") String memId, Model model,
                                     @PathVariable("invoice_id") long invoiceId,
                                     @RequestParam Map<String, String> params,
+                                    HttpServletRequest request,
                                     @RequestParam(value = "original_slip", required = false) String original_slip,
                                     @RequestParam("slip") MultipartFile slip_payment,
                                     HttpSession session) throws ParseException {
@@ -148,7 +152,8 @@ public class PaymentController {
 
 
                 /**************** Image *******************/
-                String slipPath = ImgPath.pathUploads + "/make_payment/slip/";
+//                String slipPath = ImgPath.pathUploads + "/make_payment/slip/";
+                String slipPath = request.getSession().getServletContext().getRealPath("/") + "//uploads//make_payment//slip//";
 
                 Path path1 = Paths.get(slipPath, original_slip);
                 if (original_slip != null) {

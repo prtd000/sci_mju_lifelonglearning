@@ -12,10 +12,11 @@ public interface PaymentService {
 
     Invoice getInvoiceByMemberId (String memId);
 
+    List<Invoice> getListInvoice();
+
     List<Invoice> getListInvoiceByMemberId (String memId);
 
     List<Receipt> getReceiptByMemberId(String memId);
-
 
     Receipt getReceiptById(long receipt_id);
 

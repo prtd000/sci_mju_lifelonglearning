@@ -208,13 +208,13 @@ public class CourseController {
             requestOpCourseService.updateRequestOpenCourse(existingRequestOpenCourse);
 
             // แก้ไขคำร้องขออื่นๆที่รอขอมาเหมือนกันแต่ยังไม่ผ่าน
-            List<RequestOpenCourse> requestOpenCourses = requestOpCourseService.checkRequestOpenCourseByCourseIdToUnApprove(existingRequestOpenCourse.getCourse().getCourse_id());
-            for (RequestOpenCourse requestOpenCourse : requestOpenCourses) {
-                // แก้ไขสถานะ Request Open Course อื่นๆ
-                requestOpenCourse.setRequestStatus("ไม่ผ่าน");
-                requestOpenCourse.setRequestDate(requestDate);
-                requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
-            }
+//            List<RequestOpenCourse> requestOpenCourses = requestOpCourseService.checkRequestOpenCourseByCourseIdToUnApprove(existingRequestOpenCourse.getCourse().getCourse_id());
+//            for (RequestOpenCourse requestOpenCourse : requestOpenCourses) {
+//                // แก้ไขสถานะ Request Open Course อื่นๆ
+//                requestOpenCourse.setRequestStatus("ไม่ผ่าน");
+//                requestOpenCourse.setRequestDate(requestDate);
+//                requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
+//            }
             //แก้ไขตาราง Course
             Course course = courseService.getCourseById(existingRequestOpenCourse.getCourse().getCourse_id());
             course.setStatus("ลงทะเบียน");
@@ -249,7 +249,10 @@ public class CourseController {
         model.addAttribute("title", "รายการ" + title);
         model.addAttribute("courses", courseService.getCourses());
         model.addAttribute("courses_by_register_date",courseService.getCourseByStatus("ลงทะเบียน"));
+        model.addAttribute("courses_by_all_regis_pay_date",courseService.getCourseByStatusByRegister("ลงทะเบียน","ลงทะเบียน/ชำระเงิน","ชำระเงิน","รอประกาศผล"));
+        model.addAttribute("courses_by_register_pay_date",courseService.getCourseByStatus("ลงทะเบียน/ชำระเงิน"));
         model.addAttribute("courses_by_payment_date",courseService.getCourseByStatus("ชำระเงิน"));
+        model.addAttribute("courses_by_app_date",courseService.getCourseByStatus("รอประกาศผล"));
         model.addAttribute("courses_by_study_date",courseService.getCourseByStatus("เปิดสอน"));
         model.addAttribute("courses_by_not_study",courseService.getCourseByStatus("ยังไม่เปิดสอน"));
 
@@ -482,7 +485,7 @@ public class CourseController {
     public String close_register(@PathVariable long request_id) {
 
         RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(request_id);
-        requestOpenCourse.getCourse().setStatus("ชำระเงิน");
+        requestOpenCourse.getCourse().setStatus("รอประกาศผล");
         requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
 
         return "redirect:/course/admin/list_all_course";

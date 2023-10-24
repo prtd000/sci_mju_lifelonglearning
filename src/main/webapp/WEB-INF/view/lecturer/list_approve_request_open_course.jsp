@@ -169,7 +169,7 @@
                         </div>
                         <hr>
                         <div id="payment_list" style="display:block;">
-                            <table class="table table-striped table-hover" style="font-size: 15px">
+                            <table class="table table-striped table-hover" style="font-size: 12px">
                                 <tr style="color: black">
                                     <td>รายละเอียดหลักสูตร</td>
                                     <td style="width: 15%" align="center">ระยะเวลาชำระเงิน</td>
@@ -219,7 +219,7 @@
                             </table>
                         </div>
                         <div id="app_list" style="display:none;">
-                            <table class="table table-striped table-hover" style="font-size: 15px">
+                            <table class="table table-striped table-hover" style="font-size: 12px">
                                 <tr style="color: black">
                                     <td>รายละเอียดหลักสูตร</td>
                                     <td style="width: 15%" align="center">ระยะเวลาชำระเงิน</td>
@@ -296,7 +296,7 @@
                     </div>
 
                     <div id="list_study">
-                        <table class="table table-striped table-hover" style="font-size: 15px">
+                        <table class="table table-striped table-hover" style="font-size: 12px">
                             <tr style="color: black">
                                 <td style="width: 25%;">รายละเอียดหลักสูตร</td>
                                 <td style="width: 15%" align="center">ระยะเวลาเรียน</td>

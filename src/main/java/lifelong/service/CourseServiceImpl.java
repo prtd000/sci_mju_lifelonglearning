@@ -99,6 +99,12 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     @Transactional
+    public List<Course> getCourseByStatusByRegister(String status1, String status2, String status3, String status4)  {
+        return courseDao.getCourseByStatusByRegister(status1,status2,status3,status4);
+    }
+
+    @Override
+    @Transactional
     public void doAddMajor(Major major) {
         courseDao.doAddMajor(major);
     }

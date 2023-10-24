@@ -18,6 +18,7 @@ public interface CourseDao {
     List<Course> getCoursesByCourseStatusAndType(String major, String type);
 
     List<Course> getCourseByStatus(String status);
+    List<Course> getCourseByStatusByRegister(String status1, String status2, String status3, String status4);
 
     List<RequestOpenCourse> getListRequestOpCourse();
 

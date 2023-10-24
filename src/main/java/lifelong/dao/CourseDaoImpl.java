@@ -65,6 +65,16 @@ public class CourseDaoImpl implements CourseDao {
         query.setParameter("c_status", status);
         return query.getResultList();
     }
+    @Override
+    public List<Course> getCourseByStatusByRegister(String status1, String status2, String status3, String status4) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Course> query = session.createQuery("from Course where status IN (:c_status1, :c_status2, :c_status3, :c_status4)", Course.class);
+        query.setParameter("c_status1", status1);
+        query.setParameter("c_status2", status2);
+        query.setParameter("c_status3", status3);
+        query.setParameter("c_status4", status4);
+        return query.getResultList();
+    }
 
     @Override
     public List<RequestOpenCourse> getListRequestOpCourse() {

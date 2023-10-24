@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="lifelong.model.*" %>
 <html>
 <head>
@@ -113,6 +114,17 @@
                                     <fmt:formatDate value="${request_name.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
                                     <label>${startStudyDate} - ${endStudyDate}</label>
                                 </div>
+                            </div>
+                            <div>
+                                <c:set var="delimiter" value="$%"/>
+                                <c:set var="subText"
+                                       value="${fn:split(request_name.studyTime, delimiter)}"/>
+                                <label>วันเวลาในการเรียน</label><br>
+                                <c:forEach var="ogText" items="${subText}">
+                                    <c:set var="replaceSlash" value="${fn:replace(ogText, '/', ' ')}"/>
+                                    <c:set var="newText" value="${fn:replace(replaceSlash, ',', ' - ')}"/>
+                                    <p style="margin-bottom: 0px">${newText}</p>
+                                </c:forEach>
                             </div>
                             <div class="mb-3">
                                 <div class="flex-container">

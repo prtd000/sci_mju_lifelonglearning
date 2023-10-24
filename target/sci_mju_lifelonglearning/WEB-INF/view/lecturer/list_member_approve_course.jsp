@@ -176,20 +176,19 @@
                                     <fmt:formatDate value="${request_name.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
                                     <label>${startStudyDate} - ${endStudyDate}</label>
                                 </div>
-<%--                                <div class="flex-container">--%>
-<%--                                    <label>เรียนทุกวัน : ${request_name.studyDay}</label>--%>
-<%--                                </div>--%>
-<%--                                <div class="flex-container">--%>
-<%--                                    <c:set var="studyTime" value="${request_name.studyTime}"/>--%>
-<%--                                    <c:set var="parts" value="${fn:split(studyTime, ', ')}"/>--%>
-<%--                                    <label>เวลา : ${parts[0]} : ${parts[1]} น.</label>--%>
-<%--                                </div>--%>
+
                             </div>
-                                <%--                            <div class="mb-3">--%>
-                                <%--                                <div class="flex-container">--%>
-                                <%--                                    <label>จำนวนรับสมัคร ${request_name.numberOfAllRegistrations} / ${request_name.quantity} คน</label>--%>
-                                <%--                                </div>--%>
-                                <%--                            </div>--%>
+                            <div>
+                                <c:set var="delimiter" value="$%"/>
+                                <c:set var="subText"
+                                       value="${fn:split(request_name.studyTime, delimiter)}"/>
+                                <label>วันเวลาในการเรียน</label><br>
+                                <c:forEach var="ogText" items="${subText}">
+                                    <c:set var="replaceSlash" value="${fn:replace(ogText, '/', ' ')}"/>
+                                    <c:set var="newText" value="${fn:replace(replaceSlash, ',', ' - ')}"/>
+                                    <p style="margin-bottom: 0px">${newText}</p>
+                                </c:forEach>
+                            </div>
                             <b><label>รูปแบบการสอน</label></b>
                             <div class="mb-3">
                                 <div class="flex-container">

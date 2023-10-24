@@ -74,7 +74,7 @@
     label{
          font-family: 'Prompt', sans-serif;
          font-weight: 700 !important;
-        font-size: 12px;
+        font-size: 14px;
      }
 </style>
 <body>
@@ -141,7 +141,7 @@
         <!-- Navbar End -->
         <div class="container">
             <div id="container">
-                <form id="signUpForm" action="${pageContext.request.contextPath}/course/${admin_id}/view_request_open_course/${ROC_detail.request_id}/approve" method="POST">
+                <form id="signUpForm" style="font-size: 14px" action="${pageContext.request.contextPath}/course/${admin_id}/view_request_open_course/${ROC_detail.request_id}/approve" method="POST">
                     <!-- step one -->
                     <div class="step">
                         <div class="mb-3" style="display:flex;">
@@ -183,7 +183,7 @@
                                 </div>
                             </div>
                             <div style="width: 65%; margin-left: 20px">
-                                <table style="width: 100%; font-size: 18px">
+                                <table style="width: 100%; font-size: 14px">
                                     <tr>
                                         <td>
                                             <fmt:formatDate value="${ROC_detail.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
@@ -225,6 +225,17 @@
 <%--                                            <label>เวลา : ${parts[0]} : ${parts[1]} น.</label>--%>
 <%--                                            <hr>--%>
 <%--                                        </td>--%>
+                                        <td colspan="2">
+                                            <c:set var="delimiter" value="$%"/>
+                                            <c:set var="subText"
+                                                   value="${fn:split(ROC_detail.studyTime, delimiter)}"/>
+                                            <label>วันเวลาในการเรียน</label><br>
+                                            <c:forEach var="ogText" items="${subText}">
+                                                <c:set var="replaceSlash" value="${fn:replace(ogText, '/', ' ')}"/>
+                                                <c:set var="newText" value="${fn:replace(replaceSlash, ',', ' - ')}"/>
+                                                <p style="margin-bottom: 0px">${newText}</p>
+                                            </c:forEach>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">

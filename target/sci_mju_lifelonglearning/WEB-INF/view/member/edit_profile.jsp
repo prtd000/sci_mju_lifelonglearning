@@ -169,8 +169,9 @@
 
 <center>
     <br>
-    <h1>ข้อมูลส่วนตัว</h1><br>
-    <hr><br><br>
+    <h1>ข้อมูลส่วนตัว</h1>
+    <br>
+    <br>
     <form action="${pageContext.request.contextPath}/member/${member.username}/update" name="frm" method="post">
         <table>
             <tr>
@@ -222,7 +223,7 @@
             </tr>
         </table>
     </form>
-    <br><hr><br>
+    <br><br>
 </center>
 
 <jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>

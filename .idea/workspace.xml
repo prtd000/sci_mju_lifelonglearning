@@ -9,43 +9,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1f988c8c-8432-4649-a620-5b531a6a17f3" name="Changes" comment="">
+    <list default="true" id="1f988c8c-8432-4649-a620-5b531a6a17f3" name="Changes" comment="new commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/controller/CourseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/controller/CourseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/controller/MemberController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/controller/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/controller/PaymentController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/controller/WebHomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/controller/WebHomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/dao/CourseDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/dao/CourseDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/dao/CourseDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/dao/CourseDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/service/CourseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/service/CourseService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lifelong/service/CourseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lifelong/service/CourseServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/listAllCourse.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/listAllCourse.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/list_Approve_member_to_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/list_Approve_member_to_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/view_payment_detail.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/view_payment_detail.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/view_request_open_course_by_admin.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/view_request_open_course_by_admin.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/list_approve_request_open_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/list_approve_request_open_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/list_course_activity.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/list_course_activity.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/list_member_approve_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/lecturer/list_member_approve_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/controller/CourseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/controller/CourseController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/controller/LecturerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/controller/LecturerController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/course/course-detail.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/course/course-detail.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/member/edit_profile.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/member/edit_profile.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/member/list_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/member/list_course.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/member/register_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/member/register_course.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/lifelong/controller/PaymentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/controller/PaymentController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/lifelong/controller/WebHomeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/controller/WebHomeController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/dao/CourseDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/dao/CourseDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/dao/CourseDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/dao/CourseDaoImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/service/CourseService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/service/CourseService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lifelong/service/CourseServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lifelong/service/CourseServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/CourseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/CourseController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/LecturerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/LecturerController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/PaymentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/PaymentController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/WebHomeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/controller/WebHomeController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/dao/CourseDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/dao/CourseDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/dao/CourseDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/dao/CourseDaoImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/service/CourseService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/service/CourseService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/service/CourseServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/classes/lifelong/service/CourseServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/listAllCourse.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/listAllCourse.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/list_Approve_member_to_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/list_Approve_member_to_course.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/view_payment_detail.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/view_payment_detail.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/view_request_open_course_by_admin.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/admin/view_request_open_course_by_admin.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/list_course_activity.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/list_course_activity.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/list_member_approve_course.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/sci_mju_lifelonglearning/WEB-INF/view/lecturer/list_member_approve_course.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -336,6 +313,7 @@
       <workItem from="1697946394455" duration="851000" />
       <workItem from="1697972274373" duration="42946000" />
       <workItem from="1698040150511" duration="37145000" />
+      <workItem from="1698134005116" duration="15107000" />
     </task>
     <task id="LOCAL-00002" summary="commit">
       <created>1692352885972</created>

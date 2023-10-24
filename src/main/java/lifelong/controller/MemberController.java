@@ -85,7 +85,7 @@ public class MemberController {
 
     @Transactional
     @GetMapping("/{memid}/register_course/{courseid}/{requestid}/register")
-    public String registerCourse(@PathVariable("courseid") String courseid, @PathVariable("requestid") long requestid, @PathVariable("memid") String memid) {
+    public String doRegisterCourse(@PathVariable("courseid") String courseid, @PathVariable("requestid") long requestid, @PathVariable("memid") String memid) {
 
         Session session = sessionFactory.getCurrentSession();
 
@@ -142,7 +142,7 @@ public class MemberController {
     }
 
     @GetMapping("{memid}/listcourse")
-    public String listCourseByMember(@PathVariable("memid") String memId, Model model) {
+    public String getListCourseDetail(@PathVariable("memid") String memId, Model model) {
         Date currentDate = new Date(); // วันปัจจุบัน
 
         model.addAttribute("list_course", memberService.getMyListCourse(memId));
@@ -196,13 +196,13 @@ public class MemberController {
     }
 
     @GetMapping("{memid}/edit_profile")
-    public String editProfile(@PathVariable("memid") String memId, Model model) {
+    public String getProfile(@PathVariable("memid") String memId, Model model) {
         model.addAttribute("member", memberService.getMemberById(memId));
         return "/member/edit_profile";
     }
 
     @PostMapping(path = "/{memid}/update")
-    public String updateProfile(@PathVariable("memid") String memId, @RequestParam Map<String, String> params) throws ParseException {
+    public String doEditProfile(@PathVariable("memid") String memId, @RequestParam Map<String, String> params) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Member member = memberService.getMemberById(memId);
         if (member != null) {
@@ -236,7 +236,7 @@ public class MemberController {
     }
 
     @GetMapping("private_activity/{ac_id}")
-    public String activityDetail(@PathVariable("ac_id") String acId, Model model) {
+    public String viewCourseActivityNews(@PathVariable("ac_id") String acId, Model model) {
         model.addAttribute("ac_detail", activityService.getActivityDetail(acId));
         return "/member/activity_private";
     }

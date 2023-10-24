@@ -86,7 +86,7 @@
         }
 
         .img {
-            height: 414px;
+            width: 65%;
             margin-left: 5%;
             border-radius: 15px;
             box-shadow: 0px 0px 10px 2px #b8b6b6;
@@ -131,12 +131,17 @@
 
 
         /**************** Activity *****************/
+        .block_news_big{
+            margin-bottom: 50px;
+        }
+
         .block_news {
             box-shadow: 0px 0px 10px 2px #bebcbc;
             border-radius: 14px;
             width: 350px;
             height: 510px;
             margin-right: 30px;
+            margin-bottom: 10%;
         }
 
         .news_img {
@@ -161,7 +166,7 @@
         }
 
         div.block_detail_news {
-            max-height: calc(5 * 1.2em); /* 5 บรรทัด * ความสูงของแต่ละบรรทัด (1.2em) */
+            max-height: calc(5 * 1.4em); /* 5 บรรทัด * ความสูงของแต่ละบรรทัด (1.2em) */
             overflow: hidden;
             position: relative;
         }
@@ -523,7 +528,7 @@
 
         <c:forEach var="list" items="${activity}">
             <a href="${pageContext.request.contextPath}/member/private_activity/${list.ac_id}">
-                <div class="block_news_big" style="float: left">
+                <div class="block_news_big" style="float: left;">
                     <div class="block_news">
                         <c:set var="looped" value="false"/>
                         <c:set var="imgNames" value="${list.img}"/>
@@ -552,6 +557,7 @@
             </a>
         </c:forEach>
     </c:if>
+
 </div>
 <script>
     // เพิ่มการฟังก์ชันเมื่อปุ่มถูกคลิก
@@ -606,7 +612,5 @@
         }
     });
 </script>
-
-<jsp:include page="/WEB-INF/view/layouts/footer.jsp"/>
 </body>
 </html>

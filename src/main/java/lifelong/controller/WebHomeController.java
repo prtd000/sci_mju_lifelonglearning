@@ -130,7 +130,7 @@ public class WebHomeController {
         return "search_course";
     }
     @GetMapping("/{id}")
-    public String viewCourseDetail(@PathVariable("id") String id, Model model) {
+    public String getCourseDetail(@PathVariable("id") String id, Model model) {
         Course course = courseService.getCourseById(id);
         model.addAttribute("course_detail", course);
         model.addAttribute("amount" , registerService.getAmountRegisteredByCourseId(id).size());
@@ -192,7 +192,7 @@ public class WebHomeController {
     }
 
     @PostMapping("/register_member/save")
-    public String saveMember(@RequestParam Map<String, String> addParams, HttpSession session) throws ParseException {
+    public String doRegister(@RequestParam Map<String, String> addParams, HttpSession session) throws ParseException {
 
         /******Change*******/
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

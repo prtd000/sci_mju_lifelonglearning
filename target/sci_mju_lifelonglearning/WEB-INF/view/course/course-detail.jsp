@@ -103,7 +103,7 @@
         }
 
         .img {
-            height: 414px;
+            width: 65%;
             margin-left: 5%;
             border-radius: 15px;
             box-shadow: 0px 0px 10px 2px #b8b6b6;

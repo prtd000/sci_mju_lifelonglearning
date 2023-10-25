@@ -20,9 +20,9 @@
     <link href="${pageContext.request.contextPath}/assets/css/admin/style_addcourse.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/lecturer/certificate.css" rel="stylesheet">
     <style>
-        body{
-            font-family: 'Prompt', sans-serif;
-        }
+        /*body{*/
+        /*    font-family: 'Prompt', sans-serif;*/
+        /*}*/
     </style>
 </head>
 <script>
@@ -105,89 +105,89 @@
         <!-- Navbar End -->
         <div style="width: 100%;" align="center">
             <form onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_id}/update_signature" method="POST" enctype="multipart/form-data">
-            <table style="width: 70%">
-                <tr>
-                    <td style="width: 50%">
-                        <div id="signUpForm" class="flex-container">
-                            <div>
-                                <h3>ตัวอย่างเกียรติบัตร</h3>
-                                <hr>
-                                <div style="position: relative;">
-                                    <img src="${pageContext.request.contextPath}/uploads/course_img/Certificate_Model_2.png" style="width: 100%" alt="certificate">
-                                    <table style="position: absolute; top: 0; left: 0; width: 100%; height: 100%">
-                                        <tr>
-                                            <td style="width: 17%"><p class="label-cer"></p></td>
-                                            <td style="width: 23%"><p class="label-cer"></p></td>
-                                            <td style="width: 15%"><p class="label-cer"></p></td>
-                                            <td style="width: 33%"><p class="label-cer"></p></td>
-                                            <td style="width: 12%"><p class="label-cer"></p></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="5"><p class="label-cer"></p></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="5"><p class="label-cer"></p></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="5"><p class="label-cer"></p></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="5"><p class="label-cer"></p></td>
-                                        </tr>
-                                        <tr align="center">
-                                            <td style="width: 17%" colspan="5"><p class="label-cer" style="margin-top: 19px;">${request.lecturer.firstName} ${request.lecturer.lastName}</p></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="5"><p class="label-cer"></p></td>
-                                        </tr>
-                                        <tr align="center">
-                                            <td style="width: 17%" colspan="5"><p style="font-size: 15px">${request.course.name}</p></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td align="center">
-                                                <input type="hidden" name="original_signature" value="${request.signature}" />
-                                                <c:choose>
-                                                    <c:when test="${request.signature != ''}">
-                                                        <img src="${pageContext.request.contextPath}/uploads/request_open_course/signature/${request.signature}" id="preview" alt="Image Preview" style="height: 40px; margin-left: 10px; border-radius: 10px">
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <img src="${pageContext.request.contextPath}/uploads/course_img/gallery.png" id="preview" alt="Image Preview" style="height: 40px; margin-left: 10px; border-radius: 10px">
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </td>
-                                            <td></td>
-                                            <td align="center">
-                                                <p style="margin-top: 5px;font-size: 13px">ผศ.ดร.ฐปน ชื่นบาล</p>
-                                            </td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td align="center">
-                                                <p style="margin-top: 1px;font-size: 12px">(${request.lecturer.position} ${request.lecturer.firstName} ${request.lecturer.lastName})</p>
-                                            </td>
-                                            <td></td>
-                                            <td align="center">
-                                                <p style="margin-top: 1px;font-size: 12px">(ผู้ช่วยศาสตราจารย์ ดร.ฐปน ชื่นบาล)</p>
-                                            </td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="5"><p class="label-cer"></p></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="5"><p class="label-cer"></p></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="5"><p class="label-cer"></p></td>
-                                        </tr>
-                                    </table>
+                <table style="width: 70%">
+                    <tr>
+                        <td style="width: 50%">
+                            <div id="signUpForm" class="flex-container">
+                                <div>
+                                    <h3>ตัวอย่างเกียรติบัตร</h3>
+                                    <hr>
+                                    <div style="position: relative;">
+                                        <img src="${pageContext.request.contextPath}/uploads/course_img/Certificate_Model_2.png" style="width: 100%" alt="certificate">
+                                        <table style="position: absolute; top: 0; left: 0; width: 100%; height: 100%">
+                                            <tr>
+                                                <td style="width: 17%"><p class="label-cer"></p></td>
+                                                <td style="width: 23%"><p class="label-cer"></p></td>
+                                                <td style="width: 15%"><p class="label-cer"></p></td>
+                                                <td style="width: 33%"><p class="label-cer"></p></td>
+                                                <td style="width: 12%"><p class="label-cer"></p></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="5"><p class="label-cer"></p></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="5"><p class="label-cer"></p></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="5"><p class="label-cer"></p></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="5"><p class="label-cer"></p></td>
+                                            </tr>
+                                            <tr align="center">
+                                                <td style="width: 17%" colspan="5"><p class="label-cer" style="margin-top: 19px;">${request.lecturer.firstName} ${request.lecturer.lastName}</p></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="5"><p class="label-cer"></p></td>
+                                            </tr>
+                                            <tr align="center">
+                                                <td style="width: 17%" colspan="5"><p style="font-size: 15px">${request.course.name}</p></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td align="center">
+                                                    <input type="hidden" name="original_signature" value="${request.signature}" />
+                                                    <c:choose>
+                                                        <c:when test="${request.signature != ''}">
+                                                            <img src="${pageContext.request.contextPath}/uploads/request_open_course/signature/${request.signature}" id="preview" alt="Image Preview" style="height: 40px; margin-left: 10px; border-radius: 10px">
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <img src="${pageContext.request.contextPath}/uploads/course_img/gallery.png" id="preview" alt="Image Preview" style="height: 40px; margin-left: 10px; border-radius: 10px">
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </td>
+                                                <td></td>
+                                                <td align="center">
+                                                    <p style="margin-top: 5px;font-size: 13px">ผศ.ดร.ฐปน ชื่นบาล</p>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td align="center">
+                                                    <p style="margin-top: 1px;font-size: 12px">(${request.lecturer.position} ${request.lecturer.firstName} ${request.lecturer.lastName})</p>
+                                                </td>
+                                                <td></td>
+                                                <td align="center">
+                                                    <p style="margin-top: 1px;font-size: 12px">(ผู้ช่วยศาสตราจารย์ ดร.ฐปน ชื่นบาล)</p>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="5"><p class="label-cer"></p></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="5"><p class="label-cer"></p></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="5"><p class="label-cer"></p></td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                    <td style="width: 25%">
+                        </td>
+                        <td style="width: 25%">
                             <div id="menuForm" class="flex-container">
                                 <div>
                                     <h4>อัพโหลดเกียรติบัตร</h4>
@@ -200,9 +200,9 @@
                                     <input type="submit" value="อัพโหลด">
                                 </div>
                             </div>
-                    </td>
-                </tr>
-            </table>
+                        </td>
+                    </tr>
+                </table>
             </form>
         </div>
         <%--      <div style="width: 100%" align="center" class="flex-container">--%>

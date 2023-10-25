@@ -1047,8 +1047,8 @@
             document.getElementById("invalidFaculty").innerHTML = "กรุณากรอกสังกัดคณะ/วิทยาลัย";
             document.getElementById("faculty").focus();
             return false;
-        } else if (!faculty.match(regFxName)) {
-            document.getElementById("invalidFaculty").innerHTML = "ตัองเป็นภาษาไทย หรืออังกฤษเท่านั้น และต้องมีจำนวน 2-100 ตัวอักษร";
+        } else if (faculty.length < 2 || faculty.length > 100) {
+            document.getElementById("invalidFaculty").innerHTML = "ต้องมีจำนวน 2-100 ตัวอักษร";
             document.getElementById("faculty").focus();
             document.getElementById("faculty").value = "";
             return false;

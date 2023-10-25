@@ -74,21 +74,21 @@ public class LecturerController {
 //        model.addAttribute("request_open_course", new RequestOpenCourse());
 //        return "lecturer/add_request_open_course_new";
 //    }
-        @GetMapping("/{lecturer_id}/add_roc")
+    @GetMapping("/{lecturer_id}/add_roc")
     public String showTestLec(@PathVariable("lecturer_id") String lecturer_id,Model model) {
-            Lecturer lecturer = lecturerService.getLecturerById(lecturer_id);
-            List<Course> course_type_C = courseService.getCoursesByCourseStatusAndType(lecturer.getMajor().getName(),"หลักสูตรอบรมระยะสั้น");
-            List<Course> course_type_N = courseService.getCoursesByCourseStatusAndType(lecturer.getMajor().getName(),"Non-Degree");
-            List<RequestOpenCourse> requestOpenCourses = requestOpCourseService.getRequestOpenCoursesToCheckDateStudy(lecturer.getUsername());
-            model.addAttribute("title", "ร้องขอเปิด" + title);
-            model.addAttribute("lecturer",lecturer);
-            model.addAttribute("courses", courseService.getCoursesByCourseStatus(lecturer.getMajor().getName()));
-            model.addAttribute("course_type_C", course_type_C);
-            model.addAttribute("course_type_N", course_type_N);
-            model.addAttribute("request_select",requestOpCourseService.getRequestOpenCoursesByLecturerIdAndStatus(lecturer_id));
-            model.addAttribute("request_open_course", new RequestOpenCourse());
-            model.addAttribute("request_open_check_date",requestOpCourseService.getRequestOpenCoursesToCheckDateStudy(lecturer.getUsername()));
-            return "lecturer/request_open_course"; // ชื่อหน้าแก้ไขของคุณ
+        Lecturer lecturer = lecturerService.getLecturerById(lecturer_id);
+        List<Course> course_type_C = courseService.getCoursesByCourseStatusAndType(lecturer.getMajor().getName(),"หลักสูตรอบรมระยะสั้น");
+        List<Course> course_type_N = courseService.getCoursesByCourseStatusAndType(lecturer.getMajor().getName(),"Non-Degree");
+        List<RequestOpenCourse> requestOpenCourses = requestOpCourseService.getRequestOpenCoursesToCheckDateStudy(lecturer.getUsername());
+        model.addAttribute("title", "ร้องขอเปิด" + title);
+        model.addAttribute("lecturer",lecturer);
+        model.addAttribute("courses", courseService.getCoursesByCourseStatus(lecturer.getMajor().getName()));
+        model.addAttribute("course_type_C", course_type_C);
+        model.addAttribute("course_type_N", course_type_N);
+        model.addAttribute("request_select",requestOpCourseService.getRequestOpenCoursesByLecturerIdAndStatus(lecturer_id));
+        model.addAttribute("request_open_course", new RequestOpenCourse());
+        model.addAttribute("request_open_check_date",requestOpCourseService.getRequestOpenCoursesToCheckDateStudy(lecturer.getUsername()));
+        return "lecturer/request_open_course"; // ชื่อหน้าแก้ไขของคุณ
     }
     @Transactional
     @PostMapping (path="/{id}/save")
@@ -122,48 +122,48 @@ public class LecturerController {
 
         String location = allReqParams.get("location");
         String link_mooc = allReqParams.get("link_mooc");
-            // บันทึก path ไปยังฐานข้อมูล
+        // บันทึก path ไปยังฐานข้อมูล
         RequestOpenCourse requestOpenCourse_toAdd;
-            if (Objects.equals(type_learn, "เรียนในสถานศึกษา")){
-                requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate,startRegisterDate,endRegisterDate,
-                        quantity,startStudyDate,endStudyDate,studyDay,type_learn,type_teach,applicationResultDate,
-                        requestStatus,course,lecturer);
-                requestOpenCourse_toAdd.setLocation(location);
-                if (course.getFee() != 0){
-                    Date startPaymentDate = dateFormat.parse(allReqParams.get("startPayment"));
-                    Date endPaymentDate = dateFormat.parse(allReqParams.get("endPayment"));
-                    requestOpenCourse_toAdd.setStartPayment(startPaymentDate);
-                    requestOpenCourse_toAdd.setEndPayment(endPaymentDate);
-                }
-            } else if (Objects.equals(type_learn, "เรียนออนไลน์")) {
-                requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate,startRegisterDate,endRegisterDate,
-                        quantity,startStudyDate,endStudyDate,studyDay,type_learn,type_teach,applicationResultDate,
-                        requestStatus,course,lecturer);
-                requestOpenCourse_toAdd.setLinkMooc(link_mooc);
-                if (course.getFee() != 0){
-                    Date startPaymentDate = dateFormat.parse(allReqParams.get("startPayment"));
-                    Date endPaymentDate = dateFormat.parse(allReqParams.get("endPayment"));
-                    requestOpenCourse_toAdd.setStartPayment(startPaymentDate);
-                    requestOpenCourse_toAdd.setEndPayment(endPaymentDate);
-                }
-            }else {
-                requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate,startRegisterDate,endRegisterDate,
-                        quantity,startStudyDate,endStudyDate,studyDay,type_learn,type_teach,applicationResultDate,
-                        requestStatus,course,lecturer);
-                requestOpenCourse_toAdd.setLocation(location);
-                requestOpenCourse_toAdd.setLinkMooc(link_mooc);
-                if (course.getFee() != 0){
-                    Date startPaymentDate = dateFormat.parse(allReqParams.get("startPayment"));
-                    Date endPaymentDate = dateFormat.parse(allReqParams.get("endPayment"));
-                    requestOpenCourse_toAdd.setStartPayment(startPaymentDate);
-                    requestOpenCourse_toAdd.setEndPayment(endPaymentDate);
-                }
+        if (Objects.equals(type_learn, "เรียนในสถานศึกษา")){
+            requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate,startRegisterDate,endRegisterDate,
+                    quantity,startStudyDate,endStudyDate,studyDay,type_learn,type_teach,applicationResultDate,
+                    requestStatus,course,lecturer);
+            requestOpenCourse_toAdd.setLocation(location);
+            if (course.getFee() != 0){
+                Date startPaymentDate = dateFormat.parse(allReqParams.get("startPayment"));
+                Date endPaymentDate = dateFormat.parse(allReqParams.get("endPayment"));
+                requestOpenCourse_toAdd.setStartPayment(startPaymentDate);
+                requestOpenCourse_toAdd.setEndPayment(endPaymentDate);
             }
-            requestOpenCourse_toAdd.setSignature("");
+        } else if (Objects.equals(type_learn, "เรียนออนไลน์")) {
+            requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate,startRegisterDate,endRegisterDate,
+                    quantity,startStudyDate,endStudyDate,studyDay,type_learn,type_teach,applicationResultDate,
+                    requestStatus,course,lecturer);
+            requestOpenCourse_toAdd.setLinkMooc(link_mooc);
+            if (course.getFee() != 0){
+                Date startPaymentDate = dateFormat.parse(allReqParams.get("startPayment"));
+                Date endPaymentDate = dateFormat.parse(allReqParams.get("endPayment"));
+                requestOpenCourse_toAdd.setStartPayment(startPaymentDate);
+                requestOpenCourse_toAdd.setEndPayment(endPaymentDate);
+            }
+        }else {
+            requestOpenCourse_toAdd = new RequestOpenCourse(round,requestDate,startRegisterDate,endRegisterDate,
+                    quantity,startStudyDate,endStudyDate,studyDay,type_learn,type_teach,applicationResultDate,
+                    requestStatus,course,lecturer);
+            requestOpenCourse_toAdd.setLocation(location);
+            requestOpenCourse_toAdd.setLinkMooc(link_mooc);
+            if (course.getFee() != 0){
+                Date startPaymentDate = dateFormat.parse(allReqParams.get("startPayment"));
+                Date endPaymentDate = dateFormat.parse(allReqParams.get("endPayment"));
+                requestOpenCourse_toAdd.setStartPayment(startPaymentDate);
+                requestOpenCourse_toAdd.setEndPayment(endPaymentDate);
+            }
+        }
+        requestOpenCourse_toAdd.setSignature("");
 //            requestOpCourseService.saveRequestOpenCourse(requestOpenCourse_toAdd);
-            Session session = sessionFactory.getCurrentSession();
-            RequestOpenCourse mergedRequestOpenCourse = (RequestOpenCourse) session.merge(requestOpenCourse_toAdd);
-            requestOpCourseService.saveRequestOpenCourse(mergedRequestOpenCourse);
+        Session session = sessionFactory.getCurrentSession();
+        RequestOpenCourse mergedRequestOpenCourse = (RequestOpenCourse) session.merge(requestOpenCourse_toAdd);
+        requestOpCourseService.saveRequestOpenCourse(mergedRequestOpenCourse);
         return "redirect:/lecturer/"+ lec_id +"/list_request_open_course?addStatus=true";
     }
     //********************************************************//
@@ -184,6 +184,22 @@ public class LecturerController {
         model.addAttribute("title", "รายการ");
         model.addAttribute("lecturer_id", lecturer_id);
         model.addAttribute("requests_open_course", requestOpenCourse);
+        model.addAttribute("courses", courseService.getCourses());
+        model.addAttribute("courses_by_register_date",requestOpCourseService.getRequestCourseByStatus("ลงทะเบียน",lecturer_id));
+        model.addAttribute("courses_by_all_regis_pay_date",requestOpCourseService.getRequestCourseByStatusByRegister("ลงทะเบียน","ลงทะเบียน/ชำระเงิน","ชำระเงิน","รอประกาศผล",lecturer_id));
+        model.addAttribute("courses_by_register_pay_date",requestOpCourseService.getRequestCourseByStatus("ลงทะเบียน/ชำระเงิน",lecturer_id));
+        model.addAttribute("courses_by_payment_date",requestOpCourseService.getRequestCourseByStatus("ชำระเงิน",lecturer_id));
+        model.addAttribute("courses_by_app_date",requestOpCourseService.getRequestCourseByStatus("รอประกาศผล",lecturer_id));
+        model.addAttribute("courses_by_study_date",requestOpCourseService.getRequestCourseByStatus("เปิดสอน",lecturer_id));
+        model.addAttribute("courses_by_not_study",requestOpCourseService.getRequestCourseByStatus("ยังไม่เปิดสอน",lecturer_id));
+
+        model.addAttribute("requests_open_course", requestOpCourseService.getRequestOpenCourses());
+        model.addAttribute("requests_by_register", requestOpCourseService.getRequestOpenCoursesByTypeRegister());
+        model.addAttribute("requests_by_max_register", requestOpCourseService.getRequestOpenCoursesByTypeMaxRegister());
+
+        model.addAttribute("requests_by_payment", requestOpCourseService.getRequestOpenCoursesByTypePayment());
+
+        model.addAttribute("requests_by_study", requestOpCourseService.getRequestOpenCoursesByTypeStudy());
         model.addAttribute("requests_sort_payment_date", requestOpCourseService.getRequestOpenCoursesByTypePaymentByLec(lecturer_id));
         model.addAttribute("requests_sort_Application_date", requestOpCourseService.getRequestOpenCoursesByTypeApplicationByLec(lecturer_id));
         model.addAttribute("requests_sort_endStudy_date", requestOpCourseService.getRequestOpenCoursesByTypeStudyByLec(lecturer_id));
@@ -293,11 +309,11 @@ public class LecturerController {
         //ถ้ายกเลิกหลักสูตรจะทำยังไงกับคนสมัคร
         List<Register> registers = requestOpCourseService.checkRegisterToDelete(roc_id);
 //        if (registers.size() == 0){
-            RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
-            //Course course = courseService.getCourseById(requestOpenCourse.getCourse().getCourse_id());
-            requestOpenCourse.setRequestStatus("ถูกยกเลิก");
-            requestOpenCourse.getCourse().setStatus("ยังไม่เปิดสอน");
-            requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
+        //Course course = courseService.getCourseById(requestOpenCourse.getCourse().getCourse_id());
+        requestOpenCourse.setRequestStatus("ถูกยกเลิก");
+        requestOpenCourse.getCourse().setStatus("ยังไม่เปิดสอน");
+        requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
 //        }else {
 //            // ส่งพารามิเตอร์ "error" ใน URL เพื่อระบุว่าเกิดข้อผิดพลาด
 //            return "redirect:/lecturer/" + lec_id + "/list_request_open_course?error=true";
@@ -336,6 +352,7 @@ public class LecturerController {
         model.addAttribute("receipt",list_receipt);
         model.addAttribute("currentDate",currentDate);
         model.addAttribute("registers",register);
+        model.addAttribute("all_register",registerService.getRegisterByRequestId(request_id));
         model.addAttribute("registers_sort_by_action_date",registerService.getRegisterByRequestIdAndPayStatusAndApproveSortByActionDate(request_id));
 
         model.addAttribute("registers_sort_by_status",registerService.getRegisterByRequestIdAndPayStatusAndApproveSortByStatusPass(request_id));
@@ -462,33 +479,33 @@ public class LecturerController {
                     existingRequest.setSignature(signature_img);
                     requestOpCourseService.updateRequestOpenCourse(existingRequest);
                 }
-                    // ผู้ใช้ต้องการแก้ไขรูปภาพเท่านั้น
-                    // ดำเนินการอัพโหลดรูปภาพใหม่
-                    // ลบรูปเดิม (ถ้ามี)
-                    else {
+                // ผู้ใช้ต้องการแก้ไขรูปภาพเท่านั้น
+                // ดำเนินการอัพโหลดรูปภาพใหม่
+                // ลบรูปเดิม (ถ้ามี)
+                else {
                     // กำหนด path ที่จะบันทึกไฟล์
                     // ถ้ามีการอัพโหลดไฟล์ใหม่
-                        if (!signature.isEmpty()) {
-                            // ลบไฟล์ PDF เดิม (ถ้ามี)
-                            Path path1 = Paths.get(uploadPathSIG, original_signature);
-                            if (original_signature != null) {
-                                if (Files.exists(path1)) {
-                                    Files.delete(path1);
-                                }
+                    if (!signature.isEmpty()) {
+                        // ลบไฟล์ PDF เดิม (ถ้ามี)
+                        Path path1 = Paths.get(uploadPathSIG, original_signature);
+                        if (original_signature != null) {
+                            if (Files.exists(path1)) {
+                                Files.delete(path1);
                             }
-
-                            // บันทึกไฟล์ใหม่
-                            Files.write(path1, signature.getBytes());
-
-                            // อัพเดตข้อมูลในฐานข้อมูล
-                            assert existingRequest != null;
-                            existingRequest.setSignature(original_signature);
-                            requestOpCourseService.updateRequestOpenCourse(existingRequest);
-                        } else {
-                            // ไม่มีการอัพโหลดไฟล์ใหม่ แต่อาจมีการอัพเดตข้อมูลอื่น ๆ ที่ต้องการทำในกรณีนี้
-                            requestOpCourseService.updateRequestOpenCourse(existingRequest);
                         }
+
+                        // บันทึกไฟล์ใหม่
+                        Files.write(path1, signature.getBytes());
+
+                        // อัพเดตข้อมูลในฐานข้อมูล
+                        assert existingRequest != null;
+                        existingRequest.setSignature(original_signature);
+                        requestOpCourseService.updateRequestOpenCourse(existingRequest);
+                    } else {
+                        // ไม่มีการอัพโหลดไฟล์ใหม่ แต่อาจมีการอัพเดตข้อมูลอื่น ๆ ที่ต้องการทำในกรณีนี้
+                        requestOpCourseService.updateRequestOpenCourse(existingRequest);
                     }
+                }
             } else {
                 // ไม่มีการอัพโหลดไฟล์ใหม่ แต่อาจมีการอัพเดตข้อมูลอื่น ๆ ที่ต้องการทำในกรณีนี้
                 requestOpCourseService.updateRequestOpenCourse(existingRequest);
@@ -717,7 +734,7 @@ public class LecturerController {
 
 
 
-    
+
     //******************ไม่ดูแล้ว แก้ไขเลย*******************************//
     @GetMapping("/{lec_id}/view_request_open_course/{roc_id}")
     public String showRequestOpenCourse(@PathVariable("lec_id") String lec_id,@PathVariable("roc_id") long roc_id, Model model) {

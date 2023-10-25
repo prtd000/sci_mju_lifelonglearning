@@ -220,7 +220,7 @@ public class CourseController {
             course.setStatus("ลงทะเบียน");
             courseService.updateCourse(course);
         }
-        return "redirect:/course/"+admin_id+"/list_all_course?approve=true";
+        return "redirect:/course/"+admin_id+"/list_request_open_course?approve=true";
     }
 
     @PostMapping(path = "/{admin_id}/view_request_open_course/{request_id}/cancel")
@@ -445,7 +445,7 @@ public class CourseController {
         model.addAttribute("request_id", request_id);
         return "admin/view_payment_detail";
     }
-//    @PostMapping(path = "/{request_id}/{admin_id}/view_payment_detail/{invoice_id}/approve")
+    //    @PostMapping(path = "/{request_id}/{admin_id}/view_payment_detail/{invoice_id}/approve")
 //    public String updatePaymentStatus(@PathVariable("request_id") long request_id,
 //                                      @PathVariable("admin_id") String admin_id,
 //                                      @PathVariable("invoice_id") long invoice_id,

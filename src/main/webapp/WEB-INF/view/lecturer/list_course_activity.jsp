@@ -126,11 +126,11 @@
                                     <p style="margin-bottom: 0px">${newText}</p>
                                 </c:forEach>
                             </div>
-                            <div class="mb-3">
-                                <div class="flex-container">
-                                    <label>จำนวนรับสมัคร ${request_name.numberOfAllRegistrations} / ${request_name.quantity} คน</label>
-                                </div>
-                            </div>
+                                <%--                            <div class="mb-3">--%>
+                                <%--                                <div class="flex-container">--%>
+                                <%--                                    <label>จำนวนรับสมัคร ${request_name.numberOfAllRegistrations} / ${request_name.quantity} คน</label>--%>
+                                <%--                                </div>--%>
+                                <%--                            </div>--%>
                             <b><label>รูปแบบการสอน</label></b>
                             <div class="mb-3">
                                 <div class="flex-container">

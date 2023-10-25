@@ -38,7 +38,7 @@
       var preview = document.getElementById('imagePreview');
       var img_label = document.getElementById('img_label');
       var files = document.getElementById('ac_img').files;
-      var maxImagesToShow = 3; // จำนวนรูปภาพที่ต้องการแสดงเป็นตัวอย่าง
+      var maxImagesToShow = 6; // จำนวนรูปภาพที่ต้องการแสดงเป็นตัวอย่าง
       var remainingImages = files.length - maxImagesToShow; // จำนวนรูปภาพที่เหลือ
 
       preview.innerHTML = ''; // ล้างเนื้อหาที่แสดงรูปภาพตัวอย่างเก่า
@@ -118,18 +118,18 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
       </button>
-          <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
-            <div class="navbar-nav ms-auto py-0">
-              <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
-              <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course" class="nav-item nav-link" style="font-size: 17px">เพิ่มหลักสูตร</a>
-              <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link" style="font-size: 17px">หลักสูตรทั้งหมด</a>
-              <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 17px">รายการร้องขอ</a>
-              <a href="${pageContext.request.contextPath}/course/public/add_activity" class="nav-item nav-link active" style="font-size: 17px">เพิ่มข่าวสารทั่วไป</a>
-              <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
-              <a href="#" class="nav-item nav-link" style="font-size: 17px">ผู้ดูแลระบบ</a>
-              <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 17px">ออกจากระบบ</a>
-            </div>
-          </div>
+      <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
+        <div class="navbar-nav ms-auto py-0">
+          <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
+          <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course" class="nav-item nav-link" style="font-size: 17px">เพิ่มหลักสูตร</a>
+          <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link" style="font-size: 17px">หลักสูตรทั้งหมด</a>
+          <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 17px">รายการร้องขอ</a>
+          <a href="${pageContext.request.contextPath}/course/public/add_activity" class="nav-item nav-link active" style="font-size: 17px">เพิ่มข่าวสารทั่วไป</a>
+          <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
+          <a href="#" class="nav-item nav-link" style="font-size: 17px">ผู้ดูแลระบบ</a>
+          <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 17px">ออกจากระบบ</a>
+        </div>
+      </div>
     </nav>
     <!-- Navbar End -->
     <div class="container">
@@ -155,13 +155,13 @@
                 <td>
                   <div class="mb-3">
                     <div class="form-floating" style="height: 500px">
-<%--                      <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px"></textarea>--%>
-<%--                      <label for="ac_detail">รายละเอียด</label>--%>
-                            <div id="editor" style="font-family: 'Prompt', sans-serif;"></div>
-                            <textarea style="display: none;" id="ac_detail" name="ac_detail"></textarea>
+                        <%--                      <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px"></textarea>--%>
+                        <%--                      <label for="ac_detail">รายละเอียด</label>--%>
+                      <div id="editor" style="font-family: 'Prompt', sans-serif;"></div>
+                      <textarea style="display: none;" id="ac_detail" name="ac_detail"></textarea>
                     </div>
                   </div>
-                    <label id="invalidAcDetail" style="color: red; font-size: 12px"></label>
+                  <label id="invalidAcDetail" style="color: red; font-size: 12px"></label>
                 </td>
               </tr>
               <tr>
@@ -283,9 +283,9 @@
       document.getElementById("editor").focus();
       return false;
     }
-    // else if (acDetail.length < minLength || acDetail.length > maxLength) {
-    //   document.getElementById("invalidAcDetail").innerHTML = "รายละเอียดต้องมีความยาวระหว่าง 2 ถึง 225 ตัวอักษร";
-    //   return false;
+            // else if (acDetail.length < minLength || acDetail.length > maxLength) {
+            //   document.getElementById("invalidAcDetail").innerHTML = "รายละเอียดต้องมีความยาวระหว่าง 2 ถึง 225 ตัวอักษร";
+            //   return false;
     // }
     else {
       document.getElementById("invalidAcDetail").innerHTML = "";

@@ -30,7 +30,7 @@
     var preview = document.getElementById('imagePreview');
     var img_label = document.getElementById('img_label');
     var files = document.getElementById('ac_img').files;
-    var maxImagesToShow = 3; // จำนวนรูปภาพที่ต้องการแสดงเป็นตัวอย่าง
+    var maxImagesToShow = 6; // จำนวนรูปภาพที่ต้องการแสดงเป็นตัวอย่าง
     var remainingImages = files.length - maxImagesToShow; // จำนวนรูปภาพที่เหลือ
 
     preview.innerHTML = ''; // ล้างเนื้อหาที่แสดงรูปภาพตัวอย่างเก่า
@@ -118,80 +118,80 @@
       </div>
     </nav>
     <!-- Navbar End -->
-<div class="container">
-  <div id="container">
-      <form style="width: 90%;" id="signUpForm" onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/lecturer/${ROC_detail.lecturer.username}/save_add_course_activity/${ROC_detail.request_id}" method="POST" enctype="multipart/form-data">
-        <div class="step">
-          <h3>เพิ่มข่าวสารประจำหลักสูตร</h3>
-          <hr>
-          <table style="width: 100%">
-            <tr>
-              <td>
-                <div class="mb-3">
-                  <div class="course-totalHours-container">
-                    <input name="ac_name" id="ac_name" placeholder="ชื่อข่าวสาร" type="text" autocomplete="off" oninput="this.className = ''" class="flex-td"/>
+    <div class="container">
+      <div id="container">
+        <form style="width: 90%;" id="signUpForm" onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/lecturer/${ROC_detail.lecturer.username}/save_add_course_activity/${ROC_detail.request_id}" method="POST" enctype="multipart/form-data">
+          <div class="step">
+            <h3>เพิ่มข่าวสารประจำหลักสูตร</h3>
+            <hr>
+            <table style="width: 100%">
+              <tr>
+                <td>
+                  <div class="mb-3">
+                    <div class="course-totalHours-container">
+                      <input name="ac_name" id="ac_name" placeholder="ชื่อข่าวสาร" type="text" autocomplete="off" oninput="this.className = ''" class="flex-td"/>
+                    </div>
+                    <label id="invalidAcName" style="color: red; font-size: 12px"></label>
                   </div>
-                  <label id="invalidAcName" style="color: red; font-size: 12px"></label>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label>หลักสูตร</label>
-                <div class="mb-3">
-                  <div class="course-totalHours-container">
-                    <input name="ac_course" id="ac_course" type="text" autocomplete="off" oninput="this.className = ''" value="${ROC_detail.course.name}" class="flex-td" disabled/>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label>หลักสูตร</label>
+                  <div class="mb-3">
+                    <div class="course-totalHours-container">
+                      <input name="ac_course" id="ac_course" type="text" autocomplete="off" oninput="this.className = ''" value="${ROC_detail.course.name}" class="flex-td" disabled/>
+                    </div>
                   </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="mb-3">
-                  <div class="form-floating" style="height: 500px">
-                      <%--                      <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px"></textarea>--%>
-                      <%--                      <label for="ac_detail">รายละเอียด</label>--%>
-                    <div id="editor" style=""></div>
-                    <textarea style="display: none;" id="ac_detail" name="ac_detail"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="mb-3">
+                    <div class="form-floating" style="height: 500px">
+                        <%--                      <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px"></textarea>--%>
+                        <%--                      <label for="ac_detail">รายละเอียด</label>--%>
+                      <div id="editor" style=""></div>
+                      <textarea style="display: none;" id="ac_detail" name="ac_detail"></textarea>
+                    </div>
+                    <label id="invalidAcDetail" style="color: red; font-size: 12px"></label>
                   </div>
-                  <label id="invalidAcDetail" style="color: red; font-size: 12px"></label>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <br>
-                <br>
-                <label>รูปภาพ</label>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="mb-3">
-                  <div class="form-floating">
-                    <input class="txt_input" name="ac_img" type="file" id="ac_img" accept="image/*" multiple onchange="previewImages()"/>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <br>
+                  <br>
+                  <label>รูปภาพ</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="mb-3">
+                    <div class="form-floating">
+                      <input class="txt_input" name="ac_img" type="file" id="ac_img" accept="image/*" multiple onchange="previewImages()"/>
+                    </div>
                   </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div id="imagePreview"></div>
-                <label id="img_label"></label>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <!-- start previous / next buttons -->
-        <div style="width: 100%" align="center" class="flex-container">
-          <input type="button" value="ย้อนกลับ"
-                 onclick="window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course'; return false;"
-                 style="width: 50%"/>
-          <input type="submit" value="บันทึก" class="button-5" style="width: 50%; font-family: 'Prompt', sans-serif;"/>
-        </div>
-    </form>
-  </div>
-</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div id="imagePreview"></div>
+                  <label id="img_label"></label>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <!-- start previous / next buttons -->
+          <div style="width: 100%" align="center" class="flex-container">
+            <input type="button" value="ย้อนกลับ"
+                   onclick="window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_approve_request_open_course'; return false;"
+                   style="width: 50%"/>
+            <input type="submit" value="บันทึก" class="button-5" style="width: 50%; font-family: 'Prompt', sans-serif;"/>
+          </div>
+        </form>
+      </div>
+    </div>
   </c:when>
   <c:when test="${flag.equals('null')}">
     <h1>กรุณา Log in ใหม่</h1>

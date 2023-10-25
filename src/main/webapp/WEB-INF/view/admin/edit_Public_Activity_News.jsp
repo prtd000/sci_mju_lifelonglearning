@@ -39,7 +39,7 @@
     var ac_img = document.getElementById('ac_img');
     var img_label = document.getElementById('img_label');
     var files = document.getElementById('ac_img').files;
-    var maxImagesToShow = 3; // จำนวนรูปภาพที่ต้องการแสดงเป็นตัวอย่าง
+    var maxImagesToShow = 6; // จำนวนรูปภาพที่ต้องการแสดงเป็นตัวอย่าง
     var remainingImages = files.length - maxImagesToShow; // จำนวนรูปภาพที่เหลือ
 
     preview.innerHTML = ''; // ล้างเนื้อหาที่แสดงรูปภาพตัวอย่างเก่า
@@ -52,8 +52,8 @@
       reader.onload = function (e) {
         var img = document.createElement('img');
         img.src = e.target.result;
-        img.style.maxWidth = '200px'; // ตั้งความกว้างสูงสุดของรูปภาพ
-        img.style.maxHeight = '200px'; // ตั้งความสูงสูงสุดของรูปภาพ
+        img.style.maxWidth = '180px'; // ตั้งความกว้างสูงสุดของรูปภาพ
+        // img.style.maxHeight = '200px'; // ตั้งความสูงสูงสุดของรูปภาพ
         preview.appendChild(img); // เพิ่มรูปภาพลงในตัวแสดงรูปภาพตัวอย่าง
       };
 
@@ -121,18 +121,18 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
       </button>
-          <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
-            <div class="navbar-nav ms-auto py-0">
-              <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
-              <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course" class="nav-item nav-link" style="font-size: 17px">เพิ่มหลักสูตร</a>
-              <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link" style="font-size: 17px">หลักสูตรทั้งหมด</a>
-              <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 17px">รายการร้องขอ</a>
-              <a href="${pageContext.request.contextPath}/course/public/add_activity" class="nav-item nav-link" style="font-size: 17px">เพิ่มข่าวสารทั่วไป</a>
-              <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link active" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
-              <a href="#" class="nav-item nav-link" style="font-size: 17px">ผู้ดูแลระบบ</a>
-              <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 17px">ออกจากระบบ</a>
-            </div>
-          </div>
+      <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
+        <div class="navbar-nav ms-auto py-0">
+          <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
+          <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/add_course" class="nav-item nav-link" style="font-size: 17px">เพิ่มหลักสูตร</a>
+          <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course" class="nav-item nav-link" style="font-size: 17px">หลักสูตรทั้งหมด</a>
+          <a href="${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 17px">รายการร้องขอ</a>
+          <a href="${pageContext.request.contextPath}/course/public/add_activity" class="nav-item nav-link" style="font-size: 17px">เพิ่มข่าวสารทั่วไป</a>
+          <a href="${pageContext.request.contextPath}/course/public/list_activity" class="nav-item nav-link active" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
+          <a href="#" class="nav-item nav-link" style="font-size: 17px">ผู้ดูแลระบบ</a>
+          <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 17px">ออกจากระบบ</a>
+        </div>
+      </div>
     </nav>
     <!-- Navbar End -->
     <div class="container">
@@ -158,10 +158,10 @@
                 <td>
                   <div class="mb-3">
                     <div class="form-floating" style="height: 500px">
-<%--                      <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px">${activities.detail}</textarea>--%>
-<%--                      <label for="ac_detail">รายละเอียด</label>--%>
-                          <div id="editor" style="font-family: 'Prompt', sans-serif;">${activities.detail}</div>
-                          <textarea style="display: none;" id="ac_detail" name="ac_detail"></textarea>
+                        <%--                      <textarea class="form-control" placeholder="" id="ac_detail" name="ac_detail" style="height: 100px">${activities.detail}</textarea>--%>
+                        <%--                      <label for="ac_detail">รายละเอียด</label>--%>
+                      <div id="editor" style="font-family: 'Prompt', sans-serif;">${activities.detail}</div>
+                      <textarea style="display: none;" id="ac_detail" name="ac_detail"></textarea>
                     </div>
                   </div>
                   <label id="invalidAcDetail" style="color: red; font-size: 12px"></label>
@@ -192,7 +192,7 @@
 
                       <c:forEach var="listImg" items="${imgArray}" varStatus="loop">
                         <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}" />
-                        <c:if test="${loop.index < 3}">
+                        <c:if test="${loop.index < 6}">
                           <div style="display: inline-block">
                             <img src="${pageContext.request.contextPath}/uploads/activity/public/${activities.ac_id}/${listImg}" style="width: 180px">
                           </div>
@@ -201,8 +201,8 @@
 
                     </c:if>
                   </div>
-                  <c:if test="${fn:length(imgArray) > 3}">
-                    <label>และรูปภาพอีก ${fn:length(imgArray) - 3} รูป</label>
+                  <c:if test="${fn:length(imgArray) > 6}">
+                    <label>และรูปภาพอีก ${fn:length(imgArray) - 6} รูป</label>
                   </c:if>
                   <div id="imagePreview" style="display: none"></div>
                   <label id="img_label" style="display: none"></label>

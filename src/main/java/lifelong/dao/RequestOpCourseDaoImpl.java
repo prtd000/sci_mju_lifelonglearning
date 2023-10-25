@@ -275,5 +275,36 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
         return registers;
     }
 
+    @Override
+    public List<RequestOpenCourse> getRequestCourseByStatus(String status,String lec_id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where course.status =: c_status and lecturer.username =: c_lec",RequestOpenCourse.class);
+        query.setParameter("c_status", status);
+        query.setParameter("c_lec", lec_id);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<RequestOpenCourse> getRequestCourseByTwoStatus(String status1, String status2, String lec_id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where course.status IN (:c_status1, :c_status2) and lecturer.username =: c_lec",RequestOpenCourse.class);
+        query.setParameter("c_status1", status1);
+        query.setParameter("c_status2", status2);
+        query.setParameter("c_lec", lec_id);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<RequestOpenCourse> getRequestCourseByStatusByRegister(String status1, String status2, String status3, String status4,String lec_id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where course.status IN (:c_status1, :c_status2, :c_status3, :c_status4) and lecturer.username =: c_lec", RequestOpenCourse.class);
+        query.setParameter("c_status1", status1);
+        query.setParameter("c_status2", status2);
+        query.setParameter("c_status3", status3);
+        query.setParameter("c_status4", status4);
+        query.setParameter("c_lec", lec_id);
+        return query.getResultList();
+    }
+
 
 }

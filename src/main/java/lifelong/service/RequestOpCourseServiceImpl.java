@@ -152,6 +152,24 @@ public class RequestOpCourseServiceImpl implements RequestOpCourseService {
 
     @Override
     @Transactional
+    public List<RequestOpenCourse> getRequestCourseByStatus(String status, String lec_id) {
+        return requestOpCourseDao.getRequestCourseByStatus(status,lec_id);
+    }
+
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> getRequestCourseByTwoStatus(String status1, String status2, String lec_id) {
+        return requestOpCourseDao.getRequestCourseByTwoStatus(status1,status2,lec_id);
+    }
+
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> getRequestCourseByStatusByRegister(String status1, String status2, String status3, String status4, String lec_id) {
+        return requestOpCourseDao.getRequestCourseByStatusByRegister(status1,status2,status3,status4,lec_id);
+    }
+
+    @Override
+    @Transactional
     public List<RequestOpenCourse> getRequestOpenCoursesByLecturerId(String lec_Id) {
         return requestOpCourseDao.getRequestOpenCoursesByLecturerId(lec_Id);
     }

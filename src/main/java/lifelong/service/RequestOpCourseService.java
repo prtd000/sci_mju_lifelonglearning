@@ -36,4 +36,7 @@ public interface RequestOpCourseService {
 
     List<RequestOpenCourse> getRequestOpenCoursesByLecturerIdAndStatus(String lec_id);
     List<Register> getRegistersByRocId(long request_id);
+    List<RequestOpenCourse> getRequestCourseByStatus(String status,String lec_id);
+    List<RequestOpenCourse> getRequestCourseByTwoStatus(String status1, String status2, String lec_id);
+    List<RequestOpenCourse> getRequestCourseByStatusByRegister(String status1, String status2, String status3, String status4,String lec_id);
 }

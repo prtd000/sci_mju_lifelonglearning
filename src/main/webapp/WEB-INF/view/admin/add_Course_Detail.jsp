@@ -76,23 +76,23 @@
         body{
             font-family: 'Prompt', sans-serif;
         }
-    #editor {
-        width: 100%;
-        height: 500px;
-        border: 1px solid #ccc;
-        padding: 10px;
-        font-size: 16px;
-    }
-    .toolbar {
-        background-color: #f2f2f2;
-        padding: 5px;
-    }
-    .toolbar button {
-        margin: 5px;
-        padding: 3px 10px;
-        font-size: 14px;
-    }
-</style>
+        #editor {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .toolbar {
+            background-color: #f2f2f2;
+            padding: 5px;
+        }
+        .toolbar button {
+            margin: 5px;
+            padding: 3px 10px;
+            font-size: 14px;
+        }
+    </style>
     <style>
         * {
             box-sizing: border-box;
@@ -356,11 +356,11 @@
                 <div class="flex-div-container">
                     <div style="width: 50%">
                         <b><label>ระยะเวลาในการเรียน</label></b><b style="color: red;font-size: 15px;">*</b>
-                            <div class="input-group mb-3" style="display: -webkit-box;">
-                                <input style="width: 600px;font-family: 'Prompt', sans-serif;font-size: 12px;" name="course_totalHours" type="number" class="form-control" id="course_totalHours" oninput="this.className = ''" placeholder="ระยะเวลาในการเรียน" aria-describedby="basic-addon2">
-                                <span class="input-group-text" id="basic-addon2" style="font-size: 12px">ชั่วโมง</span>
-                            </div>
-                            <label id="invalidCourseTotalHours" style="color: red; font-size: 12px"></label>
+                        <div class="input-group mb-3" style="display: -webkit-box;">
+                            <input style="width: 600px;font-family: 'Prompt', sans-serif;font-size: 12px;" name="course_totalHours" type="number" class="form-control" id="course_totalHours" oninput="this.className = ''" placeholder="ระยะเวลาในการเรียน" aria-describedby="basic-addon2">
+                            <span class="input-group-text" id="basic-addon2" style="font-size: 12px">ชั่วโมง</span>
+                        </div>
+                        <label id="invalidCourseTotalHours" style="color: red; font-size: 12px"></label>
                     </div>
                     <div style="width: 50%">
                         <b><label>ไฟล์เนื้อหาหลักสูตร</label></b><b style="color: red;font-size: 15px;">*</b>
@@ -383,22 +383,22 @@
             <div class="tab" style="font-size: 12px">
                 <h5>ข้อมูลเกี่ยวกับผู้ติดต่อประสานงานหลักสูตร</h5><br>
                 <b><label>คำนำหน้าชื่อ</label></b><b style="color: red;font-size: 15px;">*</b>
-<%--                <table style="font-size: 12px">--%>
-<%--                    <tr style="vertical-align: middle;">--%>
-<%--                        <td style="width: 35px;"><input type="radio" name="prefix" value="นาย"></td>--%>
-<%--                        <td><label>นาย</label></td>--%>
-<%--                        <td style="width: 35px;"><input type="radio" name="prefix" value="นาง"></td>--%>
-<%--                        <td><label>นาง</label></td>--%>
-<%--                        <td style="width: 35px;"><input type="radio" name="prefix" value="นางสาว"></td>--%>
-<%--                        <td><label>นางสาว</label></td>--%>
-<%--                        <td style="width: 35px;"><input type="radio" name="prefix" value="อื่นๆ..."></td>--%>
-<%--                        <td><label>อื่นๆ...</label></td>--%>
-<%--                        <td id="other_prefix" style="display: none; margin-left: 10px;">--%>
-<%--                            --%>
-<%--                        </td>--%>
-<%--                    </tr>--%>
+                    <%--                <table style="font-size: 12px">--%>
+                    <%--                    <tr style="vertical-align: middle;">--%>
+                    <%--                        <td style="width: 35px;"><input type="radio" name="prefix" value="นาย"></td>--%>
+                    <%--                        <td><label>นาย</label></td>--%>
+                    <%--                        <td style="width: 35px;"><input type="radio" name="prefix" value="นาง"></td>--%>
+                    <%--                        <td><label>นาง</label></td>--%>
+                    <%--                        <td style="width: 35px;"><input type="radio" name="prefix" value="นางสาว"></td>--%>
+                    <%--                        <td><label>นางสาว</label></td>--%>
+                    <%--                        <td style="width: 35px;"><input type="radio" name="prefix" value="อื่นๆ..."></td>--%>
+                    <%--                        <td><label>อื่นๆ...</label></td>--%>
+                    <%--                        <td id="other_prefix" style="display: none; margin-left: 10px;">--%>
+                    <%--                            --%>
+                    <%--                        </td>--%>
+                    <%--                    </tr>--%>
 
-<%--                </table>--%>
+                    <%--                </table>--%>
                 <div class="input-group mb-3" style="width: 50%;">
                     <div style="width: 50%;display: flex;">
                         <label class="input-group-text" for="prefix" style="font-size: 12px;width: 25%;">คำนำหน้าชื่อ</label>
@@ -467,7 +467,7 @@
                 <div><h5 id="displayCourseType"></h5></div>
                 <div><h4 id="displayCourseName"></h4></div>
                 <div><h6 id="displayMajor"></h6></div>
-                
+
                 <div><h5>ชื่อเกียรติบัตร : <span id="displayCertificateName"></span></h5></div>
                 <hr>
                 <div style="width: 100%">
@@ -523,7 +523,7 @@
                                 </div>
                             </div>
                         </div>
-<%--                        ไฟล์หลักสูตร : <span id="displayCourseFile"></span>--%>
+                            <%--                        ไฟล์หลักสูตร : <span id="displayCourseFile"></span>--%>
                     </div>
                     <div style="width: 30%; writing-mode: vertical-rl;">
                         <img id="displayPreview" src="" alt="Image Preview" style="display: none; width: 400px; margin-top: 10px; border-radius: 10px">
@@ -754,7 +754,7 @@
         }
 
         var allowedExtensions = /(\.pdf)$/i;
-        var maxFileSize = 10 * 1024 * 1024; // 2MB
+        var maxFileSize = 15 * 1024 * 1024; // 15MB
 
         if (!allowedExtensions.exec(file.name)) {
             alert("ต้องเป็นไฟล์ PDF เท่านั้น");
@@ -765,7 +765,7 @@
         }
 
         if (file.size > maxFileSize) {
-            alert("ขนาดไฟล์รูปภาพต้องไม่เกิน 10MB");
+            alert("ขนาดไฟล์รูปภาพต้องไม่เกิน 15MB");
             input.value = "";
         }
     }
@@ -805,7 +805,7 @@
         }else if (courseName.length < 2 || courseName.length > 225) {
             // alert("ตัองเป็นภาษาไทย อังกฤษหรือตัวเลขเท่านั้น");
             stt.innerHTML = "";
-            document.getElementById("invalidCourseName").innerHTML = "ตัองเป็นภาษาไทย อังกฤษหรือตัวเลขเท่านั้น และต้องมีจำนวน 2-225 ตัวอักษร";
+            document.getElementById("invalidCourseName").innerHTML = "ต้องมีจำนวน 2-225 ตัวอักษร";
             document.getElementById("course_name").focus();
             document.getElementById("course_name").value = "";
             return false;
@@ -833,7 +833,7 @@
             return false;
         } else if (certificateName.length < 2 || certificateName.length > 225) {
             // alert("ตัองเป็นภาษาไทย อังกฤษหรือตัวเลขเท่านั้น");
-            document.getElementById("invalidCertificateName").innerHTML = "ตัองเป็นภาษาไทย อังกฤษหรือตัวเลขเท่านั้น และต้องมีจำนวน 2-225 ตัวอักษร";
+            document.getElementById("invalidCertificateName").innerHTML = "ต้องมีจำนวน 2-225 ตัวอักษร";
             document.getElementById("certificateName").focus();
             document.getElementById("certificateName").value = "";
             return false;
@@ -955,8 +955,6 @@
             document.getElementById("invalidCourseFile").innerHTML = "กรุณาเลือกไฟล์เนื้อหาหลักสูตร";
             document.getElementById("course_file").focus();
             return false;
-        }else if (!courseFile === ""){
-
         } else {
             document.getElementById("invalidCourseFile").innerHTML = "";
         }
@@ -1032,8 +1030,8 @@
             document.getElementById("invalidFaculty").innerHTML = "กรุณากรอกสังกัดคณะ/วิทยาลัย";
             document.getElementById("faculty").focus();
             return false;
-        } else if (!faculty.match(regFxName)) {
-            document.getElementById("invalidFaculty").innerHTML = "ตัองเป็นภาษาไทย หรืออังกฤษเท่านั้น และต้องมีจำนวน 2-100 ตัวอักษร";
+        } else if (faculty.length < 2 || faculty.length > 100) {
+            document.getElementById("invalidFaculty").innerHTML = "ต้องมีจำนวน 2-100 ตัวอักษร";
             document.getElementById("faculty").focus();
             document.getElementById("faculty").value = "";
             return false;
@@ -1256,11 +1254,11 @@
 </script>
 <script>
 
-        if (document.getElementById("prefix").value === "อื่นๆ...") {
-            // ซ่อนส่วนที่มี id เป็น "fee"
-            document.getElementById("other_prefix").style.display = "block";
-            document.getElementById("prefix_name").value = "";
-        }
+    if (document.getElementById("prefix").value === "อื่นๆ...") {
+        // ซ่อนส่วนที่มี id เป็น "fee"
+        document.getElementById("other_prefix").style.display = "block";
+        document.getElementById("prefix_name").value = "";
+    }
 
     // ตรวจสอบเมื่อเลือก "ไม่มีค่าธรรมเนียม"
     var prefixT2Radio = document.querySelector('input[name="prefix"][value="นาง"]');

@@ -102,7 +102,7 @@
                                     <td align="right" style="width: 30%">
                                         <select id="select_type" class="form-select" aria-label="Default select example" onchange="checkSelection()">
                                             <option value="กำลังลงทะเบียน" selected>กำลังลงทะเบียน</option>
-<%--                                            <option value="กำลังชำระเงิน">กำลังชำระเงิน</option>--%>
+                                                <%--                                            <option value="กำลังชำระเงิน">กำลังชำระเงิน</option>--%>
                                             <option value="กำลังสอน">กำลังสอน</option>
                                             <option value="ถูกยกเลิก">ถูกยกเลิก</option>
                                             <option value="ยังไม่เปิดสอน">ยังไม่เปิดสอน</option>
@@ -181,7 +181,24 @@
                                                                 </td>
                                                                 <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course">
                                                                     <button class="button-35" role="button"><i class="fa fa-users" style="margin-right: 10px"></i>
-                                                                            ${request.numberOfAllRegistrations} / ${request.quantity}
+                                                                        <c:choose>
+                                                                            <c:when test="${request.course.status == 'ลงทะเบียน'}">
+                                                                                ${request.numberOfAllRegistrations} / ${request.quantity}
+                                                                            </c:when>
+                                                                            <c:when test="${request.course.status == 'ลงทะเบียน/ชำระเงิน'}">
+                                                                                ${request.numberOfAllRegistrations} / ${request.quantity}
+                                                                            </c:when>
+                                                                            <c:when test="${request.course.status == 'ชำระเงิน'}">
+                                                                                ${request.numberOfAllRegistrationsPayStatus} / ${request.registerList.size()}
+                                                                            </c:when>
+                                                                            <c:when test="${request.course.status == 'รอประกาศผล'}">
+                                                                                ${request.numberOfAllRegistrationsPayStatus} / ${request.registerList.size()}
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                ${request.numberOfAllRegistrations} / ${request.quantity}
+                                                                            </c:otherwise>
+                                                                        </c:choose>
+                                                                            
                                                                     </button>
                                                                 </a></td>
                                                             </c:if>
@@ -396,57 +413,58 @@
                                                 </tr>
                                             </c:when>
                                             <c:otherwise>
+                                                <c:set var="count" value="0"/>
                                                 <c:forEach var="course" items="${courses_by_all_regis_pay_date}">
                                                     <tr style="color: black;">
-                                                        <c:set var="count" value="0"/>
-                                                        <c:forEach var="request" items="${requests_by_max_register}">
-                                                            <c:if test="${request.quantity <= request.registerList.size() && request.course.status != 'รอประกาศผล'}">
-                                                                <fmt:formatDate value="${request.requestDate}" pattern="dd/MM/yyyy" var="requestDate" />
-                                                                <fmt:formatDate value="${request.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
-                                                                <fmt:formatDate value="${request.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
-                                                                <fmt:formatDate value="${request.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
-                                                                <fmt:formatDate value="${request.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                                                <fmt:formatDate value="${request.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
-                                                                <fmt:formatDate value="${request.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
-                                                                <fmt:formatDate value="${request.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
-                                                                <c:if test="${course.course_id == request.course.course_id && request.requestStatus == 'ผ่าน'}">
-                                                                    <td><p>${course.name}</p></td>
-                                                                    <td align="center">
-                                                                        <p>${startRegister} - ${endRegister}</p><br>
-                                                                    </td>
-                                                                    <c:choose>
-                                                                        <c:when test="${request.course.fee != 0}">
-                                                                            <td align="center"><p>${startPayment} - ${endPayment}</p></td>
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            <td align="center"><p>ไม่มีการชำระเงิน(ฟรี)</p></td>
-                                                                        </c:otherwise>
-                                                                    </c:choose>
-                                                                    <td align="center">
-                                                                        <p>${applicationResult}</p><br>
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        <p>${startStudyDate} - ${endStudyDate}</p><br>
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        <p>${course.status}</p><br>
-                                                                    </td>
-                                                                    <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course">
-                                                                        <button class="button-35" role="button"><i class="fa fa-users" style="margin-right: 10px"></i>
-                                                                                ${request.numberOfAllRegistrations} / ${request.quantity}
+                                                    <c:forEach var="request" items="${requests_by_max_register}">
+                                                        <c:if test="${request.quantity <= request.registerList.size() && request.course.status != 'รอประกาศผล'}">
+                                                            <fmt:formatDate value="${request.requestDate}" pattern="dd/MM/yyyy" var="requestDate" />
+                                                            <fmt:formatDate value="${request.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
+                                                            <fmt:formatDate value="${request.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
+                                                            <fmt:formatDate value="${request.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                                            <fmt:formatDate value="${request.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
+                                                            <fmt:formatDate value="${request.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
+                                                            <fmt:formatDate value="${request.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
+                                                            <fmt:formatDate value="${request.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
+                                                            <c:if test="${course.course_id == request.course.course_id && request.requestStatus == 'ผ่าน'}">
+                                                                <td><p>${course.name}</p></td>
+                                                                <td align="center">
+                                                                    <p>${startRegister} - ${endRegister}</p><br>
+                                                                </td>
+                                                                <c:choose>
+                                                                    <c:when test="${request.course.fee != 0}">
+                                                                        <td align="center"><p>${startPayment} - ${endPayment}</p></td>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <td align="center"><p>ไม่มีการชำระเงิน(ฟรี)</p></td>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                                <td align="center">
+                                                                    <p>${applicationResult}</p><br>
+                                                                </td>
+                                                                <td align="center">
+                                                                    <p>${startStudyDate} - ${endStudyDate}</p><br>
+                                                                </td>
+                                                                <td align="center">
+                                                                    <p>${course.status}</p><br>
+                                                                </td>
+                                                                <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course">
+                                                                    <button class="button-35" role="button"><i class="fa fa-users" style="margin-right: 10px"></i>
+                                                                            ${request.numberOfAllRegistrations} / ${request.quantity}
+                                                                    </button>
+                                                                </a></td>
+                                                                <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/close_register">
+                                                                    <form method="post" action="${pageContext.request.contextPath}/course/${request.request_id}/close_register">
+                                                                        <button class="btn btn-outline-danger" role="button" style="font-size: 12px">
+                                                                            ปิดลงทะเบียน
                                                                         </button>
-                                                                    </a></td>
-                                                                    <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/close_register">
-                                                                        <form method="post" action="${pageContext.request.contextPath}/course/${request.request_id}/close_register">
-                                                                            <button class="btn btn-outline-danger" role="button" style="font-size: 12px">
-                                                                                ปิดลงทะเบียน
-                                                                            </button>
-                                                                        </form>
-                                                                    </a></td>
-                                                                    <c:set var="count" value="${count + 1}"/>
-                                                                </c:if>
+                                                                    </form>
+                                                                </a></td>
+                                                                <c:set var="count" value="${count + 1}"/>
                                                             </c:if>
-                                                        </c:forEach>
+                                                        </c:if>
+                                                    </c:forEach>
+
                                                     </tr>
                                                 </c:forEach>
                                                 <c:if test="${count == 0}">
@@ -480,34 +498,34 @@
                                                     <tr style="color: black">
                                                         <c:forEach var="request" items="${requests_by_max_register}">
 
-                                                                <fmt:formatDate value="${request.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
-                                                                <fmt:formatDate value="${request.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
-                                                                <fmt:formatDate value="${request.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
-                                                                <fmt:formatDate value="${request.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
-                                                                <fmt:formatDate value="${request.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                                                <c:if test="${course.course_id == request.course.course_id && request.requestStatus == 'ผ่าน'}">
-                                                                    <td><p>${course.name}</p></td>
-                                                                    <c:choose>
-                                                                        <c:when test="${request.course.fee != 0}">
-                                                                            <td align="center"><p>${startPayment} - ${endPayment}</p></td>
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            <td align="center"><p>ไม่มีการชำระเงิน(ฟรี)</p></td>
-                                                                        </c:otherwise>
-                                                                    </c:choose>
-                                                                    <td align="center"><p>${applicationResult}</p></td>
-                                                                    <td align="center">
-                                                                        <p>${startStudyDate} - ${endStudyDate}</p><br>
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        <p>${course.status}</p><br>
-                                                                    </td>
-                                                                    <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course">
-                                                                        <button class="button-35" role="button"><i class="fa fa-users" style="margin-right: 10px"></i>
-                                                                                ${request.numberOfAllRegistrationsPayStatus} / ${request.registerList.size()}
-                                                                        </button>
-                                                                    </a></td>
-                                                                </c:if>
+                                                            <fmt:formatDate value="${request.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
+                                                            <fmt:formatDate value="${request.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
+                                                            <fmt:formatDate value="${request.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
+                                                            <fmt:formatDate value="${request.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                                            <fmt:formatDate value="${request.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
+                                                            <c:if test="${course.course_id == request.course.course_id && request.requestStatus == 'ผ่าน'}">
+                                                                <td><p>${course.name}</p></td>
+                                                                <c:choose>
+                                                                    <c:when test="${request.course.fee != 0}">
+                                                                        <td align="center"><p>${startPayment} - ${endPayment}</p></td>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <td align="center"><p>ไม่มีการชำระเงิน(ฟรี)</p></td>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                                <td align="center"><p>${applicationResult}</p></td>
+                                                                <td align="center">
+                                                                    <p>${startStudyDate} - ${endStudyDate}</p><br>
+                                                                </td>
+                                                                <td align="center">
+                                                                    <p>${course.status}</p><br>
+                                                                </td>
+                                                                <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course">
+                                                                    <button class="button-35" role="button"><i class="fa fa-users" style="margin-right: 10px"></i>
+                                                                            ${request.numberOfAllRegistrationsPayStatus} / ${request.registerList.size()}
+                                                                    </button>
+                                                                </a></td>
+                                                            </c:if>
                                                         </c:forEach>
                                                     </tr>
                                                 </c:forEach>
@@ -522,7 +540,7 @@
                                     <tr style="color: black">
                                         <td style="width: 25%">ชื่อหลักสูตร</td>
                                         <td style="width: 20%" align="center">ระยะเวลาการเรียน</td>
-                                        <td style="width: 20%" align="center">รูปแบบการเรียน</td>
+                                        <td style="width: 20%" align="center">อาจารย์ผู้สอน</td>
                                         <td style="width: 20%" align="center">สาขา</td>
                                         <td style="width: 10%" align="center">ประเภท</td>
                                         <td style="width: 10%" align="center">ผู้สมัคร</td>
@@ -545,7 +563,7 @@
                                                                 <p>${startStudyDate} - ${endStudyDate}</p><br>
                                                             </td>
                                                             <td align="center">
-                                                                <p>${request.type_learn}</p><br>
+                                                                <p>${request.lecturer.firstName} ${request.lecturer.lastName}</p><br>
                                                             </td>
                                                             <td align="center">
                                                                 <p>${course.major.name}</p><br>
@@ -607,6 +625,7 @@
                                     </c:choose>
                                 </table>
                             </div>
+
                             <div id="cancel_request_select" style="display: none">
                                 <table class="table table-striped table-hover">
                                     <tr style="color: black">
@@ -617,34 +636,34 @@
                                         <td style="width: 10%" align="center">ประเภท</td>
                                         <td style="width: 10%" align="center"></td>
                                     </tr>
-                                    <c:forEach var="course" items="${courses}">
+                                    <c:forEach var="request" items="${requests_open_course}">
                                         <tr style="color: black">
-                                            <c:forEach var="request" items="${requests_open_course}">
-                                                <fmt:formatDate value="${request.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
-                                                <fmt:formatDate value="${request.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
-                                                <fmt:formatDate value="${request.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                                <fmt:formatDate value="${request.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
-                                                <fmt:formatDate value="${request.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
-                                                <c:if test="${course.course_id == request.course.course_id && request.requestStatus == 'ถูกยกเลิก' && request.endRegister >= currentDate}">
-                                                    <td><p>${course.name}</p></td>
-                                                    <td align="center">
-                                                        <p>${startRegister} - ${endRegister}</p><br>
-                                                    </td>
-                                                    <td align="center">
-                                                        <p>${applicationResult}</p><br>
-                                                    </td>
-                                                    <td align="center">
 
-                                                        <p>${startStudyDate} - ${endStudyDate}</p><br>
-                                                    </td>
-                                                    <td align="center"><p>${course.course_type}</p></td>
-                                                    <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course">
-                                                        <button class="button-35" role="button"><i class="fa fa-users" style="margin-right: 10px"></i>
-                                                                ${request.numberOfAllRegistrations} / ${request.quantity}
-                                                        </button>
-                                                    </a></td>
-                                                </c:if>
-                                            </c:forEach>
+                                            <fmt:formatDate value="${request.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
+                                            <fmt:formatDate value="${request.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                            <fmt:formatDate value="${request.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
+                                            <fmt:formatDate value="${request.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
+                                            <fmt:formatDate value="${request.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
+                                                <%--                                                <c:if test="${request.requestStatus == 'ถูกยกเลิก' && request.endRegister >= currentDate}">--%>
+                                            <c:if test="${request.requestStatus == 'ถูกยกเลิก'}">
+                                                <td><p>${request.course.name}</p></td>
+                                                <td align="center">
+                                                    <p>${startRegister} - ${endRegister}</p><br>
+                                                </td>
+                                                <td align="center">
+                                                    <p>${applicationResult}</p><br>
+                                                </td>
+                                                <td align="center">
+
+                                                    <p>${startStudyDate} - ${endStudyDate}</p><br>
+                                                </td>
+                                                <td align="center"><p>${request.course.course_type}</p></td>
+                                                <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course">
+                                                    <button class="button-35" role="button"><i class="fa fa-users" style="margin-right: 10px"></i>
+                                                            ${request.numberOfAllRegistrations} / ${request.quantity}
+                                                    </button>
+                                                </a></td>
+                                            </c:if>
                                         </tr>
                                     </c:forEach>
                                 </table>
@@ -705,13 +724,13 @@
             document.getElementById("cancel_request_select").style.display = "none";
             document.getElementById("not_study_select").style.display = "none";
         }
-        // else if (selectedValue === "กำลังชำระเงิน") {
-        //     document.getElementById("tag_line").textContent = "หลักสูตรที่อยู่ในช่วงชำระเงิน"
-        //     document.getElementById("register_select").style.display = "none";
-        //     document.getElementById("payment_select").style.display = "block";
-        //     document.getElementById("study_select").style.display = "none";
-        //     document.getElementById("cancel_request_select").style.display = "none";
-        //     document.getElementById("not_study_select").style.display = "none";
+            // else if (selectedValue === "กำลังชำระเงิน") {
+            //     document.getElementById("tag_line").textContent = "หลักสูตรที่อยู่ในช่วงชำระเงิน"
+            //     document.getElementById("register_select").style.display = "none";
+            //     document.getElementById("payment_select").style.display = "block";
+            //     document.getElementById("study_select").style.display = "none";
+            //     document.getElementById("cancel_request_select").style.display = "none";
+            //     document.getElementById("not_study_select").style.display = "none";
         // }
         else if (selectedValue === "กำลังสอน") {
             document.getElementById("tag_line").textContent = "หลักสูตรที่อยู่ในช่วงการสอน"

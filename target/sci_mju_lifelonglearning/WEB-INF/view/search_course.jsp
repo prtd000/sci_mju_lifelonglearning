@@ -94,10 +94,9 @@
         }
 
         .course_name{
-            font-family: 'Mitr', sans-serif;
             color: #e24c07;
             font-size: 94%;
-            font-weight: 500;
+            font-weight: bold;
             height: 45px;
         }
 

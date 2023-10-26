@@ -34,7 +34,7 @@
     var ac_img = document.getElementById('ac_img');
     var img_label = document.getElementById('img_label');
     var files = document.getElementById('ac_img').files;
-    var maxImagesToShow = 3; // จำนวนรูปภาพที่ต้องการแสดงเป็นตัวอย่าง
+    var maxImagesToShow = 6; // จำนวนรูปภาพที่ต้องการแสดงเป็นตัวอย่าง
     var remainingImages = files.length - maxImagesToShow; // จำนวนรูปภาพที่เหลือ
 
     preview.innerHTML = ''; // ล้างเนื้อหาที่แสดงรูปภาพตัวอย่างเก่า
@@ -47,8 +47,8 @@
       reader.onload = function (e) {
         var img = document.createElement('img');
         img.src = e.target.result;
-        img.style.maxWidth = '200px'; // ตั้งความกว้างสูงสุดของรูปภาพ
-        img.style.maxHeight = '200px'; // ตั้งความสูงสูงสุดของรูปภาพ
+        img.style.maxWidth = '180px'; // ตั้งความกว้างสูงสุดของรูปภาพ
+        // img.style.maxHeight = '200px'; // ตั้งความสูงสูงสุดของรูปภาพ
         preview.appendChild(img); // เพิ่มรูปภาพลงในตัวแสดงรูปภาพตัวอย่าง
       };
 
@@ -125,101 +125,101 @@
       </div>
     </nav>
     <!-- Navbar End -->
-<div class="container">
-  <div id="container">
-    <c:if test="${activities != null}">
-    <form id="signUpForm" onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/lecturer/${lec_id}/${activities.ac_id}/update_course_add_activity" method="POST" enctype="multipart/form-data">
-      <!-- step one -->
-      <div class="step">
-        <h3>แก้ไขข่าวสารประจำหลักสูตร</h3>
-        <hr>
-        <table style="width: 100%">
-          <tr>
-            <td>
-              <label>ชื่อข่าวสาร</label>
-              <div class="mb-3">
-                <div class="course-totalHours-container">
-                  <input name="ac_name" id="ac_name" type="text" autocomplete="off" oninput="this.className = ''" class="flex-td" value="${activities.name}"/>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label>หลักสูตร</label>
-              <div class="mb-3">
-                <div class="course-totalHours-container">
-                  <input name="ac_course" id="ac_course" type="text" autocomplete="off" oninput="this.className = ''" class="flex-td" value="${activities.requestOpenCourse.course.name}" disabled/>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="mb-3">
-                <div class="form-floating" style="height: 500px">
-                  <div id="editor" style="">${activities.detail}</div>
-                  <textarea style="display: none;" id="ac_detail" name="ac_detail"></textarea>
-                </div>
-                <label id="invalidAcDetail" style="color: red; font-size: 12px"></label>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label>รูปภาพ</label>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="mb-3">
-                <div class="form-floating">
-                    <%--                      <input class="txt_input" name="ac_img" type="file" id="ac_img" multiple onchange="loadExistingImages()"/>--%>
-                  <input class="txt_input" name="ac_img" type="file" id="ac_img" accept="image/*" multiple onchange="previewImages()"/>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div id="loadImg">
-                <c:if test="${not empty activities.img}">
-                  <c:set var="imgNames" value="${activities.img}" />
-                  <c:set var="imgArray" value="${fn:split(imgNames, ',')}" />
-
-                  <c:forEach var="listImg" items="${imgArray}" varStatus="loop">
-                    <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}" />
-                    <c:if test="${loop.index < 3}">
-                      <div style="display: inline-block">
-                        <img src="${pageContext.request.contextPath}/uploads/activity/private/${activities.ac_id}/${listImg}" style="width: 180px">
+    <div class="container">
+      <div id="container">
+        <c:if test="${activities != null}">
+          <form id="signUpForm" onsubmit="return confirmAction();" action="${pageContext.request.contextPath}/lecturer/${lec_id}/${activities.ac_id}/update_course_add_activity" method="POST" enctype="multipart/form-data">
+            <!-- step one -->
+            <div class="step">
+              <h3>แก้ไขข่าวสารประจำหลักสูตร</h3>
+              <hr>
+              <table style="width: 100%">
+                <tr>
+                  <td>
+                    <label>ชื่อข่าวสาร</label>
+                    <div class="mb-3">
+                      <div class="course-totalHours-container">
+                        <input name="ac_name" id="ac_name" type="text" autocomplete="off" oninput="this.className = ''" class="flex-td" value="${activities.name}"/>
                       </div>
-                    </c:if>
-                  </c:forEach>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>หลักสูตร</label>
+                    <div class="mb-3">
+                      <div class="course-totalHours-container">
+                        <input name="ac_course" id="ac_course" type="text" autocomplete="off" oninput="this.className = ''" class="flex-td" value="${activities.requestOpenCourse.course.name}" disabled/>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="mb-3">
+                      <div class="form-floating" style="height: 500px">
+                        <div id="editor" style="">${activities.detail}</div>
+                        <textarea style="display: none;" id="ac_detail" name="ac_detail"></textarea>
+                      </div>
+                      <label id="invalidAcDetail" style="color: red; font-size: 12px"></label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>รูปภาพ</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="mb-3">
+                      <div class="form-floating">
+                          <%--                      <input class="txt_input" name="ac_img" type="file" id="ac_img" multiple onchange="loadExistingImages()"/>--%>
+                        <input class="txt_input" name="ac_img" type="file" id="ac_img" accept="image/*" multiple onchange="previewImages()"/>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div id="loadImg">
+                      <c:if test="${not empty activities.img}">
+                        <c:set var="imgNames" value="${activities.img}" />
+                        <c:set var="imgArray" value="${fn:split(imgNames, ',')}" />
 
-                  <c:if test="${fn:length(imgArray) > 3}">
-                    <label>และรูปภาพอีก ${fn:length(imgArray) - 3} รูป</label>
-                  </c:if>
-                </c:if>
-              </div>
-              <div id="imagePreview" style="display: none"></div>
-              <label id="img_label" style="display: none"></label>
-            </td>
-          </tr>
-        </table>
+                        <c:forEach var="listImg" items="${imgArray}" varStatus="loop">
+                          <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}" />
+                          <c:if test="${loop.index < 6}">
+                            <div style="display: inline-block">
+                              <img src="${pageContext.request.contextPath}/uploads/activity/private/${activities.ac_id}/${listImg}" style="width: 180px">
+                            </div>
+                          </c:if>
+                        </c:forEach>
+
+                        <c:if test="${fn:length(imgArray) > 6}">
+                          <label>และรูปภาพอีก ${fn:length(imgArray) - 6} รูป</label>
+                        </c:if>
+                      </c:if>
+                    </div>
+                    <div id="imagePreview" style="display: none"></div>
+                    <label id="img_label" style="display: none"></label>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div style="width: 100%" align="center" class="flex-container">
+              <input type="button" value="ย้อนกลับ"
+                     onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_id}/list_course_activity_news'; return false;"
+                     style="width: 47%" class="flex-container"/>
+              <input type="submit" value="บันทึก" class="button-5" style="width: 47%"/>
+            </div>
+          </form>
+        </c:if>
+        <c:if test="${activities == null}">
+          <h3>ไม่พบข่าวสารนี้</h3>
+          <input type="button" onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${activities.requestOpenCourse.request_id}/list_course_activity_news'; return false;" value="ย้อนกลับ">    </c:if>
       </div>
-      <div style="width: 100%" align="center" class="flex-container">
-        <input type="button" value="ย้อนกลับ"
-               onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_id}/list_course_activity_news'; return false;"
-               style="width: 47%" class="flex-container"/>
-        <input type="submit" value="บันทึก" class="button-5" style="width: 47%"/>
-      </div>
-    </form>
-    </c:if>
-    <c:if test="${activities == null}">
-      <h3>ไม่พบข่าวสารนี้</h3>
-      <input type="button" onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${activities.requestOpenCourse.request_id}/list_course_activity_news'; return false;" value="ย้อนกลับ">    </c:if>
-  </div>
-</div>
+    </div>
   </c:when>
   <c:when test="${flag.equals('null')}">
     <h1>กรุณา Log in ใหม่</h1>

@@ -317,7 +317,7 @@
 
                                                         <c:if test="${currentDate.isAfter(endDate)}">
                                                             <p style="color: red; font-weight: bold">
-                                                                การลงทะเบียนถูกยกเลิก</p>
+                                                                การลงทะเบียน<br>ถูกยกเลิก</p>
                                                         </c:if>
 
                                                         <c:if test="${currentDate.equals(startDate) || currentDate.equals(endDate)}">

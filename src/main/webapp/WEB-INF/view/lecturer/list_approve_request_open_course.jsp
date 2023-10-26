@@ -208,17 +208,18 @@
                                     <table class="table table-striped table-hover">
                                         <tr style="color: black">
                                             <td style="width: 30%">ชื่อหลักสูตร</td>
-                                            <td style="width: 16%" align="center">ระยะเวลาการลงทะเบียน</td>
-                                            <td style="width: 15%" align="center">ระยะเวลาการชำระเงิน</td>
-                                            <td style="width: 8%" align="center">วันประกาศผล</td>
-                                            <td style="width: 15%" align="center">ระยะเวลาการเรียน</td>
-                                            <td style="width: 10%" align="center">สถานะ</td>
+                                            <td style="width: 12%" align="center">ระยะเวลาการลงทะเบียน</td>
+                                            <td style="width: 12%" align="center">ระยะเวลาการชำระเงิน</td>
+                                            <td style="width: 7%" align="center">วันประกาศผล</td>
+                                            <td style="width: 12%" align="center">ระยะเวลาการเรียน</td>
+                                            <td style="width: 9%" align="center">สถานะ</td>
                                             <td style="width: 10%" align="center">ผู้สมัคร</td>
+                                            <td style="width: 10%" align="center"></td>
                                         </tr>
                                         <c:choose>
                                             <c:when test="${courses_by_register_date.size() == 0}">
                                                 <tr>
-                                                    <td colspan="7" align="center">ไม่มีข้อมูล</td>
+                                                    <td colspan="8" align="center">ไม่มีข้อมูล</td>
                                                 </tr>
                                             </c:when>
                                             <c:otherwise>
@@ -260,6 +261,13 @@
                                                                             ${request.numberOfAllRegistrations} / ${request.quantity}
                                                                     </button>
                                                                 </a></td>
+                                                                <td align="center">
+                                                                    <button type="button" style="font-size: 12px; border-radius: 12px;"
+                                                                            onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบหลักสูตรที่ท่านกำลังเปิดนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request.request_id}/cancel_request_open_course'; return false; }"
+                                                                            class="btn btn-outline-danger">
+                                                                        <i class='fas fa-trash' style='color: red'></i> ยกเลิก
+                                                                    </button>
+                                                                </td>
                                                             </c:if>
                                                         </c:if>
                                                     </tr>
@@ -272,17 +280,18 @@
                                     <table class="table table-striped table-hover">
                                         <tr style="color: black">
                                             <td style="width: 30%">ชื่อหลักสูตร</td>
-                                            <td style="width: 16%" align="center">ระยะเวลาการลงทะเบียน</td>
-                                            <td style="width: 15%" align="center">ระยะเวลาการชำระเงิน</td>
-                                            <td style="width: 8%" align="center">วันประกาศผล</td>
-                                            <td style="width: 15%" align="center">ระยะเวลาการเรียน</td>
-                                            <td style="width: 10%" align="center">สถานะ</td>
+                                            <td style="width: 12%" align="center">ระยะเวลาการลงทะเบียน</td>
+                                            <td style="width: 12%" align="center">ระยะเวลาการชำระเงิน</td>
+                                            <td style="width: 7%" align="center">วันประกาศผล</td>
+                                            <td style="width: 12%" align="center">ระยะเวลาการเรียน</td>
+                                            <td style="width: 9%" align="center">สถานะ</td>
                                             <td style="width: 10%" align="center">ผู้สมัคร</td>
+                                            <td style="width: 10%" align="center"></td>
                                         </tr>
                                         <c:choose>
                                             <c:when test="${courses_by_register_pay_date.size() == 0}">
                                                 <tr>
-                                                    <td colspan="7" align="center">ไม่มีข้อมูล</td>
+                                                    <td colspan="8" align="center">ไม่มีข้อมูล</td>
                                                 </tr>
                                             </c:when>
                                             <c:otherwise>
@@ -325,6 +334,13 @@
                                                                             ${request.numberOfAllRegistrations} / ${request.quantity}
                                                                     </button>
                                                                 </a></td>
+                                                                <td align="center">
+                                                                    <button type="button" style="font-size: 12px; border-radius: 12px;"
+                                                                            onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบหลักสูตรที่ท่านกำลังเปิดนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request.request_id}/cancel_request_open_course'; return false; }"
+                                                                            class="btn btn-outline-danger">
+                                                                        <i class='fas fa-trash' style='color: red'></i> ยกเลิก
+                                                                    </button>
+                                                                </td>
                                                             </c:if>
                                                         </c:if>
                                                     </tr>
@@ -371,7 +387,7 @@
                                                             </td>
                                                             <td align="center"><a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request.request_id}/list_member_to_approve">
                                                                 <button class="button-35" role="button"><i class="fa fa-users" style="margin-right: 10px"></i>
-                                                                        ${request.numberOfAllRegistrationsPayStatus} / ${request.registerList.size()}
+                                                                        ${request.numberOfAllRegistrationsToPass} / ${request.registerList.size()}
                                                                 </button>
                                                             </a></td>
                                                         </c:if>
@@ -589,6 +605,7 @@
     const addParam = urlParams.get('addStatus');
     const editParam = urlParams.get('editStatus');
     const deleteParam = urlParams.get('deleteStatus');
+    const cancelStatus = urlParams.get('cancelStatus');
 
     // ถ้ามีค่าเป็น 'true', แสดง Alert
     if (addParam === 'true') {
@@ -597,6 +614,8 @@
         alert("แก้ไขข้อมูลการร้องขอสำเร็จ");
     }else if (deleteParam === 'true'){
         alert("ลบข้อมูลการร้องขอสำเร็จ");
+    }else if (cancelStatus === 'true'){
+        alert("ยกเลิกหลักสูตรที่ท่านกำลังเปิดสำเร็จ");
     }
 </script>
 <script>

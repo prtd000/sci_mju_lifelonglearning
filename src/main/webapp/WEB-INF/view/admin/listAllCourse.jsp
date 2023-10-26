@@ -181,7 +181,24 @@
                                                                 </td>
                                                                 <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course">
                                                                     <button class="button-35" role="button"><i class="fa fa-users" style="margin-right: 10px"></i>
-                                                                            ${request.numberOfAllRegistrations} / ${request.quantity}
+                                                                        <c:choose>
+                                                                            <c:when test="${request.course.status == 'ลงทะเบียน'}">
+                                                                                ${request.numberOfAllRegistrations} / ${request.quantity}
+                                                                            </c:when>
+                                                                            <c:when test="${request.course.status == 'ลงทะเบียน/ชำระเงิน'}">
+                                                                                ${request.numberOfAllRegistrations} / ${request.quantity}
+                                                                            </c:when>
+                                                                            <c:when test="${request.course.status == 'ชำระเงิน'}">
+                                                                                ${request.numberOfAllRegistrationsPayStatus} / ${request.registerList.size()}
+                                                                            </c:when>
+                                                                            <c:when test="${request.course.status == 'รอประกาศผล'}">
+                                                                                ${request.numberOfAllRegistrationsPayStatus} / ${request.registerList.size()}
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                ${request.numberOfAllRegistrations} / ${request.quantity}
+                                                                            </c:otherwise>
+                                                                        </c:choose>
+                                                                            
                                                                     </button>
                                                                 </a></td>
                                                             </c:if>
@@ -396,9 +413,9 @@
                                                 </tr>
                                             </c:when>
                                             <c:otherwise>
+                                                <c:set var="count" value="0"/>
                                                 <c:forEach var="course" items="${courses_by_all_regis_pay_date}">
                                                     <tr style="color: black;">
-                                                    <c:set var="count" value="0"/>
                                                     <c:forEach var="request" items="${requests_by_max_register}">
                                                         <c:if test="${request.quantity <= request.registerList.size() && request.course.status != 'รอประกาศผล'}">
                                                             <fmt:formatDate value="${request.requestDate}" pattern="dd/MM/yyyy" var="requestDate" />
@@ -447,15 +464,15 @@
                                                             </c:if>
                                                         </c:if>
                                                     </c:forEach>
-                                                    <c:if test="${count == 0}">
-                                                        <tr>
-                                                            <td colspan="8" align="center">ไม่มีข้อมูล</td>
-                                                        </tr>
 
-                                                    </c:if>
                                                     </tr>
                                                 </c:forEach>
+                                                <c:if test="${count == 0}">
+                                                    <tr>
+                                                        <td colspan="8" align="center">ไม่มีข้อมูล</td>
+                                                    </tr>
 
+                                                </c:if>
                                             </c:otherwise>
                                         </c:choose>
                                     </table>
@@ -523,7 +540,7 @@
                                     <tr style="color: black">
                                         <td style="width: 25%">ชื่อหลักสูตร</td>
                                         <td style="width: 20%" align="center">ระยะเวลาการเรียน</td>
-                                        <td style="width: 20%" align="center">รูปแบบการเรียน</td>
+                                        <td style="width: 20%" align="center">อาจารย์ผู้สอน</td>
                                         <td style="width: 20%" align="center">สาขา</td>
                                         <td style="width: 10%" align="center">ประเภท</td>
                                         <td style="width: 10%" align="center">ผู้สมัคร</td>
@@ -546,7 +563,7 @@
                                                                 <p>${startStudyDate} - ${endStudyDate}</p><br>
                                                             </td>
                                                             <td align="center">
-                                                                <p>${request.type_learn}</p><br>
+                                                                <p>${request.lecturer.firstName} ${request.lecturer.lastName}</p><br>
                                                             </td>
                                                             <td align="center">
                                                                 <p>${course.major.name}</p><br>
@@ -640,7 +657,7 @@
 
                                                     <p>${startStudyDate} - ${endStudyDate}</p><br>
                                                 </td>
-                                                <td align="center"><p>${course.course_type}</p></td>
+                                                <td align="center"><p>${request.course.course_type}</p></td>
                                                 <td align="center"><a href="${pageContext.request.contextPath}/course/${request.request_id}/list_member_to_course">
                                                     <button class="button-35" role="button"><i class="fa fa-users" style="margin-right: 10px"></i>
                                                             ${request.numberOfAllRegistrations} / ${request.quantity}

@@ -119,10 +119,9 @@
         }
 
         .course_name{
-            font-family: 'Mitr', sans-serif;
             color: #e24c07;
             font-size: 94%;
-            font-weight: 500;
+            font-weight: bold;
             height: 45px;
         }
 
@@ -326,7 +325,7 @@
                                                 <br>
                                                 <b><p class="item text_ellipsis course_name">${course.name}</p></b>
                                             </div>
-                                            <p style="font-size: 85%; font-weight: bold; color: dodgerblue">${course.major.name}</p>
+                                            <p style="font-size: 85%; font-weight: bold; color: dodgerblue;">${course.major.name}</p>
 
                                             <table class="icon">
                                                 <c:set var="notFoundTypeLearn" value="false" />

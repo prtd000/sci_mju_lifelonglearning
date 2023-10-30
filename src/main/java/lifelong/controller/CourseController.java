@@ -258,7 +258,16 @@ public class CourseController {
 
         model.addAttribute("requests_open_course", requestOpCourseService.getRequestOpenCourses());
         model.addAttribute("requests_by_register", requestOpCourseService.getRequestOpenCoursesByTypeRegister());
-        model.addAttribute("requests_by_max_register", requestOpCourseService.getRequestOpenCoursesByTypeMaxRegister());
+        model.addAttribute("all_requests_by_register", requestOpCourseService.getAllRequestByStatusByRegister());
+        model.addAttribute("no_max_requests_by_register", requestOpCourseService.getNoMaxRequestByStatusByRegister());
+        model.addAttribute("regis_pay_requests_by_register", requestOpCourseService.getRegisAndPayRequestByStatusByRegister());
+        model.addAttribute("pay_requests_by_register", requestOpCourseService.getPayRequestByStatusByRegister());
+        model.addAttribute("requests_by_max_register", requestOpCourseService.getAllRequestByStatusByMaxRegister());
+        model.addAttribute("app_requests_by_register", requestOpCourseService.getAppRequestByStatusByRegister());
+        model.addAttribute("all_requests_by_study", requestOpCourseService.getAllRequestByStatusByStudy());
+        model.addAttribute("all_requests_by_not_study", courseService.getAllCourseByStatusNotStudy());
+        model.addAttribute("all_cancel_requests", requestOpCourseService.getAllCancelRequestByStatus());
+//        model.addAttribute("requests_by_max_register", requestOpCourseService.getRequestOpenCoursesByTypeMaxRegister());
 
         model.addAttribute("requests_by_payment", requestOpCourseService.getRequestOpenCoursesByTypePayment());
 
@@ -274,7 +283,7 @@ public class CourseController {
     public String getListRequestOpenCourse(Model model ,@PathVariable("admin_id") String admin_id) {
         model.addAttribute("title", "รายการ" + title);
         model.addAttribute("courses", courseService.getCourses());
-        model.addAttribute("requests_open_course", requestOpCourseService.getRequestOpenCourses());
+        model.addAttribute("requests_open_course", requestOpCourseService.getAllRequestBeforeApprove());
         model.addAttribute("list_activities", activityService.getPublicActivity());
         model.addAttribute("admin_id",admin_id);
         return "admin/list_request_opencourse";
@@ -432,6 +441,7 @@ public class CourseController {
         Date currentDate = new Date();
         model.addAttribute("title", "แก้ไข" + title);
         model.addAttribute("register_detail", register);
+        model.addAttribute("all_register_detail", registerService.getRegisterByRequestIdOrderByStatus(roc_id,requestOpenCourse.getCourse().getStatus()));
         model.addAttribute("receipt",list_receipt);
         model.addAttribute("request_name", requestOpenCourse);
         model.addAttribute("currentDate",currentDate);
@@ -468,11 +478,11 @@ public class CourseController {
         Invoice invoice = paymentService.getInvoiceById(invoice_id);
         String status = "";
         // ตรวจสอบค่า approveResult และดำเนินการตามที่คุณต้องการ
-        if ("ยืนยันการสมัคร".equals(approveResult)) {
+        if ("ยืนยันการชำระเงิน".equals(approveResult)) {
             invoice.setApprove_status("ผ่าน");
             invoice.getRegister().setStudy_result("กำลังเรียน");
             status = "true";
-        } else if ("ยกเลิกการสมัคร".equals(approveResult)) {
+        } else if ("แก้ไขการชำระเงิน".equals(approveResult)) {
             invoice.setApprove_status("ไม่ผ่าน");
             status = "false";
         }

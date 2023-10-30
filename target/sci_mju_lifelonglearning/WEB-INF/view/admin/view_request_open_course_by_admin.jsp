@@ -262,7 +262,7 @@
                                 <hr>
                                 <!-- start previous / next buttons -->
                                 <div style="width: 100%" align="center" class="flex-container">
-                                    <input type="button" name="statusResult" value="ยกเลิกคำร้องขอ"
+                                    <input type="button" name="statusResult" value="แก้ไขคำร้องขอ"
                                            onclick="cancelRequest();" style="width: 50%;font-family: 'Prompt', sans-serif;" class="cancel-button"/>
                                     <input type="button" name="statusResult" value="ยืนยันคำร้องขอ" onclick="confirmSubmit();" class="button-5" style="width: 50%;font-family: 'Prompt', sans-serif;"/>
                                 </div>

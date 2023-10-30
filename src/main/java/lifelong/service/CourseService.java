@@ -25,6 +25,7 @@ public interface CourseService {
         void doAddCourse(Course course);
 
         List<Course> getCourseByStatus(String status);
+        List<Course> getAllCourseByStatusNotStudy();
         List<Course> getCourseByStatusByRegister(String status1, String status2, String status3, String status4);
 
         public void doAddMajor(Major major);

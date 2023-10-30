@@ -39,4 +39,14 @@ public interface RequestOpCourseService {
     List<RequestOpenCourse> getRequestCourseByStatus(String status,String lec_id);
     List<RequestOpenCourse> getRequestCourseByTwoStatus(String status1, String status2, String lec_id);
     List<RequestOpenCourse> getRequestCourseByStatusByRegister(String status1, String status2, String status3, String status4,String lec_id);
+    List<RequestOpenCourse> getAllRequestByStatusByRegister();
+    List<RequestOpenCourse> getNoMaxRequestByStatusByRegister();
+    List<RequestOpenCourse> getRegisAndPayRequestByStatusByRegister();
+    List<RequestOpenCourse> getPayRequestByStatusByRegister();
+    List<RequestOpenCourse> getAllRequestByStatusByMaxRegister();
+    List<RequestOpenCourse> getAppRequestByStatusByRegister();
+    List<RequestOpenCourse> getAllRequestByStatusByStudy();
+    List<RequestOpenCourse> getAllCancelRequestByStatus();
+    List<RequestOpenCourse> getAllRequestBeforeApprove();
+
 }

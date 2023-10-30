@@ -135,7 +135,7 @@
                                         <div class="flex-container">
                                             <fmt:formatDate value="${request_name.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
                                             <fmt:formatDate value="${request_name.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
-                                            <label>${startPayment} - ${endPayment}</label>
+                                            <label>${startPayment} - ${endPayment}</label><br>
                                         </div>
                                     </div>
                                 </c:when>
@@ -161,24 +161,16 @@
                                 <div class="flex-container">
                                     <fmt:formatDate value="${request_name.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
                                     <fmt:formatDate value="${request_name.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                    <label>${startStudyDate} - ${endStudyDate}</label>
+                                    <label>${startStudyDate} - ${endStudyDate}</label><br>
+                                    <c:set var="delimiter" value="$%"/>
+                                    <c:set var="subText"
+                                           value="${fn:split(request_name.studyTime, delimiter)}"/>
+                                    <c:forEach var="ogText" items="${subText}">
+                                        <c:set var="replaceSlash" value="${fn:replace(ogText, '/', ' ')}"/>
+                                        <c:set var="newText" value="${fn:replace(replaceSlash, ',', ' - ')}"/>
+                                        <label>${newText}</label><br>
+                                    </c:forEach>
                                 </div>
-                                    <%--                                <div class="flex-container">--%>
-                                    <%--                                    <label>เรียนทุกวัน : ${request_name.studyDay}</label>--%>
-                                    <%--                                </div>--%>
-                                    <%--                                <div class="flex-container">--%>
-                                    <%--                                    <c:set var="studyTime" value="${request_name.studyTime}"/>--%>
-                                    <%--                                    <c:set var="parts" value="${fn:split(studyTime, ', ')}"/>--%>
-                                    <%--                                    <label>เวลา : ${parts[0]} : ${parts[1]} น.</label>--%>
-                                    <%--                                </div>--%>
-                                <c:set var="delimiter" value="$%"/>
-                                <c:set var="subText"
-                                       value="${fn:split(request_name.studyTime, delimiter)}"/>
-                                <c:forEach var="ogText" items="${subText}">
-                                    <c:set var="replaceSlash" value="${fn:replace(ogText, '/', ' ')}"/>
-                                    <c:set var="newText" value="${fn:replace(replaceSlash, ',', ' - ')}"/>
-                                    <p>${newText}</p>
-                                </c:forEach>
                             </div>
                                 <%--                            <div class="mb-3">--%>
                                 <%--                                <div class="flex-container">--%>
@@ -219,43 +211,51 @@
                                 </div>
                             </div>
                             <hr>
-                            <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                <tr style="color: black">
-                                    <td style="width: 20%">รหัสบัตรประชาชน</td>
-                                    <td style="width: 20%">ชื่อ - นามสกุล</td>
-                                    <td style="width: 20%" align="center">วันที่สมัคร</td>
-                                    <td style="width: 20%" align="center">เบอร์โทรศัพท์</td>
-                                    <td style="width: 20%" align="center">สถานะการสมัคร</td>
-                                </tr>
-                                <c:choose>
-                                    <c:when test="${register_detail.size() == 0}">
-                                        <tr>
-                                            <td colspan="5" align="center">ยังไม่มีผู้ลงทะเบียน</td>
-                                        </tr>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:forEach var="registers" items="${register_detail}">
-                                            <fmt:formatDate value="${registers.register_date}" pattern="dd/MM/yyyy" var="register_date" />
-                                            <tr style="color: black">
-                                                <td><p>${registers.member.idcard}</p></td>
-                                                <td><p>${registers.member.firstName} ${registers.member.lastName}</p></td>
-                                                <td align="center">
-                                                    <p>${register_date}</p>
-                                                </td>
-                                                <td align="center">${registers.member.tel}</td>
-                                                <c:choose>
-                                                    <c:when test="${registers.requestOpenCourse.course.fee == 0}">
-                                                        <td align="center">รอเรียน</td>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <td align="center">รอชำระเงิน</td>
-                                                    </c:otherwise>
-                                                </c:choose>
-
+                            <table class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                <thead>
+                                    <tr style="color: black">
+                                        <td style="width: 5%"></td>
+                                        <td style="width: 20%"><b style="font-size: 14px">รหัสบัตรประชาชน</b></td>
+                                        <td style="width: 20%" align="center"><b style="font-size: 14px">ชื่อ - นามสกุล</b></td>
+                                        <td style="width: 15%" align="center"><b style="font-size: 14px">วันที่สมัคร</b></td>
+                                        <td style="width: 20%" align="center"><b style="font-size: 14px">เบอร์โทรศัพท์</b></td>
+                                        <td style="width: 20%" align="center"><b style="font-size: 14px">สถานะการสมัคร</b></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:choose>
+                                        <c:when test="${all_register_detail.size() == 0}">
+                                            <tr>
+                                                <td colspan="6" align="center">ยังไม่มีผู้ลงทะเบียน</td>
                                             </tr>
-                                        </c:forEach>
-                                    </c:otherwise>
-                                </c:choose>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:set var="count" value="1"/>
+                                            <c:forEach var="registers" items="${all_register_detail}">
+                                                <fmt:formatDate value="${registers.register_date}" pattern="dd/MM/yyyy" var="register_date" />
+                                                <tr style="color: black">
+                                                    <td><p>${count}</p></td>
+                                                    <td><p>${registers.member.idcard}</p></td>
+                                                    <td><p>${registers.member.firstName} ${registers.member.lastName}</p></td>
+                                                    <td align="center">
+                                                        <p>${register_date}</p>
+                                                    </td>
+                                                    <td align="center">${registers.member.tel}</td>
+                                                    <c:choose>
+                                                        <c:when test="${registers.requestOpenCourse.course.fee == 0}">
+                                                            <td align="center">รอเรียน</td>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <td align="center">รอชำระเงิน</td>
+                                                        </c:otherwise>
+                                                    </c:choose>
+
+                                                </tr>
+                                                <c:set var="count" value="${count+1}"/>
+                                            </c:forEach>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </tbody>
                             </table>
                         </div>
                     </c:if>
@@ -272,25 +272,31 @@
                                 </div>
                             </div>
                             <hr>
-                            <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                <tr style="color: black">
-                                    <td style="width: 20%">รหัสบัตรประชาชน</td>
-                                    <td style="width: 20%">ชื่อ - นามสกุล</td>
-                                    <td style="width: 10%" align="center">วันที่สมัคร</td>
-                                    <td style="width: 15%" align="center">วันที่ชำระเงิน</td>
-                                    <td style="width: 20%" align="center">เบอร์โทรศัพท์</td>
-                                    <td style="width: 20%" align="center">สถานะการสมัคร</td>
-                                </tr>
+                            <table class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                <thead>
+                                    <tr style="color: black">
+                                        <td style="width: 5%"></td>
+                                        <td style="width: 20%"><b style="font-size: 14px">รหัสบัตรประชาชน</b></td>
+                                        <td style="width: 20%" align="center"><b style="font-size: 14px">ชื่อ - นามสกุล</b></td>
+                                        <td style="width: 10%" align="center"><b style="font-size: 14px">วันที่สมัคร</b></td>
+                                        <td style="width: 15%" align="center"><b style="font-size: 14px">วันที่ชำระเงิน</b></td>
+                                        <td style="width: 15%" align="center"><b style="font-size: 14px">เบอร์โทรศัพท์</b></td>
+                                        <td style="width: 20%" align="center"><b style="font-size: 14px">สถานะการสมัคร</b></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                 <c:choose>
-                                    <c:when test="${register_detail.size() == 0}">
+                                    <c:when test="${all_register_detail.size() == 0}">
                                         <tr>
                                             <td colspan="5" align="center">ยังไม่มีผู้ลงทะเบียน</td>
                                         </tr>
                                     </c:when>
                                     <c:otherwise>
-                                        <c:forEach var="registers" items="${register_detail}">
+                                        <c:set var="count1" value="1"/>
+                                        <c:forEach var="registers" items="${all_register_detail}">
                                             <fmt:formatDate value="${registers.register_date}" pattern="dd/MM/yyyy" var="register_date" />
                                             <tr style="color: black">
+                                                <td><p>${count1}</p></td>
                                                 <td><p>${registers.member.idcard}</p></td>
                                                 <td><p>${registers.member.firstName} ${registers.member.lastName}</p></td>
                                                 <td align="center">
@@ -341,14 +347,16 @@
                                                     </c:otherwise>
                                                 </c:choose>
                                             </tr>
+                                            <c:set var="count1" value="${count1+1}"/>
                                         </c:forEach>
                                     </c:otherwise>
                                 </c:choose>
+                                </tbody>
                             </table>
                         </div>
                     </c:if>
 
-
+<%--                    ถึงตรงนี้--%>
                     <c:if test="${request_name.course.status == 'ชำระเงิน'}">
                         <div id="div_payment" style="width: 100%; align-self: flex-start;" align="left">
                             <div style="display: flex; width: 100%" >
@@ -375,15 +383,17 @@
                             </div>
                             <hr>
                             <div id="all_payment" style="display: block">
-                                <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                    <tr style="color: black">
-                                        <td style="width: 20%">รหัสบัตรประชาชน</td>
-                                        <td style="width: 20%">ชื่อ - นามสกุล</td>
-                                        <td style="width: 20%" align="center">วันเวลาในการชำระเงิน</td>
-                                        <td style="width: 20%" align="center">เบอร์โทรศัพท์</td>
-                                        <td style="width: 20%" align="center">สถานะการสมัคร</td>
-                                    </tr>
-
+                                <table class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                    <thead>
+                                        <tr style="color: black">
+                                            <td style="width: 20%"><b style="font-size: 14px">รหัสบัตรประชาชน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">ชื่อ - นามสกุล</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">วันเวลาในการชำระเงิน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">เบอร์โทรศัพท์</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">สถานะการสมัคร</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                     <c:choose>
                                         <c:when test="${register_detail.size() == 0}">
                                             <tr>
@@ -439,18 +449,22 @@
                                             </c:forEach>
                                         </c:otherwise>
                                     </c:choose>
+                                    </tbody>
                                 </table>
                             </div>
 
                             <div id="pass_payment" style="display: none">
-                                <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                    <tr style="color: black">
-                                        <td style="width: 20%">รหัสบัตรประชาชน</td>
-                                        <td style="width: 20%">ชื่อ - นามสกุล</td>
-                                        <td style="width: 20%" align="center">วันเวลาในการชำระเงิน</td>
-                                        <td style="width: 20%" align="center">เบอร์โทรศัพท์</td>
-                                        <td style="width: 20%" align="center">สถานะการสมัคร</td>
-                                    </tr>
+                                <table class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                    <thead>
+                                        <tr style="color: black">
+                                            <td style="width: 20%"><b style="font-size: 14px">รหัสบัตรประชาชน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">ชื่อ - นามสกุล</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">วันเวลาในการชำระเงิน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">เบอร์โทรศัพท์</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">สถานะการสมัคร</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                     <c:choose>
                                         <c:when test="${register_detail.size() == 0}">
                                             <tr>
@@ -513,18 +527,22 @@
                                             </c:if>
                                         </c:otherwise>
                                     </c:choose>
+                                    </tbody>
                                 </table>
                             </div>
 
                             <div id="check_payment" style="display: none">
-                                <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                    <tr style="color: black">
-                                        <td style="width: 20%">รหัสบัตรประชาชน</td>
-                                        <td style="width: 20%">ชื่อ - นามสกุล</td>
-                                        <td style="width: 20%" align="center">วันเวลาในการชำระเงิน</td>
-                                        <td style="width: 20%" align="center">เบอร์โทรศัพท์</td>
-                                        <td style="width: 20%" align="center">สถานะการสมัคร</td>
-                                    </tr>
+                                <table class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                    <thead>
+                                        <tr style="color: black">
+                                            <td style="width: 20%"><b style="font-size: 14px">รหัสบัตรประชาชน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">ชื่อ - นามสกุล</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">วันเวลาในการชำระเงิน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">เบอร์โทรศัพท์</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">สถานะการสมัคร</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                     <c:choose>
                                         <c:when test="${register_detail.size() == 0}">
                                             <tr>
@@ -587,18 +605,22 @@
                                             </c:if>
                                         </c:otherwise>
                                     </c:choose>
+                                    </tbody>
                                 </table>
                             </div>
 
                             <div id="not_payment" style="display: none">
-                                <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                    <tr style="color: black">
-                                        <td style="width: 20%">รหัสบัตรประชาชน</td>
-                                        <td style="width: 20%">ชื่อ - นามสกุล</td>
-                                        <td style="width: 20%" align="center">วันที่สมัคร</td>
-                                        <td style="width: 20%" align="center">เบอร์โทรศัพท์</td>
-                                        <td style="width: 20%" align="center">สถานะการสมัคร</td>
-                                    </tr>
+                                <table class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                    <thead>
+                                        <tr style="color: black">
+                                            <td style="width: 20%"><b style="font-size: 14px">รหัสบัตรประชาชน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">ชื่อ - นามสกุล</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">วันที่สมัคร</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">เบอร์โทรศัพท์</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">สถานะการสมัคร</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                     <c:choose>
                                         <c:when test="${register_detail.size() == 0}">
                                             <tr>
@@ -647,18 +669,22 @@
                                             </c:if>
                                         </c:otherwise>
                                     </c:choose>
+                                    </tbody>
                                 </table>
                             </div>
 
                             <div id="false_payment" style="display: none">
-                                <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                    <tr style="color: black">
-                                        <td style="width: 20%">รหัสบัตรประชาชน</td>
-                                        <td style="width: 20%">ชื่อ - นามสกุล</td>
-                                        <td style="width: 20%" align="center">วันเวลาในการชำระเงิน</td>
-                                        <td style="width: 20%" align="center">เบอร์โทรศัพท์</td>
-                                        <td style="width: 20%" align="center">สถานะการสมัคร</td>
-                                    </tr>
+                                <table class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                    <thead>
+                                        <tr style="color: black">
+                                            <td style="width: 20%"><b style="font-size: 14px">รหัสบัตรประชาชน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">ชื่อ - นามสกุล</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">วันเวลาในการชำระเงิน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">เบอร์โทรศัพท์</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">สถานะการสมัคร</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                     <c:choose>
                                         <c:when test="${register_detail.size() == 0}">
                                             <tr>
@@ -721,6 +747,7 @@
                                             </c:if>
                                         </c:otherwise>
                                     </c:choose>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -752,15 +779,17 @@
                             </div>
                             <hr>
                             <div id="all_payment_app" style="display: block">
-                                <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                    <tr style="color: black">
-                                        <td style="width: 20%">รหัสบัตรประชาชน</td>
-                                        <td style="width: 20%">ชื่อ - นามสกุล</td>
-                                        <td style="width: 20%" align="center">วันเวลาในการชำระเงิน</td>
-                                        <td style="width: 20%" align="center">เบอร์โทรศัพท์</td>
-                                        <td style="width: 20%" align="center">สถานะการสมัคร</td>
-                                    </tr>
-
+                                <table class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                    <thead>
+                                        <tr style="color: black">
+                                            <td style="width: 20%"><b style="font-size: 14px">รหัสบัตรประชาชน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">ชื่อ - นามสกุล</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">วันเวลาในการชำระเงิน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">เบอร์โทรศัพท์</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">สถานะการสมัคร</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                     <c:choose>
                                         <c:when test="${register_detail.size() == 0}">
                                             <tr>
@@ -816,18 +845,22 @@
                                             </c:forEach>
                                         </c:otherwise>
                                     </c:choose>
+                                    </tbody>
                                 </table>
                             </div>
 
                             <div id="pass_payment_app" style="display: none">
-                                <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                    <tr style="color: black">
-                                        <td style="width: 20%">รหัสบัตรประชาชน</td>
-                                        <td style="width: 20%">ชื่อ - นามสกุล</td>
-                                        <td style="width: 20%" align="center">วันเวลาในการชำระเงิน</td>
-                                        <td style="width: 20%" align="center">เบอร์โทรศัพท์</td>
-                                        <td style="width: 20%" align="center">สถานะการสมัคร</td>
-                                    </tr>
+                                <table class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                    <thead>
+                                        <tr style="color: black">
+                                            <td style="width: 20%"><b style="font-size: 14px">รหัสบัตรประชาชน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">ชื่อ - นามสกุล</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">วันเวลาในการชำระเงิน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">เบอร์โทรศัพท์</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">สถานะการสมัคร</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                     <c:choose>
                                         <c:when test="${register_detail.size() == 0}">
                                             <tr>
@@ -890,18 +923,22 @@
                                             </c:if>
                                         </c:otherwise>
                                     </c:choose>
+                                    </tbody>
                                 </table>
                             </div>
 
                             <div id="check_payment_app" style="display: none">
-                                <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                    <tr style="color: black">
-                                        <td style="width: 20%">รหัสบัตรประชาชน</td>
-                                        <td style="width: 20%">ชื่อ - นามสกุล</td>
-                                        <td style="width: 20%" align="center">วันเวลาในการชำระเงิน</td>
-                                        <td style="width: 20%" align="center">เบอร์โทรศัพท์</td>
-                                        <td style="width: 20%" align="center">สถานะการสมัคร</td>
-                                    </tr>
+                                <table class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                    <thead>
+                                        <tr style="color: black">
+                                            <td style="width: 20%"><b style="font-size: 14px">รหัสบัตรประชาชน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">ชื่อ - นามสกุล</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">วันเวลาในการชำระเงิน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">เบอร์โทรศัพท์</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">สถานะการสมัคร</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                     <c:choose>
                                         <c:when test="${register_detail.size() == 0}">
                                             <tr>
@@ -964,18 +1001,22 @@
                                             </c:if>
                                         </c:otherwise>
                                     </c:choose>
+                                    </tbody>
                                 </table>
                             </div>
 
                             <div id="not_payment_app" style="display: none">
-                                <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                    <tr style="color: black">
-                                        <td style="width: 20%">รหัสบัตรประชาชน</td>
-                                        <td style="width: 20%">ชื่อ - นามสกุล</td>
-                                        <td style="width: 20%" align="center">วันที่สมัคร</td>
-                                        <td style="width: 20%" align="center">เบอร์โทรศัพท์</td>
-                                        <td style="width: 20%" align="center">สถานะการสมัคร</td>
-                                    </tr>
+                                <table class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                    <thead>
+                                        <tr style="color: black">
+                                            <td style="width: 20%"><b style="font-size: 14px">รหัสบัตรประชาชน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">ชื่อ - นามสกุล</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">วันที่สมัคร</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">เบอร์โทรศัพท์</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">สถานะการสมัคร</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                     <c:choose>
                                         <c:when test="${register_detail.size() == 0}">
                                             <tr>
@@ -1024,18 +1065,22 @@
                                             </c:if>
                                         </c:otherwise>
                                     </c:choose>
+                                    </tbody>
                                 </table>
                             </div>
 
                             <div id="false_payment_app" style="display: none">
-                                <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                    <tr style="color: black">
-                                        <td style="width: 20%">รหัสบัตรประชาชน</td>
-                                        <td style="width: 20%">ชื่อ - นามสกุล</td>
-                                        <td style="width: 20%" align="center">วันเวลาในการชำระเงิน</td>
-                                        <td style="width: 20%" align="center">เบอร์โทรศัพท์</td>
-                                        <td style="width: 20%" align="center">สถานะการสมัคร</td>
-                                    </tr>
+                                <table class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                    <thead>
+                                        <tr style="color: black">
+                                            <td style="width: 20%"><b style="font-size: 14px">รหัสบัตรประชาชน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">ชื่อ - นามสกุล</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">วันเวลาในการชำระเงิน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">เบอร์โทรศัพท์</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px">สถานะการสมัคร</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                     <c:choose>
                                         <c:when test="${register_detail.size() == 0}">
                                             <tr>
@@ -1098,6 +1143,7 @@
                                             </c:if>
                                         </c:otherwise>
                                     </c:choose>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -1115,14 +1161,17 @@
                                 </div>
                             </div>
                             <hr>
-                            <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                <tr style="color: black">
-                                    <td style="width: 20%">รหัสบัตรประชาชน</td>
-                                    <td style="width: 20%">ชื่อ - นามสกุล</td>
-                                    <td style="width: 20%" align="center">วันที่สมัคร</td>
-                                    <td style="width: 20%" align="center">เบอร์โทรศัพท์</td>
-                                    <td style="width: 20%" align="center">สถานะการเรียน</td>
-                                </tr>
+                            <table class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                <thead>
+                                    <tr style="color: black">
+                                        <td style="width: 20%"><b style="font-size: 14px">รหัสบัตรประชาชน</b></td>
+                                        <td style="width: 20%" align="center"><b style="font-size: 14px">ชื่อ - นามสกุล</b></td>
+                                        <td style="width: 20%" align="center"><b style="font-size: 14px">วันที่สมัคร</b></td>
+                                        <td style="width: 20%" align="center"><b style="font-size: 14px">เบอร์โทรศัพท์</b></td>
+                                        <td style="width: 20%" align="center"><b style="font-size: 14px">สถานะการเรียน</b></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                 <c:choose>
                                     <c:when test="${register_detail.size() == 0}">
                                         <tr>
@@ -1155,6 +1204,7 @@
                                         </c:if>
                                     </c:otherwise>
                                 </c:choose>
+                                </tbody>
                             </table>
                         </div>
                     </c:if>
@@ -1172,14 +1222,17 @@
                                 </div>
                             </div>
                             <hr>
-                            <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                <tr style="color: black">
-                                    <td style="width: 20%">รหัสบัตรประชาชน</td>
-                                    <td style="width: 20%">ชื่อ - นามสกุล</td>
-                                    <td style="width: 20%" align="center">วันที่สมัคร</td>
-                                    <td style="width: 20%" align="center">เบอร์โทรศัพท์</td>
-                                    <td style="width: 20%" align="center">สถานะการชำระเงิน</td>
-                                </tr>
+                            <table class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                <thead>
+                                    <tr style="color: black">
+                                        <td style="width: 20%"><b style="font-size: 14px">รหัสบัตรประชาชน</b></td>
+                                        <td style="width: 20%" align="center"><b style="font-size: 14px">ชื่อ - นามสกุล</b></td>
+                                        <td style="width: 20%" align="center"><b style="font-size: 14px">วันที่สมัคร</b></td>
+                                        <td style="width: 20%" align="center"><b style="font-size: 14px">เบอร์โทรศัพท์</b></td>
+                                        <td style="width: 20%" align="center"><b style="font-size: 14px">สถานะการชำระเงิน</b></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                 <c:choose>
                                     <c:when test="${register_detail.size() == 0}">
                                         <tr>
@@ -1212,6 +1265,7 @@
                                         </c:forEach>
                                     </c:otherwise>
                                 </c:choose>
+                                </tbody>
                             </table>
                         </div>
                     </c:if>

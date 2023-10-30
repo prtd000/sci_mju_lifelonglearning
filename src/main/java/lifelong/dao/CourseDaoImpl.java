@@ -65,6 +65,15 @@ public class CourseDaoImpl implements CourseDao {
         query.setParameter("c_status", status);
         return query.getResultList();
     }
+
+    @Override
+    public List<Course> getAllCourseByStatusNotStudy() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Course> query = session.createQuery("from Course where status =: c_status order by action_date desc",Course.class);
+        query.setParameter("c_status", "ยังไม่เปิดสอน");
+        return query.getResultList();
+    }
+
     @Override
     public List<Course> getCourseByStatusByRegister(String status1, String status2, String status3, String status4) {
         Session session = sessionFactory.getCurrentSession();

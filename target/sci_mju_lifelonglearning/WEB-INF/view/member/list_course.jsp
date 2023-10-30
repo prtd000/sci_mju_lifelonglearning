@@ -135,8 +135,9 @@
             <c:forEach var="invoice" items="${register}">
                 <tr>
                     <c:choose>
-                        <c:when test="${invoice.requestOpenCourse.course.fee == 0 || invoice.invoice.pay_status == true && (current_register.equals(invoice.requestOpenCourse.applicationResult) || current_register.after(invoice.requestOpenCourse.applicationResult))}">
-                            <c:choose>
+<%--                        <c:when test="${invoice.requestOpenCourse.course.fee == 0 || invoice.invoice.pay_status == true && (current_register.equals(invoice.requestOpenCourse.applicationResult) || current_register.after(invoice.requestOpenCourse.applicationResult))}">--%>
+                        <c:when test="${invoice.requestOpenCourse.course.fee == 0 || invoice.invoice.pay_status == true}">
+                        <c:choose>
                                 <c:when test="${invoice.invoice.approve_status.equals('ผ่าน')}">
                                     <td><p>${invoice.requestOpenCourse.course.name}</p></td>
                                     <fmt:formatDate value="${invoice.requestOpenCourse.startStudyDate}"
@@ -169,27 +170,33 @@
                                         </c:when>
 
                                         <c:when test="${invoice.study_result.equals('กำลังเรียน')}">
-                                            <c:set var="current" value="<%=LocalDate.now()%>"/>
-                                            <c:set var="startStudyDate"
-                                                   value="${invoice.requestOpenCourse.startStudyDate.toLocalDate()}"/>
-                                            <c:set var="endStudyDate"
-                                                   value="${invoice.requestOpenCourse.endStudyDate.toLocalDate()}"/>
+                                            <c:if test="${(current_register.equals(invoice.requestOpenCourse.applicationResult) || current_register.after(invoice.requestOpenCourse.applicationResult))}">
+                                                <c:set var="current" value="<%=LocalDate.now()%>"/>
+                                                <c:set var="startStudyDate" value="${invoice.requestOpenCourse.startStudyDate.toLocalDate()}"/>
+                                                <c:set var="endStudyDate" value="${invoice.requestOpenCourse.endStudyDate.toLocalDate()}"/>
 
-                                            <c:if test="${current.isBefore(startStudyDate)}">
-                                                <td><p style="color: black; font-weight: bold; text-align: center;">
-                                                    เร็วๆนี้</p></td>
-                                                <td></td>
+                                                <c:if test="${current.isBefore(startStudyDate)}">
+                                                    <td><p style="color: black; font-weight: bold; text-align: center;">
+                                                        เร็วๆนี้</p></td>
+                                                    <td></td>
+                                                </c:if>
+
+                                                <c:if test="${current.equals(startStudyDate) || current.equals(endStudyDate) || (current.isAfter(startStudyDate) && current.isBefore(endStudyDate))}">
+                                                    <td style="width: 170px; text-align: center; color: #ee8e18; font-weight: bold;">${invoice.study_result}</td>
+                                                    <td style="text-align: center">
+                                                        <a href="${invoice.requestOpenCourse.linkMooc}">
+                                                            <button type="button" class="btn btn-outline-success">
+                                                                เข้าเรียน
+                                                            </button>
+                                                        </a>
+                                                    </td>
+                                                </c:if>
                                             </c:if>
-
-                                            <c:if test="${current.equals(startStudyDate) || current.equals(endStudyDate) || (current.isAfter(startStudyDate) && current.isBefore(endStudyDate))}">
-                                                <td style="width: 170px; text-align: center; color: #ee8e18; font-weight: bold;">${invoice.study_result}</td>
-                                                <td style="text-align: center">
-                                                    <a href="${invoice.requestOpenCourse.linkMooc}">
-                                                        <button type="button" class="btn btn-outline-success">
-                                                            เข้าเรียน
-                                                        </button>
-                                                    </a>
+                                            <c:if test="${(current_register ne invoice.requestOpenCourse.applicationResult && current_register.before(invoice.requestOpenCourse.applicationResult))}">
+                                                <td>
+                                                    <p style="color: black; text-align: center;">รอประกาศผล</p>
                                                 </td>
+                                                <td></td>
                                             </c:if>
                                         </c:when>
 

@@ -38,5 +38,6 @@ public interface RegisterService {
     void deleteInvoice (long id);
 
     void updateRegister(Register register);
+    List<Register> getRegisterByRequestIdOrderByStatus(long roc_Id, String status);
 
 }

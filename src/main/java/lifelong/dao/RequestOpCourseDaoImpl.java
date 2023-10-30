@@ -47,7 +47,7 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
     @Override
     public List<RequestOpenCourse> getRequestOpenCoursesByTypeRegister() {
         Session session = sessionFactory.getCurrentSession();
-        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse ORDER BY endRegister ASC", RequestOpenCourse.class);
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse ORDER BY endRegister asc", RequestOpenCourse.class);
         List<RequestOpenCourse> requestOpenCourses = query.getResultList();
         return requestOpenCourses;
     }
@@ -304,6 +304,99 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
         query.setParameter("c_status4", status4);
         query.setParameter("c_lec", lec_id);
         return query.getResultList();
+    }
+
+    @Override
+    public List<RequestOpenCourse> getAllRequestByStatusByRegister() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where course.status IN (:c_status1, :c_status2, :c_status3, :c_status4) and requestStatus =: req_status ORDER BY endRegister asc", RequestOpenCourse.class);
+        query.setParameter("c_status1", "ลงทะเบียน");
+        query.setParameter("c_status2", "ลงทะเบียน/ชำระเงิน");
+        query.setParameter("c_status3", "ชำระเงิน");
+        query.setParameter("c_status4", "รอประกาศผล");
+        query.setParameter("req_status","ผ่าน");
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
+
+    @Override
+    public List<RequestOpenCourse> getNoMaxRequestByStatusByRegister() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where course.status IN (:c_status1) and requestStatus =: req_status and quantity > registerList.size ORDER BY endRegister asc", RequestOpenCourse.class);
+        query.setParameter("c_status1", "ลงทะเบียน");
+        query.setParameter("req_status","ผ่าน");
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
+
+    @Override
+    public List<RequestOpenCourse> getRegisAndPayRequestByStatusByRegister() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where course.status IN (:c_status1) and requestStatus =: req_status and quantity > registerList.size ORDER BY endRegister asc", RequestOpenCourse.class);
+        query.setParameter("c_status1", "ลงทะเบียน/ชำระเงิน");
+        query.setParameter("req_status","ผ่าน");
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
+
+    @Override
+    public List<RequestOpenCourse> getPayRequestByStatusByRegister() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where course.status IN (:c_status1) and requestStatus =: req_status ORDER BY endPayment asc", RequestOpenCourse.class);
+        query.setParameter("c_status1", "ชำระเงิน");
+        query.setParameter("req_status","ผ่าน");
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
+
+    @Override
+    public List<RequestOpenCourse> getAllRequestByStatusByMaxRegister() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where course.status IN (:c_status1, :c_status2, :c_status3) and requestStatus =: req_status and quantity <= registerList.size ORDER BY applicationResult asc", RequestOpenCourse.class);
+        query.setParameter("c_status1", "ลงทะเบียน");
+        query.setParameter("c_status2", "ลงทะเบียน/ชำระเงิน");
+        query.setParameter("c_status3", "ชำระเงิน");
+        query.setParameter("req_status","ผ่าน");
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
+
+    @Override
+    public List<RequestOpenCourse> getAppRequestByStatusByRegister() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where course.status IN (:c_status1) and requestStatus =: req_status ORDER BY applicationResult asc", RequestOpenCourse.class);
+        query.setParameter("c_status1", "รอประกาศผล");
+        query.setParameter("req_status","ผ่าน");
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
+
+    @Override
+    public List<RequestOpenCourse> getAllRequestByStatusByStudy() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where course.status IN (:c_status1) and requestStatus =: req_status ORDER BY endStudyDate asc", RequestOpenCourse.class);
+        query.setParameter("c_status1", "เปิดสอน");
+        query.setParameter("req_status","ผ่าน");
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
+
+    @Override
+    public List<RequestOpenCourse> getAllCancelRequestByStatus() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where requestStatus =: req_status ORDER BY requestDate desc", RequestOpenCourse.class);
+        query.setParameter("req_status","ถูกยกเลิก");
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
+
+    @Override
+    public List<RequestOpenCourse> getAllRequestBeforeApprove() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where requestStatus =: req_status ORDER BY requestDate desc", RequestOpenCourse.class);
+        query.setParameter("req_status","รอดำเนินการ");
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
     }
 
 

@@ -598,7 +598,7 @@
                 n++;
             }
         </c:forEach>
-        if (n === 3) {
+        if (n >= 3) {
             if (confirm('ยืนยันการลงทะเบียน')) {
                 window.location.href = '${pageContext.request.contextPath}/member/' + `${memId}` + '/register_course/' + `${course.course_id}` + '/' + `${req.request_id}` + '/register';
                 return false;

@@ -185,20 +185,16 @@
                                 <div class="flex-container">
                                     <fmt:formatDate value="${request_name.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
                                     <fmt:formatDate value="${request_name.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                    <label>${startStudyDate} - ${endStudyDate}</label>
+                                    <c:set var="delimiter" value="$%"/>
+                                    <c:set var="subText"
+                                           value="${fn:split(request_name.studyTime, delimiter)}"/>
+                                    <label>${startStudyDate} - ${endStudyDate}</label><br>
+                                    <c:forEach var="ogText" items="${subText}">
+                                        <c:set var="replaceSlash" value="${fn:replace(ogText, '/', ' ')}"/>
+                                        <c:set var="newText" value="${fn:replace(replaceSlash, ',', ' - ')}"/>
+                                        <label style="margin-bottom: 0px">${newText}</label>
+                                    </c:forEach>
                                 </div>
-
-                            </div>
-                            <div>
-                                <c:set var="delimiter" value="$%"/>
-                                <c:set var="subText"
-                                       value="${fn:split(request_name.studyTime, delimiter)}"/>
-                                <label>วันเวลาในการเรียน</label><br>
-                                <c:forEach var="ogText" items="${subText}">
-                                    <c:set var="replaceSlash" value="${fn:replace(ogText, '/', ' ')}"/>
-                                    <c:set var="newText" value="${fn:replace(replaceSlash, ',', ' - ')}"/>
-                                    <p style="margin-bottom: 0px">${newText}</p>
-                                </c:forEach>
                             </div>
                             <b><label>รูปแบบการสอน</label></b>
                             <div class="mb-3">
@@ -234,13 +230,16 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                    <tr style="color: black">
-                                        <td style="width: 25%">รหัสบัตรประชาชน</td>
-                                        <td style="width: 30%" align="center">ชื่อ - นามสกุล</td>
-                                        <td style="width: 15%" align="center">วันที่สมัคร</td>
-                                        <td style="width: 25%" align="center">สถานะการสมัคร</td>
-                                    </tr>
+                                <table class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                    <thead>
+                                        <tr style="color: black">
+                                            <td style="width: 25%"><b style="font-size: 14px;">รหัสบัตรประชาชน</b></td>
+                                            <td style="width: 30%" align="center"><b style="font-size: 14px;">ชื่อ - นามสกุล</b></td>
+                                            <td style="width: 15%" align="center"><b style="font-size: 14px;">วันที่สมัคร</b></td>
+                                            <td style="width: 25%" align="center"><b style="font-size: 14px;">สถานะการสมัคร</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                         <%--                            <c:forEach var="list" items="${registers}">--%>
                                     <c:choose>
                                         <c:when test="${registers_sort_by_action_date.size() == 0}">
@@ -272,6 +271,7 @@
                                             </c:forEach>
                                         </c:otherwise>
                                     </c:choose>
+                                    </tbody>
                                 </table>
                             </div>
                         </c:if>
@@ -288,15 +288,18 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                    <tr style="color: black">
-                                        <td style="width: 20%">รหัสบัตรประชาชน</td>
-                                        <td style="width: 20%">ชื่อ - นามสกุล</td>
-                                        <td style="width: 10%" align="center">วันที่สมัคร</td>
-                                        <td style="width: 15%" align="center">วันที่ชำระเงิน</td>
-                                        <td style="width: 20%" align="center">เบอร์โทรศัพท์</td>
-                                        <td style="width: 20%" align="center">สถานะการสมัคร</td>
-                                    </tr>
+                                <table class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                    <thead>
+                                        <tr style="color: black">
+                                            <td style="width: 20%"><b style="font-size: 14px;">รหัสบัตรประชาชน</b></td>
+                                            <td style="width: 20%"><b style="font-size: 14px;">ชื่อ - นามสกุล</b></td>
+                                            <td style="width: 10%" align="center"><b style="font-size: 14px;">วันที่สมัคร</b></td>
+                                            <td style="width: 15%" align="center"><b style="font-size: 14px;">วันที่ชำระเงิน</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px;">เบอร์โทรศัพท์</b></td>
+                                            <td style="width: 20%" align="center"><b style="font-size: 14px;">สถานะการสมัคร</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                     <c:choose>
                                         <c:when test="${all_register.size() == 0}">
                                             <tr>
@@ -351,6 +354,7 @@
                                             </c:forEach>
                                         </c:otherwise>
                                     </c:choose>
+                                    </tbody>
                                 </table>
                             </div>
                         </c:if>
@@ -368,14 +372,17 @@
                                 </div>
                                 <hr>
                                 <div id="all_payment" style="display: block">
-                                    <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                        <tr style="color: black">
-                                            <td style="width: 20%">รหัสบัตรประชาชน</td>
-                                            <td style="width: 20%">ชื่อ - นามสกุล</td>
-                                            <td style="width: 20%" align="center">วันเวลาในการชำระเงิน</td>
-                                            <td style="width: 20%" align="center">เบอร์โทรศัพท์</td>
-                                            <td style="width: 20%" align="center">สถานะการสมัคร</td>
-                                        </tr>
+                                    <table class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                        <thead>
+                                            <tr style="color: black">
+                                                <td style="width: 20%"><b style="font-size: 14px;">รหัสบัตรประชาชน</b></td>
+                                                <td style="width: 20%"><b style="font-size: 14px;">ชื่อ - นามสกุล</b></td>
+                                                <td style="width: 20%" align="center"><b style="font-size: 14px;">วันเวลาในการชำระเงิน</b></td>
+                                                <td style="width: 20%" align="center"><b style="font-size: 14px;">เบอร์โทรศัพท์</b></td>
+                                                <td style="width: 20%" align="center"><b style="font-size: 14px;">สถานะการสมัคร</b></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
                                         <c:choose>
                                             <c:when test="${all_register.size() == 0}">
                                                 <tr>
@@ -419,6 +426,7 @@
                                                 </c:forEach>
                                             </c:otherwise>
                                         </c:choose>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -437,15 +445,17 @@
                                 </div>
                                 <hr>
                                 <div id="all_payment_app" style="display: block">
-                                    <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                        <tr style="color: black">
-                                            <td style="width: 20%">รหัสบัตรประชาชน</td>
-                                            <td style="width: 20%">ชื่อ - นามสกุล</td>
-                                            <td style="width: 20%" align="center">วันเวลาในการชำระเงิน</td>
-                                            <td style="width: 20%" align="center">เบอร์โทรศัพท์</td>
-                                            <td style="width: 20%" align="center">สถานะการสมัคร</td>
-                                        </tr>
-
+                                    <table class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                        <thead>
+                                            <tr style="color: black">
+                                                <td style="width: 20%"><b style="font-size: 14px;">รหัสบัตรประชาชน</b></td>
+                                                <td style="width: 20%"><b style="font-size: 14px;">ชื่อ - นามสกุล</b></td>
+                                                <td style="width: 20%" align="center"><b style="font-size: 14px;">วันเวลาในการชำระเงิน</b></td>
+                                                <td style="width: 20%" align="center"><b style="font-size: 14px;">เบอร์โทรศัพท์</b></td>
+                                                <td style="width: 20%" align="center"><b style="font-size: 14px;">สถานะการสมัคร</b></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
                                         <c:choose>
                                             <c:when test="${all_register.size() == 0}">
                                                 <tr>
@@ -491,6 +501,7 @@
                                                 </c:forEach>
                                             </c:otherwise>
                                         </c:choose>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -515,15 +526,18 @@
                                            class="btn btn-outline-primary"/>
                                 </div>
                             </div>
-                            <table id="afterApp" class="table table-striped table-hover" style="width: 100%; align-self: flex-start;">
-                                <tr style="color: black">
-                                    <td style="width: 5%"></td>
-                                    <td style="width: 20%">รหัสบัตรประชาชน</td>
-                                    <td style="width: 35%" align="center">ชื่อ - นามสกุล</td>
-                                    <td style="width: 20%" align="center">สถานะการอบรม</td>
-                                    <td style="width: 10%" align="center"></td>
-                                    <td style="width: 10%" align="center"></td>
-                                </tr>
+                            <table id="afterApp" class="table table-hover" style="width: 100%; align-self: flex-start;">
+                                <thead>
+                                    <tr style="color: black">
+                                        <td style="width: 5%"></td>
+                                        <td style="width: 20%"><b style="font-size: 14px;">รหัสบัตรประชาชน</b></td>
+                                        <td style="width: 35%" align="center"><b style="font-size: 14px;">ชื่อ - นามสกุล</b></td>
+                                        <td style="width: 20%" align="center"><b style="font-size: 14px;">สถานะการอบรม</b></td>
+                                        <td style="width: 10%" align="center"></td>
+                                        <td style="width: 10%" align="center"></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                     <%--                            <c:forEach var="list" items="${registers}">--%>
                                 <c:set var="count" value="1" />
                                 <c:forEach items="${registers}" var="list" >
@@ -542,28 +556,44 @@
                                                     <c:if test="${list.study_result == 'ไม่ผ่าน'}">
                                                         <c:set var="color" value="red"></c:set>
                                                     </c:if>
-                                                    <p style="color: ${color}">${list.study_result}</p>
+                                                    <c:choose>
+                                                        <c:when test="${currentDate >= request_name.startStudyDate}">
+                                                            <p style="color: ${color}">${list.study_result}</p>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <p>รอถึงวันเรียน</p>
+                                                        </c:otherwise>
+                                                    </c:choose>
+
                                                 </td align="center">
                                                     <%--                <td>--%>
                                                     <%--                    ${list.invoice.pay_status}--%>
                                                     <%--                </td>--%>
 
+
                                                 <c:choose>
-                                                    <c:when test="${list.study_result == 'ผ่าน'}">
-                                                        <td align="center">
-                                                            <input type="submit" name="studyResult" class="btn btn-danger" value="ไม่ผ่านหลักสูตร"/>
-                                                        </td>
-                                                        <td align="center">
-                                                            <input type="submit" name="studyResult" value="ผ่านหลักสูตร" class="btn btn-success" style="display: none;"/>
-                                                        </td>
+                                                    <c:when test="${currentDate >= request_name.startStudyDate}">
+                                                        <c:choose>
+                                                            <c:when test="${list.study_result == 'ผ่าน'}">
+                                                                <td align="center">
+                                                                    <input type="submit" name="studyResult" class="btn btn-danger" value="ไม่ผ่านหลักสูตร"/>
+                                                                </td>
+                                                                <td align="center">
+                                                                    <input type="submit" name="studyResult" value="ผ่านหลักสูตร" class="btn btn-success" style="display: none;"/>
+                                                                </td>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <td align="center">
+                                                                    <input type="submit" name="studyResult" class="btn btn-success" value="ผ่านหลักสูตร"/>
+                                                                </td>
+                                                                <td align="center">
+                                                                    <input type="submit" name="studyResult" value="ไม่ผ่านหลักสูตร" class="btn btn-danger" style="display: none;"/>
+                                                                </td>
+                                                            </c:otherwise>
+                                                        </c:choose>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <td align="center">
-                                                            <input type="submit" name="studyResult" class="btn btn-success" value="ผ่านหลักสูตร"/>
-                                                        </td>
-                                                        <td align="center">
-                                                            <input type="submit" name="studyResult" value="ไม่ผ่านหลักสูตร" class="btn btn-danger" style="display: none;"/>
-                                                        </td>
+                                                        <td colspan="2"></td>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </tr>
@@ -573,6 +603,7 @@
 
 
                                 </c:forEach>
+                                </tbody>
                             </table>
                         </c:if>
                     </div>

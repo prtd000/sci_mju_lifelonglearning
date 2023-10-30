@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class RegisterDaoImpl implements RegisterDao {
@@ -54,6 +55,31 @@ public class RegisterDaoImpl implements RegisterDao {
         Query<Register> query = session.createQuery("from Register r where r.requestOpenCourse.id =: Id ", Register.class);
         query.setParameter("Id",roc_Id);
         List<Register> registers = query.getResultList();
+        return registers;
+    }
+
+    @Override
+    public List<Register> getRegisterByRequestIdOrderByStatus(long roc_Id, String status) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Register> query;
+        List<Register> registers = null;
+        if (Objects.equals(status, "ลงทะเบียน")){
+            query = session.createQuery("from Register r where r.requestOpenCourse.id =: Id and r.requestOpenCourse.course.status =: r_status order by register_date asc", Register.class);
+            query.setParameter("Id",roc_Id);
+            query.setParameter("r_status",status);
+            registers = query.getResultList();
+        } else if (Objects.equals(status, "ลงทะเบียน/ชำระเงิน")) {
+            query = session.createQuery("from Register r where r.requestOpenCourse.id =: Id and r.requestOpenCourse.course.status =: r_status order by "
+                    + "CASE "
+                    + "  WHEN r.invoice.approve_status = 'รอดำเนินการ' and r.invoice.pay_status = true THEN 1 "
+                    + "  WHEN r.invoice.approve_status = 'ผ่าน' THEN 2 "
+                    + "  WHEN r.invoice.approve_status = 'ไม่ผ่าน' THEN 3 "
+                    + "  WHEN r.invoice.approve_status = 'รอดำเนินการ' and r.invoice.pay_status = false THEN 4 "
+                    + "END", Register.class);
+            query.setParameter("Id",roc_Id);
+            query.setParameter("r_status",status);
+            registers = query.getResultList();
+        }
         return registers;
     }
 

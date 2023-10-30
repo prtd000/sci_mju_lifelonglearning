@@ -109,35 +109,33 @@
                                     </c:when>
                                     <c:otherwise>
                                         <c:forEach var="request_course" items="${requests_open_course}">
-                                            <c:if test="${request_course.requestStatus == 'รอดำเนินการ'}">
-                                                <fmt:formatDate value="${request_course.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
-                                                <fmt:formatDate value="${request_course.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
-                                                <fmt:formatDate value="${request_course.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
-                                                <fmt:formatDate value="${request_course.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
-                                                <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
-                                                <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                                <fmt:formatDate value="${request_course.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
-                                                <tr style="color: black">
-                                                    <td><p>${request_course.course.name}</p></td>
-                                                    <td align="center">${startRegister} - ${endRegister}</td>
-                                                    <c:choose>
-                                                        <c:when test="${request_course.course.fee != 0}">
-                                                            <td align="center"><p>${startPayment} - ${endPayment}</p></td>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <td align="center"><p>ไม่มีการชำระเงิน(ฟรี)</p></td>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                    <td align="center"><p>${applicationResult}</p></td>
-                                                    <td align="center"><p>${startStudyDate} - ${endStudyDate}</p></td>
-                                                    <td align="center"><p>${request_course.lecturer.firstName} ${request_course.lecturer.lastName}</p></td>
-                                                    <td align="center">
-                                                        <a href="${pageContext.request.contextPath}/course/${admin_id}/view_request_open_course/${request_course.request_id}">
-                                                            <button class="button-35" role="button">รายละเอียด</button>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </c:if>
+                                            <fmt:formatDate value="${request_course.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
+                                            <fmt:formatDate value="${request_course.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
+                                            <fmt:formatDate value="${request_course.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
+                                            <fmt:formatDate value="${request_course.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
+                                            <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                            <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
+                                            <fmt:formatDate value="${request_course.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
+                                            <tr style="color: black">
+                                                <td><p>${request_course.course.name}</p></td>
+                                                <td align="center">${startRegister} - ${endRegister}</td>
+                                                <c:choose>
+                                                    <c:when test="${request_course.course.fee != 0}">
+                                                        <td align="center"><p>${startPayment} - ${endPayment}</p></td>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <td align="center"><p>ไม่มีการชำระเงิน(ฟรี)</p></td>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <td align="center"><p>${applicationResult}</p></td>
+                                                <td align="center"><p>${startStudyDate} - ${endStudyDate}</p></td>
+                                                <td align="center"><p>${request_course.lecturer.firstName} ${request_course.lecturer.lastName}</p></td>
+                                                <td align="center">
+                                                    <a href="${pageContext.request.contextPath}/course/${admin_id}/view_request_open_course/${request_course.request_id}">
+                                                        <button class="button-35" role="button">รายละเอียด</button>
+                                                    </a>
+                                                </td>
+                                            </tr>
                                         </c:forEach>
                                     </c:otherwise>
                                 </c:choose>

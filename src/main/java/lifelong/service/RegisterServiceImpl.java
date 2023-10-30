@@ -122,4 +122,10 @@ public class RegisterServiceImpl implements RegisterService {
     public void updateRegister(Register register) {
         registerDao.updateRegister(register);
     }
+
+    @Override
+    @Transactional
+    public List<Register> getRegisterByRequestIdOrderByStatus(long roc_Id, String status) {
+        return registerDao.getRegisterByRequestIdOrderByStatus(roc_Id,status);
+    }
 }

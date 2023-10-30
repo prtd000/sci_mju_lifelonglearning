@@ -993,14 +993,14 @@
             }
         }
         //-----------prefix Fname ------------------
-        var regExName = /^[ก-์A-Za-z ]{2,50}$/;
+        var regExName = /^[ก-์A-Za-z]{2,50}$/;
         var fname_contacts = document.getElementById("fname_contacts").value;
         if (fname_contacts === ""){
             document.getElementById("invalidFNameContacts").innerHTML = "กรุณากรอกชื่อ";
             document.getElementById("fname_contacts").focus();
             return false;
         } else if (!fname_contacts.match(regExName)) {
-            document.getElementById("invalidFNameContacts").innerHTML = "ตัองเป็นภาษาไทย หรืออังกฤษเท่านั้น และต้องมีจำนวน 2-50 ตัวอักษร";
+            document.getElementById("invalidFNameContacts").innerHTML = "ตัองเป็นภาษาไทย หรืออังกฤษเท่านั้น ต้องมีจำนวน 2-50 ตัวอักษร และต้องห้้ามมีช่องว่าง";
             document.getElementById("fname_contacts").focus();
             document.getElementById("fname_contacts").value = "";
             return false;
@@ -1024,14 +1024,14 @@
         }
 
         //-----------faculty ------------------
-        var regFxName = /^[ก-์A-Za-z ]{2,100}$/;
+        var regFxName = /^[ก-์A-Za-z]{2,100}$/;
         var faculty = document.getElementById("faculty").value;
         if (faculty === ""){
             document.getElementById("invalidFaculty").innerHTML = "กรุณากรอกสังกัดคณะ/วิทยาลัย";
             document.getElementById("faculty").focus();
             return false;
         } else if (faculty.length < 2 || faculty.length > 100) {
-            document.getElementById("invalidFaculty").innerHTML = "ต้องมีจำนวน 2-100 ตัวอักษร";
+            document.getElementById("invalidFaculty").innerHTML = "ต้องมีจำนวน 2-100 ตัวอักษร และห้ามมีช่องว่าง";
             document.getElementById("faculty").focus();
             document.getElementById("faculty").value = "";
             return false;

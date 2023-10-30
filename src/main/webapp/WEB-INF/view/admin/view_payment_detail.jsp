@@ -157,11 +157,11 @@
                             </div>
                             <c:choose>
                                 <c:when test="${payment.invoice.register.requestOpenCourse.requestStatus != 'ถูกยกเลิก'}">
-                                    <input type="submit" name="approveResult" value="ยกเลิกการสมัคร" class="cancel-button" style="width: 47%;font-family: 'Prompt', sans-serif;"/>
-                                    <input type="submit" name="approveResult" value="ยืนยันการสมัคร" class="button-5" style="width: 47%;font-family: 'Prompt', sans-serif;"/>
+                                    <input type="submit" name="approveResult" value="แก้ไขการชำระเงิน" class="cancel-button" style="width: 49%;font-family: 'Prompt', sans-serif;"/>
+                                    <input type="submit" name="approveResult" value="ยืนยันการชำระเงิน" class="button-5" style="width: 49%;font-family: 'Prompt', sans-serif;"/>
                                 </c:when>
                                 <c:otherwise>
-                                    <input type="button" value="ย้อนกลับ" onclick="window.location.href='${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/list_all_course'; return false;" class="cancel-button" style="width: 47%;font-family: 'Prompt', sans-serif;"/>
+                                    <input type="button" value="ย้อนกลับ" onclick="window.location.href='${pageContext.request.contextPath}/course/${request_id}/list_member_to_course'; return false;" class="cancel-button" style="width: 47%;font-family: 'Prompt', sans-serif;"/>
                                 </c:otherwise>
                             </c:choose>
                         </form>

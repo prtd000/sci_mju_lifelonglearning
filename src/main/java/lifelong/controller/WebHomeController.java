@@ -73,11 +73,18 @@ public class WebHomeController {
                         requestOpenCourse.getCourse().setStatus("ยังไม่เปิดสอน");
                         requestOpenCourse.setRequestStatus("เสร็จสิ้น");
                     }
-                }else if (!Objects.equals(requestOpenCourse.getCourse().getStatus(), "รอประกาศผล") && !Objects.equals(requestOpenCourse.getCourse().getStatus(), "ชำระเงิน") && currentDate.getTime() >= requestOpenCourse.getStartPayment().getTime() && currentDate.getTime() <= requestOpenCourse.getEndPayment().getTime() && currentDate.getTime() <= requestOpenCourse.getEndRegister().getTime()) {
+                }
+                else if (!Objects.equals(requestOpenCourse.getCourse().getStatus(), "รอประกาศผล") && !Objects.equals(requestOpenCourse.getCourse().getStatus(), "ชำระเงิน") && currentDate.getTime() >= requestOpenCourse.getStartPayment().getTime() && currentDate.getTime() <= requestOpenCourse.getEndPayment().getTime() && currentDate.getTime() <= requestOpenCourse.getEndRegister().getTime()) {
                     requestOpenCourse.getCourse().setStatus("ลงทะเบียน/ชำระเงิน");
                 }else if (!Objects.equals(requestOpenCourse.getCourse().getStatus(), "รอประกาศผล") && !Objects.equals(requestOpenCourse.getCourse().getStatus(), "ชำระเงิน") && currentDate.getTime() < requestOpenCourse.getStartPayment().getTime() && currentDate.getTime() <= requestOpenCourse.getEndRegister().getTime() && requestOpenCourse.getEndRegister().getTime() < requestOpenCourse.getStartPayment().getTime()) {
                     requestOpenCourse.getCourse().setStatus("ลงทะเบียน");
-                }else if (!Objects.equals(requestOpenCourse.getCourse().getStatus(), "รอประกาศผล") && currentDate.getTime() >= requestOpenCourse.getStartPayment().getTime() && currentDate.getTime() <= requestOpenCourse.getEndPayment().getTime() && currentDate.getTime() > requestOpenCourse.getEndRegister().getTime()) {
+                }
+//                else if (!Objects.equals(requestOpenCourse.getCourse().getStatus(), "รอประกาศผล") && currentDate.getTime() >= requestOpenCourse.getStartPayment().getTime() && currentDate.getTime() <= requestOpenCourse.getEndPayment().getTime() && currentDate.getTime() <= requestOpenCourse.getEndRegister().getTime()) {
+//                    requestOpenCourse.getCourse().setStatus("ลงทะเบียน/ชำระเงิน");
+//                }else if (!Objects.equals(requestOpenCourse.getCourse().getStatus(), "รอประกาศผล") && currentDate.getTime() < requestOpenCourse.getStartPayment().getTime() && currentDate.getTime() <= requestOpenCourse.getEndRegister().getTime() && requestOpenCourse.getEndRegister().getTime() < requestOpenCourse.getStartPayment().getTime()) {
+//                    requestOpenCourse.getCourse().setStatus("ลงทะเบียน");
+//                }
+                else if (!Objects.equals(requestOpenCourse.getCourse().getStatus(), "รอประกาศผล") && currentDate.getTime() >= requestOpenCourse.getStartPayment().getTime() && currentDate.getTime() <= requestOpenCourse.getEndPayment().getTime() && currentDate.getTime() > requestOpenCourse.getEndRegister().getTime()) {
                     requestOpenCourse.getCourse().setStatus("ชำระเงิน");
                 }else if (currentDate.getTime() > requestOpenCourse.getEndPayment().getTime() && currentDate.getTime() < requestOpenCourse.getApplicationResult().getTime()){
                     requestOpenCourse.getCourse().setStatus("รอประกาศผล");

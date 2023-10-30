@@ -170,6 +170,60 @@ public class RequestOpCourseServiceImpl implements RequestOpCourseService {
 
     @Override
     @Transactional
+    public List<RequestOpenCourse> getAllRequestByStatusByRegister() {
+        return requestOpCourseDao.getAllRequestByStatusByRegister();
+    }
+
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> getNoMaxRequestByStatusByRegister() {
+        return requestOpCourseDao.getNoMaxRequestByStatusByRegister();
+    }
+
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> getRegisAndPayRequestByStatusByRegister() {
+        return requestOpCourseDao.getRegisAndPayRequestByStatusByRegister();
+    }
+
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> getPayRequestByStatusByRegister() {
+        return requestOpCourseDao.getPayRequestByStatusByRegister();
+    }
+
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> getAllRequestByStatusByMaxRegister() {
+        return requestOpCourseDao.getAllRequestByStatusByMaxRegister();
+    }
+
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> getAppRequestByStatusByRegister() {
+        return requestOpCourseDao.getAppRequestByStatusByRegister();
+    }
+
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> getAllRequestByStatusByStudy() {
+        return requestOpCourseDao.getAllRequestByStatusByStudy();
+    }
+
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> getAllCancelRequestByStatus() {
+        return requestOpCourseDao.getAllCancelRequestByStatus();
+    }
+
+    @Override
+    @Transactional
+    public List<RequestOpenCourse> getAllRequestBeforeApprove() {
+        return requestOpCourseDao.getAllRequestBeforeApprove();
+    }
+
+    @Override
+    @Transactional
     public List<RequestOpenCourse> getRequestOpenCoursesByLecturerId(String lec_Id) {
         return requestOpCourseDao.getRequestOpenCoursesByLecturerId(lec_Id);
     }

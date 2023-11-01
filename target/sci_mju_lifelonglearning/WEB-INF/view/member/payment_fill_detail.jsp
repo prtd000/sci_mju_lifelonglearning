@@ -265,7 +265,9 @@
                 </td>
             </tr>
             <tr>
-                <td></td>
+                <td>
+
+                </td>
                 <td>
                     <table style="margin-top: 30px">
                         <tr>
@@ -309,6 +311,11 @@
                 </td>
             </tr>
         </table>
+    </form>
+
+    <form action="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/listcourse" method="get">
+        <input type="hidden" name="fromPage" value="paymentPage">
+        <button class="btn btn-outline-dark" style="position: absolute; margin-top: -56px; width: 39%; margin-left: -40%;">ย้อนกลับ</button>
     </form>
 </center>
 

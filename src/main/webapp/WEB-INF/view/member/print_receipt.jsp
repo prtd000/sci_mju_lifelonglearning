@@ -201,7 +201,10 @@
         </table>
     </div>
     <br>
-    <a href="${pageContext.request.contextPath}/" style="font-weight: bold;">กลับหน้าแรก</a>
+    <form action="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/listcourse" method="GET">
+        <input type="hidden" name="fromPage" value="paymentReceipt">
+        <input type="submit" value="ย้อนกลับ" class="btn btn-secondary">
+    </form>
 </center>
 
 <script>

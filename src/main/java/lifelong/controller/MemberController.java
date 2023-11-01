@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -142,7 +143,7 @@ public class MemberController {
     }
 
     @GetMapping("{memid}/listcourse")
-    public String getListCourseDetail(@PathVariable("memid") String memId, Model model) {
+    public String getListCourseDetail(@PathVariable("memid") String memId, HttpServletRequest request, Model model) {
         Date currentDate = new Date(); // วันปัจจุบัน
 
         model.addAttribute("list_course", memberService.getMyListCourse(memId));
@@ -151,6 +152,7 @@ public class MemberController {
         model.addAttribute("listAllInvoice", paymentService.getListInvoice());
         model.addAttribute("register", registerService.getRegister(memId));
         model.addAttribute("receipt", paymentService.getReceiptByMemberId(memId));
+        model.addAttribute("fromPage", request.getParameter("fromPage"));
 
 
         Calendar calendar = Calendar.getInstance();

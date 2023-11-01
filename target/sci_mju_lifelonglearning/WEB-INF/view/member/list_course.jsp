@@ -109,8 +109,8 @@
 
     <%--    Button Switch--%>
     <button id="FClick" class="tablinks btn btn-success" style="width: 12%;" onclick="openList(event, 'listCourse')">หลักสูตร</button>
-    <button class="tablinks btn btn-danger" style="width: 12%;" onclick="openList(event, 'listInvoice')">การชำระเงิน</button>
-    <button class="tablinks btn btn-dark" style="width: 12%;" onclick="openList(event, 'listHistory')">ประวัติการทำรายการ</button>
+    <button id="SClick" class="tablinks btn btn-danger" style="width: 12%;" onclick="openList(event, 'listInvoice')">การชำระเงิน</button>
+    <button id="TClick" class="tablinks btn btn-dark" style="width: 12%;" onclick="openList(event, 'listHistory')">ประวัติการทำรายการ</button>
     <br><br>
 
 
@@ -157,7 +157,7 @@
                                             <td style="width: 170px; text-align: center; color: green; font-weight: bold;">${invoice.study_result}</td>
                                             <td>
                                                 <a href="${pageContext.request.contextPath}/member/${invoice.member.username}/certificate/${invoice.register_id}">
-                                                    <button style="text-align: center;" class="btn btn-outline-success">
+                                                    <button style="text-align: center; width: 95%;" class="btn btn-outline-success">
                                                         ดูเกียรติบัตร
                                                     </button>
                                                 </a>
@@ -180,7 +180,7 @@
                                                     <td style="width: 170px; text-align: center; color: #ee8e18; font-weight: bold;">${invoice.study_result}</td>
                                                     <td style="text-align: center">
                                                         <a href="${invoice.requestOpenCourse.linkMooc}">
-                                                            <button type="button" class="btn btn-outline-success">
+                                                            <button type="button" style="width: 95%;" class="btn btn-outline-success">
                                                                 เข้าเรียน
                                                             </button>
                                                         </a>
@@ -410,8 +410,17 @@
 
 <script>
     window.addEventListener('DOMContentLoaded', (event) => {
-        var button = document.getElementById('FClick');
-        button.click()
+        // var button = document.getElementById('FClick');
+        // button.click()
+        if (`${fromPage}` === ''){
+            document.getElementById('FClick').click();
+        } else if (`${fromPage}` === 'paymentPage'){
+            document.getElementById('SClick').click();
+        }else if (`${fromPage}` === 'paymentReceipt'){
+            document.getElementById('TClick').click()
+        }
+
+        console.log("fromPage : " + `${fromPage}`)
     });
 
     function openList(evt, list_name) {

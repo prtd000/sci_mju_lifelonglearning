@@ -209,6 +209,8 @@
     <br>
     <button id="downloadButton" class="btn-download-cer">ดาวน์โหลดเกียรติบัตร</button>
 
+    <br><br><br>
+
     <script>
         document.getElementById('downloadButton').addEventListener('click', function () {
             // แปลงรูปภาพเป็น Canvas
@@ -235,5 +237,6 @@
         });
     </script>
 </center>
+
 </body>
 </html>

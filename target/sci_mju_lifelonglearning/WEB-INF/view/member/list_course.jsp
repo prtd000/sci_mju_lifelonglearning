@@ -108,14 +108,9 @@
     <br>
 
     <%--    Button Switch--%>
-    <button id="FClick" class="tablinks btn btn-success" style="width: 12%;" onclick="openList(event, 'listCourse')">
-        หลักสูตร
-    </button>
-    <button class="tablinks btn btn-danger" style="width: 12%;" onclick="openList(event, 'listInvoice')">การชำระเงิน
-    </button>
-    <button class="tablinks btn btn-dark" style="width: 12%;" onclick="openList(event, 'listHistory')">
-        ประวัติการทำรายการ
-    </button>
+    <button id="FClick" class="tablinks btn btn-success" style="width: 12%;" onclick="openList(event, 'listCourse')">หลักสูตร</button>
+    <button class="tablinks btn btn-danger" style="width: 12%;" onclick="openList(event, 'listInvoice')">การชำระเงิน</button>
+    <button class="tablinks btn btn-dark" style="width: 12%;" onclick="openList(event, 'listHistory')">ประวัติการทำรายการ</button>
     <br><br>
 
 
@@ -279,8 +274,8 @@
                                                                 </button>
                                                             </a>
                                                         </td>
-                                                        <td style="text-align: center;"><p
-                                                                style="color: red; font-weight: bold; text-align: center;">
+                                                        <td style="text-align: center;">
+                                                            <p style="color: red; font-weight: bold; text-align: center;">
                                                             กรุณาอัพโหลดหลักฐานการชำระเงินใหม่</p></td>
                                                     </c:otherwise>
                                                 </c:choose>

@@ -50,6 +50,19 @@ public class ActivityDaoImpl implements ActivityDao{
     }
 
     @Override
+    public List<Activity> getPrivateActivity() {
+        Session session = sessionFactory.getCurrentSession();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -3); // ลดเวลากลับ 3 เดือน
+
+        Query<Activity> query = session.createQuery("from Activity a WHERE a.type =: acType AND a.date BETWEEN :startDate AND :endDate ORDER BY a.date DESC",Activity.class);
+        query.setParameter("acType", "ข่าวสารประจำหลักสูตร");
+        query.setParameter("startDate", calendar.getTime());
+        query.setParameter("endDate", new Date()); // วันปัจจุบัน
+        return query.getResultList();
+    }
+
+    @Override
     public List<Activity> getViewCourseActivityNews(long req_id) {
         Session session = sessionFactory.getCurrentSession();
         Query<Activity> query = session.createQuery("FROM Activity a WHERE a.type =: acType AND a.requestOpenCourse.request_id =: reqId AND a.date >= :threeMonthsAgo ORDER BY a.date DESC", Activity.class);

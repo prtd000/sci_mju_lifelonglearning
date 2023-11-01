@@ -14,6 +14,8 @@ public interface RegisterDao {
 
     List<Register> getAmountRegisteredByCourseId(String courseId);
 
+    List<Register> getAmountRegistered();
+
     void saveRegister(Register register);
 
     void deleteRegister(long id);

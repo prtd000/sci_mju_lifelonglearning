@@ -356,7 +356,7 @@
                         </div>
                     </c:if>
 
-
+<%--                    ถึงตรงนี้--%>
                     <c:if test="${request_name.course.status == 'ชำระเงิน'}">
                         <div id="div_payment" style="width: 100%; align-self: flex-start;" align="left">
                             <div style="display: flex; width: 100%" >

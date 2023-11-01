@@ -48,6 +48,12 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     @Transactional
+    public List<Register> getAmountRegistered() {
+        return registerDao.getAmountRegistered();
+    }
+
+    @Override
+    @Transactional
     public List<Receipt> getReceipt() {
         return registerDao.getReceipt();
     }

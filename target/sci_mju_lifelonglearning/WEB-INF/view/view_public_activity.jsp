@@ -193,6 +193,41 @@
         </div>
         <br>
 
+        <% if (member != null) {%>
+        <c:set var="memId" value="<%=member.getUsername()%>"/>
+        <c:forEach var="req" items="${list_req}" >
+            <c:forEach var="regis" items="${list_register}">
+                <c:forEach var="acPri" items="${list_ac_private}">
+                    <c:if test="${regis.member.username.equals(memId) && req.request_id == regis.requestOpenCourse.request_id && regis.requestOpenCourse.request_id == acPri.requestOpenCourse.request_id && regis.invoice.pay_status == true}">
+                        <div class="blog_news">
+                            <div>
+                                <p class="header_news">${acPri.name}</p>
+                                <p style="color: #0d6efd; font-weight: bold; margin-left: 11px;">${acPri.type} ${regis.requestOpenCourse.course.name}</p>
+
+                                <fmt:formatDate value="${acPri.date}" pattern="dd/MM/yyyy" var="activity_date"/>
+                                <c:set var="format_date" value="${fn:substring(activity_date, 0, 10)}"/>
+                                <p class="date_news">วันที่ : ${format_date}</p>
+
+
+                                <c:set var="imgNames" value="${acPri.img}"/>
+                                <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
+                                    <c:set var="listImg"
+                                           value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}"/>
+                                    <td>
+                                        <img src="${pageContext.request.contextPath}/uploads/activity/private/${acPri.ac_id}/${listImg}" alt="News_img" class="img_activity">
+                                    </td>
+                                </c:forEach>
+                                <p class="news_details">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${acPri.detail}</p>
+                            </div>
+                        </div>
+                    </c:if>
+                </c:forEach>
+            </c:forEach>
+        </c:forEach>
+        <%}%>
+
+
+
         <c:forEach var="list" items="${list_activities}">
             <div class="blog_news">
                 <div>

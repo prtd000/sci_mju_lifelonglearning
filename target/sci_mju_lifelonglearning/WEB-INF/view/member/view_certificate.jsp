@@ -30,28 +30,59 @@
         .mem-name{
             position: absolute;
             font-weight: bold;
-            font-size: 35px;
+            font-size: 30px;
             color: black;
             top: 45%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
+
+        .text_con{
+            position: absolute;
+            font-weight: bold;
+            font-size: 25px;
+            color: black;
+            top: 37%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
         .course_name{
             position: absolute;
             font-weight: bold;
             font-size: 25px;
             color: black;
-            top: 58%;
+            top: 59%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
 
         .lec-name{
             position: absolute;
-            font-size: 21px;
+            font-size: 20px;
             color: black;
             top: 74%;
             left: 40%;
+            transform: translate(-50%, -50%);
+        }
+
+        .position_lec{
+            position: absolute;
+            font-weight: bold;
+            font-size: 20px;
+            color: black;
+            top: 78%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+        }
+
+        .position_science{
+            position: absolute;
+            font-weight: bold;
+            font-size: 20px;
+            color: black;
+            top: 78%;
+            left: 60%;
             transform: translate(-50%, -50%);
         }
 
@@ -80,7 +111,7 @@
         }
         .name-assistant{
             position: absolute;
-            font-size: 21px;
+            font-size: 20px;
             color: black;
             top: 74%;
             left: 60.5%;
@@ -88,7 +119,7 @@
         }
         .sig-assistant{
             position: absolute;
-            font-size: 26px;
+            font-size: 25px;
             color: black;
             top: 69.5%;
             left: 60.5%;
@@ -163,13 +194,16 @@
 
     <div id="content">
         <!-- นี่คือเนื้อหาที่คุณต้องการแปลงเป็น PDF -->
-        <img src="${pageContext.request.contextPath}/assets/img/Certificate_Model.png" style="height: 520px" alt="certificate">
+        <img src="${pageContext.request.contextPath}/assets/img/Certificate.png" style="height: 520px" alt="certificate">
+        <p class="text_con">ขอแสดงความยินดีกับ</p>
         <p class="mem-name">${register.member.firstName} &nbsp; ${register.member.lastName}</p>
         <p class="course_name">${register.requestOpenCourse.course.certificateName}</p>
         <img class="signature" src="${pageContext.request.contextPath}/uploads/request_open_course/signature/${register.requestOpenCourse.signature}"  alt="signature"/>
         <p class="lec-name">${register.requestOpenCourse.lecturer.position} &nbsp; ${register.requestOpenCourse.lecturer.firstName} &nbsp; ${register.requestOpenCourse.lecturer.lastName}</p>
+        <p class="position_lec">ผู้รับผิดชอบหลักสูตร</p>
         <p class="sig-assistant">ผศ.ดร.ฐปน ชื่นบาล</p>
         <p class="name-assistant">ผู้ช่วยศาสตราจารย์ ดร.ฐปน ชื่นบาล</p>
+        <p class="position_science">คณบดี คณะวิทยาศาสตร์</p>
     </div>
 
     <br>

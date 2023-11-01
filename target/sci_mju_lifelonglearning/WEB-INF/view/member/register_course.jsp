@@ -533,8 +533,7 @@
                         <c:set var="looped" value="false"/>
                         <c:set var="imgNames" value="${list.img}"/>
                         <c:forEach var="listImg" items="${fn:split(imgNames, ',')}">
-                            <c:set var="listImg"
-                                   value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}"/>
+                            <c:set var="listImg" value="${fn:replace(fn:replace(fn:replace(listImg, '\"', ''), '[', ''), ']', '')}"/>
                             <c:if test="${!looped}">
                                 <td><img
                                         src="${pageContext.request.contextPath}/uploads/activity/private/${list.ac_id}/${listImg}"

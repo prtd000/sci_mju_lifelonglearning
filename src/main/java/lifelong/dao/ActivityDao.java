@@ -12,6 +12,8 @@ public interface ActivityDao {
     List<Activity> getPublicActivity();
     List<Activity> getPublicActivityLast3Months();
 
+    List<Activity> getPrivateActivity();
+
     List<Activity> getViewCourseActivityNews(long req_id);
 
     Activity getActivityDetail(String id);

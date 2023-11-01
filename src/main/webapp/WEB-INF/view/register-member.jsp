@@ -271,51 +271,21 @@
                 document.getElementById("invalidEmail").innerHTML = "";
             }
 
-            //------------------Birth Day----------------
-            // var birthday = new Date(document.getElementById('datePicker').value.split("/")[2] - 543 + "-"
-            //     + document.getElementById('datePicker').value.split("/")[1] + "-"
-            //     + document.getElementById('datePicker').value.split("/")[0]);
-            //
-            // var birthday2 = new Date();
-            // birthday2.setFullYear(new Date().getFullYear() - 16);
-            //
-            // if (birthday.getTime() > birthday2.getTime()) {
-            //     alert("อายุของผู้สมัครสมาชิกจะต้องมีอายุ 16 ปีขึ้นไป !!");
-            //     frm.birthday.value = "";
-            //     return false;
-            // }
-            //
-            // //------------Tel---------------
-            // var tel = /^[0-9]{3}[-][0-9]{3}[-][0-9]{4}|[\d]{7,10}$/
-            // if (!frm.tel.value.match(tel)) {
-            //     alert("กรอกเบอร์โทรศัพท์มือถือให้ถูกต้อง (ตัวอย่าง 06x-xxx-xxxx)");
-            //     frm.tel.value = "";
-            //     return false;
-            // }
-            //
-            // //------------Education--------------
-            // if (frm.education.value === "กรุณาเลือกระดับการศึกษา") {
-            //     alert("กรุณาเลือกระดับการศึกษา");
-            //     return false;
-            // }
-            //
-            // //Check Username
-            // var username = /^[A-Za-z0-9(_)]{4,10}$/;
-            // if (!frm.username.value.match(username)) {
-            //     alert("กรุณากรอกบัญชีผู้ใช้เป็นภาษาอังกฤษและตัวเลข (อย่างน้อย 4 - 10 ตัว)");
-            //     frm.username.value = "";
-            //     return false;
-            // }
-            //
-            // //Check Password
-            // var password = /^[0-9]{4,8}$/;
-            // if (!frm.password.value.match(password)) {
-            //     alert("รหัสผ่านต้องเป็นตัวเลข (อย่างน้อย 4 - 8 ตัว)");
-            //     frm.password.value = "";
-            //     frm.confirmPassword.value = "";
-            //     return false;
-            // }
+            // ------------------BirthDay----------------
+            var birthday = new Date(document.getElementById('datePicker').value.split("/")[2] - 543 + "-"
+                + document.getElementById('datePicker').value.split("/")[1] + "-"
+                + document.getElementById('datePicker').value.split("/")[0]);
+
+            var birthday2 = new Date();
+            birthday2.setFullYear(new Date().getFullYear() - 16);
+
+            if (birthday.getTime() > birthday2.getTime()) {
+                alert("อายุของผู้สมัครสมาชิกจะต้องมีอายุ 16 ปีขึ้นไป !!");
+                frm.birthday.value = "";
+                return false;
+            }
         }
+
         /************* Step 2 ***************************/
         function checkTel(tel) {
             var exTel = /^[0-9]{3}[-][0-9]{3}[-][0-9]{4}|[\d]{7,10}$/
@@ -412,17 +382,17 @@
                             <td style="width: 60%">
                                 <label>บัตรประชาชน</label>
                                 <div class="mb-3">
-                                    <input name="idcard" id="idcard" type="text" class="input_idcard" maxlength="13" oninput="this.className = ''"/>
+                                    <input name="idcard" id="idcard" type="text" class="input_idcard" placeholder="*ตัวอย่าง* 0123456789101" maxlength="13" oninput="this.className = ''"/>
                                     <label id="invalidIdCard" style="color: red; font-size: 12px"></label>
                                 </div>
-                                <label>ชื่อจริง</label>
+                                <label>ชื่อ</label>
                                 <div class="mb-3">
-                                    <input name="firstName" id="firstName" type="text" oninput="this.className = ''"/>
+                                    <input name="firstName" id="firstName" type="text" placeholder="*ตัวอย่าง* นายสมชาย" oninput="this.className = ''"/>
                                     <label id="invalidFirstname" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <label>นามสกุล</label>
                                 <div class="mb-3">
-                                    <input name="lastName" id="lastName" type="text" oninput="this.className = ''"/>
+                                    <input name="lastName" id="lastName" type="text" placeholder="*ตัวอย่าง* ใจดี" oninput="this.className = ''"/>
                                     <label id="invalidLastName" style="color: red; font-size: 12px"></label>
                                 </div>
                                 <label>เพศ</label>
@@ -443,7 +413,7 @@
                                 </div>
                                 <label>อีเมล</label>
                                 <div class="mb-3">
-                                    <input name="email" id="email" type="text" oninput="this.className = ''"/>
+                                    <input name="email" id="email" type="text" placeholder="*ตัวอย่าง* userxxx@gmail.com" oninput="this.className = ''"/>
                                     <label id="invalidEmail" style="color: red; font-size: 12px"></label>
                                 </div>
                             </td>
@@ -468,7 +438,7 @@
                             <td>
                                 <label>เบอร์โทร</label>
                                 <div class="mb-3">
-                                    <input name="tel" id="tel" type="text" maxlength="15" oninput="checkTel(this.value)"/>
+                                    <input name="tel" id="tel" type="text" maxlength="15"  placeholder="*ตัวอย่าง* 086-xxx-xxxx" oninput="checkTel(this.value)"/>
                                     <label id="invalidTel" style="color: red; font-size: 12px"></label>
                                 </div>
                             </td>

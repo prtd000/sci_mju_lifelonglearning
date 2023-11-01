@@ -1,6 +1,7 @@
 package lifelong.dao;
 
 import lifelong.model.*;
+import org.apache.xmlbeans.SchemaTypeSystem;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -46,6 +47,14 @@ public class RegisterDaoImpl implements RegisterDao {
         Session session = sessionFactory.getCurrentSession();
         Query<Register> query = session.createQuery("from Register r where r.requestOpenCourse.course.course_id =: cId and r.invoice.pay_status = true",Register.class);
         query.setParameter("cId", courseId);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Register> getAmountRegistered() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Register> query = session.createQuery("from Register r where r.invoice.pay_status = true",Register.class);
+        System.out.println("Member Payment Pass : " + query.getResultList().size());
         return query.getResultList();
     }
 

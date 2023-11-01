@@ -133,6 +133,7 @@ public class WebHomeController {
         model.addAttribute("courses", courseService.getListCoursesOrderByDate());
         model.addAttribute("majors",majorService.getMajors());
         model.addAttribute("list_req",requestOpCourseService.getRequestOpenCourses());
+        model.addAttribute("amount" , registerService.getAmountRegistered());
 
         return "search_course";
     }
@@ -164,6 +165,10 @@ public class WebHomeController {
     @GetMapping("/view_activity")
     public String viewActivityNews(Model model) {
         model.addAttribute("list_activities", activityService.getPublicActivity());
+
+        model.addAttribute("list_req" , requestOpCourseService.getRequestOpenCourses());
+        model.addAttribute("list_register" , registerService.getListRegister());
+        model.addAttribute("list_ac_private", activityService.getPrivateActivity());
         return "view_public_activity";
     }
 

@@ -146,9 +146,8 @@
                                         <c:set var="subText"
                                                value="${fn:split(invoice.requestOpenCourse.studyTime, delimiter)}"/>
                                         <c:forEach var="ogText" items="${subText}">
-                                            <c:set var="replaceSlash" value="${fn:replace(ogText, '/', ' ')}"/>
-                                            <c:set var="newText" value="${fn:replace(replaceSlash, ',', ' - ')}"/>
-                                            <p>${newText}</p>
+                                            <c:set var="parts" value="${fn:split(ogText, '/')}"/>
+                                            <label>${parts[0]} ${parts[1]} - ${parts[2]} น.</label><br>
                                         </c:forEach>
                                     </td>
                                     <td style="text-align: center;"><p>${invoice.requestOpenCourse.type_learn}</p></td>

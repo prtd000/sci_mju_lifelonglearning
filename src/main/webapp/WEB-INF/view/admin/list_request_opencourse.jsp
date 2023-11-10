@@ -81,6 +81,7 @@
                     </div>
         </nav>
 <!-- Navbar End -->
+        <c:set var="colorBar" value="#fbc44f"/>
         <div align="center" class="main_container">
             <br>
             <br>
@@ -91,16 +92,19 @@
                             <%--DIV ที่ 2--%>
                         <div id="list_request" class="tabcontent" align="left" style="width: 100%">
                             <hr>
-                            <table class="table table-striped table-hover" style="font-size: 12px">
-                                <tr style="color: black">
-                                    <td style="width: 25%">รายละเอียดการร้องขอ</td>
-                                    <td style="width: 16%" align="center">ระยะเวลาการลงทะเบียน</td>
-                                    <td style="width: 16%" align="center">ระยะเวลาการชำระเงิน</td>
-                                    <td style="width: 8%" align="center">วันประกาศผล</td>
-                                    <td style="width: 16%" align="center">ระยะเวลาการเรียน</td>
-                                    <td style="width: 10%" align="center">อาจารย์</td>
-                                    <td style="width: 10%" align="center"></td>
-                                </tr>
+                            <table class="table table-hover" style="font-size: 12px">
+                                <thead style="background-color: ${colorBar};">
+                                    <tr style="color: black">
+                                        <td style="width: 25%"><b style="font-size: 14px">รายละเอียดการร้องขอ</b></td>
+                                        <td style="width: 16%" align="center"><b style="font-size: 14px">ระยะเวลาการลงทะเบียน</b></td>
+                                        <td style="width: 16%" align="center"><b style="font-size: 14px">ระยะเวลาการชำระเงิน</b></td>
+                                        <td style="width: 8%" align="center"><b style="font-size: 14px">วันประกาศผล</b></td>
+                                        <td style="width: 16%" align="center"><b style="font-size: 14px">ระยะเวลาการเรียน</b></td>
+                                        <td style="width: 10%" align="center"><b style="font-size: 14px">อาจารย์</b></td>
+                                        <td style="width: 10%" align="center"></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                 <c:choose>
                                     <c:when test="${requests_open_course.size() == 0}">
                                         <tr>
@@ -139,6 +143,7 @@
                                         </c:forEach>
                                     </c:otherwise>
                                 </c:choose>
+                                </tbody>
                             </table>
                         </div>
                     </td>

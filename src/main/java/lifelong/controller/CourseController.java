@@ -208,13 +208,13 @@ public class CourseController {
             requestOpCourseService.updateRequestOpenCourse(existingRequestOpenCourse);
 
             // แก้ไขคำร้องขออื่นๆที่รอขอมาเหมือนกันแต่ยังไม่ผ่าน
-//            List<RequestOpenCourse> requestOpenCourses = requestOpCourseService.checkRequestOpenCourseByCourseIdToUnApprove(existingRequestOpenCourse.getCourse().getCourse_id());
-//            for (RequestOpenCourse requestOpenCourse : requestOpenCourses) {
-//                // แก้ไขสถานะ Request Open Course อื่นๆ
-//                requestOpenCourse.setRequestStatus("ไม่ผ่าน");
-//                requestOpenCourse.setRequestDate(requestDate);
-//                requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
-//            }
+            List<RequestOpenCourse> requestOpenCourses = requestOpCourseService.checkRequestOpenCourseByCourseIdToUnApprove(existingRequestOpenCourse.getCourse().getCourse_id());
+            for (RequestOpenCourse requestOpenCourse : requestOpenCourses) {
+                // แก้ไขสถานะ Request Open Course อื่นๆ
+                requestOpenCourse.setRequestStatus("ไม่ผ่าน");
+                requestOpenCourse.setRequestDate(requestDate);
+                requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
+            }
             //แก้ไขตาราง Course
             Course course = courseService.getCourseById(existingRequestOpenCourse.getCourse().getCourse_id());
             course.setStatus("ลงทะเบียน");
@@ -244,7 +244,7 @@ public class CourseController {
 
     //**********List All Course************//
     @GetMapping("/{admin_id}/list_all_course")
-    public String getListAllCourse(Model model ,@PathVariable("admin_id") String admin_id) {
+    public String getListAllCourse(Model model ,HttpServletRequest request,@PathVariable("admin_id") String admin_id) {
         Date currentDate = new Date();
         model.addAttribute("title", "รายการ" + title);
         model.addAttribute("courses", courseService.getCourses());
@@ -265,6 +265,7 @@ public class CourseController {
         model.addAttribute("requests_by_max_register", requestOpCourseService.getAllRequestByStatusByMaxRegister());
         model.addAttribute("app_requests_by_register", requestOpCourseService.getAppRequestByStatusByRegister());
         model.addAttribute("all_requests_by_study", requestOpCourseService.getAllRequestByStatusByStudy());
+        model.addAttribute("all_requests_by_finish_study", requestOpCourseService.getAllRequestByStatusByFinishStudy());
         model.addAttribute("all_requests_by_not_study", courseService.getAllCourseByStatusNotStudy());
         model.addAttribute("all_cancel_requests", requestOpCourseService.getAllCancelRequestByStatus());
 //        model.addAttribute("requests_by_max_register", requestOpCourseService.getRequestOpenCoursesByTypeMaxRegister());
@@ -276,6 +277,7 @@ public class CourseController {
         model.addAttribute("list_activities", activityService.getPublicActivity());
         model.addAttribute("admin_id",admin_id);
         model.addAttribute("currentDate",currentDate);
+        model.addAttribute("fromPage", request.getParameter("fromPage"));
         return "admin/listAllCourse";
     }
 
@@ -441,7 +443,13 @@ public class CourseController {
         Date currentDate = new Date();
         model.addAttribute("title", "แก้ไข" + title);
         model.addAttribute("register_detail", register);
-        model.addAttribute("all_register_detail", registerService.getRegisterByRequestIdOrderByStatus(roc_id,requestOpenCourse.getCourse().getStatus()));
+        String status;
+        if(Objects.equals(requestOpenCourse.getRequestStatus(), "ถูกยกเลิก")||Objects.equals(requestOpenCourse.getRequestStatus(), "เสร็จสิ้น")){
+            status = requestOpenCourse.getRequestStatus();
+        }else {
+            status = requestOpenCourse.getCourse().getStatus();
+        }
+        model.addAttribute("all_register_detail", registerService.getRegisterByRequestIdOrderByStatus(roc_id,status));
         model.addAttribute("receipt",list_receipt);
         model.addAttribute("request_name", requestOpenCourse);
         model.addAttribute("currentDate",currentDate);
@@ -510,57 +518,105 @@ public class CourseController {
         return "admin/add_Public_Activity";
     }
 
-    @PostMapping(path = "/{admin_id}/save_public_add_activity")
-    public String addActivityNews(@PathVariable("admin_id") String admin_id,
-                                  @RequestParam Map<String, String> allReqParams,
-                                  @RequestParam("ac_detail") String acDetail,
-                                  HttpServletRequest request,
-                                  @RequestParam("ac_img") MultipartFile[] ac_img) throws ParseException {
-        try {
-            List<String> newFileNames = new ArrayList<>();
+//    @PostMapping(path = "/{admin_id}/save_public_add_activity")
+//    public String addActivityNews(@PathVariable("admin_id") String admin_id,
+//                                  @RequestParam Map<String, String> allReqParams,
+//                                  @RequestParam("ac_detail") String acDetail,
+//                                  HttpServletRequest request,
+//                                  @RequestParam("ac_img") MultipartFile[] ac_img) throws ParseException {
+//        try {
+//            List<String> newFileNames = new ArrayList<>();
+//
+//            String ac_name = allReqParams.get("ac_name");
+//            Date ac_date = new Date();
+//            String ac_detail = allReqParams.get("ac_detail");
+//            String ac_type = "ข่าวสารทั่วไป";
+////            String ac_img = allReqParams.get("ac_img");
+////            int maxIdImgFile = courseService.getImgCourseMaxId(course_type); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
+//            int latestId = activityService.getActivityMaxId(ac_type); // Get the latest id from the database
+//
+//            int count = 1;
+//            for (MultipartFile img : ac_img) {
+//                String folderName = String.format("AP%03d", latestId+1);
+////                String uploadPath = ImgPath.pathUploads + "/activity/public/"+folderName+"/";
+//                String uploadPath = request.getSession().getServletContext().getRealPath("/") + "//uploads//activity//public//"+folderName+"//";
+//                Path directoryPath = Paths.get(uploadPath);
+//                Files.createDirectories(directoryPath);
+//
+//                String originalFileName = img.getOriginalFilename();
+//                String fileExtension = getFileExtension(originalFileName);
+//
+//                String formattedId = String.format("%02d", latestId+1);
+//                String formattedSequence = String.format("%04d", count);
+//                String newFileName = String.format("IMG_%s_%s%s", formattedId, formattedSequence, fileExtension);
+//                Path filePath = Paths.get(uploadPath, newFileName);
+//                Files.write(filePath, img.getBytes());
+//
+//                newFileNames.add(newFileName);
+//                count++;
+//            }
+//
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            String imgNamesJson = objectMapper.writeValueAsString(newFileNames); // Convert the list to JSON
+//
+////            AddImg newImg = new AddImg(detail, imgNamesJson);
+//            Activity public_activity_add = new Activity(ac_name, ac_date, ac_detail, ac_type, imgNamesJson);
+//            activityService.addActivityNews(public_activity_add);
+////            courseService.doAddImg(newImg);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return "redirect:/course/public/list_activity?addStatus=true";
+//    }
+        @PostMapping(path = "/{admin_id}/save_public_add_activity")
+        public String addActivityNews(@PathVariable("admin_id") String admin_id,
+                                      @RequestParam Map<String, String> allReqParams,
+                                      @RequestParam("ac_detail") String acDetail,
+                                      HttpServletRequest request,
+                                      @RequestParam("ac_img") MultipartFile[] ac_img) throws ParseException {
+            try {
+                List<String> newFileNames = new ArrayList<>();
 
-            String ac_name = allReqParams.get("ac_name");
-            Date ac_date = new Date();
-            String ac_detail = allReqParams.get("ac_detail");
-            String ac_type = "ข่าวสารทั่วไป";
-//            String ac_img = allReqParams.get("ac_img");
-//            int maxIdImgFile = courseService.getImgCourseMaxId(course_type); // แทนที่ด้วยเมธอดหรือวิธีที่คุณใช้ในการดึงข้อมูลล่าสุด
-            int latestId = activityService.getActivityMaxId(ac_type); // Get the latest id from the database
+                String ac_name = allReqParams.get("ac_name");
+                Date ac_date = new Date();
+                String ac_detail = acDetail; // ใช้ข้อมูลที่รับมาจากแบบฟอร์ม
+                String ac_type = "ข่าวสารทั่วไป";
 
-            int count = 1;
-            for (MultipartFile img : ac_img) {
-                String folderName = String.format("AP%03d", latestId+1);
-//                String uploadPath = ImgPath.pathUploads + "/activity/public/"+folderName+"/";
-                String uploadPath = request.getSession().getServletContext().getRealPath("/") + "//uploads//activity//public//"+folderName+"//";
-                Path directoryPath = Paths.get(uploadPath);
-                Files.createDirectories(directoryPath);
+                int latestId = activityService.getActivityMaxId(ac_type); // Get the latest id from the database
 
-                String originalFileName = img.getOriginalFilename();
-                String fileExtension = getFileExtension(originalFileName);
+                int count = 1;
+                for (MultipartFile img : ac_img) {
+                    String folderName = String.format("AP%03d", latestId + 1);
+                    String uploadPath = request.getSession().getServletContext().getRealPath("/") + "//uploads//activity//public//" + folderName + "//";
+                    Path directoryPath = Paths.get(uploadPath);
+                    Files.createDirectories(directoryPath);
 
-                String formattedId = String.format("%02d", latestId+1);
-                String formattedSequence = String.format("%04d", count);
-                String newFileName = String.format("IMG_%s_%s%s", formattedId, formattedSequence, fileExtension);
-                Path filePath = Paths.get(uploadPath, newFileName);
-                Files.write(filePath, img.getBytes());
+                    String originalFileName = img.getOriginalFilename();
+                    String fileExtension = getFileExtension(originalFileName);
 
-                newFileNames.add(newFileName);
-                count++;
+                    String formattedId = String.format("%02d", latestId + 1);
+                    String formattedSequence = String.format("%04d", count);
+                    String newFileName = String.format("IMG_%s_%s%s", formattedId, formattedSequence, fileExtension);
+                    Path filePath = Paths.get(uploadPath, newFileName);
+                    Files.write(filePath, img.getBytes());
+
+                    newFileNames.add(newFileName);
+                    count++;
+                }
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                String imgNamesJson = objectMapper.writeValueAsString(newFileNames); // Convert the list to JSON
+
+                Activity public_activity_add = new Activity(ac_name, ac_date, ac_detail, ac_type, imgNamesJson);
+                activityService.addActivityNews(public_activity_add);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            String imgNamesJson = objectMapper.writeValueAsString(newFileNames); // Convert the list to JSON
-
-//            AddImg newImg = new AddImg(detail, imgNamesJson);
-            Activity public_activity_add = new Activity(ac_name, ac_date, ac_detail, ac_type, imgNamesJson);
-            activityService.addActivityNews(public_activity_add);
-//            courseService.doAddImg(newImg);
-        } catch (IOException e) {
-            e.printStackTrace();
+            return "redirect:/course/public/list_activity?addStatus=true";
         }
 
-        return "redirect:/course/public/list_activity?addStatus=true";
-    }
     //*********************************************************//
 
     //**********List Activity News******************//
@@ -585,6 +641,7 @@ public class CourseController {
     public String doEditActivityNews(@PathVariable("id") String ac_id,
                                      @RequestParam("ac_img") MultipartFile[] imgs,
                                      @RequestParam Map<String, String> allReqParams,
+                                     @RequestParam("ac_detail") String acDetail,
                                      HttpServletRequest request,
                                      @PathVariable String admin) throws ParseException {
         try {
@@ -663,7 +720,7 @@ public class CourseController {
             }
             // อัพเดตรายละเอียดและรายการรูปภาพในฐานข้อมูล
             existingActivity.setName(allReqParams.get("ac_name"));
-            existingActivity.setDetail(allReqParams.get("ac_detail"));
+            existingActivity.setDetail(acDetail);
             activityService.updateActivity(existingActivity);
         } catch (IOException e) {
             e.printStackTrace();

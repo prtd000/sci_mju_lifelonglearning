@@ -245,12 +245,10 @@
             <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 18px">หน้าหลัก</a>
-                    <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรการอบรม</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/add_roc" class="nav-item nav-link" style="font-size: 18px">ร้องขอหลักสูตร</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link active" style="font-size: 18px">รายการร้องขอ</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_approve_request_open_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรที่เปิดสอน</a>
                     <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 17px">อาจารย์</a>
                     <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
                 </div>
             </div>
@@ -1123,7 +1121,7 @@
                                     <b><label style="font-size: 14px;">รับสมัครวันที่</label></b>
                                     <div style="display: flex">
                                         <label id="startRegister_display" style="font-size: 14px;">เริ่ม</label>
-                                        <label style="margin: 0px 10px 0px 10px;" style="font-size: 14px;"> ถึง </label>
+                                        <label style="margin: 0px 10px 0px 10px;font-size: 14px;"> ถึง </label>
                                         <label id="endRegister_display" style="font-size: 14px;">สิ้นสุด</label>
                                     </div>
                                 </div>
@@ -1161,10 +1159,10 @@
                                 </div>
                             </div>
                             <div style="width: 100%; display: flex">
-                                <div>
+                                <div style="width: 100%;">
                                     <b><label style="font-size: 14px;">วันที่เรียน</label></b>
-                                    <div style="display: flex; width: 85%;">
-                                        <label id="study_display" style="font-size: 14px;">วันไหนบ้าง</label>
+                                    <div style="display: flex; width: 100%;">
+                                        <label id="study_display" style="font-size: 14px; width: 70%;">วันไหนบ้าง</label>
                                     </div>
                                 </div>
                             </div>
@@ -1350,7 +1348,15 @@
             document.getElementById("invalid_"+id).textContent = "";
             var day = document.querySelector('label[for="' + id + '"]');
             document.getElementById("total_to_save_"+id).value = day.textContent + '/' + startTimeInput + '/' + endTimeInput + '$%';
-            document.getElementById("total_to_display_"+id).value = day.textContent + " เวลา " + startTimeInput + " ถึง " + endTimeInput + "\n";;
+            document.getElementById("total_to_display_"+id).value =
+                "<div style='display: flex; width: 100%;'>" +
+                "<div style='width: 5%'>" +"</div>"+
+                "<div style='width: 15%'>" + "<b>" +day.textContent + "</b>" +"</div>"+
+                "<div style='width: 7%'>"+ " เวลา "+"</div>"+
+                "<div style='width: 10%'>" + startTimeInput + " น." +"</div>"+
+                "<div style='width: 7%'>" +" ถึง " +"</div>"+
+                "<div style='width: 10%'>" +endTimeInput + " น." +"</div>" +
+                "</div>";
             document.getElementById("total_to_cal_"+id).value = sumTime;
             // var study_time = document.getElementById("all_study_time").textContent;
             // study_time += day.textContent + " เวลา " + startTimeInput + " ถึง " + endTimeInput + "\n";
@@ -1471,7 +1477,7 @@
 </script>
 <script>
     function confirmAction() {
-        var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการเพิ่มการร้องขอนี้?");
+        var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการแก้ไขคำร้องขอนี้?");
         if (result) {
             return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
         } else {
@@ -1519,12 +1525,12 @@
         currentTab = currentTab + n;
         // if you have reached the end of the form...
         if (currentTab >= x.length) {
-            if (!confirmAction()){
-                return false;
-            }else {
-                // ... the form gets submitted:
+            var confirmed = confirmAction();
+            if (confirmed) {
                 document.getElementById("regForm").submit();
                 return false;
+            } else {
+                currentTab = currentTab - 1; // ย้อนกลับไปที่ขั้นตอนก่อนหน้า
             }
         }
         console.log("currentTab : "+currentTab);
@@ -1578,11 +1584,7 @@
         const endPayment = document.getElementById("endPayment").value;
         const applicationResult = document.getElementById("applicationResult").value;
         let study_time_dp = document.getElementById("display_tree").value;
-        function replaceLineBreaksWithBr(text) {
-            const lines = text.split('<br>');
-            return lines.join('<br>');
-        }
-        const formatted_study_time = replaceLineBreaksWithBr(study_time_dp);
+
         // const start_study_time = document.getElementById("start_study_time").value;
         // const end_study_time = document.getElementById("end_study_time").value;
         const startStudyDate = document.getElementById("startStudyDate").value;
@@ -1622,7 +1624,7 @@
         document.getElementById("applicationResult_display").textContent = applicationResult_display;
         document.getElementById("startStudyDate_display").textContent = startStudyDate_display;
         document.getElementById("endStudyDate_display").textContent = endStudyDate_display;
-        document.getElementById("study_display").textContent = formatted_study_time;
+        document.getElementById("study_display").innerHTML = study_time_dp;
         // document.getElementById("start_study_time_display").textContent = start_study_time;
         // document.getElementById("end_study_time_display").textContent = end_study_time;
         document.getElementById("type_teach_display").textContent = type_teach;
@@ -1768,7 +1770,7 @@
         if (endRegisterValue.trim() === "") {
             document.getElementById("invalidEndRegister").innerHTML = "กรุณาเลือกวันปิดรับสมัคร";
             return false;
-        }else if (new Date(endRegisterValue) < new Date(currentDate) || new Date(endRegisterValue) < new Date(startRegisterValue)){
+        }else if (new Date(endRegisterValue) < new Date(currentDate) || new Date(endRegisterValue) <= new Date(startRegisterValue)){
             document.getElementById("invalidEndRegister").innerHTML = "กรุณาเลือกวันให้มากกว่าวันปัจจุบัน และให้มากกว่าวันเปิดรับสมัคร";
             return false;
         }else {
@@ -1800,7 +1802,7 @@
             return false;
         }else if (Course_Fee !== "ไม่มีค่าธรรมเนียม"){
             if (new Date(startPaymentValue) < new Date(currentDate) || new Date(startPaymentValue) < new Date(startRegisterValue)){
-                document.getElementById("invalidStartPayment").innerHTML = "กรุณาเลือกวันให้มากกว่าวันปัจจุบัน และให้มากกว่าวันเปิดรับสมัคร";
+                document.getElementById("invalidStartPayment").innerHTML = "กรุณาเลือกวันให้มากกว่าวันปัจจุบัน และให้มากกว่าหรือเท่ากับวันเปิดรับสมัคร";
                 return false;
             }else {
                 document.getElementById("invalidStartPayment").innerHTML = "";
@@ -2515,6 +2517,9 @@
     var startStudyDateElement = document.getElementById("startStudyDate");
     var endStudyDateElement = document.getElementById("endStudyDate");
 
+    document.getElementById("startRegister").value = currentDate;
+    document.getElementById("startPayment").value = currentDate;
+
     // กำหนดค่าเริ่มต้น endRegister
     // ตรวจสอบเมื่อผู้ใช้เปลี่ยนค่าใน startRegister
     startRegisterElement.addEventListener("change", function() {
@@ -2618,6 +2623,7 @@
         if (selectedEndPaymentDate >= selectedApplicationResultDate) {
             applicationResultElement.value = selectedEndPaymentDate.toISOString().slice(0, 16);
         }
+        applicationResultElement.value = formattedDate;
     });
     // กำหนดค่าเริ่มต้น endPayment
     // ตรวจสอบเมื่อผู้ใช้เปลี่ยนค่าใน applicationResult

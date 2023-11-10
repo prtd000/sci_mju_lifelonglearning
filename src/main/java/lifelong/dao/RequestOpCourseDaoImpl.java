@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
 import java.util.List;
+import java.util.Objects;
+
 @Repository
 public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
     @Autowired
@@ -278,7 +280,19 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
     @Override
     public List<RequestOpenCourse> getRequestCourseByStatus(String status,String lec_id) {
         Session session = sessionFactory.getCurrentSession();
-        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where course.status =: c_status and lecturer.username =: c_lec",RequestOpenCourse.class);
+        Query<RequestOpenCourse> query = null;
+        if (Objects.equals(status, "ลงทะเบียน") || Objects.equals(status, "ลงทะเบียน/ชำระเงิน")){
+            query = session.createQuery("from RequestOpenCourse where course.status =: c_status and lecturer.username =: c_lec order by endRegister asc ",RequestOpenCourse.class);
+        } else if (Objects.equals(status, "ชำระเงิน")){
+            query = session.createQuery("from RequestOpenCourse where course.status =: c_status and lecturer.username =: c_lec order by endPayment asc ",RequestOpenCourse.class);
+        }else if(Objects.equals(status, "รอประกาศผล")){
+            query = session.createQuery("from RequestOpenCourse where course.status =: c_status and lecturer.username =: c_lec order by applicationResult asc ",RequestOpenCourse.class);
+        }else if(Objects.equals(status, "เปิดสอน")){
+            query = session.createQuery("from RequestOpenCourse where course.status =: c_status and lecturer.username =: c_lec order by endStudyDate asc ",RequestOpenCourse.class);
+        }else if (Objects.equals(status, "เสร็จสิ้น")){
+            query = session.createQuery("from RequestOpenCourse where requestStatus =: c_status and lecturer.username =: c_lec order by endStudyDate DESC ",RequestOpenCourse.class);
+        }
+        assert query != null;
         query.setParameter("c_status", status);
         query.setParameter("c_lec", lec_id);
         return query.getResultList();
@@ -297,7 +311,7 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
     @Override
     public List<RequestOpenCourse> getRequestCourseByStatusByRegister(String status1, String status2, String status3, String status4,String lec_id) {
         Session session = sessionFactory.getCurrentSession();
-        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where course.status IN (:c_status1, :c_status2, :c_status3, :c_status4) and lecturer.username =: c_lec", RequestOpenCourse.class);
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where course.status IN (:c_status1, :c_status2, :c_status3, :c_status4) and lecturer.username =: c_lec order by endRegister asc", RequestOpenCourse.class);
         query.setParameter("c_status1", status1);
         query.setParameter("c_status2", status2);
         query.setParameter("c_status3", status3);
@@ -382,6 +396,15 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
     }
 
     @Override
+    public List<RequestOpenCourse> getAllRequestByStatusByFinishStudy() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where requestStatus =: req_status ORDER BY endStudyDate DESC ", RequestOpenCourse.class);
+        query.setParameter("req_status","เสร็จสิ้น");
+        List<RequestOpenCourse> requestOpenCourses = query.getResultList();
+        return requestOpenCourses;
+    }
+
+    @Override
     public List<RequestOpenCourse> getAllCancelRequestByStatus() {
         Session session = sessionFactory.getCurrentSession();
         Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where requestStatus =: req_status ORDER BY requestDate desc", RequestOpenCourse.class);
@@ -393,7 +416,7 @@ public class RequestOpCourseDaoImpl implements RequestOpCourseDao {
     @Override
     public List<RequestOpenCourse> getAllRequestBeforeApprove() {
         Session session = sessionFactory.getCurrentSession();
-        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where requestStatus =: req_status ORDER BY requestDate desc", RequestOpenCourse.class);
+        Query<RequestOpenCourse> query = session.createQuery("from RequestOpenCourse where requestStatus =: req_status ORDER BY endRegister asc ", RequestOpenCourse.class);
         query.setParameter("req_status","รอดำเนินการ");
         List<RequestOpenCourse> requestOpenCourses = query.getResultList();
         return requestOpenCourses;

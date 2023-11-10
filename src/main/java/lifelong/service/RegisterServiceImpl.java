@@ -36,6 +36,12 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     @Transactional
+    public List<Register> getRegisterByRequestIdByLecturer(long roc_Id, String status) {
+        return registerDao.getRegisterByRequestIdByLecturer(roc_Id,status);
+    }
+
+    @Override
+    @Transactional
     public Register checkMemberRegisteredPass(String memId, long reqId) {
         return registerDao.checkMemberRegisteredPass(memId,reqId);
     }
@@ -133,5 +139,11 @@ public class RegisterServiceImpl implements RegisterService {
     @Transactional
     public List<Register> getRegisterByRequestIdOrderByStatus(long roc_Id, String status) {
         return registerDao.getRegisterByRequestIdOrderByStatus(roc_Id,status);
+    }
+
+    @Override
+    @Transactional
+    public Register getRegisterByRegisterIdAndMemberId(long register_id, String memberId) {
+        return registerDao.getRegisterByRegisterIdAndMemberId(register_id,memberId);
     }
 }

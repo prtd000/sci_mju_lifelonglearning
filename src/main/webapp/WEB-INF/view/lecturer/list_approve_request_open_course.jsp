@@ -93,20 +93,26 @@
             <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 18px">หน้าหลัก</a>
-                    <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรการอบรม</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/add_roc" class="nav-item nav-link" style="font-size: 18px">ร้องขอหลักสูตร</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 18px">รายการร้องขอ</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_approve_request_open_course" class="nav-item nav-link active" style="font-size: 18px">หลักสูตรที่เปิดสอน</a>
                     <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 17px">อาจารย์</a>
                     <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
                 </div>
             </div>
         </nav>
         <!-- Navbar End -->
-
+        <c:set var="colorBar" value="#fbc44f"/>
         <div align="center" style="margin-top: 20px">
             <h3>รายการหลักสูตรที่ผ่านการร้องขอ</h3><br>
+            <div style="display: flex;width: 85%" align="right">
+                <div style="width: 100%">
+                    <h6><b><%=lecturer.getPosition() +" "+ lecturer.getFirstName() +" " +lecturer.getLastName()+ " " + lecturer.getMajor().getName()%></b></h6>
+                    <hr>
+                </div>
+            </div>
+
+            <br>
             <table class="container">
                 <tr align="center">
                     <td class="list_course" align="center">
@@ -120,6 +126,7 @@
                                         <select style="font-size: 12px" id="select_type" class="form-select" aria-label="Default select example" onchange="checkSelection()">
                                             <option value="กำลังลงทะเบียน" selected>กำลังลงทะเบียน</option>
                                             <option value="กำลังเรียน">กำลังเรียน</option>
+                                            <option value="หลักสูตรที่เสร็จสิ้นการเรียน">หลักสูตรที่เสร็จสิ้นการเรียน</option>
                                         </select>
                                     </td>
                                 </tr>
@@ -127,32 +134,33 @@
                             <hr>
                             <div id="register_select" style="display: none">
                                 <div style="width: 100%" align="center">
-                                    <input type="radio" name="listDisplay" value="หลักสูตรทั้งหมด" checked>
+                                    <input type="radio" name="listDisplay" id="chk1" value="หลักสูตรทั้งหมด" checked>
                                     <label>หลักสูตรทั้งหมด</label>
-                                    <input type="radio" name="listDisplay" value="หลักสูตรเปิดรับสมัคร">
+                                    <input type="radio" name="listDisplay" id="chk2" value="หลักสูตรเปิดรับสมัคร">
                                     <label>หลักสูตรเปิดรับสมัคร</label>
-                                    <input type="radio" name="listDisplay" value="หลักสูตรเปิดรับสมัคร/ชำระเงิน">
+                                    <input type="radio" name="listDisplay" id="chk3" value="หลักสูตรเปิดรับสมัคร/ชำระเงิน">
                                     <label>หลักสูตรเปิดรับสมัคร/ชำระเงิน</label>
-                                    <input type="radio" name="listDisplay" value="หลักสูตรที่ชำระเงินเท่านั้น">
+                                    <input type="radio" name="listDisplay" id="chk4" value="หลักสูตรที่ชำระเงินเท่านั้น">
                                     <label>หลักสูตรที่ชำระเงินเท่านั้น</label>
-                                        <%--                            <input type="radio" name="listDisplay" value="หลักสูตรที่สมัครครบแล้ว">--%>
-                                        <%--                            <label>หลักสูตรที่สมัครครบแล้ว</label>--%>
-                                    <input type="radio" name="listDisplay" value="รอประกาศผล">
+                                    <input type="radio" name="listDisplay" id="chk5" value="รอประกาศผล">
                                     <label>รอประกาศผล</label>
                                 </div>
                                 <hr>
 
                                 <div id="all_register" style="display: block">
-                                    <table class="table table-striped table-hover">
-                                        <tr style="color: black">
-                                            <td style="width: 30%">ชื่อหลักสูตร</td>
-                                            <td style="width: 16%" align="center">ระยะเวลาการลงทะเบียน</td>
-                                            <td style="width: 15%" align="center">ระยะเวลาการชำระเงิน</td>
-                                            <td style="width: 8%" align="center">วันประกาศผล</td>
-                                            <td style="width: 15%" align="center">ระยะเวลาการเรียน</td>
-                                            <td style="width: 10%" align="center">สถานะ</td>
-                                            <td style="width: 10%" align="center">ผู้สมัคร</td>
-                                        </tr>
+                                    <table class="table table-hover">
+                                        <thead style="background-color: ${colorBar};">
+                                            <tr style="color: black">
+                                                <td style="width: 30%"><b style="font-size: 14px">ชื่อหลักสูตร</b></td>
+                                                <td style="width: 16%" align="center"><b style="font-size: 14px">ระยะเวลาการลงทะเบียน</b></td>
+                                                <td style="width: 15%" align="center"><b style="font-size: 14px">ระยะเวลาการชำระเงิน</b></td>
+                                                <td style="width: 8%" align="center"><b style="font-size: 14px">วันประกาศผล</b></td>
+                                                <td style="width: 15%" align="center"><b style="font-size: 14px">ระยะเวลาการเรียน</b></td>
+                                                <td style="width: 10%" align="center"><b style="font-size: 14px">สถานะ</b></td>
+                                                <td style="width: 10%" align="center"><b style="font-size: 14px">ผู้สมัคร</b></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
                                         <c:choose>
                                             <c:when test="${courses_by_all_regis_pay_date.size() == 0}">
                                                 <tr>
@@ -194,7 +202,23 @@
                                                             </td>
                                                             <td align="center"><a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request.request_id}/list_member_to_approve">
                                                                 <button class="button-35" role="button"><i class="fa fa-users" style="margin-right: 10px"></i>
-                                                                        ${request.numberOfAllRegistrations} / ${request.quantity}
+                                                                    <c:choose>
+                                                                        <c:when test="${request.course.status == 'ลงทะเบียน'}">
+                                                                            ${request.numberOfAllRegistrations} / ${request.quantity}
+                                                                        </c:when>
+                                                                        <c:when test="${request.course.status == 'ลงทะเบียน/ชำระเงิน'}">
+                                                                            ${request.numberOfAllRegistrations} / ${request.quantity}
+                                                                        </c:when>
+                                                                        <c:when test="${request.course.status == 'ชำระเงิน'}">
+                                                                            ${request.numberOfAllRegistrationsToPass} / ${request.registerList.size()}
+                                                                        </c:when>
+                                                                        <c:when test="${request.course.status == 'รอประกาศผล'}">
+                                                                            ${request.numberOfAllRegistrationsToPass} / ${request.registerList.size()}
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            ${request.numberOfAllRegistrationsToPass} / ${request.registerList.size()}
+                                                                        </c:otherwise>
+                                                                    </c:choose>
                                                                 </button>
                                                             </a></td>
                                                         </c:if>
@@ -202,20 +226,24 @@
                                                 </c:forEach>
                                             </c:otherwise>
                                         </c:choose>
+                                        </tbody>
                                     </table>
                                 </div>
                                 <div id="no_max_register" style="display: none">
-                                    <table class="table table-striped table-hover">
-                                        <tr style="color: black">
-                                            <td style="width: 30%">ชื่อหลักสูตร</td>
-                                            <td style="width: 12%" align="center">ระยะเวลาการลงทะเบียน</td>
-                                            <td style="width: 12%" align="center">ระยะเวลาการชำระเงิน</td>
-                                            <td style="width: 7%" align="center">วันประกาศผล</td>
-                                            <td style="width: 12%" align="center">ระยะเวลาการเรียน</td>
-                                            <td style="width: 9%" align="center">สถานะ</td>
-                                            <td style="width: 10%" align="center">ผู้สมัคร</td>
-                                            <td style="width: 10%" align="center"></td>
-                                        </tr>
+                                    <table class="table table-hover">
+                                        <thead style="background-color: ${colorBar};">
+                                            <tr style="color: black">
+                                                <td style="width: 30%"><b style="font-size: 14px">ชื่อหลักสูตร</b></td>
+                                                <td style="width: 12%" align="center"><b style="font-size: 14px">ระยะเวลาการลงทะเบียน</b></td>
+                                                <td style="width: 12%" align="center"><b style="font-size: 14px">ระยะเวลาการชำระเงิน</b></td>
+                                                <td style="width: 8%" align="center"><b style="font-size: 14px">วันประกาศผล</b></td>
+                                                <td style="width: 12%" align="center"><b style="font-size: 14px">ระยะเวลาการเรียน</b></td>
+                                                <td style="width: 9%" align="center"><b style="font-size: 14px">สถานะ</b></td>
+                                                <td style="width: 10%" align="center"><b style="font-size: 14px">ผู้สมัคร</b></td>
+                                                <td style="width: 10%" align="center"></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
                                         <c:choose>
                                             <c:when test="${courses_by_register_date.size() == 0}">
                                                 <tr>
@@ -225,7 +253,7 @@
                                             <c:otherwise>
                                                 <c:forEach var="request" items="${courses_by_register_date}">
                                                     <tr style="color: black;">
-                                                        <c:if test="${request.quantity >= request.registerList.size()}">
+<%--                                                        <c:if test="${request.quantity >= request.registerList.size()}">--%>
                                                             <fmt:formatDate value="${request.requestDate}" pattern="dd/MM/yyyy" var="requestDate" />
                                                             <fmt:formatDate value="${request.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
                                                             <fmt:formatDate value="${request.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
@@ -269,25 +297,29 @@
                                                                     </button>
                                                                 </td>
                                                             </c:if>
-                                                        </c:if>
+<%--                                                        </c:if>--%>
                                                     </tr>
                                                 </c:forEach>
                                             </c:otherwise>
                                         </c:choose>
+                                        </tbody>
                                     </table>
                                 </div>
                                 <div id="register_and_payment" style="display: none">
-                                    <table class="table table-striped table-hover">
-                                        <tr style="color: black">
-                                            <td style="width: 30%">ชื่อหลักสูตร</td>
-                                            <td style="width: 12%" align="center">ระยะเวลาการลงทะเบียน</td>
-                                            <td style="width: 12%" align="center">ระยะเวลาการชำระเงิน</td>
-                                            <td style="width: 7%" align="center">วันประกาศผล</td>
-                                            <td style="width: 12%" align="center">ระยะเวลาการเรียน</td>
-                                            <td style="width: 9%" align="center">สถานะ</td>
-                                            <td style="width: 10%" align="center">ผู้สมัคร</td>
-                                            <td style="width: 10%" align="center"></td>
-                                        </tr>
+                                    <table class="table table-hover">
+                                        <thead style="background-color: ${colorBar};">
+                                            <tr style="color: black">
+                                                <td style="width: 30%"><b style="font-size: 14px">ชื่อหลักสูตร</b></td>
+                                                <td style="width: 12%" align="center"><b style="font-size: 14px">ระยะเวลาการลงทะเบียน</b></td>
+                                                <td style="width: 12%" align="center"><b style="font-size: 14px">ระยะเวลาการชำระเงิน</b></td>
+                                                <td style="width: 8%" align="center"><b style="font-size: 14px">วันประกาศผล</b></td>
+                                                <td style="width: 12%" align="center"><b style="font-size: 14px">ระยะเวลาการเรียน</b></td>
+                                                <td style="width: 9%" align="center"><b style="font-size: 14px">สถานะ</b></td>
+                                                <td style="width: 10%" align="center"><b style="font-size: 14px">ผู้สมัคร</b></td>
+                                                <td style="width: 10%" align="center"></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
                                         <c:choose>
                                             <c:when test="${courses_by_register_pay_date.size() == 0}">
                                                 <tr>
@@ -298,7 +330,7 @@
                                                 <c:forEach var="request" items="${courses_by_register_pay_date}">
                                                     <tr style="color: black;">
 
-                                                        <c:if test="${request.quantity >= request.registerList.size()}">
+<%--                                                        <c:if test="${request.quantity >= request.registerList.size()}">--%>
                                                             <fmt:formatDate value="${request.requestDate}" pattern="dd/MM/yyyy" var="requestDate" />
                                                             <fmt:formatDate value="${request.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
                                                             <fmt:formatDate value="${request.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
@@ -342,23 +374,27 @@
                                                                     </button>
                                                                 </td>
                                                             </c:if>
-                                                        </c:if>
+<%--                                                        </c:if>--%>
                                                     </tr>
                                                 </c:forEach>
                                             </c:otherwise>
                                         </c:choose>
+                                        </tbody>
                                     </table>
                                 </div>
                                 <div id="payment_list" style="display: none">
-                                    <table class="table table-striped table-hover">
-                                        <tr style="color: black">
-                                            <td style="width: 30%">ชื่อหลักสูตร</td>
-                                            <td style="width: 20%" align="center">ระยะเวลาการชำระเงิน</td>
-                                            <td style="width: 15%" align="center">วันประกาศผล</td>
-                                            <td style="width: 20%" align="center">ระยะเวลาการเรียน</td>
-                                            <td style="width: 10%" align="center">สถานะ</td>
-                                            <td style="width: 10%" align="center">ผู้สมัคร</td>
-                                        </tr>
+                                    <table class="table table-hover">
+                                        <thead style="background-color: ${colorBar};">
+                                            <tr style="color: black">
+                                                <td style="width: 30%"><b style="font-size: 14px">ชื่อหลักสูตร</b></td>
+                                                <td style="width: 20%" align="center"><b style="font-size: 14px">ระยะเวลาการชำระเงิน</b></td>
+                                                <td style="width: 15%" align="center"><b style="font-size: 14px">วันประกาศผล</b></td>
+                                                <td style="width: 20%" align="center"><b style="font-size: 14px">ระยะเวลาการเรียน</b></td>
+                                                <td style="width: 10%" align="center"><b style="font-size: 14px">สถานะ</b></td>
+                                                <td style="width: 10%" align="center"><b style="font-size: 14px">ผู้สมัคร</b></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
                                         <c:choose>
                                             <c:when test="${courses_by_payment_date.size() == 0}">
                                                 <tr>
@@ -395,6 +431,8 @@
                                                 </c:forEach>
                                             </c:otherwise>
                                         </c:choose>
+                                        </tbody>
+
 
                                     </table>
                                 </div>
@@ -473,15 +511,18 @@
                                     <%--                            </table>--%>
                                     <%--                        </div>--%>
                                 <div id="app_list" style="display: none">
-                                    <table class="table table-striped table-hover">
-                                        <tr style="color: black">
-                                            <td style="width: 30%">ชื่อหลักสูตร</td>
-                                            <td style="width: 20%" align="center">ระยะเวลาการชำระเงิน</td>
-                                            <td style="width: 15%" align="center">วันประกาศผล</td>
-                                            <td style="width: 20%" align="center">ระยะเวลาการเรียน</td>
-                                            <td style="width: 10%" align="center">สถานะ</td>
-                                            <td style="width: 15%" align="center">ผู้สมัคร</td>
-                                        </tr>
+                                    <table class="table table-hover">
+                                        <thead style="background-color: ${colorBar};">
+                                            <tr style="color: black">
+                                                <td style="width: 30%"><b style="font-size: 14px">ชื่อหลักสูตร</b></td>
+                                                <td style="width: 20%" align="center"><b style="font-size: 14px">ระยะเวลาการชำระเงิน</b></td>
+                                                <td style="width: 15%" align="center"><b style="font-size: 14px">วันประกาศผล</b></td>
+                                                <td style="width: 20%" align="center"><b style="font-size: 14px">ระยะเวลาการเรียน</b></td>
+                                                <td style="width: 10%" align="center"><b style="font-size: 14px">สถานะ</b></td>
+                                                <td style="width: 15%" align="center"><b style="font-size: 14px">ผู้สมัคร</b></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
                                         <c:choose>
                                             <c:when test="${courses_by_app_date.size() == 0}">
                                                 <tr>
@@ -515,7 +556,7 @@
                                                             </td>
                                                             <td align="center"><a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request.request_id}/list_member_to_approve">
                                                                 <button class="button-35" role="button"><i class="fa fa-users" style="margin-right: 10px"></i>
-                                                                        ${request.numberOfAllRegistrationsPayStatus} / ${request.registerList.size()}
+                                                                        ${request.numberOfAllRegistrationsToPass} / ${request.registerList.size()}
                                                                 </button>
                                                             </a></td>
                                                         </c:if>
@@ -523,20 +564,24 @@
                                                 </c:forEach>
                                             </c:otherwise>
                                         </c:choose>
+                                        </tbody>
                                     </table>
                                 </div>
 
                             </div>
                             <div id="list_study" style="display: none">
-                                <table class="table table-striped table-hover" style="font-size: 12px">
-                                    <tr style="color: black">
-                                        <td style="width: 25%;">รายละเอียดหลักสูตร</td>
-                                        <td style="width: 15%" align="center">ระยะเวลาเรียน</td>
-                                        <td style="width: 10%"align="center">ประเภท</td>
-                                        <td style="width: 10%"align="center">ตัวอย่างเกียรติบัตร</td>
-                                        <td style="width: 10%"align="center">ผู้สมัคร</td>
-                                        <td style="width: 20%"align="center"></td>
-                                    </tr>
+                                <table class="table table-hover" style="font-size: 12px">
+                                    <thead style="background-color: ${colorBar};">
+                                        <tr style="color: black">
+                                            <td style="width: 25%;"><b style="font-size: 14px">รายละเอียดหลักสูตร</b></td>
+                                            <td style="width: 15%" align="center"><b style="font-size: 14px">ระยะเวลาเรียน</b></td>
+                                            <td style="width: 10%" align="center"><b style="font-size: 14px">ประเภท</b></td>
+                                            <td style="width: 10%" align="center"><b style="font-size: 14px">ตัวอย่างเกียรติบัตร</b></td>
+                                            <td style="width: 10%" align="center"><b style="font-size: 14px">ผู้สมัคร</b></td>
+                                            <td style="width: 20%" align="center"></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                     <c:choose>
                                         <c:when test="${courses_by_study_date.size() == 0}">
                                             <tr>
@@ -559,7 +604,7 @@
                                                             <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
                                                                 <button class="button-5" role="button" style="font-size: 12px">
                                                                     <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>
-                                                                        ${request_course.numberOfAllRegistrationsByStudyResult} / ${request_course.numberOfAllRegistrationsToPass}
+                                                                        ${request_course.numberOfAllRegistrationsToPass} คน
                                                                 </button>
                                                             </a>
                                                         </td>
@@ -580,6 +625,55 @@
                                             </c:forEach>
                                         </c:otherwise>
                                     </c:choose>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="finish_study" style="display: none">
+                                <table class="table table-hover" style="font-size: 12px">
+                                    <thead style="background-color: ${colorBar};">
+                                    <tr style="color: black">
+                                        <td style="width: 35%;"><b style="font-size: 14px">รายละเอียดหลักสูตร</b></td>
+                                        <td style="width: 15%" align="center"><b style="font-size: 14px">ระยะเวลาเรียน</b></td>
+                                        <td style="width: 10%" align="center"><b style="font-size: 14px">ประเภท</b></td>
+                                        <td style="width: 10%" align="center"><b style="font-size: 14px">สถานะ</b></td>
+                                        <td style="width: 10%" align="center"><b style="font-size: 14px">ตัวอย่างเกียรติบัตร</b></td>
+                                        <td style="width: 10%" align="center"><b style="font-size: 14px">ผู้สมัคร</b></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:choose>
+                                        <c:when test="${courses_by_finish_study_date.size() == 0}">
+                                            <tr>
+                                                <td colspan="6" align="center">ไม่มีข้อมูล</td>
+                                            </tr>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:forEach var="request_course" items="${courses_by_finish_study_date}">
+                                                <fmt:formatDate value="${request_course.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                                <fmt:formatDate value="${request_course.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
+                                                <tr style="color: black">
+                                                    <td><p>${request_course.course.name}</p></td>
+                                                    <td align="center"><p>${startStudyDate} - ${endStudyDate}</p></td>
+                                                    <td align="center"><p>${request_course.course.course_type}</p></td>
+                                                    <td align="center">
+                                                        <p>${request_course.requestStatus}</p>
+                                                    </td>
+                                                    <td align="center">
+                                                        <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/view_sample_certificate">ดูตัวอย่าง</a>
+                                                    </td>
+                                                    <td align="center">
+                                                        <a href="${pageContext.request.contextPath}/lecturer/${lecturer_id}/${request_course.request_id}/list_member_to_approve">
+                                                            <button class="button-5" role="button" style="font-size: 12px">
+                                                                <i class='fas fa-user-friends' style='color: white; margin-right: 5px'></i>
+                                                                    ${request_course.numberOfAllRegistrationsByStudyResultCheckPF} / ${request_course.numberOfAllRegistrationsToPass}
+                                                            </button>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -627,10 +721,17 @@
             document.getElementById("tag_line").textContent = "หลักสูตรที่กำลังลงทะเบียน/ชำระเงิน"
             document.getElementById("register_select").style.display = "block";
             document.getElementById("list_study").style.display = "none";
+            document.getElementById("finish_study").style.display = "none";
         }else if (selectedValue === "กำลังเรียน") {
             document.getElementById("tag_line").textContent = "หลักสูตรที่กำลังเรียน"
             document.getElementById("register_select").style.display = "none";
             document.getElementById("list_study").style.display = "block";
+            document.getElementById("finish_study").style.display = "none";
+        }else if (selectedValue === "หลักสูตรที่เสร็จสิ้นการเรียน") {
+            document.getElementById("tag_line").textContent = "หลักสูตรที่กำลังเรียน"
+            document.getElementById("register_select").style.display = "none";
+            document.getElementById("list_study").style.display = "none";
+            document.getElementById("finish_study").style.display = "block";
         }
     }
     window.addEventListener('load',checkSelection);
@@ -688,6 +789,34 @@
             document.getElementById("payment_list").style.display = "none";
             document.getElementById("app_list").style.display = "block";
         }
+    });
+</script>
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // var button = document.getElementById('FClick');
+        // button.click()
+        if (`${fromPage}` === ''){
+            document.getElementById('chk1').click();
+        } else if (`${fromPage}` === 'regisPage'){
+            document.getElementById('chk2').click();
+        }else if (`${fromPage}` === 'regispayPage'){
+            document.getElementById('chk3').click()
+        }else if (`${fromPage}` === 'payPage'){
+            document.getElementById('chk4').click()
+        }else if (`${fromPage}` === 'appPage'){
+            document.getElementById('chk5').click()
+        } else {
+            var selectElement = document.getElementById("select_type"); // เลือก element ของ <select>
+            var selectedOption = `${fromPage}`; // ตัวเลือกที่คุณต้องการเลือก
+            for (var i = 0; i < selectElement.options.length; i++) {
+                if (selectElement.options[i].value === selectedOption) {
+                    selectElement.selectedIndex = i; // เลือกตัวเลือกที่ตรงกับ "ถูกยกเลิก"
+                    break;
+                }
+            }
+        }
+
+        console.log("fromPage : " + `${fromPage}`)
     });
 </script>
 </html>

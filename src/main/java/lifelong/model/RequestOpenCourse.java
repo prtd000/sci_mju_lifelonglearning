@@ -131,6 +131,33 @@ public class RequestOpenCourse {
         }
         return count;
     }
+    public int getNumberOfAllRegistrationsByStudyResultToFalse() {
+        int count = 0;
+        for (Register register : registerList) {
+            if (Objects.equals(register.getStudy_result(), "ไม่ผ่าน")){
+                count++;
+            }
+        }
+        return count;
+    }
+    public int getNumberOfAllRegistrationsByStudyResultCheckPF() {
+        int count = 0;
+        for (Register register : registerList) {
+            if (Objects.equals(register.getStudy_result(), "ผ่าน")||Objects.equals(register.getStudy_result(), "ไม่ผ่าน")){
+                count++;
+            }
+        }
+        return count;
+    }
+    public int getNumberOfAllRegistrationsByStudyResultToNotPassNotFalse() {
+        int count = 0;
+        for (Register register : registerList) {
+            if (Objects.equals(register.getStudy_result(), "กำลังเรียน")){
+                count++;
+            }
+        }
+        return count;
+    }
     // สร้างเมธอดเพื่อนับจำนวนคนที่สมัครสำหรับหลักสูตรนี้
     // เมธอดเพื่อนับจำนวน Register ที่มีใน List
 //    public int getNumberOfRegistrations() {
@@ -165,13 +192,13 @@ public class RequestOpenCourse {
                 // ถ้าวันปัจจุบันหลังจาก endStudyDate
                 this.requestStatus = "เสร็จสิ้น"; // เปลี่ยนค่า requestStatus เป็น "เสร็จสิ้น"
                 this.course.setStatus("ยังไม่เปิดสอน");
-                for (Register register : registerList) {
-                    if(Objects.equals(register.getInvoice().getApprove_status(), "ผ่าน")){
-                        if (currentDate.after(endStudyDate) && Objects.equals(register.getStudy_result(), "กำลังเรียน")) {
-                            register.setStudy_result("ไม่ผ่าน");
-                        }
-                    }
-                }
+//                for (Register register : registerList) {
+//                    if(Objects.equals(register.getInvoice().getApprove_status(), "ผ่าน")){
+//                        if (currentDate.after(endStudyDate) && Objects.equals(register.getStudy_result(), "กำลังเรียน")) {
+//                            register.setStudy_result("ไม่ผ่าน");
+//                        }
+//                    }
+//                }
             }
         }
     }

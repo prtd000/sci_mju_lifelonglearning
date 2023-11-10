@@ -68,6 +68,43 @@ public class RegisterDaoImpl implements RegisterDao {
     }
 
     @Override
+    public List<Register> getRegisterByRequestIdByLecturer(long roc_Id, String status) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Register> query = null;
+        List<Register> registers = null;
+        if (Objects.equals(status, "ลงทะเบียน")){
+            query = session.createQuery("from Register r where r.requestOpenCourse.id =: Id and r.requestOpenCourse.course.status =: r_status order by register_date asc", Register.class);
+        } else if (Objects.equals(status, "ลงทะเบียน/ชำระเงิน")||Objects.equals(status, "ชำระเงิน")||Objects.equals(status, "รอประกาศผล")) {
+            query = session.createQuery("from Register r where r.requestOpenCourse.id =: Id and r.requestOpenCourse.course.status =: r_status order by "
+                    + "CASE "
+                    + "  WHEN r.invoice.approve_status = 'ผ่าน' THEN 1 "
+                    + "  WHEN r.invoice.approve_status = 'ไม่ผ่าน' THEN 2 "
+                    + "  WHEN r.invoice.approve_status = 'รอดำเนินการ' THEN 3 "
+                    + "END", Register.class);
+        } else if (Objects.equals(status, "เปิดสอน")) {
+            query = session.createQuery("from Register r where r.requestOpenCourse.id =: Id and r.requestOpenCourse.course.status =: r_status and " +
+                    "r.invoice.approve_status =: a_status " +
+                    "order by register_date asc ",Register.class);
+            query.setParameter("a_status","ผ่าน");
+        }else if (Objects.equals(status, "เสร็จสิ้น")) {
+            query = session.createQuery("from Register r where r.requestOpenCourse.id =: Id and r.requestOpenCourse.requestStatus =: r_status and " +
+                    "r.invoice.approve_status =: a_status " +
+                    "order by "
+                    + "CASE "
+                    + "  WHEN r.study_result = 'ผ่าน' THEN 2 "
+                    + "  WHEN r.study_result = 'ไม่ผ่าน' THEN 3 "
+                    + "  WHEN r.study_result = 'กำลังเรียน' THEN 1 "
+                    + "END", Register.class);
+            query.setParameter("a_status","ผ่าน");
+        }
+        assert query != null;
+        query.setParameter("Id",roc_Id);
+        query.setParameter("r_status",status);
+        registers = query.getResultList();
+        return registers;
+    }
+
+    @Override
     public List<Register> getRegisterByRequestIdOrderByStatus(long roc_Id, String status) {
         Session session = sessionFactory.getCurrentSession();
         Query<Register> query;
@@ -77,13 +114,39 @@ public class RegisterDaoImpl implements RegisterDao {
             query.setParameter("Id",roc_Id);
             query.setParameter("r_status",status);
             registers = query.getResultList();
-        } else if (Objects.equals(status, "ลงทะเบียน/ชำระเงิน")) {
+        } else if (Objects.equals(status, "ลงทะเบียน/ชำระเงิน")||Objects.equals(status, "ชำระเงิน")||Objects.equals(status, "รอประกาศผล")) {
             query = session.createQuery("from Register r where r.requestOpenCourse.id =: Id and r.requestOpenCourse.course.status =: r_status order by "
                     + "CASE "
                     + "  WHEN r.invoice.approve_status = 'รอดำเนินการ' and r.invoice.pay_status = true THEN 1 "
                     + "  WHEN r.invoice.approve_status = 'ผ่าน' THEN 2 "
                     + "  WHEN r.invoice.approve_status = 'ไม่ผ่าน' THEN 3 "
                     + "  WHEN r.invoice.approve_status = 'รอดำเนินการ' and r.invoice.pay_status = false THEN 4 "
+                    + "END", Register.class);
+            query.setParameter("Id",roc_Id);
+            query.setParameter("r_status",status);
+            registers = query.getResultList();
+        }else if (Objects.equals(status, "เปิดสอน")){
+            query = session.createQuery("from Register r where r.requestOpenCourse.id =: Id and r.requestOpenCourse.course.status =: r_status order by register_date asc", Register.class);
+            query.setParameter("Id",roc_Id);
+            query.setParameter("r_status",status);
+            registers = query.getResultList();
+        } else if (Objects.equals(status, "ถูกยกเลิก")) {
+            query = session.createQuery("from Register r where r.requestOpenCourse.id =: Id and r.requestOpenCourse.requestStatus =: r_status order by "
+                    + "CASE "
+                    + "  WHEN r.invoice.approve_status = 'รอดำเนินการ' and r.invoice.pay_status = true THEN 1 "
+                    + "  WHEN r.invoice.approve_status = 'ผ่าน' THEN 2 "
+                    + "  WHEN r.invoice.approve_status = 'ไม่ผ่าน' THEN 3 "
+                    + "  WHEN r.invoice.approve_status = 'รอดำเนินการ' and r.invoice.pay_status = false THEN 4 "
+                    + "END", Register.class);
+            query.setParameter("Id",roc_Id);
+            query.setParameter("r_status",status);
+            registers = query.getResultList();
+        }else if (Objects.equals(status, "เสร็จสิ้น")) {
+            query = session.createQuery("from Register r where r.requestOpenCourse.id =: Id and r.requestOpenCourse.requestStatus =: r_status order by "
+                    + "CASE "
+                    + "  WHEN r.study_result = 'ผ่าน' THEN 1 "
+                    + "  WHEN r.study_result = 'ไม่ผ่าน' THEN 2 "
+                    + "  WHEN r.study_result = 'กำลังเรียน' THEN 3 "
                     + "END", Register.class);
             query.setParameter("Id",roc_Id);
             query.setParameter("r_status",status);
@@ -203,6 +266,16 @@ public class RegisterDaoImpl implements RegisterDao {
     public Register updateRegister (Register register) {
         Session session = sessionFactory.getCurrentSession();
         session.saveOrUpdate(register);
+        return register;
+    }
+
+    @Override
+    public Register getRegisterByRegisterIdAndMemberId(long register_id, String memberId) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Register> query = session.createQuery("FROM Register r WHERE r.register_id =: regisId and r.member.username =: m_id", Register.class);
+        query.setParameter("regisId", register_id);
+        query.setParameter("m_id", memberId);
+        Register register = query.getSingleResult();
         return register;
     }
 }

@@ -2,6 +2,7 @@
 <%@ page import="lifelong.model.Admin" %>
 <%@ page import="lifelong.model.Member" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: DELL
@@ -125,8 +126,9 @@
                                             <td>${payment.invoice.register.member.firstName} ${payment.invoice.register.member.lastName}</td>
                                         </tr>
                                         <tr>
+                                            <fmt:parseNumber var="courseFee" type="number" value="${payment.invoice.register.requestOpenCourse.course.fee}"/>
                                             <td>ยอดชำระเงินทั้งหมด </td>
-                                            <td>${payment.invoice.register.requestOpenCourse.course.fee}0 บาท</td>
+                                            <td><fmt:formatNumber value="${courseFee}"/> บาท</td>
                                         </tr>
                                         <tr>
                                             <td colspan="2"><hr></td>
@@ -144,8 +146,9 @@
                                             <td><b>${payment.banking}</b></td>
                                         </tr>
                                         <tr>
+                                            <fmt:parseNumber var="courseFee" type="number" value="${payment.invoice.register.requestOpenCourse.course.fee}"/>
                                             <td>จำนวนเงินที่ถูกโอน (ฺ฿)</td>
-                                            <td><b>${payment.invoice.register.requestOpenCourse.course.fee}0 บาท</b></td>
+                                            <td><b><fmt:formatNumber value="${courseFee}"/></b></td>
                                         </tr>
                                         <tr>
                                             <td>เงินโอนจากบัญชีธนาคารเลขที่ (4 หลักสุดท้าย)</td>

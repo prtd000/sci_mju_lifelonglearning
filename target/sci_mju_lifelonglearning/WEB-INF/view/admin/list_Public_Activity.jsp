@@ -82,6 +82,7 @@
                     </div>
         </nav>
         <!-- Navbar End -->
+        <c:set var="colorBar" value="#fbc44f"/>
         <div align="center" style="width: 100%; margin-top: 30px">
             <div class="tabcontent" align="left" style="width: 90%">
                 <div style="display: flex; width: 100%" >
@@ -92,14 +93,17 @@
 
                 <div align="center" class="main_container">
                     <div id="Activity_News" class="tabcontent">
-                        <table class="table table-striped table-hover" style="font-size: 12px">
-                            <tr style="color: black">
-                                <td style="width: 50%">รายการข่าว</td>
-                                <td style="width: 15%" align="center">วันที่ออกข่าว</td>
-                                <td style="width: 15%" align="center">ประเภทข่าวสาร</td>
-                                <td style="width: 10%" align="center"></td>
-                                <td style="width: 10%" align="center"></td>
-                            </tr>
+                        <table class="table table-hover" style="font-size: 12px">
+                            <thead style="background-color: ${colorBar};">
+                                <tr style="color: black">
+                                    <td style="width: 50%"><b style="font-size: 14px">รายการข่าว</b></td>
+                                    <td style="width: 15%" align="center"><b style="font-size: 14px">วันที่ออกข่าว</b></td>
+                                    <td style="width: 15%" align="center"><b style="font-size: 14px">ประเภทข่าวสาร</b></td>
+                                    <td style="width: 10%" align="center"></td>
+                                    <td style="width: 10%" align="center"></td>
+                                </tr>
+                            </thead>
+                            <tbody>
                             <c:choose>
                                 <c:when test="${list_activities.size() == 0}">
                                     <tr>
@@ -115,12 +119,12 @@
                                             <td align="center">${list.type}</td>
                                             <td align="center">
                                                 <a href="${pageContext.request.contextPath}/course/public/${list.ac_id}/edit_page">
-                                                    <button style="font-size: 12px" type="button" class="btn btn-outline-warning">
+                                                    <button style="font-size: 12px;border-radius: 15px;width: 90%;" type="button" class="btn btn-outline-warning">
                                                         <i class='fa fa-edit'></i>แก้ไข</button>
                                                 </a>
                                             </td>
                                             <td align="center">
-                                                <button style="font-size: 12px" type="button" class="btn btn-outline-danger" onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/${list.ac_id}/delete'; return false; }">
+                                                <button style="font-size: 12px;border-radius: 15px;width: 90%;" type="button" class="btn btn-outline-danger" onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/course/<%=admin.getUsername()%>/${list.ac_id}/delete'; return false; }">
                                                     <i class="fas fa-window-close fa-lg"></i> ลบข่าวสาร
                                                 </button>
                                             </td>
@@ -128,6 +132,7 @@
                                     </c:forEach>
                                 </c:otherwise>
                             </c:choose>
+                            </tbody>
                         </table>
                     </div>
                 </div>

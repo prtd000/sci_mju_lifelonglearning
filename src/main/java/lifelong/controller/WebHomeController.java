@@ -5,9 +5,12 @@ import lifelong.model.Member;
 import lifelong.model.Register;
 import lifelong.model.RequestOpenCourse;
 import lifelong.service.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +44,11 @@ public class WebHomeController {
     @Autowired
     private RegisterService registerService;
 
+    @Autowired
+    private SessionFactory sessionFactory;
+
     @GetMapping("/")
+    @Transactional
     public String listCourse(Model model) {
         List<RequestOpenCourse> requestOpenCourses = requestOpCourseService.getRequestOpenCourses();
         List<Course> courses = courseService.getListCoursesOrderByDate();
@@ -60,6 +67,9 @@ public class WebHomeController {
 
             if (Objects.equals(requestOpenCourse.getRequestStatus(), "ผ่าน")){
                 if (currentDate.getTime() > requestOpenCourse.getEndRegister().getTime() && requestOpenCourse.getRegisterList().size() == 0){
+                    requestOpenCourse.getCourse().setStatus("ยังไม่เปิดสอน");
+                    requestOpenCourse.setRequestStatus("ถูกยกเลิก");
+                }else if (currentDate.getTime() > requestOpenCourse.getApplicationResult().getTime() && requestOpenCourse.getNumberOfAllRegistrationsToPass() == 0){
                     requestOpenCourse.getCourse().setStatus("ยังไม่เปิดสอน");
                     requestOpenCourse.setRequestStatus("ถูกยกเลิก");
                 }
@@ -114,7 +124,9 @@ public class WebHomeController {
 //            if (requestOpenCourse.getEndRegister().toInstant().isBefore(currentDate.toInstant()) && requestOpenCourse.getQuantity() == 0) {
 //                requestOpenCourse.setRequestStatus("ถูกยกเลิก");
 //            }
-            requestOpCourseService.updateRequestOpenCourse(requestOpenCourse);
+            Session session = sessionFactory.getCurrentSession();
+            RequestOpenCourse mergedRequestOpenCourse = (RequestOpenCourse) session.merge(requestOpenCourse);
+            requestOpCourseService.updateRequestOpenCourse(mergedRequestOpenCourse);
 
         }
         model.addAttribute("list_req",requestOpenCourses);

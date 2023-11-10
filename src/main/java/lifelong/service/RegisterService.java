@@ -13,7 +13,7 @@ public interface RegisterService {
     List<Register> getListRegister();
     List<Register> getRegister(String memId);
     List<Register> getRegisterByRequestId(long roc_Id);
-
+    List<Register> getRegisterByRequestIdByLecturer(long roc_Id, String status);
     Register checkMemberRegisteredPass(String memId, long reqId);
 
     List<Register> getAmountRegisteredByCourseId(String courseId);
@@ -41,5 +41,6 @@ public interface RegisterService {
 
     void updateRegister(Register register);
     List<Register> getRegisterByRequestIdOrderByStatus(long roc_Id, String status);
+    Register getRegisterByRegisterIdAndMemberId(long register_id, String memberId);
 
 }

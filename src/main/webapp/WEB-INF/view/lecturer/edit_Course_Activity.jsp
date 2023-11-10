@@ -114,12 +114,10 @@
       <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
         <div class="navbar-nav ms-auto py-0">
           <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 18px">หน้าหลัก</a>
-          <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรการอบรม</a>
           <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/add_roc" class="nav-item nav-link" style="font-size: 18px">ร้องขอหลักสูตร</a>
           <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 18px">รายการร้องขอ</a>
           <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_approve_request_open_course" class="nav-item nav-link active" style="font-size: 18px">หลักสูตรที่เปิดสอน</a>
           <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
-          <a href="#" class="nav-item nav-link" style="font-size: 17px">อาจารย์</a>
           <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
         </div>
       </div>
@@ -210,8 +208,8 @@
             <div style="width: 100%" align="center" class="flex-container">
               <input type="button" value="ย้อนกลับ"
                      onclick="window.location.href='${pageContext.request.contextPath}/lecturer/${request_id}/list_course_activity_news'; return false;"
-                     style="width: 47%" class="flex-container"/>
-              <input type="submit" value="บันทึก" class="button-5" style="width: 47%"/>
+                     style="width: 47%"/>
+              <input type="submit" value="บันทึก" class="button-5" style="width: 50%; font-family: 'Prompt', sans-serif;" onclick="updateAcDetailField()"/>
             </div>
           </form>
         </c:if>
@@ -240,7 +238,7 @@
   function confirmAction() {
     updateAcDetailField(); // อัปเดตข้อมูลจาก Rich Text Editor
     if (validateAcName() && validateAcImg()) {
-      var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการเพิ่มข่าวสารนี้?");
+      var result = confirm("คุณแน่ใจหรือไม่ว่าต้องการแก้ไขข่าวสารนี้?");
       if (result) {
         return true; // ถ้าผู้ใช้กด OK ให้ทำงานตามปกติ
       } else {
@@ -254,17 +252,14 @@
 </script>
 <%--ส่งRich Test Editer--%>
 <script>
-  // สร้าง Rich Text Editor และกำหนดเนื้อหาเริ่มต้น
   var quill = new Quill('#editor', {
     theme: 'snow',
-    placeholder: 'กรอกเนื้อหาของคุณที่นี่...', // ข้อความที่จะแสดงในตอนเริ่มต้น
-    // เนื้อหาเริ่มต้น (HTML หรือ plain text)
-    // ตัวอย่างเช่น: '<p>เนื้อหาเริ่มต้น</p>'
+    placeholder: 'กรอกเนื้อหาของคุณที่นี่...',
   });
-  // กำหนดเนื้อหาเริ่มต้น
-  // quill.clipboard.dangerouslyPasteHTML('BEST');
+
+  // อัปเดตข้อมูลจาก Rich Text Editor เขียนลงในฟิลด์ 'ac_detail' ในฟอร์ม
   function updateAcDetailField() {
-    var acDetail = quill.getText();
+    var acDetail = quill.root.innerHTML;
     document.getElementById('ac_detail').value = acDetail;
   }
 </script>

@@ -13,7 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Certificate</title>
-<%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>--%>
+    <%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>--%>
 
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf-html2canvas@latest/dist/jspdf-html2canvas.min.js"></script>
@@ -30,7 +30,7 @@
         .mem-name{
             position: absolute;
             font-weight: bold;
-            font-size: 30px;
+            font-size: 212%;
             color: black;
             top: 45%;
             left: 50%;
@@ -40,7 +40,7 @@
         .text_con{
             position: absolute;
             font-weight: bold;
-            font-size: 25px;
+            font-size: 135%;
             color: black;
             top: 37%;
             left: 50%;
@@ -50,7 +50,7 @@
         .course_name{
             position: absolute;
             font-weight: bold;
-            font-size: 25px;
+            font-size: 140%;
             color: black;
             top: 59%;
             left: 50%;
@@ -59,7 +59,7 @@
 
         .lec-name{
             position: absolute;
-            font-size: 20px;
+            font-size: 120%;
             color: black;
             top: 74%;
             left: 40%;
@@ -69,7 +69,7 @@
         .position_lec{
             position: absolute;
             font-weight: bold;
-            font-size: 20px;
+            font-size: 120%;
             color: black;
             top: 78%;
             left: 40%;
@@ -79,7 +79,7 @@
         .position_science{
             position: absolute;
             font-weight: bold;
-            font-size: 20px;
+            font-size: 120%;
             color: black;
             top: 78%;
             left: 60%;
@@ -111,7 +111,7 @@
         }
         .name-assistant{
             position: absolute;
-            font-size: 20px;
+            font-size: 120%;
             color: black;
             top: 74%;
             left: 60.5%;
@@ -119,7 +119,7 @@
         }
         .sig-assistant{
             position: absolute;
-            font-size: 25px;
+            font-size: 160%;
             color: black;
             top: 69.5%;
             left: 60.5%;
@@ -168,7 +168,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 17px">หน้าหลัก</a>
-<%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>--%>
+                        <%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับคณะ</a>--%>
                         <%--            <div class="nav-item dropdown">--%>
                         <%--                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">หลักสูตรการอบรม</a>--%>
                     <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link " style="font-size: 17px">หลักสูตรการอบรม</a>
@@ -179,7 +179,7 @@
                         <%--            </div>--%>
                     <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/listcourse" class="nav-item nav-link active" style="font-size: 17px">หลักสูตรของฉัน</a>
                     <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 17px">ข่าวสารและกิจกรรม</a>
-<%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>--%>
+                        <%--                    <a href="#" class="nav-item nav-link" style="font-size: 17px">เกี่ยวกับเรา</a>--%>
                     <a href="${pageContext.request.contextPath}/member/<%=member.getUsername()%>/edit_profile" class="nav-item nav-link" style="font-size: 17px">ข้อมูลส่วนตัว</a>
                     <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 17px">ออกจากระบบ</a>
                 </div>
@@ -195,7 +195,7 @@
     <div id="content">
         <!-- นี่คือเนื้อหาที่คุณต้องการแปลงเป็น PDF -->
         <img src="${pageContext.request.contextPath}/assets/img/Certificate.png" style="height: 520px" alt="certificate">
-        <p class="text_con">ขอแสดงความยินดีกับ</p>
+        <p class="text_con">ประกาศนียบัตรฉบับนี้ให้ไว้เพื่อแสดงว่า</p>
         <p class="mem-name">${register.member.firstName} &nbsp; ${register.member.lastName}</p>
         <p class="course_name">${register.requestOpenCourse.course.certificateName}</p>
         <img class="signature" src="${pageContext.request.contextPath}/uploads/request_open_course/signature/${register.requestOpenCourse.signature}"  alt="signature"/>
@@ -228,7 +228,7 @@
                 });
 
                 // เพิ่มรูปภาพเข้าใน PDF โดยใช้ขนาดเดียวกับ Canvas
-                                                                     //(X และ Y ของรูปภาพใน PDF  , ขนาดของรูปภาพใน PDF)
+                //(X และ Y ของรูปภาพใน PDF  , ขนาดของรูปภาพใน PDF)
                 pdf.addImage(canvas.toDataURL('image/PNG',1), 'PNG', -281, 0, 1080 , 370);
 
                 // บันทึก PDF หรือเปิดในหน้าต่างใหม่

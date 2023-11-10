@@ -27,6 +27,7 @@ public interface RegisterDao {
     Register getLastRow();
 
     List<Register> getRegisterByRequestId(long roc_Id);
+    List<Register> getRegisterByRequestIdByLecturer(long roc_Id, String status);
     List<Register> getRegisterByRequestIdOrderByStatus(long roc_Id,String status);
 
     List<Receipt> getReceipt();
@@ -41,4 +42,5 @@ public interface RegisterDao {
     Register getRegisterByRegisterId(long register_Id);
 
     Register updateRegister (Register register) ;
+    Register getRegisterByRegisterIdAndMemberId (long register_id,String memberId);
 }

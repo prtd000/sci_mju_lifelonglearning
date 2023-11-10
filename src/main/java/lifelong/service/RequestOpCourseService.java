@@ -48,5 +48,6 @@ public interface RequestOpCourseService {
     List<RequestOpenCourse> getAllRequestByStatusByStudy();
     List<RequestOpenCourse> getAllCancelRequestByStatus();
     List<RequestOpenCourse> getAllRequestBeforeApprove();
+    List<RequestOpenCourse> getAllRequestByStatusByFinishStudy();
 
 }

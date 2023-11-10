@@ -168,7 +168,8 @@
                                     <div style="width: 50%;">
                                         <c:choose>
                                             <c:when test="${ROC_detail.course.fee != 0}">
-                                                <label>ค่าธรรมเนียม ${ROC_detail.course.fee} บาท</label>
+                                                <fmt:parseNumber var="courseFee" type="number" value="${ROC_detail.course.fee}"/>
+                                                <label><fmt:formatNumber value="${courseFee}"/> บาท</label>
                                             </c:when>
                                             <c:otherwise>
                                                 <label>ไม่มีค่าธรรมเนียม</label>

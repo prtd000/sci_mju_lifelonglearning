@@ -70,79 +70,128 @@
             <div class="collapse navbar-collapse" id="navbarCollapse" style="margin-right: 43px;">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="${pageContext.request.contextPath}/" class="nav-item nav-link" style="font-size: 18px">หน้าหลัก</a>
-                    <a href="${pageContext.request.contextPath}/search_course" class="nav-item nav-link" style="font-size: 18px">หลักสูตรการอบรม</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/add_roc" class="nav-item nav-link" style="font-size: 18px">ร้องขอหลักสูตร</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_request_open_course" class="nav-item nav-link" style="font-size: 18px">รายการร้องขอ</a>
                     <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_approve_request_open_course" class="nav-item nav-link active" style="font-size: 18px">หลักสูตรที่เปิดสอน</a>
                     <a href="${pageContext.request.contextPath}/view_activity" class="nav-item nav-link" style="font-size: 18px">ข่าวสารและกิจกรรม</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 17px">อาจารย์</a>
                     <a href="${pageContext.request.contextPath}/doLogout" class="nav-item nav-link" style="font-size: 18px">ออกจากระบบ</a>
                 </div>
             </div>
         </nav>
         <!-- Navbar End -->
+        <c:set var="colorBar" value="#fbc44f"/>
         <div align="center" style="width: 100%; margin-top: 20px">
             <div align="left" style="width: 85%">
                     <%--                <h2>${request_name.course.name}</h2>--%>
                 <div align="center" class="main_container">
                     <div class="course_div" style="align-self: flex-start;">
-                        <div style="padding: 20px 20px 0px 20px" align="left">
-                            <b><label style="font-size: 20px">${request_name.course.name}</label></b>
-                            <label>${request_name.course.major.name}</label>
-                            <hr>
+                        <div>
+                            <div style="padding: 20px 20px 0px 20px" align="left">
+                                <b><label style="font-size: 20px">${request_name.course.name}</label></b>
+                                <label>${request_name.course.major.name}</label>
+                                <hr>
+                            </div>
+                            <div style="padding: 0px 20px 20px 20px" align="left">
+                                <b><label>วันเปิดรับสมัคร</label></b>
+                                <div class="mb-3">
+                                    <div class="flex-container">
+                                        <fmt:formatDate value="${request_name.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
+                                        <fmt:formatDate value="${request_name.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
+                                        <label>${startRegister} - ${endRegister}</label>
+                                    </div>
+                                </div>
+                                <b><label>ค่าธรรมเนียม</label></b>
+                                <div class="mb-3">
+                                    <c:choose>
+                                        <c:when test="${request_name.course.fee == 0}">
+                                            <div class="flex-container">
+                                                <label>ไม่มีค่าธรรมเนียม</label>
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <fmt:parseNumber var="courseFee" type="number" value="${request_name.course.fee}"/>
+                                            <div class="flex-container">
+                                                <label><fmt:formatNumber value="${courseFee}"/> บาท</label>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                                <c:choose>
+                                    <c:when test="${request_name.course.fee != 0}">
+                                        <b><label>ระยะเวลาการชำระเงิน</label></b>
+                                        <div class="mb-3">
+                                            <div class="flex-container">
+                                                <fmt:formatDate value="${request_name.startPayment}" pattern="dd/MM/yyyy" var="startPayment" />
+                                                <fmt:formatDate value="${request_name.endPayment}" pattern="dd/MM/yyyy" var="endPayment" />
+                                                <label>${startPayment} - ${endPayment}</label><br>
+                                            </div>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <b><label>ระยะเวลาการชำระเงิน</label></b>
+                                        <div class="mb-3">
+                                            <div class="flex-container">
+                                                <label>ไม่มีการชำระเงิน</label>
+                                            </div>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+
+                                <b><label>วันประกาศผลการสมัคร</label></b>
+                                <div class="mb-3">
+                                    <div class="flex-container">
+                                        <fmt:formatDate value="${request_name.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
+                                        <label>${applicationResult}</label>
+                                    </div>
+                                </div>
+                                <b><label>ระยะเวลาการเรียน</label></b>
+                                <div class="mb-3">
+                                    <div class="flex-container">
+                                        <fmt:formatDate value="${request_name.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
+                                        <fmt:formatDate value="${request_name.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
+                                        <label>${startStudyDate} - ${endStudyDate}</label><br>
+                                        <c:set var="delimiter" value="$%"/>
+                                        <c:set var="subText"
+                                               value="${fn:split(request_name.studyTime, delimiter)}"/>
+                                        <c:forEach var="ogText" items="${subText}">
+                                            <c:set var="parts" value="${fn:split(ogText, '/')}"/>
+                                            <label>${parts[0]} ${parts[1]} - ${parts[2]} น.</label><br>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                    <%--                            <div class="mb-3">--%>
+                                    <%--                                <div class="flex-container">--%>
+                                    <%--                                    <label>จำนวนรับสมัคร ${request_name.numberOfAllRegistrations} / ${request_name.quantity} คน</label>--%>
+                                    <%--                                </div>--%>
+                                    <%--                            </div>--%>
+                                <b><label>รูปแบบการสอน</label></b>
+                                <div class="mb-3">
+                                    <div class="flex-container">
+                                        <label>${request_name.type_teach}</label>
+                                    </div>
+                                </div>
+                                <b><label>รูปแบบการสอน</label></b>
+                                <div class="mb-3">
+                                    <div class="flex-container">
+                                        <label>${request_name.type_learn}</label>
+                                    </div>
+                                </div>
+                                <hr>
+                                <b><label>อาจารย์ผู้สอน</label></b>
+                                <div class="mb-3">
+                                    <div class="flex-container">
+                                        <label>${request_name.lecturer.position} ${request_name.lecturer.firstName} ${request_name.lecturer.lastName}</label>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
                         </div>
-                        <div style="padding: 0px 20px 20px 20px" align="left">
-                            <b><label>วันเปิดรับสมัคร</label></b>
-                            <div class="mb-3">
-                                <div class="flex-container">
-                                    <fmt:formatDate value="${request_name.startRegister}" pattern="dd/MM/yyyy" var="startRegister" />
-                                    <fmt:formatDate value="${request_name.endRegister}" pattern="dd/MM/yyyy" var="endRegister" />
-                                    <label>${startRegister} - ${endRegister}</label>
-                                </div>
-                            </div>
-                            <b><label>วันประกาศผลการสมัคร</label></b>
-                            <div class="mb-3">
-                                <div class="flex-container">
-                                    <fmt:formatDate value="${request_name.applicationResult}" pattern="dd/MM/yyyy" var="applicationResult" />
-                                    <label>${applicationResult}</label>
-                                </div>
-                            </div>
-                            <b><label>ระยะเวลาการเรียน</label></b>
-                            <div class="mb-3">
-                                <div class="flex-container">
-                                    <fmt:formatDate value="${request_name.startStudyDate}" pattern="dd/MM/yyyy" var="startStudyDate" />
-                                    <fmt:formatDate value="${request_name.endStudyDate}" pattern="dd/MM/yyyy" var="endStudyDate" />
-                                    <label>${startStudyDate} - ${endStudyDate}</label>
-                                </div>
-                            </div>
-                            <div>
-                                <c:set var="delimiter" value="$%"/>
-                                <c:set var="subText"
-                                       value="${fn:split(request_name.studyTime, delimiter)}"/>
-                                <label>วันเวลาในการเรียน</label><br>
-                                <c:forEach var="ogText" items="${subText}">
-                                    <c:set var="replaceSlash" value="${fn:replace(ogText, '/', ' ')}"/>
-                                    <c:set var="newText" value="${fn:replace(replaceSlash, ',', ' - ')}"/>
-                                    <p style="margin-bottom: 0px">${newText}</p>
-                                </c:forEach>
-                            </div>
-                                <%--                            <div class="mb-3">--%>
-                                <%--                                <div class="flex-container">--%>
-                                <%--                                    <label>จำนวนรับสมัคร ${request_name.numberOfAllRegistrations} / ${request_name.quantity} คน</label>--%>
-                                <%--                                </div>--%>
-                                <%--                            </div>--%>
-                            <b><label>รูปแบบการสอน</label></b>
-                            <div class="mb-3">
-                                <div class="flex-container">
-                                    <label>${request_name.type_teach}</label>
-                                </div>
-                            </div>
-                            <b><label>รูปแบบการสอน</label></b>
-                            <div class="mb-3">
-                                <div class="flex-container">
-                                    <label>${request_name.type_learn}</label>
-                                </div>
-                            </div>
+
+                        <div align="center">
+                            <form action="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/list_approve_request_open_course" method="get">
+                                <input type="hidden" name="fromPage" value="กำลังเรียน">
+                                <button class="btn btn-outline-dark" style="width: 90%;border-radius: 10px;">ย้อนกลับ</button>
+                            </form>
                         </div>
                     </div>
                     <div style="width: 100%; align-self: flex-start;" align="left">
@@ -152,14 +201,17 @@
                             </div>
                         </div>
                         <hr>
-                        <table class="table table-striped table-hover" style="width: 100%; align-self: flex-start;font-size: 12px">
-                            <tr style="color: black">
-                                <td style="width: 35%">รายการข่าวสาร และกิจกรรม</td>
-                                <td style="width: 20%" align="center">วันที่เผยแพร่</td>
-                                <td style="width: 25%" align="center">ประเภท</td>
-                                <td style="width: 10%" align="center"></td>
-                                <td style="width: 10%" align="center"></td>
-                            </tr>
+                        <table class="table table-hover" style="width: 100%; align-self: flex-start;font-size: 12px">
+                            <thead style="background-color: ${colorBar};">
+                                <tr style="color: black">
+                                    <td style="width: 35%"><b style="font-size: 14px">รายการข่าวสาร และกิจกรรม</b></td>
+                                    <td style="width: 20%" align="center"><b style="font-size: 14px">วันที่เผยแพร่</b></td>
+                                    <td style="width: 25%" align="center"><b style="font-size: 14px">ประเภท</b></td>
+                                    <td style="width: 10%" align="center"></td>
+                                    <td style="width: 10%" align="center"></td>
+                                </tr>
+                            </thead>
+                            <tbody>
                             <c:choose>
                                 <c:when test="${list_activity.size() == 0}">
                                     <tr>
@@ -175,19 +227,19 @@
                                             <td align="center">${list.type}</td>
                                             <td align="center">
                                                 <a href="${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/private/${list.ac_id}/edit_course_activity_page/${list.requestOpenCourse.request_id}">
-                                                    <button type="button" class="btn btn-outline-warning">แก้ไข</button>
+                                                    <button type="button" class="btn btn-outline-warning" style="font-size: 12px; border-radius: 15px; width: 90%;">แก้ไข</button>
                                                 </a>
                                             </td>
                                             <td align="center">
                                                 <input type="button" value="ยกเลิก"
                                                        onclick="if((confirm('คุณแน่ใจหรือว่าต้องการลบข่าวสารนี้?'))) { window.location.href='${pageContext.request.contextPath}/lecturer/<%=lecturer.getUsername()%>/${list.ac_id}/delete'; return false; }"
-                                                       class="btn btn-outline-danger"/>
+                                                       class="btn btn-outline-danger" style="font-size: 12px; border-radius: 15px; width: 90%;"/>
                                             </td>
                                         </tr>
                                     </c:forEach>
                                 </c:otherwise>
                             </c:choose>
-
+                            </tbody>
                         </table>
                     </div>
                 </div>

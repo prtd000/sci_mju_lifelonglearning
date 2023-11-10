@@ -51,6 +51,7 @@ public interface RequestOpCourseDao {
     List<RequestOpenCourse> getAllRequestByStatusByMaxRegister();
     List<RequestOpenCourse> getAppRequestByStatusByRegister();
     List<RequestOpenCourse> getAllRequestByStatusByStudy();
+    List<RequestOpenCourse> getAllRequestByStatusByFinishStudy();
     List<RequestOpenCourse> getAllCancelRequestByStatus();
 
     List<RequestOpenCourse> getAllRequestBeforeApprove();

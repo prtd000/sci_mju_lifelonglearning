@@ -382,7 +382,7 @@
 
                                                     <c:if test="${invoices.pay_status == true && invoices.approve_status.equals('ไม่ผ่าน')}">
                                                         <td style="width: 360px;">
-                                                            <p style="color: red; font-family: 'Mitr', sans-serif; font-size: 100%; font-weight: 100;">
+                                                            <p style="color: red; font-family: 'Mitr', sans-serif; font-size: 92%; font-weight: 100; margin-top: 2px;">
                                                                 ชำระเงินไม่สำเร็จ</p>
                                                         </td>
                                                         <c:set var="status" value="false"/>
@@ -423,6 +423,8 @@
                                                                     class="bi bi-arrow-right ms-2"></i></a>
                                                         </td>
                                                         <td style="width: 150px">
+                                                            <c:set var="sttOpen" value="false"/>
+
                                                             <c:forEach var="listReq" items="${listRequest}">
                                                                 <c:set var="current" value="<%=LocalDate.now()%>"/>
                                                                 <c:set var="SttStartRegister" value="${listReq.startRegister.toLocalDate()}"/>
@@ -444,18 +446,23 @@
                                                                                     <c:choose>
                                                                                         <c:when test="${remaining == 0}">
                                                                                             <p style="color: #ff0000; font-weight: 500; font-family: 'Mitr', sans-serif; font-size: 110%;text-align: right;">เต็มแล้ว</p>
+                                                                                            <c:set var="sttOpen" value="true"/>
                                                                                         </c:when>
-                                                                                        <c:otherwise>
-                                                                                            <p style="color: #008000; font-weight: 500; font-family: 'Mitr', sans-serif; font-size: 110%;text-align: right;">เปิด</p>
-                                                                                        </c:otherwise>
                                                                                     </c:choose>
                                                                                 </c:if>
                                                                             </c:forEach>
                                                                         </c:if>
 
-                                                                        <c:if test="${current.isAfter(SttEndRegister)}">
-                                                                            <p style="color: #6c6b6b; font-weight: 500; font-family: 'Mitr', sans-serif; font-size: 110%;text-align: right;">ปิดรับสมัคร</p>
-                                                                        </c:if>
+                                                                        <c:choose>
+                                                                            <c:when test="${current.isAfter(SttEndRegister)}">
+                                                                                <p style="color: #6c6b6b; font-weight: 500; font-family: 'Mitr', sans-serif; font-size: 110%;text-align: right;">ปิดรับสมัคร</p>
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                <c:if test="${!sttOpen}">
+                                                                                    <p style="color: #008000; font-weight: 500; font-family: 'Mitr', sans-serif; font-size: 110%;text-align: right;">เปิด</p>
+                                                                                </c:if>
+                                                                            </c:otherwise>
+                                                                        </c:choose>
                                                                     </c:when>
                                                                 </c:choose>
                                                             </c:forEach>
@@ -592,6 +599,7 @@
                                                                     class="bi bi-arrow-right ms-2"></i></a>
                                                         </td>
                                                         <td style="width: 130px;">
+                                                            <c:set var="sttOpen" value="false"/>
 
                                                             <c:forEach var="listReq" items="${listRequest}">
                                                                 <c:set var="current" value="<%=LocalDate.now()%>"/>
@@ -610,22 +618,26 @@
                                                                                     <c:if test="${listPaid.requestOpenCourse.request_id == listReq.request_id}">
                                                                                         <c:set var="paid" value="${paid + 1}"/>
                                                                                         <c:set var="remaining" value="${listReq.quantity - paid}"/>
-
                                                                                         <c:choose>
                                                                                             <c:when test="${remaining == 0}">
                                                                                                 <p style="color: #ff0000; font-weight: 500; font-family: 'Mitr', sans-serif; font-size: 110%;text-align: right;">เต็มแล้ว</p>
+                                                                                                <c:set var="sttOpen" value="true"/>
                                                                                             </c:when>
-                                                                                            <c:otherwise>
-                                                                                                <p style="color: #008000; font-weight: 500; font-family: 'Mitr', sans-serif; font-size: 110%;text-align: right;">เปิด</p>
-                                                                                            </c:otherwise>
                                                                                         </c:choose>
                                                                                     </c:if>
                                                                                 </c:forEach>
                                                                             </c:if>
 
-                                                                            <c:if test="${current.isAfter(SttEndRegister)}">
-                                                                                <p style="color: #6c6b6b; font-weight: 500; font-family: 'Mitr', sans-serif; font-size: 110%;text-align: right;">ปิดรับสมัคร</p>
-                                                                            </c:if>
+                                                                            <c:choose>
+                                                                                <c:when test="${current.isAfter(SttEndRegister)}">
+                                                                                    <p style="color: #6c6b6b; font-weight: 500; font-family: 'Mitr', sans-serif; font-size: 110%;text-align: right;">ปิดรับสมัคร</p>
+                                                                                </c:when>
+                                                                                <c:otherwise>
+                                                                                    <c:if test="${!sttOpen}">
+                                                                                        <p style="color: #008000; font-weight: 500; font-family: 'Mitr', sans-serif; font-size: 110%;text-align: right;">เปิด</p>
+                                                                                    </c:if>
+                                                                                </c:otherwise>
+                                                                            </c:choose>
                                                                         </c:when>
                                                                     </c:choose>
                                                             </c:forEach>

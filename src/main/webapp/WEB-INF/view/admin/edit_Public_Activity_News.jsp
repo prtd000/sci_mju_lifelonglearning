@@ -215,7 +215,7 @@
             <input type="button" value="ย้อนกลับ"
                    onclick="window.location.href='${pageContext.request.contextPath}/course/public/list_activity'; return false;"
                    style="width: 50%"/>
-            <input type="submit" value="บันทึก" class="button-5" style="width: 50%; font-family: 'Prompt', sans-serif;"/>
+            <input type="submit" value="บันทึก" class="button-5" style="width: 50%; font-family: 'Prompt', sans-serif;" onclick="updateAcDetailField()"/>
           </div>
           <!-- end previous / next buttons -->
         </form>
@@ -325,17 +325,14 @@
 </script>
 <%--ส่งRich Test Editer--%>
 <script>
-  // สร้าง Rich Text Editor และกำหนดเนื้อหาเริ่มต้น
   var quill = new Quill('#editor', {
     theme: 'snow',
-    placeholder: 'กรอกเนื้อหาของคุณที่นี่...', // ข้อความที่จะแสดงในตอนเริ่มต้น
-    // เนื้อหาเริ่มต้น (HTML หรือ plain text)
-    // ตัวอย่างเช่น: '<p>เนื้อหาเริ่มต้น</p>'
+    placeholder: 'กรอกเนื้อหาของคุณที่นี่...',
   });
-  // กำหนดเนื้อหาเริ่มต้น
-  // quill.clipboard.dangerouslyPasteHTML('BEST');
+
+  // อัปเดตข้อมูลจาก Rich Text Editor เขียนลงในฟิลด์ 'ac_detail' ในฟอร์ม
   function updateAcDetailField() {
-    var acDetail = quill.getText();
+    var acDetail = quill.root.innerHTML;
     document.getElementById('ac_detail').value = acDetail;
   }
 </script>

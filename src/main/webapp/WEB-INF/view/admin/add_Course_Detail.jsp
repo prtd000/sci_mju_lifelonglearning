@@ -366,7 +366,7 @@
                         <b><label>ไฟล์เนื้อหาหลักสูตร</label></b><b style="color: red;font-size: 15px;">*</b>
                         <div class="mb-3">
                             <div class="course-totalHours-container">
-                                <input style="font-size: 12px" name="course_file" type="file" id="course_file" accept="file/*" onchange="checkFile(this)" class="form-control"/>
+                                <input style="font-size: 12px" name="course_file" type="file" id="course_file" accept=".pdf" onchange="checkFile(this)" class="form-control"/>
                             </div>
                             <label id="invalidCourseFile" style="color: red; font-size: 12px"></label>
                         </div>

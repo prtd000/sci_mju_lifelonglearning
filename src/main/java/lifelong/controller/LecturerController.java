@@ -179,7 +179,7 @@ public class LecturerController {
     }
 
     @GetMapping("/{lecturer_id}/list_approve_request_open_course")
-    public String getListApprovedCourseDetail(@PathVariable("lecturer_id") String lecturer_id,Model model) {
+    public String getListApprovedCourseDetail(@PathVariable("lecturer_id") String lecturer_id,HttpServletRequest request,Model model) {
         List<RequestOpenCourse> requestOpenCourse = requestOpCourseService.getRequestOpenCoursesByLecturerId(lecturer_id);
         model.addAttribute("title", "รายการ");
         model.addAttribute("lecturer_id", lecturer_id);
@@ -191,7 +191,7 @@ public class LecturerController {
         model.addAttribute("courses_by_payment_date",requestOpCourseService.getRequestCourseByStatus("ชำระเงิน",lecturer_id));
         model.addAttribute("courses_by_app_date",requestOpCourseService.getRequestCourseByStatus("รอประกาศผล",lecturer_id));
         model.addAttribute("courses_by_study_date",requestOpCourseService.getRequestCourseByStatus("เปิดสอน",lecturer_id));
-        model.addAttribute("courses_by_not_study",requestOpCourseService.getRequestCourseByStatus("ยังไม่เปิดสอน",lecturer_id));
+        model.addAttribute("courses_by_finish_study_date",requestOpCourseService.getRequestCourseByStatus("เสร็จสิ้น",lecturer_id));
 
         model.addAttribute("requests_open_course", requestOpCourseService.getRequestOpenCourses());
         model.addAttribute("requests_by_register", requestOpCourseService.getRequestOpenCoursesByTypeRegister());
@@ -203,6 +203,7 @@ public class LecturerController {
         model.addAttribute("requests_sort_payment_date", requestOpCourseService.getRequestOpenCoursesByTypePaymentByLec(lecturer_id));
         model.addAttribute("requests_sort_Application_date", requestOpCourseService.getRequestOpenCoursesByTypeApplicationByLec(lecturer_id));
         model.addAttribute("requests_sort_endStudy_date", requestOpCourseService.getRequestOpenCoursesByTypeStudyByLec(lecturer_id));
+        model.addAttribute("fromPage", request.getParameter("fromPage"));
         return "lecturer/list_approve_request_open_course";
     }
     //**********************************************************************//
@@ -346,13 +347,19 @@ public class LecturerController {
     @GetMapping("/{lecturer_id}/{request_id}/list_member_to_approve")
     public String getListMembers(@PathVariable("lecturer_id") String lecturer_id,@PathVariable("request_id") long request_id , Model model) {
         List<Register> register = registerService.getRegisterByRequestIdAndPayStatusAndApprove(request_id);
-        model.addAttribute("title","TEST");
+        RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(request_id);
         Date currentDate = new Date();
         List<Receipt> list_receipt = registerService.getReceipt();
+        String status = "";
+        if (Objects.equals(requestOpenCourse.getRequestStatus(), "เสร็จสิ้น")) {
+            status = requestOpenCourse.getRequestStatus();
+        }else {
+            status = requestOpenCourse.getCourse().getStatus();
+        }
         model.addAttribute("receipt",list_receipt);
         model.addAttribute("currentDate",currentDate);
         model.addAttribute("registers",register);
-        model.addAttribute("all_register",registerService.getRegisterByRequestId(request_id));
+        model.addAttribute("all_register",registerService.getRegisterByRequestIdByLecturer(request_id,status));
         model.addAttribute("registers_sort_by_action_date",registerService.getRegisterByRequestIdAndPayStatusAndApproveSortByActionDate(request_id));
 
         model.addAttribute("registers_sort_by_status",registerService.getRegisterByRequestIdAndPayStatusAndApproveSortByStatusPass(request_id));
@@ -410,28 +417,54 @@ public class LecturerController {
     //*********************************************************************//
 
     //******************Edit Study Result*****************//
-    @PostMapping(path = "/{request_id}/update_Status_Member_Result/{register_id}")
+//    @PostMapping(path = "/{request_id}/update_Status_Member_Result/{register_id}")
+//    public String doEditStudyResult(
+//            @PathVariable("request_id") long request_id,
+//            @PathVariable("register_id") long register_id,
+//            @RequestParam Map<String, String> allReqParams) throws ParseException {
+//
+//        String studyResult = allReqParams.get("studyResult");
+//        Register register = registerService.getRegisterByRegisterId(register_id);
+//        String result = "";
+//        // ตรวจสอบค่า studyResult และดำเนินการตามที่คุณต้องการ
+//        if ("ผ่านหลักสูตร".equals(studyResult)) {
+//            register.setStudy_result("ผ่าน");
+//            result = "true";
+//        } else if ("ไม่ผ่านหลักสูตร".equals(studyResult)) {
+//            register.setStudy_result("ไม่ผ่าน");
+//            result = "false";
+//        }
+//        String lec_id = register.getRequestOpenCourse().getLecturer().getUsername();
+//        registerService.updateRegister(register);
+//
+//        return "redirect:/lecturer/" +lec_id+"/"+ request_id + "/list_member_to_approve?studyResult="+result;
+//    }
+    @PostMapping(path = "/{request_id}/update_Status_Member_Result")
     public String doEditStudyResult(
             @PathVariable("request_id") long request_id,
-            @PathVariable("register_id") long register_id,
-            @RequestParam Map<String, String> allReqParams) throws ParseException {
+            @RequestParam(value = "registerIds", required = false) List<Long> registerIds,
+            @RequestParam("studyResult") String studyResult) throws ParseException {
 
-        String studyResult = allReqParams.get("studyResult");
-        Register register = registerService.getRegisterByRegisterId(register_id);
-        String result = "";
-        // ตรวจสอบค่า studyResult และดำเนินการตามที่คุณต้องการ
-        if ("ผ่านหลักสูตร".equals(studyResult)) {
-            register.setStudy_result("ผ่าน");
-            result = "true";
-        } else if ("ไม่ผ่านหลักสูตร".equals(studyResult)) {
-            register.setStudy_result("ไม่ผ่าน");
-            result = "false";
+        if (registerIds != null && !registerIds.isEmpty()) {
+            for (Long registerId : registerIds) {
+                    Register register = registerService.getRegisterByRegisterId(registerId);
+                    // ตรวจสอบค่า studyResult และดำเนินการตามที่คุณต้องการ
+                    if ("ผ่านหลักสูตร".equals(studyResult)) {
+                        register.setStudy_result("ผ่าน");
+                    } else if ("ไม่ผ่านหลักสูตร".equals(studyResult)) {
+                        register.setStudy_result("ไม่ผ่าน");
+                    }
+                    registerService.updateRegister(register);
+                }
+            }
+            String lec_id = requestOpCourseService.getRequestOpenCourseDetail(request_id).getLecturer().getUsername(); // ต้องสร้างเมธอดเพื่อดึงข้อมูลอาจารย์จาก request_id
+            String result = "true"; // ตั้งค่าค่าเริ่มต้น
+            if ("ไม่ผ่านหลักสูตร".equals(studyResult)) {
+                result = "false";
+            }
+
+            return "redirect:/lecturer/" + lec_id + "/" + request_id + "/list_member_to_approve?studyResult=" + result;
         }
-        String lec_id = register.getRequestOpenCourse().getLecturer().getUsername();
-        registerService.updateRegister(register);
-
-        return "redirect:/lecturer/" +lec_id+"/"+ request_id + "/list_member_to_approve?studyResult="+result;
-    }
     //******************************************************//
 
     //**************************View Sample Certificate*******************//
@@ -531,6 +564,7 @@ public class LecturerController {
     @PostMapping (path="/{lec_id}/save_add_course_activity/{roc_id}")
     public String addCourseActivityNews(@PathVariable("lec_id") String lec_id,
                                         @PathVariable("roc_id") long roc_id,
+                                        @RequestParam("ac_detail") String acDetail,
                                         HttpServletRequest request,
                                         @RequestParam("ac_img") MultipartFile[] ac_img,
                                         @RequestParam Map<String, String> allReqParams) throws ParseException {
@@ -539,7 +573,7 @@ public class LecturerController {
 
             Date ac_date =  new Date();
             String ac_name = allReqParams.get("ac_name");
-            String ac_detail = allReqParams.get("ac_detail");
+            String ac_detail = acDetail; // ใช้ข้อมูลที่รับมาจากแบบฟอร์ม
             String ac_type = "ข่าวสารประจำหลักสูตร";
             RequestOpenCourse requestOpenCourse = requestOpCourseService.getRequestOpenCourseDetail(roc_id);
             Lecturer lecturer = lecturerService.getLecturerById(lec_id);
@@ -610,6 +644,7 @@ public class LecturerController {
     @PostMapping (path="/{lec_id}/{id}/update_course_add_activity")
     public String doEditCourseActivity(@PathVariable("lec_id") String lec_id,
                                        @PathVariable("id") String ac_id,
+                                       @RequestParam("ac_detail") String acDetail,
                                        @RequestParam("ac_img") MultipartFile[] imgs,
                                        HttpServletRequest request,
                                        @RequestParam Map<String, String> allReqParams) throws ParseException {
@@ -694,7 +729,7 @@ public class LecturerController {
 
             // อัพเดตรายละเอียดและรายการรูปภาพในฐานข้อมูล
             existingActivity.setName(allReqParams.get("ac_name"));
-            existingActivity.setDetail(allReqParams.get("ac_detail"));
+            existingActivity.setDetail(acDetail);
             activityService.updateActivity(existingActivity);
         } catch (IOException e) {
             e.printStackTrace();
